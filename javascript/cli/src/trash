@@ -1,0 +1,115 @@
+
+// let unlinked_reference  = this.grid.set(9, 10, 3, 2, blessed.box, {content: 'Unlinked References'} )
+/*
+this.log                 = this.grid.set(9, 10, 3, 2, contrib.log, { fg: "green" , selectedFg: "green" , label: 'Server Log'})
+let l = this.log
+    this.log.on( "click", data => {
+        l.log( "d", data )
+        // this.focus()
+    })
+*/
+
+// var log                 = contrib.log( { fg: "green" , selectedFg: "green" , label: 'Server Log'})
+// let graph        = grid.set(6, 10, 3, 2, contrib.log, {label: 'Log', fg: 'green', 'selectedFg': 'green', } )
+// let list = grid.set(2, 2, 4, 8, blessed.listtable, { scrollable: true, scrollbar: { bg: 'blue'  }, align: 'left', draggable: false, focused: true, mouse: false, input: true, alwaysScroll: true  })
+
+// this.typewriter.focus()
+
+// this.links               = this.grid.set(0, 10, 6, 2, blessed.box, {content: 'Links:', label: "References" })
+// this.links.on( "click", data => {
+// this.links.focus()
+// this.focus()
+// })
+
+// this.input.on('submit', () => {
+    // printf( "SUBMIT" )
+    // let text = this.input.getValue()
+    // this.screen.debug( 'text', text )
+    // this.input.destroy()
+// })
+
+
+// If box is focused, handle `enter`/`return` and give us some more content.
+/*
+box.key('enter', async function(ch, key) {
+
+    let list = await fs.readdir( "", ( err, list) => {
+        if( err ) throw err
+
+        for( const [index, item] of list.entries() ) {
+            try {
+                screen.debug( `index: ${index}, item: ${item}` )
+                box.setLine( index, item )
+                screen.clearRegion( 100, 100, 100, 100 )
+            } catch( e ) {
+                screen.debug( `ERROR: ${e}` )
+            }
+        }
+
+        screen.render()
+
+    })
+
+    box.insertLine(2, 'foo')
+    screen.render()
+})
+*/
+
+
+/*
+this.search_result   = blessed.box({
+top: 'center',
+left: 'center',
+width: '70%',
+height: '70%',
+label: "Result",
+content: "",
+tags: true,
+border: {
+type: 'line'
+},
+style: {
+fg: 'white',
+bg: '#aaa',
+border: {
+fg: '#f0f0f0'
+},
+hover: {
+bg: 'green'
+}
+}
+})
+*/
+
+
+
+        /*
+        screen.key(['right'], data => {
+            this.graph.focus()
+            // this.screen.debug( "gtid", this.grid )
+        })
+
+        screen.key(['left'], data => {
+            this.typewriter.focus()
+            this.screen.debug( "gtid", this.grid )
+        })
+        */
+
+
+
+            // if( key.sequence === 'escape' ) {
+                // this.input.destroy()
+                // this.search_result.destroy()
+            // }
+
+            // this.search_result.content = " "
+
+            // this.screen.debug( 'text -> ', text )
+
+
+            // if( !result.length ) {
+                // this.search_result.content = files
+                // return
+            // }
+
+
