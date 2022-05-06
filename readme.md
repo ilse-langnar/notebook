@@ -4,7 +4,7 @@
 <h2 align="center" > Memoirs of a Recon Corps Member </h2>
 
 <p align="center">
-  <img src="https://github.com/ilse-langnar/ilse-langnar-notebook/blob/dev/project/ilse.jpeg" alt="Ilse"/>
+  <img src="https://github.com/ilse-langnar/notebook/blob/dev/markdown/ilse.jpeg" alt="Ilse"/>
 </p>
 <br/>
 
