@@ -7,6 +7,9 @@ const printf                        = console.log
     import Messager                     from "@/classes/Messager.js"
     // import electron                     from "electron"
 
+// Node.js
+    const path                          = require("path")
+
 let electron
 
 export default class Electron {
@@ -24,7 +27,7 @@ export default class Electron {
     }
 
     open_pdf( file ) {
-        file = ilse.target_directories[0] + "/" + file
+        file = path.join(ilse.target_directories[0] , file)
         this.ipc.send( "open-pdf", file )
     }
 

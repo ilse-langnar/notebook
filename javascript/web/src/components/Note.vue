@@ -8,6 +8,10 @@
     // show mode
     .markdown( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" style="1px solid green;" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )
 
+
+
+
+
     // Search, both bullets/files
     .search-overlay( v-if="is_search_overlay_on" style="" )
         Search.centered( :width="100" :should-autofocus="true" :filter="search_filter" @on-result-select="on_note_search_result_select" @on-esc="close_focus_then_resize('search')" @on-blur="close_focus_then_resize('search')" )
@@ -85,7 +89,7 @@ export default {
             const buffer    = Buffer.from( arrayBuffer  ,'binary' )
             let blob        = buffer
 
-            await ilse.filesystem.file.set( "second/" + file.name, blob )
+            await ilse.filesystem.file.set( ilse.path.join("second", file.name), blob )
 
             this.inote.focus()
 
@@ -309,6 +313,62 @@ export default {
 
         },
 
+        get_selection() {
+
+            /*
+            var selectedText = '';
+
+            // window.getSelection
+            if( window.getSelection ) {
+                selectedText = window.getSelection();
+            } else if(document.getSelection ) { // document.getSelection
+                selectedText = document.getSelection()
+            } else if( document.selection ) { // document.selection
+                selectedText = document.selection.createRange().text
+            } else {
+                return
+            }
+            printf( "selectedText -> ", selectedText )
+            // To write the selected text into the textarea
+            return selectedText
+            */
+
+
+
+            /*
+            let range = ""
+            if( window.getSelection ) {  // all browsers, except IE before version 9
+                range = window.getSelection ();
+            } else {
+                // Internet Explorer
+                if( document.selection.createRange ) range = document.selection.createRange()
+            }
+            printf( "@@@ range -> ", range )
+
+            return range
+            */
+
+
+            // printf( "window.getSelection() -> ", window.getSelection() )
+            // printf( "window.document.getSelection() -> ", window.document.getSelection() )
+            // printf( "window.document.selection -> ", window.document.selection )
+
+            if( window.getSelection ) {
+                return window.getSelection().toString()
+            } 
+
+            if( window.document.getSelection ) {
+                return window.document.getSelection().toString()
+            } 
+
+            if( window.document.selection ) {
+                return window.document.selection.createRange().text
+            }
+
+            return "";
+        },
+
+        // TODO: Take selected text, if [ then wrap the text around
         on_key_down( event, inote ) {
 
             let is_ctrl  = event.ctrlKey
@@ -316,6 +376,15 @@ export default {
             let is_alt   = event.altKey
             let is_meta  = event.metaKey
             let key      = event.key
+
+            let selection= this.get_selection()
+            let is_wrap  = key === "[" && selection
+
+            if( is_wrap ) {
+                event.preventDefault()
+                this.inote.content =  this.inote.content.replace( selection, `[[${selection}]]` )
+                return
+            }
 
             // ESC
             if( key  === "Escape" && !is_ctrl && !is_shift ) {

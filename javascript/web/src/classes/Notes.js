@@ -6,6 +6,9 @@ const printf                        = console.log
 // Messager
     import Messager                         from "@/classes/Messager.js"
 
+// Node.js
+    const path                              = require("path")
+
 export default class Notes {
 
     constructor( filesystem, ilse ) {
@@ -190,13 +193,13 @@ export default class Notes {
                 // if not exists, create
                     try {
                         // printf( "link -> ", link )
-                        exists         = await this.filesystem.file.exists( "second/" + link ) // link - > "Psycology Papers.md"
+                        exists         = await this.filesystem.file.exists( path.join("second" , link) )// link - > "Psycology Papers.md"
                     } catch( e ) {
                         exists = false
                     }
 
                     if( !exists ) {
-                        await this.filesystem.file.set( "second/" + link, link )
+                        await this.filesystem.file.set( path.join("second" , link), link )
                     }
 
                 Messager.emit( "~notes", "link", { link, note } )

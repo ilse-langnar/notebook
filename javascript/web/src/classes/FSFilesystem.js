@@ -11,7 +11,8 @@ export default class FSFilesystem {
 
     constructor( dir ) {
 
-        target_directory = dir + "/"
+        // target_directory = dir + "/"
+        target_directory = dir
 
         this.file = {
             get     : this.read_file,
@@ -37,7 +38,7 @@ export default class FSFilesystem {
     async create_dir( full_path ) {
 
         try {
-            fs.mkdirSync( target_directory + full_path )
+            fs.mkdirSync( path.join(target_directory , full_path) )
             return true
         } catch( e ) {
             throw new Error( `Could not create dir: ${name}` )
@@ -59,7 +60,7 @@ export default class FSFilesystem {
 
     async has_path( full_path ) {
         /// let exists = fs.existsSync(path.join(target_directory, full_path ) )
-        let exists = fs.existsSync( target_directory + full_path )
+        let exists = fs.existsSync( path.join(target_directory , full_path) )
             return !!exists
     }
     // <-------------------------------> Dir <-------------------------------> //
@@ -70,7 +71,7 @@ export default class FSFilesystem {
 
     async get_all_files() {
 
-        let files   = await fs.readdirSync( target_directory + "/second" )
+        let files   = await fs.readdirSync( path.join(target_directory , "second") )
             if( !files ) files = []
 
         return files
@@ -100,12 +101,12 @@ export default class FSFilesystem {
     }
 
     async rename_file( old_path, new_path ) {
-        let result  = fs.renameSync( target_directory + old_path, target_directory + new_path )
+        let result  = fs.renameSync( path.join(target_directory , old_path), path.join(target_directory , new_path) )
         return result
     }
 
     async list_dir( directory_path ) {
-        let list      = fs.readdirSync( target_directory + directory_path )
+        let list      = fs.readdirSync( path.join(target_directory , directory_path) )
         return list
     }
 
@@ -114,20 +115,20 @@ export default class FSFilesystem {
     }
 
     async get_file_stats( file_path ) {
-        let stats = fs.statSync( target_directory + file_path )
+        let stats = fs.statSync( path.join(target_directory , file_path) )
         return res.data
     }
 
     // async read_file( file_name, options = { binary: false, query_param: false}) {
     async read_file( file_path, mode = "utf8" ) {
 
-        file_path = target_directory + file_path
+        file_path   = path.join(target_directory , file_path )
         let content = fs.readFileSync( file_path, mode )
         return content
     }
 
     async write_file( file_path, content)  {
-        fs.writeFileSync( target_directory + file_path, content )
+        fs.writeFileSync( path.join(target_directory , file_path), content )
     }
 
 }

@@ -37,6 +37,9 @@ const printf                        = console.log
         import Component                from "@/classes/Component.js"
         import Note                     from "@/classes/Note.js"
 
+    // Node.js
+        const path                       = require("path")
+
 // Utilities
     import Messager                     from "@/classes/Messager.js"
 
@@ -54,6 +57,7 @@ export default class Ilse {
         this.platform               = process.env.VUE_APP_TARGET.toLowerCase()
 
         this.classes                = { Component, Note }
+        this.path                   = path
 
         this.has_loaded             = false
 
@@ -128,7 +132,7 @@ export default class Ilse {
         this.keyboard               = new KeyboardShortcut(this)
 
         // === Electron.js === //
-        if( this.platform === "electron" ) this.electron               = new Electron()
+        if( this.platform === "electron" ) this.electron               = new Electron( this )
 
         // this.command_prompt         = new CommandPrompt()
         // this.plugin_menu            = new PluginMenu()
@@ -162,11 +166,11 @@ export default class Ilse {
     async create_daily_page() {
 
         let today           = this.utils.get_daily_note_format() + ".md"// Jan 10th , 2020
-        let exists          = await this.filesystem.file.exists( "second/" + today )
+        let exists          = await this.filesystem.file.exists( path.join("second" , today) )
         let has_today_file  = !!exists
 
         if( !has_today_file ) {
-            await this.filesystem.file.set( "second/" + today, today )
+            await this.filesystem.file.set( path.join("second" , today), today )
         }
 
     }

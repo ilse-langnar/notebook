@@ -228,7 +228,7 @@ export default {
 
             let final = non_notes + notes
 
-            await ilse.filesystem.file.set( "second/" + file, final )
+            await ilse.filesystem.file.set( ilse.path.join("second" , file), final )
 
         },
 
@@ -333,14 +333,14 @@ export default {
                 if( has_file ) return
 
             let has_extention       = this.file.lastIndexOf(".") !== -1
-            let file_exists         = await ilse.filesystem.file.exists( "second/" + this.file )
+            let file_exists         = await ilse.filesystem.file.exists( ilse.path.join("second" , this.file) )
             let should_md_extention = !has_extention && !file_exists  // FEATURE: no extention AND we tried getting without extention, let's just try adding a .md, more convenient
                 if( should_md_extention ) this.file = this.file + ".md"
 
             let content
 
             try {
-                content         = await ilse.filesystem.file.get( "second/" + this.file )
+                content         = await ilse.filesystem.file.get( ilse.path.join("second" , this.file) )
                 this.content    = content
                 this.check_for_existing_notes()
             } catch(e) {

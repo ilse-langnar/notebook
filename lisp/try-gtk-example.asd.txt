@@ -1,0 +1,12 @@
+;; (require :asdf)
+
+;; (in-package 'asdf-user)
+
+
+
+(defsystem try-gtk-example
+  :author "lagagain <lagagain@email.com>"
+  :licence "BSD"
+  :version "1.0.0"
+  :depends-on (:cl-cffi-gtk)
+  :components ((:file "hello-world")))
