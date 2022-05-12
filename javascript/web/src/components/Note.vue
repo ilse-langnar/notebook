@@ -237,31 +237,33 @@ export default {
             // Empty note
             if( !inote.content ) return " "
 
-            // === note Ref === //
-            // let has_right_parenthesis = inote.content.indexOf("))") !== -1
-            // let has_left_parenthesis  = inote.content.indexOf("((") !== -1
-            // let has_both              = has_left_parenthesis && has_right_parenthesis
+            // === no Ref === //
+            let ref                   = ilse.notes.get_references( inote.content ) // TODO: Make this a notes function
+                if( !ref ) return ilse.markdown.render( inote.content ) // No note references, normal markdown.
 
-            let ref                   = ilse.utils.get_note_reference( inote.content )
+            // === Refs === //
 
-            // No note references, normal markdown.
-                if( !ref ) return ilse.markdown.render( inote.content )
+            let html = ilse.markdown.get_blockquote( inote.content )
+            printf( "html -> ", html )
+            return html
 
-            // The content has references
-            let notes = ilse.notes.query( ref )
-            let final   = inote.content + "\n\t"
-            for( const note of notes ) {
+            /*
+            let text   = ilse.notes.reference( inote.content ) 
+            let chunks = text.split("\n")
 
-                if( !note ) {
-                    final += `\n > ERROR: Could not find note: ${ref} `
+            printf( "chunks -> ", chunks )
+            let final  = "<blockquote>"
+            for( const [index, chunk] of chunks.entries() ) {
+                if( index === 0 ) {
+                    final += `<p> ${chunk} </p>`
                 } else {
-                    final += `\n > ${note.content} `
+                    final += `<blockquote style="margin-left: ${index * 10}px"> ${chunk} </blockquote>`
                 }
-
             }
-
-            return ilse.markdown.render( final )
-
+            final += "</blockquote>"
+            return final
+                return ilse.markdown.render( text )
+            */
         },
 
         on_focus( event, inote ) {
@@ -540,13 +542,12 @@ export default {
 }
 
 .paragraph-note {
-    margin-right: 8px;
-    margin-top:   2px;
+    margin-top:   -5px;
     text-align:   center;
     cursor:       pointer;
     color:        #a3a3a3;
     color:        var(--text-color);
-    font-size:    12px;
+    font-size:    24px;
 }
 
 .link {
@@ -626,6 +627,7 @@ blockquote {
     border-left: 4px solid var( --text-color );
     color: var( --text-color );
     background: var( --background-color );
+    margin-left: auto;
 }
 
 code {

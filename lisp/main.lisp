@@ -5,7 +5,9 @@
 (load "hello-world.lisp")
 
 (defun main() 
-    (try-gtk-exampl:app.run)
+    (try-gtk-example:app.run)
 )
 
-(main)
+; (sb-ext:save-lisp-and-die "out.exe" :toplevel #'main :executable t)
+; (main)
+

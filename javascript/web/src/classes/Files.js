@@ -24,7 +24,6 @@ export default class Files {
 
     async get_files() {
         let files         = await this.filesystem.file.get_all()
-        printf( "files -> ", files )
         this.list = files
     }
 

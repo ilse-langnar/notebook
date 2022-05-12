@@ -200,7 +200,7 @@ export default class Markdown {
               }
               */
 
-              let ref = ilse.utils.get_note_reference( match[0] )
+              let ref = ilse.notes.get_references( match[0] )
 
               // printf( "note_ref -> match -> ", ref )
               if( !ref ) return `<span class="note-reference" > ((MALFORMED REF)) </span>`
@@ -260,12 +260,9 @@ export default class Markdown {
             function( match, utils ) {
 
                 let content = match[0]
-                printf( "content -> ", content )
                 return `<span class="blockquote" title="${content}" > AAAA ${content} </span>`
             }
         )
-
-        this.plugins.push( inline_code )
 
         this.after_setup()
     }
@@ -282,6 +279,51 @@ export default class Markdown {
 
 
         this.md = md
+    }
+
+    // Removed resolved, have only last
+    reference( text, last = "" ) {
+
+        let link            = ilse.notes.get_references( text )
+            if( !link ) return `${last} \n\t ${text} `
+
+        let link_content    = ilse.notes.query( link + ":")[0].content
+
+        if( link ) {
+            if( last ) {
+                last += `\n ${link_content}`
+            } else {
+                last += `${text} \n ${link_content} `
+            }
+        }
+
+        let target          = ilse.notes.get_references( link_content )
+
+        if( target ) {
+            let target_content  = ilse.notes.query( target + ":")[0].content
+            return this.reference( target_content, last )
+        } else {
+            return last
+        }
+
+    }
+
+    get_blockquote( content ) {
+
+        // === Refs === //
+        let text   = this.reference( content )
+        let chunks = text.split("\n")
+
+        let final  = "<blockquote>"
+        for( const [index, chunk] of chunks.entries() ) {
+            if( index === 0 ) {
+                final += `<p> ${chunk} </p>`
+            } else {
+                final += `<blockquote style="margin-left: ${index * 10}px"> ${chunk} </blockquote>`
+            }
+        }
+        final += "</blockquote>"
+        return final
     }
 
     render( string ) {

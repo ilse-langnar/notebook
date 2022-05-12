@@ -297,6 +297,27 @@ export default class Notes {
         }
     }
 
+    get_references( string ) {
+
+        let chunks = string.split(" ")
+        let has_opening_parenthesis
+        let has_closing_parenthesis
+        let has_both
+        let ref
+
+        for( const chunk of chunks ) {
+
+          has_opening_parenthesis  = chunk.indexOf( "((" ) !== -1
+          has_closing_parenthesis  = chunk.indexOf( "))" ) !== -1
+
+          has_both                 = has_opening_parenthesis && has_closing_parenthesis
+          if( has_both ) ref = chunk.replace( " ", "" ).replace( "((", "" ).replace( "))", "" )
+
+        }
+
+        return ref
+    }
+
     listen() {
 
         Messager.on( "~ilse", async (action, payload) => {

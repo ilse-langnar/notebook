@@ -148,3 +148,5 @@
                          nil))
      (gtk-container-add window button)
      (gtk-widget-show-all window))))
+
+(app.run)
