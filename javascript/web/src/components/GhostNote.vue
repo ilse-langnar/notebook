@@ -91,12 +91,12 @@ export default {
 }
 
 .paragraph-note {
-    margin-right: 8px;
-    margin-top: 2px;
-    text-align: center;
-    cursor: pointer;
-    color: #a3a3a3;
-    font-size: 12px;
+    margin-top:   -5px;
+    text-align:   center;
+    cursor:       pointer;
+    color:        #a3a3a3;
+    color:        var(--text-color);
+    font-size:    24px;
 }
 
 .ghost-note {

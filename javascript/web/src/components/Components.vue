@@ -1,7 +1,7 @@
 <template lang="pug" >
 .components( style="display: flex; flex-direction: row;" :key="components_key" )
 
-    .component( v-show="components.length && component.is_on" v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
+    .component( v-show="components.length && component.is_on" v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" @contextmenu="null" )
 
         img.is-pulled-right(
             v-show="!ilse.config.dark"
