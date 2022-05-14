@@ -20,31 +20,32 @@
         img( v-show="!ilse.config.dark" src="@/assets/images/report.svg"      style="cursor: pointer;width:20px;margin-left: 15px;"   title="Open File"  @click="open_file" )
         img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/report.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Open File"  @click="open_file" )
 
-        img( v-show="!ilse.config.dark" src="@/assets/images/math-function.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="toggle_first_brain_tools" accesskey="i" )
-        img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/math-function.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="toggle_first_brain_tools" accesskey="i" )
+        // img( v-show="!ilse.config.dark" src="@/assets/images/math-function.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="toggle_first_brain_tools" accesskey="i" )
+        // img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/math-function.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="toggle_first_brain_tools" accesskey="i" )
 
 
-        .did( style="margin-top: 10px; clear: both; margin-left: 65px;" )
-            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/player-play.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.read_first()" accesskey="i" )
-            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/player-play.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.read_first()" accesskey="i" )
+        // .did( style="margin-top: 10px; clear: both; margin-left: 65px;" )
+        .did( style="width: 300px; height: 100px; position: fixed; bottom: 10px; left: 0px;" )
+            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/player-play.svg"      style="cursor: pointer; width: 20px; "   title="Toggle First Brain Tools"  @click="ilse.brains.first.read_first()" accesskey="i" )
+            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/player-play.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.read_first()" accesskey="i" )
 
-            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/trash.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.remove()" accesskey="i" )
-            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/trash.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.remove()" accesskey="i" )
+            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/trash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.remove()" accesskey="i" )
+            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/trash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.remove()" accesskey="i" )
 
-            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/arrows-shuffle.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.shuffle()" accesskey="i" )
-            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/arrows-shuffle.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.shuffle()" accesskey="i" )
+            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/arrows-shuffle.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.shuffle()" accesskey="i" )
+            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/arrows-shuffle.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.shuffle()" accesskey="i" )
 
-            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/lupe.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.show_query( item => ilse.brains.first.read(item) )" accesskey="i" )
-            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/lupe.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.show_query( item => ilse.brains.first.read(item) )" accesskey="i" )
+            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/lupe.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.show_query( item => ilse.brains.first.read(item) )" accesskey="i" )
+            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/lupe.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.show_query( item => ilse.brains.first.read(item) )" accesskey="i" )
 
-            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/hash.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.add_topic()" accesskey="i" )
-            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/hash.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.add_topic()" accesskey="i" )
+            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/hash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.add_topic()" accesskey="i" )
+            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/hash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.add_topic()" accesskey="i" )
 
-            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/plus.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.increase()" accesskey="i" )
-            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/plus.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.increase()" accesskey="i" )
+            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/plus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.increase()" accesskey="i" )
+            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/plus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.increase()" accesskey="i" )
 
-            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/minus.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.decrease()" accesskey="i" )
-            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/minus.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.decrease()" accesskey="i" )
+            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/minus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.decrease()" accesskey="i" )
+            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/minus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.decrease()" accesskey="i" )
             p( v-if="has_first_brain_tools" ) {{get_first_brain_last_item_info()}}
 
 

@@ -98,6 +98,7 @@ export default class Notes {
 
             this.add( `Click on the help button on top for the tutorial`, this.list.length, 0 )
 
+            /*
             let last_bullet
             for( let i = 0; i < len; i++ ) {
                 last_bullet = this.list[this.list.length - 1]
@@ -105,6 +106,7 @@ export default class Notes {
                 printf( "demo_notes[i] -> ", demo_notes[i] )
                 this.add_after( demo_notes[i].content, demo_notes[i].depth, last_bullet )
             }
+            */
 
             /*
             setTimeout( () => {
@@ -121,8 +123,7 @@ export default class Notes {
                 (function(value, index) {
                     setTimeout( async () => {
                         let last_bullet = _this.list[_this.list.length - 1]
-                        if( index === 1 ) _this.add( value.content, _this.list.length, value.depth )
-                        if( index !== 1 ) _this.add_after( value.content, value.depth, last_bullet )
+                        _this.add_after( value.content, value.depth, last_bullet )
                     }, index * 50 )
                 }( value, index ))
 

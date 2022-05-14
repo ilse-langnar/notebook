@@ -11,9 +11,34 @@
             p.is-size-1( style="text-align: center;" ) {{selected}}
 
         .general( v-if="selected === 'Introduction' " )
-            p.is-size-1 Introduction
-            p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            p Welcome to Ilse Langnart's Notebook, this tool is intended to augment human cognition, by being a reference system, spaced repetition system and thinkin system in itself.
 
+        .general( v-if="selected === 'Bullets' " )
+            p Bullets are 
+
+        .general( v-if="selected === 'Plugins' " )
+            p Bullets are 
+
+        .general( v-if="selected === 'Themes' " )
+            p Bullets are 
+
+        .general( v-if="selected === 'CSS Snippets' " )
+            p Bullets are 
+
+        .general( v-if="selected === 'Graph' " )
+            p Bullets are 
+
+        .general( v-if="selected === 'Vitruvian Brain' " )
+            p Bullets are 
+
+        .general( v-if="selected === 'Keyboard Shortcut' " )
+            p Bullets are 
+
+        .general( v-if="selected === 'Lore' " )
+            p Bullets are 
+
+        .general( v-if="selected === 'Others' " )
+            p Bullets are 
 
 </template>
 <script>
@@ -33,7 +58,7 @@ export default {
     data() {
         return {
             ilse: ilse,
-            selected: "General",
+            selected: "Introduction",
             options: [
                 { name: "Introduction", img: "settings.svg" },
                 { name: "Bullets", img: "address-book.svg" },

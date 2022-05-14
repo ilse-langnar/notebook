@@ -106,8 +106,8 @@ export default {
             */
 
             let content = payload.content
-            let note  = day.notes[ day.notes.length - 1 ]
-            let depth   = note.depth
+            let note    = day.notes[ day.notes.length - 1 ]
+            let depth   = 0 // BUGFIX: don't do note.depth, otherwise it'll be weird.
 
             let new_note = ilse.notes.add_after( content, depth, note )
             printf( "new_note -> ", new_note )

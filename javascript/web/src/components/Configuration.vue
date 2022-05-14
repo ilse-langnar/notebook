@@ -34,14 +34,12 @@ export default {
             options: [
                 { name: "General", img: "settings.svg" },
                 { name: "Typography", img: "typography.svg" },
-                { name: "Lore", img: "address-book.svg" },
                 { name: "Plugins", img: "plugin.svg" },
                 { name: "Themes", img: "palette.svg" },
                 { name: "Snippets", img: "brand-css3.svg" },
                 { name: "Graph", img: "network.svg" },
-                { name: "Interest Repetition", img: "math-function.svg" },
+                { name: "Vitruvian Brain", img: "math-function.svg" },
                 { name: "Keyboard Shortcut", img: "keyboard.svg" },
-                { name: "Help", img: "lifebuoy.svg" },
             ]
         }
 

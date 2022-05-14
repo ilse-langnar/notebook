@@ -8,6 +8,41 @@
 
         TopMenu
 
+        .vitruvian-brain( style="position: fixed; bottom: 0px; left: 0px; z-index: 99; " )
+
+            .closed( v-if="!ilse.is_vitruvian_expanded" )
+                img( v-if="!ilse.config.dark" src="@/assets/images/math-function.svg"      style="cursor: pointer; width: 30px; "   title="Open Vitruvian Study" @click="toggle_vitruvian_brain" )
+                img( v-if="ilse.config.dark" src="@/assets/images/dark-mode/math-function.svg" style="cursor: pointer; width: 30px; " title="Open Vitruvian Study" @click="toggle_vitruvian_brain" )
+
+            .open( v-if="ilse.is_vitruvian_expanded" style="width: 300px; height: 140px; position: fixed; bottom: 0px; left: 0px; overflow: hidden; " )
+
+                img( v-show="!ilse.config.dark" src="@/assets/images/math-function.svg"      style="cursor: pointer; width: 30px; "   title="Open Vitruvian Study" @click="toggle_vitruvian_brain" )
+                img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/math-function.svg" style="cursor: pointer; width: 30px; " title="Open Vitruvian Study" @click="toggle_vitruvian_brain" )
+                br
+
+                img( v-show="!ilse.config.dark" src="@/assets/images/player-play.svg"      style="cursor: pointer; width: 20px; "   title="Toggle First Brain Tools"  @click="ilse.brains.first.read_first()" accesskey="i" )
+                img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/player-play.svg"      style="cursor: pointer; width: 20px; "   title="Toggle First Brain Tools"  @click="ilse.brains.first.read_first()" accesskey="i" )
+
+                img( v-show="!ilse.config.dark" src="@/assets/images/trash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.remove()" accesskey="i" )
+                img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/trash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.remove()" accesskey="i" )
+
+                img( v-show="!ilse.config.dark" src="@/assets/images/arrows-shuffle.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.shuffle()" accesskey="i" )
+                img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/arrows-shuffle.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.shuffle()" accesskey="i" )
+
+                img( v-show="!ilse.config.dark" src="@/assets/images/lupe.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.show_query( item => ilse.brains.first.read(item) )" accesskey="i" )
+                img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/lupe.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.show_query( item => ilse.brains.first.read(item) )" accesskey="i" )
+
+                img( v-show="!ilse.config.dark" src="@/assets/images/hash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.add_topic()" accesskey="i" )
+                img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/hash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.add_topic()" accesskey="i" )
+
+                img( v-show="!ilse.config.dark" src="@/assets/images/plus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.increase()" accesskey="i" )
+                img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/plus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.increase()" accesskey="i" )
+
+                img( v-show="!ilse.config.dark" src="@/assets/images/minus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.decrease()" accesskey="i" )
+                img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/minus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.decrease()" accesskey="i" )
+
+                p( :title="get_first_brain_last_item_info()" ) {{get_first_brain_last_item_info()}}
+
         Components( :components="ilse.components" unique-key="home" )
 
         Modals
@@ -57,6 +92,25 @@ export default {
     },
 
     methods: {
+
+        get_first_brain_last_item_info() {
+
+            let last   = this.ilse.brains.first.get_last()
+                if( !last ) return "No Last"
+
+            let chunks = last.split("/")
+                let name     = chunks[0]
+                let interest = chunks[1]
+                let topics   = chunks[2]
+
+            let info   = `${name} ${interest} ${topics}`
+
+            return info
+        },
+
+        toggle_vitruvian_brain() {
+            this.ilse.is_vitruvian_expanded = !this.ilse.is_vitruvian_expanded
+        },
 
         get_data_theme() {
             let theme = ilse.config.dark ? 'dark' : 'light'

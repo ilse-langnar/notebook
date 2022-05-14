@@ -53,6 +53,7 @@ export default class Ilse {
         this.name                   = "Ilse Langnar's Notebook"
         this.key                    = "ilse-key"
         this.tried_too_fast         = false
+        this.is_vitruvian_expanded  = false
 
         this.platform               = process.env.VUE_APP_TARGET.toLowerCase()
 
