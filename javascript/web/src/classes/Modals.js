@@ -59,14 +59,20 @@ class Modals {
             },
         })
 
-        printf( "ilse.types.get('types') -> ", ilse.types.get('types') )
-
         this.add({
             id: "types",
             name: "Types",
             component: ilse.types.get( "types" ),
             props: {
                 style: `background: var( --background-color ); color: var( --text-color );`
+            },
+        })
+
+        this.add({
+            id: "help",
+            name: "Help",
+            component: ilse.types.get( "help" ),
+            props: {
             },
         })
 

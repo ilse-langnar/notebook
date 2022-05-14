@@ -27,7 +27,9 @@ export default class note {
 
         this.content     = this.$raw
             this.content     = this.content.trim() // "    20220124102749: Example [[Writing]]" -> "20220124102749: Example [[Writing]]"
-            this.content     = this.content.substr( 16, note.length ) // 20220124102749: Example [[Writing]] -> : Example [[Writing]]
+            // this.content     = this.content.substr( 16, note.length ) // 20220124102749: Example [[Writing]] -> : Example [[Writing]]
+            this.content     = this.content.substr( this.content.indexOf(":") + 2, this.content.length )
+
 
         this.caret       = new Caret( this )
     }

@@ -24,7 +24,21 @@ export default class Notes {
     async _setup() {
         this.listen()
         this.watch_file()
+        this.add_default()
         this._auto_save()
+    }
+
+    add_default() {
+
+        let has_any_nore = this.list.length
+            if( has_any_nore ) return
+
+        let time_id          = this.ilse.utils.get_unique_date_id() // 20220120155758
+        let spaces           = this.ilse.utils.get_depth_spaces( 0 )
+        let note           = `${spaces}${time_id}: Hello, World` // 20220120155758: Hello, World
+
+        let instance         = new this.ilse.classes.Note( note )
+            this.list.push( instance )
     }
 
     _auto_save() {
@@ -75,20 +89,45 @@ export default class Notes {
         let note           = `${time_id}: "Hello, World2"` // 20220120155758: Hello, World
         let notes          = ""
 
+        printf( "is_demo -> ", is_demo )
         if( is_demo ) {
 
             if( has_z ) await this.filesystem.file.set( "notes", "" )
-            let demo_notes = this.filesystem.filesystem.DEFAULT_NOTES
+            let demo_notes  = this.filesystem.filesystem.DEFAULT_NOTES
+            let len         = demo_notes.length
 
+            this.add( `Click on the help button on top for the tutorial`, this.list.length, 0 )
+
+            let last_bullet
+            for( let i = 0; i < len; i++ ) {
+                last_bullet = this.list[this.list.length - 1]
+                printf( "last_bullet -> ", last_bullet )
+                printf( "demo_notes[i] -> ", demo_notes[i] )
+                this.add_after( demo_notes[i].content, demo_notes[i].depth, last_bullet )
+            }
+
+            /*
+            setTimeout( () => {
+                let last_bullet = this.list[_this.list.length - 1]
+                this.add_after( demo_notes[0].content, demo_notes[0].depth, last_bullet )
+            }, 500 )
+            */
+
+            /*
             let index = 0
             for( const value of demo_notes ) {
                 index++
 
                 (function(value, index) {
-                    setTimeout( async () => { _this.add( value.content, _this.list.length, value.depth ) }, index * 5 )
+                    setTimeout( async () => {
+                        let last_bullet = _this.list[_this.list.length - 1]
+                        if( index === 1 ) _this.add( value.content, _this.list.length, value.depth )
+                        if( index !== 1 ) _this.add_after( value.content, value.depth, last_bullet )
+                    }, index * 50 )
                 }( value, index ))
 
             }
+            */
 
         } else {
             if( has_z ) return
@@ -251,7 +290,6 @@ export default class Notes {
     // give me a content, a reference note and a depth and I'll add it correctly for you.
     add_after( content, depth, note ) {
         let index   = this.get_index( note.id )
-        printf( ">>>> index -> ", index )
         return this.add( content, ++index, depth )
     }
 
@@ -259,16 +297,30 @@ export default class Notes {
 
         let time_id          = ilse.utils.get_unique_date_id() // 20220120155758
         let spaces           = ilse.utils.get_depth_spaces( depth )
-        let note           = `${spaces}${time_id}: ${content}` // 20220120155758: Hello, World
+        let note             = `${spaces}${time_id}: ${content}` // 20220120155758: Hello, World
+        printf( "@@note -> ", note )
 
         let instance         = new ilse.classes.Note( note )
             if( instance.depth >= 1 ) this.recursively_add_children( instance, index )
 
             this.list.splice( index, 0, instance )
 
+        printf( "<<<<< this.list -> ", this.list )
+        printf( "index ", index )
+
+        let after
+        index = Number(index)
+        if( index === 0  ) {
+            after = this.list[0]
+        } else {
+            after = this.list[index - 1]
+        }
+        printf( "after -> ", after )
+
         Messager.emit( "~notes", "added", {
             note: instance,
-            after: this.list[ Number( index - 1 ) ]
+            // after: this.list[ Number( index - 1 ) ]
+            after: after,
         })
 
         return instance

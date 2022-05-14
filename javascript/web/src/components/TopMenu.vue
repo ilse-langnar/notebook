@@ -76,8 +76,8 @@
         img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/folders.svg"    style="cursor: pointer; width: 20px; "   title="Help/Manual/Tutorial/APIs" @click="test" v-popover="{ name: 'folders', position: 'bottom' }" )
 
         .margin-small
-        img( v-show="!ilse.config.dark" src="@/assets/images/lifebuoy.svg"    style="cursor: pointer; width: 20px; "   title="Help/Manual/Tutorial/APIs" @click="test" accesskey="h" )
-        img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/lifebuoy.svg"    style="cursor: pointer; width: 20px; "   title="Help/Manual/Tutorial/APIs" @click="test" accesskey="h" )
+        img( v-show="!ilse.config.dark" src="@/assets/images/lifebuoy.svg"    style="cursor: pointer; width: 20px; "   title="Help/Manual/Tutorial/APIs" accesskey="h" @click="open_help_modal" )
+        img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/lifebuoy.svg"    style="cursor: pointer; width: 20px; "   title="Help/Manual/Tutorial/APIs" accesskey="h" @click="open_help_modal" )
 
         .margin-large
         img.is-pulled-right( v-show="!ilse.config.dark" src="@/assets/images/moon-stars.svg"   style="cursor: pointer; width: 20px; " title="Toggle Dark Mode" @click="toggle_dark_mode()" )
@@ -125,6 +125,10 @@ export default {
 
     methods: {
 
+        open_help_modal() {
+            ilse.modals.open( "help" )
+        },
+
         get_first_brain_last_item_info() {
 
             let last   = this.ilse.brains.first.get_last()
@@ -167,7 +171,6 @@ export default {
 
         open_configuration_modal() {
             ilse.modals.open( "configuration" )
-
         },
 
         on_note_search_on_result_select( payload ) {

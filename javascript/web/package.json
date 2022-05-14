@@ -15,6 +15,12 @@
     "postuninstall": "VUE_APP_TARGET=ELECTRON electron-builder install-app-deps",
     "all": "VUE_APP_TARGET=ELECTRON electron-builder -wl"
   },
+  "build": {
+    "appId": "your.id",
+    "mac": {
+      "category": "my.category.type"
+    }
+  },
   "main": "background.js",
   "dependencies": {
     "browserfs": "^1.4.3",
@@ -23,6 +29,7 @@
     "d3-force": "^3.0.0",
     "electron-find": "^1.0.7",
     "electron-pdf-window": "^1.0.12",
+    "electron-winstaller": "^5.0.0",
     "event-emitter": "^0.3.5",
     "gantt-elastic": "^1.0.12",
     "hypermd": "^0.3.11",

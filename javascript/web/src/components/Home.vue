@@ -1,12 +1,13 @@
 <template lang="pug">
 .home
 
-    .loading( v-if="!ilse.target_directories.length || !ilse.has_loaded" :key="ilse.key" )
+    .loading( v-if="!ilse.target_directories.length /*|| !ilse.has_loaded*/ " :key="ilse.key" )
         Setup
 
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded " :key="ilse.key" :data-theme="get_data_theme()" )
-        
+
         TopMenu
+
         Components( :components="ilse.components" unique-key="home" )
 
         Modals

@@ -11,6 +11,7 @@
             p.is-size-1( style="text-align: center;" ) {{selected}}
 
         .general( v-if="selected === 'General' " )
+
 </template>
 <script>
 // eslint-disable-next-line
@@ -43,6 +44,7 @@ export default {
                 { name: "Help", img: "lifebuoy.svg" },
             ]
         }
+
     },
 
     methods: {

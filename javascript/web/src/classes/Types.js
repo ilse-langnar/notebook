@@ -347,6 +347,19 @@ class componentTypes {
             }
         })
 
+        this.add({
+            id: "help",
+            name: "Help",
+            description: "Help",
+            img: require("@/assets/images/letter-t.svg"),
+            type: "vue",
+            component: require("@/components/Help.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
+
     }
 
     get( id ) {

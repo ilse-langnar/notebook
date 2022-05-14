@@ -93,12 +93,17 @@ export default {
             let id      = payload.payload.id
             let day
 
+            this.days.map( _day => {
+                if( _day.id === id ) day = _day
+            })
+            /*
             let index = 0
             for( const _day of this.days ) {
                 index++
 
                 if( _day.id === id ) day = _day
             }
+            */
 
             let content = payload.content
             let note  = day.notes[ day.notes.length - 1 ]
@@ -343,7 +348,17 @@ export default {
 
         },
 
+        // Give me a note(object) and I'll tell which day it is on.
         get_note_day( note ) {
+
+            /*
+            this.days.map( day => {
+                printf( "ddd day -> ", day )
+                day.notes.map( note => {
+                    printf( "note -> ", note )
+                })
+            })
+            */
 
             for( const day of this.days ) {
                 for( const day_note of day.notes ) {
@@ -364,12 +379,13 @@ export default {
                 if( action === "added" ) {
 
                     let after       = payload.after
-                    let new_note  = payload.note
+                    let new_note    = payload.note
+
                     let is_equal
-
-
                     let day         = this.get_note_day( after )
-                    let note_index= day.notes.indexOf( after )
+                    printf( "> day -> ", day )
+                    let note_index  = day.notes.indexOf( after )
+                    printf( "> note_index -> ", note_index )
                     let day_index   = this.days.indexOf( day )
                         this.days[day_index].notes.splice( ++note_index, 0, new_note )
 

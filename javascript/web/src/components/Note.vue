@@ -70,9 +70,11 @@ export default {
 
         close_focus_then_resize( overlay ) {
 
+            printf( "close_focus_then_resize -> overlay -> ", overlay )
             this.close_overlay( overlay )
 
             let note = this.inote
+            printf( "note -> ", note )
 
             setTimeout( () => {
                 note.focus()

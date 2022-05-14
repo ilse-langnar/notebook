@@ -76,7 +76,7 @@ export default class Markdown {
                   .replace( "==", "" )
                   .replace( "==", "" )
 
-              return `<span class="highlight" onclick="on_click" title="${content}" > ${content} </span>`
+              return `<span class="highlight" title="${content}" > ${content} </span>`
           }
 
         )
