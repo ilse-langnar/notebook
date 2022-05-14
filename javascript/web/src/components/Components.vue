@@ -1,7 +1,7 @@
 <template lang="pug" >
 .components( style="display: flex; flex-direction: row;" :key="components_key" )
 
-    .component( v-show="components.length && component.is_on" v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" @contextmenu="null" )
+    .component( v-show="components.length && component.is_on" v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
 
         img.is-pulled-right(
             v-show="!ilse.config.dark"
@@ -13,6 +13,7 @@
             @click.right="on_right_click($event, component)"
             @dblclick="on_db_click(component)"
             @wheel="on_wheel( $event, component )"
+            @contextmenu="function(){}" 
 
             style="width: 20px; cursor: pointer; margin: 0.5em; "
             :title="get_title(component)"
@@ -28,6 +29,7 @@
             @click.right="on_right_click($event, component)"
             @dblclick="on_db_click(component)"
             @wheel="on_wheel($event, component)"
+            @contextmenu="function(){}" 
 
             style="width: 20px; cursor: pointer; margin: 0.5em; "
             title="get_title(component)"
