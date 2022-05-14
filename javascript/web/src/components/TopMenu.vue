@@ -1,5 +1,5 @@
 <template lang="pug" >
-.top-menu( style="width: 100%; display: flex; padding: 1.5em 0.5em; " )
+.top-menu( style="width: 100%; display: flex; padding: 0.3em 0.5em; " )
 
     .menu-item( style="margin: auto;" )
 
