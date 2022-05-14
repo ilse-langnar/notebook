@@ -19,4 +19,7 @@
 - [Installing](https://github.com/ilse-langnar/ilse-langnar-notebook/blob/dev/project/dev.md)
 - [Contributing](https://github.com/ilse-langnar/ilse-langnar-notebook/blob/dev/project/contributing.md)
 
+
+Ilse is based on the Vitruvian Brain Framework: https://ilse-langnar.github.io/notebook/index.html
+
 <div/>
