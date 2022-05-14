@@ -1,5 +1,0 @@
-directories:
-  output: dist
-  buildResources: build
-files: []
-electronVersion: 13.6.9
