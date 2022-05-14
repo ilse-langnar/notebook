@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="">
     <head>
         <meta charset="utf-8">
@@ -9,7 +8,7 @@
         <link rel="stylesheet" href="bulma.min.css">
         <link rel="icon" type="image/png" sizes="32x32" href="/img/icons/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/img/icons/favicon-16x16.png">
-        <link rel="manifest" href="/manifest.json" >
+        <link rel="manifest" href="/manifest.json">
         <meta name="theme-color" content="#4DBA87">
         <meta name="apple-mobile-web-app-capable" content="no">
         <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -21,23 +20,20 @@
 
         <style type="text/css" media="all">
 
-            @media print {
-                .pagebreak { page-break-before: always;  } /* page-break-after works, as well */
-            }
-
             @font-face {
               font-family: Mary;
               font-style: normal;
               font-weight: lighter;
-              src: url("mary.ttf");
+              src: url("./mary.ttf");
             }
+
 
              body, html {
                  font-family: Mary, Times New Roman, sans-serif, Helvetica, serif;
              }
 
              body {
-                 width: 80%;
+                 width: 50%;
                  margin: 0 auto;
              }
 
@@ -73,9 +69,35 @@
                 word-wrap: break-word;
             }
 
+            .button-4:hover {
+                background-color: #F3F4F6;
+                text-decoration: none;
+                transition-duration: 0.1s;
+            }
 
-            h1,h2,h3,h4 {
-                text-align: center;
+            .button-4:disabled {
+                background-color: #FAFBFC;
+                border-color: rgba(27, 31, 35, 0.15);
+                color: #959DA5;
+                cursor: default;
+            }
+
+            .button-4:active {
+                background-color: #EDEFF2;
+                box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+                transition: none 0s;
+            }
+
+            .button-4:focus {
+                outline: 1px transparent;
+            }
+
+            .button-4:before {
+                display: none;
+            }
+
+            .button-4:-webkit-details-marker {
+                display: none;
             }
 
             .flex-container {
@@ -86,6 +108,102 @@
             .flex-item {
                 flex: 1
             }
+
+            .heading-1 {
+                text-align: center;
+                font-weight: 400;
+                font-weight: lighter;
+                font-size: 3em;
+            }
+
+            .heading-2 {
+                text-align: center;
+                font-weight: 400;
+                font-weight: lighter;
+                font-size: 2.5em;
+            }
+
+            .heading-3 {
+                text-align: center;
+                font-weight: 400;
+                font-weight: lighter;
+                font-size: 2.1em;
+            }
+
+            .heading-4 {
+                text-align: center;
+                font-weight: 400;
+                font-weight: lighter;
+                font-size: 2em;
+            }
+
+            .heading-5 {
+                text-align: center;
+                font-weight: 400;
+                font-weight: lighter;
+                font-size: 1.5em;
+            }
+
+            .heading-6 {
+                text-align: center;
+                font-weight: 400;
+                font-weight: lighter;
+                font-size: 1.1em;
+            }
+
+            .heading-7 {
+                text-align: center;
+                font-weight: 400;
+                font-weight: lighter;
+                font-size: 1.0em;
+            }
+
+            :root {
+                --img-position: inherit;
+                --img-left: inherit;
+                --img-top:  inherit;
+                --img-width:  inherit;
+                --img-height: inherit;
+                --img-transform: inherit;
+            }
+
+            .zoom {
+                display: block;
+                margin: 0 auto;
+            }
+
+            .zoom:hover {
+                --img-position: fixed;
+                --img-left: 50%;
+                --img-top:  50%;
+                --img-width:  80vw;
+                --img-height: 80vh;
+                --img-transform: transform: translate( -50%, -50% );
+            }
+
+            .screenshot {
+                width: 200px;
+                height: 100px;
+                border: 1px solid #aaa;
+                border-radius: 6.7px;
+            }
+
+            .screenshot:hover {
+                position: fixed;
+                left: 50%;
+                top: 50%;
+                width: 80vw;
+                height: 80vh;
+                transform: translate( -50%, -50% );
+                z-index: 1000;
+            }
+
+            img {
+            }
+
+            /*.column a .button {
+                margin-bottom: 10px;
+            }*/
 
             .is-centered {
                 display: block !important;
@@ -121,14 +239,6 @@
                 clear: both;
             }
 
-            .is-size-4 {
-                font-size: 20px;
-            }
-
-            .img {
-                width: 40%;
-                clear: both
-            }
             
         </style>
 
@@ -136,444 +246,123 @@
 
     <body>
 
-        <h2 class="h2" > Vitruvian Brain </h2>
+        <div style="height: 100px; clear: both;"> </div>
 
-        <div class="pagebreak"> </div>
-
-        <h2 class="h2" > Table of Content </h2>
-
-        <div id="toc_container" >
-            <ul class="toc_list">
-                <li><a href="#First_Point_Header"> 1 First Point Header </a>
-                    <ul>
-                        <li>
-                            <a class="title" href="#First_Sub_Point_1"> 1.1 Introduction </a>
-                            <a class="number" href="#First_Sub_Point_1"> 1 </a>
-                        </li>
-                    </ul>
-                </li>
-                <li><a href="#Second_Point_Header"> 2 Second Point Header </a></li>
-                <li><a href="#Third_Point_Header"> 3 Third Point Header </a></li>
-            </ul>
+        <p class="heading-1"> Vitruvian Brain </p>
+        <!--<p class="heading-7" > 𝓐𝓾𝓰𝓶𝓮𝓷𝓽𝓲𝓷𝓰 𝓗𝓾𝓶𝓪𝓷 𝓒𝓸𝓰𝓷𝓲𝓽𝓲𝓸𝓷 </p>-->
+        <p class="heading-5"> Augmenting Human Cognition </p>
+        
+        <div class="flex-container" >
+            <img src="./brain-g510db6c45_640.png" alt="Brain" title="brain" class="main-img" >
+            <img src="./brain-g510db6c45_640.png" alt="Brain" title="brain" class="main-img" >
         </div>
 
-        <div class="pagebreak"> </div>
+        <div style="height: 100px; clear: both;"> </div>
 
-        <h2> Introduction </h2>
+        <div class="what is-centered">
+            <p class="heading-4"> What </p>
+            <p class="is-size-5"> It's a set of tools, methods, techniques and philosophies used to argument <strong> Human Cognition.  </strong>
+            </p>
 
-        <p> One of the many problems with self-learning today is the lack of full-featured tools four your studies, current tools, even when they provide all the necessary features to a productive &amp; plesurable learning session they might have other flaws such as lock-in, complexity, online-only, platform-specific etc.  </p>
+            <br>
 
-        <p> The purpose of this document is to present the current state-of-art in study/learning/thinking tools, present their respective advantages and disadvantages and the solution currently being worked on, as to address all the flaws where others have "failed", picking the best parts, leaving the bad and trying building a standard that is Simple, Open Source, Plain Text, Robust and Extensible. </p>
+            <p class="is-size-5"> To learn new things better. To remember what we have already leaned. To think and elaborate more deeply on important concepts and ultimately, increase creative output &amp; self realization. </p>
+            <br>
 
-        <p> To summarize, this is an attempt to create a lock-in free, offline, platform-independent "standard" in which universal learning tools can be build upon. </p>
+        </div>
 
-        <div class="pagebreak"> </div>
+        <div class="how is-centered">
+            <p class="heading-4"> How </p>
 
-        <h3> Goals </h3>
+            <!--<a href="https://discord.gg" target="_blank" > <img src="brand-android.svg" alt="" style="width: 40px;"> </a>-->
+            <!--<a href="https://discord.gg" target="_blank" > <img src="terminal.svg" alt="" style="width: 40px;"> </a>-->
 
-        <p> The `Vitruvian Brain` standard has the goal of describing a system in which the following learning tools will be make available: </p>
+            <a href="https://discord.gg" target="_blank" title="Download for Windows(.exe)">
+                <img src="brand-windows.svg" alt="">
+            </a>
 
-        <p> Zettelkasten, Incremental Reading, Spaced Repetition, Interest Repetition, Incremental Video, Mind Maps, Learning From Text(LFT), Incremental Thinking, Incremental Work, Getting Things Done(GTD), Interleaving and Incremental Writing.  </p>
+            <a href="https://discord.gg" target="_blank" title="Download for MacOS(.dmg)">
+                <img src="brand-apple.svg" alt="">
+            </a>
 
-        <p> It'll do so by describing a series of procedures, formats and protocols in which *any* developer[s] might choose to "implement" or "be compatible with" . This is to make sure the standard is long-lived and does not succumb to the fate of "bit-rot" in which programs tend to have a rather short shelf life. Protocols are much more resilient because they're implementation-independent, so anyone can write an implementation for it, one analogy might be that web browsers come and go all the time, but the HTTP protocol has shown itself to outlive most of its concrete implementations.  </p>
+            <a href="https://github.com/ilse-langnar/notebook/releases/download/beta/ilse-langnar-notebook-0.1.7.AppImage" target="_blank" title="Download for Linux(.AppImage)">
+                <img src="367633_linux_tux_icon.svg" alt="">
+            </a>
+            
+        </div>
 
-        <div class="pagebreak"> </div>
+        <div class="why is-centered">
+            <p class="heading-4"> Why </p>
 
-        <h3> Current Solutions and their flaws </h3>
+            <p class="is-size-5"> One of the first one to attempt to construct a tool for agmenting cognition was Pietr Wozniack with the creation of Supermemo, in which both Spaced Repetition and then Incremental Reading were implemented in.</p>
+            <br>
 
-        <h4> Anki </h4>
-        <p> Anki is a flashcard spaced repetition application where you can review cards on a exponential schedule, only needing to keep the daily review.  </p>
-        <h5> Pros </h5>
-        <ul>
-            <li> Popular: A lot of people in medical school and the language learning community have been using anki for ages, so familiarity with them is a plus.  </li>
-            <li> Community: A lot of pre-made decks and plugins </li>
-        </ul>
+            <p class="is-size-5"> Vitruvian Brain aims to be an avolution to those concepts first explored by Supermemo, by improving Upon them by: Removing unecessary jargon, simpler UI and universal access with a standard and not a tool itself altought ilse is a concrete implementation itself.</p>
+        </div>
 
-        <h5> Cons </h5>
+        <div class="how is-centered flex">
+            <p class="heading-4"> Where </p>
 
-        <ul>
-            <li> Light Lock In: Anki "locks" your files, videos, images, audios and flashcards in a non plain-text format thus "sucking" everything you throw at it and you have to do some work in get it back.  </li>
-            <li> Complexity: maybe there's too many, unecessary options which might scare beginners.  </li>
-            <li> Bad Integration: in order to intereact with something like a zettelkasten system you would need to either connect with AnkiWeb(API) or open the app every time(too wlo).  </li>
-        </ul>
+            <a href="https://discord.gg" target="_blank"> <img src="brand-discord.svg" alt="" style="width: 40px;"> </a>
+            <a href="https://discord.gg" target="_blank"> <img src="mail.svg" alt="" style="width: 40px;"> </a>
+        </div>
 
-        <h5> Conclusion </h5>
+        <div class="inspirations is-centered">
+            <p class="heading-4"> Inspirations </p>
 
-        <p> Implementing anki into the system I've presented you with would be possible, but we would suffer from integration inefficiencies and the "what it could have been" effect.  </p>
+            <p class="is-size-6"> Commonplace Book(Leonardo Da Vinci, Aristotle, John Locke)</p>
+            <!-- <img src="davinci-1.png" alt=""  > -->
 
-        <div class="pagebreak"> </div>
+            <p class="is-size-6"> Memex(Vannevar Bush) </p>
+            <!-- <img src="memex.png" alt="" > -->
 
-        <h4> Supermemo </h4>
+            <p class="is-size-6"> Zettelkasten(Niklas Luhman) </p>
+            <!-- <img src="slip-box-1.png" alt="" > -->
 
-        <p> Supermemo is a software program created by Pitr Wozniack. Its most known features are *Incremental Reading* and *Spaced Repetition Flashcards*.  </p>
+            <p class="is-size-6"> Andy Mode(Andy Matuschak) </p>
+            <!-- <img src="andy-mode-1.png" alt="" > -->
 
-        <h5> Pros </h5>
+            <p class="is-size-6"> Roam Research(Conor White-Sullivan) </p>
+            <!-- <img src="graph-1.png" alt="" >
+            <img src="roam-graph-2.png" alt="" >
+            <img src="roam-research.png" alt="" > -->
 
-        <ul>
-            <li> Completeness: It has Spaced Repetition( SM17 ), Incremental Reading, Sleep Chart, Knowledge Tree, Neural Review and more.  </li>
-            <li> Efficiency: It has probabily the most efficient interval calculating algorithm(SM17) and Incremental Reading is not implement to the level it has in supermemo, it has clozes, image clozes, topic schedule etc.  </li>
-            <li> Community: It's considerably big, you can find plugins, workflows, tips, keyboard shortcuts etc.  </li>
-        </ul>
+            <p class="is-size-6"> Spaced Repetition(Anki, Supermemo)  </p>
+            <!--<img src="decay-curve.png" alt="" >
+            <img src="spaced-repetition.png" alt="" > -->
 
-        <h5> Cons </h5>
+            <p class="is-size-6"> Incremental Reading(Supermemo)  </p>
+            <!--<img src="incremental-reading.png" alt="" >
+            <img src="jigsaw-puzzle.png" alt="" >
+            <img src="incremental-reading-1.png" alt="" >-->
 
-        <ul>
-            <li> Complexity: It looks like the central panel for a nuclear reactor station. It takes too much time to get used to the buttons, shortcuts, conventions, nomeclatures etc.  </li>
-            <li> Platform Dependend: Windows Only( Wine is not always reliable ) </li>
-            <li> Zettelkasten: I have heard you can implement it on SuperMemo, In my opinion it also suffer from a "what it could have been" effect in my view.  </li>
-            <li> Lock In: It locks your files into a non-plaintext format.  </li>
-        </ul>
+            <p class="is-size-6"> Second Brain(Tiago Forte)  </p>
+            <!--<img src="building-a-second-brain.png" alt="" >
+            <img src="building-a-second-brain-2.png" alt="" > -->
 
-        <h5> Conclusion </h5>
+            <!--<img src="brain-2.png" alt="" >-->
+        </div>
 
-        <p> In terms of raw cognitive power and stufy efficiency, SuperMemo is not only probably the best tool around, but it quite literally pioneers a lot of the ideas in which we take as best practices today( Spaced Repetition, Incremental Reading, Incremental Learning in general ). But I feel like we could take the best parts of supermemo, turn it into a concrete-implementation-agnostic and let people make their own tools according to it, it might leave to considerable growth in the field of study tools </p>
+        <div class="clear"> </div>
 
-        <div class="pagebreak"> </div>
+        <div class="how is-centered">
+            <p class="heading-4"> Posts </p>
+            <p class="is-size-5"> <a href="/1"> Interest Repetition </a> </p>
+            <p class="is-size-5"> <a href="/2"> The Difference Between Spaced Repetition &amp; Interest Repetition </a>  </p>
+            <p class="is-size-5"> <a href="/3"> Building Upon Supermemo's Legacy </a>  </p>
+            <p class="is-size-5"> <a href="/4"> The Need for Augmenting Cognition</a>  </p>
+        </div>
 
-        <h4> Obsidian </h4>
+        <div class="how is-centered">
+            <p class="heading-4"> Standard </p>
+            <a href="Vitruvian Brain.pdf" target="_blank"> <img src="file-text.svg" alt="" style="width: 40px;"> </a>
+        </div>
 
-        <p> Obsidian is a note-taking application where it works with plain-text markdown files, it's very commonly used to implement a zettelkasten system.  </p>
 
-        <h5> Pros </h5>
 
-        <ul>
-            <li> Almost Platform Independent: It's available for Windows, MaxOS, Linux and mobile.  </li>
-            <li> No lock in: It's plain text files a folders </li>
-            <li> Popular: A lot of people in medical school and the language learning community have been using anki for ages, so familiarity with them is a plus.  </li>
-            <li> Community: A lot of pre-made decks and plugins </li>
-            <li> Extensible: With The Obsidian Plugin API you can write features the tool does have but you want to use.  </li>
-        </ul>
+        <div style="height: 100px; clear: both;"> </div>
 
-        <h5> Cons </h5>
+        <!-- <div id="app"> </div> -->
+    
 
-        <ul>
-            <li> Files is the lowest level you could go, and block references don't work that well.  </li>
-            <li> Concrete implementation that might not have everything users need and the possiblity of a plugin might be be as promising.  </li>
-        </ul>
-
-        <h5> Conclusion </h5>
-        <p> Obsidian comes the closest to an "open" study tool. It does not lock your files in, have zettelkasten, incremental reading and spaced repetition plugins. My only problem with obsidian is the fact that its main "primitive" or "unit of work" is a markdown file, which is fine for most people but I'm pretty sure some people would desire a more "lightweight" way of creating relationship. One example would be a interesting quote, if you want to make this quote a node in the graph/zettelkasten you need to create an entire file for it, which is in my opinion too cumbersome/uncecessary, if you collect 100 quotes you'll have 100 more files ... of course you can all put them in a single file, but referencing them from this single file would go "against" the atomicity principle of zettelkasten and each individual one would not be visible in any graph.  </p>
-
-        <div class="pagebreak"> </div>
-
-        <h4> Roam Research </h4>
-
-        <p> *Roam Research* is a paid online note-taking application where people can access their *graphs* or note online.  </p>
-
-        <h5> Pros </h5>
-        <ul>
-            <li> Simple: Very slick and intuitive.  </li>
-            <li> Almost Platform Independent: Works on the brower, it means it's almost universal.  </li>
-            <li> Blocks: small, cheap and removes the "does this deserver a file?" effect.  </li>
-        </ul>
-
-        <h5> Cons </h5>
-
-        <ul>
-            <li> Online Only: </li>
-            <li> Lock In: Roam has the option to export to json but still too limited.  </li>
-            <li> Paid:  Roam is a paid tools which makes is non-accessible for a lot people.  </li>
-        </ul>
-
-        <h5> Conclusion </h5>
-
-        <p> Roam is probabily the best optiosn between all of the presented here but ... It's not free. So that's a no.  </p>
-
-        <div class="pagebreak"> </div>
-
-        <h4> The solution </h4>
-
-        <p> `Vitruvian Brain` Standard is a series of documentation and practices in which developers might implement learning applications. By following those design choices it'll ease the cognitive load of inventing everything from scrath, they can have a battle-tested framework for study tools and focus on the delivery of said tools, instead of discussing which solutions are the best one.  </p>
-        <img src="vitruvian-brain-diagram.svg" style="display: block; margin: 0 auto; width: 100%; " />
-
-        <h4> Pros </h4>
-
-        <ul>
-            <li> No lock in: It's just files and folder.  </li>
-            <li> Platform Independent: Since it's a standard and not a concrete implementation we might implement it in: C++, python, bash, Web, iOS, Windows, Linux, MacOS, Embedded etc.  </li>
-            <li> Good Primitive: Bullets, files and folders, everythign else is build atop those basic primitives.  </li>
-            <li> Bullets: small, cheap and remove the "does this deserver a file?" effect.  </li>
-            <li> No "Software Rot": Since it's not even a concrete implementation, there's nothing to rot here, protocols outlive programs by the decades, that's the intent here.  </li>
-        </ul>
-
-        <h5> Cons </h5>
-        <ul>
-            <li> To be added ...  </li>
-        </ul>
-
-        <h4> Conclusion </h4>
-
-        <p> The very purpose of the `Vitruvian Brain` standard is to learn from those previous tools, take their best points, mitigate their weaknesses and make an open standard from a hypothetical study tool with the features that provide the most benefit( Spaced Repetition, Incremental Reading, Incremental Writing, Zettelkasten, Interest Repetition, Interleaving etc. ) </p>
-
-        <div class="pagebreak"> </div>
-        <h3> Principles </h3>
-
-        <p> The `Vitruvian Brain` will takes inspiration from the `Unix Philosophy` such as: </p>
-        <p> `Do one thing and do it well` </p>
-        <p> `Plain text is the ultimate interface`: We don't make use of `JSON`, things such as configuration are also non-json plaintext.  </p>
-        <p> Since this is not a piece of software but a standard, anyone might build a client that operates with the standard.  </p>
-
-        <div class="pagebreak"> </div>
-        <h3> The 2 Brains </h3>
-        <p> The Vitruvian Framework has the concept of "two brains". The First Brain and the Second Brain. </p>
-        <p> The First Brain is for everything you want to see in the future by a time schedule. Like Todos, Books, Articles, Prompts, Writing Prompts, Videos, Inspirations, Reminders et. </p>
-        <p> The Second Brain is for References, wikipedia, Writing, catalog and thinking-trail.  </p>
-
-        <h4 style="text-align: left;" > First Brain </h4>
-
-        <img src="first-brain-diagram.svg" alt="" style="width: 100%;" >
-        <p> Unless you only plan to work in the future, this is probabily the most important one, this is where the "study" part of the framework runs on. </p>
-        <p> To summarize, the first brain is merely a folder with many files inside of it and a queue to schedule the review of those files. So if you drop a <code> .pdf </code> inside the first brain folder, you'll not review it today, but when the scheduler arranges it for you. This is good for the "stress-less" nature of the study session, you just bind to a keyboard shortcut and press it to study.  </p>
-
-        <div class="pagebreak"> </div>
-
-        <h4 style="text-align: left;" > Second Brain </h4>
-        <img src="second-brain-diagram.svg" alt="" style="width: 100%;" >
-        <p> The second brain is more of a wikipedia/reference/catalog/quotes/catalog where you store things that you don't need to be reminded of on a regular basis. </p>
-
-
-
-        <div class="pagebreak"> </div>
-
-        <h2> Fundamentals </h2>
-
-        <h3>  Bullets </h3>
-        <p> Bullets are the "Working Blocks" of a Vitruvian Brain system, bullet are simple lines in the following format: </p>
-        <p> @id: @whitespace @content </p>
-
-        <code> 20270216193456: [[Typography]] ==Typefaces== with a **taller** x-height are considered modern and easier to read.  </code>
-
-        <br>
-        <br>
-
-        <code> 20200522162753: #todo/review A [[Liver]] cell, although it carries the genes to do so, will generally not be able to function as a skin cell [[DNA]] [[Biology]] [[Totipotency]] </code>
-
-        <p> The "20200522162753" is the bullet's ID, the "#todo/review" is the tags and the "[[Liver]]" being the link. </p>
-
-        <p> To make "hirerarchical tags" use the format #@parent/child e.g #programming/javascript </p>
-
-        <p> Those bullets are stored in normal plaintext files with extentions such as ".txt" and ".md" such as: </p>
-
-        <code> 20200522162753: #todo/review A [[Liver]] cell, although it carries the genes to do so, will generally not be able to function as a skin cell [[DNA]] [[Biology]] [[Totipotency]] </code>
-        <br>
-        <code> 20270216193456: [[Typography]] ==Typefaces== with a **taller** x-height are considered modern and easier to read.  </code>
-
-        <p> The <em> Bullet Id </em> is the current timestamp including seconds when the bullet was made, this works as a timestamp and also as an local <strong> unique ID</strong>, considering you can't possibly create 2 bullets in the same second. All of the bullets are considered to be unique, if one is malformed, like, without an ID, it'll not try to correct it.  </p>
-
-        <p> The bullet format follows the following format: </p>
-
-        <ul>
-            <li> YYYMMDDhhmmss </li>
-            <ul>
-                <li> YYYY: Year </li>
-                <li> MM: Month[s] </li>
-                <li> DD: Day[s] </li>
-                <li> hh: Hour[s] </li>
-                <li> mm: Minute[s] </li>
-                <li> ss: Second[s] </li>
-            </ul>
-        </ul>
-
-        <blockquote>
-        All single-digit values will have a leading <strong> 0 </strong> so: 1 -> 01, 2 -> 02, 9 -> 09 etc.
-        </blockquote>
-
-        <p> You might use plain-text for the content of the bullet or the standard markdown flavor, markdown links can be either <strong> [Technology](https://example.org) </strong> or <strong> [[Technology]] </strong> . Any embedding, or dynamic content will be implemented on software, this gives enough flexibility for your writing without any specialized program, but remember that IDs are still needed, and when you open an actual software implementation, you'll see the images, videos, sounds
-        rendered from either embedded like <strong> ![[Video.mp4]] </strong> etc. </p>
-
-        <p> Global bullets are inside a file called <strong>notes</strong> while any local bullet is in your file such as <strong> Javascript.md </strong> or <strong> Docker.md</strong> </p>
-        <p> Bullets can be in any file such as: `Javascript.md` `Journal.md` or `Medicine Summary.md`. But it is assumed you have a "main" file in which most of your bullets will resize in( the default target location ). By default this file is simply called `Vitruvian Brain`.  </p>
-
-        <p> You can modify the default location for the bullets if you want.  </p>
-
-        <div class="pagebreak"> </div>
-        <h3> Incremental Reading </h3>
-        <p> Incremental Reading is like normal PDF reading but instead of processing everything in one go, you "break" the text into smaller extracts and then those extracts will become flashcards. Incremental Reading is a type of Incremental Learning where instead of cramming/blocking to study you instead study in many "small sessions" in order to increase attention, retention and overall reading pleasure. </p>
-
-        <br>
-        <p> Vitruvian Brain implements incremental reading with normal files such as ".png", ".pdf", ".epub" etc. </p>
-        <p> Our Incremental Reading has 2 parts, one is the "first" folder, the other is the "queue" file. The folder will store your articles/books/cartoons/mangas/textbooks/dictionaries while your queue will schedule when those files should be shown in a study sesion. The "incremental" part here is that by implementing a screenshot system we can crop up a book into many different screenshots and possibly transform those images into something else like a PDF. </p>
-
-        <p> Reading Items: </p>
-        <img src="read-item.svg"  />
-        <br>
-
-        <p> Writing Items: </p>
-        <img src="write-item.svg" />
-
-        <p> One added benefit is that since it's a "file generic" scheduler you can put anything in there, scripts to start your project, photo editing files to start editing file immediatly, a mind map executable for you to work on a certain tree, if it opens then you can use it.  </p>
-
-        <div class="pagebreak"> </div>
-
-        <h3> Spaced Repetition &amp; Scheduling Algorithm  </h3>
-        <p> 20220210163012: - [ ] #ilse-standard We might have an image where we slowly but surely divide into smaller units until each item representes one memory/action/concept </p>
-
-        <p> - [ ] The algorithm for spaced repetition will be.  </p>
-
-        <p> The main tag used for spaced repetition is: `#sr`, and all of its children will be used for configuring its previous reviews, next schedule, status etc.  </p>
-
-        <p> The algorithm for spaced repetition will be configured in tags like this: </p>
-
-        <p> 20200522162753: #sr #sr/review/dqwdqwddqw #sr/ireview/22020202 #sr/treview/32121312 </p>
-
-        <p> Depending if the item is being reviewed because of motivation or because of time is important to the algorithm. If it's a time-only review, then a normal exponential scheduling will work just as fine. But when we review an item *Before* its schedule date due to momentum, the scheduling date will not be the same.  </p>
-
-        <p> It's also important not to "burden" users with accumulating reviews, which might create displeasure in retaining information and that should not be the case, we'll allow for a more forgiving algorithm than Anki's modified SM2 Algorithm.  </p>
-
-        <p> Which means users might skip a day without being heavily punished, we're here to maximize the pleasure of learning and retention, not punish users for missing a review day.  </p>
-
-        <div class="pagebreak"> </div>
-        <h3> Interest Repetition </h3>
-
-        <p> Interest Repetition will take into account the current "mood" of the users while showing and scheduling new cards. When "raw", it's the same as an *Spaced Repetition* algorithm where the interval between the days in exponential </p>
-
-        <div class="pagebreak"> </div>
-        <h3> Interleaving </h3>
-
-        <div class="pagebreak"> </div>
-        <h4> First Brain Queue </h4>
-
-        <p> The <strong> queue(schedule) </strong>* is basically a list of files, that is, items, in which they have an "interest point" assigned to them. This "interest point" will define the item's probbility, as well as its average frequence. This is due to the fact that this list of items( the queue ) is not static, it's dynamic and it's constantly changing, every time you read an item, the queue will "shift" and item, or remove its first items, and add it to the end of the list. This way, in order to see an item twice( without any modiciation ) you would need to read every item on the queue in order to see the other item again.  </p>
-
-        <p> The <strong> queue(schedule) </strong> is a list of your interest that will act in all 3 areas: Consumption, Retention and Application </p>
-
-        <p> For the "Consumption" area, this will be for items you want to read, watch or consume in general. This is where most of the learning will take place, since this is where you're consumption new content instead of remembering old content or re-thinking concepts you already know( meditation ).  </p>
-
-        <p> Some examples of items that are in the "consumption" area are: </p>
-
-        <ul>
-            <li> News about an industry you would like to know </li>
-
-            <li> A book on neuroscience </li>
-
-            <li> A blog about how machine learning backpropagation works.  </li>
-
-            <li> A infographic you want to integrate into your life </li>
-
-            <li> A 10 seconds video you saw online about how a guys lubricates his joint and you want to incorporate this knowledge, behavior and habit to yourself </li>
-
-            <li> A 7 seconds video where you clipped from an artist performing a keyboard-shortcut on a software program you also happen to use, in order for you to start using the shortcut yourself.  </li>
-
-            <li> For the "Retention" area, this is the items you want to have a memory for life, this might be </li>
-
-            <li> Some examples for the "Retention" area are: </li>
-            <p> A 7 seconds video where you clipped from an artist performing a keyboard-shortcut on a software program you also happen to use, in order for you to start using the shortcut yourself.  </p>
-
-        </ul>
-
-        <h3> Interest Repetition Queue Scheduling Algorithm </h3>
-
-        <p> Different from the *Spaced Repetition* scheduling algorithm, the *Interest Repetition* scheduling algorithm is not about hard time, or "dates". It's more about rations and probabilities.  </p>
-
-        <p> While a *Spaced Repetition algorithm* might schedule your items like: - day(1) -> day(3) -> day(10) -> day(30) -> day(80) </p>
-
-        <p> A interest repetition has no concept of "days" or "dates", it has the notion of "rations" and "probability". Since every item in the *Interest Repetition Queue* has a "interest point" which ranges from -99 to 99. -99 means that is has a 99% probability of being "ignored" while reading your queue. while 99 means it has a 99% change of going up one step every time you read your queue.  </p>
-
-        <p> This means that the queue is "self-regulating". Items will move up and down, being popped and shifted based on their interest point.  </p>
-
-        <h3> Main Files </h3>
-
-        <ul>
-            <li> notes </li>
-            <ul>
-                <li> Global Bullets, this is the file where most of your bullets will go.  </li>
-            </ul>
-
-            <li> queue </li>
-            <ul>
-                <li> It's the scheduled consumption queue for your interests, it might include things such as: Videos, Audios, images, PDFs, scripts for automation, scripts for plugins etc.  </li>
-            </ul>
-
-            <li> statistics </li>
-            <ul>
-                <li> It's the file with read/write/delete/qpop/qshift/qscan including the time you spend, so you can know what you read, what extract you took, what you deleted, how much time you spend reading, how much time you spend working, how much time you spend on a certain script or plugin , did you spend today more on the topic of *Biology* or *Clinical Pathology* etc.  </li>
-            </ul>
-        </ul>
-
-        <h3> Main Folders </h3>
-
-        <ul>
-
-            <li> first </li>
-            <ul>
-                <li> It's the folder for the actual *Interest Repetition* files, such as videos, images, PDFs, HTML, Scripts etc.  </li>
-            </ul>
-
-            <li> second </li>
-            <ul>
-                <li> Second Brain, Zettelkasten, References, Files etc.  </li>
-            </ul>
-
-            <li> .trash </li>
-            <ul>
-                <li> Trash folder </li>
-            </ul>
-        </ul>
-
-
-        <h3> Folder Structure Example </h3>
-
-        <ul>
-            <li> brain/ </li>
-            <ul>
-                <li> notes </li>
-                <li> queue </li>
-                <li> statistics </li>
-                <li> first/ </li>
-                <ul>
-                    <li> 890123.video.mp4 </li>
-                    <li> 123124.pathology.pdf </li>
-                    <li> 380921.pathology.pdf </li>
-                    <li> 453809.mtDNA.pdf </li>
-                    <li> 32879.human-anatomy.pdf </li>
-                </ul>
-                <li> second/ </li>
-                <ul>
-                    <li> 890123.video.mp4 </li>
-                    <li> 123124.pathology.pdf </li>
-                    <li> 380921.pathology.pdf </li>
-                    <li> 453809.mtDNA.pdf </li>
-                    <li> 32879.human-anatomy.pdf </li>
-                </ul>
-            </ul>
-        </ul>
-
-        <h3> Exponential Interval Scheduling </h3>
-
-        <h3> Importing PDFs </h3>
-        <p> Avoid having more than 1 final dot in a PDF file like: "book from John H. R. last edition" instead have: "book from john H R last edition.pdf" this will prevent bugs.  </p>
-
-        <h2> Requirements </h2>
-        <p> Plain Text Files </p>
-        <p> Folders </p>
-        <p> PDF reader( with anotation is better ) </p>
-        <p> Screenshot tool </p>
-        <p> Keyboard shortcut manager( options, but makes the process much faster ) </p>
-
-
-        <h2> The Tools </h2>
-        <h3> Zettelkasten </h3>
-        <h3> Incremental Reading </h3>
-        <h3> Interest Repetition </h3>
-        <h3> Spaced Repetition </h3>
-        <h4> Image Cloze Deletions </h4>
-        <p> You'll probability need a PDF for this, the base format is an image file like .png .jpeg etc. </p>
-        <p> So if you want cloze deletions we recommend having an automatic PDF-to-image converter to have cloze deletions. </p>
-
-        <h2> Incremental Reading </h2>
-        <p> By having PDF files and a scheduling algorithm you can have incremental reading. </p>
-
-        <h2> Principles </h2>
-        <h3> Stateless </h3>
-        <h3> Plain Files Only </h3>
-        <h3> Everything is a bullet </h3>
-        <h3> Todos &amp; Priorities </h3>
-
-        <p> 20220129123625: - [ ] #ilse-standard Instead of having a personal notation for priority, instead use the normal - and [ ] just adding a number in front of it( the priority ) as in -> [ ] 3 [ ] 1 [ ] 4 </p>
-
-        <p> Give the exponential nature of the schedule, you might put any file there and it'll open either when you want, or when the scheduler makes time for it. This might be used for painting, music, editing, incremental work, incremental documentation and more.</p>
-
-        <h3> Incremental Learning </h3>
-
-    </body>
-</html>
+</body></html>
