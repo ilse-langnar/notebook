@@ -15,11 +15,13 @@
 Imagine Roam Research + Obsidian + Anki + Supermemo but without their downsides such as online-only, lock-in, bad algorithm, complexity etc.
 Ilse aims to be the ultimate study and note-taking tool by learning from its predecessors and building something that last by implementing a standard instead of building just software which might [rot overtime]( https://en.wikipedia.org/wiki/Software_rot).
 
+Try the online [Demo](https://ilse-langnar.github.io/notebook/demo/index.html) or download it form [Linux](https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage) [Windows](https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage) or [OS x]()
+
+If anything goes wrong open a [Issue](https://github.com/ilse-langnar/notebook/issues/new)
 
 ## Installing
 - [Installing](https://github.com/ilse-langnar/notebook/blob/dev/markdown/dev.md)
 - [Contributing](https://github.com/ilse-langnar/notebook/blob/dev/markdown/contributing.md)
-
 
 
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-15.png" />
