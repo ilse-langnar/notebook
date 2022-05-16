@@ -24,7 +24,6 @@ export default class Notes {
     async _setup() {
         this.listen()
         this.watch_file()
-        this.add_default()
         this._auto_save()
     }
 
@@ -180,6 +179,7 @@ export default class Notes {
     }
 
     _after_we_have_the_notes() {
+        this.add_default()
         this.has_loaded = true
         this._scan_tags()
         this._scan_links()

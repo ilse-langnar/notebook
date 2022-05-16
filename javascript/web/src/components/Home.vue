@@ -118,10 +118,6 @@ export default {
         },
 
         /*
-        open_pdf() {
-            ilse.electron.open_pdf( "RAC.pdf" )
-        },
-
         async info_dialog() {
             ilse.dialog.info( "Title", "something else" )
         },

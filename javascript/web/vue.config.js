@@ -19,7 +19,6 @@ module.exports = {
             nodeModulesPath: [ './node_modules' ],
             nodeIntegration: true,
             preload: 'src/preload.js',
-
         }
     },
 

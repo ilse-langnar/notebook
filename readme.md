@@ -20,6 +20,20 @@
 - [Contributing](https://github.com/ilse-langnar/ilse-langnar-notebook/blob/dev/project/contributing.md)
 
 
-Ilse is based on the Vitruvian Brain Framework: https://ilse-langnar.github.io/notebook/index.html
+Ilse is based on the Vitruvian Brain Framework: https://ilse-langnar.github.io/notebook/vitruvian-brain.html
 
+Todo List
+- Vitruvian
+    - [ ] Make official docker image
+    - [ ] Make Vim plugin for Vitruvian
+    - [ ] Make VSCode plugin for vitruvian
+    - [ ] Make Emacs plugin for vitruvian
+    - [ ] Make Sublime Text for vitruvian
+    - [ ] Make command line client for vitruvian
+- Ilse
+    - [ ] Make windows build work
+    - [ ] Make Linux build work
+    - [ ] Make OS X build work
+    - [ ] Make android client
+    - [ ] Make iOS client
 <div/>

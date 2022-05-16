@@ -193,6 +193,7 @@ export default {
         },
 
         on_tab( payload ) {
+            printf( "on_tab -> payload -> ", payload )
             payload.note.$depth( 1 )
         },
 

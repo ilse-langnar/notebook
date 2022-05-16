@@ -15,12 +15,6 @@
     "postuninstall": "VUE_APP_TARGET=ELECTRON electron-builder install-app-deps",
     "all": "VUE_APP_TARGET=ELECTRON electron-builder -wl"
   },
-  "build": {
-    "appId": "your.id",
-    "mac": {
-      "category": "my.category.type"
-    }
-  },
   "main": "background.js",
   "dependencies": {
     "browserfs": "^1.4.3",

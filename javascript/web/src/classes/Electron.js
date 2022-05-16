@@ -26,10 +26,4 @@ export default class Electron {
         this.dialog.open = function() { _this.ipc.send( "open-file-dialog" ) }
     }
 
-    open_pdf( file ) {
-        file = path.join(ilse.target_directories[0] , file)
-        this.ipc.send( "open-pdf", file )
-    }
-
-
 }

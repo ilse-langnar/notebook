@@ -1,15 +1,33 @@
 'use strict'
 const printf    = console.log
 
-import { app, protocol, BrowserWindow, ipcMain, dialog, globalShortcut, remote } from 'electron'
+// import { app, protocol, BrowserWindow, ipcMain, dialog, globalShortcut, remote } from 'electron'
+// import { app, protocol, BrowserWindow, ipcMain, dialog, globalShortcut, remote } from 'electron'
+
+const electron      = require( "electron" )
+    const app           = electron.app
+    const protocol      = electron.protocol
+    const BrowserWindow = electron.BrowserWindow
+    const ipcMain       = electron.ipcMain
+    const dialog        = electron.dialog
+    const globalShortcut= electron.globalShortcut
+    const remote        = electron.remote
 
 // import find from "electron-find"
 
-import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
-import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
-import path from 'path'
-import os from "os"
-import child_process from "child_process"
+// import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
+const createProtocol = require('vue-cli-plugin-electron-builder/lib').createProtocol
+
+// import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
+
+// import path from 'path'
+const path = require('path')
+
+// import os from "os"
+const os = require("os")
+
+// import child_process from "child_process"
+const child_process = require("child_process")
 
 const PDFWindow     = require('electron-pdf-window')
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -32,6 +50,7 @@ ipcMain.on("open-file-dialog", async (event, arg) => {
     event.sender.send('selected-file', result.filePaths )
 })
 
+/*
 ipcMain.on( "open-pdf", async ( event, arg ) => {
     printf( "open-pdf -> arg -> ", arg )
     // open_pdf( arg )
@@ -50,8 +69,8 @@ ipcMain.on( "open-pdf", async ( event, arg ) => {
     // win.loadURL( final )
 
     win.loadURL('http://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf')
-
 })
+*/
 
 
 ipcMain.on( "item", async ( event, payload ) => {
@@ -98,6 +117,7 @@ ipcMain.on( "execute-zir", async ( event, payload ) => {
 })
 
 
+/*
 function open_pdf( filePath ) {
 
     printf( "remote.BrowserWindow -> ", remote.BrowserWindow )
@@ -122,6 +142,7 @@ function open_pdf( filePath ) {
         pdfWindow = null
     })
 }
+*/
 
 
 
@@ -244,7 +265,7 @@ app.on('ready', async () => {
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools
     try {
-      await installExtension(VUEJS_DEVTOOLS)
+      // await installExtension(VUEJS_DEVTOOLS)
     } catch (e) {
       console.error('Vue Devtools failed to install:', e.toString())
     }
