@@ -12,10 +12,20 @@
 <h4 align="center" > Ilse Langnar's Notebook is a free, knowledge management platform. </h4>
 <br/>
 
+Imagine Roam Research + Obsidian + Anki + Supermemo but without their downsides such as online-only, lock-in, bad algorithm, complexity etc.
+Ilse aims to be the ultimate study and note-taking tool by learning from its predecessors and building something that last by implementing a standard instead of building just software which might [rot overtime]( https://en.wikipedia.org/wiki/Software_rot).
+
 
 ## Installing
-- [Installing](https://github.com/ilse-langnar/ilse-langnar-notebook/blob/dev/project/dev.md)
-- [Contributing](https://github.com/ilse-langnar/ilse-langnar-notebook/blob/dev/project/contributing.md)
+- [Installing](https://github.com/ilse-langnar/notebook/blob/dev/markdown/dev.md)
+- [Contributing](https://github.com/ilse-langnar/notebook/blob/dev/markdown/contributing.md)
+
+- [Screenshot](https://github.com/ilse-langnar/ilse-langnar-notebook/blob/dev/docs/ilse-screenshot-15.md)
+- [Screenshot](https://github.com/ilse-langnar/ilse-langnar-notebook/blob/dev/docs/ilse-screenshot-16.md)
+- [Screenshot](https://github.com/ilse-langnar/ilse-langnar-notebook/blob/dev/docs/ilse-screenshot-17.md)
+- [Screenshot](https://github.com/ilse-langnar/ilse-langnar-notebook/blob/dev/docs/ilse-screenshot-2.md)
+- [Screenshot](https://github.com/ilse-langnar/ilse-langnar-notebook/blob/dev/docs/ilse-screenshot-13.md)
+- [Screenshot](https://github.com/ilse-langnar/ilse-langnar-notebook/blob/dev/docs/ilse-screenshot-14.md)
 
 
 Ilse is based on the Vitruvian Brain Framework: https://ilse-langnar.github.io/notebook/vitruvian-brain.html
