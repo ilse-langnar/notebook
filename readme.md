@@ -13,8 +13,6 @@
 <br/>
 
 
-<div align="center">
-
 ## Installing
 - [Installing](https://github.com/ilse-langnar/ilse-langnar-notebook/blob/dev/project/dev.md)
 - [Contributing](https://github.com/ilse-langnar/ilse-langnar-notebook/blob/dev/project/contributing.md)
@@ -36,4 +34,3 @@ Todo List
     - [ ] Make OS X build work
     - [ ] Make android client
     - [ ] Make iOS client
-<div/>
