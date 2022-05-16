@@ -20,13 +20,14 @@ Ilse aims to be the ultimate study and note-taking tool by learning from its pre
 - [Installing](https://github.com/ilse-langnar/notebook/blob/dev/markdown/dev.md)
 - [Contributing](https://github.com/ilse-langnar/notebook/blob/dev/markdown/contributing.md)
 
-- [Screenshot](https://github.com/ilse-langnar/ilse-langnar-notebook/blob/dev/docs/ilse-screenshot-15.md)
-- [Screenshot](https://github.com/ilse-langnar/ilse-langnar-notebook/blob/dev/docs/ilse-screenshot-16.md)
-- [Screenshot](https://github.com/ilse-langnar/ilse-langnar-notebook/blob/dev/docs/ilse-screenshot-17.md)
-- [Screenshot](https://github.com/ilse-langnar/ilse-langnar-notebook/blob/dev/docs/ilse-screenshot-2.md)
-- [Screenshot](https://github.com/ilse-langnar/ilse-langnar-notebook/blob/dev/docs/ilse-screenshot-13.md)
-- [Screenshot](https://github.com/ilse-langnar/ilse-langnar-notebook/blob/dev/docs/ilse-screenshot-14.md)
 
+
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-15.png" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-16.png" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-17.png" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-2.png" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-13.png" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-14.png" />
 
 Ilse is based on the Vitruvian Brain Framework: https://ilse-langnar.github.io/notebook/vitruvian-brain.html
 
