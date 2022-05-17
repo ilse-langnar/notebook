@@ -3,11 +3,10 @@
 
     .menu-item( style="margin: auto;" )
 
-        img( v-show="!ilse.config.dark" src="@/assets/images/menu.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Add Menu"  @click="add_menu" accesskey="m" )
+        img( v-show="!ilse.config.dark" src="@/assets/images/menu.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Add Menu"  @click="toggle_menu" accesskey="m" )
+        img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/menu.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Add Menu"  @click="toggle_menu" accesskey="m" )
 
         .vspace
-
-        img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/menu.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Add Menu"  @click="add_menu" accesskey="m" )
 
         img( v-show="!ilse.config.dark" src="@/assets/images/calendar.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   title="Go to Daily Notes"  @click="add_daiyl_notes" accesskey="d" )
         img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/calendar.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   title="Go to Daily Notes"  @click="add_daiyl_notes" accesskey="d" )
@@ -289,7 +288,7 @@ export default {
 
         },
 
-        add_menu() {
+        toggle_menu() {
 
             let has_menu_already = false
             let menu_index       = null
@@ -300,7 +299,7 @@ export default {
 
                 if( component.type === "menu" ) {
                     has_menu_already = true
-                    menu_index  = index
+                    menu_index       = index
                 }
             }
 
@@ -308,8 +307,8 @@ export default {
                 let component = new ilse.classes.Component({ type: "menu", width: 0 })
                     ilse.components.unshift( component )
             } else {
-                ilse.components.splice( menu_index, 1 )
-                ilse.notification.send( "Already there", "The menu is already on!" )
+                // ilse.components.splice( menu_index, 1 )
+                // ilse.notification.send( "Already there", "The menu is already on!" )
             }
 
         },
