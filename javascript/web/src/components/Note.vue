@@ -312,7 +312,9 @@ export default {
                 })
 
                 Messager.emit( "~note.vue", "blur", {note: this.inote})
-            // Messager.emit( "~note", "change", { note: this.inote })
+                // Messager.emit( "~note", "change", { note: this.inote })
+                ilse.notes.save()
+
             }
 
         },

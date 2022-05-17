@@ -17,8 +17,8 @@
 
         .vspace
 
-        img( v-show="!ilse.config.dark" src="@/assets/images/report.svg"      style="cursor: pointer;width:20px;margin-left: 15px;"   title="Open File"  @click="open_file" )
-        img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/report.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Open File"  @click="open_file" )
+        img( v-show="!ilse.config.dark" src="@/assets/images/report.svg"      style="cursor: pointer;width:20px;margin-left: 15px;"   title="Statistics"  @click="open_statistics" )
+        img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/report.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Statistics"  @click="open_statistics" )
 
         // img( v-show="!ilse.config.dark" src="@/assets/images/math-function.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="toggle_first_brain_tools" accesskey="i" )
         // img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/math-function.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="toggle_first_brain_tools" accesskey="i" )
@@ -312,6 +312,11 @@ export default {
                 ilse.notification.send( "Already there", "The menu is already on!" )
             }
 
+        },
+
+        open_statistics() {
+            let component = new ilse.classes.Component({ type: "statistics", width: 12, props: {} })
+                ilse.components.push( component )
         },
 
         open_file() {

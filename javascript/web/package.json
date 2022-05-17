@@ -15,7 +15,7 @@
     "postuninstall": "VUE_APP_TARGET=ELECTRON electron-builder install-app-deps",
     "all": "VUE_APP_TARGET=ELECTRON electron-builder -wl"
   },
-  "main": "background.js",
+  "main": "dist_electron/bundled/background.js",
   "dependencies": {
     "browserfs": "^1.4.3",
     "clipboardy": "^2.3.0",
