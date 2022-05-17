@@ -88,6 +88,7 @@ export default {
         },
 
         on_right_click( event, component ) {
+            event.preventDefault()
             this.delete_component( component )
         },
 
