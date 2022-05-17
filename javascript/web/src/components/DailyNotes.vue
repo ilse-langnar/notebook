@@ -1,7 +1,7 @@
 <template lang="pug" >
 .daily-notes( style="height: 100%; " )
 
-    .day( v-for="( day, day_index ) in days" style="width: 95%; margin: 0 auto;" )
+    .day( v-for="( day, day_index ) in days" style="width: 97%; margin: 0 auto;" )
 
         .flex
             .options.centered

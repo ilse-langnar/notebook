@@ -1,5 +1,5 @@
 <template lang="pug" >
-.file( style="height: 200px; width: 90%; margin: 0 auto;" )
+.file( style="height: 200px; width: 95%; margin: 0 auto;" )
 
     .flex
         img.is-pulled-left( v-if="!ilse.config.favorites || !(ilse.config.favorites.indexOf(file) !== -1)" src="@/assets/images/star.svg" style="width: 20px; cursor: pointer; " @click="toggle_favorite(file)" title="Favorite" )

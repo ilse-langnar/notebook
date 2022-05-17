@@ -290,7 +290,6 @@ export default {
 
         toggle_menu() {
 
-            ilse.notification.send( "Already there", "The menu is already on!" )
             let has_menu_already = false
             let menu_index       = null
 
@@ -304,12 +303,12 @@ export default {
                 }
             }
 
-            if( !has_menu_already ) {
-                let component = new ilse.classes.Component({ type: "menu", width: 0 })
-                    ilse.components.unshift( component )
-            } else {
+            if( has_menu_already ) {
                 // ilse.components.splice( menu_index, 1 )
                 // ilse.notification.send( "Already there", "The menu is already on!" )
+            } else {
+                let component = new ilse.classes.Component({ type: "menu", width: 0 })
+                    ilse.components.unshift( component )
             }
 
         },
