@@ -290,6 +290,7 @@ export default {
 
         toggle_menu() {
 
+            ilse.notification.send( "Already there", "The menu is already on!" )
             let has_menu_already = false
             let menu_index       = null
 

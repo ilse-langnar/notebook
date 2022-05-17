@@ -86,8 +86,8 @@ export default {
     box-shadow: 2px 3px 5px rgba(0,0,0,.2);
     overflow: hidden;
     width: 40% !important;
-    color: #000;
-    background: #f1f1f1;
+    color: var(--text-color);
+    background: var(--background-color);
 }
 
 .notification {
@@ -102,111 +102,4 @@ export default {
     color: currentColor;
     text-decoration: underline;
 }
-
-.notification strong {
-  color: currentColor;
-}
-
-.notification code,
-.notification pre {
-  background: white;
-}
-
-.notification pre code {
-  background: transparent;
-}
-
-.notification > .delete {
-  right: 0.5rem;
-  position: absolute;
-  top: 0.5rem;
-}
-
-.notification .title,
-.notification .subtitle,
-.notification .content {
-  color: currentColor;
-}
-
-.notification.is-white {
-  background-color: white;
-  color: #0a0a0a;
-}
-
-.notification.is-black {
-  background-color: #0a0a0a;
-  color: white;
-}
-
-.notification.is-light {
-  background-color: whitesmoke;
-  color: rgba(0, 0, 0, 0.7);
-}
-
-.notification.is-dark {
-  background-color: #363636;
-  color: #fff;
-}
-
-.notification.is-primary {
-  background-color: #00d1b2;
-  color: #fff;
-}
-
-.notification.is-primary.is-light {
-  background-color: #ebfffc;
-  color: #00947e;
-}
-
-.notification.is-link {
-  background-color: #485fc7;
-  color: #fff;
-}
-
-.notification.is-link.is-light {
-  background-color: #eff1fa;
-  color: #3850b7;
-}
-
-.notification.is-info {
-  background-color: #3e8ed0;
-  color: #fff;
-}
-
-.notification.is-info.is-light {
-  background-color: #eff5fb;
-  color: #296fa8;
-}
-
-.notification.is-success {
-  background-color: #48c78e;
-  color: #fff;
-}
-
-.notification.is-success.is-light {
-  background-color: #effaf5;
-  color: #257953;
-}
-
-.notification.is-warning {
-  background-color: #ffe08a;
-  color: rgba(0, 0, 0, 0.7);
-}
-
-.notification.is-warning.is-light {
-  background-color: #fffaeb;
-  color: #946c00;
-}
-
-.notification.is-danger {
-  background-color: #f14668;
-  color: #fff;
-}
-
-.notification.is-danger.is-light {
-  background-color: #feecf0;
-  color: #cc0f35;
-}
-
-
 </style>
