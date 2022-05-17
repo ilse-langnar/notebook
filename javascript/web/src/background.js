@@ -91,7 +91,8 @@ ipcMain.on( "item", async ( event, payload ) => {
 
     if( op === "read" ) {
         if( is_linux ) child_process.exec( `xdg-open "${path}" ` )
-        if( is_windows ) child_process.exec( `start "${path}" ` )
+        // if( is_windows ) child_process.exec( `start "${path}" ` )
+        if( is_windows ) child_process.exec( `Invoke-Expression "${path}" ` )
     }
 
 })

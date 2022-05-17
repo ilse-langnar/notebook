@@ -136,7 +136,7 @@ export default {
     top: 50%;
     transform: translate( -50%, -50% );
     z-index: 13;
-    background: #fff;
+    background: var( --background-color );
     border-radius: 10px;
 }
 

@@ -96,7 +96,7 @@ export default {
         get_first_brain_last_item_info() {
 
             let last   = this.ilse.brains.first.get_last()
-                if( !last ) return "No Last"
+                if( !last ) return "You have 0 items on queue"
 
             let chunks = last.split("/")
                 let name     = chunks[0]

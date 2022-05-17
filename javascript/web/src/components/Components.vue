@@ -81,6 +81,7 @@ export default {
         },
 
         on_left_click( event, component ) {
+            event.preventDefault()
         },
 
         on_middle_click( event, component ) {
