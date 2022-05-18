@@ -31,8 +31,8 @@ class KeyboardShortcut  {
     }
 
     setup() {
-        // this.set_default_keys()
-        // this.bind_keys()
+        this.set_default_keys()
+        this.bind_keys()
         // this.set_key_codes()
         // this.add_default_key_codes()
     }
@@ -52,9 +52,11 @@ class KeyboardShortcut  {
     set_default_keys() {
 
         this.keys = [
-            { combo: "ctrl+space", command: "new-note" },
+            // { combo: "ctrl+space", command: "new-note" },
+            { combo: "ctrl+space", command: "open-command-pallet-modal" },
             { combo: "ctrl+.", command: "new-note" },
             { combo: "ctrl+s", command: "save" },
+            { combo: "ctrl+p", command: "open-command-pallet-modal" },
             { combo: "s", command: "note-search" },
             { combo: "f", command: "file-search" },
             { combo: "A", command: "Add Component" },
@@ -131,7 +133,7 @@ class KeyboardShortcut  {
         let combo = this.get_normalized_combo( key )
 
         Mousetrap.bindGlobal( combo, (event, combo ) => {
-            ilse.commands.exec( key.command )
+            ilse.commands.run( key.command )
         }, 'keydown' )
 
     }

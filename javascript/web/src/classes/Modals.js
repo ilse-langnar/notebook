@@ -19,6 +19,11 @@ class Modals {
         this.listen()
     }
 
+    has() {
+        printf( "this.modals -> ", this.modals )
+        return !!this.modals.length
+    }
+
     add({ id, name, component, props }) {
 
         let modal = {
@@ -72,6 +77,14 @@ class Modals {
             id: "help",
             name: "Help",
             component: ilse.types.get( "help" ),
+            props: {
+            },
+        })
+
+        this.add({
+            id: "command-pallet",
+            name: "Command Pallet",
+            component: ilse.types.get( "command-pallet" ),
             props: {
             },
         })

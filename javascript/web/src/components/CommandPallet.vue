@@ -3,44 +3,39 @@
 
     input.input( v-model="input" autofocus ref="command_pallet" @keydown.escape="turn_off" @keydown.enter="on_keydown_enter" @blur="on_blur" @input="on_input" @focus="on_focus" )
 
-    .columns
-        .column.is-3
+    .flex
+        .item
             p.is-size-6 {{search_result.length}} / {{ilse.commands.commands.length || 0}} ({{Math.floor(search_result.length * 100 / ilse.commands.commands.length)}}%)
-        .column.is-2
+        .item
             span Navigation: 
                 strong ↑↓ 
-        .column.is-3
+        .item
             span Run: 
                 strong ↪ 
-        .column.is-3
+        .item
             p Quit: 
                 strong ESC
+    br
 
-    .item( v-if="!search_result.length" v-for="( command, index ) in ilse.commands.commands" @click="run_command(command.name)" )
+    .flex( v-if="!search_result.length" v-for="( command, index ) in ilse.commands.commands" @click="run_command(command.name)" )
+        p.is-pulled-left.item {{command.name}}
 
-        .columns
-            .column.is-6
-                p.is-pulled-left {{command.name}}
+        // .column.is-3
+            .is-pulled-left.source( v-if="get_command_by_name(command.name) && get_command_by_name(command.name).props" ) {{get_command_by_name(command.name).props.source}} 
 
-            .column.is-3
-                .is-pulled-left.source( v-if="get_command_by_name(command.name) && get_command_by_name(command.name).props" ) {{get_command_by_name(command.name).props.source}} 
-
-            .column.is-2
-                kbd.is-pulled-right.shortcut( v-if="get_shortcut_by_name(command.name)" ) {{get_shortcut_by_name(command.name)}}
+        // .column.is-2
+            kbd.is-pulled-right.shortcut( v-if="get_shortcut_by_name(command.name)" ) {{get_shortcut_by_name(command.name)}}
 
     br
 
-    .item( v-if="search_result.length" v-for="( result, index ) in search_result" @click="run_command(result.target)" )
+    .flex( v-if="search_result.length" v-for="( result, index ) in search_result" @click="run_command(result.target)" )
+        p.is-pulled-left.item {{result.target}}
 
-        .columns
-            .column.is-6
-                p.is-pulled-left {{result.target}}
+        // .column.is-3
+            kbd.is-pulled-left.source( v-if="get_command_by_name(result.target) && get_command_by_name(result.target).props" ) {{get_command_by_name(result.target).props.source}} 
 
-            .column.is-3
-                kbd.is-pulled-left.source( v-if="get_command_by_name(result.target) && get_command_by_name(result.target).props" ) {{get_command_by_name(result.target).props.source}} 
-
-            .column.is-2
-                p.is-pulled-right.shortcut( v-if="get_shortcut_by_name(result.target)" :title="result.target" ) {{get_shortcut_by_name(result.target)}}
+        // .column.is-2
+            p.is-pulled-right.shortcut( v-if="get_shortcut_by_name(result.target)" :title="result.target" ) {{get_shortcut_by_name(result.target)}}
     br
 
 </template>
@@ -49,7 +44,7 @@
 const printf                        = console.log;
 
 // Ilse
-    import ilse             from "@/ilse.js"
+    import ilse                     from "@/ilse.js"
 
 export default {
 
@@ -97,7 +92,9 @@ export default {
         run_command( name ) {
 
             let command = this.get_command_by_name(name)
+            printf( "command -> ", command )
             let id      = command.id
+            printf( "id -> ", id )
 
             ilse.commands.run( id )
         },
@@ -145,8 +142,27 @@ export default {
         turn_off() {
         },
 
-        on_keydown_enter() {
-            this.search()
+        on_keydown_enter( event ) {
+
+            let has_result  = !!this.search_result.length
+            let ctrl        = event.ctrlKey
+
+            if( has_result ) {
+                let first_result = this.search_result[0].target
+                this.run_command( first_result )
+                ilse.modals.close()
+            } else {
+                this.search()
+
+                if( ctrl ) { // Instant Search
+                    setTimeout( () => {
+                        let first_result = this.search_result[0].target
+                        this.run_command( first_result )
+                        ilse.modals.close()
+                    }, 10 )
+                }
+            }
+
         },
 
         on_blur() {
@@ -163,11 +179,12 @@ export default {
             */
 
             let input           = this.input
+
             let list            = ilse.commands.commands.map( command => { return command.name }).filter( e=>e )
 
             let result          = ilse.utils.fuzzy_search( input, list )
-            this.search_result = result
 
+            this.search_result = result
         },
 
         on_input() {
@@ -185,3 +202,36 @@ export default {
 
 }
 </script>
+<style scoped>
+
+.flex .column {
+    margin-left: 30px;
+}
+
+.flex .item {
+    margin: 0 auto;
+}
+
+.item {
+}
+
+.flex p.item {
+    border: 1px solid var( --text-color );
+    width: 100%;
+    margin-bottom: 5px;
+    border-radius: var( --border-radius );
+    padding: 3px;
+}
+
+input.input {
+    background: var( --background-color );
+    color: var( --text-color );
+    border: 1px solid var( --text-color );
+    width: 100%;
+}
+
+strong  {
+    color: var( --text-color );
+}
+
+</style>

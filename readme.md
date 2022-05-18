@@ -19,10 +19,6 @@ Try the online [Demo](https://ilse-langnar.github.io/notebook/demo/index.html) o
 
 If anything goes wrong, please open a [Issue](https://github.com/ilse-langnar/notebook/issues/new).
 
-## Installing
-- [Installing](https://github.com/ilse-langnar/notebook/blob/dev/markdown/dev.md)
-- [Contributing](https://github.com/ilse-langnar/notebook/blob/dev/markdown/contributing.md)
-
 ## Why
 To augment human cognition with memory, references and more.
 Ilse is based on the Vitruvian Brain Framework: https://ilse-langnar.github.io/notebook/vitruvian-brain.html
@@ -51,3 +47,9 @@ Todo List
     - [ ] Make OS X build work
     - [ ] Make android client
     - [ ] Make iOS client
+
+## Installing
+- [Installing](https://github.com/ilse-langnar/notebook/blob/dev/markdown/dev.md)
+- [Contributing](https://github.com/ilse-langnar/notebook/blob/dev/markdown/contributing.md)
+
+

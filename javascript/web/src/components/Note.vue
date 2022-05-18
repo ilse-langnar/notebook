@@ -3,7 +3,7 @@
     p( slot="icon" :title="get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" ).paragraph-note ⚫
 
     // edit mode
-    textarea.textarea(  v-if="inote.is_editable || !inote.content" v-model="inote.content" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" placeholder="New" )
+    textarea.textarea(  v-if="inote.is_editable || !inote.content" v-model="inote.content" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" placeholder="New" @drop.prevent="add_file" @dragover.prevent )
 
     // show mode
     .markdown( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" style="1px solid green;" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )

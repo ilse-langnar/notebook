@@ -207,7 +207,6 @@ export default {
             let note = payload.note
             let depth  = note.depth
             let new_note = ilse.notes.add_after( "", depth, note )
-            // printf( "new_note -> ", new_note )
                 new_note.focus()
 
             setTimeout( () => { ilse.save() }, 1000 )
@@ -285,8 +284,6 @@ export default {
         },
 
         add( payload ) {
-
-            printf( "add payload -> ", payload )
 
             /*
             for( let i = 0; i < this.days.length; i++ ) {
@@ -384,9 +381,7 @@ export default {
 
                     let is_equal
                     let day         = this.get_note_day( after )
-                    printf( "> day -> ", day )
                     let note_index  = day.notes.indexOf( after )
-                    printf( "> note_index -> ", note_index )
                     let day_index   = this.days.indexOf( day )
                         this.days[day_index].notes.splice( ++note_index, 0, new_note )
 

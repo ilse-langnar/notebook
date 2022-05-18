@@ -78,10 +78,6 @@ export default {
 
             Messager.on( "modals.vue", ( action, payload ) =>  {
 
-                printf( "modals.vue -> action -> ", action )
-                printf( "modals.vue -> payload -> ", payload )
-                printf( "ilse.modals.modals ->  ", ilse.modals.modals )
-
                 if( action === 'open' ) {
                     this.listen_key_up()
                     this.active_modal = payload.target
@@ -137,6 +133,7 @@ export default {
     transform: translate( -50%, -50% );
     z-index: 13;
     background: var( --background-color );
+    border: 1px solid var( --text-color );
     border-radius: 10px;
 }
 

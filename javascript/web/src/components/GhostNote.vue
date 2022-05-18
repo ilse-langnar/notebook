@@ -1,7 +1,7 @@
 <template lang="pug" >
 .ghost-note.flex( :style="style" )
     p.paragraph-note ⚫
-    textarea.textarea.rendered( v-model="content" @input="on_input" @blur="on_blur" @focus="on_focus" placeholder="New note Content" @keydown.enter="on_keydown_enter" @keydown.tab="on_keydown_tab" )
+    textarea.textarea.rendered( v-model="content" @input="on_input" @blur="on_blur" @focus="on_focus" placeholder="New note Content" @keydown.enter="on_keydown_enter" @keydown.tab="on_keydown_tab" @drop.prevent="add_file" @dragover.prevent )
 
 </template>
 <script>
@@ -40,6 +40,25 @@ export default {
 
     methods: {
 
+        async add_file( event ) {
+
+            let file        = event.dataTransfer.files[0] 
+
+            let fileData    = new Blob( [file] )
+            let arrayBuffer = await fileData.arrayBuffer() 
+            const buffer    = Buffer.from( arrayBuffer  ,'binary' )
+            let blob        = buffer
+
+            // Write to FS
+                await ilse.filesystem.file.set( ilse.path.join("second", file.name), blob )
+
+            // Contentt
+                let content = `${this.content} ![[${file.name}]]`
+
+            // Emit Event
+                this.$emit( "on-enter", { content: content, payload: this.payload })
+        },
+
         on_keydown_tab() {
             event.preventDefault()
             this.$emit( "on-enter", { content: this.content, payload: this.payload })
@@ -47,7 +66,6 @@ export default {
         },
 
         on_keydown_enter( event ) {
-
             event.preventDefault()
             this.$emit( "on-enter", { content: this.content, payload: this.payload })
             this.reset()

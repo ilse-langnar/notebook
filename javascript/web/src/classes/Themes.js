@@ -198,8 +198,6 @@ export default class Theme {
 
         // === Remove from style === //
         let child     = document.getElementById( `css-${note.id}` )
-        printf( "child -> ", child )
-        printf( "note -> ", note )
         let has_child = child && child.remove
             if( has_child ) child.remove()
         // === Remove from style === //
@@ -211,7 +209,6 @@ export default class Theme {
         for( const snippet of this.snippets ) {
             index++
 
-            printf( "snippet -> ", snippet )
             has_found   = snippet.note.id === note.id
             if( has_found ) this.snippets.splice( index, 1 )
         }

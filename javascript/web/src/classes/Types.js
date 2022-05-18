@@ -359,7 +359,6 @@ class componentTypes {
             }
         })
 
-
     }
 
     get( id ) {

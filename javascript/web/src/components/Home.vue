@@ -7,6 +7,7 @@
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded " :key="ilse.key" :data-theme="get_data_theme()" )
 
         TopMenu
+        button.button( @click="open_shortcuts" ) Command Pallet
 
         .vitruvian-brain( style="position: fixed; bottom: 0px; left: 0px; z-index: 99; " )
 
@@ -92,6 +93,10 @@ export default {
     },
 
     methods: {
+
+        open_shortcuts() {
+            ilse.modals.open( "keyboard-shortcut" )
+        },
 
         get_first_brain_last_item_info() {
 
@@ -188,7 +193,8 @@ export default {
 </script>
 <style>
 
-:root, .ilse[data-theme='light'] {
+:root,
+.ilse[data-theme='light'] {
     --background-color: #fff;
     --text-color: #4a4a4a;
     --border: 1px solid #4a4a4a;
