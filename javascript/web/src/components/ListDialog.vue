@@ -6,8 +6,13 @@
         .shadow( v-if="dialog.type === 'list' " @click="on_shadow_click($event, dialog)" )
             .dialog-wrapper( @click="on_dialog_click" )
                 .dialog
+                    h1.has-text-centered {{dialog.title}}
+                    h4.has-text-centered {{dialog.description}}
                     .item( v-for="( item, item_index ) in dialog.list" @click="on_item_click(dialog, item)" )
                         p {{item}}
+
+                    button.button.slick-button( @click="cancel(dialog)" ) Cancel
+                    button.button.slick-button.is-pulled-right( @click="ok(dialog)" ) Confirm
 </template>
 <script>
 // eslint-disable-next-line
@@ -120,17 +125,23 @@ export default {
 </script>
 <style scoped>
 
+.dialog .list {
+}
+
 .dialog-wrapper {
+    color: var( --text-color ) !important;
+    background: var( --background-color ) !important;
+    border: 1px solid var( --text-color );
+
     position: fixed;
 
-    width: 20%;
     height: 20%;
 
 
-    width: auto;
-        max-width: 43vw;
-        min-width: 30vw;
-    height: auto;
+    width: 70vw;
+        /*max-width: 43vw;
+        min-width: 30vw;*/
+    height: 50vh;
 
 
     left: 50%;
@@ -140,6 +151,7 @@ export default {
     background: #fff;
     border-radius: 10px;
     padding: 15px;
+    overflow: auto;
 }
 
 .shadow {
@@ -176,6 +188,12 @@ export default {
     border: 1px solid #000;
     border-radius: 5px;
     padding: 2px;
+}
+
+.item p {
+    border: 1px solid var( --text-color );
+    padding: var( --padding );
+    border-radius: var( --border-radius );
 }
 
 </style>

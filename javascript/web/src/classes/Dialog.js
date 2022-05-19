@@ -107,6 +107,8 @@ export default class Dialog {
 
     listing( title = "Title", description = "Description", list = [ ], fn ) {
 
+        if( !fn ) throw new Error( "ERROR: Dialog.js -> listeing -> fn is not defined ilse.dialog.listing('title', 'description', [], function(){} )" )
+
         let input = {
             title,
             type: "list",

@@ -7,9 +7,8 @@
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded " :key="ilse.key" :data-theme="get_data_theme()" )
 
         TopMenu
-        button.button( @click="open_shortcuts" ) Command Pallet
 
-        .vitruvian-brain( style="position: fixed; bottom: 0px; left: 0px; z-index: 99; " )
+        .vitruvian-brain( style="position: fixed; bottom: 0px; left: 0px; z-index: 99; " @drop.prevent="add_file" @dragover.prevent )
 
             .closed( v-if="!ilse.is_vitruvian_expanded" )
                 img( v-if="!ilse.config.dark" src="@/assets/images/math-function.svg"      style="cursor: pointer; width: 30px; "   title="Open Vitruvian Study" @click="toggle_vitruvian_brain" )
@@ -93,6 +92,32 @@ export default {
     },
 
     methods: {
+
+        async add_file() {
+
+            let file        = event.dataTransfer.files[0] 
+
+            let fileData    = new Blob( [file] )
+            let arrayBuffer = await fileData.arrayBuffer() 
+            const buffer    = Buffer.from( arrayBuffer  ,'binary' )
+            let string      = buffer.toString()
+            let list        = string.split("\n")
+                list            = list.filter( e=>e )
+            let blob        = buffer
+
+            try {
+                ilse.dialog.listing( "Add those items?", "Those items will be added to your first brain, and will be scheduled repeatedly.", list, function() {} )
+                // add somehow
+            } catch( e ) {
+            }
+
+            // await ilse.filesystem.file.set( ilse.path.join("second", file.name), blob )
+
+            // this.inote.focus()
+
+            // setTimeout( () => {
+                // this.inote.caret.add( ` ![[${file.name}]]` ) }, 100 )
+        },
 
         open_shortcuts() {
             ilse.modals.open( "keyboard-shortcut" )
@@ -199,6 +224,7 @@ export default {
     --text-color: #4a4a4a;
     --border: 1px solid #4a4a4a;
     --border-radius: 6px;
+    --padding: 4px;
 }
 
 .ilse[data-theme="dark"] {
@@ -206,6 +232,7 @@ export default {
     --text-color: #fff;
     --border: 2px solid #777;
     --border-radius: 6px;
+    --padding: 4px;
 }
 
 .ilse  {

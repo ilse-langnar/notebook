@@ -114,11 +114,13 @@ export default {
     margin: 24px;
     appearance: none;
     background-color: #FAFBFC;
-    border: 1px solid rgba(27, 31, 35, 0.15);
+    background-color: var( --background-color );
+    /*border: 1px solid rgba(27, 31, 35, 0.15);*/
     border-radius: 6px;
     box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
     box-sizing: border-box;
     color: #24292E;
+    color: var( --text-color );
     cursor: pointer;
     display: inline-block;
     font-family: Mary, -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
@@ -137,6 +139,7 @@ export default {
     word-wrap: break-word;
     display: block;
     margin: 1em auto;
+    border: 1px solid var( --text-color ) !important;
 }
 
 .is-light {
