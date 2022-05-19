@@ -41,3 +41,4 @@ meta.json
 #Electron-builder output
 /dist_electrondist_electro/
 dist_electron
+dist.tar.gz
