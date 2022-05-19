@@ -2,26 +2,26 @@
 const printf    = console.log
 
 // import { app, protocol, BrowserWindow, ipcMain, dialog, globalShortcut, remote } from 'electron'
-// import { app, protocol, BrowserWindow, ipcMain, dialog, globalShortcut, remote } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain, dialog, globalShortcut, remote } from 'electron'
 
-const electron      = require( "electron" )
-    const app           = electron.app
-    const protocol      = electron.protocol
-    const BrowserWindow = electron.BrowserWindow
-    const ipcMain       = electron.ipcMain
-    const dialog        = electron.dialog
-    const globalShortcut= electron.globalShortcut
-    const remote        = electron.remote
+// const electron      = require( "electron" )
+    // const app           = electron.app
+    // const protocol      = electron.protocol
+    // const BrowserWindow = electron.BrowserWindow
+    // const ipcMain       = electron.ipcMain
+    // const dialog        = electron.dialog
+    // const globalShortcut= electron.globalShortcut
+    // const remote        = electron.remote
 
 // import find from "electron-find"
 
-// import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
-const createProtocol = require('vue-cli-plugin-electron-builder/lib').createProtocol
+import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
+// const createProtocol = require('vue-cli-plugin-electron-builder/lib').createProtocol
 
 // import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 
-// import path from 'path'
-const path = require('path')
+import path from 'path'
+// const path = require('path')
 
 // import os from "os"
 const os = require("os")
@@ -29,7 +29,7 @@ const os = require("os")
 // import child_process from "child_process"
 const child_process = require("child_process")
 
-const PDFWindow     = require('electron-pdf-window')
+// const PDFWindow     = require('electron-pdf-window')
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
     // app.quit()
@@ -91,8 +91,7 @@ ipcMain.on( "item", async ( event, payload ) => {
 
     if( op === "read" ) {
         if( is_linux ) child_process.exec( `xdg-open "${path}" ` )
-        // if( is_windows ) child_process.exec( `start "${path}" ` )
-        if( is_windows ) child_process.exec( `Invoke-Expression "${path}" ` )
+        if( is_windows ) child_process.exec( `start "${path}" ` )
     }
 
 })

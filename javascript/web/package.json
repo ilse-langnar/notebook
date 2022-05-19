@@ -8,14 +8,14 @@
     "build:demo": "VUE_APP_TARGET=DEMO vue-cli-service build",
     "serve:demo": "VUE_APP_TARGET=DEMO vue-cli-service serve",
     "build-electron": "VUE_APP_TARGET=ELECTRON bash scripts/build.sh",
-    "electron:build": "VUE_APP_TARGET=ELECTRON vue-cli-service electron:build -p always",
+    "electron:build": "VUE_APP_TARGET=ELECTRON vue-cli-service electron:build",
     "electron:all": "npm run electron:build -- --linux deb --win nsis",
     "electron:serve": "VUE_APP_TARGET=ELECTRON vue-cli-service electron:serve",
     "postinstall": "VUE_APP_TARGET=ELECTRON electron-builder install-app-deps",
     "postuninstall": "VUE_APP_TARGET=ELECTRON electron-builder install-app-deps",
     "all": "VUE_APP_TARGET=ELECTRON electron-builder -wl"
   },
-  "main": "dist_electron/bundled/background.js",
+  "main": "background.js",
   "dependencies": {
     "browserfs": "^1.4.3",
     "clipboardy": "^2.3.0",
