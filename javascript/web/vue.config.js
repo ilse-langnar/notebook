@@ -17,6 +17,7 @@ module.exports = {
                 }
             },
             nodeModulesPath: [ './node_modules' ],
+            // mainProcessFile: 'dist_electron/bundled/background.js',
             nodeIntegration: true,
             preload: 'src/preload.js',
         }

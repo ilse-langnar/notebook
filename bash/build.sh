@@ -2,8 +2,8 @@
 
 
 cd javascript/web;
-gvfs-trash "dist"
-gvfs-trash "dist_electron"
+# gvfs-trash "dist"
+# gvfs-trash "dist_electron"
 
 pwd
 npm run electron:build
