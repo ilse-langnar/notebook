@@ -5,21 +5,15 @@
 
     .display-mode
 
-        img( v-show="is_markdown_mode_on && !ilse.config.dark" src="@/assets/images/markdown.svg" @click="toggle_markdown_mode"  title="Render results as markdown?" aria-role="markdown" alt="markdown-mode" )
-        img( v-show="is_markdown_mode_on && ilse.config.dark" src="@/assets/images/dark-mode/markdown.svg" @click="toggle_markdown_mode"  title="Render results as markdown?" aria-role="markdown" alt="markdown-mode" )
+        img( v-show="is_markdown_mode_on" src="@/assets/images/markdown.svg" @click="toggle_markdown_mode"  title="Render results as markdown?" aria-role="markdown" alt="markdown-mode" )
 
-        img( v-show="!is_markdown_mode_on && !ilse.config.dark" src="@/assets/images/letter-case.svg" @click="toggle_markdown_mode"  title="Render results as text?" aria-role="text" alt="text-mode" )
-        img( v-show="!is_markdown_mode_on && ilse.config.dark" src="@/assets/images/dark-mode/letter-case.svg" @click="toggle_markdown_mode"  title="Render results as text?" aria-role="text" alt="text-mode" )
+        img( v-show="!is_markdown_mode_on" src="@/assets/images/letter-case.svg" @click="toggle_markdown_mode"  title="Render results as text?" aria-role="text" alt="text-mode" )
 
+        img( v-show="filter === 'notes' " src="@/assets/images/point.svg" @click="toggle_filter_mode"  title="Toggle Filter" aria-role="markdown" alt="markdown-mode" )
 
-        img( v-show="filter === 'notes' && !ilse.config.dark" src="@/assets/images/point.svg" @click="toggle_filter_mode"  title="Toggle Filter" aria-role="markdown" alt="markdown-mode" )
-        img( v-show="filter === 'notes' && ilse.config.dark" src="@/assets/images/dark-mode/point.svg" @click="toggle_filter_mode"  title="Toggle Filter" aria-role="markdown" alt="markdown-mode" )
+        img( v-show="filter === 'files' " src="@/assets/images/file.svg" @click="toggle_filter_mode"  title="Toggle Filter" aria-role="text" alt="text-mode" )
 
-        img( v-show="filter === 'files' && !ilse.config.dark" src="@/assets/images/file.svg" @click="toggle_filter_mode"  title="Toggle Filter" aria-role="text" alt="text-mode" )
-        img( v-show="filter === 'files' && ilse.config.dark" src="@/assets/images/dark-mode/file.svg" @click="toggle_filter_mode"  title="Toggle Filter" aria-role="text" alt="text-mode" )
-
-        img( v-show="filter === 'all' && !ilse.config.dark" src="@/assets/images/filter.svg" @click="toggle_filter_mode"  title="Toggle Filter" aria-role="text" alt="text-mode" )
-        img( v-show="filter === 'all' && ilse.config.dark" src="@/assets/images/dark-mode/filter.svg" @click="toggle_filter_mode"  title="Toggle Filter" aria-role="text" alt="text-mode" )
+        img( v-show="filter === 'all' " src="@/assets/images/filter.svg" @click="toggle_filter_mode"  title="Toggle Filter" aria-role="text" alt="text-mode" )
 
 
 

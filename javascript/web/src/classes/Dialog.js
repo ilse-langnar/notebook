@@ -53,7 +53,7 @@ export default class Dialog {
     }
 
     // Show the "confirm" dialog. returns a promised that is resolved when the user cliks on "cancel", "confirm" or "cancel"(background-click)
-    confirm( title = "Title", description = "Description" ) {
+    async confirm( title = "Title", description = "Description" ) {
 
         let confirm = {
             title,

@@ -4,7 +4,6 @@
     .component( v-show="components.length && component.is_on" v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
 
         img.is-pulled-right(
-            v-show="!ilse.config.dark"
             src="@/assets/images/point.svg"
 
             @click.shift="on_shift_click(component_index)"
@@ -17,22 +16,6 @@
 
             style="width: 20px; cursor: pointer; margin: 0.5em; "
             :title="get_title(component)"
-            v-popover="{ name: component.id, position: get_popover_position(component_index) }" )
-
-        img.is-pulled-right(
-            v-show="ilse.config.dark"
-            src="@/assets/images/dark-mode/point.svg"
-
-            @click.shift="on_shift_click(component_index)"
-            @click.left="on_left_click($event, component)"
-            @click.middle="on_middle_click($event, component)"
-            @click.right="on_right_click($event, component)"
-            @dblclick="on_db_click(component)"
-            @wheel="on_wheel($event, component)"
-            @contextmenu="function(){}" 
-
-            style="width: 20px; cursor: pointer; margin: 0.5em; "
-            title="get_title(component)"
             v-popover="{ name: component.id, position: get_popover_position(component_index) }" )
 
         br

@@ -48,15 +48,7 @@ export default {
     methods: {
 
         get_img( img ) {
-
-            let result 
-
-            if( ilse.config.dark ) {
-                result = require(`@/assets/images/dark-mode/${img}`)
-            } else {
-                result = require(`@/assets/images/${img}`)
-            }
-
+            let result = require(`@/assets/images/${img}`)
             return result
         },
 

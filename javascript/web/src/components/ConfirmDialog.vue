@@ -143,6 +143,20 @@ export default {
     z-index: 1 !important;
 }
 
+.dialog-wrapper {
+    color: var( --text-color ) !important;
+    background: var( --background-color ) !important;
+    border: 1px solid var( --text-color );
+}
+
+.dialog.confirm p.title {
+    color: var( --text-color ) !important;
+}
+
+.dialog.confirm p.description {
+    color: var( --text-color ) !important;
+}
+
 .dialog .description {
     justify-content: center;
     font-weight: 100;

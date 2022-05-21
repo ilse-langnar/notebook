@@ -3,48 +3,36 @@
 
     .menu-item( style="margin: auto;" )
 
-        img( v-show="!ilse.config.dark" src="@/assets/images/menu.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Add Menu"  @click="toggle_menu" accesskey="m" )
-        img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/menu.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Add Menu"  @click="toggle_menu" accesskey="m" )
+        img( src="@/assets/images/menu.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Add Menu"  @click="toggle_menu" accesskey="m" )
 
         .vspace
 
-        img( v-show="!ilse.config.dark" src="@/assets/images/calendar.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   title="Go to Daily Notes"  @click="add_daiyl_notes" accesskey="d" )
-        img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/calendar.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   title="Go to Daily Notes"  @click="add_daiyl_notes" accesskey="d" )
+        img( src="@/assets/images/calendar.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   title="Go to Daily Notes"  @click="add_daiyl_notes" accesskey="d" )
 
-        img( v-show="!ilse.config.dark" src="@/assets/images/news.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Open File"  @click="open_file" accesskey="o" )
-        img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/news.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Open File"  @click="open_file" accesskey="o" )
+        img( src="@/assets/images/news.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Open File"  @click="open_file" accesskey="o" )
 
         .vspace
 
-        img( v-show="!ilse.config.dark" src="@/assets/images/report.svg"      style="cursor: pointer;width:20px;margin-left: 15px;"   title="Statistics"  @click="open_statistics" )
-        img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/report.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Statistics"  @click="open_statistics" )
+        img( src="@/assets/images/report.svg"      style="cursor: pointer;width:20px;margin-left: 15px;"   title="Statistics"  @click="open_statistics" )
 
-        // img( v-show="!ilse.config.dark" src="@/assets/images/math-function.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="toggle_first_brain_tools" accesskey="i" )
-        // img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/math-function.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="toggle_first_brain_tools" accesskey="i" )
+        // img( src="@/assets/images/math-function.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="toggle_first_brain_tools" accesskey="i" )
 
 
         // .did( style="margin-top: 10px; clear: both; margin-left: 65px;" )
         .did( style="width: 300px; height: 100px; position: fixed; bottom: 10px; left: 0px;" )
-            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/player-play.svg"      style="cursor: pointer; width: 20px; "   title="Toggle First Brain Tools"  @click="ilse.brains.first.read_first()" accesskey="i" )
-            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/player-play.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.read_first()" accesskey="i" )
+            img( v-show="has_first_brain_tools" src="@/assets/images/player-play.svg"      style="cursor: pointer; width: 20px; "   title="Toggle First Brain Tools"  @click="ilse.brains.first.read_first()" accesskey="i" )
 
-            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/trash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.remove()" accesskey="i" )
-            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/trash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.remove()" accesskey="i" )
+            img( v-show="has_first_brain_tools" src="@/assets/images/trash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.remove()" accesskey="i" )
 
-            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/arrows-shuffle.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.shuffle()" accesskey="i" )
-            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/arrows-shuffle.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.shuffle()" accesskey="i" )
+            img( v-show="has_first_brain_tools" src="@/assets/images/arrows-shuffle.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.shuffle()" accesskey="i" )
 
-            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/lupe.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.show_query( item => ilse.brains.first.read(item) )" accesskey="i" )
-            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/lupe.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.show_query( item => ilse.brains.first.read(item) )" accesskey="i" )
+            img( v-show="has_first_brain_tools" src="@/assets/images/lupe.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.show_query( item => ilse.brains.first.read(item) )" accesskey="i" )
 
-            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/hash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.add_topic()" accesskey="i" )
-            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/hash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.add_topic()" accesskey="i" )
+            img( v-show="has_first_brain_tools" src="@/assets/images/hash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.add_topic()" accesskey="i" )
 
-            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/plus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.increase()" accesskey="i" )
-            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/plus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.increase()" accesskey="i" )
+            img( v-show="has_first_brain_tools" src="@/assets/images/plus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.increase()" accesskey="i" )
 
-            img( v-show="!ilse.config.dark && has_first_brain_tools" src="@/assets/images/minus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.decrease()" accesskey="i" )
-            img( v-show="ilse.config.dark && has_first_brain_tools" src="@/assets/images/dark-mode/minus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.decrease()" accesskey="i" )
+            img( v-show="has_first_brain_tools" src="@/assets/images/minus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.decrease()" accesskey="i" )
             p( v-if="has_first_brain_tools" ) {{get_first_brain_last_item_info()}}
 
 
@@ -62,36 +50,29 @@
         // .margin-small
 
 
-        img( v-show="!ilse.config.dark" src="@/assets/images/save.svg"   style="cursor: pointer; width: 20px; " title="Save" alt="Save" @click="save" accesskey="s" )
-        img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/save.svg"   style="cursor: pointer; width: 20px; " title="Save" alt="Save" @click="save" accesskey="s" )
+        img( src="@/assets/images/save.svg"   style="cursor: pointer; width: 20px; " title="Save" alt="Save" @click="save" accesskey="s" )
 
         .margin-small
 
-        img( v-show="!ilse.config.dark" src="@/assets/images/settings.svg"     style="cursor: pointer; width: 20px; " title="Configurations" @click="open_configuration_modal" accesskey="c" )
-        img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/settings.svg"     style="cursor: pointer; width: 20px; " title="Configurations" @click="open_configuration_modal" accesskey="c" )
+        img( src="@/assets/images/settings.svg"     style="cursor: pointer; width: 20px; " title="Configurations" @click="open_configuration_modal" accesskey="c" )
 
         .margin-small
 
-        img( v-show="!ilse.config.dark" src="@/assets/images/folders.svg"    style="cursor: pointer; width: 20px; "   title="Help/Manual/Tutorial/APIs" @click="test" v-popover="{ name: 'folders', position: 'bottom' }" )
-        img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/folders.svg"    style="cursor: pointer; width: 20px; "   title="Help/Manual/Tutorial/APIs" @click="test" v-popover="{ name: 'folders', position: 'bottom' }" )
+        img( src="@/assets/images/folders.svg"    style="cursor: pointer; width: 20px; "   title="Help/Manual/Tutorial/APIs" @click="test" v-popover="{ name: 'folders', position: 'bottom' }" )
 
         .margin-small
-        img( v-show="!ilse.config.dark" src="@/assets/images/lifebuoy.svg"    style="cursor: pointer; width: 20px; "   title="Help/Manual/Tutorial/APIs" accesskey="h" @click="open_help_modal" )
-        img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/lifebuoy.svg"    style="cursor: pointer; width: 20px; "   title="Help/Manual/Tutorial/APIs" accesskey="h" @click="open_help_modal" )
+        img( src="@/assets/images/lifebuoy.svg"    style="cursor: pointer; width: 20px; "   title="Help/Manual/Tutorial/APIs" accesskey="h" @click="open_help_modal" )
 
         .margin-large
-        img.is-pulled-right( v-show="!ilse.config.dark" src="@/assets/images/moon-stars.svg"   style="cursor: pointer; width: 20px; " title="Toggle Dark Mode" @click="toggle_dark_mode()" )
-        img.is-pulled-right( v-show="ilse.config.dark" src="@/assets/images/dark-mode/sun.svg"   style="cursor: pointer; width: 20px; " title="Toggle Dark Mode" @click="toggle_dark_mode()" )
+        img.is-pulled-right( src="@/assets/images/moon-stars.svg"   style="cursor: pointer; width: 20px; " title="Toggle Dark Mode" @click="toggle_dark_mode()" )
 
     Popover( direction="bottom" name="folders" style="width: 300px; background: var( --background-color ); color: var( --text-color ); " )
         .folders( style="padding: 5px; overflow: hidden; " )
             .folder( v-for="( folder, index ) in ilse.target_directories" :key="index" @click="select_folder(folder)" :style="get_target_directory_style(folder)" :title="'Use ' + folder" )
-                img.is-pulled-right( v-if="!ilse.config.dark" src="@/assets/images/x.svg" style="width: 20px; display: block; margin: 0 auto;" title="Add another folder" @click="delete_dir(folder)" )
-                img.is-pulled-right( v-if="ilse.config.dark" src="@/assets/images/dark-mode/x.svg" style="width: 20px; display: block; margin: 0 auto;" title="Add another folder" @click="delete_dir(folder)" )
+                img.is-pulled-right( src="@/assets/images/x.svg" style="width: 20px; display: block; margin: 0 auto;" title="Add another folder" @click="delete_dir(folder)" )
 
                 p {{folder}}
-            img( v-if="!ilse.config.dark" src="@/assets/images/plus.svg" style="width: 30px; display: block; margin: 0 auto;" @click="add_target_directory" title="Add another folder" )
-            img( v-if="ilse.config.dark" src="@/assets/images/dark-mode/plus.svg" style="width: 30px; display: block; margin: 0 auto;" @click="add_target_directory" title="Add another folder" )
+            img( src="@/assets/images/plus.svg" style="width: 30px; display: block; margin: 0 auto;" @click="add_target_directory" title="Add another folder" )
 
 </template>
 <script>

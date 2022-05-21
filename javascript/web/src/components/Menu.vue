@@ -2,18 +2,15 @@
 .menu
     br
     // .item.flex
-        img( v-show="!ilse.config.dark" src="@/assets/images/calendar.svg" style="width: 18px;")
-        img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/calendar.svg" style="width: 18px;")
+        img( src="@/assets/images/calendar.svg" style="width: 18px;")
         p( @click="add_daily_notes" title="Daily Notes" ) Daily Notes
 
     // .item.flex
-        img( v-show="!ilse.config.dark" src="@/assets/images/math-function.svg" style="width: 18px;")
-        img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/math-function.svg" style="width: 18px;")
+        img( src="@/assets/images/math-function.svg" style="width: 18px;")
         p( @click="interest_repetition" title="Interest Repetition" ) Interest Repetition
 
     // .item.flex
-        img( v-show="!ilse.config.dark" src="@/assets/images/report.svg" style="width: 18px;")
-        img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/report.svg" style="width: 18px;")
+        img( src="@/assets/images/report.svg" style="width: 18px;")
         p( @click="statistics" title="Statistics") Statistics
 
     .mini-space

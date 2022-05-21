@@ -68,64 +68,6 @@ export default {
             return theme
         },
 
-        /*
-        async info_dialog() {
-            ilse.dialog.info( "Title", "something else" )
-        },
-
-        async confirm_dialog() {
-            ilse.dialog.confirm( "Title", "something else" )
-        },
-
-        async input_dialog() {
-            ilse.dialog.input( "Title", "something else" )
-        },
-
-        notify() {
-            ilse.notification.send( "New Message", "Hey man, could you switch away from that gas-thing from now on?" )
-        },
-
-        test() {
-            ilse.ipc.send( "hello" )
-        },
-
-        dialog() {
-            ilse.electron.dialog.open()
-        },
-
-        open_modal() {
-            ilse.modals.open( "test" )
-        },
-
-        async confirm_dialog() {
-
-            try {
-                let o = await ilse.dialog.confirm( "Delete this note?", "Are you sure you want to delete this note? There's no going back! Make sure you have your backup secured." )
-            } catch( e ) {
-                printf( "e -> ", e )
-            }
-
-        },
-
-        save() {
-            ilse.save()
-        },
-
-        add_component() {
-            let component = new ilse.classes.Component()
-                ilse.components.push( component )
-        },
-
-        get_component_style( component ) {
-            let style = `flex: ${component.flex}; margin-left: 10px; height: 100%; `
-            return style
-        },
-
-        get_theme_type() {
-            return ilse.themes.type
-        },
-        */
-
         setup() {
 
         },
@@ -141,16 +83,30 @@ export default {
 
 :root,
 .ilse[data-theme='light'] {
+
     --background-color: #fff;
+    --background-color: #E9E9E9;
+
     --text-color: #4a4a4a;
+    --text-color: #BABABA;
+    --text-color: #717171;
+
+
     --border: 1px solid #4a4a4a;
     --border-radius: 6px;
     --padding: 4px;
 }
 
 .ilse[data-theme="dark"] {
+
     --background-color: #000;
+    --background-color: #212121;
+    --background-color: #181C20;
+    --background-color: #0E1011;
+
     --text-color: #fff;
+    --text-color: #F8F8F8;
+
     --border: 2px solid #777;
     --border-radius: 6px;
     --padding: 4px;
