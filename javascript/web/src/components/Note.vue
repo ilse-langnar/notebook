@@ -270,6 +270,9 @@ export default {
 
         on_focus( event, inote ) {
 
+            let shift = event.shiftKey
+                if( shift ) return
+
             // BUGFIX: 
             let is_note_malformed = !inote.content || !inote.id
                 if( is_note_malformed ) return ""
