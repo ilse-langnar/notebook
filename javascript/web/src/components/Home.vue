@@ -7,48 +7,12 @@
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded " :key="ilse.key" :data-theme="get_data_theme()" )
 
         TopMenu
-
-        .vitruvian-brain( style="position: fixed; bottom: 0px; left: 0px; z-index: 99; " @drop.prevent="add_file" @dragover.prevent )
-
-            .closed( v-if="!ilse.is_vitruvian_expanded" )
-                img( v-if="!ilse.config.dark" src="@/assets/images/math-function.svg"      style="cursor: pointer; width: 30px; "   title="Open Vitruvian Study" @click="toggle_vitruvian_brain" )
-                img( v-if="ilse.config.dark" src="@/assets/images/dark-mode/math-function.svg" style="cursor: pointer; width: 30px; " title="Open Vitruvian Study" @click="toggle_vitruvian_brain" )
-
-            .open( v-if="ilse.is_vitruvian_expanded" style="width: 300px; height: 140px; position: fixed; bottom: 0px; left: 0px; overflow: hidden; " )
-
-                img( v-show="!ilse.config.dark" src="@/assets/images/math-function.svg"      style="cursor: pointer; width: 30px; "   title="Open Vitruvian Study" @click="toggle_vitruvian_brain" )
-                img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/math-function.svg" style="cursor: pointer; width: 30px; " title="Open Vitruvian Study" @click="toggle_vitruvian_brain" )
-                br
-
-                img( v-show="!ilse.config.dark" src="@/assets/images/player-play.svg"      style="cursor: pointer; width: 20px; "   title="Toggle First Brain Tools"  @click="ilse.brains.first.read_first()" accesskey="i" )
-                img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/player-play.svg"      style="cursor: pointer; width: 20px; "   title="Toggle First Brain Tools"  @click="ilse.brains.first.read_first()" accesskey="i" )
-
-                img( v-show="!ilse.config.dark" src="@/assets/images/trash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.remove()" accesskey="i" )
-                img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/trash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.remove()" accesskey="i" )
-
-                img( v-show="!ilse.config.dark" src="@/assets/images/arrows-shuffle.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.shuffle()" accesskey="i" )
-                img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/arrows-shuffle.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.shuffle()" accesskey="i" )
-
-                img( v-show="!ilse.config.dark" src="@/assets/images/lupe.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.show_query( item => ilse.brains.first.read(item) )" accesskey="i" )
-                img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/lupe.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.show_query( item => ilse.brains.first.read(item) )" accesskey="i" )
-
-                img( v-show="!ilse.config.dark" src="@/assets/images/hash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.add_topic()" accesskey="i" )
-                img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/hash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.add_topic()" accesskey="i" )
-
-                img( v-show="!ilse.config.dark" src="@/assets/images/plus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.increase()" accesskey="i" )
-                img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/plus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.increase()" accesskey="i" )
-
-                img( v-show="!ilse.config.dark" src="@/assets/images/minus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.decrease()" accesskey="i" )
-                img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/minus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.decrease()" accesskey="i" )
-
-                p( :title="get_first_brain_last_item_info()" ) {{get_first_brain_last_item_info()}}
-
         Components( :components="ilse.components" unique-key="home" )
 
         Modals
         Dialogs
         Notifications( v-if="ilse.has_loaded" )
-
+        FirstBrainWidget
 </template>
 <script>
 // eslint-disable-next-line
@@ -67,6 +31,7 @@ const printf                                        = console.log;
     import Dialogs          from "@/components/Dialogs.vue"
     import Notifications    from "@/components/Notifications.vue"
     import Components       from "@/components/Components.vue"
+    import FirstBrainWidget from "@/components/FirstBrainWidget.vue"
 
 export default {
 
@@ -82,6 +47,7 @@ export default {
         Notifications,
 
         Components,
+        FirstBrainWidget,
     },
 
     data() {
@@ -93,53 +59,8 @@ export default {
 
     methods: {
 
-        async add_file() {
-
-            let file        = event.dataTransfer.files[0] 
-
-            let fileData    = new Blob( [file] )
-            let arrayBuffer = await fileData.arrayBuffer() 
-            const buffer    = Buffer.from( arrayBuffer  ,'binary' )
-            let string      = buffer.toString()
-            let list        = string.split("\n")
-                list            = list.filter( e=>e )
-            let blob        = buffer
-
-            try {
-                ilse.dialog.listing( "Add those items?", "Those items will be added to your first brain, and will be scheduled repeatedly.", list, function() {} )
-                // add somehow
-            } catch( e ) {
-            }
-
-            // await ilse.filesystem.file.set( ilse.path.join("second", file.name), blob )
-
-            // this.inote.focus()
-
-            // setTimeout( () => {
-                // this.inote.caret.add( ` ![[${file.name}]]` ) }, 100 )
-        },
-
         open_shortcuts() {
             ilse.modals.open( "keyboard-shortcut" )
-        },
-
-        get_first_brain_last_item_info() {
-
-            let last   = this.ilse.brains.first.get_last()
-                if( !last ) return "You have 0 items on queue"
-
-            let chunks = last.split("/")
-                let name     = chunks[0]
-                let interest = chunks[1]
-                let topics   = chunks[2]
-
-            let info   = `${name} ${interest} ${topics}`
-
-            return info
-        },
-
-        toggle_vitruvian_brain() {
-            this.ilse.is_vitruvian_expanded = !this.ilse.is_vitruvian_expanded
         },
 
         get_data_theme() {

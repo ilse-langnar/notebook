@@ -2595,6 +2595,11 @@
   resolved "https://registry.yarnpkg.com/@zeit/schemas/-/schemas-2.6.0.tgz#004e8e553b4cd53d538bd38eac7bcbf58a867fe3"
   integrity sha512-uUrgZ8AxS+Lio0fZKAipJjAh415JyrOZowliZAzmnJSsf7piVL5w+G0+gFJ0KSu3QRhvui/7zuvpLz03YjXAhg==
 
+"@zip.js/zip.js@^2.4.12":
+  version "2.4.12"
+  resolved "https://registry.yarnpkg.com/@zip.js/zip.js/-/zip.js-2.4.12.tgz#1e6bce45e69869449ec2b4d800350b3aa9512076"
+  integrity sha512-Y9VTILBi067CUNyaCTeLXxAVbB547EdUfAJZndfpnqYm8r2blVmHAqvggPYw2p89rTCvJAhDXlGkY4cv0+JYmA==
+
 abab@^2.0.0:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.5.tgz#c0b678fb32d60fc1219c784d6a826fe385aeb79a"

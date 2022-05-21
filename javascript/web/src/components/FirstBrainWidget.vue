@@ -1,0 +1,173 @@
+<template lang="pug">
+.first-brain.widget
+
+    .vitruvian-brain( style="position: fixed; bottom: 0px; left: 0px; z-index: 99; " @drop.prevent="on_drop" @dragover.prevent )
+
+        .closed( v-if="!ilse.is_vitruvian_expanded" )
+            img( v-if="!ilse.config.dark" src="@/assets/images/math-function.svg"      style="cursor: pointer; width: 30px; "   title="Open Vitruvian Study" @click="toggle_vitruvian_brain" )
+            img( v-if="ilse.config.dark" src="@/assets/images/dark-mode/math-function.svg" style="cursor: pointer; width: 30px; " title="Open Vitruvian Study" @click="toggle_vitruvian_brain" )
+
+        .open( v-if="ilse.is_vitruvian_expanded" style="width: 300px; height: 140px; position: fixed; bottom: 0px; left: 0px; overflow: hidden; " )
+
+            img( v-show="!ilse.config.dark" src="@/assets/images/math-function.svg"      style="cursor: pointer; width: 30px; "   title="Open Vitruvian Study" @click="toggle_vitruvian_brain" )
+            img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/math-function.svg" style="cursor: pointer; width: 30px; " title="Open Vitruvian Study" @click="toggle_vitruvian_brain" )
+            br
+
+            img( v-show="!ilse.config.dark" src="@/assets/images/player-play.svg"      style="cursor: pointer; width: 20px; "   title="Toggle First Brain Tools"  @click="ilse.brains.first.read_first()" accesskey="i" )
+            img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/player-play.svg"      style="cursor: pointer; width: 20px; "   title="Toggle First Brain Tools"  @click="ilse.brains.first.read_first()" accesskey="i" )
+
+            img( v-show="!ilse.config.dark" src="@/assets/images/trash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.remove()" accesskey="i" )
+            img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/trash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.remove()" accesskey="i" )
+
+            img( v-show="!ilse.config.dark" src="@/assets/images/arrows-shuffle.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.shuffle()" accesskey="i" )
+            img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/arrows-shuffle.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.shuffle()" accesskey="i" )
+
+            img( v-show="!ilse.config.dark" src="@/assets/images/lupe.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.show_query( item => ilse.brains.first.read(item) )" accesskey="i" )
+            img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/lupe.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.show_query( item => ilse.brains.first.read(item) )" accesskey="i" )
+
+            img( v-show="!ilse.config.dark" src="@/assets/images/hash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.add_topic()" accesskey="i" )
+            img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/hash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.add_topic()" accesskey="i" )
+
+            img( v-show="!ilse.config.dark" src="@/assets/images/plus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.increase()" accesskey="i" )
+            img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/plus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.increase()" accesskey="i" )
+
+            img( v-show="!ilse.config.dark" src="@/assets/images/minus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.decrease()" accesskey="i" )
+            img( v-show="ilse.config.dark" src="@/assets/images/dark-mode/minus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.decrease()" accesskey="i" )
+
+            p( :title="get_first_brain_last_item_info()" ) {{get_first_brain_last_item_info()}}
+
+</template>
+<script>
+// eslint-disable-next-line
+const printf                                        = console.log;
+
+// Ilse
+    import ilse             from "@/ilse.js"
+
+// Messager
+    import Messager                     from "@/classes/Messager.js"
+
+export default {
+
+    name: "FirstBrain",
+
+    data() {
+        return {
+            ilse: ilse,
+        }
+    },
+
+    methods: {
+
+        toggle_vitruvian_brain() {
+            this.ilse.is_vitruvian_expanded = !this.ilse.is_vitruvian_expanded
+        },
+
+        on_drop( event ) {
+            this.add_file( event )
+        },
+
+        async add_file( event ) {
+
+            // TODO: handle package.zip
+            let file        = event.dataTransfer.files[0] 
+            let name        = file.name
+            let extention   = name.substr(name.lastIndexOf("."), name.length )
+
+            let is_pdf      = extention === ".pdf"
+            let is_zip      = extention === ".zip"
+
+            if( is_zip ) {
+                this.handle_zip( name, file )
+            }
+
+            if( is_pdf ) {
+                this.handle_pdf( name, file )
+            }
+
+        },
+
+        async handle_pdf( name, file ) {
+
+            let fileData    = new Blob( [file] )
+            let arrayBuffer = await fileData.arrayBuffer() 
+            const buffer    = Buffer.from( arrayBuffer  ,'binary' )
+            let blob        = buffer
+
+            let o           = ilse.path.join( "first", file.name )
+            printf( "o -> ", o )
+            return
+
+            // await ilse.filesystem.file.set( ilse.path.join("first", file.name), blob )
+
+            // Add to queue
+                let text        = await this.ilse.filesystem.dir.list( "first" )
+                let list        = text.split("\n")
+                    list.push( `${name}/1/` )
+
+
+                // Writes
+                let queue = list.join("\n") // Array -> String
+                printf( "queue -> ", queue )
+
+                // await this.ilse.filesystem.file.set( "queue", queue ) // FS Write
+
+            ilse.notification.send( "Added", "" )
+        },
+
+        async handle_zip( name, file ) {
+
+            let fileData    = new Blob( [file] )
+            let arrayBuffer = await fileData.arrayBuffer() 
+            const buffer    = Buffer.from( arrayBuffer  ,'binary' )
+
+            let string      = buffer.toString()
+            let list        = string.split("\n")
+                list            = list.filter( e=>e )
+            let blob        = buffer
+            printf( "string -> ", string )
+
+            try {
+                ilse.dialog.listing( "Add those items?", "Those items will be added to your first brain, and will be scheduled repeatedly.", list, function() {} )
+                // add somehow
+            } catch( e ) {
+            }
+
+            // await ilse.filesystem.file.set( ilse.path.join("second", file.name), blob )
+
+            // this.inote.focus()
+
+            // setTimeout( () => {
+                // this.inote.caret.add( ` ![[${file.name}]]` ) }, 100 )
+        },
+
+        get_first_brain_last_item_info() {
+
+            let last   = this.ilse.brains.first.get_last()
+                if( !last ) return "You have 0 items on queue"
+
+            let chunks = last.split("/")
+                let name     = chunks[0]
+                let interest = chunks[1]
+                let topics   = chunks[2]
+
+            let info   = `${name} ${interest} ${topics}`
+
+            return info
+        },
+
+        // ---------------------------------- Setup -------------------------- //
+        setup() {
+        },
+        // ---------------------------------- Setup -------------------------- //
+
+    },
+
+    mounted() {
+        this.setup();
+    },
+
+}
+</script>
+<style scoped>
+</style>

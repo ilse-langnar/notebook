@@ -31,7 +31,7 @@
         .general( v-if="selected === 'Vitruvian Brain' " )
             p Bullets are 
 
-        .general( v-if="selected === 'Keyboard Shortcut' " )
+        .general( v-if="selected === 'Keyboard & Mouse' " )
             p When searching, you can press `Enter` again to run the first command, or if you're sure your query matches your desired command like: "Dark" for "Toggle Dark Mode" you can press the `ctrl` key in order to automatically run the first result.
 
         .general( v-if="selected === 'Lore' " )
@@ -67,7 +67,7 @@ export default {
                 { name: "CSS Snippets", img: "brand-css3.svg" },
                 { name: "Graph", img: "network.svg" },
                 { name: "Vitruvian Brain", img: "math-function.svg" },
-                { name: "Keyboard Shortcut", img: "keyboard.svg" },
+                { name: "Keyboard & Mouse", img: "keyboard.svg" },
                 { name: "Lore", img: "address-book.svg" },
                 { name: "Others", img: "lifebuoy.svg" },
             ]
