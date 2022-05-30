@@ -94,7 +94,7 @@ export default {
                 { name: "Keyboard & Mouse", img: "keyboard.svg" },
                 { name: "Lore", img: "address-book.svg" },
                 { name: "FAQ", img: "lifebuoy.svg" },
-                { name: "Others", img: "lifebuoy.svg" },
+                { name: "Others", img: "letter-i.svg" },
             ]
         }
     },

@@ -9,10 +9,10 @@ module.exports = {
             builderOptions: {
                 appId: 'com.ilse.notebook',
                 win: {
-                    // icon: 'src/assets/favico.ico',
+                    // icon: 'src/assets/logo.svg',
                 },
                 linux: {
-                    // icon: 'src/assets/favico.ico',
+                    // icon: 'src/assets/logo.svg',
                     category: "Productivity",
                 }
             },
