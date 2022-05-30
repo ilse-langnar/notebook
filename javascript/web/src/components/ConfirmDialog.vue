@@ -126,7 +126,7 @@ export default {
     left: 50%;
     top: 35%;
     transform: translate( -50%, -50% );
-    z-index: 100;
+    z-index: 102;
     background: #fff;
     border-radius: 10px;
     padding: 4px;
@@ -140,7 +140,7 @@ export default {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1 !important;
+    z-index: 100 !important;
 }
 
 .dialog-wrapper {

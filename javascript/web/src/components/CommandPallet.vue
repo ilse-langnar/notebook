@@ -17,7 +17,7 @@
                 strong ESC
     br
 
-    .flex( v-if="!search_result.length" v-for="( command, index ) in ilse.commands.commands" @click="run_command(command.name)" )
+    .flex( v-if="!search_result.length" v-for="( command, index ) in ilse.commands.commands" @click="on_item_click($event, command.name)" )
         p.is-pulled-left.item {{command.name}}
 
         // .column.is-3
@@ -28,7 +28,7 @@
 
     br
 
-    .flex( v-if="search_result.length" v-for="( result, index ) in search_result" @click="run_command(result.target)" )
+    .flex( v-if="search_result.length" v-for="( result, index ) in search_result" @click="on_item_click($event, command.name)" )
         p.is-pulled-left.item {{result.target}}
 
         // .column.is-3
@@ -79,6 +79,13 @@ export default {
 
     methods: {
 
+        on_item_click( event, name ) {
+            let shift = event.shiftKey
+            this.run_command( name )
+
+            if( !shift ) ilse.modals.close() // FEATURE: hold shift for not to close.
+        },
+
         focus() {
 
             try {
@@ -92,9 +99,7 @@ export default {
         run_command( name ) {
 
             let command = this.get_command_by_name(name)
-            printf( "command -> ", command )
             let id      = command.id
-            printf( "id -> ", id )
 
             ilse.commands.run( id )
         },
@@ -221,6 +226,7 @@ export default {
     margin-bottom: 5px;
     border-radius: var( --border-radius );
     padding: 3px;
+    cursor: pointer;
 }
 
 input.input {

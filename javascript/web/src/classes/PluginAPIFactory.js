@@ -6,15 +6,6 @@ const printf = console.log
 // Utils
     import Messager                     from "@/classes/Messager.js"
 
-// Libraries
-    import axios                        from "axios"
-
-// Internal
-    import TextEditor                   from "@/classes/TextEditor.js"
-
-// Components
-    import TextEditorComponent          from "@/components/TextEditor/TextEditor.vue"
-
 // const importFrom                       = require('import-from')
 
 const PLUGIN_STATISTICS = {}
@@ -40,55 +31,31 @@ class PluginAPIFactory {
                     this.tags                       = ilse.tags.tags
                     this.notification               = ilse.notification
                     this.links                      = ilse.links.links
-                    this.TextEditor                 = TextEditor
 
-
-                // Components
-                    this.components                 = {
-                        TextEditor    : TextEditorComponent,
-                        // component           : component,
-                    }
 
                 // Classes
                     this.classes                    = {
-                        component: ilse.classes.Component,
+                        component:  ilse.classes.Component,
+                        Note:       ilse.classes.Note,
                     }
 
-                // Focused
-                this.focused                        = {
-                    component: ilse.component,
-                    container: ilse.container,
-                }
-
                 // Vars
-                    this.backend_url                = ilse.backend_url
                     this.plugin_name                = plugin_name
-                    this.component                        = ilse.component
-
-                // Libraries
-                    this.axios                      = axios
 
                 // Utils
                     this.utils                      = ilse.utils
 
-                    this.focus_on_component               = ilse.focus_on_component
-                    // this.add_component_to_focused_container  = ilse.add_component_to_focused_container
                 this.require = require
-                // this.import = importFrom
-
                 this.listen()
-
             }
 
             listen() {
 
             }
 
-            get_focused_component() {
-            }
-
             add_plugin_telemetry( key, value ) {
                 PLUGIN_STATISTICS[key] = value
+                printf( "PLUGIN_STATISTICS -> ", PLUGIN_STATISTICS )
             }
 
             get_plugin_statistics() {
@@ -97,7 +64,7 @@ class PluginAPIFactory {
 
             async save_plugin_telemetry() {
                 let normalized_statistics = JSON.stringify(PLUGIN_STATISTICS)
-                await this.filesystem.file.set( `.ilse/plugins/${this.plugin_name}/statistics.json`, normalized_statistics, { query_param: true })
+                await this.filesystem.file.set( `plugins/${this.plugin_name}/statistics.json`, normalized_statistics, { query_param: true })
             }
 
             // FUTURE: Warn the user that this plugin access the filesystem
@@ -105,50 +72,18 @@ class PluginAPIFactory {
                 return this.filesystem
             }
 
-            test() {
-
-            }
-
-            /*
-            add_layout( id, img, description, command, has_space = false ) {
-                ilse.menu.add_plugin( id, img, description, command, has_space )
-            }
-
-            add_template( id, img, description, command, has_space = false ) {
-                ilse.menu.add_plugin( id, img, description, command, has_space )
-            }
-
-            add_widget( id, img, description, command, has_space = false ) {
-                ilse.menu.add_plugin( id, img, description, command, has_space )
-            }
-            */
-
-
-            set_mode( mode ) {
-                ilse.keyboard.set_mode( mode )
-            }
-
-            add_popover({ id, name, width, component_type, activation_event }) {
-                ilse.popovers.add({ id, name, width, component_type, activation_event })
-            }
-
-            add_plugin_menu_item({ id, name, img, description, command, has_space = false, popover }) {
-                // this.add_plugin_telemetry( "menu_items", arguments )
-                ilse.plugin_menu.add({ id, name, img, description, command, has_space, popover })
-            }
-
             add_command({ id, name, description, fn, props }) {
-                this.add_plugin_telemetry( "commands", arguments )
+                // this.add_plugin_telemetry( "commands", arguments )
                 if( !props ) props = { source: this.name }
                 ilse.commands.add({ id, name, description, fn, props })
             }
 
             open_modal( id ) {
-                Messager.emit( "modals.vue", "open", id )
+                ilse.modals.open( id )
             }
 
             close_modal( id ) {
-                Messager.emit( "modals.vue", "close" )
+                ilse.modals.close( id )
             }
 
             run_command( id, args ) {
@@ -157,6 +92,7 @@ class PluginAPIFactory {
 
             add_modal({ id, name, component, props }) {
 
+                /*
                 this.add_plugin_telemetry( "modals", arguments )
 
                 let new_modal =  {
@@ -169,6 +105,7 @@ class PluginAPIFactory {
                 ilse.modals.add( new_modal )
 
                 return new_modal
+                */
             }
 
             add_key({ combo, mode, view, command, prevent_default }) {
@@ -180,26 +117,30 @@ class PluginAPIFactory {
                 ilse.keyboard.unbind_key( combo )
             }
 
-            add_component({ id, name, type, component, props }) {
+            add_type({ id, name, description, img, type, component, props }) {
 
-                this.add_plugin_telemetry( "components", arguments )
+                props.plugin = "LLLL"
 
-                // BUGFIX: so we can render this component with the props -> plugin
-                    props.plugin = this.plugin_name
-
-                // props.api = new PluginAPI( name )
-
-                let new_component = {
-                    id,
-                    name,
-                    type,
-                    component,
-                    props
+                printf( "ilse -> ", ilse )
+                let is_pure_svg = img.indexOf( "<svg" ) !== -1
+                if( is_pure_svg ) {
+                    var svg = new Blob([img], { type: "image/svg+xml;charset=utf-8" })
+                    var url = URL.createObjectURL( svg )
+                    img     = url
                 }
 
-                ilse.types.add( new_component )
+                ilse.types.add({
+                    id: id,
+                    name: name,
+                    description: description,
+                    img: img,
+                    type: type,
+                    component: component,
+                    props: props,
+                })
+                printf( "props -> ", props )
 
-                return new_component
+                return id
             }
 
             async save( json, pretty = false ) {
@@ -207,7 +148,7 @@ class PluginAPIFactory {
                 if( typeof json === "object" )  {
 
                     let normalized_data = pretty === true ? JSON.stringify( json, null, 4 ) : JSON.stringify( json )
-                    let data            = await this.filesystem.file.set( `.ilse/plugins/${this.plugin_name}/data.json`, normalized_data )
+                    let data            = await this.filesystem.file.set( `plugins/${this.plugin_name}/data.json`, normalized_data )
 
                     return data
 
@@ -219,7 +160,7 @@ class PluginAPIFactory {
 
             // loads data.json from your plugin
             async load() {
-                let data = await this.filesystem.file.get( `.ilse/plugins/${this.plugin_name}/data.json`)
+                let data = await this.filesystem.file.get( `plugins/${this.plugin_name}/data.json`)
                 return data
             }
 
@@ -228,7 +169,7 @@ class PluginAPIFactory {
                 if( typeof json === "object" )  {
 
                     let normalized_data = pretty === true ? JSON.stringify( json, null, 4 ) : JSON.stringify( json )
-                    let data            = await this.filesystem.file.set( `.ilse/plugins/${this.plugin_name}/configuration.json`, normalized_data )
+                    let data            = await this.filesystem.file.set( `plugins/${this.plugin_name}/configuration.json`, normalized_data )
 
                     return data
 
@@ -240,7 +181,7 @@ class PluginAPIFactory {
 
             // loads configuration.json from your plugin
             async load_configuration() {
-                let data = await this.filesystem.file.get( `.ilse/plugins/${this.plugin_name}/configuration.json`)
+                let data = await this.filesystem.file.get( `plugins/${this.plugin_name}/configuration.json`)
                 return data
             }
 

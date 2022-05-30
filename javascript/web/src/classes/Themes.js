@@ -20,7 +20,7 @@ export default class Theme {
     /*
     async load() {
 
-        let themes    = await ilse.filesystem.dir.list( ".ilse/themes" )
+        let themes    = await ilse.filesystem.dir.list( "themes" )
 
         if( !themes ) {
             themes    = []
@@ -31,8 +31,8 @@ export default class Theme {
 
         for( const theme of themes ) {
 
-            theme_css = await ilse.filesystem.file.get( `.ilse/themes/${theme}/style.css` )
-            files     = await ilse.filesystem.dir.list( `.ilse/themes/${theme}/` )
+            theme_css = await ilse.filesystem.file.get( `themes/${theme}/style.css` )
+            files     = await ilse.filesystem.dir.list( `themes/${theme}/` )
 
             this.add({
                 id: theme,
@@ -144,7 +144,7 @@ export default class Theme {
     /*
     async build( theme ) {
 
-        let files       = await ilse.filesystem.dir.list( `.ilse/themes/${theme.name}/` )
+        let files       = await ilse.filesystem.dir.list( `themes/${theme.name}/` )
         // Make sure variables.css ligth.css and dark.css are always first, otherwise things like variables won't be defined properly
         let sorted_files= files.sort( (one,two) => {
 
@@ -169,13 +169,13 @@ export default class Theme {
             is_css          = extention === '.css'
 
             if( is_css )  {
-                content = await ilse.filesystem.file.get( `.ilse/themes/${theme.name}/${file}` )
+                content = await ilse.filesystem.file.get( `themes/${theme.name}/${file}` )
                 style_css += content
             }
 
         }
 
-        await ilse.filesystem.file.set( `.ilse/themes/${theme.name}/style.css`, style_css )
+        await ilse.filesystem.file.set( `themes/${theme.name}/style.css`, style_css )
 
         return style_css
 

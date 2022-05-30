@@ -97,7 +97,6 @@ class Commands {
                 fn: function() { },
                 description: "Void",
                 name: "Void",
-                hidden: true,
             },
 
             {
@@ -107,7 +106,6 @@ class Commands {
                 },
                 description: "Open Command Pallet Modal",
                 name: "Open Command Pallet Modal",
-                hidden: true,
             },
 
             {
@@ -118,7 +116,6 @@ class Commands {
                 },
                 description: "Will open a new component to load the content of a file",
                 name: "Open File",
-                hidden: true,
             },
 
             {
@@ -128,7 +125,6 @@ class Commands {
                 },
                 description: "Will turn on if it's off, and off if it's on",
                 name: "Toggle Dark Mode",
-                hidden: true,
             },
 
             {
@@ -138,7 +134,89 @@ class Commands {
                 },
                 description: "Will open modal with the list of shortcuts",
                 name: "Open Keyboard Shortcuts Modal",
-                hidden: true,
+            },
+
+            {
+                id: "open-types-selection",
+                fn: function() {
+                    ilse.modals.open( "type-selection" )
+                },
+                description: "Will open a modal with a list of <Types>",
+                name: "Open Type Selection",
+            },
+
+            {
+                id: "save",
+                fn: function() {
+                    ilse.save()
+                },
+                description: "Will save: bullets, config etc.",
+                name: "Save",
+            },
+
+            {
+                id: "∫-read",
+                fn: function() {
+                    ilse.brains.first.read_first()
+                },
+                description: "Will read an item from first brain",
+                name: "∫: Read",
+            },
+
+            {
+                id: "∫-shuffle",
+                fn: function() {
+                    ilse.brains.first.shuffle()
+                },
+                description: "Will shuffle your queu",
+                name: "∫: Shuffle",
+            },
+
+            {
+                id: "∫-last",
+                fn: function() {
+                    ilse.brains.first.last()
+                },
+                description: "Will open the last time",
+                name: "∫: Last",
+            },
+
+            {
+                id: "∫-increase",
+                fn: function() {
+                    ilse.brains.first.increase()
+                },
+                description: "Will increase interest interet on last item",
+                name: "∫: Increase",
+            },
+
+            {
+                id: "∫-decrease",
+                fn: function() {
+                    ilse.brains.first.decrease()
+                },
+                description: "Will decrease interest interet on last item",
+                name: "∫: Decrease",
+            },
+
+            {
+                id: "∫-tag",
+                fn: function() {
+                    ilse.brains.first.tag()
+                },
+                description: "Will open a modal for you to add tags to an item",
+                name: "∫: Tag",
+            },
+
+            {
+                id: "open-file",
+                fn: function() {
+                    let component = new ilse.classes.Component({ type: "file", width: 12, props: { file: "Ilse.md" } })
+                        ilse.components.push( component )
+                    ilse.modals.close()
+                },
+                description: "Will open a new file",
+                name: "Open File",
             },
 
         ]

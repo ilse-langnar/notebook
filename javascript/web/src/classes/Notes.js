@@ -88,7 +88,6 @@ export default class Notes {
         let note           = `${time_id}: "Hello, World2"` // 20220120155758: Hello, World
         let notes          = ""
 
-        printf( "is_demo -> ", is_demo )
         if( is_demo ) {
 
             if( has_z ) await this.filesystem.file.set( "notes", "" )
@@ -299,15 +298,11 @@ export default class Notes {
         let time_id          = ilse.utils.get_unique_date_id() // 20220120155758
         let spaces           = ilse.utils.get_depth_spaces( depth )
         let note             = `${spaces}${time_id}: ${content}` // 20220120155758: Hello, World
-        printf( "@@note -> ", note )
 
         let instance         = new ilse.classes.Note( note )
             if( instance.depth >= 1 ) this.recursively_add_children( instance, index )
 
             this.list.splice( index, 0, instance )
-
-        printf( "<<<<< this.list -> ", this.list )
-        printf( "index ", index )
 
         let after
         index = Number(index)
@@ -316,7 +311,6 @@ export default class Notes {
         } else {
             after = this.list[index - 1]
         }
-        printf( "after -> ", after )
 
         Messager.emit( "~notes", "added", {
             note: instance,

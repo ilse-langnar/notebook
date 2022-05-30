@@ -109,6 +109,28 @@ export default {
     font-family: Mary, Helvetica, Georgia, Times New Roman, serif;
 }
 
+.input {
+    background: var( --background-color );
+    color: var( --text-color );
+    border: 1px solid var( --text-color ) !important;
+    padding: 0px;
+    font-size: .8em !important;
+    margin-bottom: 5px;
+}
+
+select {
+    background: var( --background-color );
+    color: var( --text-color );
+    padding: var( --padding );
+    border: 1px solid var( --text-color );
+    border-radius: var( --border-radius );
+}
+
+select option {
+    background: var( --background-color );
+    color: var( --text-color );
+}
+
 .slick-button {
     flex: 1;
     margin: 24px;

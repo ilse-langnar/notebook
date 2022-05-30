@@ -8,10 +8,11 @@ const printf                        = console.log
 
 export default class Plugin {
 
-    constructor({ name, index, readme, manifest, options }) {
+    constructor({ name, index, readme, manifest, options, icon }) {
 
         this.name       = name
         this.index      = index
+        this.icon       = icon
 
         this.manifest   = manifest
         this.readme     = readme

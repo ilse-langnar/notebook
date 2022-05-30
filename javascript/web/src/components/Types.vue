@@ -41,6 +41,7 @@ export default {
         },
 
         select( type ) {
+            printf( "select -> type -> ", type )
             this.payload.component.type  = type.id
             this.payload.component.props = type.props
             this.close()

@@ -544,8 +544,8 @@ export default {
 }
 
 .markdown {
-    width: 100%;
     margin-bottom: 6px;
+    width: fit-content;
 }
 
 .paragraph-note {
@@ -555,6 +555,7 @@ export default {
     color:        #a3a3a3;
     color:        var(--text-color);
     /*font-size:    24px;*/
+    font-size:    1pc;
 }
 
 .link {

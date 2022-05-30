@@ -1,5 +1,5 @@
 <template lang="pug" >
-.dialog.input
+.dialog
 
     .loop( v-for=" (dialog, index) in ilse.dialog.list" )
 
@@ -183,7 +183,7 @@ export default {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1 !important;
+    z-index: 100 !important;
 }
 
 .dialog .description {

@@ -86,14 +86,20 @@ export default class Filesystem {
         let has_statistics  = await this.file.exists( "statistics" )
             if( !has_statistics ) await this.file.set( "statistics", "" )
 
-        let has_first        = await this.dir.exists( "first" )
+        let has_priorities  = await this.file.exists( "priorities" )
+            if( !has_priorities ) await this.file.set( "priorities", "" )
+
+        let has_first       = await this.dir.exists( "first" )
             if( !has_first ) await this.dir.create( "first" )
 
-        let has_second       = await this.dir.exists( "second" )
+        let has_second      = await this.dir.exists( "second" )
             if( !has_second ) await this.dir.create( "second" )
 
         let has_trash       = await this.dir.exists(".trash")
             if( !has_trash ) await this.dir.create( ".trash" )
+
+        let has_plugins     = await this.dir.exists("plugins")
+            if( !has_plugins ) await this.dir.create( "plugins" )
 
         this.has_checked_zir_files = true
         // Messager.emit( "~filesystem", "zir-files-check" )

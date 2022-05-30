@@ -13,11 +13,16 @@ const printf                        = console.log
 
 class PluginManager {
 
-    constructor() {
+    constructor( ilse ) {
 
         this.plugin_api = {}
         this.plugins    = []
+        this.ilse       = ilse
+        this.setup()
+    }
 
+    setup() {
+        this.load()
     }
 
     get( plugin_name ) {
@@ -34,38 +39,54 @@ class PluginManager {
 
     }
 
-    add({ name, index, readme, manifest, options = { is_on: false } }) {
+    add({ name, index, readme, manifest, options = { is_on: false }, icon }) {
 
-        let plugin = new Plugin({ name, index, manifest, readme, options })
-
-        this.plugins.push(plugin)
+        let plugin = new Plugin({ name, index, manifest, readme, options, icon})
+            this.plugins.push( plugin )
 
         return plugin
 
     }
 
+    before_run( plugin ) {
+        window.Plugin      = new PluginAPIFactory( plugin )
+    }
+
     async run( plugin ) {
 
-        window.Plugin = new PluginAPIFactory( plugin )
+        this.before_run( plugin )
 
-            // let index          = import( target_directory + "/.ilse/plugins/" + plugin + "/main.js" ).then( l => {
-        let index          = await ilse.filesystem.file.get( ".ilse/plugins/" + plugin + "/main.js")
-        let manifest       = await ilse.filesystem.file.get( ".ilse/plugins/" + plugin + "/manifest.json")
-        let readme         = await ilse.filesystem.file.get( ".ilse/plugins/" + plugin + "/readme.md")
+        let index           = await ilse.filesystem.file.get( "plugins/" + plugin + "/main.js")
 
-        printf( "PluginManager -> plugin -> ", plugin )
-        printf( "PluginManager -> readme -> ", readme )
+        let readme          = await ilse.filesystem.file.get( "plugins/" + plugin + "/readme.md")
 
-        // BUGFIX: Only parse 'front-end' plugin, ignore the 'back-end' ones.
-        if( manifest.type !== 'front-end' ) return
+        let manifest        = await ilse.filesystem.file.get( "plugins/" + plugin + "/manifest.json")
+            manifest           = JSON.parse( manifest )
+
+        let icon            = manifest.icon
+
+        if( icon ) {
+            let icon_path   = `plugins/${plugin}/${icon}`
+            try {
+                let img         = await ilse.filesystem.file.get( icon_path )
+                var svg     = new Blob([img], { type: "image/svg+xml;charset=utf-8" })
+                    icon        = URL.createObjectURL( svg )
+            } catch( e ) {
+                icon = require( "@/assets/images/letter-i.svg" )
+            }
+
+        } else {
+            icon = require( "@/assets/images/letter-i.svg" )
+        }
 
         let parsed_code = eval( index )
 
-        this.add({
+        let new_plugin = this.add({
             name: plugin,
             readme: readme,
             index: index,
             manifest: manifest,
+            icon: icon,
             // options: { statistics: plugin_api.get_plugin_statistics() }
         })
 
@@ -84,7 +105,7 @@ class PluginManager {
 
         let plugins = []
         try {
-            plugins    = await ilse.filesystem.dir.list( `.ilse/plugins/` )
+            plugins    = await this.ilse.filesystem.dir.list( `plugins/` )
             if( plugins.code ) plugins = []
         } catch( e ) {
             Messager.emit( "status-line", "set", "No plugins found" )
@@ -93,7 +114,7 @@ class PluginManager {
 
         for( let plugin of plugins ) {
 
-            let files = await ilse.filesystem.dir.list( `.ilse/plugins/${plugin}` )
+            let files = await this.ilse.filesystem.dir.list( `plugins/${plugin}` )
 
             // Plugin files
             for( let file of files ) {

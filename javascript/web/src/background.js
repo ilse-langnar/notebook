@@ -91,10 +91,12 @@ ipcMain.on( "item", async ( event, payload ) => {
 
     if( op === "read" ) {
         if( is_linux ) child_process.exec( `xdg-open "${path}" ` )
-        if( is_windows ) child_process.exec( `start "${path}" ` )
+        // if( is_windows ) child_process.exec( `start "${path}" ` )
+        if( is_windows ) child_process.exec( ` Start-Process ((Resolve-Path "C:${path}").Path) ` )
     }
 
 })
+
 
 
 ipcMain.on( "execute-zir", async ( event, payload ) => {

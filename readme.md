@@ -25,6 +25,12 @@ If anything goes wrong, please open a [Issue](https://github.com/ilse-langnar/no
 To augment human cognition with memory, references and more.
 Ilse is based on the Vitruvian Brain Framework: https://ilse-langnar.github.io/notebook/vitruvian-brain.html
 
+## Improves on:
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/anki.png" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/obsidian.png" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/roam-research.png" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/supermemo.png" />
+
 
 ## Screenshots
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-15.png" />
@@ -37,13 +43,13 @@ Ilse is based on the Vitruvian Brain Framework: https://ilse-langnar.github.io/n
 ## Todos
 Todo List
 - Vitruvian
-    - [ ] Make official docker image
     - [ ] Make Vim plugin for Vitruvian
     - [ ] Make VSCode plugin for vitruvian
     - [ ] Make Emacs plugin for vitruvian
     - [ ] Make Sublime Text for vitruvian
     - [ ] Make command line client for vitruvian
 - Ilse
+    - [ ] Make official docker image
     - [ ] Make windows build work
     - [ ] Make Linux build work
     - [ ] Make OS X build work

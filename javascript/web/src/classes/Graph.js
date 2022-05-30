@@ -76,7 +76,7 @@ export default class Graph {
 
         // Performance: Don't re-generate a graph if we already have it
         // TODO: Make saving/loading graph possible
-            let json           = await ilse.filesystem.file.get( '.ilse/graph.json' )
+            let json           = await ilse.filesystem.file.get( 'graph.json' )
 
             let has_graph
 
@@ -114,7 +114,7 @@ export default class Graph {
 
                 // Save generated graph to OS-FS
                     let normalized_graph = to_json( this.graph )
-                    await ilse.filesystem.file.set( ".ilse/graph.json", normalized_graph )
+                    await ilse.filesystem.file.set( "graph.json", normalized_graph )
 
                 // UI
                     Messager.emit( "status-line", "set", "Graph Generated" )
@@ -372,7 +372,7 @@ export default class Graph {
         let json        = to_json( graph )
 
         try {
-            await ilse.filesystem.file.set( ".ilse/graph.json", json )
+            await ilse.filesystem.file.set( "graph.json", json )
             Messager.emit( "status-line", "set", "Saved graph" )
         } catch( e ) {
             throw e

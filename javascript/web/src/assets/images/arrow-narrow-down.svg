@@ -7,21 +7,21 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   class="icon icon-tabler icon-tabler-x"
+   class="icon icon-tabler icon-tabler-arrow-narrow-left"
    width="24"
    height="24"
    viewBox="0 0 24 24"
    stroke-width="1"
-   stroke="currentColor"
+   stroke="#485361"
    fill="none"
    stroke-linecap="round"
    stroke-linejoin="round"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="x.svg">
+   sodipodi:docname="arrow-narrow-top (copy 1).svg">
   <metadata
-     id="metadata14">
+     id="metadata18">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -32,7 +32,7 @@
     </rdf:RDF>
   </metadata>
   <defs
-     id="defs12" />
+     id="defs16" />
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -44,27 +44,33 @@
      inkscape:pageshadow="2"
      inkscape:window-width="1362"
      inkscape:window-height="711"
-     id="namedview10"
+     id="namedview14"
      showgrid="false"
-     inkscape:zoom="9.8333333"
-     inkscape:cx="7.1801196"
-     inkscape:cy="8.5897313"
+     inkscape:zoom="19.666667"
+     inkscape:cx="4.0703264"
+     inkscape:cy="11.056807"
      inkscape:window-x="0"
      inkscape:window-y="55"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg2" />
+  <desc
+     id="desc4">Download more icon variants from https://tabler-icons.io/i/arrow-narrow-left</desc>
   <line
-     x1="18.648699"
-     y1="5.3513007"
-     x2="5.1479106"
-     y2="18.852091"
-     id="line6"
-     style="fill:#485361;fill-opacity:1;stroke:#485361;stroke-width:1.1250658;stroke-opacity:1" />
+     x1="11.712365"
+     y1="19.431456"
+     x2="11.712365"
+     y2="5.4314551"
+     id="line8" />
   <line
-     x1="5.1479106"
-     y1="5.3513007"
-     x2="18.648699"
-     y2="18.852091"
-     id="line8"
-     style="stroke:#485361;stroke-width:1.1250658;stroke-opacity:1" />
+     x1="11.712365"
+     y1="19.431456"
+     x2="15.712364"
+     y2="15.431456"
+     id="line10" />
+  <line
+     x1="11.712365"
+     y1="19.431456"
+     x2="7.7123637"
+     y2="15.431456"
+     id="line12" />
 </svg>

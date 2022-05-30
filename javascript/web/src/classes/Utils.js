@@ -250,12 +250,12 @@ export default class Utils {
     split_array_into_nth_legnth( source, size = 1 ) {
 
         var arrays = []
+        let copy   = source
 
-        while( source.length > 0 ) {
-            arrays.push( source.splice(0, size) )
+        while( copy.length > 0 ) {
+            arrays.push( copy.splice(0, size) )
         }
         return arrays
-
     }
 
     get_normalized_date_from_stats( stats ) {

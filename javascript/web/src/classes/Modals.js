@@ -77,16 +77,28 @@ class Modals {
             id: "help",
             name: "Help",
             component: ilse.types.get( "help" ),
-            props: {
-            },
+            props: { },
         })
 
         this.add({
             id: "command-pallet",
             name: "Command Pallet",
             component: ilse.types.get( "command-pallet" ),
-            props: {
-            },
+            props: { },
+        })
+
+        this.add({
+            id: "first-brain-config",
+            name: "First Brain Config Modal",
+            component: ilse.types.get( "first-brain-config" ),
+            props: { },
+        })
+
+        this.add({
+            id: "type-selection",
+            name: "Type Selection",
+            component: ilse.types.get( "type-selection" ),
+            props: {},
         })
 
     }

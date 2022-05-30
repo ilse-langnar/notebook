@@ -358,6 +358,11 @@ export default {
 </script>
 <style scoped>
 
+.note-search .search {
+    padding: 10px;
+
+}
+
 .note-search {
     color: var( --text-color );
     background: var( ---background-color );
@@ -376,7 +381,8 @@ export default {
     display: inline-block;
     font-size: 16px;
     font-weight: 500;
-    line-height: 10px;
+    line-height: 4px;
+    height: 33px;
     list-style: none;
     position: relative;
     transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);

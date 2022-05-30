@@ -2,43 +2,67 @@
 .help
 
     .all
-        .options( style="width: 20%; float: left;" )
+        .options( style="width: 20%; float: left; " )
             .item.flex( v-for="( option, index ) in options" :key="index" @click="selected = option.name")
                 img( :src="get_img(option.img)" )
                 p( style="font-size: 0.7em; " ) &nbsp; &nbsp; {{option.name}} 
             
-        .options-configuration( style="width: 80%; float: right;" )
+        .options-configuration( style="width: 80%; float: right; " )
             p.is-size-1( style="text-align: center;" ) {{selected}}
 
-        .general( v-if="selected === 'Introduction' " )
-            p Welcome to Ilse Langnart's Notebook, this tool is intended to augment human cognition, by being a reference system, spaced repetition system and thinkin system in itself.
+            .general( v-if="selected === 'Introduction' " )
+                p Welcome to Ilse Langnart's Notebook, this tool is intended to augment human cognition, by being a reference system, spaced repetition system and thinkin system in itself.
 
-        .general( v-if="selected === 'Bullets' " )
-            p Bullets are 
+            .general( v-if="selected === 'Bullets' " )
+                p Bullets are 
 
-        .general( v-if="selected === 'Plugins' " )
-            p Bullets are 
+            .general( v-if="selected === 'Plugins' " )
+                p Bullets are 
 
-        .general( v-if="selected === 'Themes' " )
-            p Bullets are 
+            .general( v-if="selected === 'Themes' " )
+                p Bullets are 
 
-        .general( v-if="selected === 'CSS Snippets' " )
-            p Bullets are 
+            .general( v-if="selected === 'CSS Snippets' " )
+                p Bullets are 
 
-        .general( v-if="selected === 'Graph' " )
-            p Bullets are 
+            .general( v-if="selected === 'Graph' " )
+                p Bullets are 
 
-        .general( v-if="selected === 'Vitruvian Brain' " )
-            p Bullets are 
+            .general( v-if="selected === 'Vitruvian Brain' " )
+                p Bullets are 
 
-        .general( v-if="selected === 'Keyboard & Mouse' " )
-            p When searching, you can press `Enter` again to run the first command, or if you're sure your query matches your desired command like: "Dark" for "Toggle Dark Mode" you can press the `ctrl` key in order to automatically run the first result.
+            .general( v-if="selected === 'Keyboard & Mouse' " )
+                p When searching, you can press `Enter` again to run the first command, or if you're sure your query matches your desired command like: "Dark" for "Toggle Dark Mode" you can press the `ctrl` key in order to automatically run the first result.
 
-        .general( v-if="selected === 'Lore' " )
-            p Bullets are 
+            .general( v-if="selected === 'Lore' " )
+                p Bullets are 
 
-        .general( v-if="selected === 'Others' " )
-            p Bullets are 
+            .general( v-if="selected === 'FAQ' " )
+
+                p FAQ
+                .question
+                    h3 Q: How to import an item?
+                    p A: Just drag and drop the item into the 
+                    img( src="@/assets/images/math-function.svg" )
+                    p or
+                    br
+                    img( src="@/assets/images/first-brain.png" )
+                    p And I'll be imported automatically
+
+                .question
+                    h3 Q: How do I review my queue
+                    p A: Open the "first" brain panel by clicking on
+                    img( src="@/assets/images/math-function.svg" )
+                    p Then it should look like this: 
+                    img( src="@/assets/images/first-brain.png" )
+                    p Then click on the "play" button or double click on it.
+
+                .question
+                    h3 Q: How do I run a command on click without closing the command pallet modal?
+                    p A: Hold the "shift" key while you click
+
+            .general( v-if="selected === 'Others' " )
+                p Bullets are 
 
 </template>
 <script>
@@ -69,6 +93,7 @@ export default {
                 { name: "Vitruvian Brain", img: "math-function.svg" },
                 { name: "Keyboard & Mouse", img: "keyboard.svg" },
                 { name: "Lore", img: "address-book.svg" },
+                { name: "FAQ", img: "lifebuoy.svg" },
                 { name: "Others", img: "lifebuoy.svg" },
             ]
         }
@@ -104,6 +129,13 @@ export default {
 .item:hover {
     border-bottom: 1px solid gray;
     border-radius: 2px;
+}
+
+.help .question {
+    border: 1px solid var( --text-color );
+    border-radius: var( --border-radius );
+    padding: var( --padding );
+    margin-bottom: 10px;
 }
 
 </style>

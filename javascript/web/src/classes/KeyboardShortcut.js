@@ -60,6 +60,7 @@ class KeyboardShortcut  {
             { combo: "s", command: "note-search" },
             { combo: "f", command: "file-search" },
             { combo: "A", command: "Add Component" },
+            { combo: "alt+enter", command: "∫-read" },
         ]
 
     }

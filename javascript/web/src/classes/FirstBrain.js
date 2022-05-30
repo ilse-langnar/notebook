@@ -9,7 +9,7 @@ const printf                        = console.log
 // Utils
     import path                     from "path"
 
-export default class InterestRepetition {
+export default class FirstBrain {
 
     constructor( ilse ) {
 
@@ -27,6 +27,7 @@ export default class InterestRepetition {
         let text   = await this.ilse.filesystem.file.get( "queue" )
             this.queue = text.split("\n")
             this.queue = this.queue.filter( e => e ) // BUGFIX: Removes any "" item
+        // this.shuffle()
     }
 
     async show_query( fn ) {
@@ -261,7 +262,7 @@ export default class InterestRepetition {
         this.save()
     }
 
-    async add_topic() {
+    async tag() {
 
         let has_items = this.queue.length
         if( !has_items ) {
