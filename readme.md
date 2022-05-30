@@ -26,7 +26,7 @@ To augment human cognition with memory, references and more.
 Ilse is based on the Vitruvian Brain Framework: https://ilse-langnar.github.io/notebook/vitruvian-brain.html
 
 ## Improves on:
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"            style="width: 50px; float: left; " />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"  />
 
 
 ## Screenshots
