@@ -41,10 +41,10 @@ Ilse is based on the Vitruvian Brain Framework: https://ilse-langnar.github.io/n
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/forgetting-curve.jpg" />
 
 ## Incremental Reading & Spaced Repetition( How it works )
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/incremental-reading.svg" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/incremental-reading.svg" style="width: 100% !important;" />
 
 ## Incremental Video( How it works )
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/incremental-video.svg" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/incremental-video.svg" style="width: 100% !important;" />
 
 ## Todos
 Todo List
