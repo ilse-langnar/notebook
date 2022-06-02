@@ -43,9 +43,9 @@
      inkscape:window-height="711"
      id="namedview10"
      showgrid="false"
-     inkscape:zoom="16"
-     inkscape:cx="17.913111"
-     inkscape:cy="7.9792411"
+     inkscape:zoom="8"
+     inkscape:cx="-3.5923583"
+     inkscape:cy="-8.7439492"
      inkscape:window-x="0"
      inkscape:window-y="55"
      inkscape:window-maximized="0"
@@ -1096,7 +1096,7 @@
      height="9.7118559"
      x="-0.0092511885"
      y="3.3236351"
-     rx="0"
+     rx="0.03125"
      ry="21.3787" />
   <g
      transform="matrix(0,0.16698968,-0.16698968,0,17.043252,7.7543996)"
@@ -1124,14 +1124,14 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-weight:normal;font-size:1.82370579px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#485361;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     x="14.961255"
-     y="2.109612"
+     x="17.470901"
+     y="2.2087235"
      id="text4602"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan4604"
-       x="14.961255"
-       y="2.109612"
+       x="17.470901"
+       y="2.2087235"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.82370579px;font-family:'Mary Jane Antique';-inkscape-font-specification:'Mary Jane Antique';stroke:#485361;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">Incremental Video</tspan></text>
   <text
      xml:space="preserve"
@@ -1200,4 +1200,13 @@
        y2="9.4314547"
        id="line4600-6" />
   </g>
+  <rect
+     ry="21.378702"
+     rx="0.03125"
+     y="0.24318151"
+     x="16.657953"
+     height="2.5243599"
+     width="17.453386"
+     id="rect4295"
+     style="opacity:0.09500002;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#485361;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
 </svg>
