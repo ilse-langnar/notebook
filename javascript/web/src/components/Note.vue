@@ -543,6 +543,10 @@ export default {
     color: var( --text-color );
 }
 
+.note .textarea {
+    border-bottom: 1px solid var( --text-color );
+}
+
 .markdown {
     margin-bottom: 6px;
     width: fit-content;

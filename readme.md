@@ -37,6 +37,15 @@ Ilse is based on the Vitruvian Brain Framework: https://ilse-langnar.github.io/n
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-13.png" />
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-14.png" />
 
+## Forgetting Curve
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/forgetting-curve.jpg" />
+
+## Incremental Reading & Spaced Repetition( How it works )
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/incremental-reading.svg" />
+
+## Incremental Video( How it works )
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/incremental-video.svg" />
+
 ## Todos
 Todo List
 - Vitruvian

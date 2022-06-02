@@ -9,11 +9,11 @@
 
         img( v-show="!is_markdown_mode_on" src="@/assets/images/letter-case.svg" @click="toggle_markdown_mode"  title="Render results as text?" aria-role="text" alt="text-mode" )
 
-        img( v-show="filter === 'notes' " src="@/assets/images/point.svg" @click="toggle_filter_mode"  title="Toggle Filter" aria-role="markdown" alt="markdown-mode" )
+        img( v-show="filter === 'notes' " src="@/assets/images/point.svg" @click="toggle_filter_mode" title="Filter Mode: Notes" aria-role="markdown" alt="markdown-mode" )
 
-        img( v-show="filter === 'files' " src="@/assets/images/file.svg" @click="toggle_filter_mode"  title="Toggle Filter" aria-role="text" alt="text-mode" )
+        img( v-show="filter === 'files' " src="@/assets/images/file.svg" @click="toggle_filter_mode"  title="Filter Mode: Files " aria-role="text" alt="text-mode" )
 
-        img( v-show="filter === 'all' " src="@/assets/images/filter.svg" @click="toggle_filter_mode"  title="Toggle Filter" aria-role="text" alt="text-mode" )
+        img( v-show="filter === 'all' " src="@/assets/images/filter.svg" @click="toggle_filter_mode"  title="Filter Mode: Notes+Files" aria-role="text" alt="text-mode" )
 
 
 
@@ -394,11 +394,9 @@ export default {
     word-wrap: break-word;
     font-weight: 0;
     background-color: #f1f1f1;
-    background-color: var( --text-color );
-    color: var( --background-color );
     background-color: var( --background-color );
     color: var( --text-color );
-    border: var( --border );
+    border: 1px solid var( --background-color );
 }
 
 .search-result {

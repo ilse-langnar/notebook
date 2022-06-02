@@ -28,6 +28,10 @@ const printf                                        = console.log;
 // },
 
 
+
+require("@/assets/domarrow.css")
+require("@/assets/js/domarrow.js")
+
 export default {
 
     name: "App",

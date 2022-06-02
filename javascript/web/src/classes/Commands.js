@@ -219,6 +219,23 @@ class Commands {
                 name: "Open File",
             },
 
+            {
+                id: "open-help-modal",
+                fn: function() {
+                    ilse.modals.open( "help" )
+                },
+                description: "Will open the help modal",
+                name: "Open Help Modal",
+            },
+
+            {
+                id: "open-configuration-modal",
+                fn: function() {
+                    ilse.modals.open( "configuration" )
+                },
+                description: "Will open the configuration modal",
+                name: "Open Configuration Modal",
+            },
         ]
     }
 
