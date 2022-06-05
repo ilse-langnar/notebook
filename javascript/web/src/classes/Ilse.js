@@ -52,6 +52,7 @@ export default class Ilse {
         this.env                    = process.env
         this.name                   = "Ilse Langnar's Notebook"
         this.key                    = "ilse-key"
+        this.keys                   = { daily_notes: "daily-notes-key" }
         this.tried_too_fast         = false
         this.is_vitruvian_expanded  = false
 
@@ -143,8 +144,37 @@ export default class Ilse {
         this.after_setup()
     }
 
+    auto_save() {
+
+        let _this       = this
+        let one_minute  = 1 * 60 * 1000
+        let should_save
+
+        setInterval( () => {
+
+            should_save = true
+
+            this.notification.send( "Saving in 3s ", "Press on 'x' to cancel", {
+                on_cancel: function() {
+                    should_save = false
+                    printf( "on_cancel -> should_save -> ", should_save )
+                },
+                on_close: function( notification ) {
+                    printf( "Ilse.js -> on_close -> notification -> ", notification )
+                    if( should_save ) {
+                        _this.save()
+                        _this.notification.send( "Saved", "Modifications were saved" )
+                    }
+                }
+            })
+
+        }, 10 * 1000  )
+
+    }
+
     after_setup() {
         this.loaded()
+        // this.auto_save()
         this.create_daily_page()
     }
 
@@ -153,14 +183,12 @@ export default class Ilse {
         Messager.emit( "~ilse", "loaded", this )
     }
 
-    async save( notify ) {
+    async save() {
 
         let is_attempting_too_fast  = this.last_attempt >= ( Date.now() - 4000 )
             if( is_attempting_too_fast ) return
 
         this.last_attempt           =  Date.now()
-
-        if( notify ) ilse.notification.send( "Saved", "Sucessfully Saved!" )
 
          this.config.save()
     }
@@ -178,8 +206,12 @@ export default class Ilse {
 
     }
 
-    update_key() {
+    reload() {
         this.key = Math.random()
+    }
+
+    update_key( key ) {
+        this.keys[key] = Math.random().toString()
     }
 
 }

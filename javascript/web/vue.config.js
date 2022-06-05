@@ -14,7 +14,12 @@ module.exports = {
                 linux: {
                     // icon: 'src/assets/logo.svg',
                     category: "Productivity",
+                },
+                mac: {
+                    // icon: 'src/assets/logo.svg',
+                    category: "Productivity",
                 }
+
             },
             nodeModulesPath: [ './node_modules' ],
             // mainProcessFile: 'dist_electron/bundled/background.js',

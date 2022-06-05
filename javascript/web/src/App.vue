@@ -304,23 +304,23 @@ fieldset[disabled] .pagination-ellipsis {
   flex-shrink: 0;
   font-size: 0;
   height: 20px;
-  max-height: 20px;
-  max-width: 20px;
-  min-height: 20px;
-  min-width: 20px;
+  max-height: 30px;
+  max-width: 30px;
+  min-height: 30px;
+  min-width: 30px;
   outline: none;
   position: relative;
   vertical-align: top;
-  width: 20px;
+  width: 30px;
 }
 
 .delete::before, .delete::after {
   background-color: white;
   content: "";
   display: block;
-  left: 50%;
+  left: 80%;
   position: absolute;
-  top: 50%;
+  top: 20%;
   transform: translateX(-50%) translateY(-50%) rotate(45deg);
   transform-origin: center center;
 }

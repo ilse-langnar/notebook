@@ -41,23 +41,6 @@
                     option( value="concentric" ) concentric
                     option( value="cose" ) cose
 
-            .vitruvian-brain( v-if="selected === 'Vitruvian Brain' " )
-
-                input.input
-                .flex
-                    p.fitem {{ilse.brains.first.queue.length}} Items
-                    p.fitem {{get_tags().length}} Tags 
-                    p.fitem {{items_with_tags}} Tagged
-                    p.fitem {{Math.round(items_with_tags / ilse.brains.first.queue.length * 100)}}%
-
-                br
-
-                .loop.flex.is-pulled-left( v-for="( item, index ) in get_tags()" :key="index" )
-                    p {{item}}({{get_tags(item).length}}) 
-                    .arrows.is-pulled-right
-                        img( src="@/assets/images/arrow-narrow-top.svg" style="width: 20px; cursor: pointer;" title="Increase Priority" )
-                        img( src="@/assets/images/arrow-narrow-down.svg" style="width: 20px; cursor: pointer;" title="Decrease Priority" )
-
             .keyboard-shortcut( v-if="selected === 'Keyboard Shortcut' " )
 
                 .key( v-for="( key, index ) in ilse.keyboard.keys" :key="index" )
@@ -94,7 +77,6 @@ export default {
                 { name: "Themes", img: "palette.svg" },
                 { name: "Snippets", img: "brand-css3.svg" },
                 { name: "Graph", img: "network.svg" },
-                { name: "Vitruvian Brain", img: "math-function.svg" },
                 { name: "Keyboard Shortcut", img: "keyboard.svg" },
             ]
         }

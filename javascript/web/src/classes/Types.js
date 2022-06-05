@@ -360,24 +360,24 @@ class componentTypes {
         })
 
         this.add({
-            id: "first-brain-config",
-            name: "First Brain Config",
-            description: "Configuration for the first brain",
-            img: require("@/assets/images/letter-i.svg"),
-            type: "vue",
-            component: require("@/components/FirstBrainConfig.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
             id: "type-selection",
             name: "Type Selection",
             description: "List of all of your types",
             img: require("@/assets/images/letter-i.svg"),
             type: "vue",
             component: require("@/components/Types.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
+        this.add({
+            id: "first-brain",
+            name: "First Brain",
+            description: "Study, Remember, Think and more",
+            img: require("@/assets/images/letter-i.svg"),
+            type: "vue",
+            component: require("@/components/FirstBrain.vue"),
             props: {
                 is_internal: true,
             }

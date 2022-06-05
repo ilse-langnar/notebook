@@ -44,11 +44,41 @@ export default class Notes {
         // setTimeout( () => { this.save() }, 1000 * 5/*every 5 minutes*/ )
     }
 
-    watch_file() {
+    // Watches notes for more or less notes.
+    async watch_file() {
 
-        let one_minute = 1000 * 60
+        // let one_minute   = 1 /*minutes*/ * 60 /*second*/ * 1000 /*miliseconds*/
+        let thirty_seconds = 30 /*second*/ * 1000 /*miliseconds*/
+        let len            = this.list.length
+        let text
+        let notes
+        let has_new_notes
+        let depth
 
-        setTimeout( () => { }, one_minute )
+        setInterval( async () => {
+            len            = this.list.length
+            text           = await this.filesystem.file.get( "notes" )
+            notes          = text.split("\n")
+            has_new_notes  = notes.length !== len
+
+            if( has_new_notes ) {
+                let new_notes_negative_index = len - notes.length
+                let new_items                = notes.slice( --new_notes_negative_index ).filter( e=>e )
+                let has_new_items            = new_items.length
+
+                if( has_new_items ) {
+
+                    new_items.map( item => {
+                        // depth = ilse.utils.get_depth_spaces( item.split("    ") )
+                        printf( "item -> ", item )
+                        this.add( item, this.list.length, 0 )
+                    })
+
+                    // Messager.emit( "~notes", "reload" ) // Problem: We'll try scrolling with that bread moment of no notes, which
+                }
+            }
+
+        }, thirty_seconds )
 
     }
 
@@ -96,38 +126,6 @@ export default class Notes {
 
             this.add( `Click on the help button on top for the tutorial`, this.list.length, 0 )
 
-            /*
-            let last_bullet
-            for( let i = 0; i < len; i++ ) {
-                last_bullet = this.list[this.list.length - 1]
-                printf( "last_bullet -> ", last_bullet )
-                printf( "demo_notes[i] -> ", demo_notes[i] )
-                this.add_after( demo_notes[i].content, demo_notes[i].depth, last_bullet )
-            }
-            */
-
-            /*
-            setTimeout( () => {
-                let last_bullet = this.list[_this.list.length - 1]
-                this.add_after( demo_notes[0].content, demo_notes[0].depth, last_bullet )
-            }, 500 )
-            */
-
-            /*
-            let index = 0
-            for( const value of demo_notes ) {
-                index++
-
-                (function(value, index) {
-                    setTimeout( async () => {
-                        let last_bullet = _this.list[_this.list.length - 1]
-                        _this.add_after( value.content, value.depth, last_bullet )
-                    }, index * 50 )
-                }( value, index ))
-
-            }
-            */
-
         } else {
             if( has_z ) return
             note           = `${time_id}: "Hello, World"` // 20220120155758: Hello, World
@@ -138,7 +136,7 @@ export default class Notes {
 
     async get_notes() {
 
-        // BUGFIX: if no z, create it and give a hello, world note.
+        // BUGFIX: if no 'notes', create it and give a hello, world note.
         await this.create_notes_if_not_there()
 
         let textfile         = await this.filesystem.file.get( "notes" )

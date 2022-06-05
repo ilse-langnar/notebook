@@ -35,8 +35,6 @@ Write-Output $outputFile
 Start-Sleep -s 5
 
 
-
-
 # PowerShell
 #ImageMagick Convert Command-Line Tool
 ##Use the convert program to convert between image formats as well as resize an image, blur, crop, despeckle, dither, draw on, flip, join, re-sample, and much more. See Command Line Processing for advice on how to structure your convert command or see below for example usages of the command.

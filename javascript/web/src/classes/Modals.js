@@ -101,6 +101,13 @@ class Modals {
             props: {},
         })
 
+        this.add({
+            id: "first-brain",
+            name: "First Brain",
+            component: ilse.types.get( "first-brain" ),
+            props: {},
+        })
+
     }
 
     open( id, payload ) {

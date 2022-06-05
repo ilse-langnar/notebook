@@ -43,8 +43,25 @@ Ilse is based on the Vitruvian Brain Framework: https://ilse-langnar.github.io/n
 ## Incremental Reading & Spaced Repetition( How it works )
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/incremental-reading.svg" style="width: 100% !important;" />
 
+### Example
+You import a wikipedia article on: Alcohol, and you see a table with a bunch of alcohols and how to name them: 
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/all-alcohols.png" style="width: 100% !important;" />
+You can take one screenshot for each item, in order to add them to your "study" where each item will get scheduled individually based on your memory
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol.png" style="width: 100% !important;" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-2.png" style="width: 100% !important;" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-3.png" style="width: 100% !important;" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-4.png" style="width: 100% !important;" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-5.png" style="width: 100% !important;" />
+
+
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/all-alcohols.png" style="width: 100% !important;" />
+
 ## Incremental Video( How it works )
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/incremental-video.svg" style="width: 100% !important;" />
+
+
+## Plugins, Themes, Snippets 
+If you want to make a plugin, please download the [Plugin Template](https://github.com/ilse-langnar/plugin-template) if you want to make a Theme, then download the [Theme Template](https://github.com/ilse-langnar/theme-template) and if you want to make a snippt, just make a normal note with the tag ==#i/css== and a css code block like ```css body { background: red; }```
 
 ## Todos
 Todo List
@@ -65,5 +82,3 @@ Todo List
 ## Installing
 - [Installing](https://github.com/ilse-langnar/notebook/blob/dev/markdown/dev.md)
 - [Contributing](https://github.com/ilse-langnar/notebook/blob/dev/markdown/contributing.md)
-
-

@@ -14,25 +14,50 @@ class Notification {
         // this.send({ title: "Title", text: "Description" })
     }
 
-    send(title, text, options = { theme: "is-dark", light: true, time: 3000 } ) {
+    send( title, text, {
+        theme    = "is-dark",
+        type     = "normal",
+        time     = 3000,
+        on_close = null,
+        on_cancel= null }) {
+
+        printf( "1" )
+
+        printf( "theme -> ", theme )
+        printf( "type -> ", type )
+        printf( "time -> ", time )
+        printf( "on_close -> ", on_close )
+        printf( "on_cancel -> ", on_cancel )
 
         let item = {
             title,
             text,
-            options,
+
+            type,
+            theme,
+            time,
+            on_close,
+            on_cancel,
         }
+        printf( "@@@@ item -> ", item )
+        printf( "2" )
 
         this.items.push( item )
+        printf( "3" )
 
         this.delete_after_time( item )
+        printf( "4" )
 
         return item
     }
 
     delete_after_time( item ) {
 
-        let time  = item.options.time
-        setTimeout( () => { this.remove( item ) }, item.options.time )
+        let time  = item.time
+        setTimeout( () => {
+            this.remove( item )
+            item.on_close( item ) // natural on_close call
+        }, item.time )
     }
 
     remove( item ) {

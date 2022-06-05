@@ -104,6 +104,10 @@ export default {
     --background-color: #181C20;
     --background-color: #0E1011;
 
+    --background-color: #252a2cff;
+
+    --background-color: #131313ff;
+
     --text-color: #fff;
     --text-color: #F8F8F8;
 

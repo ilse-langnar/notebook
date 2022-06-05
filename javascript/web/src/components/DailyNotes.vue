@@ -1,11 +1,11 @@
 <template lang="pug" >
-.daily-notes( style="height: 100%; " )
+.daily-notes( style="height: 100%; " :key="ilse.keys.daily_notes" )
 
     .day( v-for="( day, day_index ) in days" style="width: 97%; margin: 0 auto;" )
 
         .flex
             .options.centered
-                p.flexi.is-size-3.has-text-weight-bold( :title=" 'notes: ' + day.notes.length" ) {{get_file( day )}}
+                p.flexi.is-size-3.has-text-weight-bold( :title=" 'notes: ' + day.notes.length" @click="notify_now()" ) {{get_file( day )}}
                 img( src="@/assets/images/filter.svg" style="cursor: pointer; width: 20px; margin-left: 5px;" title="Filter"                    )
                 img( src="@/assets/images/minus.svg"  style="cursor: pointer; width: 20px; margin-left: 5px;" title="Filter"                    )
                 img( src="@/assets/images/plus.svg"   style="cursor: pointer; width: 20px; margin-left: 5px;" title="Filter"                    )
@@ -58,6 +58,17 @@ export default {
     },
 
     methods: {
+
+        notify_now() {
+
+            ilse.notification.send( "Title", "Description", {
+                type: "normal",
+                on_cancel: function( notification ) {
+                    printf( "on_cancel -> notification -> ", notification )
+                }
+            })
+
+        },
 
         on_note_middle_click( note ) {
             ilse.clipboard.write( note.id )
@@ -230,6 +241,9 @@ export default {
 
         load_day_before() {
 
+            let has_days = this.days.length
+                if( !has_days ) return
+
             // Last day on list
             let last_day_id       = this.days[this.days.length - 1].id // last day in "days"
                 let year          = last_day_id.substr( 0, 4 )
@@ -377,11 +391,19 @@ export default {
                 if( action === "added" ) {
 
                     let after       = payload.after
+                    printf( "after -> ", after )
+
                     let new_note    = payload.note
+                    printf( "new_note -> ", new_note )
+                    printf( "this.days -> ", this.days )
 
                     let is_equal
                     let day         = this.get_note_day( after )
+                    printf( "day -> ", day )
+
                     let note_index  = day.notes.indexOf( after )
+                    printf( "note_index -> ", note_index )
+
                     let day_index   = this.days.indexOf( day )
                         this.days[day_index].notes.splice( ++note_index, 0, new_note )
 

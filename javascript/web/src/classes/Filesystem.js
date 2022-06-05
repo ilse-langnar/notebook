@@ -9,10 +9,12 @@ const printf                        = console.log
 // Filesystem
     import RESTFilesystem               from "@/classes/RESTFilesystem.js"
     import FSFilesystem                 from "@/classes/FSFilesystem.js"
-    import LocalStorageFilesystem       from  "@/classes/LocalStorageFilesystem.js"
+    import LocalStorageFilesystem       from "@/classes/LocalStorageFilesystem.js"
 
 // Libs
-    import axios                           from "axios"
+    import axios                         from "axios"
+    // import PowershellScript              from "@/classes/PowershellScript.js"
+    // import BashShellScript               from "@/classes/BashshellScript.js"
 
 const fs = require('fs')
 
@@ -101,8 +103,35 @@ export default class Filesystem {
         let has_plugins     = await this.dir.exists("plugins")
             if( !has_plugins ) await this.dir.create( "plugins" )
 
+        this.create_default_script()
+
         this.has_checked_zir_files = true
         // Messager.emit( "~filesystem", "zir-files-check" )
+    }
+
+    async create_default_script() {
+
+        let is_windows  = ilse.platform === "windows"
+        let is_linux    = ilse.platform === "linux"
+        let is_macos    = ilse.platform === "macOS"
+
+        let target_dir              = ilse.target_directories[0]
+
+        if( is_windows ) {
+            // let has_script     = await this.file.exists( "script.ps1" )
+                // if( !has_script ) await this.file.set( "script.ps1", new PowershellScript( target_dir ) )
+        }
+
+        if( is_linux ) {
+            // let has_script     = await this.file.exists( "script.sh" )
+                // if( !has_script ) await this.file.set( "script.sh", new BashshellScript( target_dir ) )
+        }
+
+        if( is_macos ) {
+            // let has_script     = await this.file.exists( "script.sh" )
+                // if( !has_script ) await this.file.set( "script.sh", new BashshellScript( target_dir ) )
+        }
+
     }
 
     loaded() {

@@ -236,6 +236,16 @@ class Commands {
                 description: "Will open the configuration modal",
                 name: "Open Configuration Modal",
             },
+
+            {
+                id: "open-first-brain-modal",
+                fn: function() {
+                    ilse.modals.open( "first-brain" )
+                },
+                description: "Will open the all-in-one first-brain modal",
+                name: "Open First Brain Modal",
+            },
+
         ]
     }
 
