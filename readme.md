@@ -52,7 +52,7 @@ You import a wikipedia article on: Alcohol, and you see a table with a bunch of 
 
 You can take one screenshot for each item, in order to add them to your "study" where each item will get scheduled individually based on your memory
 <br>
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol.png" style="width: 100% !important;" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol.png" style="width: 200px;" />
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-1.png" style="width: 200px;" />
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-2.png" style="width: 200px;" />
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-3.png" style="width: 200px;" />
