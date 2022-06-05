@@ -48,10 +48,10 @@ You import a wikipedia article on: Alcohol, and you see a table with a bunch of 
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/all-alcohols.png" style="width: 100% !important;" />
 You can take one screenshot for each item, in order to add them to your "study" where each item will get scheduled individually based on your memory
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol.png" style="width: 100% !important;" />
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-2.png" style="width: 100% !important;" />
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-3.png" style="width: 100% !important;" />
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-4.png" style="width: 100% !important;" />
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-5.png" style="width: 100% !important;" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-2.png" style="" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-3.png" style="" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-4.png" style="" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-5.png" style="" />
 
 
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/all-alcohols.png" style="width: 100% !important;" />
