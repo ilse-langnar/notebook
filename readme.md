@@ -46,7 +46,7 @@ Ilse is based on the Vitruvian Brain Framework: https://ilse-langnar.github.io/n
 ## Incremental Video( How it works )
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/incremental-video.svg" style="width: 100% !important;" />
 
-### Example
+### Example 1 - Chemistry
 You import a wikipedia article on: Alcohol, and you see a table with a bunch of alcohols and how to name them: 
 <br>
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/all-alcohols.png" style="width: 100% !important;" />
@@ -61,7 +61,7 @@ You can take one screenshot for each item, in order to add them to your "study" 
 <br>
 
 ## Plugins, Themes, Snippets 
-If you want to make a plugin, please download the [Plugin Template](https://github.com/ilse-langnar/plugin-template) if you want to make a Theme, then download the [Theme Template](https://github.com/ilse-langnar/theme-template) and if you want to make a snippt, just make a normal note with the tag ==#i/css== and a css code block like ```css body { background: red; }```
+If you want to make a plugin, please download the [Plugin Template](https://github.com/ilse-langnar/plugin-template) if you want to make a Theme, then download the [Theme Template](https://github.com/ilse-langnar/theme-template) and if you want to make a snippt, just make a normal note with the tag `#i/css` and a css code block like ```css body { background: red; }```
 
 ## Todos
 Todo List

@@ -60,6 +60,7 @@
     "vue-router": "^3.2.0",
     "vue-switches": "^2.0.1",
     "vue-upload-component": "^2.8.22",
+    "vuejs-heatmap": "^1.1.7",
     "vuetiful-board": "^0.3.5",
     "vuex": "^3.4.0",
     "vuex-persistedstate": "^4.0.0-beta.3"

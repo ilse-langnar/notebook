@@ -109,16 +109,6 @@ class Commands {
             },
 
             {
-                id: "open-file",
-                fn: function() {
-                    let component = new ilse.classes.Component({ type: "file", width: 12, props: { file: "Ilse.md" } })
-                        ilse.components.push( component )
-                },
-                description: "Will open a new component to load the content of a file",
-                name: "Open File",
-            },
-
-            {
                 id: "toggle-dark-mode",
                 fn: function() {
                     ilse.config.dark = !ilse.config.dark

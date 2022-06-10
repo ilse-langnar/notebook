@@ -4,7 +4,7 @@
     .vitruvian-brain( style="position: fixed; bottom: -3px; left: 0px; z-index: 99; " @drop.prevent="on_drop" @dragover.prevent )
 
         .closed( v-if="!ilse.is_vitruvian_expanded" )
-            img( src="@/assets/images/math-function.svg"      style="cursor: pointer; width: 30px; "   title="Open Vitruvian Study" @click="toggle_vitruvian_brain" @click.right="toggle_first_brain_modal" )
+            img( src="@/assets/images/math-function.svg"      style="cursor: pointer; width: 30px; "   title="Open Vitruvian Study" @click="toggle_first_brain_modal" )
 
         .open( v-if="ilse.is_vitruvian_expanded" style="width: 100%; background: var( --background-color ); max-height: 40px; position: fixed; bottom: 0px; left: 0px; overflow: hidden; " )
 

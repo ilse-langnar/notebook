@@ -332,8 +332,6 @@ export default {
                     if( has_note_match && (/*Filter*/ this.filter === "notes" || this.filter === "all" ) ) this.search_result.push( item )
                 }
 
-            printf( " 2 this.search_result -> this.search_result.length -> ", this.search_result.length )
-
             // === notes === //
             this.can_search = false
 

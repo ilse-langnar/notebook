@@ -2595,11 +2595,6 @@
   resolved "https://registry.yarnpkg.com/@zeit/schemas/-/schemas-2.6.0.tgz#004e8e553b4cd53d538bd38eac7bcbf58a867fe3"
   integrity sha512-uUrgZ8AxS+Lio0fZKAipJjAh415JyrOZowliZAzmnJSsf7piVL5w+G0+gFJ0KSu3QRhvui/7zuvpLz03YjXAhg==
 
-"@zip.js/zip.js@^2.4.12":
-  version "2.4.12"
-  resolved "https://registry.yarnpkg.com/@zip.js/zip.js/-/zip.js-2.4.12.tgz#1e6bce45e69869449ec2b4d800350b3aa9512076"
-  integrity sha512-Y9VTILBi067CUNyaCTeLXxAVbB547EdUfAJZndfpnqYm8r2blVmHAqvggPYw2p89rTCvJAhDXlGkY4cv0+JYmA==
-
 abab@^2.0.0:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.5.tgz#c0b678fb32d60fc1219c784d6a826fe385aeb79a"
@@ -5268,6 +5263,11 @@ d3-zoom@1:
     d3-interpolate "1"
     d3-selection "1"
     d3-transition "1"
+
+d3@3.5.17:
+  version "3.5.17"
+  resolved "https://registry.yarnpkg.com/d3/-/d3-3.5.17.tgz#bc46748004378b21a360c9fc7cf5231790762fb8"
+  integrity sha512-yFk/2idb8OHPKkbAL8QaOaqENNoMhIaSHZerk3oQsECwkObkCpJyjYwCe+OHiq6UEdhe1m8ZGARRRO3ljFjlKg==
 
 d3@^5.14, d3@^5.7.0, d3@^5.9.2:
   version "5.16.0"
@@ -9430,7 +9430,7 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-lodash@4, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.3:
+lodash@4, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.3, lodash@^4.17.4:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -9940,6 +9940,11 @@ moment-mini@^2.22.1:
   version "2.24.0"
   resolved "https://registry.yarnpkg.com/moment-mini/-/moment-mini-2.24.0.tgz#fa68d98f7fe93ae65bf1262f6abb5fb6983d8d18"
   integrity sha512-9ARkWHBs+6YJIvrIp0Ik5tyTTtP9PoV0Ssu2Ocq5y9v8+NOOpWiRshAp8c4rZVWTOe+157on/5G+zj5pwIQFEQ==
+
+moment@^2.18.1:
+  version "2.29.3"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.3.tgz#edd47411c322413999f7a5940d526de183c031f3"
+  integrity sha512-c6YRvhEo//6T2Jz/vVtYzqBzwvPT95JBQ+smCytzf7c50oMZRsR/a4w88aD34I+/QVSfnoAnSBFPJHItlOMJVw==
 
 mousetrap@^1.6.5:
   version "1.6.5"
@@ -14416,13 +14421,6 @@ vue-i18n@^8.24.4:
   resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-8.24.5.tgz#7127a666d5be2199be69be39e439a419a90ff931"
   integrity sha512-p8W5xOmniuZ8fj76VXe0vBL3bRWVU87jHuC/v8VwmhKVH2iMQsKnheB1U+umxDBqC/5g9K+NwzokepcLxnBAVQ==
 
-vue-js-modal@^2.0.0-rc.6:
-  version "2.0.0-rc.6"
-  resolved "https://registry.yarnpkg.com/vue-js-modal/-/vue-js-modal-2.0.0-rc.6.tgz#2fd596c79a713d2cbf447150abb5fefce65efd2d"
-  integrity sha512-bJOm7Yhrl0ur/QyXjoC3gMMmE7UxiVEcS2rl8v9iPXIe9QLvjiCSZElSOvvyps8LNuG1X0rPifZGxI/CWKCFaw==
-  dependencies:
-    resize-observer-polyfill "^1.5.1"
-
 vue-js-popover@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/vue-js-popover/-/vue-js-popover-1.2.1.tgz#ef48ea253483c9357bdb92bbe213e602cb28a279"
@@ -14508,15 +14506,20 @@ vue-upload-component@^2.8.22:
   resolved "https://registry.yarnpkg.com/vue-upload-component/-/vue-upload-component-2.8.22.tgz#7a1573149a4afa5ca6e8c7e0bc70533925fe26b7"
   integrity sha512-AJpETqiZrgqs8bwJQpWTFrRg3i6s7cUodRRZVnb1f94Jvpd0YYfzGY4zluBqPmssNSkUaYu7EteXaK8aW17Osw==
 
-vue@^2.2.6, vue@^2.6.10, vue@^2.6.11, vue@^2.6.14:
+vue@^2.2.6, vue@^2.3.3, vue@^2.6.10, vue@^2.6.11, vue@^2.6.14:
   version "2.6.14"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.14.tgz#e51aa5250250d569a3fbad3a8a5a687d6036e235"
   integrity sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==
 
-vuejs-dialog@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/vuejs-dialog/-/vuejs-dialog-1.4.2.tgz#33ef5a7669291c1bb09f2e958c4a438e54cdd293"
-  integrity sha512-6kRse144WXDFBMKdeuqE43rHy0ZJ81uLOFh62r2d80ICKavQYHIvr+GlTFmoR23190lC4f2w+ZJ8cS4ljkCDMw==
+vuejs-heatmap@^1.1.7:
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/vuejs-heatmap/-/vuejs-heatmap-1.1.7.tgz#fe60c85ee099affda8b954dc42cec9e3b9e9f549"
+  integrity sha512-JBMwiW0LPOjMPyY5esUwNPPLq0sh+wpKt/AUfTfdTIJxVm0ylk+ITk6lz36pMOX4FUnsK3KfnBYURhMEhw32vw==
+  dependencies:
+    d3 "3.5.17"
+    lodash "^4.17.4"
+    moment "^2.18.1"
+    vue "^2.3.3"
 
 vuetiful-board@^0.3.5:
   version "0.3.5"

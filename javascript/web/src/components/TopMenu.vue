@@ -13,7 +13,7 @@
 
         .vspace
 
-        img( src="@/assets/images/report.svg"      style="cursor: pointer;width:20px;margin-left: 15px;"   title="Statistics"  @click="open_statistics" )
+        // img( src="@/assets/images/report.svg"      style="cursor: pointer;width:20px;margin-left: 15px;"   title="Statistics"  @click="open_statistics" )
 
         // img( src="@/assets/images/math-function.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="toggle_first_brain_tools" accesskey="i" )
 

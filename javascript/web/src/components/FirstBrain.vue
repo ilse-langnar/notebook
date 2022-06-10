@@ -34,7 +34,13 @@
 
 
             .priority( v-if="selected === 'Priority' " )
-                input.input
+
+                .flex
+                    input.input
+                    img( :src=" priority_mode === 'table' ? require('@/assets/images/columns.svg') : require('@/assets/images/list-details.svg') " style="cursor: pointer;" @click="toggle_priority_mode()" title="Toggle display mode" )
+
+                br
+
                 .flex
                     p.fitem {{ilse.brains.first.queue.length}} Items
                     p.fitem {{get_tags().length}} Tags 
@@ -43,29 +49,84 @@
 
                 br
 
-                .loop.flex.is-pulled-left( v-for="( item, index ) in get_tags()" :key="index" )
-                    p {{item}}({{get_tags(item).length}}) 
-                    .arrows.is-pulled-right
-                        img( src="@/assets/images/arrow-narrow-top.svg" style="width: 20px; cursor: pointer;" title="Increase Priority" )
-                        img( src="@/assets/images/arrow-narrow-down.svg" style="width: 20px; cursor: pointer;" title="Decrease Priority" )
+                table( v-if="priority_mode === 'table'" )
+                    tr
+                        th Tag 
+                        th Items 
+                        th Priority 
+                    tr( v-for="( item, index ) in get_tags() " :key="index" )
+                        td {{item}}
+                        td {{get_tags(item).length}}
+                        td 
+                            input.input( v-model.number="ilse.brains.first.priorities.priorities[item]" type="number"  style="width: 55px; " @change="on_priority_change" )
 
+                .loop.flex.is-pulled-left( v-if="priority_mode === 'compressed' " v-for="( item, index ) in get_tags()" :key="index" )
+                    p( :title="'Total' + get_tags(item).length" ) {{item}} 
+                    input.input( v-model.number="ilse.brains.first.priorities.priorities[item]" type="number"  style="width: 55px; " @change="on_priority_change" )
 
-    // .centered.menu
-        p.is-size-4 Review
-        p.is-size-4 All
-        p.is-size-4 Configuration
+            .statistics( v-if="selected === 'Statistics' " )
 
-    // img.is-pulled-right( src="@/assets/images/trash.svg"     title="Toggle First Brain Tools"  @click="ilse.brains.first.remove()" )
-    // br
+                .loop( v-for="( list, index ) in Object.values(get_cubes())" :key="index" )
+                    p.is-size-5.centered {{get_pretty_date(Object.keys(get_cubes())[index])}}
 
-    // .centered
-        img( src="@/assets/images/minus.svg"     title="Toggle First Brain Tools"  @click="ilse.brains.first.decrease()" )
-        img( src="@/assets/images/plus.svg"      title="Toggle First Brain Tools"  @click="ilse.brains.first.increase()" )
-    // br
+                    table.table
+                        tr
+                            th Total
+                            th Tags
+                            th Time Record
+                            th Total Time
+                        tr
+                            td.is-size-7 {{list.length}}
+                            .loop( v-for="( item, item_index ) in get_most_common_tag(list)" :key="'ll' + item_index" )
+                                p {{get_most_common_tag(list)[item_index][0]}}  {{get_most_common_tag(list)[item_index].length}}  
+                            // td.is-size-7
+                                p {{ilse.utils.truncate_text(get_most_time(list).item, 30)}} ({{Math.round(get_most_time(list).time / 30)}})
+                            td.is-size-7
+                                p {{get_total_time(list)}}
 
-    // img( src="@/assets/images/lupe.svg"      title="Toggle First Brain Tools"  @click="ilse.brains.first.show_query( item => ilse.brains.first.read(item) )" accesskey="i" )
-    // img( src="@/assets/images/hash.svg"      title="Toggle First Brain Tools"  @click="ilse.brains.first.tag()" accesskey="i" )
-    // img( src="@/assets/images/settings.svg"  title="Toggle First Brain Tools"  @click="ilse.modals.open('first-brain-config')" accesskey="i" )
+                    table.table
+                        tr
+                            th Name
+                            th Time
+                            th Seen
+                            th Interest
+                            th Tags
+                        tr( v-for="( cube, index ) in list" :key="index" )
+                            // td.is-size-7( :title="cube.item" ) {{ilse.utils.truncate_text(cube.item, 30)}}
+                            // td.is-size-7( :title="cube.time + 'sec'" ) {{Math.round(cube.time / 60)}} min
+                            td.is-size-7( :title="cube.time / 60 + 'min'" ) {{cube.time}}sec
+                            td.is-size-7 {{cube.seen}}
+                            td.is-size-7 {{cube.interest}}
+                            td.is-size-7 {{cube.tags}}
+
+                    .space
+                     
+
+                    // .cube( v-for="( cube, cube_index ) in list"  :key="'cube_index' + cube_index" )
+                        p.is-pulled-left {{cube.tags}} &nbsp;
+
+                    // .space
+
+                    // .cube( v-for="( cube, cube_index ) in list"  :key="'cube_index' + cube_index" )
+                        p.cube( :title="cube.item" ) 
+
+            .videos( v-if="selected === 'Videos' " )
+                .loop( v-for="( item, index ) in ilse.brains.first.queue" :key="index" )
+                    .video( v-if="item.indexOf('mp4') !== -1" )
+                        // p {{item}} 
+                        // p {{'atom://first/' + item.split('/')[0]}}
+                        p {{resolve_item_path(item)}}
+                        // video.video( v-if="index % 2 === 0" :src="resolve_item_path(item)" style="width: 100px; height: 100px;" )
+
+            .images( v-if="selected === 'Images' " )
+                .loop( v-for="( item, index ) in ilse.brains.first.queue" :key="index" )
+                    .image( v-if="item.indexOf('png') !== -1 || item.indexOf('jpg') !== -1 || item.indexOf('jpeg') !== -1|| item.indexOf('gif') !== -1" )
+                        p {{item.split("/")[0]}}
+                        img.is-pulled-left( :src="resolve_item_path(item)" )
+                        .space
+
+            .address-book( v-if="selected === 'Books & Articles' " )
+                p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 </template>
 <script>
@@ -78,30 +139,221 @@ const printf                                        = console.log;
 // Messager
     import Messager                     from "@/classes/Messager.js"
 
+// Import
+    import VuejsHeatmap     from 'vuejs-heatmap'
+
 export default {
 
     name: "FirstBrain",
+
+    components: {
+        VuejsHeatmap,
+    },
+
+    computed: {
+
+
+    },
 
     data() {
         return {
             ilse: ilse,
 
+            priority_mode: "table", // compressed and table
+            can_save_priority: true,
+
             pointer: 0,
             chunks: [],
 
             selected: "Review",
-            cache: null,
+
+            caches: {
+                cubes: null,
+                tags: null,
+            },
+
             items_with_tags: 0,
             options: [
                 { name: "Review", img: "settings.svg" },
                 { name: "Priority", img: "vertical-list.svg" },
                 { name: "Statistics", img: "report.svg" },
                 { name: "Search", img: "lupe.svg" },
+                { name: "Videos", img: "video.svg" },
+                { name: "Images", img: "photo.svg" },
+                { name: "Books & Articles", img: "address-book.svg" },
             ]
         }
     },
 
     methods: {
+
+        resolve_item_path( item ) {
+            let target_dir  = ilse.target_directories[0]
+            item            = item.split( "/" )[0]
+            return `atom://${target_dir}/first/${item}`
+        },
+
+        get_total_time( list ) {
+
+            let total_time  = 0
+            list.map( item => {
+                total_time  += item.time
+            })
+
+            total_time = total_time / 60 // min
+            total_time = total_time / 60 // hours
+            total_time = Math.round( total_time ) // round
+
+            return `${total_time} hours`
+        },
+
+        get_most_time( list ) {
+
+            let time_list   = []
+            list.map( item => {
+                time_list.push({time: item.time, item: item.item })
+            })
+
+            let sorted_time = time_list.sort( (a,b) => {
+                return b.time - a.time
+            })
+            let most_time   = sorted_time[0]
+
+            return most_time
+        },
+
+        get_most_common_tag( list ) {
+
+            let tags = {}
+            let has_tags, tag, has_multiple, multiple
+
+            list.map( item => {
+
+                has_tags     = item.tags
+                    if( !has_tags ) return
+
+                has_multiple = item.tags.indexOf(",") !== -1
+
+                if( !has_tags ) return
+
+                if( has_tags && has_multiple ) {
+                    multiple = item.tags.split(',') 
+
+                    multiple.map( m_item => {
+
+                        if( !tags[tag] ) {
+                            tags[tag] = []
+                            tags[tag].push( tag )
+                        } else {
+                            tags[tag].push( tag )
+                        }
+
+                    })
+
+                }
+
+                if( has_tags && !has_multiple ) {
+                    tag      = item.tags
+
+                    if( !tags[tag] ) {
+                        tags[tag] = []
+                        tags[tag].push( tag )
+                    } else {
+                        tags[tag].push( tag )
+                    }
+                }
+
+            })
+
+            let values        = Object.values( tags )
+            let sorted_values = values.sort( (a,b) => {
+                return b.length - a.length
+            })
+
+            return sorted_values
+
+        },
+
+        get_pretty_date( date ) {
+            // 20210411 -> January 2th, 2021
+            let pretty_date = ilse.utils.convert_from_date_unique_id_to_daily_note_format( date )
+            return pretty_date
+        },
+
+        toggle_priority_mode() {
+
+            if( this.priority_mode === 'table' ) {
+                this.priority_mode = "compressed"
+            } else {
+                this.priority_mode = "table"
+            }
+
+        },
+
+        on_priority_change() {
+
+            printf( "this.can_save_priority -> ", this.can_save_priority )
+            if( this.can_save_priority ) {
+                this.can_save_priority = false
+                ilse.brains.first.priorities.save()
+                setTimeout( () => { this.can_save_priority = true }, 1000 )
+            }
+            
+        },
+
+        get_item_priority( item ) {
+            return ilse.brains.first.priorities.priorities[item]
+        },
+
+        increase_priority( item ) {
+            ilse.brains.first.priorities.priorities[item]++
+            // ilse.brains.first.priorities.save()
+        },
+
+        decrease_priority( item ) {
+            ilse.brains.first.priorities.priorities[item]--
+            // ilse.brains.first.priorities.save()
+        },
+
+        get_cubes() {
+
+            // Check Cache
+            if( this.caches.cubes ) return this.caches.cubes
+
+            var today           = new Date()
+            let day             = today.getDate()
+            let month           = today.getMonth()
+            let year            = today.getFullYear()
+            let number_of_days  = ilse.utils.get_numer_of_days_in_month( month, year )
+            let flexible
+            let current = new Date(year, month, 1)
+
+            let obj = {}
+            ilse.brains.first.statistics.statistics.map( item => {
+
+                if( item.operation === "write" ) return
+                if( item.operation === "delete" ) return
+
+                year  = item.id.substr( 0, 4 )
+                month = item.id.substr( 4, 2 )
+                day   = item.id.substr( 6, 2 )
+
+                if( !obj[`${year}${month}${day}`] ) {
+                    obj[`${year}${month}${day}`] = []
+                    obj[`${year}${month}${day}`].push( item )
+                } else {
+                    obj[`${year}${month}${day}`].push( item )
+                }
+
+            })
+
+            // Cache
+            this.caches.cubes = obj
+
+            return obj
+
+            // this.cubes = obj
+        },
 
         increase_pointer() {
             if( this.pointer >= this.chunks.length ) return
@@ -116,23 +368,23 @@ export default {
         get_tags( tag_name ) {
 
             // FEATURE: CACHE
-            if( this.cache ) {
+            if( this.caches.tags ) {
 
                 if( tag_name ) {
-                    return this.cache[tag_name]
+                    return this.caches.tags[tag_name]
                 } else {
-                    let list   = Object.keys(this.cache)
+                    let list   = Object.keys( this.caches.tags )
                     let sorted = list.sort( (a,b) => {
-                        return this.cache[b].length - this.cache[a].length
+                        return this.caches.tags[b].length - this.caches.tags[a].length
                     })
                     return sorted
                 }
 
             }
 
-            let queue = this.ilse.brains.first.queue
+            let queue       = this.ilse.brains.first.queue
             let chunks, name, seen, interest, tags
-            let obj  = []
+            let obj         = []
             let items_with_tags = 0
 
             for( const item of queue ) {
@@ -162,10 +414,14 @@ export default {
                 }
             }
 
-            if( !this.cache ) this.cache = obj
+            if( !this.caches.tags ) this.caches.tags = obj
 
             // TODO: REMOVE: IMPURE: 
             this.items_with_tags = items_with_tags
+
+            // printf( "tag_name -> ", tag_name )
+            // printf( "obj -> ", obj )
+            // printf( "obj[tag_name] -> ", obj[tag_name] )
 
             if( tag_name ) {
                 return obj[tag_name]
@@ -223,8 +479,6 @@ export default {
 
         // ---------------------------------- Setup -------------------------- //
         setup() {
-
-
             let queue       = Array.from(this.ilse.brains.first.queue)
             let chunks      = this.ilse.utils.split_array_into_nth_legnth( queue, 100 )
                 this.chunks     = chunks
@@ -283,6 +537,58 @@ export default {
 
 .priority .fitem {
     margin: 0 auto;
+}
+
+
+.loop .input {
+    border: 1px solid var( --background-color );
+}
+
+.priorities table {
+    border: 1px solid #000;
+    margin: 0 auto;
+}
+
+table  {
+    width: 100%;
+
+}
+table tr th  {
+    padding: 10px;
+}
+
+.cube p.cube {
+    border: 1px solid var( --text-color );
+    width: 12px;
+    height: 12px;
+    overflow: hidden;
+    float: left;
+    margin-left: 2px;
+    margin-bottom: 2px;
+    cursor: pointer;
+    border-radius: var( --border-radius );
+}
+
+.space {
+    height: 40px;
+    clear: both;
+}
+
+table tr, th, td, td .loop {
+    padding: 15px;
+    text-align: left;
+    border: 1px solid var( --text-color );
+    border-radius: var( --border-radius );
+    color: var( --text-color ) !important;
+}
+
+
+.statistics {
+    overflow: hidden;
+}
+
+.images .loop .image {
+    border-radius: var( --border-radius );
 }
 
 </style>

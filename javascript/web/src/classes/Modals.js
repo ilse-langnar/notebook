@@ -110,9 +110,8 @@ class Modals {
 
     }
 
-    open( id, payload ) {
-        printf( "open -> id, payload -> ", id, payload )
-        Messager.emit( "modals.vue", "open", { target: id, payload: payload } )
+    open( id, payload, on_close = null ) {
+        Messager.emit( "modals.vue", "open", {target: id, payload: payload, on_close })
     }
 
     close() {

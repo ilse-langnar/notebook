@@ -15,6 +15,8 @@ const printf                        = console.log
     import Files                        from "@/classes/Files.js"
     import Markdown                     from "@/classes/Markdown.js"
     import Electron                     from "@/classes/Electron.js"
+    import Priorities                   from "@/classes/Priorities.js"
+    import Statistics                   from "@/classes/Statistics.js"
 
     // UI Elements
         import Menu                         from "@/classes/Menu.js"
@@ -126,9 +128,13 @@ export default class Ilse {
         // Brains
             this.brains                 = {}
             this.brains.first           = new FirstBrain( this )
+                this.brains.first.statistics= new Statistics( this )
+                this.brains.first.priorities= new Priorities( this )
+                // this.brains.first.queue     = new Queue( this )
             // this.brains.second          = new SecondBrain( this )
 
         this.markdown               = new Markdown()
+
         this.commands               = new Commands()
         this.graph                  = new Graph()
         this.keyboard               = new KeyboardShortcut(this)

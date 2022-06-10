@@ -312,18 +312,6 @@ class componentTypes {
         })
 
         this.add({
-            id: "statistics",
-            name: "Statistics",
-            description: "See Statistics",
-            img: require("@/assets/images/report.svg"),
-            type: "vue",
-            component: require("@/components/Statistics.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
             id: "types",
             name: "Types",
             description: "See and set types",

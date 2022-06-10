@@ -23,7 +23,7 @@ export default class Notes {
 
     async _setup() {
         this.listen()
-        this.watch_file()
+        // this.watch_file()
         this._auto_save()
     }
 
@@ -69,8 +69,6 @@ export default class Notes {
                 if( has_new_items ) {
 
                     new_items.map( item => {
-                        // depth = ilse.utils.get_depth_spaces( item.split("    ") )
-                        printf( "item -> ", item )
                         this.add( item, this.list.length, 0 )
                     })
 
