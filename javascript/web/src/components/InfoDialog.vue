@@ -121,6 +121,7 @@ export default {
         max-width: 43vw;
         min-width: 30vw;
     height: auto;
+        max-height: 50vh;
 
 
     left: 50%;
@@ -130,6 +131,7 @@ export default {
     background: #fff;
     border-radius: 10px;
     padding: 4px;
+    overflow: auto;
 }
 
 .shadow {

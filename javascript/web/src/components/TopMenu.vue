@@ -3,13 +3,13 @@
 
     .menu-item( style="margin: auto;" )
 
-        img( src="@/assets/images/menu.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Add Menu"  @click="toggle_menu" accesskey="m" )
+        // img( src="@/assets/images/menu.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Add Menu"  @click="toggle_menu" accesskey="m" )
 
         .vspace
 
         img( src="@/assets/images/calendar.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   title="Go to Daily Notes"  @click="add_daiyl_notes" accesskey="d" )
 
-        img( src="@/assets/images/news.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Open File"  @click="open_file" accesskey="o" )
+        // img( src="@/assets/images/news.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Open File"  @click="open_file" accesskey="o" )
 
         .vspace
 
@@ -50,7 +50,8 @@
         // .margin-small
 
 
-        img( src="@/assets/images/save.svg"   style="cursor: pointer; width: 20px; " title="Save" alt="Save" @click="save" accesskey="s" )
+        img( src="@/assets/images/command.svg"   style="cursor: pointer; width: 20px; " title="Save" alt="Save" @click="toggle_command_pallet" )
+        // img( src="@/assets/images/save.svg"   style="cursor: pointer; width: 20px; " title="Save" alt="Save" @click="save" accesskey="s" )
 
         .margin-small
 
@@ -106,6 +107,10 @@ export default {
 
     methods: {
 
+        toggle_command_pallet() {
+            ilse.modals.open( "command-pallet" )
+        },
+
         open_help_modal() {
             ilse.modals.open( "help" )
         },
@@ -155,39 +160,46 @@ export default {
         },
 
         on_note_search_on_result_select( payload ) {
+            printf( "TopMenu.vue -> on_note_search_on_result_select -> payload -> ", payload )
 
-            let is_note = payload.note
+            let is_note = payload.note_id
             let is_file   = payload.file
 
             let is_shift  = payload.shift
             let is_ctrl   = payload.ctrl
 
-            let note    = payload.note
+            let note      = payload.note_id
             let file      = payload.file
-            printf( "file -> ", file )
 
             if( is_note ) {
 
-                const instance    = new ilse.classes.Component({
-                    type: "edit-note",
-                    width: 8,
-                    props: {
-                        note: note,
-                    }
-                })
 
                 if( is_shift ) {
-                    ilse.components.push( instance )
-                    ilse.config.save()
-                    return
+
+                    let query_result = ilse.notes.query( `${note}:` )[0]
+                    ilse.clipboard.write( query_result.content )
                 }
 
                 if( is_ctrl ) {
+                    ilse.clipboard.write( note )
                     return
                 }
 
                 // No shift nor ctrl
                 if( !is_ctrl && !is_shift ) {
+
+                    let query_result  = ilse.notes.query( `${note}:` )[0]
+                    const instance    = new ilse.classes.Component({
+                        type: "edit-note",
+                        width: 8,
+                        props: {
+                            note: query_result,
+                        }
+                    })
+
+                    ilse.components.push( instance )
+                    ilse.config.save()
+                    return
 
                     // const instance    = new ilse.classes.Component({
                         // type: "edit-note",
@@ -196,7 +208,8 @@ export default {
                             // note: note,
                         // }
                     // })
-                    ilse.components.splice( 1, 1, instance )
+
+                    // ilse.components.splice( 1, 1, instance )
 
                 }
 

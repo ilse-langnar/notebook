@@ -24,17 +24,29 @@ export default class FSFilesystem {
             upload  : this.upload_file,
             exists  : this.has_path,
             stats   : this.get_file_stats,
+            is      : this.is_file,
         }
 
         this.dir = {
-            exists:   this.has_path,
-            create:   this.create_dir,
-            list:     this.read_dir,
+            exists  : this.has_path,
+            create  : this.create_dir,
+            list    : this.read_dir,
+            is      : this.is_directory,
         }
 
     }
 
     // <-------------------------------> Dir <-------------------------------> //
+    async is_directory( full_path ) {
+        let is = fs.lstatSync( path.join( target_directory, full_path ) ).isDirectory()
+        return is
+    }
+
+    async is_file( full_path ) {
+        let is = fs.lstatSync( path.join( target_directory, full_path ) ).isFile()
+        return is
+    }
+
     async create_dir( full_path ) {
 
         try {

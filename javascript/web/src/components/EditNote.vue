@@ -1,20 +1,79 @@
 <template lang="pug" >
-.edit-note
+// .edit-note
 
     .loop( v-for="( note, index ) in notes" :key="index" :style="get_note_style(note)" )
 
-        note( :note="note" 
+        Note( :note="get_note(note)" 
             @on-enter="on_enter"
             @on-ctrl-enter="on_ctrl_enter"
             @on-ctrl-shift-delete="on_ctrl_shift_delete"
             @on-tab="on_tab"
             @on-shift-tab="on_shift_tab"
+            @on-note-left-click="on_note_left_click" 
             @on-arrow-up="on_arrow_up"
             @on-arrow-down="on_arrow_down"
             @on-link-click="on_note_link_click"
         )
 
     GhostNote( @on-blur="on_ghost_note_blur" @on-enter="on_ghost_note_enter" )
+
+// .edit-note( :style="get_root_style( note ? note : component.props.note )" )
+
+    Note( v-if="note"  :note="note" 
+        @on-note-left-click="on_note_left_click" 
+        @on-enter="on_enter"
+        @on-ctrl-enter="on_ctrl_enter"
+        @on-ctrl-shift-delete="on_ctrl_shift_delete"
+        @on-tab="on_tab"
+        @on-shift-tab="on_shift_tab"
+        @on-arrow-up="on_arrow_up"
+        @on-arrow-down="on_arrow_down"
+        @on-link-click="on_note_link_click")
+
+    Note( v-if="!note" :note="component.props.note"
+        @on-note-left-click="on_note_left_click" 
+        @on-enter="on_enter"
+        @on-ctrl-enter="on_ctrl_enter"
+        @on-ctrl-shift-delete="on_ctrl_shift_delete"
+        @on-tab="on_tab"
+        @on-shift-tab="on_shift_tab"
+        @on-arrow-up="on_arrow_up"
+        @on-arrow-down="on_arrow_down"
+        @on-link-click="on_note_link_click")
+    .wrapper
+        .children( v-for="( _note, index ) in (note && note.children) ? note.children : component.props.note.children" :key="index" :style="get_note_style(_note)" )
+            EditNote( :note="_note" )
+
+
+.edit-note( :style="get_root_style( note ? note : component.props.note )" )
+
+
+    ul
+        li
+            Note( v-if="note"  :note="note" 
+                @on-note-left-click="on_note_left_click" 
+                @on-enter="on_enter"
+                @on-ctrl-enter="on_ctrl_enter"
+                @on-ctrl-shift-delete="on_ctrl_shift_delete"
+                @on-tab="on_tab"
+                @on-shift-tab="on_shift_tab"
+                @on-arrow-up="on_arrow_up"
+                @on-arrow-down="on_arrow_down"
+                @on-link-click="on_note_link_click")
+            Note( v-if="!note" :note="component.props.note"
+                @on-note-left-click="on_note_left_click" 
+                @on-enter="on_enter"
+                @on-ctrl-enter="on_ctrl_enter"
+                @on-ctrl-shift-delete="on_ctrl_shift_delete"
+                @on-tab="on_tab"
+                @on-shift-tab="on_shift_tab"
+                @on-arrow-up="on_arrow_up"
+                @on-arrow-down="on_arrow_down"
+                @on-link-click="on_note_link_click")
+    ul 
+        li.li.children( v-for="( _note, index ) in (note && note.children) ? note.children : component.props.note.children" :key="index" :style="get_note_style(_note)" )
+            EditNote( :note="_note" )
+
 
 </template>
 <script>
@@ -30,6 +89,7 @@ const printf                        = console.log;
 // Components
     import Note                         from "@/components/Note.vue"
     import GhostNote                    from "@/components/GhostNote.vue"
+    import EditNote                     from "@/components/EditNote.vue"
 
 export default {
 
@@ -37,12 +97,13 @@ export default {
 
     props: {
         component: { type: Object, required: false, },
-        note: { type: Object, required: false, },
+        note: { type: Object, required: false, }
     },
 
     components: {
         Note,
         GhostNote,
+        EditNote,
     },
 
     data() {
@@ -53,6 +114,48 @@ export default {
     },
 
     methods: {
+
+        on_note_left_click( payload ) {
+
+            let note        = payload.note
+            let event       = payload.event
+            let is_shift    = event.shiftKey
+            let is_ctrl     = event.ctrlKey
+
+            if( is_shift ) {
+                let component = new ilse.classes.Component({ type: "mind-map", width: 12, props: { note: note } })
+                    ilse.components.push( component )
+            }
+
+            if( is_ctrl ) {
+                let component = new ilse.classes.Component({ type: "memex", width: 12, props: { note: note } })
+                    ilse.components.push( component )
+            }
+
+        },
+
+        get_root_style( note ) {
+            let is_root = note.depth === 0
+            let style   = ``
+                if( is_root ) style += `width: 80%; margin: 0 auto; `
+
+            return style
+        },
+
+        // Control the margins
+        get_note_style( note ) {
+
+            // let style = `display: flex;`
+            let style = ``
+                if( note.depth ) style += `margin-left: ${18 * note.depth}px !important; `
+
+            return style
+        },
+
+        get_note( id ) {
+            let query_result = ilse.notes.query( `${id}:` )[0]
+            return query_result
+        },
 
         on_ghost_note_enter( payload ) {
 
@@ -97,7 +200,7 @@ export default {
         get_note_style( note ) {
 
             let style = ``
-                if( note.depth ) style += `margin-left: ${18 * note.depth}px; `
+                if( note.depth ) style += `margin-left: ${7 * note.depth}px; `
 
             return style
         },
@@ -191,15 +294,17 @@ export default {
 
         },
 
-        setup() {
-
+        check_component() {
             if( !this.component ) {
                 this.notes.push( this.note )
             } else {
                 this.set_note_from_component()
             }
-            this.listen()
+        },
 
+        setup() {
+            this.check_component()
+            this.listen()
         },
 
     },
@@ -210,3 +315,9 @@ export default {
 
 }
 </script>
+<style scoped>
+
+.edit-note {
+}
+
+</style>

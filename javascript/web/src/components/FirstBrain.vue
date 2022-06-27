@@ -10,8 +10,9 @@
             p.is-size-1( style="text-align: center;" ) {{selected}}
 
             .review( v-if="selected === 'Review' " )
-                p( :title="get_first_brain_last_item_info()" ) {{get_first_brain_last_item_info()}}
-                p LAST: {{get_first_brain_current_item()}}
+                // p( :title="get_first_brain_last_item_info()" ) {{get_first_brain_last_item_info()}}
+                // p LAST: {{get_first_brain_current_item()}}
+                p( :title="get_first_brain_current_item()" ) {{get_first_brain_current_item()}}
 
 
                 .centered.options
@@ -33,7 +34,7 @@
                     p {{chunk}} 
 
 
-            .priority( v-if="selected === 'Priority' " )
+            .priority( v-if="selected === 'Tags' " )
 
                 .flex
                     input.input
@@ -64,10 +65,17 @@
                     p( :title="'Total' + get_tags(item).length" ) {{item}} 
                     input.input( v-model.number="ilse.brains.first.priorities.priorities[item]" type="number"  style="width: 55px; " @change="on_priority_change" )
 
-            .statistics( v-if="selected === 'Statistics' " )
+            .global-statistics( v-if="selected === 'Global Statistics' " )
+                p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-                .loop( v-for="( list, index ) in Object.values(get_cubes())" :key="index" )
-                    p.is-size-5.centered {{get_pretty_date(Object.keys(get_cubes())[index])}}
+            .daily-statistics( v-if="selected === 'Daily Statistics' " )
+
+                img.is-pulled-left( src="@/assets/images/arrow-narrow-left.svg"   @click="decrease_left_arrow()" )
+                img.is-pulled-right( src="@/assets/images/arrow-narrow-right.svg" @click="increase_right_arrow()" )
+                br
+
+                .loop( v-if="list[index] && get_pretty_date(daily_statistics_days[0]) === get_pretty_date(list[index].id) " v-for="( list, index ) in Object.values(get_cubes())" :key="index" )
+                    h1.is-size-1.centered {{get_pretty_date(Object.keys(get_cubes())[index])}}
 
                     table.table
                         tr
@@ -82,7 +90,9 @@
                             // td.is-size-7
                                 p {{ilse.utils.truncate_text(get_most_time(list).item, 30)}} ({{Math.round(get_most_time(list).time / 30)}})
                             td.is-size-7
-                                p {{get_total_time(list)}}
+                                p Time Record
+                            td.is-size-7
+                                p {{get_total_time(list) || "No Total Time"}}
 
                     table.table
                         tr
@@ -94,6 +104,7 @@
                         tr( v-for="( cube, index ) in list" :key="index" )
                             // td.is-size-7( :title="cube.item" ) {{ilse.utils.truncate_text(cube.item, 30)}}
                             // td.is-size-7( :title="cube.time + 'sec'" ) {{Math.round(cube.time / 60)}} min
+                            td.is-size-7 {{cube.item}}
                             td.is-size-7( :title="cube.time / 60 + 'min'" ) {{cube.time}}sec
                             td.is-size-7 {{cube.seen}}
                             td.is-size-7 {{cube.interest}}
@@ -101,14 +112,6 @@
 
                     .space
                      
-
-                    // .cube( v-for="( cube, cube_index ) in list"  :key="'cube_index' + cube_index" )
-                        p.is-pulled-left {{cube.tags}} &nbsp;
-
-                    // .space
-
-                    // .cube( v-for="( cube, cube_index ) in list"  :key="'cube_index' + cube_index" )
-                        p.cube( :title="cube.item" ) 
 
             .videos( v-if="selected === 'Videos' " )
                 .loop( v-for="( item, index ) in ilse.brains.first.queue" :key="index" )
@@ -159,6 +162,9 @@ export default {
         return {
             ilse: ilse,
 
+            // daily_statistics_selected_date: ilse.utils.get_unique_date_id(),
+            daily_statistics_days: [],
+
             priority_mode: "table", // compressed and table
             can_save_priority: true,
 
@@ -175,17 +181,29 @@ export default {
             items_with_tags: 0,
             options: [
                 { name: "Review", img: "settings.svg" },
-                { name: "Priority", img: "vertical-list.svg" },
-                { name: "Statistics", img: "report.svg" },
+                { name: "Daily Statistics", img: "report.svg" },
+                { name: "Tags", img: "tag.svg" },
                 { name: "Search", img: "lupe.svg" },
                 { name: "Videos", img: "video.svg" },
                 { name: "Images", img: "photo.svg" },
                 { name: "Books & Articles", img: "address-book.svg" },
+                { name: "Global Statistics", img: "report.svg" },
             ]
         }
     },
 
     methods: {
+
+        decrease_left_arrow() {
+            printf( "this.daily_statistics_days -> ", this.daily_statistics_days )
+            let day = this.daily_statistics_days.shift()
+                this.daily_statistics_days.push( day )
+        },
+
+        increase_right_arrow() {
+            let day = this.daily_statistics_days.pop()
+                this.daily_statistics_days.push( day )
+        },
 
         resolve_item_path( item ) {
             let target_dir  = ilse.target_directories[0]
@@ -194,17 +212,22 @@ export default {
         },
 
         get_total_time( list ) {
+            printf( "get_total_time -> list" )
 
             let total_time  = 0
             list.map( item => {
                 total_time  += item.time
             })
+            printf( "get_total_time -> total_time -> list ", list )
 
             total_time = total_time / 60 // min
             total_time = total_time / 60 // hours
             total_time = Math.round( total_time ) // round
+            printf( "get_total_time -> total_time ", total_time )
+            let to_return = `${total_time} hours`
+            printf( "get_total_time -> to_return -> ", to_return )
 
-            return `${total_time} hours`
+            return to_return
         },
 
         get_most_time( list ) {
@@ -476,9 +499,24 @@ export default {
             return info
         },
 
+        set_daily_statistics() {
+
+            this.daily_statistics_days.push( ilse.utils.get_unique_date_id() )
+
+            let keys = Object.keys( this.get_cubes() )
+
+            keys = keys.sort( (a,b) => {
+                return Number(b) - Number(a)
+            })
+            printf( "keys -> ", keys )
+
+            keys.map( key => { this.daily_statistics_days.push( key ) })
+        },
 
         // ---------------------------------- Setup -------------------------- //
         setup() {
+            setTimeout( () => { this.set_daily_statistics() })
+
             let queue       = Array.from(this.ilse.brains.first.queue)
             let chunks      = this.ilse.utils.split_array_into_nth_legnth( queue, 100 )
                 this.chunks     = chunks

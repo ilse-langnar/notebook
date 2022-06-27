@@ -8,6 +8,7 @@ const printf                            = console.log
 
 const DEFAULT_CONFIG = {
     components: [
+        /*
         {
             id: "8043416467068678",
             width: 0,
@@ -15,6 +16,8 @@ const DEFAULT_CONFIG = {
             type: "menu",
             props: {}
         },
+        */
+
         {
             id: "16598606038384878",
             width: 8,
@@ -79,13 +82,17 @@ export default class Config {
 
 
         // ==== Load Favorites ==== //
-        // printf( "Object.keys(config) -> ", Object.keys( config ) )
         for( const key of Object.keys(config) ) {
-            if( key === "components" ) return
+            if( key === "components" ) continue
             this[key] = config[key]
         }
-        // this.dark = config.dark
         // ==== Load Favorites ==== //
+
+
+        // ==== Load Keys ==== //
+        ilse.keyboard.keys = config.keys
+        // ==== Load Keys ==== //
+
 
 
 
@@ -103,11 +110,13 @@ export default class Config {
 
 
         let components      = ilse.components
+        printf( "ilse.components -> ", ilse.components )
 
         // let object_to_save  = {}
         let object_to_save  = this
             object_to_save.components = components
             object_to_save.dark       = this.dark
+            object_to_save.keys       = ilse.keyboard.keys
 
 
         await ilse.filesystem.file.set( "config.json", JSON.stringify( object_to_save, null, 4 ) )
@@ -122,7 +131,6 @@ export default class Config {
     listen() {
 
         Messager.on( "~ilse", (action , payload) => {
-
 
             if( action === "loaded" ) {
                 this.load( payload )

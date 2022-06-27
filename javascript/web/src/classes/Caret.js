@@ -6,15 +6,28 @@ const printf                        = console.log
 // Messager
     import Messager                     from "@/classes/Messager.js"
 
+let ref
 export default class Caret {
 
     constructor( note ) {
 
         this.pos    = {}
 
-        this.note = note
+        // ref = note
+        // this.note   = note
         this.id     = note.id
+        this.listen( note )
+    }
 
+    listen( note ) {
+
+        Messager.on( "~carret", ( action, payload ) => {
+
+            if( action === 'append' && payload.target === note.id ) {
+                note.content += payload.content
+            }
+
+        })
     }
 
     set_element() {
@@ -23,11 +36,16 @@ export default class Caret {
 
     add( content ) {
         this.set_element()
-
-        let element = this.element
-
-        this.note.content += content
-        element.textContent += content
+        printf( "AAAAAAAAAAAAAAAAA Caret.js -> add -> content -> ", content )
+        Messager.emit( "~carret", "append", { target: this.id, content: content })
+        // printf( "Caret.js -> add -> content -> ", content )
+        // let element = this.element
+        // printf( "Caret.js -> add -> element -> ", element )
+        // ref.content += content
+        // printf( "Caret.js -> add -> ref -> ", ref )
+        // this.note.content += content
+        // element.textContent += content
+        // printf( "Caret.js -> element.textContent -> ", element.textContent )
     }
 
     insert( text ) {

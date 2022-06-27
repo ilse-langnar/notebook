@@ -17,6 +17,7 @@ const printf                        = console.log
     import Electron                     from "@/classes/Electron.js"
     import Priorities                   from "@/classes/Priorities.js"
     import Statistics                   from "@/classes/Statistics.js"
+    import PanSVG                       from "@/classes/PanSVG.js"
 
     // UI Elements
         import Menu                         from "@/classes/Menu.js"
@@ -60,7 +61,7 @@ export default class Ilse {
 
         this.platform               = process.env.VUE_APP_TARGET.toLowerCase()
 
-        this.classes                = { Component, Note }
+        this.classes                = { Component, Note, PanSVG }
         this.path                   = path
 
         this.has_loaded             = false

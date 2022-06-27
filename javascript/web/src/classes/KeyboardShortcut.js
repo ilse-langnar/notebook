@@ -23,10 +23,10 @@ class KeyboardShortcut  {
             // ilse.electron.ipc.send( "ctrl+f" )
         }, 'keydown' )
 
-        Mousetrap.bindGlobal( "ctrl+space", (event, combo ) => {
-            let note = ilse.notes.add( "", ilse.notes.list.length - 1, 0 )
-                note.focus()
-        }, 'keydown' )
+        // Mousetrap.bindGlobal( "ctrl+space", (event, combo ) => {
+            // let note = ilse.notes.add( "", ilse.notes.list.length - 1, 0 )
+                // note.focus()
+        // }, 'keydown' )
 
     }
 
@@ -53,14 +53,16 @@ class KeyboardShortcut  {
 
         this.keys = [
             // { combo: "ctrl+space", command: "new-note" },
-            { combo: "ctrl+space", command: "open-command-pallet-modal" },
-            { combo: "ctrl+.", command: "new-note" },
+            { combo: "ctrl+space shift+a", command: "open-command-pallet-modal" },
+            { combo: "ctrl+enter", command: "new-note" },
+            // { combo: "ctrl+.", command: "new-note" },
             { combo: "ctrl+s", command: "save" },
             { combo: "ctrl+p", command: "open-command-pallet-modal" },
             { combo: "s", command: "note-search" },
-            { combo: "f", command: "file-search" },
+            // { combo: "f", command: "file-search" },
             { combo: "A", command: "Add Component" },
-            { combo: "alt+enter", command: "∫-read" },
+            { combo: "ctrl+space c f", command: "a" },
+            { combo: "ctrl+1", command: "first-brain-read" },
         ]
 
     }
@@ -126,7 +128,7 @@ class KeyboardShortcut  {
         // SPC -> space, R = shift+r, <number> => special
             let normalized_combo = this.get_normalized_combo( key )
 
-        Mousetrap.unbind(normalized_combo)
+        Mousetrap.unbind( normalized_combo )
     }
 
     bind_key( key ) {

@@ -117,11 +117,11 @@ export default class Markdown {
                     if( is_electron ) return `<img class="img" title="${url}" src="atom://${target_dir}/second/${url}" />`
                     return `<img class="img" title="${url}" src="http://localhost:8090/file/${url}"/>`
                 } else if( is_video ) {
-                    if( is_electron ) return `<video class="video" controls src="atom://${target_dir}/second/${url}"/>`
-                    return `<video class="video" controls title="${url}" src="http://localhost:8090/file/${url}"/>`
+                    if( is_electron ) return `<video class="video" title="${url}" controls src="atom://${target_dir}/second/${url}"/>`
+                    return `<video class="video" title="${url} "controls title="${url}" src="http://localhost:8090/file/${url}"/>`
                 } else if( is_audio ) {
-                    if( is_electron ) return `<audio class="audio" controls title="${url}" src="atom://${target_dir}/second/${url}"/>`
-                    return `<audio class="audio" controls title="${url}" src="http://localhost:8090/file/${url}"/>`
+                    if( is_electron ) return `<audio class="audio" title="${url}" controls title="${url}" src="atom://${target_dir}/second/${url}"/>`
+                    return `<audio class="audio" title="${url}" controls title="${url}" src="http://localhost:8090/file/${url}"/>`
                 }
 
             }

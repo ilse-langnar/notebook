@@ -1,12 +1,12 @@
 <template lang="pug" >
-.note.flex( v-if="is_on" )
-    p( slot="icon" :title="get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" ).paragraph-note ⚫
+.note.flex( v-if="is_on" :style="options.style" @click="on_note_root_click" )
+    p( v-if="!options.hideBullet" slot="icon" :title="get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" ).paragraph-note ⚫
 
     // edit mode
-    textarea.textarea(  v-if="inote.is_editable || !inote.content" v-model="inote.content" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" placeholder="New" @drop.prevent="add_file" @dragover.prevent )
+    textarea.textarea(  v-if="inote.is_editable || !inote.content" v-model="inote.content" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" placeholder="New" @drop.prevent="add_file" @dragover.prevent @click="on_textarea_click($event, inote)" )
 
     // show mode
-    .markdown( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" style="1px solid green;" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )
+    .markdown( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )
 
 
 
@@ -43,6 +43,16 @@ export default {
     props: {
         component: { type: Object, required: false, },
         note: { type: Object, required: false, },
+        options: { type: Object, required: false,
+            default: function() {
+                return {
+                    style: "",
+                    hideBullet: false,
+                }
+            }
+        },
+
+        customStyle: { type: String, required: false, default: "" },
     },
 
     components: {
@@ -68,9 +78,29 @@ export default {
 
     methods: {
 
+        on_note_root_click( event ) {
+            let note = this.note
+            this.$emit( "on-note-click", {note, event})
+        },
+
+        on_textarea_click( event, note ) {
+
+            if( !note.content ) note.content += "EMPTY"
+            // let dom = document.getElementById( note.id )
+            // printf( ">>> dom -> ", dom )
+            // this.is_editable = !this.is_editable
+            // document.activeElement.blur()
+            // this.inote.is_editable = true
+            // dom.focus()
+            // printf( "this.is_editable -> ", this.is_editable )
+        },
+
+        // on_note_shift_click() {
+            // this.$emit( "on-note-shift-click", this.note )
+        // },
+
         close_focus_then_resize( overlay ) {
 
-            printf( "close_focus_then_resize -> overlay -> ", overlay )
             this.close_overlay( overlay )
 
             let note = this.inote
@@ -83,6 +113,7 @@ export default {
         },
 
         async add_file( event ) {
+            printf( ">> Note.vue -> add_file -> event -> ", event )
 
             let file        = event.dataTransfer.files[0] 
 
@@ -152,8 +183,9 @@ export default {
             // this.inote.focus()
         },
 
-        on_note_left_click() {
-            this.$emit( "on-note-left-click", this.note )
+        on_note_left_click( event ) {
+            let note = this.note
+            this.$emit( "on-note-left-click", {note, event})
         },
 
         on_note_right_click() {
@@ -161,10 +193,13 @@ export default {
         },
 
         on_note_middle_click() {
+            printf( "this.note.children -> ", this.note.children )
+            printf( "this.note.depth -> ", this.note.depth )
             this.$emit( "on-note-middle-click", this.note )
         },
 
         get_human_readable_creation_date( id ) {
+            if( !id ) return ""
 
             // BUGFIX: Normalize, if is child of another note remove the spaces
                 id = id.trim()
@@ -216,15 +251,6 @@ export default {
                 this.open_overlay( "search" )
             }
 
-            let is_file_search = char === "[" && this.last_char === "["
-            if( is_file_search ) {
-                this.inote.caret.get() 
-                this.search_filter = "files" // Search only for files
-                this.open_overlay( "search" )
-            }
-
-
-
             this.last_char = char
             // === on (( open search === //
 
@@ -237,7 +263,7 @@ export default {
         get_html( inote ) {
 
             // Empty note
-            if( !inote.content ) return " "
+            if( !inote.content ) return "<NOTHING>"
 
             // === no Ref === //
             let ref                   = ilse.notes.get_references( inote.content ) // TODO: Make this a notes function
@@ -290,7 +316,7 @@ export default {
                 // BUGFIX: don't need to click on note twice to actually focus on it.
                 setTimeout( ( )  => {
                     let dom = document.getElementById( inote.id )
-                        dom.focus()
+                    if( dom ) dom.focus()
                     this.resize_textarea()
                 }, 50 )
 
@@ -303,6 +329,7 @@ export default {
         },
 
         on_blur( event, inote ) {
+            printf( "Note.vue -> on_blur -> inote -> ", inote )
 
             // this.resize_textarea()
             // Messager.emit( "~note.vue", "blurred", inote )
@@ -442,6 +469,15 @@ export default {
                 this.$emit( "on-arrow-down", { note: inote, event })
             }
 
+            // let is_file_search = char === "[" && shift
+            let char           = event.key
+            let is_file_search = char === "{" && is_shift
+            if( is_file_search ) {
+                this.inote.caret.get() 
+                this.search_filter = "files" // Search only for files
+                this.open_overlay( "search" )
+            }
+
         },
 
         listen() {
@@ -527,6 +563,9 @@ export default {
 
 .textarea {
     width: 100% !important;
+    /*width: 100% !important;
+    width: fit-content !important;
+    width: auto !important; */
     overflow: hidden;
 
     min-height: 20px;
@@ -550,6 +589,8 @@ export default {
 .markdown {
     margin-bottom: 6px;
     width: fit-content;
+    /*min-width: 100%;
+    min-height: 20px;*/
 }
 
 .paragraph-note {
@@ -560,6 +601,7 @@ export default {
     color:        var(--text-color);
     /*font-size:    24px;*/
     font-size:    1pc;
+    cursor:       pointer;
 }
 
 .link {
@@ -599,6 +641,13 @@ export default {
 
 .img {
     display: block;
+}
+
+.mind-map .img:hover {
+    /*position: fixed;
+    width: 50vw;
+    height: 100vh;
+    z-index: 100;*/
 }
 
 .todo {

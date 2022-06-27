@@ -371,6 +371,54 @@ class componentTypes {
             }
         })
 
+        this.add({
+            id: "mind-map",
+            name: "Mind Map",
+            description: "Mind Map",
+            img: require("@/assets/images/letter-i.svg"),
+            type: "vue",
+            component: require("@/components/MindMap.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
+        this.add({
+            id: "keyboard-shortcut",
+            name: "Keyboard Shortcut",
+            description: "List of keys and what commands they invoke",
+            img: require("@/assets/images/letter-i.svg"),
+            type: "vue",
+            component: require("@/components/KeyboardShortcut.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
+        this.add({
+            id: "memex",
+            name: "Memex",
+            description: "View Mode",
+            img: require("@/assets/images/letter-i.svg"),
+            type: "vue",
+            component: require("@/components/Memex.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
+        this.add({
+            id: "org-chart",
+            name: "Org Chart",
+            description: "Org Chart",
+            img: require("@/assets/images/letter-i.svg"),
+            type: "vue",
+            component: require("@/components/OrgChart.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
     }
 
     get( id ) {

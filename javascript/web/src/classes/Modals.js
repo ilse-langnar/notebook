@@ -20,7 +20,6 @@ class Modals {
     }
 
     has() {
-        printf( "this.modals -> ", this.modals )
         return !!this.modals.length
     }
 
@@ -108,10 +107,17 @@ class Modals {
             props: {},
         })
 
+        this.add({
+            id: "keyboard-shortcut",
+            name: "Keyboard Shortcut",
+            component: ilse.types.get( "keyboard-shortcut" ),
+            props: {},
+        })
+
     }
 
     open( id, payload, on_close = null ) {
-        Messager.emit( "modals.vue", "open", {target: id, payload: payload, on_close })
+        setTimeout( () => { Messager.emit( "modals.vue", "open", {target: id, payload: payload, on_close }) }, 100 )
     }
 
     close() {

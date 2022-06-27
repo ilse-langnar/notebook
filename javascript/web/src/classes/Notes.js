@@ -151,26 +151,58 @@ export default class Notes {
         let is_child
         let copy
 
-        let index = 0
-        for( const note of notes ) {
-            index++
-
+        notes.map( (note, index) => {
             instance = new ilse.classes.Note( note )
-                if( instance.depth >= 1 ) this.recursively_add_children( instance, index )
-                this.list.push( instance )
-        }
+            if( instance.depth >= 1 ) {
+                this.recursively_add_children( instance, index )
+            }
+            this.list.push( instance )
+        })
 
         this._after_we_have_the_notes()
 
     }
 
+    // splut
+    get_note_parent_v2( note ) {
+
+        // let index= list.indexOf( note )
+        // let second_list = list.slice( index, list.length )
+
+        let list        = this.list
+        let index       = this.get_note_index( note )
+        let second_list = list.slice( 0, index )
+
+        // if( log ) second_list.map( item => { printf( "item.content -> ", item.content ) })
+        // if( log ) printf( "second_list -> ", second_list )
+        // if( log ) printf( "index -> ", index )
+
+        // let len   = this.list.length
+        let len     = second_list.length
+        for (var i = len - 1; i >= 0; i--) {
+            if( second_list[i].depth < note.depth ) return this.list[i]
+            // if( this.list[i].depth < note.depth ) return this.list[i]
+        }
+        return null
+    }
+
+    // Get note parent?
+    get_note_parent( note ) {
+
+        let list   = this.list
+
+        let len    = this.list.length
+        for (var i = len - 1; i >= 0; i--) {
+            // if( this.list[i].depth < note.depth ) return this.list[i]
+            if( note.depth > this.list[i].depth ) return this.list[i]
+            // if( second_list[i].depth < note.depth ) return this.list[i]
+        }
+        return null
+    }
+
     recursively_add_children( instance, index ) {
-
-        let item        = this.list[Number(--index)]
-        let has_item    = item && item.children.length
-            if( !has_item ) return
-
-        this.list[Number(--index)].children.push( instance )
+        let parent = this.get_note_parent( instance )
+            if( parent && parent.children ) parent.children.push( instance )
     }
 
     _after_we_have_the_notes() {
@@ -244,6 +276,17 @@ export default class Notes {
         ilse.links.is_loading = false
 
         Messager.emit( "~notes", "loaded", this )
+
+    }
+
+    get_note_index( note  )  {
+
+        let result = null
+        this.list.map( ( _note, index ) => {
+            if( note.id === _note.id ) result = index
+        })
+
+        return result
 
     }
 

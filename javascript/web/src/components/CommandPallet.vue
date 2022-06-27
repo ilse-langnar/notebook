@@ -17,7 +17,8 @@
                 strong ESC
     br
 
-    .flex( v-if="!search_result.length" v-for="( command, index ) in ilse.commands.commands" @click="on_item_click($event, command.name)" )
+    .flex( v-if="!search_result.length" v-for="( command, index ) in ilse.commands.commands" @click="on_item_click($event, command)" )
+        h1.is-size-1( v-if=" search_result === 0" ) No Results ):
         p.is-pulled-left.item {{command.name}}
 
         // .column.is-3
@@ -28,7 +29,7 @@
 
     br
 
-    .flex( v-if="search_result.length" v-for="( result, index ) in search_result" @click="on_item_click($event, command.name)" )
+    .flex( v-if="search_result.length" v-for="( result, index ) in search_result" @click="on_item_click($event, get_command_by_name(result.target) )" )
         p.is-pulled-left.item {{result.target}}
 
         // .column.is-3
@@ -79,9 +80,11 @@ export default {
 
     methods: {
 
-        on_item_click( event, name ) {
+        on_item_click( event, command ) {
+
             let shift = event.shiftKey
-            this.run_command( name )
+            command.fn()
+                // this.run_command( command )
 
             if( !shift ) ilse.modals.close() // FEATURE: hold shift for not to close.
         },
@@ -98,7 +101,7 @@ export default {
 
         run_command( name ) {
 
-            let command = this.get_command_by_name(name)
+            let command = this.get_command_by_name( name )
             let id      = command.id
 
             ilse.commands.run( id )
@@ -149,14 +152,17 @@ export default {
 
         on_keydown_enter( event ) {
 
-            let has_result  = !!this.search_result.length
-            let ctrl        = event.ctrlKey
+            let has_result          = !!this.search_result.length
+            let ctrl                = event.ctrlKey
+            let number_of_result    = this.search_result.length
 
+            // TODO: Fix this, if only one result, automatically search
             if( has_result ) {
                 let first_result = this.search_result[0].target
                 this.run_command( first_result )
                 ilse.modals.close()
             } else {
+
                 this.search()
 
                 if( ctrl ) { // Instant Search
@@ -227,6 +233,13 @@ export default {
     border-radius: var( --border-radius );
     padding: 3px;
     cursor: pointer;
+}
+
+.flex p.item:hover {
+    background: var( --text-color );
+    color: var( --background-color );
+    border: 1px solid var( --text-color );
+    border-radius: var( --border-radius );
 }
 
 input.input {

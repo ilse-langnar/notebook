@@ -44,6 +44,19 @@ class Commands {
         return command
     }
 
+    resolve_name( name ) {
+
+        let selected
+        this.commands.map( command => {
+            if( command.name === name ) {
+                selected = command
+                return
+            }
+        })
+
+        return selected
+    }
+
     get( id ) {
 
         let commands = this.commands
@@ -57,7 +70,6 @@ class Commands {
 
     // USE: let payload = args[0]
     run( id, ...args ) {
-        printf( "run -> id -> ", id )
 
         if( !id ) throw new Error( "Commands.js -> run(<id>) <id> is not defined, it should be a string with the id of the command " )
 
@@ -120,7 +132,7 @@ class Commands {
             {
                 id: "open-keyboard-shortcuts-modal",
                 fn: function() {
-                    ilse.modals.open( "keyboard-shortcuts" )
+                    ilse.modals.open( "keyboard-shortcut" )
                 },
                 description: "Will open modal with the list of shortcuts",
                 name: "Open Keyboard Shortcuts Modal",
@@ -145,57 +157,57 @@ class Commands {
             },
 
             {
-                id: "∫-read",
+                id: "first-brain-read",
                 fn: function() {
                     ilse.brains.first.read_first()
                 },
                 description: "Will read an item from first brain",
-                name: "∫: Read",
+                name: "First Brain: Read",
             },
 
             {
-                id: "∫-shuffle",
+                id: "first-brain-shuffle",
                 fn: function() {
                     ilse.brains.first.shuffle()
                 },
                 description: "Will shuffle your queu",
-                name: "∫: Shuffle",
+                name: "First Brain: Shuffle",
             },
 
             {
-                id: "∫-last",
+                id: "first-brain-open-last",
                 fn: function() {
                     ilse.brains.first.last()
                 },
                 description: "Will open the last time",
-                name: "∫: Last",
+                name: "First Brain: Open Last",
             },
 
             {
-                id: "∫-increase",
+                id: "first-brain-increase",
                 fn: function() {
                     ilse.brains.first.increase()
                 },
                 description: "Will increase interest interet on last item",
-                name: "∫: Increase",
+                name: "First Brain: Increase",
             },
 
             {
-                id: "∫-decrease",
+                id: "first-brain-decrease",
                 fn: function() {
                     ilse.brains.first.decrease()
                 },
                 description: "Will decrease interest interet on last item",
-                name: "∫: Decrease",
+                name: "First Brain: Decrease",
             },
 
             {
-                id: "∫-tag",
+                id: "first-brain-tag-item",
                 fn: function() {
                     ilse.brains.first.tag()
                 },
                 description: "Will open a modal for you to add tags to an item",
-                name: "∫: Tag",
+                name: "First Brain: Tag Item",
             },
 
             {
@@ -234,6 +246,97 @@ class Commands {
                 },
                 description: "Will open the all-in-one first-brain modal",
                 name: "Open First Brain Modal",
+            },
+
+            {
+                id: "list-projects",
+                fn: async function() {
+                    let list = await ilse.filesystem.dir.list( "projects/" )
+                    ilse.dialog.listing( "Files", "/", list, async selected =>{
+                        printf( "selected -> ", selected )
+
+                    })
+                },
+                description: "Will list your projects",
+                name: "List Projects",
+            },
+
+            {
+                id: "toggle-menu",
+                fn: async function() {
+
+                    let has_menu_already = false
+                    let menu_index       = null
+                    let found
+
+                    ilse.components.map( (component, index)  => {
+                        found = component.type === "menu"
+                        if( found ) {
+                            has_menu_already = true
+                            menu_index       = index
+                        }
+                    })
+
+                    if( has_menu_already ) {
+                        ilse.components.splice( menu_index, 1 )
+                        // ilse.notification.send( "Already there", "The menu is already on!" )
+                    } else {
+                        let component = new ilse.classes.Component({ type: "menu", width: 0 })
+                            ilse.components.unshift( component )
+                    }
+
+                },
+                description: "Will add if it's not there, will remove if it's there",
+                name: "Toggle Menu",
+            },
+
+            {
+                id: "a",
+                fn: async function() {
+                    let list = await ilse.filesystem.dir.list( "/" )
+                    let is_file, file
+
+                    // function show_list( title, description path, list, fn )
+                        // ilse.dialog.listing( title, description, list, fn )
+                    // }
+
+                    ilse.dialog.listing( "Files", "/", list, async selected => {
+
+                        is_file = await ilse.filesystem.file.is( selected )
+
+                        if( is_file ) {
+                            file    = await ilse.filesystem.file.get( selected )
+                            ilse.dialog.info( `File: ${selected}`, file )
+                        } else {
+
+                            printf( "selected -> ", selected )
+                            list = await ilse.filesystem.dir.list( `/${selected}` )
+                            printf( ">>> list -> ", list )
+
+                            ilse.dialog.listing( "Files", `/${selected}`, list, async selected_2 => {
+                                printf( ">>> selected_2 -> ", selected_2 )
+                            })
+
+                        }
+
+                    })
+
+                },
+                description: "Will search the files for the first brain",
+                name: "Search files",
+            },
+
+            {
+                id: "new-note",
+                fn: async function() {
+                    printf( "new-note -> " )
+                    let payload = await ilse.dialog.input( "New note", "Content:" )
+                    let input   = payload.input
+                    let index   = ilse.notes.list.length
+                        ilse.notes.add( input, index, 0 )
+                },
+                description: "Will open a prompt for a new note",
+                name: "New Note",
             },
 
         ]

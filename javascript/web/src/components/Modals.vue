@@ -62,7 +62,7 @@ export default {
 
         close() {
             this.active_modal = ''
-            if( this.payload.on_close ) this.payload.on_close( this.payload )
+            if( this.payload && this.payload.on_close ) this.payload.on_close( this.payload )
         },
 
         on_shadow_click( event ) {

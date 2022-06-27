@@ -1,23 +1,14 @@
 <template lang="pug" >
-.graph( tabindex="0" style="background: #fff;" :ref="link" :id="link" :title="link" autofocus="autofocus" )
+.graph( tabindex="0" :ref="link" :id="link" :title="link" autofocus="autofocus" )
 
-    img.img.is-pulled-right( src="@/assets/images/tool.svg" style="width: 20px; cursor: pointer; margin: 10px;" title="Network" v-popover="{ name: 'graph.config', position: 'left' }")
+    // img.img.is-pulled-right( src="@/assets/images/tool.svg" style="width: 20px; cursor: pointer; margin: 10px;" title="Network" v-popover="{ name: 'graph.config', position: 'left' }")
 
-    br
-
-    popover( name="graph.config" style="width: 138px;")
-
-        .options( style="margin-right: 2px" )
-
-            img.img.is-pulled-right( src="@/assets/images/layout-grid.svg" style="width: 30px; cursor: pointer;" title="Cose Layout" :style="get_layout_style('cose')" @click="set_layout('cose')")
-
-            img.img.is-pulled-right( src="@/assets/images/grid-dots.svg" style="width: 30px; cursor: pointer;" title="Grid Layout" :style="get_layout_style('grid')" @click="set_layout('grid')")
-
-            img.img.is-pulled-right( src="@/assets/images/network.svg" style="width: 30px; cursor: pointer;" title="Circle Layout" :style="get_layout_style('circle')" @click="set_layout('circle')")
-
-            img.img.is-pulled-right( src="@/assets/images/sitemap.svg" style="width: 30px; cursor: pointer;" title="Breadthfirst Layout" :style="get_layout_style('breadthfirst')" @click="set_layout('breadthfirst')")
-
-            img.img.is-pulled-right( src="@/assets/images/atom.svg" style="width: 30px; cursor: pointer;" title="Concentric Layout" :style="get_layout_style('concentric')" @click="set_layout('concentric')")
+    .layout
+        img.img.is-pulled-right( v-if="layouts[0] === 'cose'" :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" title="Cose Layout" :style="get_layout_style('cose')" @click="select_next_layout()" )
+        img.img.is-pulled-right( v-if="layouts[0] === 'grid' " :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" title="Grid Layout" :style="get_layout_style('grid')" @click="select_next_layout()" )
+        img.img.is-pulled-right( v-if="layouts[0] === 'circle'" :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" title="Circle Layout" :style="get_layout_style('circle')" @click="select_next_layout()" )
+        img.img.is-pulled-right( v-if="layouts[0] === 'breadthfirst'" :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" title="Breadthfirst Layout" :style="get_layout_style('breadthfirst')" @click="select_next_layout()" )
+        img.img.is-pulled-right( v-if="layouts[0] === 'concentric'" :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" title="Concentric Layout" :style="get_layout_style('concentric')" @click="select_next_layout()" )
 
     #cy( ref="cy" )
 
@@ -48,7 +39,14 @@ export default {
     data() {
         return {
             ilse: ilse,
-            layout: "breadthfirst", // grid, circle, concentric, breadthfirst, cose, 
+            layouts: [
+                "breadthfirst",
+                "grid",
+                "circle",
+                "concentric",
+                "breadthfirst",
+                "cose", 
+            ],
             rows: 10,
             link: "Link",
         }
@@ -60,16 +58,36 @@ export default {
 
     methods: {
 
+        select_next_layout() {
+            let item = this.layouts.shift()
+            this.layouts.push( item )
+            this.run()
+        },
+
+        get_layout_image( layouts ) {
+
+            if( layouts[0] === "breadthfirst" ) {
+                return require( "@/assets/images/layout-grid.svg" )
+            } else if( layouts[0] === "grid" ) {
+                return require( "@/assets/images/grid-dots.svg" )
+            } else if( layouts[0] === "circle" ) {
+                return require( "@/assets/images/sitemap.svg" )
+            } else if( layouts[0] === "concentric" ) {
+                return require( "@/assets/images/network.svg" )
+            } else if( layouts[0] === "cose" ) {
+                return require( "@/assets/images/atom.svg" )
+            }
+        },
+
         set_layout( name ) {
             this.layout = name
-            this.run()
         },
 
         get_layout_style( name ) {
 
             let style = ``
 
-            if( this.layout === name ) {
+            if( this.layouts[0] === name ) {
                 style += `background-color: #d7d7d7; padding: 3px; border-radius: 8px;`
             }
 
@@ -124,7 +142,7 @@ export default {
             let normalized_name
 
             // Add what note links to 
-            for( const link of links.entries() ) {
+            for( const [index, link] of links.entries() ) {
 
                 index % 2 === 0  ? bottom = 100 : bottom = -100
                 note = ilse.notes.query( `${link.fromId}:` )[0]
@@ -150,7 +168,7 @@ export default {
 
                     // data: { label: normalized_name },
 
-                    nodeSep: 20,
+                    // nodeSep: 20,
                     position: {
                         // x: bottom + ilse.utils.random_integer()
                         y: 0,
@@ -243,7 +261,7 @@ export default {
 
                 layout: {
                     // name: 'breadthfirst', // grid, circle, concentric, breadthfirst, cose, 
-                    name: this.layout, // grid, circle, concentric, breadthfirst, cose, 
+                    name: this.layouts[0], // grid, circle, concentric, breadthfirst, cose, 
                     rows: this.rows,
                     columns: 10,
                     cols: 10,
@@ -286,15 +304,16 @@ export default {
 
                 let y       = el.position().y
                 let x       = el.position().x
-                let should  = index % 2 === 0
+                // let should  = index % 2 === 0
 
-                if( should ) {
-                    // el.position({ y: y + ilse.utils.random_integer(10, 300 ) })
-                    el.position({ y: y + 50 })
-                } else {
-                    el.position({ y: y - 50 })
                     // el.position({ y: y })
-                }
+                // if( should ) {
+                    // el.position({ y: y + ilse.utils.random_integer(10, 300 ) })
+                    // el.position({ y: y + 50 })
+                // } else {
+                    // el.position({ y: y - 50 })
+                    // el.position({ y: y })
+                // }
 
                 // el.layoutDimensions( options )
             })
@@ -340,7 +359,8 @@ export default {
 <style>
 
 #cy {
-    width: 100%;
+    margin-left: 20px;
+    width: 80%;
     height: 450px;
     display: block;
     margin-top: 10px;
@@ -373,4 +393,17 @@ export default {
     background: red !important;
 }
 
+.graph .layout {
+}
+
+.layout img {
+    cursor: pointer;
+    z-index: 100000 !important;
+}
+
+.layout {
+    clear: both;
+    height: 20px;
+}
+        
 </style>

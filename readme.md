@@ -60,6 +60,9 @@ You can take one screenshot for each item, in order to add them to your "study" 
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-3.png" style="width: 200px;" />
 <br>
 
+## Statistics
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/daily-info-statistics.png" style="width: 200px;" />
+
 ## Plugins, Themes, Snippets 
 If you want to make a plugin, please download the [Plugin Template](https://github.com/ilse-langnar/plugin-template) if you want to make a Theme, then download the [Theme Template](https://github.com/ilse-langnar/theme-template) and if you want to make a snippt, just make a normal note with the tag `#i/css` and a css code block like ```css body { background: red; }```
 
