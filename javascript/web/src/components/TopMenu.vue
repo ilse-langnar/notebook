@@ -162,7 +162,7 @@ export default {
         on_note_search_on_result_select( payload ) {
             printf( "TopMenu.vue -> on_note_search_on_result_select -> payload -> ", payload )
 
-            let is_note = payload.note_id
+            let is_note  = payload.note_id
             let is_file   = payload.file
 
             let is_shift  = payload.shift
@@ -187,6 +187,7 @@ export default {
 
                 // No shift nor ctrl
                 if( !is_ctrl && !is_shift ) {
+                    printf( "ononononon " )
 
                     let query_result  = ilse.notes.query( `${note}:` )[0]
                     const instance    = new ilse.classes.Component({

@@ -203,6 +203,7 @@ app.whenReady().then(() => {
 async function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
+    // kiosk: true,
     width: 800,
     height: 600,
     webPreferences: {

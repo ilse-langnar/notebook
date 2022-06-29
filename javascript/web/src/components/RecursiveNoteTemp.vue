@@ -1,22 +1,13 @@
 <template lang="pug" >
-
-// .recursive-note( :style="get_root_style(note)" @click="on_recursive_note_root_click($event, note)" )
-    Note( :note="note" :title="get_note_style(note, parent)" :style="get_note_style(note, parent)" @on-esc="on_note_esc" @on-blur="on_ghost_note_blur" :options="get_note_options(note)" @on-enter="on_enter" )
-    .wrapper( :style="get_wrapper_style(note)" )
-        .children( v-for="( _note, index ) in note.children" :key="index" :style="get_child_style(_note, note)" )
-            RecursiveNote.example( :note="_note" :parent="note" )
 .recursive-note( :style="get_root_style(note)" @click="on_recursive_note_root_click($event, note)" )
 
     Note( :note="note" :title="get_note_style(note, parent)" @on-note-click="on_note_click" :style="get_note_style(note, parent)" @on-esc="on_note_esc" @on-blur="on_ghost_note_blur" :options="get_note_options(note)" @on-enter="on_enter" )
-    table( :style=" note.depth === 0 ? 'margin: 0 auto;' : ' ' " )
+
+    // table( :style=" note.depth === 0 ? 'margin: 0 auto;' : ' ' " )
+    table( style="margin: 0 auto;" )
         tr
             td( v-for="( _note, index ) in note.children" :key="index" )
                 RecursiveNote.example( :note="_note" :parent="note" )
-
-    // .wrapper( :style="get_wrapper_style(note)" )
-        .children( v-for="( _note, index ) in note.children" :key="index" :style="get_child_style(_note, note)" )
-            RecursiveNote.example( :note="_note" :parent="note" )
-
 
 </template>
 <script>
@@ -31,7 +22,7 @@ const printf                        = console.log;
 
 // Components 
     import Note                         from "@/components/Note.vue"
-    import RecursiveNote                from "@/components/RecursiveNote.vue"
+    import RecursiveNote                from "@/components/RecursiveNoteTemp.vue"
 
 // Libs
     import arrowCreate, { DIRECTION, HEAD }  from 'arrows-svg'
@@ -69,10 +60,7 @@ export default {
 
     methods: {
 
-        on_note_click( payload ) {
-            printf( "RecursiveNote -> on_note_click -> payload -> ", payload )
-            let o = payload.note.get()
-            printf( "o -> ", o )
+        on_note_click() {
         },
 
         on_parent_click( payload ) {
@@ -105,6 +93,8 @@ export default {
         },
 
         get_note_options( note ) {
+            if( !note ) return { style: "", hideBullet: true }
+            printf( "RecursiveNote -> get_note_options -> note -> ", note )
 
             let style   = `display: block !important; margin-bottom: 10px !important; margin-left: 10px; border-radius: var( --border-radius ); `
                 if( note.depth !== 0 ) style += `width: fit-content !important;`

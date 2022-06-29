@@ -42,7 +42,6 @@ const printf                        = console.log;
 
 // Components 
     import Note                         from "@/components/Note.vue"
-    import RecursiveNote                from "@/components/RecursiveNote.vue"
 
 export default {
 
@@ -56,7 +55,6 @@ export default {
     },
     components: {
         Note,
-        RecursiveNote,
     },
 
     props: {

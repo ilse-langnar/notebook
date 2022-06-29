@@ -9,7 +9,8 @@
                 img( src="@/assets/images/filter.svg" style="cursor: pointer; width: 20px; margin-left: 5px;" title="Filter"                    )
                 img( src="@/assets/images/minus.svg"  style="cursor: pointer; width: 20px; margin-left: 5px;" title="Filter"                    )
                 img( src="@/assets/images/plus.svg"   style="cursor: pointer; width: 20px; margin-left: 5px;" title="Filter"                    )
-                // img( src="@/assets/images/math-function.svg"   style="cursor: pointer; width: 20px; margin-left: 5px;" title="Filter" @click="open_mindmap(day_index)" )
+                img( src="@/assets/images/x.svg"   style="cursor: pointer; width: 17px; margin-left: 5px;" title="Filter"  @click="remove(day)" )
+                // img( src="@/assets/images/math-function.svg"   style="cursor: pointer; width: 17px; margin-left: 5px;" title="Filter" @click="open_mindmap(day_index)" )
 
         .note( v-for="(note, note_index) in day.notes" :key="note_index" :style="get_note_style(note)" )
             Note( :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" @on-note-middle-click="on_note_middle_click(note)" @on-note-right-click="on_note_right_click" )
@@ -60,6 +61,11 @@ export default {
 
     methods: {
 
+        remove( day ) {
+            let index = this.days.indexOf( day )
+            this.days.splice( index, 1 )
+        },
+
         /*
         open_mindmap( index ) {
             let day       = this.days[index]
@@ -98,7 +104,8 @@ export default {
             }
 
             if( is_ctrl ) {
-                let component = new ilse.classes.Component({ type: "memex", width: 12, props: { note: note } })
+                // let component = new ilse.classes.Component({ type: "memex", width: 12, props: { note: note } })
+                let component = new ilse.classes.Component({ type: "table-pan", width: 12, props: { id: note.id } })
                     ilse.components.push( component )
             }
 

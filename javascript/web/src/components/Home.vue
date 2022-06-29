@@ -8,7 +8,6 @@
 
         TopMenu
         Components( :components="ilse.components" unique-key="home" )
-        // RecursiveNote
 
         Modals
         Dialogs
@@ -35,8 +34,6 @@ const printf                                        = console.log;
     import FirstBrainWidget from "@/components/FirstBrainWidget.vue"
 
 
-    import RecursiveNote                from "@/components/RecursiveNote.vue"
-
 export default {
 
     name: "Home",
@@ -52,7 +49,6 @@ export default {
 
         Components,
         FirstBrainWidget,
-        RecursiveNote,
     },
 
     data() {

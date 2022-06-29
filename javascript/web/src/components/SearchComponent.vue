@@ -1,30 +1,30 @@
 <template lang="pug" >
-.note-search
+.search-component
 
-    input.input.search( :id="id + '-search-input'" v-model="search_query" placeholder="🔎" accesskey="f" @keydown="on_key_down" @blur="on_blur" )
+    h1.centered Search
+    .flex
+        input.input.search( :id="id + '-search-input'" v-model="search_query" placeholder="🔎" accesskey="f" @keydown="on_key_down" )
+        // img( v-show="is_markdown_mode_on" src="@/assets/images/markdown.svg" @click="toggle_markdown_mode"  title="Render results as markdown?" aria-role="markdown" alt="markdown-mode" )
+        // img( v-show="!is_markdown_mode_on" src="@/assets/images/letter-case.svg" @click="toggle_markdown_mode"  title="Render results as text?" aria-role="text" alt="text-mode" )
+        .filters
+            img( v-show="ifilter === 'notes' " src="@/assets/images/point.svg" @click="toggle_filter_mode" title="Filter Mode: Notes" aria-role="markdown" alt="markdown-mode" )
+            img( v-show="ifilter === 'files' " src="@/assets/images/file.svg" @click="toggle_filter_mode"  title="Filter Mode: Files " aria-role="text" alt="text-mode" )
+            img( v-show="ifilter === 'all' " src="@/assets/images/filter.svg" @click="toggle_filter_mode"  title="Filter Mode: Notes+Files" aria-role="text" alt="text-mode" )
 
-    .display-mode
+    .search-result( v-if="search_query" )
 
-        img( v-show="is_markdown_mode_on" src="@/assets/images/markdown.svg" @click="toggle_markdown_mode"  title="Render results as markdown?" aria-role="markdown" alt="markdown-mode" )
-
-        img( v-show="!is_markdown_mode_on" src="@/assets/images/letter-case.svg" @click="toggle_markdown_mode"  title="Render results as text?" aria-role="text" alt="text-mode" )
-
-        img( v-show="filter === 'notes' " src="@/assets/images/point.svg" @click="toggle_filter_mode" title="Filter Mode: Notes" aria-role="markdown" alt="markdown-mode" )
-
-        img( v-show="filter === 'files' " src="@/assets/images/file.svg" @click="toggle_filter_mode"  title="Filter Mode: Files " aria-role="text" alt="text-mode" )
-
-        img( v-show="filter === 'all' " src="@/assets/images/filter.svg" @click="toggle_filter_mode"  title="Filter Mode: Notes+Files" aria-role="text" alt="text-mode" )
-
-    .search-result( v-if="search_query" :style="get_search_result_style()" )
-        .item.flex( v-if="!search_result.length" )
+        .no_result.item.flex( v-if="!search_result.length" )
             p.is-size-6( style="" ) No Results Found for {{search_query}}
-        p.is-size-6.is-pulled-left( v-if="search_result.length" ) {{search_result.length}} Result[s]
-        .clear
-        .item.flex( v-if="search_result.length" v-for="( result, index ) in search_result" :key="index" :style="get_search_result_item_style( index )" :id="'search-item'+ index" )
 
-            span.paragraph-note ⚫
-            p( v-if="!is_markdown_mode_on" :style="get_p_style(result.type)" title="Click to open" @click="on_search_result_click($event, result)" ) {{result.content}}
-            p( v-if="is_markdown_mode_on"  :style="get_p_style(result.type)" title="Click to open" @click="on_search_result_click($event, result)" v-html="get_html(result.content)" ) 
+        .has_result( v-if="search_result.length" )
+            p.is-size-6.is-pulled-left( ) {{search_result.length}} Result[s]
+            .clear
+            .item.flex( v-if="search_result.length" v-for="( result, index ) in search_result" :key="index" :style="get_search_result_item_style( index )" :id="'search-item'+ index" )
+                .has-note( v-if="result && result.note" )
+                    Note( :note="result.note" )
+                // span.paragraph-note ⚫
+                // p( v-if="!is_markdown_mode_on" :style="get_p_style(result.type)" title="Click to open" @click="on_search_result_click($event, result)" ) {{result.content}}
+                // p( v-if="is_markdown_mode_on"  :style="get_p_style(result.type)" title="Click to open" @click="on_search_result_click($event, result)" v-html="get_html(result.content)" ) 
 
 </template>
 <script>
@@ -37,21 +37,29 @@ const printf                        = console.log;
 // Messager
     import Messager                     from "@/classes/Messager.js"
 
+// Components
+    import Note                         from "@/components/Note.vue"
+
 export default {
 
-    name: "Search",
+    name: "SearchComponent",
 
     props: {
         id: { type: String, required: false, default: function() { return Math.random().toString() } },
-        width: { type: Number, required: false, },
         shouldAutofocus: { type: Boolean, required: false, default: false },
         isMarkdownModeOn: { type: Boolean, required: false, default: true },
         filter: { type: String, required: false, default: function() { return "all" } },
     },
 
+    components: {
+        Note,
+    },
+
     data() {
         return {
             ilse: ilse,
+
+            ifilter: this.filter,
 
             search_query: "",
             search_result: [],
@@ -85,14 +93,15 @@ export default {
 
     methods: {
 
+        // TODO: make a "filters: ['notes', 'all', 'files']" the first one will the active
         toggle_filter_mode() {
 
-            if( this.filter === "all" ) {
-                this.filter = "notes"
-            } else if( this.filter === "notes" ) {
-                this.filter = "files"
-            } else if( this.filter === "files" ) {
-                this.filter = "all"
+            if( this.ifilter === "all" ) {
+                this.ifilter = "notes"
+            } else if( this.ifilter === "notes" ) {
+                this.ifilter = "files"
+            } else if( this.ifilter === "files" ) {
+                this.ifilter = "all"
             }
 
         },
@@ -103,16 +112,6 @@ export default {
             if( type === "file" ) style += "font-weight: bold;"
 
             return style
-        },
-
-        get_search_result_style() {
-
-            let style = ``
-            if( this.width ) {
-                style += `width: ${this.width}%;`
-            }
-            return style
-
         },
 
         toggle_markdown_mode() {
@@ -189,7 +188,6 @@ export default {
 
         on_key_down_esc() {
             this.$emit( "on-esc" )
-            this.close_search()
         },
 
         on_key_down_arrow_up() {
@@ -283,16 +281,29 @@ export default {
             // BUGFIX: Avoid Duplicated Search
                 if( !this.can_search ) return
 
+            // BUGFIX: null query: pass
             let query               = this.search_query
                 if( !query ) return
 
+            // Rest
+                this.search_result = []
+
             // === Files === //
-                let file_list           = ilse.files.list.map( file => {
+                // let file_list           = ilse.files.list.map( file => {
+                    // return {
+                        // content: file,
+                        // type: "file",
+                    // }
+                // })
+
+                let file_list           = ilse.notes.list.map( note => {
                     return {
-                        content: file,
-                        type: "file",
+                        content: note.content,
+                        note: note,
+                        type: "note",
                     }
                 })
+
 
                 // Search
                 let file_result    = []
@@ -301,9 +312,8 @@ export default {
                 for( const item of file_list ) {
 
                     has_file_match = item.content.indexOf( query ) !== -1
-                    if( has_file_match && (/*Filter*/ this.filter === "files" || this.filter === "all") ) this.search_result.push( item )
+                    if( has_file_match && (/*Filter*/ this.ifilter === "files" || this.ifilter === "all") ) this.search_result.push( item )
                 }
-            printf( " 1 this.search_result -> this.search_result.length -> ", this.search_result.length )
 
             // === Files === //
 
@@ -325,11 +335,12 @@ export default {
                 for( const item of note_list ) {
 
                     has_note_match = item.content.indexOf( query ) !== -1
-                    if( has_note_match && (/*Filter*/ this.filter === "notes" || this.filter === "all" ) ) this.search_result.push( item )
+                    if( has_note_match && (/*Filter*/ this.ifilter === "notes" || this.ifilter === "all" ) ) this.search_result.push( item )
                 }
 
             // === notes === //
             this.can_search = false
+            setTimeout( () => { this.can_search = true }, 1000 )
 
         },
 
@@ -357,7 +368,12 @@ export default {
 
 }
 
-.note-search {
+.search-component .search {
+    width: 40%;
+    margin: 0 auto;
+}
+
+.search-component {
     color: var( --text-color );
     background: var( ---background-color );
 }
@@ -393,9 +409,15 @@ export default {
     border: 1px solid var( --background-color );
 }
 
+    /*min-width: 50%;*/
+.search-result {
+    width: 80%;
+    margin: 0 auto;
+
+}
+/*
 .search-result {
     position: absolute;
-    /*min-width: 50%;*/
     min-width: 10%;
     overflow: auto;
     height: 50vh;
@@ -409,14 +431,18 @@ export default {
     font-weight: 300;
     z-index: 10;
 }
+*/
 
 
+
+/*
 .display-mode {
     display: inline;
     margin: 5px;
     vertical-align: middle;
     cursor: pointer;
 }
+*/
 .display-mode img {
     width: 17px !important;
 }
@@ -432,4 +458,8 @@ export default {
     clear: both;
 }
 
+.search-component .filters img {
+    cursor: pointer;
+}
+ 
 </style>

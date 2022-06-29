@@ -419,6 +419,30 @@ class componentTypes {
             }
         })
 
+        this.add({
+            id: "table-pan",
+            name: "Table Pan",
+            description: "It's like a mind map bot downwards",
+            img: require("@/assets/images/letter-i.svg"),
+            type: "vue",
+            component: require("@/components/TablePan.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
+        this.add({
+            id: "search-component",
+            name: "Search Component",
+            description: "Search: Files, Notes, images etc.",
+            img: require("@/assets/images/letter-i.svg"),
+            type: "vue",
+            component: require("@/components/SearchComponent.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
     }
 
     get( id ) {

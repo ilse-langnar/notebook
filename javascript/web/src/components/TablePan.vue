@@ -1,9 +1,16 @@
 <template lang="pug" >
-.mind-map#mind-map( :style="get_mindmap_style(component.props.is_child)" )
+.table-pan#table-pan( :style="get_mindmap_style(component.props.is_child)" )
+
+    img( v-if="!component.props.is_child" :src="modes[0] === 'pan' ? require('@/assets/images/hand-move.svg') : require('@/assets/images/sitemap.svg')" style="width: 20px; cursor: pointer;" @click="next_mode()" )
+
     svg#svg( :style="get_svg_style(component.props.is_child)" )
+        // foreignObject( width="200" height="1000" requiredExtensions="http://www.w3.org/1999/xhtml" style="border: 1px solid #000;" )
+        // foreignObject( requiredExtensions="http://www.w3.org/1999/xhtml" style="border: 1px solid #000; width: 100%; height: 100%; overflow: auto;" )
         foreignObject( requiredExtensions="http://www.w3.org/1999/xhtml" style="width: 100%; height: 100%; overflow: visible; background: var( --background-color );" )
             body(xmlns="http://www.w3.org/1999/xhtml" )
-                RecursiveNoteMindMap( :note="get_note(component.props.id)" )
+                // RecursiveNote( :note="component.props.note" )
+                p ID: {{JSON.stringify(component.props).id}}
+                RecursiveNote( :note="get_note(component.props.id)" )
     br
 </template>
 <script>
@@ -18,7 +25,7 @@ const printf                        = console.log;
 
 // Components 
     import Note                         from "@/components/Note.vue"
-    import RecursiveNoteMindMap                from "@/components/RecursiveNoteMindMap.vue"
+    import RecursiveNote                from "@/components/RecursiveNoteTemp.vue"
 
 // Libraries
     import svgPanZoom from "svg-pan-zoom"
@@ -26,7 +33,7 @@ const printf                        = console.log;
 
 export default {
 
-    name: "MindMap",
+    name: "TablePan",
 
     data() {
         return {
@@ -37,7 +44,7 @@ export default {
 
     components: {
         Note,
-        RecursiveNoteMindMap,
+        RecursiveNote,
     },
 
     props: {
@@ -165,11 +172,11 @@ export default {
 </script>
 <style>
 
-.mind-map .textarea {
+.table-pan .textarea {
     width: fit-content !important;
 }
 
-.mind-map {
+.table-pan {
     width: 98%;
     margin: 0 auto;
     /*height: 100vh;;

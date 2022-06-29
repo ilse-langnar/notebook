@@ -339,6 +339,16 @@ class Commands {
                 name: "New Note",
             },
 
+            {
+                id: "search",
+                fn: async function() {
+                    let component = new ilse.classes.Component({ type: "search-component", width: 12, props: {} })
+                        ilse.components.push( component )
+                },
+                description: "Search Notes, Files and more",
+                name: "Search",
+            },
+
         ]
     }
 
