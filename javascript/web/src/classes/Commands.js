@@ -8,8 +8,8 @@ const printf                        = console.log
 
 class Commands {
 
-        // TODO: ask-delete-this-component/tab/container -> this -> focused
-        // TODO: Increase component width -> set-component-width -> set-component
+    // TODO: ask-delete-this-component/tab/container -> this -> focused
+    // TODO: Increase component width -> set-component-width -> set-component
     constructor() {
         this.commands = []
         this.setup()
@@ -80,25 +80,6 @@ class Commands {
         }
 
     }
-
-    /*
-    get_binded_key( id ) {
-
-        let keys        = ilse.keyboard.keys
-        let commands    = this.commands
-
-        for( const key of keys ) {
-
-            for( const bind of key.bindings ) {
-                if( bind.command === id ) {
-                    return key
-                }
-            }
-        }
-
-        return {}
-    }
-    */
 
     set_default_commands() {
 
@@ -202,15 +183,6 @@ class Commands {
             },
 
             {
-                id: "first-brain-tag-item",
-                fn: function() {
-                    ilse.brains.first.tag()
-                },
-                description: "Will open a modal for you to add tags to an item",
-                name: "First Brain: Tag Item",
-            },
-
-            {
                 id: "open-file",
                 fn: function() {
                     let component = new ilse.classes.Component({ type: "file", width: 12, props: { file: "Ilse.md" } })
@@ -291,7 +263,7 @@ class Commands {
             },
 
             {
-                id: "a",
+                id: "search-files",
                 fn: async function() {
                     let list = await ilse.filesystem.dir.list( "/" )
                     let is_file, file
@@ -349,6 +321,164 @@ class Commands {
                 name: "Search",
             },
 
+            {
+                id: "add-new-line",
+                fn: async function() {
+                    printf( "Command.js -> void:add-new-line" )
+                },
+                description: "Add new line",
+                name: "Add New Line",
+            },
+
+            {
+                id: "open-text-file",
+                fn: async function() {
+                    let payload = await ilse.dialog.input( "File Name", "Description" )
+                    // let name    = payload.input
+                    let name    = `projects/lazy-scheduler/Lazy Scheduler.html`
+                    let component = new ilse.classes.Component({ type: "text-file", width: 8, props: { name }})
+                        ilse.components.push( component )
+
+                },
+                description: "Will open a new text file",
+                name: "Open Text File",
+            },
+
+            {
+                id: "open-note-on-a-mind-map",
+                fn: async function() {
+                    document.body.style.cursor = "crosshair";
+                    let event_listener
+                    function on_click( event ) {
+                        document.removeEventListener( "click", on_click )
+                        let id        = event.target.id.split("-")[1]
+                        printf( "event.target -> ", event.target.id )
+                        printf( "id -> ", id )
+                        if( id ) {
+                            let component = new ilse.classes.Component({ type: "mind-map", width: 12, props: { id: id } })
+                                ilse.components.push( component )
+                        }
+                        document.body.style.cursor = "auto";
+
+                    }
+                    event_listener = document.addEventListener( "click", on_click )
+
+                },
+                description: "Will listen to your click and open the note on a mind map",
+                name: "Open Note on a Mind Map",
+            },
+
+            {
+                id: "open-note-on-a-table-pan",
+                fn: async function() {
+                    document.body.style.cursor = "crosshair";
+                    let event_listener
+                    function on_click( event ) {
+                        document.removeEventListener( "click", on_click )
+                        let id        = event.target.id.split("-")[1]
+                        if( id ) {
+                            let component = new ilse.classes.Component({ type: "table-pan", width: 12, props: { id: id } })
+                                ilse.components.push( component )
+                        }
+                        document.body.style.cursor = "auto";
+
+                    }
+                    event_listener = document.addEventListener( "click", on_click )
+
+                },
+                description: "Will listen to your click and open the note on a table pan",
+                name: "Open Note on a Table Pan",
+            },
+
+            {
+                id: "open-note-on-a-memex",
+                fn: async function() {
+                    document.body.style.cursor = "crosshair";
+                    let event_listener
+                    function on_click( event ) {
+                        document.removeEventListener( "click", on_click )
+                        let id        = event.target.id.split("-")[1]
+                        printf( ">>>>>>> id -> ", id )
+                        if( id ) {
+                            let component = new ilse.classes.Component({ type: "memex", width: 12, props: { id: id } })
+                                ilse.components.push( component )
+                        }
+                        document.body.style.cursor = "auto";
+
+                    }
+                    event_listener = document.addEventListener( "click", on_click )
+
+                },
+                description: "Will listen to your click and open the note on a memex",
+                name: "Open Note on a Memex",
+            },
+
+            {
+                id: "open-textarea-search",
+                fn: async function() {
+
+                    let dom = document.activeElement
+                    printf( "dom -> ", dom )
+                        if( !dom ) return
+
+                    let id = dom.id
+                    printf( "id -> ", id )
+                        if( !id ) return
+                    let note = ilse.notes.query( `${id}: ` )[0]
+                    Messager.emit( "~note.vue", "open-search", { target: note.id, type: "files" } )
+
+                },
+                description: "",
+                name: "Open Textarea Search",
+            },
+
+            {
+                id: "open-note-search",
+                fn: async function() {
+
+                    let dom = document.activeElement
+                        if( !dom ) return
+
+                    let id = dom.id
+                        if( !id ) return
+
+                    let note = ilse.notes.query( `${id}: ` )[0]
+
+                    Messager.emit( "~note.vue", "open-search", { target: note.id, type: "notes" } )
+
+                },
+                description: "",
+                name: "Open Textarea Search",
+            },
+
+
+            {
+                id: "first-brain-tag-add",
+                fn: async function() {
+                    ilse.brains.first.tag()
+                },
+                description: "Add a tag to the last item on your first brain",
+                name: "First Brain: Add Tag",
+            },
+
+            {
+                id: "first-brain-tag-remove",
+                fn: async function() {
+                    ilse.brains.first.tag()
+                },
+                description: "Remove a tag to the last item on your first brain",
+                name: "First Brain: Remove Tag",
+            },
+
+            {
+                id: "open-query-blocks",
+                fn: async function() {
+                    let component = new ilse.classes.Component({ type: "query-blocks", width: 12, props: {} })
+                        ilse.components.push( component )
+                },
+                description: "Will open a new 'query blocks' component",
+                name: "Open Query Blocks",
+            },
         ]
     }
 

@@ -79,7 +79,7 @@ export default class Dialog {
         })
     }
 
-    input( title = "Title", description = "Description" ) {
+    async input( title = "Title", description = "Description" ) {
 
         let input = {
             title,

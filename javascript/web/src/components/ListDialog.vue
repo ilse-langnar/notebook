@@ -6,8 +6,8 @@
         .shadow( v-if="dialog.type === 'list' " @click="on_shadow_click($event, dialog)" )
             .dialog-wrapper( @click="on_dialog_click" )
                 .dialog
-                    h1.has-text-centered {{dialog.title}}
-                    h4.has-text-centered {{dialog.description}}
+                    h1.has-text-centered {{dialog.title}} {{dialog.description}}
+                    input.input.centered
                     .item( v-for="( item, item_index ) in dialog.list" @click="on_item_click(dialog, item)" )
                         p {{item}}
 
@@ -138,10 +138,10 @@ export default {
     height: 20%;
 
 
-    width: 70vw;
+    width: 75vw;
         /*max-width: 43vw;
         min-width: 30vw;*/
-    height: 50vh;
+    height: 75vh;
 
 
     left: 50%;
@@ -185,7 +185,6 @@ export default {
 
 .item {
     margin-bottom: 5px;
-    border: 1px solid #000;
     border-radius: 5px;
     padding: 2px;
 }
@@ -194,6 +193,13 @@ export default {
     border: 1px solid var( --text-color );
     padding: var( --padding );
     border-radius: var( --border-radius );
+}
+
+.dialog input.input {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    text-align: left;
 }
 
 </style>

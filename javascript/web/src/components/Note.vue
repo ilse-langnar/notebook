@@ -1,6 +1,7 @@
 <template lang="pug" >
 .note.flex( v-if="is_on" :style="options.style" @click="on_note_root_click" )
-    p( v-if="!options.hideBullet" slot="icon" :title="get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" ).paragraph-note ⚫
+
+    p( v-if="!options.hideBullet" slot="icon" :title="get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" ).paragraph-note ⚫
 
     // edit mode
     textarea.textarea(  v-if="inote.is_editable || !inote.content" v-model="inote.content" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" placeholder="New" @drop.prevent="add_file" @dragover.prevent @click="on_textarea_click($event, inote)" )
@@ -150,7 +151,7 @@ export default {
                     let value
 
                     if( is_note ) {
-                        value = note.caret.insert( `${payload.note_id}))` )
+                        value = note.caret.insert( `((${payload.note_id}))` )
                     } else if( is_file ) {
                         value = note.caret.insert( `${payload.file.replace(".md", "")}]]` )
                     }
@@ -244,12 +245,12 @@ export default {
                     return
                 }
 
-            let is_note_search = char === "(" && this.last_char === "("
-            if( is_note_search ) {
-                this.inote.caret.get() 
-                this.search_filter = "notes" // Search only for notes
-                this.open_overlay( "search" )
-            }
+            // let is_note_search = char === "(" && this.last_char === "("
+            // if( is_note_search ) {
+                // this.inote.caret.get() 
+                // this.search_filter = "notes" // Search only for notes
+                // this.open_overlay( "search" )
+            // }
 
             this.last_char = char
             // === on (( open search === //
@@ -473,17 +474,26 @@ export default {
             let char           = event.key
             let is_file_search = char === "{" && is_shift
             if( is_file_search ) {
-                this.inote.caret.get() 
-                this.search_filter = "files" // Search only for files
-                this.open_overlay( "search" )
+                this.open_search()
             }
 
+        },
+
+        open_search( type = "all" ) {
+            this.inote.caret.get() 
+            this.search_filter = type 
+            // this.search_filter = "files" // Search only for files
+            this.open_overlay( "search" )
         },
 
         listen() {
 
             let _this = this
             Messager.on( "~note.vue", async ( action, payload ) => {
+
+                if( action === "open-search" && payload.target === _this.inote.id ) {
+                    this.open_search( payload.type ) 
+                }
 
                 // Listen to note.vue
                 if( action === "link-click" ) {
@@ -568,9 +578,10 @@ export default {
     width: auto !important; */
     overflow: hidden;
 
-    min-height: 20px;
+    /*min-height: 20px;
     height: 20px;
-    max-height: 20px;
+    max-height: 20px;*/
+    height: auto;
 
     margin: 0 !important;
     padding: 0px !important;

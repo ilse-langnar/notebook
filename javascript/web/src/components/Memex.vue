@@ -1,8 +1,10 @@
 <template lang="pug" >
-.memex( v-if="selected && selected.id" :key="selected.id" )
+// .memex( :key="selected.id" )
+.memex
     // input.input.centered( style="display: block; margin: 0 auto; margin-top: 20px; " )
     .flex.centered( style="width: 90%; margin-top: 20px;" )
 
+        p qwdqwd
         .parents( style="width: 20%;" )
             .has_parent( v-if="ilse.notes.get_note_parent_v2( selected )" )
                 // p ::: {{ilse.notes.get_note_parent_v2( selected )}}
@@ -15,13 +17,13 @@
             h2( v-if="selected && selected.id" ) {{selected.id}}
             Note( v-if="selected" :note="selected" :options="{ hideBullet: true }" @on-enter="on_enter" )
 
-            .has_references( v-if="ilse.notes.query(selected.id + ':' ).length > 1" )
+            // .has_references( v-if="ilse.notes.query(selected.id + ':' ).length > 1" )
                 .referneces( v-for="( ref, index) in ilse.notes.query(selected.id + ':' )" :key="'ref-' + index")
                     p {{ref.id}}
             .no_references( v-else )
                 p No References
 
-        .children( style="width: 20%;" )
+        // .children( style="width: 20%;" )
             .has_children( v-if="selected.children && selected.children.length" )
                 .children( v-for="( _note, index ) in selected.children" :key="index" style="z-index: 100; overflow: hidden; margin-bottom: 10px; border: 1px solid var(--text-color); border-radius: var( --border-radius );" )
                     Note( :note="_note" :options="{ hideBullet: true }" @on-note-click="on_note_click" style="margin-bottom: 100px;")

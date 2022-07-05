@@ -1,24 +1,11 @@
 <template lang="pug" >
 .knowledge-tree 
-    p.is-size-1 Knowledge Tree
 
-
-    .space
-
-    // .loop( v-for="(node, index) in tree" :key="index" :style="get_style(index)" )
-        p {{node}}
-        img( src="@/assets/images/plus.svg" title="Add" @click="add(index)" )
-
-
-    .loop.flex( v-for="(node, index) in tree" :key="index" :style="get_style(node)" )
-        // span( contentEditable @keydown.enter="on_input_blur(node)" ) {{node.name}}
-        // button.button( @click="set_items(node)" ) Set
-
-        input.is-pulled-left.is-size-7.leaf( v-if="!node.item" v-model="node.name" style="width: 97%;" @blur="on_input_blur(node)" @keydown.enter="set_items(node)" )
-        span.item( v-if="node.item" ) {{node.name}}
-
-        img.is-pulled-left( v-if="!node.item" src="@/assets/images/plus.svg" title="Add" @click="add_child(node)" style="width:20px; " )
-        img.is-pulled-left( v-if="!node.item" src="@/assets/images/x.svg" title="Add" @click="remove_node(node)" style="width:20px; " )
+    .loop.flex( v-for="(node, index) in ilse.brains.first.get_tags()" :key="index" :style="get_style(node)" )
+        details
+            summary( draggable @drop.prevent="on_drop($event, node)" @dragenter.prevent @dragover.prevent) {{node}}
+            .loop.query( v-for="( item, item_query ) in ilse.brains.first.query( node )" :key=" 'query-' + item_query" )
+                p( :title="item" ) {{item}}
 
     img( src="@/assets/images/plus.svg" title="Add" @click="add(tree[0])" style="width: 50px; display: block; margin: 0 auto; " )
 
@@ -41,6 +28,10 @@ export default {
         return {
             ilse: ilse,
             // tree: [],
+            order: {
+                "#german": "#languages",
+                "#linear-algebrea": "#math",
+            },
 
             tree: [
                 {
@@ -54,6 +45,24 @@ export default {
     },
 
     methods: {
+
+        on_dragleave( event, node ) {
+            event.target.style = ""
+        },
+
+        on_dragover( event, node ) {
+            event.target.style = "border: 1px solid #000;"
+        },
+
+        on_drop( ...payload ) {
+            this.add_child_item( payload[0], payload[1] )
+        },
+
+        add_child_item( event, node ) {
+            printf( "KnowledgeTree -> add_child_item -> event -> ", event )
+            printf( "KnowledgeTree -> add_child_item -> node -> ", node )
+            printf( "LÇLLLLLLLL " )
+        },
 
         remove_node( node ) {
             let index = this.tree.indexOf( node )
@@ -71,7 +80,7 @@ export default {
             if( node.name === "#" ) return
             if( node.name.indexOf("#") === -1 ) return
 
-            let result = this.brains.first.query( node.name )
+            let result = this.ilse.brains.first.query( node.name )
             let index  = this.tree.indexOf(node)
             let copy   = node.depth
                 copy       += 1
@@ -88,30 +97,11 @@ export default {
 
         },
 
-        test() {
-            let result = this.brains.first.query( "#german" )
-            printf( "result -> ", result )
-        },
-
         get_style( node ) {
             let style = `padding: 0; margin: 0; margin-left: ${node.depth*10}px; `
-            if( !node.item ) style += ";color: red;"
+            if( !node.item ) style += ";color: #000;"
             return style
         },
-
-        /*
-        add( index ) {
-
-
-            if( index || index === 0 ) {
-                this.tree[index].push( "item-2" )
-                return
-            }
-
-            if( !index ) this.tree.push(["item-1"])
-
-        },
-        */
 
         add( node ) {
 
@@ -159,9 +149,7 @@ export default {
         set_all_nodes() {
 
             let list = this.tree
-            printf( "set_all_nodes -> list -> ", list )
             for( const node of list ) {
-                printf( "node -> ", node )
                 if( !node.item ) this.set_items( node )
             }
 
@@ -172,6 +160,9 @@ export default {
             if( ilse.config.knowledge_tree ) {
                 this.tree = ilse.config.knowledge_tree
                 this.set_all_nodes()
+            } else {
+                ilse.config.knowledge_tree = []
+                ilse.config.save()
             }
 
         },
@@ -186,18 +177,22 @@ export default {
 </script>
 <style scoped>
 
-.leaf {
-    width: 53px;
-    border: 1px solid var( --text-color );
-    border-radius: 5px;
-    color: var( --text-color );
-    background: var( --background-color );
-    padding: 3px;
-    margin-bottom: 3px;
+.knowledge-tree .loop.query {
+    width: 20px; 
+    height: 20px;
+    background: #fff;
+    color: #fff;
+    overflow: hidden;
+    float: left; 
+    margin-left: 1px;
+    margin-bottom: 1px;
+    border: 1px solid #000;
+    cursor: pointer;
+    border-radius: var( --border-radius );
 }
 
-span.item {
-    margin-bottom: 10px;
+.knowledge-tree details summary {
+    cursor: pointer;
 }
 
 </style>

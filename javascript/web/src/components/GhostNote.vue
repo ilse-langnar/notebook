@@ -1,7 +1,7 @@
 <template lang="pug" >
-.ghost-note.flex( :style="style" )
-    p.paragraph-note ⚫
-    textarea.textarea.rendered( v-model="content" @input="on_input" @blur="on_blur" @focus="on_focus" placeholder="New note Content" @keydown.enter="on_keydown_enter" @keydown.tab="on_keydown_tab" @drop.prevent="add_file" @dragover.prevent )
+.ghost-note.flex( :style="style + options.style" )
+    p.paragraph-note( v-if="!options.hideBullet" ) ⚫
+    textarea.textarea.rendered( v-model="content" @input="on_input" @blur="on_blur" @focus="on_focus" :placeholder="options.placeholder" @keydown.enter="on_keydown_enter" @keydown.tab="on_keydown_tab" @drop.prevent="add_file" @dragover.prevent )
 
 </template>
 <script>
@@ -34,8 +34,18 @@ export default {
     components: {
         // Note,
     },
+
     props: {
         payload: { type: Object, required: false, },
+        options: { type: Object, required: false,
+            default: function() {
+                return {
+                    style: "",
+                    hideBullet: false,
+                    placeholder: "New Note Content"
+                }
+            }
+        },
     },
 
     methods: {

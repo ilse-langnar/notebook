@@ -120,7 +120,6 @@ export default {
             printf( "on_no_note_ghost_blur -> payload -> ", payload )
 
             let content     = payload.content
-            let note      = payload.note
             let depth       = 0
             let index       = ilse.notes.list.length 
 

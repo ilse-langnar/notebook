@@ -108,6 +108,35 @@ export default {
 
 }
 
+input[type="range"] {
+    -webkit-appearance: none;
+    margin-right: 15px;
+    width: 200px;
+    height: 7px;
+    background: var( --text-color );
+    border-radius: 5px;
+    background-size: 70% 100%;
+    background-repeat: no-repeat;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: var( --text-color );
+    cursor: ew-resize;
+    box-shadow: 0 0 2px 0 #555;
+    transition: background .3s ease-in-out;
+}
+
+input[type=range]::-webkit-slider-runnable-track  {
+    -webkit-appearance: none;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+}
+
 #app {
     /*font-family: Times New Roman, Georgia, Helvetica, serif;*/
     font-family: Mary, Helvetica, Georgia, Times New Roman, serif;

@@ -33,8 +33,8 @@ class KeyboardShortcut  {
     setup() {
         this.set_default_keys()
         this.bind_keys()
-        // this.set_key_codes()
-        // this.add_default_key_codes()
+        this.set_key_codes()
+        this.add_default_key_codes()
     }
 
     set_key_codes() {
@@ -63,6 +63,21 @@ class KeyboardShortcut  {
             { combo: "A", command: "Add Component" },
             { combo: "ctrl+space c f", command: "a" },
             { combo: "ctrl+1", command: "first-brain-read" },
+            { combo: "shift+enter", command: "void:add-new-line" },
+            { combo: "ctrl+space shift+l", command: "list-projects" },
+
+            { combo: "ctrl+space v m", command: "open-note-on-a-mind-map" },
+            { combo: "ctrl+space v t", command: "open-note-on-a-table-pan" },
+            { combo: "ctrl+space v shift+m", command: "open-note-on-a-memex" },
+
+
+            { combo: "ctrl+space shift+f", command: "open-file" },
+
+            { combo: "ctrl+space right-square-bracket", command: "open-textarea-search" },
+            { combo: "ctrl+space (", command: "open-note-search" },
+
+            { combo: "ctrl+space b t a", command: "first-brain-tag-add" },
+            { combo: "ctrl+space b t r", command: "first-brain-tag-remove" },
         ]
 
     }

@@ -24,6 +24,10 @@ If anything goes wrong, please open a [Issue](https://github.com/ilse-langnar/no
 ## Why
 To augment human cognition with memory, references and more.
 Ilse is based on the Vitruvian Brain Framework: https://ilse-langnar.github.io/notebook/vitruvian-brain.html
+We avoid any type of lock-in due to the fact that a simple set of files and folder is able to reproduce the entire system, which means that with a simple standardized format can be visualized in multiple ways like: __Mind Maps__, __Tree__, __Infinite Canvas__, __Spreadsheet__, and more.
+And given that the format is standardized, if someone finds a new way of reprensenting data, we would simply have to write a plugin that representes those already standardized into the desired new format(presentation).
+This way we avoid anye sort of proprietary binary format for organization and visualization, even if the software rots and dies, the files are still going to be there, the standard is still there, so you can, for example, implement a command line spreadsheet that can be visualized in a cloud client, a Web Browser, a Callphone, a toaster ... you get it.
+This started with frustration not only with lock-in but the lack of extensability and standardazation of previous solutions.
 
 ## Improves on:
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"  />
@@ -62,6 +66,11 @@ You can take one screenshot for each item, in order to add them to your "study" 
 
 ## Statistics
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/daily-info-statistics.png" style="width: 200px;" />
+
+## One data, many visualizations
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/spreadsheet-light-mode.png" style="width: 200px;" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/spreadsheet-dark-mode.png" style="width: 200px;" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/memex.png" style="width: 200px;" />
 
 ## Plugins, Themes, Snippets 
 If you want to make a plugin, please download the [Plugin Template](https://github.com/ilse-langnar/plugin-template) if you want to make a Theme, then download the [Theme Template](https://github.com/ilse-langnar/theme-template) and if you want to make a snippt, just make a normal note with the tag `#i/css` and a css code block like ```css body { background: red; }```

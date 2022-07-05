@@ -16,7 +16,7 @@
         .no_result.item.flex( v-if="!search_result.length" )
             p.is-size-6( style="" ) No Results Found for {{search_query}}
 
-        .has_result( v-if="search_result.length" )
+        .has_result( v-if="search_result.length" :key="search_result.length" )
             p.is-size-6.is-pulled-left( ) {{search_result.length}} Result[s]
             .clear
             .item.flex( v-if="search_result.length" v-for="( result, index ) in search_result" :key="index" :style="get_search_result_item_style( index )" :id="'search-item'+ index" )
@@ -79,7 +79,10 @@ export default {
         search_query( search ) {
 
             // BUGFIX: this will load ALL notes ... heavy operation
-                if( !search ) return
+                if( !search )  {
+                    this.search_result = []
+                    return
+                }
 
             let that = this
             clearTimeout( this.timeout )
@@ -165,11 +168,19 @@ export default {
             let is_shift_pressed  = event.shiftKey
             let is_ctrl_pressed   = event.ctrlKey
 
+            let has_query         = this.search_query
+            if( has_query ) {
+                this.search_result= []
+                this.search()
+                return
+            }
+            /*
             let should_search     = !this.search_result.length
             if( should_search ) {
                 this.search()
                 return
             } 
+            */
 
             let item = this.search_result[this.search_result_selected_index]
 
@@ -286,7 +297,9 @@ export default {
                 if( !query ) return
 
             // Rest
+                // printf( "before -> this.search_result -> ", this.search_result )
                 this.search_result = []
+                // printf( "after -> this.search_result -> ", this.search_result )
 
             // === Files === //
                 // let file_list           = ilse.files.list.map( file => {

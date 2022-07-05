@@ -7,6 +7,10 @@
     table( style="margin: 0 auto;" )
         tr
             td( v-for="( _note, index ) in note.children" :key="index" )
+                p.middle( style="margin: 0 auto; width: 50px; height: 20px;" )
+                // p {{note.content}}
+                // .html( v-html="get_html( note, _note )" )
+
                 RecursiveNote.example( :note="_note" :parent="note" )
 
 </template>
@@ -59,6 +63,112 @@ export default {
     },
 
     methods: {
+
+        get_html( parent, child ) {
+            printf( "get_html -> parent -> ", parent )
+            printf( "get_html -> child -> ", child )
+            printf( "parent.id -> ", parent.id )
+            printf( "child.id -> ", child.id )
+            let parent_dom = document.getElementById( parent.id )
+            printf( ">> parent_dom -> ", parent_dom )
+            let child_dom  = document.getElementById( child.id )
+            printf( ">> child_dom -> ", child_dom )
+            let string     = this.connect_v1( parent_dom, child_dom, 'red', 1 )
+            printf( "@@@ string -> ", string )
+            return string
+        },
+
+        getOffset( el ) {
+            var rect = el.getBoundingClientRect();
+            return {
+                left: rect.left + window.pageXOffset,
+                top: rect.top + window.pageYOffset,
+                width: rect.width || el.offsetWidth,
+                height: rect.height || el.offsetHeight
+            };
+        },
+
+        connect_v1(div1, div2, color, thickness) { // draw a line connecting elements
+            var off1 = this.getOffset(div1);
+            var off2 = this.getOffset(div2);
+            // bottom right
+            var x1 = off1.left + off1.width;
+            var y1 = off1.top + off1.height;
+            // top right
+            var x2 = off2.left + off2.width;
+            var y2 = off2.top;
+            // distance
+            var length = Math.sqrt(((x2-x1) * (x2-x1)) + ((y2-y1) * (y2-y1)));
+            // center
+            var cx = ((x1 + x2) / 2) - (length / 2);
+            var cy = ((y1 + y2) / 2) - (thickness / 2);
+            // angle
+            var angle = Math.atan2((y1-y2),(x1-x2))*(180/Math.PI);
+            // make hr
+            let dom = document.createElement( "div" )
+            dom.style = "padding:0px; margin:0px; height:" + thickness + "px; background-color:" + color + "; line-height:1px; position:absolute; left:" + cx + "px; top:" + cy + "px; width:" + length + "px; -moz-transform:rotate(" + angle + "deg); -webkit-transform:rotate(" + angle + "deg); -o-transform:rotate(" + angle + "deg); -ms-transform:rotate(" + angle + "deg); transform:rotate(" + angle + "deg);"
+            printf( "dom -> ", dom )
+            var htmlLine = "<div style='padding:0px; margin:0px; height:" + thickness + "px; background-color:" + color + "; line-height:1px; position:absolute; left:" + cx + "px; top:" + cy + "px; width:" + length + "px; -moz-transform:rotate(" + angle + "deg); -webkit-transform:rotate(" + angle + "deg); -o-transform:rotate(" + angle + "deg); -ms-transform:rotate(" + angle + "deg); transform:rotate(" + angle + "deg);' />";
+             document.body.append( dom )
+            return htmlLine
+
+            // document.body.innerHTML += htmlLine;
+             // document.body.innerHTML += htmlLine;
+        },
+
+        get_line_x1( parent, child ) {
+
+            let parent_dom  = document.getElementById( parent.id )
+                if( !parent_dom ) return ""
+
+            let child_dom   = document.getElementById( child.id )
+                if( !child_dom ) return ""
+
+            let parent_info = parent_dom.getBoundingClientRect()
+            return parent_info.left
+        },
+
+        get_line_y1( parent, child  ) {
+
+            let parent_dom  = document.getElementById( parent.id )
+                if( !parent_dom ) return ""
+
+            let child_dom   = document.getElementById( child.id )
+                if( !child_dom ) return ""
+
+            let parent_info = parent_dom.getBoundingClientRect()
+            return parent_info.top
+        },
+
+        get_line_x2( parent, child ) {
+
+            let parent_dom  = document.getElementById( parent.id )
+                if( !parent_dom ) return ""
+
+            let child_dom   = document.getElementById( child.id )
+                if( !child_dom ) return ""
+
+            let parent_info = parent_dom.getBoundingClientRect()
+            return parent_info.left
+        },
+
+        get_line_y2( parent, child ) {
+
+            let parent_dom  = document.getElementById( parent.id )
+                if( !parent_dom ) return ""
+
+            let child_dom   = document.getElementById( child.id )
+                if( !child_dom ) return ""
+
+            let parent_info = parent_dom.getBoundingClientRect()
+            return parent_info.top
+
+        },
+
+        get_marker_end( note ) {
+            let string = `url(#${note.id})`
+            return string
+        },
 
         on_note_click() {
         },
@@ -309,9 +419,13 @@ export default {
             // if( note.depth === 0 ) style += "width: 100%; height: 100vh; "
             // let style = `margin: 10px; background: #fff; width: fit-content; height: 100px; margin: auto; margin-top: 20px; padding: 3px; `
             // let style = `background: #fff; width: 100%; height: 100px; margin: 10px 0px; margin-top: 20px; padding: 1px; `
-            let style = `/*border: 1px solid #000;*/ background: var( --background-color ); width: fit-content; margin: 10px 0px; margin-top: 20px; padding: 1px; `
+            // let style = `border: 1px solid #000; background: var( --background-color ); width: fit-content; margin: 20px 00px; padding: 1px; `
             // if( note.depth === 0 ) style += "width: 100%; height: 100%; "
             // if( note.children.length === 0 ) style += "width: 100px; height: 100px; float: left; margin-right: 10px; "
+
+            let color = ilse.utils.random_rgba()
+            let style = `border-left: 1px solid ${color}; border-right: 1px solid ${color}; border-radius: var( --border-radius ); background: var( --background-color ); width: fit-content; margin: 20px 00px; padding: 1px; `
+
             return style
         },
 
@@ -324,7 +438,7 @@ export default {
             // let style = `min-width: 100%; width: 200px; overflow: auto; border: 1px solid var( --text-color ); `
             // let style = `overflow: auto; border: 1px solid var( --text-color ); `
             // let style = `overflow: auto; border: 1px solid var( --text-color ); position: relative; transform: translate( 60% );`
-            let style = `overflow: auto; border: 1px solid var( --text-color ); margin: auto; `
+            let style = `height: auto; overflow: auto; border: 1px solid var( --text-color ); margin: auto; width: 100%; `
 
             if( parent ) {
 
@@ -454,12 +568,15 @@ export default {
               // arrowsDrawer1.arrow( `.central-icon`, `.icon`)
 
             // var cArrow = $cArrows('#mind-map').arrow(`#${child.id}`, `#${parent.id}`).arrow('.fromDiv2', '#toDiv2');
-            let line  = document.getElementById( "line" )
-            let box   = line.getBoundingClientRect()
-            let pos1, pos2
+            // let line  = document.getElementById( "line" )
+            // let box   = line.getBoundingClientRect()
+            // let pos1, pos2
 
+            printf( "children -> ", children )
             children.map( child => {
 
+                this.connect_v1( document.getElementById( parent.id ), document.getElementById( child.id ), "red", 1 )
+                /*
                 pos1 = document.getElementById( parent.id ).getBoundingClientRect()
                     line.setAttribute('x1', pos1.x+pos1.width  );
                     line.setAttribute('y1', pos1.y+pos1.height );
@@ -467,6 +584,7 @@ export default {
                 pos2 = document.getElementById( child.id ).getBoundingClientRect()
                     line.setAttribute('x2', pos2.x+pos2.width  )
                     line.setAttribute('y2', pos2.y+pos2.height )
+                */
 
                 // ArrowLine(`#${parent.id}`, `#${child.id}` )
                 // cArrow = arrowLine( `[id='${parent.id}']`, `[id='${child.id}']`, { color: 'blue' })
@@ -488,10 +606,8 @@ export default {
                 document.body.appendChild( arrow.node )
                 */
 
-                /*
-                arrow = new LeaderLine( document.getElementById(parent.id), document.getElementById(child.id) )
-                    this.arrows.push( arrow )
-                */
+                // arrow = new LeaderLine( document.getElementById(parent.id), document.getElementById(child.id) )
+                    // this.arrows.push( arrow )
 
                 // printf( "document.getElementById(parent.id) -> ", document.getElementById(parent.id) )
                 // printf( "Arrow -> ", arrow )
@@ -627,6 +743,7 @@ export default {
 
         setup() {
             this.listen()
+            // setTimeout( () => { this.test() }, 1000 )
             // setTimeout( () => { this.make_draggable() }, 1000 )
         },
 

@@ -443,6 +443,44 @@ class componentTypes {
             }
         })
 
+        this.add({
+            id: "text-file",
+            name: "Text File",
+            description: "Text File",
+            img: require("@/assets/images/file.svg"),
+            type: "vue",
+            component: require("@/components/TextFile.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
+        this.add({
+            id: "query-blocks",
+            name: "Query Blocks",
+            description: "A list of items",
+            img: require("@/assets/images/file.svg"),
+            type: "vue",
+            component: require("@/components/QueryBlocks.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
+        this.add({
+            id: "spreadsheet",
+            name: "Spreadsheet",
+            description: "A spreadsheet",
+            img: require("@/assets/images/file.svg"),
+            type: "vue",
+            component: require("@/components/Spreadsheet.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
+
+
     }
 
     get( id ) {

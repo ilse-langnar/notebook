@@ -90,7 +90,9 @@ export default class Config {
 
 
         // ==== Load Keys ==== //
-        ilse.keyboard.keys = config.keys
+        // ilse.keyboard.keys = config.keys
+        // let keys    = Object.keys( config.keys )
+        // let values  = Object.values( config.keys )
         // ==== Load Keys ==== //
 
 

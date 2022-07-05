@@ -15,8 +15,71 @@ export default class FirstBrain {
 
         this.ilse  = ilse
         this.queue = []
+        this.tags  = []
+        this.caches= {}
 
         this.setup()
+    }
+
+    get_tags( tag_name ) {
+
+        // FEATURE: CACHE
+        if( this.caches.tags ) {
+
+            if( tag_name ) {
+                return this.caches.tags[tag_name]
+            } else {
+                let list   = Object.keys( this.caches.tags )
+                let sorted = list.sort( (a,b) => {
+                    return this.caches.tags[b].length - this.caches.tags[a].length
+                })
+                return sorted
+            }
+
+        }
+
+        let queue       = this.ilse.brains.first.queue
+        let chunks, name, seen, interest, tags
+        let obj         = []
+        let items_with_tags = 0
+
+        for( const item of queue ) {
+            chunks      = item.split( "/" )
+            name        = chunks[0]
+            seen        = chunks[1]
+            interest    = chunks[2]
+                interest    = Number( interest )
+            tags      = chunks[3]
+
+            if( !tags ) continue
+            if( !tags[0] ) continue
+            if( tags[0] !== "#" ) continue
+
+            let has_multiple =  tags.indexOf(",") !== -1
+            if( has_multiple ) {
+
+                for( const chunk of tags.split(",") ) {
+                    if( !obj[chunk] ) obj[chunk] = []
+                    obj[chunk].push( item )
+                }
+
+            } else {
+                if( !obj[tags] ) obj[tags] = []
+                obj[tags].push(item)
+            }
+        }
+
+        if( !this.caches.tags ) this.caches.tags = obj
+
+        if( tag_name ) {
+            return obj[tag_name]
+        } else {
+            let list   = Object.keys(obj)
+            let sorted = list.sort( (a,b) => {
+                return obj[b].length - obj[a].length
+            })
+            return sorted
+        }
     }
 
     get_last() {

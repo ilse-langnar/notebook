@@ -34,6 +34,7 @@
                     p {{chunk}} 
 
 
+
             .priority( v-if="selected === 'Tags' " )
 
                 .flex
@@ -64,6 +65,10 @@
                 .loop.flex.is-pulled-left( v-if="priority_mode === 'compressed' " v-for="( item, index ) in get_tags()" :key="index" )
                     p( :title="'Total' + get_tags(item).length" ) {{item}} 
                     input.input( v-model.number="ilse.brains.first.priorities.priorities[item]" type="number"  style="width: 55px; " @change="on_priority_change" )
+
+            .knowledge-tree( v-if="selected === 'Knowledge Tree' " )
+                KnowledgeTree 
+
 
             .global-statistics( v-if="selected === 'Global Statistics' " )
                 p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -128,8 +133,12 @@
                         img.is-pulled-left( :src="resolve_item_path(item)" )
                         .space
 
-            .address-book( v-if="selected === 'Books & Articles' " )
-                p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            .address-book( v-if="selected === 'Library' " )
+                p.centered Total: {{get_books_and_articles().length}} {{Math.round( get_books_and_articles().length / ilse.brains.first.queue.length * 100 )}}%
+                .loop( v-for="(book, index) in get_books_and_articles()" :key="index" )
+                    details
+                        summary {{book}}
+                        .extracts( v-for="( extract, extract_index ) in ilse.brains.first.query(book.split('/')[0])" :key=" 'extracts-' + extract_index" )
 
 </template>
 <script>
@@ -144,6 +153,8 @@ const printf                                        = console.log;
 
 // Import
     import VuejsHeatmap     from 'vuejs-heatmap'
+    import KnowledgeTree    from "@/components/KnowledgeTree.vue"
+    
 
 export default {
 
@@ -151,11 +162,7 @@ export default {
 
     components: {
         VuejsHeatmap,
-    },
-
-    computed: {
-
-
+        KnowledgeTree,
     },
 
     data() {
@@ -176,6 +183,7 @@ export default {
             caches: {
                 cubes: null,
                 tags: null,
+                library: null,
             },
 
             items_with_tags: 0,
@@ -183,16 +191,71 @@ export default {
                 { name: "Review", img: "settings.svg" },
                 { name: "Daily Statistics", img: "report.svg" },
                 { name: "Tags", img: "tag.svg" },
+                { name: "Knowledge Tree", img: "tree.svg" },
                 { name: "Search", img: "lupe.svg" },
+                { name: "Library", img: "address-book.svg" },
                 { name: "Videos", img: "video.svg" },
                 { name: "Images", img: "photo.svg" },
-                { name: "Books & Articles", img: "address-book.svg" },
                 { name: "Global Statistics", img: "report.svg" },
             ]
         }
     },
 
     methods: {
+
+        get_books_and_articles() {
+
+            // FEATURE: Cache/Speech, use cache is available
+            if( this.caches.library ) return this.caches.library
+
+            let list       = Array.from(this.ilse.brains.first.queue)
+            let library     = []
+
+            let is_book, is_pdf
+
+            list.map( item => {
+
+                is_book = item[0].match("[0-9]") === null
+                is_pdf  = item.indexOf('pdf') !== -1 
+
+                if( is_book && is_pdf ) {
+                    library.push( item )
+                }
+
+            })
+
+            // FEATURE: Cache/Speed, set it
+            if( !this.caches.library ) this.caches.library = library
+
+            return library
+        },
+
+        get_books_and_articles() {
+
+            // FEATURE: Cache/Speech, use cache is available
+            if( this.caches.library ) return this.caches.library
+
+            let list       = Array.from(this.ilse.brains.first.queue)
+            let library     = []
+
+            let is_book, is_pdf
+
+            list.map( item => {
+
+                is_book = item[0].match("[0-9]") === null
+                is_pdf  = item.indexOf('pdf') !== -1 
+
+                if( is_book && is_pdf ) {
+                    library.push( item )
+                }
+
+            })
+
+            // FEATURE: Cache/Speed, set it
+            if( !this.caches.library ) this.caches.library = library
+
+            return library
+        },
 
         decrease_left_arrow() {
             printf( "this.daily_statistics_days -> ", this.daily_statistics_days )
