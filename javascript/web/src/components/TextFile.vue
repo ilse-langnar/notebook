@@ -1,7 +1,17 @@
 <template lang="pug" >
 .text-file
-    p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    p {{component.props.name}}
+    input.input.centered( v-model="input" @keydown.enter="on_keydown_enter()" )
+    br
+    .file( v-if="type === 'file' " )
+        .go-back( @click="go_back()" )
+            p ../
+        // p( contentEditable="" ) {{text}}
+        textarea( v-model="text" )
+    .directory( v-if="type === 'directory' " )
+        .go-back( @click="go_back()" )
+            p ../
+        .loop( v-for="( dir, index ) in directory_files" :key="index" @click="go_to(dir)" )
+            p {{dir}}
 </template>
 <script>
 // eslint-disable-next-line
@@ -24,12 +34,61 @@ export default {
     data() {
         return {
             ilse: ilse,
+            input: this.component.props.name || "/",
+            type: "",
+
+            // Dir
+            directory_files: [],
+
+            // File
+            text: "",
         }
     },
 
     methods: {
 
+        go_back() {
+            let split = this.input.split("/")
+            printf( "split.pop() -> ", split.pop() )
+            this.input = split.join("/")
+            printf( "this.input -> ", this.input )
+            this.go_to_dir()
+        },
+
+        go_to( dir ) {
+            printf( "go_to -> dir -> ", dir )
+            if( this.input[this.input.length-1] === "/" ) {
+                this.input += dir
+            } else {
+                this.input += "/" + dir 
+            }
+
+            this.go_to_dir()
+        },
+
+        async go_to_dir() {
+
+            let does_path_exists = await ilse.filesystem.file.exists( this.input )
+            let is_dir           = await ilse.filesystem.dir.is(  this.input )
+
+            if( does_path_exists && !is_dir ) {
+                this.type = "file"
+                this.text = await ilse.filesystem.file.get(    this.input )
+            }
+
+            if( does_path_exists && is_dir ){
+                this.type = "directory"
+                this.directory_files = await ilse.filesystem.dir.list( this.input )
+            }
+
+        },
+
+        on_keydown_enter() {
+            this.go_to_dir()
+        },
+
         setup() {
+            this.go_to_dir()
         },
 
     },
@@ -41,5 +100,57 @@ export default {
 }
 </script>
 <style scoped >
+
+.text-file .input.centered {
+    display: block;
+    width: 70%;
+}
+
+.directory  {
+    width: 80%;
+    margin: 0 auto;
+    color: var( --text-color );
+}
+
+.directory div, .file div {
+    border: 1px solid var( --text-color );
+    width: 100%;
+    margin-bottom: 5px;
+    border-radius: var( --border-radius );
+    padding: 3px;
+    cursor: pointer;
+}
+
+.file .go-back:hover {
+    background: var( --text-color );
+    color: var( --background-color );
+    border: 1px solid var( --text-color );
+    border-radius: var( --border-radius );
+
+}
+
+.directory .go-back:hover {
+    background: var( --text-color );
+    color: var( --background-color );
+    border: 1px solid var( --text-color );
+    border-radius: var( --border-radius );
+
+}
+
+.text-file .file {
+    width: 80%;
+    margin: 0 auto;
+    color: var( --text-color );
+}
+
+.file textarea {
+    width: 100%;
+    height: 70vh;
+    background: var( --background-color );
+    color: var( --text-color );
+    resize: none;
+    border-radius: var( --border-radius );
+    padding: var( --padding );
+}
 
 </style>

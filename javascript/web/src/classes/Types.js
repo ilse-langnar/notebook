@@ -480,6 +480,17 @@ class componentTypes {
         })
 
 
+        this.add({
+            id: "kanban",
+            name: "kanban",
+            description: "Kanban Board",
+            img: require("@/assets/images/file.svg"),
+            type: "vue",
+            component: require("@/components/Kanban.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
 
     }
 

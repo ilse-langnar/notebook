@@ -518,6 +518,15 @@ export default {
 
                         ilse.lastCalled = now
 
+                        printf( "@@@ payload.link -> ", payload.link )
+                        let is_relative   = payload.link.indexOf("@") !== -1
+                        if( !is_relative ) {
+                            payload.link = ilse.path.join( "/", "second", payload.link.replace("@","") )
+                            // payload.link = `/second/${payload.link.replace("@/", "")}`
+                        }
+                        printf( "@@@ is_relative -> ", is_relative )
+                        printf( "@@@ payload.link -> ", payload.link )
+
                         _this.$emit( "on-link-click", { link: payload.link, event: payload.event, note: _this.inote } )
                     }
                     _this.once()
@@ -581,7 +590,8 @@ export default {
     /*min-height: 20px;
     height: 20px;
     max-height: 20px;*/
-    height: auto;
+    /*height: fit-content !important;*/
+    height: 30px !important;
 
     margin: 0 !important;
     padding: 0px !important;

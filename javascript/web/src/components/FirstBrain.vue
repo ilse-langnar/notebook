@@ -35,7 +35,7 @@
 
 
 
-            .priority( v-if="selected === 'Tags' " )
+            // .priority( v-if="selected === 'Tags' " )
 
                 .flex
                     input.input
@@ -190,7 +190,7 @@ export default {
             options: [
                 { name: "Review", img: "settings.svg" },
                 { name: "Daily Statistics", img: "report.svg" },
-                { name: "Tags", img: "tag.svg" },
+                // { name: "Tags", img: "tag.svg" },
                 { name: "Knowledge Tree", img: "tree.svg" },
                 { name: "Search", img: "lupe.svg" },
                 { name: "Library", img: "address-book.svg" },

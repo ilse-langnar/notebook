@@ -156,7 +156,8 @@ export default {
 }
 
 .note .textarea {
-    width: 95vw !important;
+    /*width: 95vw !important;*/
+    width: 100%;
 }
 
 </style>

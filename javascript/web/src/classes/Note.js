@@ -84,6 +84,22 @@ export default class note {
 
     }
 
+    get_tags() {
+
+        let content = this.content
+        let chunks  = content.split( " " )
+        let tags    = []
+        let has_tag_in_chunk
+
+        chunks.map( chunk => {
+            has_tag_in_chunk = chunk.indexOf("#") !== -1
+                if( !has_tag_in_chunk ) return
+            tags.push( chunk )
+        })
+
+        return tags
+    }
+
     focus() {
 
         this.is_editable = true

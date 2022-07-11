@@ -151,6 +151,12 @@ export default {
         },
 
         setup() {
+
+            setTimeout( () => {
+                let list = document.querySelectorAll( "#table-pan img" )
+                printf( "@@@ list -> ", list )
+            }, 1000 )
+
             this.listen()
             this.create_svg()
         },

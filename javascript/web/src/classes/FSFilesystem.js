@@ -60,6 +60,9 @@ export default class FSFilesystem {
 
     async read_dir( dir ) {
 
+        // printf( "read_dir -> ", dir )
+        let o = path.join( target_directory, dir )
+        printf( "o -> ", o )
         let list
         try {
             list      = fs.readdirSync( path.join( target_directory, dir ) )

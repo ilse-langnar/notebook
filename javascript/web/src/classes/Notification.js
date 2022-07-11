@@ -31,8 +31,8 @@ class Notification {
             type:       options.type,
             theme:      options.theme,
             time:       options.time,
-            on_close:   options.on_close,
-            on_cancel:  options.on_cancel,
+            on_close:   options.on_close  || function(){},
+            on_cancel:  options.on_cancel || function(){},
         }
 
         this.items.push( item )

@@ -209,15 +209,28 @@ export default {
         },
 
         on_note_link_click( payload ) {
-            printf( "@@@on_note_link_click -> payload ->  ", payload )
 
-            let note           = payload.note
+            printf( "on_note_link_click -> payload -> ", payload )
+
+            let note             = payload.note
             let file             = payload.link
             let event            = payload.event
             let is_shift         = event.shiftKey
             let is_ctrl          = event.ctrlKey
+            let is_relative      = payload.link.indexOf( "@" ) !== -1 
 
-            let is_file_markdown = !(file.indexOf(".mp4") !== -1 || file.indexOf(".png") !== -1 || file.indexOf(".jpg") !== -1 || file.indexOf(".jpeg") !== -1 || file.indexOf(".gif") !== -1 || file.indexOf(".svg") !== -1 || file.indexOf(".mp4") !== -1 || file.indexOf(".webm") !== -1 || file.indexOf(".mp3") !== -1 || file.indexOf(".ogg") !== -1 || file.indexOf(".wav") !== -1)
+            if( is_relative ) {
+                printf( "is_relative -> ", is_relative )
+                let component = new ilse.classes.Component({ type: "text-file", width: 12, props: { name: payload.link.replace("@", "") }})
+                printf( ">>> compoennt -> ", component )
+                    ilse.components.push( component )
+                    return
+            }
+
+            printf( ">>> is_relative -> ", is_relative )
+
+            let is_file_markdown = !(file.indexOf(".png") !== -1 || file.indexOf(".jpg") !== -1 || file.indexOf(".jpeg") !== -1 || file.indexOf(".gif") !== -1 || file.indexOf(".svg") !== -1 || file.indexOf(".mp4") !== -1 || file.indexOf(".webm") !== -1 || file.indexOf(".mp3") !== -1 || file.indexOf(".ogg") !== -1 || file.indexOf(".wav") !== -1 || file.indexOf(".md") !== -1) 
+                printf( ">>> is_file_markdown -> ", is_file_markdown )
                 if( is_file_markdown ) file += ".md"
 
             // <=======> Shift <=======> //

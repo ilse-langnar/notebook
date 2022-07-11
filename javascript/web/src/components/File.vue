@@ -1,5 +1,5 @@
 <template lang="pug" >
-.file( style="height: 200px; width: 95%; margin: 0 auto;" )
+.file( v-if="file" style="height: 200px; width: 95%; margin: 0 auto;" )
 
     .flex
         img.is-pulled-left( v-if="!ilse.config.favorites || !(ilse.config.favorites.indexOf(file) !== -1)" src="@/assets/images/star.svg" style="width: 20px; cursor: pointer; " @click="toggle_favorite(file)" title="Favorite" )
@@ -38,7 +38,15 @@
     GhostNote.is-pulled-left( @on-blur="on_ghost_note_blur" @on-enter="on_ghost_note_enter" )
 
     .space
-    References( v-if="content && file" :file="file" :key="content" )
+    /// p 1: {{file.subtr( file.lastIndexOf('/')+1, file.length)}}
+    /// p 2: {{file}}
+    /// p 3: {{file.split('/')[2]}}
+    // References( v-if="content && file" :file="file.split('/')[2]" :key="content" )
+    // p {{file.substr(file.lastIndexOf('/')+1, file.length-2)}}
+    References( v-if="content && file" :file="file.substr( file.lastIndexOf('/')+1, file.length)" :key="content" )
+    // p LL: {{file.split('/')[2]}}
+    // p 1
+    // p 2
     .space
 
 </template>
@@ -228,7 +236,8 @@ export default {
 
             let final = non_notes + notes
 
-            await ilse.filesystem.file.set( ilse.path.join("second" , file), final )
+            // await ilse.filesystem.file.set( ilse.path.join("second" , file), final )
+            await ilse.filesystem.file.set( final )
 
         },
 
@@ -333,14 +342,18 @@ export default {
                 if( has_file ) return
 
             let has_extention       = this.file.lastIndexOf(".") !== -1
-            let file_exists         = await ilse.filesystem.file.exists( ilse.path.join("second" , this.file) )
+            printf( "@@@@@ this.file -> ", this.file )
+            // let file_exists         = await ilse.filesystem.file.exists( ilse.path.join("second" , this.file) )
+            let file_exists         = await ilse.filesystem.file.exists(this.file)
             let should_md_extention = !has_extention && !file_exists  // FEATURE: no extention AND we tried getting without extention, let's just try adding a .md, more convenient
-                if( should_md_extention ) this.file = this.file + ".md"
+                // if( should_md_extention ) this.file = this.file + ".md"
+                if( should_md_extention ) this.file = `/second/${this.file}.md`
 
             let content
 
             try {
-                content         = await ilse.filesystem.file.get( ilse.path.join("second" , this.file) )
+                // content         = await ilse.filesystem.file.get( ilse.path.join("second" , this.file) )
+                content         = await ilse.filesystem.file.get(this.file)
                 this.content    = content
                 this.check_for_existing_notes()
             } catch(e) {

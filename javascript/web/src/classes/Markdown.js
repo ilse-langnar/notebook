@@ -36,7 +36,20 @@ export default class Markdown {
               let link = match[0]
                   .replace("[[", "")
                   .replace("]]", "")
+
+              let is_relative  = link.indexOf("@") !== -1
               return `<span class="link" onclick="Messager.emit('~note.vue', 'link-click', { 'event': event, 'link': '${link}' } )" title="${link}" > [[${link}]] </span>`
+
+              // if( is_relative ) {
+                  // let relative_link= link.replace("@/", "")
+                  // printf( "@@@ relative_link -> ", relative_link )
+                  // link = relative_link
+                  // printf( "@@@@ link -> ", link )
+                  // printf( ">>>>>> ", relative_link )
+                  // return `<span class="link" onclick="Messager.emit('~note.vue', 'link-click', { 'event': event, 'link': '${relative_link}' } )" title="${link}" > [[${link}]] </span>`
+              // } else {
+                  // return `<span class="link" onclick="Messager.emit('~note.vue', 'link-click', { 'event': event, 'link': '${link}' } )" title="${link}" > [[${link}]] </span>`
+              // }
           }
 
         )

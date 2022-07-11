@@ -18,11 +18,11 @@ const printf                        = console.log
     import Priorities                   from "@/classes/Priorities.js"
     import Statistics                   from "@/classes/Statistics.js"
     import PanSVG                       from "@/classes/PanSVG.js"
+    import Cache                        from "@/classes/Cache.js"
 
     // UI Elements
         import Menu                         from "@/classes/Menu.js"
         import Options                      from "@/classes/Options.js"
-        import Popovers                     from "@/classes/Popovers.js"
         import Modals                       from "@/classes/Modals.js"
         import Notification                 from "@/classes/Notification.js"
         import Dialog                       from "@/classes/Dialog.js"
@@ -94,6 +94,7 @@ export default class Ilse {
 
         // Utils
             this.utils                  = new Utils()
+            this.cache                  = new Cache()
 
         // Filesystem
             this.filesystem             = new Filesystem( this, this.target_directories[0] )
@@ -112,7 +113,6 @@ export default class Ilse {
             this.links                  = new Links()
 
         // UI Elements
-            this.popovers               = new Popovers()
             this.modals                 = new Modals()
             this.notification           = new Notification()
             this.dialog                 = new Dialog()
