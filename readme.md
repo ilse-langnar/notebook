@@ -73,7 +73,7 @@ You can take one screenshot for each item, in order to add them to your "study" 
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/memex.png" style="width: 200px; " />
 
 ## Making items(Flashcards) out of a biology book
-<video src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/first-brain.mp4" style="width: 200px; "> </video>
+<video class="video" controls src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/first-brain.mp4" />
 
 ## Plugins, Themes, Snippets 
 If you want to make a plugin, please download the [Plugin Template](https://github.com/ilse-langnar/plugin-template) if you want to make a Theme, then download the [Theme Template](https://github.com/ilse-langnar/theme-template) and if you want to make a snippt, just make a normal note with the tag `#i/css` and a css code block like ```css body { background: red; }```
