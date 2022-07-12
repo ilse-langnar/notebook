@@ -492,6 +492,18 @@ class componentTypes {
             }
         })
 
+        this.add({
+            id: "calendar",
+            name: "Calendar",
+            description: "Calendar",
+            img: require("@/assets/images/file.svg"),
+            type: "vue",
+            component: require("@/components/Calendar.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
     }
 
     get( id ) {
