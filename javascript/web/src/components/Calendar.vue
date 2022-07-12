@@ -1,15 +1,9 @@
 <template lang="pug" >
 .calendar
-    p calendar
-    p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+
+    h1.centered {{ilse.utils.convert_from_date_unique_id_to_daily_note_format(ilse.utils.get_unique_date_id())}}
     // table
-        tr
-            td( v-for="( item, index ) in ilse.utilse.get_numer_of_days_in_month()" )
-
-
-    table
-        div(v-html="get_items()" )
-    table
         tr
             th S
             th M
@@ -18,14 +12,14 @@
             th T
             th F
             th S
+        th( v-for="( column, index ) in get_items()" :key="index" )
+            td( v-for="( day, day_index ) in column" :key=" 'td-' + day_index" ) {{day_index}}
+
+    table
         th
-            td  LLL
-            td  LLL
-            td  LLL
-            td  LLL
-            td  LLL
-            td  LLL
-                 
+            td( v-for="( column, index ) in get_items()" :key="index" )
+                p( v-for="( day, day_index ) in column" :key=" 'td-' + day_index" :style="get_day_style(day)" )  {{day}}
+
 </template>
 <script>
 // eslint-disable-next-line
@@ -60,26 +54,32 @@ export default {
 
     methods: {
 
-        get_items() {
-            var htmlstring = "";
-            for (var i = 1; i <= 5; i++) {
-                //open tr tag
-                htmlstring += "<tr>";
-                for (var i = 1; i <= 30; i++) {
-                    var days = "<td>" + i + "</td>";
-                    //print 1 to 31 with td tag
-                    htmlstring += days;
-                    //if i divide by 7 and remainder is 0
-                    if (i % 7 == 0 || i == 31) {
-                        htmlstring += "</tr>";
-                        htmlstring += "<tr>";
+        get_day_style( index ) {
+            printf( "get_day_style -> index -> ", index )
+            let style = ``
 
-                    }
-                }
-                htmlstring += "</tr>";
+            let today = new Date().getDate()
+            printf( "today -> ", today )
+                if( today === index ) style += `background: var(--text-color); color: var( --background-color ); border-radius: var( --border-radius );`
+
+            return style
+        },
+
+        get_items() {
+
+            let num = ilse.utils.get_numer_of_days_in_month( (new Date().getMonth()), (new Date().getFullYear()) )
+                num += 1
+            let list=[]
+
+            for( var i = 1; i < num; ++i ) {
+                list.push(i)
             }
 
-            return htmlstring
+            printf( "list -> ", list )
+
+            let chunks = ilse.utils.split_array_into_nth_legnth( list, 7 )
+            printf( "chunks -> ", chunks )
+            return chunks
         },
 
         setup() {
@@ -94,5 +94,33 @@ export default {
 }
 </script>
 <style scoped>
+
+
+.calendar {
+    width: 100%;
+}
+
+table th td {
+    padding: 20px;
+}
+
+table tr td {
+    border: 1px solid #000;
+}
+
+
+
+
+table th td p:hover {
+    background: var( --text-color );
+    color: var( --background-color );
+    border-radius: var( --border-radius );
+}
+
+table th td p {
+    width: 16vw;
+    height: 30vh;
+    text-align: center; 
+}
 
 </style>

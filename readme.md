@@ -67,10 +67,11 @@ You can take one screenshot for each item, in order to add them to your "study" 
 ## Statistics
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/daily-info-statistics.png" style="width: 200px;" />
 
-## One data, many visualizations
+## One data, many forms
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/spreadsheet-light-mode.png" style="width: 200px;" />
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/spreadsheet-dark-mode.png" style="width: 200px; " />
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/memex.png" style="width: 200px; " />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/calendar.png" style="width: 200px; " />
 
 ## Making items(Flashcards) out of a biology book
 [![Watch the video](https://github.com/ilse-langnar/notebook/blob/dev/docs/ilse.jpeg)](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/first-brain.mp4)
