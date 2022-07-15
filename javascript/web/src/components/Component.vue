@@ -30,7 +30,7 @@ const printf                        = console.log;
 
 export default {
 
-    name: "Component",
+    name: "IlseComponent",
 
     props: {
         component: { type: Object, required: false },

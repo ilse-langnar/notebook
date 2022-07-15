@@ -479,6 +479,36 @@ class Commands {
                 description: "Will open a new 'query blocks' component",
                 name: "Open Query Blocks",
             },
+
+            {
+                id: "open-spreadsheet",
+                fn: async function() {
+                    let component = new ilse.classes.Component({ type: "spreadsheet", width: 12, props: {} })
+                        ilse.components.push( component )
+                },
+                description: "Will open a new component for Spreadsheets",
+                name: "Open Spreadsheets",
+            },
+
+            {
+                id: "open-calendar",
+                fn: async function() {
+                    let component = new ilse.classes.Component({ type: "calendar", width: 12, props: {} })
+                        ilse.components.push( component )
+                },
+                description: "Will open a new component for the Calendar",
+                name: "Open Calendar",
+            },
+
+            {
+                id: "open-kanban",
+                fn: async function() {
+                    let component = new ilse.classes.Component({ type: "kanban", width: 12, props: {} })
+                        ilse.components.push( component )
+                },
+                description: "Will open a new component for a Kanban",
+                name: "Open Kanban",
+            },
         ]
     }
 

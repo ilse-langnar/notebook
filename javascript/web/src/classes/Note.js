@@ -31,8 +31,23 @@ export default class note {
             // this.content     = this.content.substr( 16, note.length ) // 20220124102749: Example [[Writing]] -> : Example [[Writing]]
             this.content     = this.content.substr( this.content.indexOf(":") + 2, this.content.length )
 
+        this.tags        = this.get_tags()
+        this.tagless     = this.get_tagless(this.content)
 
         this.caret       = new Caret( this )
+    }
+
+    get_tagless( content ) {
+
+        let chunks = content.split(" ")
+        let final  = []
+        let is_tag
+        chunks.map( chunk => {
+            is_tag = chunk.indexOf("#") !== -1
+            if( !is_tag ) final.push(chunk)
+        })
+
+        return final.join(" ")
     }
 
     get() {

@@ -1,13 +1,25 @@
 <template lang="pug" >
+
+// .kanban
+    input.input.board-name( v-model="board_name" )
+    .wrapper
+        .loop( v-for="( item, index ) in boards" :key="index" @drop.prevent="on_drop" @dragenter.prevent @dragover.prevent )
+            input.input.centered( v-model="item.name" )
+            img.is-pulled-right( src="@/assets/images/point.svg")
+            .card( v-for="( card, card_index ) in item.cards" :key=" 'card-' + card_index" draggable @dragenter.prevent @dragover.prevent style="border: 1px solid #000;" )
+                input.input( v-model="card.tagless" @blur="on_input_blur(card)" @keydown.enter="on_input_enter(card)" )
+            input.input( v-model="item.new_card" placeholder="Add a card ..." @keydown.enter="add_card(item, item.new_card)" )
+
 .kanban
     input.input.board-name( v-model="board_name" )
     .wrapper
-        .loop( v-for="( item, index ) in boards" :key="index" @drop.prevent="on_drop($event, item)" @dragenter.prevent @dragover.prevent draggable )
-            input.input.centered( v-model="item.name" )
-            img.is-pulled-right( src="@/assets/images/point.svg")
-            .card( v-for="( card, card_index ) in item.cards" :key=" 'card-' + card_index" draggable @dragenter.prevent @dragover.prevent )
-                input.input( v-model="card.content" )
-            input.input( v-model="item.new_card" placeholder="Add a card ..." @keydown.enter="add_card(item, item.new_card)" )
+        .loop( v-for="( item, index ) in boards" :key="index" @dragenter.prevent @dragover.prevent style="border: 1px solid #000;" )
+            .card( v-for="( card, card_index ) in item.cards" :key=" 'card-' + card_index" draggable @dragenter.prevent @dragover.prevent @drop.prevent="on_drop($event, card, item)" style="height: auto; border: 1px solid red;" )
+                input.input.centered( v-if="card_index === 0" v-model="item.name" )
+                img.is-pulled-right( v-if="card_index === 0" src="@/assets/images/point.svg")
+                input.input( v-model="card.tagless" @blur="on_input_blur(card)" @keydown.enter="on_input_enter(card)" )
+                input.input( v-model="item.new_card" placeholder="Add a card ..." @keydown.enter="add_card(item, item.new_card)" )
+
 
 </template>
 <script>
@@ -32,6 +44,7 @@ export default {
             ilse: ilse,
             board_name: "default",
             boards: [],
+            obj: {},
         }
     },
 
@@ -45,13 +58,46 @@ export default {
 
     methods: {
 
-        on_drop( event, item ) {
+        on_input_enter( item ) {
+            this.set_content_to_tagless_plus_tags( item )
+            document.activeElement.blur()
+        },
+
+        on_input_blur( item ) {
+            this.set_content_to_tagless_plus_tags( item )
+        },
+
+        set_content_to_tagless_plus_tags( item ) {
+            printf( "set_content_to_tagless_plus_tags -> item -> ", item )
+            printf( "set_content_to_tagless_plus_tags.get_tags() -> item -> ", item.get_tags() )
+
+            item.content  = `${item.tagless} ${item.get_tags().join(" ")}`
+            printf( "item.content -> ", item.content )
+        },
+
+
+        set_obj( note ) {
+            printf( "note.tags -> ", note.tags )
+            printf( "note -> ", note )
+            printf( "note.tagless -> ", note.tagless )
+            printf( "note.proxy -> ", note.proxy )
+            // this.obj[note.id] = note.
+        },
+
+        on_drop( event, note, item ) {
+            printf( "note.content -> ", note.content )
+            let name = note.get_tags()[0]
+            let new_board = item.name
+            printf( "name -> ", name )
             printf( "on_drop -> event -> ", event )
             printf( "on_drop -> item -> ", item )
+            printf( "on_drop -> note -> ", note )
+            printf( "before -> note.content -> ", note.content )
+            note.content.replace( `#i/kanban/${this.board_name}/${name}`, `#i/kanban/${this.board_name}/${new_board}` )
+            printf( "after -> note.content -> ", note.content )
         },
 
         add_card( item, text ) {
-            // this.boards.push({ id: Math.random(), name: name, cards })
             item.cards.push({ text })
             item.new_card = ""
         },
@@ -73,6 +119,7 @@ export default {
                     if( !has_kanban_tag ) return
                 is_correct_name = note.content.indexOf( name ) !== -1
                     if( !is_correct_name ) return
+                this.set_obj( note )
                 notes.push( note )
                 
             })
@@ -105,6 +152,7 @@ export default {
 
         // Board Name -> [ { name: board_name_1, notes: [] }, { name: board_name_2, notes: [] } ]
         init( name ) {
+            // Can I use "query"?
             let tags   = this.get_kanban_tags( name )
             let obj    = {}
             let board_name 
@@ -132,19 +180,6 @@ export default {
             })
 
             printf( "obj -> ", obj )
-
-            // let boards = []
-            // let board_name
-
-            // tags.map( tag => {
-                // board_name = tag.split("/")[3]
-                // boards.push( board_name )
-            // })
-
-            // boards.map( board => {
-                // this.add( board )
-            // })
-
 
         },
 

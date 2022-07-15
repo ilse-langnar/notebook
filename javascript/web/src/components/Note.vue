@@ -4,10 +4,16 @@
     p( v-if="!options.hideBullet" slot="icon" :title="get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" ).paragraph-note ⚫
 
     // edit mode
-    textarea.textarea(  v-if="inote.is_editable || !inote.content" v-model="inote.content" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" placeholder="New" @drop.prevent="add_file" @dragover.prevent @click="on_textarea_click($event, inote)" )
+    // textarea.textarea(  v-if="inote.is_editable || !inote.content" v-model="options.is_tagless ? inote.tagless : inote.content" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" placeholder="New" @drop.prevent="add_file" @dragover.prevent @click="on_textarea_click($event, inote)" )
+
+    .is-tagless( v-if="options.is_tagless" )
+        textarea.textarea(  v-if="inote.is_editable || !inote.content" v-model="inote.tagless" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" placeholder="New" @drop.prevent="add_file" @dragover.prevent @click="on_textarea_click($event, inote)" )
+
+    .is-content( v-if="!options.is_tagless" )
+        textarea.textarea(  v-if="inote.is_editable || !inote.content" v-model="inote.content" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" placeholder="New" @drop.prevent="add_file" @dragover.prevent @click="on_textarea_click($event, inote)" )
 
     // show mode
-    .markdown( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )
+    .markdown( v-show="!inote.is_editable" v-html="get_html(options.is_tagless ? inote.tagless : inote.content )" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )
 
 
 
@@ -49,6 +55,7 @@ export default {
                 return {
                     style: "",
                     hideBullet: false,
+                    tagless: false,
                 }
             }
         },
@@ -261,23 +268,23 @@ export default {
             this.resize_textarea()
         },
 
-        get_html( inote ) {
+        get_html( content ) {
 
             // Empty note
-            if( !inote.content ) return "<NOTHING>"
+            if( !content ) return "<NOTHING>"
 
             // === no Ref === //
-            let ref                   = ilse.notes.get_references( inote.content ) // TODO: Make this a notes function
-                if( !ref ) return ilse.markdown.render( inote.content ) // No note references, normal markdown.
+            let ref                   = ilse.notes.get_references( content ) // TODO: Make this a notes function
+                if( !ref ) return ilse.markdown.render( content ) // No note references, normal markdown.
 
             // === Refs === //
 
-            let html = ilse.markdown.get_blockquote( inote.content )
+            let html = ilse.markdown.get_blockquote( content )
             printf( "html -> ", html )
             return html
 
             /*
-            let text   = ilse.notes.reference( inote.content ) 
+            let text   = ilse.notes.reference( .content ) 
             let chunks = text.split("\n")
 
             printf( "chunks -> ", chunks )
