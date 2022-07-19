@@ -4,22 +4,28 @@
     input.input( v-model="input" autofocus ref="command_pallet" @keydown.escape="turn_off" @keydown.enter="on_keydown_enter" @blur="on_blur" @input="on_input" @focus="on_focus" )
 
     .flex
-        .item
+        .mitem
             p.is-size-6 {{search_result.length}} / {{ilse.commands.commands.length || 0}} ({{Math.floor(search_result.length * 100 / ilse.commands.commands.length)}}%)
-        .item
+        .mitem
             span Navigation: 
                 strong ↑↓ 
-        .item
+        .mitem
             span Run: 
                 strong ↪ 
-        .item
+        .mitem
             p Quit: 
                 strong ESC
     br
 
     .flex( v-if="!search_result.length" v-for="( command, index ) in ilse.commands.commands" @click="on_item_click($event, command)" )
         h1.is-size-1( v-if=" search_result === 0" ) No Results ):
-        p.is-pulled-left.item {{command.name}}
+
+        .item
+            p.is-pulled-left {{command.name}}
+            kbd.is-pulled-right( v-if="get_shortcut_by_name(command.name)" ) {{get_shortcut_by_name(command.name)}}
+
+        // .loop( v-for="( shortcut, shortcut_index ) in ilse.commands.get_command_shortcut(command.id)" :key="'shortcut-' + shortcut_index")
+            p {{shortctu}}
 
         // .column.is-3
             .is-pulled-left.source( v-if="get_command_by_name(command.name) && get_command_by_name(command.name).props" ) {{get_command_by_name(command.name).props.source}} 
@@ -122,23 +128,25 @@ export default {
         get_command_shortcut( command_id ) {
 
             let keys = ilse.keyboard.keys
+            let combo=null
 
-            for( let key of keys ) {
+            keys.map( key => {
+                if( key.command === command_id ) combo = key.combo
+            })
 
-                for( let bind of key.bindings ) {
-                    if( bind.command === command_id )  return key.combo
-                }
-            }
-
-            return null
+            return combo
 
         },
 
         get_shortcut_by_name( name ) {
 
+            printf( "get_shortcut_by_name -> name -> ", name )
             let command     = this.get_command_by_name(name)
+            printf( "get_shortcut_by_name -> command -> ", command )
             let id          = command.id
+            printf( "get_shortcut_by_name -> id -> ", id )
             let shortcut    = this.get_command_shortcut( id )
+            printf( "get_shortcut_by_name -> shortcut -> ", shortcut )
 
             return shortcut
         },
@@ -226,7 +234,11 @@ export default {
 .item {
 }
 
-.flex p.item {
+.flex .mitem {
+    margin: 0 auto;
+}
+
+.flex .item {
     border: 1px solid var( --text-color );
     width: 100%;
     margin-bottom: 5px;
@@ -235,7 +247,7 @@ export default {
     cursor: pointer;
 }
 
-.flex p.item:hover {
+.flex .item:hover {
     background: var( --text-color );
     color: var( --background-color );
     border: 1px solid var( --text-color );

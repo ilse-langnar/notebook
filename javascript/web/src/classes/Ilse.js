@@ -58,6 +58,7 @@ export default class Ilse {
         this.keys                   = { daily_notes: "daily-notes-key" }
         this.tried_too_fast         = false
         this.is_vitruvian_expanded  = false
+        this.is_home_page_on        = false
 
         this.platform               = process.env.VUE_APP_TARGET.toLowerCase()
 

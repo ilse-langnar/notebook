@@ -81,6 +81,19 @@ class Commands {
 
     }
 
+    // get_command_shortcuts("read-first-brain") -> [ "command+space v k" ]
+    get_command_shortcuts( id ) {
+
+        let list = ilse.keyboard.keys
+        let found = []
+
+        list.map( item => {
+            if( item.command === id ) found.push( item.combo )
+        })
+
+        return found
+    }
+
     set_default_commands() {
 
         this.commands = [
@@ -333,9 +346,10 @@ class Commands {
             {
                 id: "open-text-file",
                 fn: async function() {
-                    let payload = await ilse.dialog.input( "File Name", "Description" )
+                    // let payload = await ilse.dialog.input( "File Name", "Description" )
                     // let name    = payload.input
-                    let name    = `projects/lazy-scheduler/Lazy Scheduler.html`
+                    // let name    = `projects/lazy-scheduler/Lazy Scheduler.html`
+                    let name    = ``
                     let component = new ilse.classes.Component({ type: "text-file", width: 8, props: { name }})
                         ilse.components.push( component )
 
@@ -509,6 +523,16 @@ class Commands {
                 description: "Will open a new component for a Kanban",
                 name: "Open Kanban",
             },
+
+            {
+                id: "toggle-home-page",
+                fn: async function() {
+                    ilse.is_home_page_on = !ilse.is_home_page_on
+                },
+                description: "Toggle Home Page",
+                name: "Toggle Home Page",
+            },
+
         ]
     }
 

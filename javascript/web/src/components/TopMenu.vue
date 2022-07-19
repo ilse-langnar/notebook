@@ -7,7 +7,9 @@
 
         .vspace
 
+        img( src="@/assets/images/home.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   title="Home Page"  @click="toggle_is_home_page_on" )
         img( src="@/assets/images/calendar.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   title="Go to Daily Notes"  @click="add_daiyl_notes" accesskey="d" )
+        img( src="@/assets/images/math-function.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   title="Toggle First Brain"  @click="toggle_first_brain" )
 
         // img( src="@/assets/images/news.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Open File"  @click="open_file" accesskey="o" )
 
@@ -106,6 +108,15 @@ export default {
 
 
     methods: {
+
+        toggle_is_home_page_on() {
+            ilse.is_home_page_on = !ilse.is_home_page_on 
+        },
+
+        toggle_first_brain() {
+            printf( "toggle_first_brain" )
+            ilse.modals.open( "first-brain" )
+        },
 
         toggle_command_pallet() {
             ilse.modals.open( "command-pallet" )

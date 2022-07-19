@@ -75,6 +75,7 @@ export default class Filesystem {
     }
 
     async create_default_zir_files() {
+        if( !this.ilse.target_directories[0] ) return
 
         let time_id         = this.ilse.utils.get_unique_date_id() // 20220120155758
         let note            = `${time_id}: "Hello, World"` // 20220120155758: Hello, World
@@ -103,12 +104,13 @@ export default class Filesystem {
         let has_plugins     = await this.dir.exists("plugins")
             if( !has_plugins ) await this.dir.create( "plugins" )
 
-        this.create_default_script()
+        // this.create_default_script()
 
         this.has_checked_zir_files = true
         // Messager.emit( "~filesystem", "zir-files-check" )
     }
 
+    /*
     async create_default_script() {
 
         let is_windows  = ilse.platform === "windows"
@@ -133,6 +135,7 @@ export default class Filesystem {
         }
 
     }
+    */
 
     loaded() {
         Messager.emit( "~filesystem", "loaded", this )

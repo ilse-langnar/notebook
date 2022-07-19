@@ -23,7 +23,13 @@
                     img( :src="plugin.icon" )
 
             .themes( v-if="selected === 'Themes' " )
-                p wdqdw
+                img.img.centered( src="@/assets/images/paint.svg" title="Apply" alt="Apply" @click="ilse.themes.apply_default_theme()" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --text-color ); border-radius: var( --border-radius ); padding: var( --padding );" )
+                .loop( v-for="( note, index ) in ilse.notes.query('#i/theme/')" :key="index" )
+                    h3.inline {{note.content}}
+                    img.img.is-pulled-right( src="@/assets/images/paint.svg" title="Apply" alt="Apply" @click="ilse.themes.apply( note )" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --background-color );" )
+                    .loop( v-for="( child, child_index ) in note.children" :key="'child-' + child_index" )
+                        textarea.input( v-model="child.content" style="width: 100%;" )
+                    .space
 
             .snippets( v-if="selected === 'Snippets' " )
                 .snippet( v-for="( snippet, index ) in ilse.themes.snippets" :key="index" )
@@ -75,6 +81,7 @@ export default {
                 { name: "Typography", img: "typography.svg" },
                 { name: "Plugins", img: "plugin.svg" },
                 { name: "Themes", img: "palette.svg" },
+                { name: "Components", img: "tech-box.svg" },
                 { name: "Snippets", img: "brand-css3.svg" },
                 { name: "Graph", img: "network.svg" },
                 { name: "Keyboard Shortcut", img: "keyboard.svg" },
@@ -277,6 +284,10 @@ export default {
 
 .vitruvian-brain .fitem {
     margin: 0 auto;
+}
+
+.inline {
+    display: inline-block;
 }
 
 </style>

@@ -1,6 +1,7 @@
 <template lang="pug" >
 .component
     img.is-pulled-right(
+        v-if="!options.hide_bullet"
         src="@/assets/images/point.svg"
 
         @click.shift="on_shift_click(component_index)"
@@ -34,6 +35,13 @@ export default {
 
     props: {
         component: { type: Object, required: false },
+        options: { type: Object, required: false, default: 
+            function() {
+                return {
+                    hide_bullet: false,
+                }
+            }
+        },
     },
 
     data() {

@@ -359,6 +359,7 @@ class componentTypes {
             }
         })
 
+        /*
         this.add({
             id: "first-brain",
             name: "First Brain",
@@ -370,6 +371,7 @@ class componentTypes {
                 is_internal: true,
             }
         })
+        */
 
         this.add({
             id: "mind-map",
@@ -499,6 +501,18 @@ class componentTypes {
             img: require("@/assets/images/file.svg"),
             type: "vue",
             component: require("@/components/Calendar.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
+        this.add({
+            id: "favorites",
+            name: "Favorites",
+            description: "Favorites",
+            img: require("@/assets/images/file.svg"),
+            type: "vue",
+            component: require("@/components/Favorites.vue"),
             props: {
                 is_internal: true,
             }

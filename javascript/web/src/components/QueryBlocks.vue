@@ -4,8 +4,7 @@
         .flex.inputs( style="display: flex; flex-wrap: wrap; " )
             input.input( v-model="query_string" placeholder="🔎" @keydown="on_search_keydown" )
             input.input.range( type="range" v-model="width" min="0" max="99" @input="rangevalue.value=value")
-            p {{width}}
-
+            p {{width}} / {{search_result.length}}
     .wrap( style="display: flex; flex-wrap: wrap;  " )
         .no-result( v-if="!search_result.length" )
             p Nothing found for {{query_string}}
@@ -158,6 +157,8 @@ export default {
 .note .textarea {
     /*width: 95vw !important;*/
     width: 100%;
+    min-height: 100px;
+    height: fit-content;
 }
 
 </style>

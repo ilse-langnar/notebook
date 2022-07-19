@@ -139,7 +139,8 @@ input[type=range]::-webkit-slider-runnable-track  {
 
 #app {
     /*font-family: Times New Roman, Georgia, Helvetica, serif;*/
-    font-family: Mary, Helvetica, Georgia, Times New Roman, serif;
+    /*font-family: Mary, Helvetica, Georgia, Times New Roman, serif;*/
+    font-family: var( --font-family )
 }
 
 .input {

@@ -70,6 +70,9 @@ class KeyboardShortcut  {
             { combo: "ctrl+space v t", command: "open-note-on-a-table-pan" },
             { combo: "ctrl+space v shift+m", command: "open-note-on-a-memex" },
 
+            { combo: "ctrl+h", command: "toggle-home-page" },
+            // { combo: "shift+/", command: "open-help" }, // ctrl-shift-/ = ctrl-?
+
 
             { combo: "ctrl+space shift+f", command: "open-file" },
 

@@ -6,6 +6,33 @@ const printf                        = console.log
 // Messager
     import Messager                     from "@/classes/Messager.js"
 
+let DEFAULT_THEMES = [
+    {
+        css: `:root, .ilse[data-theme='light'] {
+        --background-color: #E9E9E9;
+        --text-color: #717171;
+        --border: 1px solid #4a4a4a;
+        --border-radius: 6px;
+        --padding: 4px;
+        --font-family: Mary, Helvetica, Georgia, Times New Roman, serif;
+        }`,
+        id: "light",
+    },
+    {
+        css: `.ilse[data-theme="dark"] {
+
+            --background-color: #131313ff;
+            --text-color: #F8F8F8;
+            --border: 2px solid #777;
+            --border-radius: 6px;
+            --padding: 4px;
+            --box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+        }`,
+        id: "dark",
+
+    }
+]
 export default class Theme {
 
     constructor( ilse ) {
@@ -15,82 +42,30 @@ export default class Theme {
         this.snippets = []
 
         this.listen()
+        setTimeout( () => {
+            this.setup( ilse )
+        }, 100 )
     }
 
-    /*
-    async load() {
+    apply_default_theme() {
 
-        let themes    = await ilse.filesystem.dir.list( "themes" )
-
-        if( !themes ) {
-            themes    = []
-        }
-
-        let theme_css
-        let files     = []
-
-        for( const theme of themes ) {
-
-            theme_css = await ilse.filesystem.file.get( `themes/${theme}/style.css` )
-            files     = await ilse.filesystem.dir.list( `themes/${theme}/` )
-
-            this.add({
-                id: theme,
-                name: theme,
-                css:  theme_css,
-                files: files,
-            })
-
-        }
-
-        // this.after_load()
-
+        ilse.config.active_theme = ""
+        DEFAULT_THEMES.map( theme => {
+            this.add_style( theme.css, theme.id )
+        })
     }
 
-    async after_load() {
+    setup( ilse ) {
 
-        // let data            = await ilse.data.persistence.init( "active-theme", { active: "" } )
-        let data            = await ilse.data.persistence.get( "active-theme" )
-            if( !data ) data = { active: "" }
-
-        let active_theme_id = data.active
-
-        if( active_theme_id ) {
-            let theme       = this.get( active_theme_id )
-            this.select( theme )
+        if( ilse.config.active_theme ) {
+            let note = ilse.notes.query( `${ilse.config.active_theme}:` )[0]
+            this.apply( note )
+            return
         } else {
-            let theme       = this.get( "main" )
-            this.select( theme )
+            this.apply_default_theme()
         }
 
     }
-    */
-
-    // <--------------> Rendering Effects / Appplying <--------------> //
-    /*
-    render( theme ) {
-
-        const style         = document.createElement('style')
-            style.textContent   = theme.css
-            style.id            = theme.id
-
-        document.body.appendChild( style )
-    }
-
-    un_render( theme ) {
-
-        let child  = document.getElementById( theme.id )
-
-        if( child ) {
-            child.remove()
-            return true
-        } else {
-            return false
-        }
-
-    }
-    */
-    // <--------------> Rendering Effects / Appplying <--------------> //
 
     add({ id, name, css, files }) {
 
@@ -107,80 +82,41 @@ export default class Theme {
 
     }
 
-    /*
-    deactivate_current_theme() {
-
-        let active          = this.active
-        let active_theme    = this.get( active )
-
-        if( active_theme ) {
-            try {
-                this.un_render( active_theme )
-            } catch ( e ) {
-
-            }
-        }
+    save( note ) {
+        ilse.config.active_theme = note.id
     }
-    */
 
-    // async save() {
-        // await ilse.data.persistence.set( "active-theme", { active: this.active } )
-    // }
-
-    /*
-    select( theme ) {
-
-        this.deactivate_current_theme()
-
-        // this.build( theme )
-
-        this.active = theme.id
-
-        this.render( theme )
-        // this.save()
+    clean() {
+        document.querySelectorAll('.theme').forEach(e => e.remove());
     }
-    */
 
-    /*
-    async build( theme ) {
+    apply( note ) {
 
-        let files       = await ilse.filesystem.dir.list( `themes/${theme.name}/` )
-        // Make sure variables.css ligth.css and dark.css are always first, otherwise things like variables won't be defined properly
-        let sorted_files= files.sort( (one,two) => {
+        let children = note.children
+        let css      = `:root { `
 
-            if( one === 'variables.css' || one === 'light.css' || one === 'dark.css' ) {
-                return -1
-            } else {
-                return 1
-            }
+        children.map( child => {
+            css += ` ${child.content}`
         })
+        css += `}`
 
-        let style_css   = ""
-        let content     = ""
+        this.save( note )
 
-        let extention
-        let is_css
+        this.clean()
 
-        for( const file of sorted_files ) {
-
-            if( file === "style.css" ) continue
-
-            extention       = file.substr(file.lastIndexOf("."), file.length )
-            is_css          = extention === '.css'
-
-            if( is_css )  {
-                content = await ilse.filesystem.file.get( `themes/${theme.name}/${file}` )
-                style_css += content
-            }
-
-        }
-
-        await ilse.filesystem.file.set( `themes/${theme.name}/style.css`, style_css )
-
-        return style_css
-
+        this.add_style(css, note.id)
     }
-    */
+
+    add_style( css, id ) {
+
+        const style         = document.createElement( 'style' )
+            style.textContent   = css
+            style.id            = `css-${id}`
+            style.className     = `theme`
+
+        document.getElementsByTagName('head')[0].appendChild( style )
+        ilse.config.save()
+    }
 
     get( id ) {
 
@@ -280,7 +216,7 @@ export default class Theme {
         Messager.on( "~note.vue", ( action, payload ) => {
 
             if( action === "blur" ) {
-                this.check_has_snippet_changed( payload.note )
+                // this.check_has_snippet_changed( payload.note )
             }
 
         })

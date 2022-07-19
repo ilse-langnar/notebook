@@ -1,18 +1,18 @@
 <template lang="pug">
 .home
 
-    .loading( v-if="!ilse.target_directories.length /*|| !ilse.has_loaded*/ " :key="ilse.key" )
+    .loading( v-if="!ilse.target_directories.length || !ilse.has_loaded " :key="ilse.key" )
         Setup
 
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded " :key="ilse.key" :data-theme="get_data_theme()" )
 
         TopMenu
         Components( :components="ilse.components" unique-key="home" )
+        HomePage( v-if="ilse.is_home_page_on" )
 
         Modals
         Dialogs
         Notifications( v-if="ilse.has_loaded" )
-        FirstBrainWidget
 </template>
 <script>
 // eslint-disable-next-line
@@ -31,7 +31,7 @@ const printf                                        = console.log;
     import Dialogs          from "@/components/Dialogs.vue"
     import Notifications    from "@/components/Notifications.vue"
     import Components       from "@/components/Components.vue"
-    import FirstBrainWidget from "@/components/FirstBrainWidget.vue"
+    import HomePage         from "@/components/HomePage.vue"
 
 
 export default {
@@ -48,7 +48,7 @@ export default {
         Notifications,
 
         Components,
-        FirstBrainWidget,
+        HomePage,
     },
 
     data() {
@@ -82,6 +82,7 @@ export default {
 </script>
 <style>
 
+/*
 :root,
 .ilse[data-theme='light'] {
 
@@ -117,6 +118,7 @@ export default {
     --padding: 4px;
     --box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
+*/
 
 .ilse  {
     color: var( --text-color );

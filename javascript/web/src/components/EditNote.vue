@@ -181,7 +181,6 @@ export default {
 
         on_note_link_click( payload ) {
 
-            printf( "Editnote -> on_note_link_click -> payload -> ", payload )
             let note           = payload.note
             let file             = payload.link
             let event            = payload.event
