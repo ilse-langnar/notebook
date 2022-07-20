@@ -167,7 +167,7 @@ class componentTypes {
             id: "empty",
             name: "Empty",
             description: "",
-            img: require("@/assets/images/calendar.svg"),
+            img: require("@/assets/images/circle-0.svg"),
             type: "vue",
             component: require("@/components/Empty.vue"),
             props: {
@@ -217,7 +217,7 @@ class componentTypes {
             id: "test",
             name: "Test",
             description: "",
-            img: require("@/assets/images/lupe.svg"),
+            img: require("@/assets/images/test-pipe.svg"),
             type: "vue",
             component: require("@/components/Test.vue"),
             props: {
@@ -229,7 +229,7 @@ class componentTypes {
             id: "tags",
             name: "tags",
             description: "",
-            img: require("@/assets/images/lupe.svg"),
+            img: require("@/assets/images/hash.svg"),
             type: "vue",
             component: require("@/components/Tags.vue"),
             props: {
@@ -241,7 +241,7 @@ class componentTypes {
             id: "file",
             name: "File",
             description: "",
-            img: require("@/assets/images/lupe.svg"),
+            img: require("@/assets/images/file.svg"),
             type: "vue",
             component: require("@/components/File.vue"),
             props: {
@@ -253,7 +253,7 @@ class componentTypes {
             id: "menu",
             name: "Menu",
             description: "",
-            img: require("@/assets/images/lupe.svg"),
+            img: require("@/assets/images/menu.svg"),
             type: "vue",
             component: require("@/components/Menu.vue"),
             props: {
@@ -265,7 +265,7 @@ class componentTypes {
             id: "note",
             name: "Note",
             description: "A note editor for a note and its children",
-            img: require("@/assets/images/atom.svg"),
+            img: require("@/assets/images/point.svg"),
             type: "vue",
             component: require("@/components/Note.vue"),
             props: {
@@ -278,24 +278,12 @@ class componentTypes {
             id: "edit-note",
             name: "Edit Note",
             description: "Edit a single note",
-            img: require("@/assets/images/atom.svg"),
+            img: require("@/assets/images/edit.svg"),
             type: "vue",
             component: require("@/components/EditNote.vue"),
             props: {
                 is_internal: true,
                 note: {},
-            }
-        })
-
-        this.add({
-            id: "interest-repetition",
-            name: "Interest Repetition",
-            description: "Better Learning",
-            img: require("@/assets/images/atom.svg"),
-            type: "vue",
-            component: require("@/components/InterestRepetition.vue"),
-            props: {
-                is_internal: true,
             }
         })
 
@@ -327,7 +315,7 @@ class componentTypes {
             id: "knowledge-tree",
             name: "KnowledgeTree",
             description: "Knowledge Tree",
-            img: require("@/assets/images/letter-t.svg"),
+            img: require("@/assets/images/tree.svg"),
             type: "vue",
             component: require("@/components/KnowledgeTree.vue"),
             props: {
@@ -339,7 +327,7 @@ class componentTypes {
             id: "help",
             name: "Help",
             description: "Help",
-            img: require("@/assets/images/letter-t.svg"),
+            img: require("@/assets/images/question-mark.svg"),
             type: "vue",
             component: require("@/components/Help.vue"),
             props: {
@@ -351,7 +339,7 @@ class componentTypes {
             id: "type-selection",
             name: "Type Selection",
             description: "List of all of your types",
-            img: require("@/assets/images/letter-i.svg"),
+            img: require("@/assets/images/hand-click.svg"),
             type: "vue",
             component: require("@/components/Types.vue"),
             props: {
@@ -359,25 +347,23 @@ class componentTypes {
             }
         })
 
-        /*
         this.add({
             id: "first-brain",
             name: "First Brain",
             description: "Study, Remember, Think and more",
-            img: require("@/assets/images/letter-i.svg"),
+            img: require("@/assets/images/school.svg"),
             type: "vue",
             component: require("@/components/FirstBrain.vue"),
             props: {
                 is_internal: true,
             }
         })
-        */
 
         this.add({
             id: "mind-map",
             name: "Mind Map",
             description: "Mind Map",
-            img: require("@/assets/images/letter-i.svg"),
+            img: require("@/assets/images/map.svg"),
             type: "vue",
             component: require("@/components/MindMap.vue"),
             props: {
@@ -389,7 +375,7 @@ class componentTypes {
             id: "keyboard-shortcut",
             name: "Keyboard Shortcut",
             description: "List of keys and what commands they invoke",
-            img: require("@/assets/images/letter-i.svg"),
+            img: require("@/assets/images/keyboard.svg"),
             type: "vue",
             component: require("@/components/KeyboardShortcut.vue"),
             props: {
@@ -401,7 +387,7 @@ class componentTypes {
             id: "memex",
             name: "Memex",
             description: "View Mode",
-            img: require("@/assets/images/letter-i.svg"),
+            img: require("@/assets/images/table.svg"),
             type: "vue",
             component: require("@/components/Memex.vue"),
             props: {
@@ -413,7 +399,7 @@ class componentTypes {
             id: "org-chart",
             name: "Org Chart",
             description: "Org Chart",
-            img: require("@/assets/images/letter-i.svg"),
+            img: require("@/assets/images/tree.svg"),
             type: "vue",
             component: require("@/components/OrgChart.vue"),
             props: {
@@ -425,7 +411,7 @@ class componentTypes {
             id: "table-pan",
             name: "Table Pan",
             description: "It's like a mind map bot downwards",
-            img: require("@/assets/images/letter-i.svg"),
+            img: require("@/assets/images/hand-click.svg"),
             type: "vue",
             component: require("@/components/TablePan.vue"),
             props: {
@@ -437,7 +423,7 @@ class componentTypes {
             id: "search-component",
             name: "Search Component",
             description: "Search: Files, Notes, images etc.",
-            img: require("@/assets/images/letter-i.svg"),
+            img: require("@/assets/images/lupe.svg"),
             type: "vue",
             component: require("@/components/SearchComponent.vue"),
             props: {
@@ -461,7 +447,7 @@ class componentTypes {
             id: "query-blocks",
             name: "Query Blocks",
             description: "A list of items",
-            img: require("@/assets/images/file.svg"),
+            img: require("@/assets/images/square.svg"),
             type: "vue",
             component: require("@/components/QueryBlocks.vue"),
             props: {
@@ -473,7 +459,7 @@ class componentTypes {
             id: "spreadsheet",
             name: "Spreadsheet",
             description: "A spreadsheet",
-            img: require("@/assets/images/file.svg"),
+            img: require("@/assets/images/table.svg"),
             type: "vue",
             component: require("@/components/Spreadsheet.vue"),
             props: {
@@ -486,7 +472,7 @@ class componentTypes {
             id: "kanban",
             name: "kanban",
             description: "Kanban Board",
-            img: require("@/assets/images/file.svg"),
+            img: require("@/assets/images/layout-board.svg"),
             type: "vue",
             component: require("@/components/Kanban.vue"),
             props: {
@@ -498,7 +484,7 @@ class componentTypes {
             id: "calendar",
             name: "Calendar",
             description: "Calendar",
-            img: require("@/assets/images/file.svg"),
+            img: require("@/assets/images/calendar.svg"),
             type: "vue",
             component: require("@/components/Calendar.vue"),
             props: {
@@ -510,9 +496,21 @@ class componentTypes {
             id: "favorites",
             name: "Favorites",
             description: "Favorites",
-            img: require("@/assets/images/file.svg"),
+            img: require("@/assets/images/star.svg"),
             type: "vue",
             component: require("@/components/Favorites.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
+        this.add({
+            id: "todos",
+            name: "Todos",
+            description: "List of notes with '- [ ]' in them ",
+            img: require("@/assets/images/square.svg"),
+            type: "vue",
+            component: require("@/components/Todos.vue"),
             props: {
                 is_internal: true,
             }

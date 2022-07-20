@@ -13,7 +13,7 @@ export default class Utils {
 
     constructor() {
         // DEP: Plugins
-        this.HyperMD            = require('hypermd')
+        // this.HyperMD            = require('hypermd')
     }
 
     get_unique_id() {

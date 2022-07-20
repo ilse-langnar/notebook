@@ -47,7 +47,7 @@
                 .question
                     h3 Q: How to import an item?
                     p A: Just drag and drop the item into the 
-                    img( src="@/assets/images/math-function.svg" )
+                    img( src="@/assets/images/school.svg" )
                     p or
                     br
                     img( src="@/assets/images/first-brain.png" )
@@ -56,7 +56,7 @@
                 .question
                     h3 Q: How do I review my queue
                     p A: Open the "first" brain panel by clicking on
-                    img( src="@/assets/images/math-function.svg" )
+                    img( src="@/assets/images/school.svg" )
                     p Then it should look like this: 
                     img( src="@/assets/images/first-brain.png" )
                     p Then click on the "play" button or double click on it.
@@ -95,7 +95,7 @@ export default {
                 { name: "Themes", img: "palette.svg" },
                 { name: "CSS Snippets", img: "brand-css3.svg" },
                 { name: "Graph", img: "network.svg" },
-                { name: "Vitruvian Brain", img: "math-function.svg" },
+                { name: "Vitruvian Brain", img: "school.svg" },
                 { name: "Keyboard & Mouse", img: "keyboard.svg" },
                 { name: "Lore", img: "address-book.svg" },
                 { name: "FAQ", img: "lifebuoy.svg" },

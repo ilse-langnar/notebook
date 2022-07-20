@@ -4,11 +4,11 @@
     .loading( v-if="!ilse.target_directories.length || !ilse.has_loaded " :key="ilse.key" )
         Setup
 
-    .ilse( v-if="ilse.target_directories.length && ilse.has_loaded " :key="ilse.key" :data-theme="get_data_theme()" )
+    .ilse( v-if="ilse.target_directories.length && ilse.has_loaded " :key="ilse.key" :data-theme="get_data_theme()" :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
 
         TopMenu
         Components( :components="ilse.components" unique-key="home" )
-        HomePage( v-if="ilse.is_home_page_on" )
+        HomePage( v-show="ilse.is_home_page_on" )
 
         Modals
         Dialogs
@@ -59,6 +59,10 @@ export default {
     },
 
     methods: {
+
+        get_ilse_style() {
+            if( ilse.config.is_home_page_on ) return "overflow: hidden; "
+        },
 
         open_shortcuts() {
             ilse.modals.open( "keyboard-shortcut" )
@@ -123,7 +127,9 @@ export default {
 .ilse  {
     color: var( --text-color );
     background: var( --background-color ) !important;
-    min-height: 100vh;
+    /*min-height: 100vh;*/
+    height: 100vh;
+    overflow: auto;
 }
 
 </style>

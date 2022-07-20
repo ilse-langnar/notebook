@@ -9,7 +9,7 @@
 
         img( src="@/assets/images/home.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   title="Home Page"  @click="toggle_is_home_page_on" )
         img( src="@/assets/images/calendar.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   title="Go to Daily Notes"  @click="add_daiyl_notes" accesskey="d" )
-        img( src="@/assets/images/math-function.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   title="Toggle First Brain"  @click="toggle_first_brain" )
+        img( src="@/assets/images/school.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   title="Toggle First Brain"  @click="toggle_first_brain" )
 
         // img( src="@/assets/images/news.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Open File"  @click="open_file" accesskey="o" )
 
@@ -17,7 +17,7 @@
 
         // img( src="@/assets/images/report.svg"      style="cursor: pointer;width:20px;margin-left: 15px;"   title="Statistics"  @click="open_statistics" )
 
-        // img( src="@/assets/images/math-function.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="toggle_first_brain_tools" accesskey="i" )
+        // img( src="@/assets/images/school.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="toggle_first_brain_tools" accesskey="i" )
 
 
         // .did( style="margin-top: 10px; clear: both; margin-left: 65px;" )

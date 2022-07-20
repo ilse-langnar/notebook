@@ -84,11 +84,7 @@ export default class Config {
         // ==== Load Favorites ==== //
         for( const key of Object.keys(config) ) {
             if( key === "components" ) continue
-            printf( ">>> this[key] -> ", this[key] )
-            printf( ">>> key -> ", key )
-            printf( ">>> config[key] -> ", config[key] )
             this[key] = config[key]
-            printf( "after >>> this[key] -> ", this[key] )
         }
         // ==== Load Favorites ==== //
 

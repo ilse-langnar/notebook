@@ -1,7 +1,7 @@
 <template lang="pug" >
 .favorites
     h1.centered Favorites
-    .flex
+    .flex( style="flex-direction: column; " )
         .loop.fitem( v-for="( favorite, index ) in ilse.config.favorites" :key="index" @click="open_file(favorite)" @click.ctrl="open_file_graph(favorite)" :title="favorite" )
             p.item {{favorite}}
             // p.item {{ilse.utils.truncate_text(favorite, 13)}}

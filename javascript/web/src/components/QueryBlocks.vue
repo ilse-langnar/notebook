@@ -156,8 +156,8 @@ export default {
 
 .note .textarea {
     /*width: 95vw !important;*/
-    width: 100%;
-    min-height: 100px;
+    width: 70vw !important;
+    min-height: 50px;
     height: fit-content;
 }
 

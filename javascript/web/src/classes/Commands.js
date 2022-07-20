@@ -533,6 +533,17 @@ class Commands {
                 name: "Toggle Home Page",
             },
 
+            {
+                id: "toggle-resize-mode",
+                fn: async function() {
+                    ilse.config.is_resize_mode_on = !ilse.config.is_resize_mode_on
+                    ilse.config.save()
+                    setTimeout( () => { window.location.reload() }, 1000 )
+                },
+                description: "Toggle Resize Mode",
+                name: "Toggle Resize Mode",
+            },
+
         ]
     }
 

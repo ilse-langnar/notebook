@@ -27,10 +27,8 @@ const printf                                        = console.log;
     // title: "Ilse Langnar's Notebook"
 // },
 
-
-
-require("@/assets/domarrow.css")
-require("@/assets/js/domarrow.js")
+// require("@/assets/domarrow.css")
+// require("@/assets/js/domarrow.js")
 
 export default {
 

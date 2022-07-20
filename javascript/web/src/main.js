@@ -12,11 +12,6 @@ import router                   from "./router.js"
 import Popover from "vue-js-popover"
 Vue.use(Popover)
 
-import VuetifulBoard from 'vuetiful-board'
-
-Vue.use(VuetifulBoard)
-
-
 // --------------------------------------------------------------------------- Test ---------------------------------------//
 // import VuejsDialog from "vuejs-dialog";
 // import "vuejs-dialog/dist/vuejs-dialog.min.css"; // include the default style

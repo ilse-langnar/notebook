@@ -140,13 +140,9 @@ export default {
 
         get_shortcut_by_name( name ) {
 
-            printf( "get_shortcut_by_name -> name -> ", name )
             let command     = this.get_command_by_name(name)
-            printf( "get_shortcut_by_name -> command -> ", command )
             let id          = command.id
-            printf( "get_shortcut_by_name -> id -> ", id )
             let shortcut    = this.get_command_shortcut( id )
-            printf( "get_shortcut_by_name -> shortcut -> ", shortcut )
 
             return shortcut
         },

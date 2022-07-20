@@ -29,6 +29,7 @@
                     img.is-pulled-right( src="@/assets/images/plus.svg" style="width: 30px; cursor: pointer; " @click="add_component(list)" )
 
 
+    .div( style="border: 1px solid #000; height: 50px;" )
     // Components
     .flex
         .item( v-for="( chunk, index ) in get_chunks()" :key="index" )
@@ -73,7 +74,7 @@ export default {
             list: [
                 { id: "8944871287849104", width: 12, is_on: true, type: "calendar", props: {} },
                 { id: "8944871287849108", width: 12, is_on: true, type: "favorites", props: {} },
-                { id: "8944871287849103", width: 12, is_on: true, type: "query-blocks", props: {} },
+                { id: "8944871287849103", width: 12, is_on: true, type: "todos", props: {} },
                 // { id: "8944871287849106", width: 12, is_on: true, type: "favorites", props: {} },
             ],
         }
