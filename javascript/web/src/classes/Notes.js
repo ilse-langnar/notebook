@@ -332,7 +332,14 @@ export default class Notes {
         return this.add( content, ++index, depth )
     }
 
-    add( content, index, depth = 0 ) {
+    add( content, index = null, depth = 0 ) {
+        if( index === null ) index = Number(this.list.length)
+        printf( "index -> ", index )
+        index = index - 1
+        printf( "this.list.length -> ", this.list.length )
+        printf( "this.list -> ", this.list )
+        printf( "index -> ", index )
+        printf( "\b" )
 
         let time_id          = ilse.utils.get_unique_date_id() // 20220120155758
         let spaces           = ilse.utils.get_depth_spaces( depth )

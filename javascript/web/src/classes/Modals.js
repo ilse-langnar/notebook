@@ -117,6 +117,13 @@ class Modals {
             props: {},
         })
 
+        this.add({
+            id: "impoter",
+            name: "Importer",
+            component: ilse.types.get( "importer" ),
+            props: {},
+        })
+
     }
 
     open( id, payload, on_close = null ) {

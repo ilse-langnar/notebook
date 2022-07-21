@@ -35,7 +35,7 @@
                 .loop( v-for=" ( type, index ) in ilse.types.types" :key="index" style="border: 1px solid #000; float: left; margin-left: 10px; padding: 14px; margin-bottom: 8px; border-radius: 10px; width: 30%; height: 200px; overflow: hidden;"  )
                     p.is-size-4.centered {{type.name}} 
                     img.img( :src="type.img" style="display: block; margin: 0 auto; width: 40px;" )
-                    button.slick-button Select
+                    // button.slick-button Select
 
 
 

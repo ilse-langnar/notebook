@@ -516,6 +516,18 @@ class componentTypes {
             }
         })
 
+        this.add({
+            id: "importer",
+            name: "Importer",
+            description: "Impoters themes, documents, flashcards, css snippets, components plugins and more.",
+            img: require("@/assets/images/urgent.svg"),
+            type: "vue",
+            component: require("@/components/Importer.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
     }
 
     get( id ) {

@@ -149,7 +149,7 @@ export default class Ilse {
         // this.command_prompt         = new CommandPrompt()
         // this.plugin_menu            = new PluginMenu()
 
-        this.plugin_manager         = new PluginManager( this )
+        // this.plugin_manager         = new PluginManager( this )
 
         this.after_setup()
     }

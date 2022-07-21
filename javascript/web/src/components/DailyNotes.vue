@@ -408,6 +408,7 @@ export default {
 
         // Give me a note(object) and I'll tell which day it is on.
         get_note_day( note ) {
+            printf( "DailyNotes -> get_note_day -> note -> ", note )
 
             /*
             this.days.map( day => {
@@ -436,6 +437,7 @@ export default {
 
                 if( action === "added" ) {
 
+                    printf( "added -> payload -> ", payload )
                     let after       = payload.after
                     let new_note    = payload.note
                     let is_equal

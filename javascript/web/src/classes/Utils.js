@@ -48,21 +48,33 @@ export default class Utils {
          return isVisible
     }
 
+    /*
     throttle( fn, delay ) {
 
-        let lastCalled = 0;
+        this.lastCalled = 0;
 
         return (...args) => {
             let now = new Date().getTime();
-            if(now - lastCalled < delay) {
+            if(now - this.lastCalled < delay) {
                 return;
 
             }
-            lastCalled = now;
+            this.lastCalled = now;
             return fn(...args);
 
         }
 
+    }
+    */
+
+    throttle( fn, time = 2000, bind = this ) {
+
+        if( !fn ) throw new Error( "We need a function to throttle!" )
+
+        let now = new Date().getTime()
+        if( time > (now - bind.lastCalled) ) return
+
+        bind.lastCalled = now
     }
 
     /*

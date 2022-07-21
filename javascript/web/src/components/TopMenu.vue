@@ -52,6 +52,7 @@
         // .margin-small
 
 
+        ImporterImg( style="margin-right: 5px;" )
         img( src="@/assets/images/command.svg"   style="cursor: pointer; width: 20px; " title="Save" alt="Save" @click="toggle_command_pallet" )
         // img( src="@/assets/images/save.svg"   style="cursor: pointer; width: 20px; " title="Save" alt="Save" @click="save" accesskey="s" )
 
@@ -90,6 +91,7 @@ const printf                        = console.log;
 
 // Components
     import Search                       from "@/components/Search.vue"
+    import ImporterImg                  from "@/components/ImporterImg.vue"
 
 export default {
 
@@ -104,6 +106,7 @@ export default {
 
     components: {
         Search,
+        ImporterImg,
     },
 
 
@@ -417,11 +420,14 @@ export default {
             ilse.save()
         },
 
-        test() {
-
+        async test() {
+            printf( "aaa " )
+            let o = await ilse.clipboard.read()
+            printf( "AAAAAAAAAA o -> ", o )
         },
 
         setup() {
+            setTimeout( () => { this.test() }, 1000 )
         },
 
     },

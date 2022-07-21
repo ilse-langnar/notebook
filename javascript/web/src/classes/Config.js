@@ -112,7 +112,6 @@ export default class Config {
 
 
         let components      = ilse.components
-        printf( "ilse.components -> ", ilse.components )
 
         // let object_to_save  = {}
         let object_to_save  = this

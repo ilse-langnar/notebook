@@ -218,6 +218,19 @@ async function createWindow() {
     }
   })
 
+    /*
+    win.on('show', () => {
+        ipcMain.send( "focused" )
+    });
+
+        ipcMain.send( "focused" )
+    app.on('browser-window-blur', function (event, browserWindow) {
+    })
+
+    app.on('browser-window-focus', function (event, browserWindow) {
+    })
+    */
+
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
       printf( "!!!!" )

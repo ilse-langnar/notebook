@@ -34,7 +34,8 @@ export default {
     data() {
         return {
             ilse: ilse,
-            input: this.component.props.name || "/",
+            // input: this.component.props.name || "/",
+            input: this.component.props.name,
             type: "",
 
             // Dir
@@ -45,13 +46,33 @@ export default {
         }
     },
 
+    watch: {
+
+        text( text ) {
+            ilse.utils.throttle( this.save( this.input, text ), 4000 )
+        },
+
+    },
+
     methods: {
 
+        async save( fpath, text ) {
+
+            let is_illegal = fpath === "/"
+
+                if( is_illegal ) return
+
+            let now = new Date().getTime()
+            if( 3000 > (now - this.lastCalled) ) return
+            this.lastCalled = now
+
+            await ilse.filesystem.file.set( fpath, text )
+        },
+
         go_back() {
-            let split = this.input.split("/")
-            printf( "split.pop() -> ", split.pop() )
+            let split  = this.input.split("/")
+            split.pop()
             this.input = split.join("/")
-            printf( "this.input -> ", this.input )
             this.go_to_dir()
         },
 
@@ -68,17 +89,24 @@ export default {
 
         async go_to_dir() {
 
-            let does_path_exists = await ilse.filesystem.file.exists( this.input )
-            let is_dir           = await ilse.filesystem.dir.is(  this.input )
+            let is_illegal = this.input.indexOf( "../" ) !== -1
+            if( is_illegal ) return
 
-            if( does_path_exists && !is_dir ) {
-                this.type = "file"
-                this.text = await ilse.filesystem.file.get(    this.input )
-            }
+            try {
 
-            if( does_path_exists && is_dir ){
-                this.type = "directory"
-                this.directory_files = await ilse.filesystem.dir.list( this.input )
+                let does_path_exists = await ilse.filesystem.file.exists( this.input )
+                let is_dir           = await ilse.filesystem.dir.is(  this.input )
+
+                if( does_path_exists && !is_dir ) {
+                    this.type = "file"
+                    this.text = await ilse.filesystem.file.get(    this.input )
+                } else if( does_path_exists && is_dir ){
+                    this.type = "directory"
+                    this.directory_files = await ilse.filesystem.dir.list( this.input )
+                }
+
+            } catch( e ) {
+                ilse.notification.send( "Not Found", `Could Not Find: ${this.input}` )
             }
 
         },
