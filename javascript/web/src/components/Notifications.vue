@@ -3,7 +3,7 @@
     .notification( v-for="( notification, index ) in ilse.notification.items" :key="index" )
         .message( v-if="notification.type === 'normal'" :style="get_notification_css(index)" :class="get_notification_class(notification)" :id="'notification' + index" )
             .message-header
-                button.delete.is-pulled-right( @click="remove(notification)" style="width: 40px;" ) 
+                img.img.is-pulled-right( src="@/assets/images/x.svg" style="width: 20px; cursor: pointer; margin: 0px; " @click="remove(notification)" title="Delete Notification" alt="delete" )
                 p.is-size-5.centered {{notification.title}} ({{notification.time / 1000}})
             .message-body
                 br
@@ -31,8 +31,6 @@ export default {
     methods: {
 
         get_notification_class( notification ) {
-
-            printf( "get_notification_class -> notification -> ", notification )
 
             let list = []
 

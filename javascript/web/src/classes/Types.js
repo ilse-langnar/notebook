@@ -519,10 +519,22 @@ class componentTypes {
         this.add({
             id: "importer",
             name: "Importer",
-            description: "Impoters themes, documents, flashcards, css snippets, components plugins and more.",
+            description: "Importers themes, documents, flashcards, css snippets, components plugins and more.",
             img: require("@/assets/images/urgent.svg"),
             type: "vue",
             component: require("@/components/Importer.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
+        this.add({
+            id: "write",
+            name: "Wrtie",
+            description: "Write Something (:",
+            img: require("@/assets/images/writing.svg"),
+            type: "vue",
+            component: require("@/components/Write.vue"),
             props: {
                 is_internal: true,
             }

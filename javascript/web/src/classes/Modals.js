@@ -118,7 +118,7 @@ class Modals {
         })
 
         this.add({
-            id: "impoter",
+            id: "importer",
             name: "Importer",
             component: ilse.types.get( "importer" ),
             props: {},

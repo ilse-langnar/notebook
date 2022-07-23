@@ -332,6 +332,7 @@ export default class Notes {
         return this.add( content, ++index, depth )
     }
 
+    /*
     add( content, index = null, depth = 0 ) {
         if( index === null ) index = Number(this.list.length)
         printf( "index -> ", index )
@@ -361,6 +362,36 @@ export default class Notes {
         Messager.emit( "~notes", "added", {
             note: instance,
             // after: this.list[ Number( index - 1 ) ]
+            after: after,
+        })
+
+        return instance
+    }
+    */
+
+    add( content, index = null, depth = 0 ) {
+
+        let location         = index ? index : this.list.length - 1
+        let time_id          = ilse.utils.get_unique_date_id() // 20220120155758
+        let spaces           = ilse.utils.get_depth_spaces( depth )
+        let note             = `${spaces}${time_id}: ${content}` // 20220120155758: Hello, World
+
+        let instance         = new ilse.classes.Note( note )
+            if( instance.depth >= 1 ) this.recursively_add_children( instance, location )
+
+            this.list.splice( location, 0, instance )
+
+        // do I need need this?
+        let after
+        location = Number(location)
+        if( location === 0  ) {
+            after = this.list[0]
+        } else {
+            after = this.list[location - 1]
+        }
+
+        Messager.emit( "~notes", "added", {
+            note: instance,
             after: after,
         })
 

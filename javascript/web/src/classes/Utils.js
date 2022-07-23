@@ -1010,6 +1010,15 @@ export default class Utils {
         return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
     }
 
+    get_rgb_from_string( str ) {
+        var vals = str.substring(str.indexOf('(') +1, str.length -1).split(', ');
+        return {
+            'r': vals[0],
+            'g': vals[1],
+            'b': vals[2]
+        }
+    }
+
     random_rgba() {
         var o = Math.round, r = Math.random, s = 255;
         return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';

@@ -166,14 +166,14 @@ export default {
 }
 
 .text-file .file {
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
     color: var( --text-color );
 }
 
 .file textarea {
     width: 100%;
-    height: 70vh;
+    height: 100vh;
     background: var( --background-color );
     color: var( --text-color );
     resize: none;

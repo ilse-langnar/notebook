@@ -1,5 +1,5 @@
 <template lang="pug" >
-.daily-notes( style="height: 100%; " :key="ilse.keys.daily_notes" )
+.daily-notes#daily-notes( style="height: 100%; " :key="ilse.keys.daily_notes" )
 
     .day( v-for="( day, day_index ) in days" style="width: 97%; margin: 0 auto;" )
 
@@ -76,12 +76,17 @@ export default {
 
         notify_now() {
 
+            ilse.notification.send( "ERROR", `BAD FORMAT: lll`)
+/*
+
             ilse.notification.send( "Title", "Description", {
                 type: "normal",
                 on_cancel: function( notification ) {
                     printf( "on_cancel -> notification -> ", notification )
                 }
+                on_close: function() {},
             })
+            */
 
         },
 
@@ -322,19 +327,27 @@ export default {
         // When bottom scrolling, load the previous day.
         scroll_listener() {
 
-            let _this = this
+            printf( ">>>>> AAA A scroll_listener" )
+            window.addEventListener('scroll', function(e) {
 
-            window.addEventListener('scroll', function(e){
-
-                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                printf( " e -> ", e )
+                printf( "window.innerHeight + window.scrollY -> ", window.innerHeight + window.scrollY )
+                printf( "document.body.offsetHeight  -> ", document.body.offsetHeight )
+                    
+                if( (window.innerHeight + window.scrollY) >= document.body.offsetHeight ) {
+                    printf( "1" )
                     _this.load_day_before()
+                } else {
+                    printf( "2" )
                 }
-            })
+
+            }, false )
 
         },
 
         setup() {
-            setTimeout( () => { this.scroll_listener() }, 1000 )
+            // setTimeout( () => { this.scroll_listener() }, 1000 )
+            this.scroll_listener() 
 
             // Add today's data and its notes
             let today_id     = ilse.utils.get_unique_date_id() // 20200125

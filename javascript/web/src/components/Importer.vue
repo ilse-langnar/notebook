@@ -35,21 +35,14 @@ export default {
         import_now() {
 
             let copy = Array.from( this.list )
-            let note
-            printf( "copy -> ", copy )
             copy.shift()
 
             copy.map( (string, index) => {
-
-                if( index === 0 ) {
-                    ilse.notes.add( string )
-                } else {
-                    ilse.notes.add( string, ilse.notes.length - 1, 1 )
-                }
-
+                ilse.notes.add( string, ilse.notes.length - 1, index === 0 ? 0 : 1 ) 
             })
 
-            // ilse.notes.save()
+            ilse.notes.save()
+            ilse.clipboard.write("")
         },
 
         async set() {
@@ -58,12 +51,6 @@ export default {
         },
 
         setup() {
-
-            ilse.electron.ipc.on( "focused", (event, payload) => {
-                printf( "Importer -> event -> ", event )
-                printf( "Importer -> payload -> ", payload )
-            })
-
             this.set()
         },
 

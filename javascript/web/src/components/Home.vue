@@ -7,7 +7,7 @@
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded " :key="ilse.key" :data-theme="get_data_theme()" :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
 
         TopMenu
-        Components( :components="ilse.components" unique-key="home" )
+        List( v-show="!ilse.is_home_page_on" :components="ilse.components" unique-key="home" )
         HomePage( v-show="ilse.is_home_page_on" )
 
         Modals
@@ -30,7 +30,7 @@ const printf                                        = console.log;
     import Modals           from "@/components/Modals.vue"
     import Dialogs          from "@/components/Dialogs.vue"
     import Notifications    from "@/components/Notifications.vue"
-    import Components       from "@/components/Components.vue"
+    import List             from "@/components/Components.vue"
     import HomePage         from "@/components/HomePage.vue"
 
 
@@ -47,7 +47,7 @@ export default {
         Setup,
         Notifications,
 
-        Components,
+        List,
         HomePage,
     },
 
@@ -128,8 +128,8 @@ export default {
     color: var( --text-color );
     background: var( --background-color ) !important;
     /*min-height: 100vh;*/
-    height: 100vh;
-    overflow: auto;
+    /*height: 100vh;*/
+    /*overflow: auto;*/
 }
 
 </style>

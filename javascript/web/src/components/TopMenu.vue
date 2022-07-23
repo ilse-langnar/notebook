@@ -62,7 +62,7 @@
 
         .margin-small
 
-        img( src="@/assets/images/folders.svg"    style="cursor: pointer; width: 20px; "   title="Help/Manual/Tutorial/APIs" @click="test" v-popover="{ name: 'folders', position: 'bottom' }" )
+        img( src="@/assets/images/folders.svg"    style="cursor: pointer; width: 20px; "   title="Help/Manual/Tutorial/APIs" v-popover="{ name: 'folders', position: 'bottom' }" )
 
         .margin-small
         img( src="@/assets/images/lifebuoy.svg"    style="cursor: pointer; width: 20px; "   title="Help/Manual/Tutorial/APIs" accesskey="h" @click="open_help_modal" )
@@ -420,14 +420,14 @@ export default {
             ilse.save()
         },
 
-        async test() {
-            printf( "aaa " )
-            let o = await ilse.clipboard.read()
-            printf( "AAAAAAAAAA o -> ", o )
-        },
+        // async test() {
+            // printf( "aaa " )
+            // let o = await ilse.clipboard.read()
+            // printf( "AAAAAAAAAA o -> ", o )
+        // },
 
         setup() {
-            setTimeout( () => { this.test() }, 1000 )
+            // setTimeout( () => { this.test() }, 1000 )
         },
 
     },

@@ -11,7 +11,7 @@ const printf                        = console.log;
 
 export default {
 
-    name: "ComponentNotFound",
+    name: "NotFound",
 
     props: {
         name: { type: String, require: false, },

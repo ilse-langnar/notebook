@@ -1,5 +1,5 @@
 <template lang="pug" >
-img.impoter( v-if="is_on" src="@/assets/images/urgent.svg" title="Click to import" alt="Import" @click="open_impoter_modal" )
+img.importer( v-if="is_on" src="@/assets/images/urgent.svg" title="Click to import" alt="Import" )
 </template>
 <script>
 // eslint-disable-next-line
@@ -24,33 +24,54 @@ export default {
 
     methods: {
 
-        open_impoter_modal() {
-            ilse.modals.open( "impoter" )
+        open_importer_modal() {
+            ilse.modals.open( "importer" )
         },
 
         repeat() {
-            setInterval( () => {
-                this.check()
-            }, 500 )
+
+            ilse.electron.ipc.on( "focus", async () => {
+
+                let string         = await ilse.clipboard.read()
+                if( !string ) {
+                    this.is_on = false
+                    return
+                }
+
+                let is_importing   = string.indexOf("ilse-importer:") !== -1
+                if( !is_importing ) {
+                    this.is_on = false;
+                    return
+                }
+
+                this.open_importer_modal()
+
+            })
+
+            ilse.electron.ipc.on( "focus", () => {
+
+            })
+
         },
 
+        /*
         async check() {
 
+            printf( "ilse.electron.is_focused -> ", ilse.electron.is_focused )
+
             let has_focus      = document.hasFocus()
-                if( !has_focus ) return
+            if( !has_focus ) {
+                this.is_on = false
+                return
+            }
 
-            let string         = await ilse.clipboard.read()
-                if( !string ) return
-
-            let is_importing   = string.indexOf("ilse-impoter:") 
-                if( !is_importing ) return
-
-            this.is_on = true
+            // this.is_on = true
 
         },
+        */
 
         setup() {
-            this.repeat()
+            // this.repeat()
         },
 
     },
@@ -63,7 +84,7 @@ export default {
 </script>
 <style scoped>
 
-img.impoter {
+img.importer {
     cursor: pointer;
 }
 

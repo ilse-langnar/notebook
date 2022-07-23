@@ -1,38 +1,10 @@
 <template lang="pug">
 .home-page
 
-    // img.centered( src="@/assets/images/settings.svg" style="width: 20px; cursor: pointer; display: block; " @click="is_config_open = !is_config_open" )
-
-    // .centered
-        br
-        img.centered( src="@/assets/images/point.svg" style="width: 20px; cursor: pointer; margin-bottom: 10px; display: inline-block; " alt="Delete Component" @click="list.splice( index, 1 )" )
-        img.centered( src="@/assets/images/point.svg" style="width: 20px; cursor: pointer; margin-bottom: 10px; display: inline-block; " alt="Delete Component" @click="list.splice( index, 1 )" )
-        img.centered( src="@/assets/images/point.svg" style="width: 20px; cursor: pointer; margin-bottom: 10px; display: inline-block; " alt="Delete Component" @click="list.splice( index, 1 )" )
-
-    // Config
-    .config( v-if="is_config_open" )
-        .flitem( style="display: block; margin: 0 auto; width: 50%; " )
-
-            .first
-                p Components Per Column
-                input.input( v-model="number_of_columns" type="number" style="width: 40px;" min="1" max="5")
-
-            .clear
-
-            .second
-                p Components
-                .loop( v-for="( item, index ) in list" :key="index" style="display: inline-block;" )
-                    img( src="@/assets/images/x.svg" style="width: 15px; cursor: pointer; margin-bottom: 10px;" alt="Delete Component" @click="list.splice( index, 1 )" )
-                    input.input.is-pulled-left( v-model="item.type" style="margin-left: 5px;" )
-                .centered( style="width: 40px;" )
-                    img.is-pulled-right( src="@/assets/images/question-mark.svg" style="width: 10px; cursor: pointer; display: block; " :title="get_types_description()" alt="Component List" )
-                    img.is-pulled-right( src="@/assets/images/plus.svg" style="width: 30px; cursor: pointer; " @click="add_component(list)" )
-
-
     .flex( style="border: 1px solid #000; height: 50px; margin: auto; " )
         .loop.fitem( v-for="( item, index ) in list" :key="index" style="margin: auto; " )
             img.is-pulled-right( src="@/assets/images/x.svg" style="width: 10px; cursor: pointer;  " alt="Delete"  @click="list.splice(index, 1)" )
-            input.input( v-model="item.type" style="background: transparent; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; border: 1px solid #000; border-bottom: 0;  " )
+            input.input( v-model="item.type" style="background: transparent; border: 0 !important;" )
         img.is-pulled-right( src="@/assets/images/plus.svg" style="width: 30px; cursor: pointer;  " alt="Add Component" @click="add_component" )
     
     // Components
@@ -119,20 +91,7 @@ export default {
 
         setup() {
 
-            // printf( "ilse.config.homepage_components -> ", ilse.config.homepage_components )
-            // if( !ilse.config.homepage_components ) {
-                // ilse.config.homepage_components = [
-                    // { id: "8944871287849104", width: 12, is_on: true, type: "calendar", props: {} },
-                    // { id: "8944871287849108", width: 12, is_on: true, type: "favorites", props: {} },
-                    // { id: "8944871287849103", width: 12, is_on: true, type: "todos", props: {} },
-                // ]
-            // }
-
             this.list = ilse.config.homepage_components || [ { id: "8944871287849104", width: 12, is_on: true, type: "calendar", props: {} }, { id: "8944871287849108", width: 12, is_on: true, type: "favorites", props: {} }, { id: "8944871287849103", width: 12, is_on: true, type: "todos", props: {} }, ]
-            printf( "this.list -> ", this.list )
-            printf( "ilse.config.homepage_components -> ",  
-[ { id: "8944871287849104", width: 12, is_on: true, type: "calendar", props: {} }, { id: "8944871287849108", width: 12, is_on: true, type: "favorites", props: {} }, { id: "8944871287849103", width: 12, is_on: true, type: "todos", props: {} }, ])
-            // this.$forceUpdate()
 
         },
 
@@ -147,7 +106,8 @@ export default {
 <style scoped >
 
 .home-page {
-    width: 90%;
+    width: 100vw;
+    height: 100vh;
     position: fixed;
     left: 50%;
     top: 50%;
@@ -158,6 +118,7 @@ export default {
     background: var( --background-color );
     color: var( --text-color );
     overflow: hidden;
+    z-index: 1000 !important;
 }
 
 .clear {
@@ -173,7 +134,7 @@ export default {
     /*border: 1px solid var( --background-color );*/
     border-left: 1px solid #000;
     /*box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
-    min-height: 480px;
+    min-height: 92vh;
     height: 400px;
 }
 

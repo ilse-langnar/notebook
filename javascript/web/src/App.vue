@@ -56,6 +56,9 @@ export default {
 
         setup() {
             document.title = "Ilse Langnar's Notebook"
+            document.addEventListener( 'scroll', e => {
+                printf( "e -> ", e )
+            })
         },
 
     },
@@ -212,6 +215,7 @@ select option {
 }
 
 .centered {
+    display: block;
     margin: 0 auto;
     text-align: center;
 }

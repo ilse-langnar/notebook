@@ -23,10 +23,13 @@
                     img( :src="plugin.icon" )
 
             .themes( v-if="selected === 'Themes' " )
-                img.img.centered( src="@/assets/images/paint.svg" title="Apply" alt="Apply" @click="ilse.themes.apply_default_theme()" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --text-color ); border-radius: var( --border-radius ); padding: var( --padding );" )
+                .centered
+                    img( src="@/assets/images/paint.svg" title="Apply" alt="Apply" @click="ilse.themes.apply_default_theme()" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --text-color ); border-radius: var( --border-radius ); padding: var( --padding );" )
+                    // img( src="@/assets/images/packge-export.svg" title="Export everything to clipboard" alt="Export everything to clipboard" @click="export_theme_to_clipboard()" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --text-color ); border-radius: var( --border-radius ); padding: var( --padding ); margin-left: 4px;" )
                 .loop( v-for="( note, index ) in ilse.notes.query('#i/theme/')" :key="index" )
                     h3.inline {{note.content}}
                     img.img.is-pulled-right( src="@/assets/images/paint.svg" title="Apply" alt="Apply" @click="ilse.themes.apply( note )" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --background-color );" )
+                    img.img.is-pulled-right( src="@/assets/images/packge-export.svg" title="Export to clipboard" alt="Export to clipboard" @click="export_theme_to_clipboard(note)" )
                     .loop( v-for="( child, child_index ) in note.children" :key="'child-' + child_index" )
                         textarea.input( v-model="child.content" style="width: 100%;" )
                     .space
@@ -99,6 +102,43 @@ export default {
     },
 
     methods: {
+
+        export_theme_to_clipboard( note ) {
+
+            if( !note ) {
+                /*
+                let result  = ilse.notes.query( `#i/theme` )
+                let content = ""
+
+                result.map( item => {
+                    content += `${item.content}\n`
+                    item.children.map( (child, child_index) => {
+                        content += `${child.content}\n`
+                        // if( child_index === item.children.length - 1 ) content += `\n`
+                    })
+
+                })
+
+                printf( "content -> ", content )
+
+                let final = `ilse-importer:theme:${Math.random().toString().replace("0.", "")}\n${content}`
+
+                ilse.clipboard.write( final )
+                */
+
+            } else {
+                let content = `${note.content}`
+
+                note.children.map( child => {
+                    content += `${child.content}\n`
+                })
+
+                let final = `ilse-importer:theme:${Math.random().toString().replace("0.", "")}\n${content}`
+
+                ilse.clipboard.write( final )
+            }
+
+        },
 
         get_option_style( option ) {
             let style       = ""

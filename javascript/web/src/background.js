@@ -218,12 +218,16 @@ async function createWindow() {
     }
   })
 
-    /*
-    win.on('show', () => {
-        ipcMain.send( "focused" )
-    });
+    win.on( "focus", event => {
+        event.sender.send( "focus" )
+    })
 
-        ipcMain.send( "focused" )
+    win.on( "blur", event => {
+        event.sender.send( "blur" )
+    })
+
+
+    /*
     app.on('browser-window-blur', function (event, browserWindow) {
     })
 

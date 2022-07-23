@@ -97,13 +97,9 @@ export default class Config {
 
 
 
-
-        // config.components.map( component => {
-            // instance    = new ilse.classes.Component( component )
-                // ilse.components.push( instance )
-        // })
-
-        // ilse.notification.send( "Loading", "Loading Config" )
+        // ==== Internal Components ==== //
+        if( !this.data ) this.data = {}
+        // ==== Internal Components ==== //
 
     }
 
