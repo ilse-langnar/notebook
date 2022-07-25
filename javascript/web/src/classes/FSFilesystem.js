@@ -142,8 +142,8 @@ export default class FSFilesystem {
         return content
     }
 
-    async write_file( file_path, content)  {
-        fs.writeFileSync( path.join(target_directory , file_path), content )
+    async write_file( file_path, content, options )  {
+        fs.writeFileSync( path.join(target_directory , file_path), content, options )
     }
 
 }

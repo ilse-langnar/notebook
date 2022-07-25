@@ -67,6 +67,7 @@ export default class Utils {
     }
     */
 
+    /*
     throttle( fn, time = 2000, bind = this ) {
 
         if( !fn ) throw new Error( "We need a function to throttle!" )
@@ -76,6 +77,7 @@ export default class Utils {
 
         bind.lastCalled = now
     }
+    */
 
     /*
     debounce( func, wait, immediate ) {
@@ -1051,5 +1053,30 @@ export default class Utils {
         }
 
     }
+
+    decode_base64_image( dataString ) {
+        var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+            response = {};
+        if (matches.length !== 3) return new Error('Invalid input string');
+
+        response.type = matches[1];
+        response.data = new Buffer(matches[2], 'base64');
+
+        return response;
+    }
+
+    throttle( callback, limit ) {
+        var waiting = false;                      // Initially, we're not waiting
+        return function () {                      // We return a throttled function
+            if (!waiting) {                       // If we're not waiting
+                callback.apply(this, arguments);  // Execute users function
+                waiting = true;                   // Prevent future invocations
+                setTimeout(function () {          // After a period of time
+                    waiting = false;              // And allow future invocations
+                }, limit);
+            }
+        }
+    }
+
 }
 

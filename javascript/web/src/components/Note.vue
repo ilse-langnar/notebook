@@ -516,14 +516,19 @@ export default {
                     // printf( "link-click" )
                     // Messager.emit( "~note.vue", "clicked", { link: payload.link, event: payload.event, note: this.inote } )
 
-                    if( !ilse.lastCalled ) ilse.lastCalled = 0
+                    // printf( "ilse.lastCalled -> ", ilse.lastCalled )
 
+                    // if( !ilse.lastCalled ) ilse.lastCalled = 0
+
+                    /*
                     _this.once  = function() {
 
-                        let now = new Date().getTime()
-                        if( 1000 > (now - ilse.lastCalled) ) return
+                        // let now = new Date().getTime()
+                        // printf( "now -> ", now )
+                        // printf( "1000 > ( now - ilse.lastCalled ) -> ", 1000 > ( now - ilse.lastCalled ) )
+                        // if( 1000 > (now - ilse.lastCalled) ) return
 
-                        ilse.lastCalled = now
+                        // ilse.lastCalled = now
 
                         printf( "@@@ payload.link -> ", payload.link )
                         let is_relative   = payload.link.indexOf("@") !== -1
@@ -536,7 +541,25 @@ export default {
 
                         _this.$emit( "on-link-click", { link: payload.link, event: payload.event, note: _this.inote } )
                     }
-                    _this.once()
+                    */
+                    // _this.once()
+
+                    // ilse.utils.throttle( function() {
+                        // printf( "ok boomer" )
+                        // _this.$emit( "on-link-click", { link: payload.link, event: payload.event, note: _this.inote } )
+                    // }, 1000 )
+
+                    // var lastClick = 0;
+                    // var delay = 100;
+
+                    // if (lastClick >= (Date.now() - delay))
+                        // return;
+                    // lastClick = Date.now();
+
+                    if( this.inote.id === payload.target ) {
+                        _this.$emit( "on-link-click", { link: payload.link, event: payload.event, note: _this.inote } )
+                    }
+
 
                 }
             })

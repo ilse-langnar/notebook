@@ -38,7 +38,11 @@ export default class Markdown {
                   .replace("]]", "")
 
               let is_relative  = link.indexOf("@") !== -1
-              return `<span class="link" onclick="Messager.emit('~note.vue', 'link-click', { 'event': event, 'link': '${link}' } )" title="${link}" > [[${link}]] </span>`
+              // return `<span class="link" onclick="Messager.emit('~note.vue', 'link-click', { 'event': event, 'link': '${link}' } )" title="${link}" > [[${link}]] </span>`
+              // return `<span class="link" onclick="console.log('lllll'); var delay = 1000; window.lastClick = 0; if( 1000 > ( Date.now() - window.lastClick ) ) { console.log('threwe') } else { console.log('another'); window.lastClick = Date.now(); Messager.emit('~note.vue', 'link-click', { 'event': event, 'link': '${link}' } ) }; " title="${link}" > [[${link}]] </span>`
+              // TODO Find a way of ONLY acting on a target, the problem here
+              // return `<span class="link" onclick="console.log(this.parentNode.parentNode)" title="${link}" > [[${link}]] </span>`
+              return `<span class="link" onclick="console.log('lllll'); var delay = 1000; window.lastClick = 0; if( 1000 > ( Date.now() - window.lastClick ) ) { console.log('threwe') } else { console.log('another'); window.lastClick = Date.now(); Messager.emit('~note.vue', 'link-click', { 'event': event, 'link': '${link}', target: this.parentNode.parentNode.id} ) }; " title="${link}" > [[${link}]] </span>`
 
               // if( is_relative ) {
                   // let relative_link= link.replace("@/", "")
@@ -264,7 +268,27 @@ export default class Markdown {
             }
         )
 
-        this.plugins.push( strike_through )
+        // - [ ]
+        const todo = MarkdownPlugin(
+            // /-\ \[|\]/gi,
+            /^ *\[([\sx])] /i,
+
+            // this function will be called when something matches
+            function( match, utils ) {
+
+                let content = match[0]
+                let id      = Math.random().toString().replace( "0.", "" )
+                let checked = content.indexOf( "[x]" ) !== -1
+
+                let html    =  `<input type="checkbox" id="${id}" title="Click to Toggle" onclick="document.getElementById(${id}).checked ?  document.getElementById(${id}).checked = true : document.getElementById(${id}).checked = false " ${checked ? "checked" : ""}/>`
+
+                return html
+            }
+        )
+
+        this.plugins.push( todo )
+
+
 
         const inline_code = MarkdownPlugin(
             /(\\`{1})(\\`{1})/,
@@ -283,13 +307,12 @@ export default class Markdown {
     after_setup() {
 
         const md = new MarkdownIt()
-            .use( markdownItPluginTaskList )
+            // .use( markdownItPluginTaskList )
             // .use( wikilinks )
 
         for( const plugin of this.plugins ) {
             md.use( plugin )
         }
-
 
         this.md = md
     }
@@ -322,6 +345,9 @@ export default class Markdown {
     }
 
     get_blockquote( content ) {
+
+        let ignore = content.indexOf("#!scan") !== -1
+            if( ignore ) return
 
         // === Refs === //
         let text   = this.reference( content )

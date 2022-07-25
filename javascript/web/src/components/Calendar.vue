@@ -1,5 +1,5 @@
 <template lang="pug" >
-.calendar
+// .calendar
 
     .wrapper
         .calendar-dates( style="width: 50%; margin: 0 auto; " )
@@ -17,6 +17,61 @@
                  p There are no notes here
 
              img.centered( src="@/assets/images/plus.svg" style="width: 30px; cursor: pointer;" alt="Add Note" @click="add_note_to_date(selected_day)" )
+
+.calendar
+
+    .flex
+        .first( style="width: 50%; height: 44vh; border: 1px solid #000; " )
+            .calendar-dates
+                h1.centered {{ilse.utils.convert_from_date_unique_id_to_daily_note_format(ilse.utils.get_unique_date_id())}}({{(new Date().getMonth() + 1)}}/12)
+                table.centered( style="width: 50%; " )
+                    th
+                        td( v-for="( column, index ) in get_items()" :key="index" )
+                            p( v-for="( day, day_index ) in column" :key=" 'td-' + day_index" :style="get_day_style(day)" @click="on_day_click(day)" )  {{day}}
+        .second( style="width: 50%; height: 44vh; border: 1px solid #000; " )
+            .selected-calendar( style="width: 50%; margin: 0 auto; " )
+
+                 h1.centered {{selected_day}}th
+                 .notes( v-if="notes_for_selected_day.length" )
+                     .loop( v-for="( note, index ) in notes_for_selected_day" :key="index" )
+                         Note( :note="note" )
+                 .no-notes( v-if="!notes_for_selected_day.length" )
+                     p There are no notes here
+
+                 img.centered( src="@/assets/images/plus.svg" style="width: 30px; cursor: pointer;" alt="Add Note" @click="add_note_to_date(selected_day)" )
+
+    .flex
+        .first( style="width: 50%; height: 44vh; border: 1px solid #000; " )
+
+             h1.centered {{( new Date().getDate() - 1 )}}th (Yesterday)
+             .notes( v-if="get_days( ( new Date().getDate() - 1 ) )" )
+                 .loop( v-for="( note, index ) in get_days( (new Date().getDate() - 1) )" :key="index" )
+                     Note( :note="note" )
+             .no-notes( v-if="get_days( (new Date().getDate() - 1) )" )
+                 p There are no notes here
+
+
+             img.centered( src="@/assets/images/plus.svg" style="width: 30px; cursor: pointer;" alt="Add Note" @click="add_note_to_date( (new Date().getDate() - 1 ) )" )
+             h1.centered {{( new Date().getDate() + 1 )}}th (Tomorrow)
+             .notes( v-if="get_days( ( new Date().getDate() + 1 ) )" )
+                 .loop( v-for="( note, index ) in get_days( (new Date().getDate() + 1) )" :key="index" )
+                     Note( :note="note" )
+             .no-notes( v-if="get_days( (new Date().getDate() + 1) )" )
+                 p There are no notes here
+
+             img.centered( src="@/assets/images/plus.svg" style="width: 30px; cursor: pointer;" alt="Add Note" @click="add_note_to_date( (new Date().getDate() + 1 ) )" )
+
+        .second( style="width: 50%; height: 44vh; border: 1px solid #000; " )
+             h1.centered {{( new Date().getDate() )}}th (Today)
+             .notes( v-if="get_days( ( new Date().getDate() ) )" )
+                 .loop( v-for="( note, index ) in get_days( (new Date().getDate() ) )" :key="index" )
+                     Note( :note="note" )
+             .no-notes( v-if="get_days( (new Date().getDate() ) )" )
+                 p There are no notes here
+
+             img.centered( src="@/assets/images/plus.svg" style="width: 30px; cursor: pointer;" alt="Add Note" @click="add_note_to_date( (new Date().getDate() ) )" )
+
+
 
 </template>
 <script>
@@ -81,6 +136,19 @@ export default {
             this.fetch_notes_for_given_day( day )
         },
 
+        get_days( day ) {
+
+            let year                    = new Date().getFullYear()
+            let month   = Number( new Date().getMonth() )
+                month += 1
+                month = `0${month}`
+                if( month === "010" ) month = "10" // BUGFIX :
+                if( month === "011" ) month = "11" // BUGFIX :
+                if( month === "012" ) month = "12" // BUGFIX :
+            let notes_for_selected_day = this.get_notes_for_day( year, month, day )
+            return notes_for_selected_day
+        },
+
         fetch_notes_for_given_day( day ) {
 
             let year                    = new Date().getFullYear()
@@ -98,7 +166,6 @@ export default {
             let style = ``
 
             let today = new Date().getDate()
-            printf( "today -> ", today )
                 if( today === index ) style += `background: var(--text-color); color: var( --background-color ); border-radius: var( --border-radius );`
 
             return style
@@ -152,6 +219,8 @@ export default {
 
 
 .calendar {
+    overflow: hidden;
+    height: 100%;
     width: 100%;
 }
 
@@ -183,6 +252,14 @@ table th td p {
     text-align: center; 
     /*padding: var( --padding );
     padding: 15px;*/
+}
+
+
+.calendar .flex .first, .calendar .flex .second{
+    margin-bottom: 1px;
+    margin-right: 1px;
+    border-radius: var( --border-radius );
+    overflow: hidden; 
 }
 
 </style>

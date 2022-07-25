@@ -540,6 +540,18 @@ class componentTypes {
             }
         })
 
+        this.add({
+            id: "draw",
+            name: "Draw",
+            description: "Draw",
+            img: require("@/assets/images/photo.svg"),
+            type: "vue",
+            component: require("@/components/Draw.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
     }
 
     get( id ) {

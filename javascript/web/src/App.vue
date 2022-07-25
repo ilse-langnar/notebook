@@ -55,10 +55,6 @@ export default {
         },
 
         setup() {
-            document.title = "Ilse Langnar's Notebook"
-            document.addEventListener( 'scroll', e => {
-                printf( "e -> ", e )
-            })
         },
 
     },

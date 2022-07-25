@@ -1,7 +1,7 @@
 <template lang="pug">
 .home-page
 
-    .flex( style="border: 1px solid #000; height: 50px; margin: auto; " )
+    .flex( style="height: 50px; margin: auto; " )
         .loop.fitem( v-for="( item, index ) in list" :key="index" style="margin: auto; " )
             img.is-pulled-right( src="@/assets/images/x.svg" style="width: 10px; cursor: pointer;  " alt="Delete"  @click="list.splice(index, 1)" )
             input.input( v-model="item.type" style="background: transparent; border: 0 !important;" )
@@ -55,7 +55,6 @@ export default {
     watch: {
 
         list( list ) {
-            printf( "@@@ list -> ", list )
             ilse.config.homepage_components = list
             ilse.config.save()
         }
@@ -84,8 +83,6 @@ export default {
         get_chunks() {
             let copy = Array.from( this.list )
             let list = ilse.utils.split_array_into_nth_legnth( copy, this.number_of_columns )
-            printf( "this.number_of_columns -> ", this.number_of_columns )
-            printf( "get_chunks -> list -> ", list )
             return list
         },
 

@@ -327,20 +327,11 @@ export default {
         // When bottom scrolling, load the previous day.
         scroll_listener() {
 
-            printf( ">>>>> AAA A scroll_listener" )
+            let _this = this
             window.addEventListener('scroll', function(e) {
-
-                printf( " e -> ", e )
-                printf( "window.innerHeight + window.scrollY -> ", window.innerHeight + window.scrollY )
-                printf( "document.body.offsetHeight  -> ", document.body.offsetHeight )
-                    
                 if( (window.innerHeight + window.scrollY) >= document.body.offsetHeight ) {
-                    printf( "1" )
                     _this.load_day_before()
-                } else {
-                    printf( "2" )
                 }
-
             }, false )
 
         },

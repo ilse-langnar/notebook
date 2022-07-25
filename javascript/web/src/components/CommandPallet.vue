@@ -219,6 +219,10 @@ export default {
 </script>
 <style scoped>
 
+.command-pallet {
+    z-index: 100 !important;
+}
+
 .flex .column {
     margin-left: 30px;
 }
