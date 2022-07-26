@@ -124,6 +124,13 @@ class Modals {
             props: {},
         })
 
+        this.add({
+            id: "search",
+            name: "Search",
+            component: ilse.types.get( "search" ),
+            props: {},
+        })
+
     }
 
     open( id, payload, on_close = null ) {

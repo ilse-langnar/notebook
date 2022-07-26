@@ -45,7 +45,7 @@
 
 
     .menu-item( style="margin: auto; " )
-        Search( :width="50" :should-autofocus="false" @on-result-select="on_note_search_on_result_select" )
+        SearchButton( :width="50" :should-autofocus="false" @on-result-select="on_note_search_on_result_select" )
 
     .menu-item( style="margin: auto; " )
         // img( src="@/assets/images/circle-plus.svg" style="cursor: pointer; width: 20px; "   title="Add Component"  @click="add_component" accesskey="C" )
@@ -90,7 +90,7 @@ const printf                        = console.log;
     import Messager                     from "@/classes/Messager.js"
 
 // Components
-    import Search                       from "@/components/Search.vue"
+    import SearchButton                 from "@/components/SearchButton.vue"
     import ImporterImg                  from "@/components/ImporterImg.vue"
 
 export default {
@@ -105,7 +105,7 @@ export default {
     },
 
     components: {
-        Search,
+        SearchButton,
         ImporterImg,
     },
 

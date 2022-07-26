@@ -22,7 +22,9 @@
 
         .item
             p.is-pulled-left {{command.name}}
-            kbd.is-pulled-right( v-if="get_shortcut_by_name(command.name)" ) {{get_shortcut_by_name(command.name)}}
+            .shortcut.is-pulled-right( v-if="get_shortcut_by_name(command.name)" )
+                span( v-if="get_shortcut_by_name(command.name)" ) {{get_shortcut_by_name(command.name)}}
+            // kbd.is-pulled-right( v-if="get_shortcut_by_name(command.name)" ) {{get_shortcut_by_name(command.name)}}
 
         // .loop( v-for="( shortcut, shortcut_index ) in ilse.commands.get_command_shortcut(command.id)" :key="'shortcut-' + shortcut_index")
             p {{shortctu}}
@@ -31,6 +33,7 @@
             .is-pulled-left.source( v-if="get_command_by_name(command.name) && get_command_by_name(command.name).props" ) {{get_command_by_name(command.name).props.source}} 
 
         // .column.is-2
+            // kbd.is-pulled-right.shortcut( v-if="get_shortcut_by_name(command.name)" ) {{get_shortcut_by_name(command.name)}}
             kbd.is-pulled-right.shortcut( v-if="get_shortcut_by_name(command.name)" ) {{get_shortcut_by_name(command.name)}}
 
     br

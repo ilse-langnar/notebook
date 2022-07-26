@@ -111,14 +111,22 @@ export default {
 
         on_input_blur( event, column, row ) {
 
+            printf( "on_input_blur -> event ", event )
+            printf( "on_input_blur -> column ", column )
+            printf( "on_input_blur -> row ", row )
+
             // FIX
             let pcontent = event.target.value
                 if( !pcontent ) return
 
             let content     = ` #i/spreadsheet/${this.spreadsheet_name}/${column}-${row} ${pcontent}`
+            printf( "content -> ", content )
             let depth       = 0
+            printf( "depth -> ", depth )
             let index       = ilse.notes.list.length 
+            printf( "index -> ", index )
             let new_note    = ilse.notes.add( content, index, depth )
+            printf( "new_note -> ", new_note )
         },
 
         /*

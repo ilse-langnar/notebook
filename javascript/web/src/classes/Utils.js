@@ -1054,6 +1054,41 @@ export default class Utils {
 
     }
 
+    get_human_readable_creation_date( id ) {
+        if( !id ) return ""
+
+        // BUGFIX: Normalize, if is child of another note remove the spaces
+            id = id.trim()
+
+        let year        = id.substr( 0, 4 )
+        let month       = id.substr( 4, 2 )
+        let day         = id.substr( 6, 2 )
+        let hour        = id.substr( 8, 2 )
+        let seconds     = id.substr( 10, 2 )
+
+        let date_string = ilse.utils.convert_from_date_unique_id_to_daily_note_format( id)
+            date_string     += `(${hour}:${seconds})`
+
+        return date_string
+    }
+
+    get_selection() {
+
+        if( window.getSelection ) {
+            return window.getSelection().toString()
+        }
+
+        if( window.document.getSelection ) {
+            return window.document.getSelection().toString()
+        }
+
+        if( window.document.selection ) {
+            return window.document.selection.createRange().text
+        }
+
+        return "";
+    }
+
     decode_base64_image( dataString ) {
         var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
             response = {};

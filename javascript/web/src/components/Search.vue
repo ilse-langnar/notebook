@@ -1,30 +1,35 @@
 <template lang="pug" >
 .note-search
 
-    input.input.search( :id="id + '-search-input'" v-model="search_query" placeholder="🔎" accesskey="f" @keydown="on_key_down" @blur="on_blur" )
+    .flex( style="margin: auto;" )
+        input.input.search( ref="input" :id="id + '-search-input'" v-model="search_query" placeholder="🔎" accesskey="f" @keydown="on_key_down" @blur="on_blur" autofocus )
 
-    .display-mode
+        .display-mode
 
-        img( v-show="is_markdown_mode_on" src="@/assets/images/markdown.svg" @click="toggle_markdown_mode"  title="Render results as markdown?" aria-role="markdown" alt="markdown-mode" )
+            img( v-show="is_markdown_mode_on" src="@/assets/images/markdown.svg" @click="toggle_markdown_mode"  title="Render results as markdown?" aria-role="markdown" alt="markdown-mode" )
 
-        img( v-show="!is_markdown_mode_on" src="@/assets/images/letter-case.svg" @click="toggle_markdown_mode"  title="Render results as text?" aria-role="text" alt="text-mode" )
+            img( v-show="!is_markdown_mode_on" src="@/assets/images/letter-case.svg" @click="toggle_markdown_mode"  title="Render results as text?" aria-role="text" alt="text-mode" )
 
-        img( v-show="filter === 'notes' " src="@/assets/images/point.svg" @click="toggle_filter_mode" title="Filter Mode: Notes" aria-role="markdown" alt="markdown-mode" )
+            img( v-show="filter === 'notes' " src="@/assets/images/point.svg" @click="toggle_filter_mode" title="Filter Mode: Notes" aria-role="markdown" alt="markdown-mode" )
 
-        img( v-show="filter === 'files' " src="@/assets/images/file.svg" @click="toggle_filter_mode"  title="Filter Mode: Files " aria-role="text" alt="text-mode" )
+            img( v-show="filter === 'files' " src="@/assets/images/file.svg" @click="toggle_filter_mode"  title="Filter Mode: Files " aria-role="text" alt="text-mode" )
 
-        img( v-show="filter === 'all' " src="@/assets/images/filter.svg" @click="toggle_filter_mode"  title="Filter Mode: Notes+Files" aria-role="text" alt="text-mode" )
+            img( v-show="filter === 'all' " src="@/assets/images/filter.svg" @click="toggle_filter_mode"  title="Filter Mode: Notes+Files" aria-role="text" alt="text-mode" )
 
     .search-result( v-if="search_query" :style="get_search_result_style()" )
         .item.flex( v-if="!search_result.length" )
             p.is-size-6( style="" ) No Results Found for {{search_query}}
         p.is-size-6.is-pulled-left( v-if="search_result.length" ) {{search_result.length}} Result[s]
-        .clear
+        // .clear
+        br
         .item.flex( v-if="search_result.length" v-for="( result, index ) in search_result" :key="index" :style="get_search_result_item_style( index )" :id="'search-item'+ index" )
 
             span.paragraph-note ⚫
             p( v-if="!is_markdown_mode_on" :style="get_p_style(result.type)" title="Click to open" @click="on_search_result_click($event, result)" ) {{result.content}}
             p( v-if="is_markdown_mode_on"  :style="get_p_style(result.type)" title="Click to open" @click="on_search_result_click($event, result)" v-html="get_html(result.content)" ) 
+    .nothing
+        br
+        h1.centered Nothing
 
 </template>
 <script>
@@ -44,9 +49,10 @@ export default {
     props: {
         id: { type: String, required: false, default: function() { return Math.random().toString() } },
         width: { type: Number, required: false, },
-        shouldAutofocus: { type: Boolean, required: false, default: false },
+        shouldAutofocus: { type: Boolean, required: false, default: true },
         isMarkdownModeOn: { type: Boolean, required: false, default: true },
-        filter: { type: String, required: false, default: function() { return "all" } },
+        // filter: { type: String, required: false, default: function() { return "all" } },
+        component: { type: Object, required: false }
     },
 
     data() {
@@ -62,7 +68,9 @@ export default {
             last_attempt: 0,
             timeout: {},
 
-            is_markdown_mode_on: this.isMarkdownModeOn,
+            // is_markdown_mode_on: this.isMarkdownModeOn,
+            is_markdown_mode_on: this.component.payload.is_markdown_mode_on || true ,
+            filter: this.component.payload.filter || "all",
         }
     },
 
@@ -71,7 +79,10 @@ export default {
         search_query( search ) {
 
             // BUGFIX: this will load ALL notes ... heavy operation
-                if( !search ) return
+                if( !search ) {
+                    this.search_query = []
+                    return
+                }
 
             let that = this
             clearTimeout( this.timeout )
@@ -109,7 +120,7 @@ export default {
 
             let style = ``
             if( this.width ) {
-                style += `width: ${this.width}%;`
+                // style += `width: ${this.width}%;`
             }
             return style
 
@@ -141,18 +152,15 @@ export default {
 
             let is_shift_pressed    = event.shiftKey
             let is_ctrl_pressed     = event.ctrlKey
+            let target              = this.component.payload.id
 
             let is_note             = item.type === "note"
             let is_file             = item.type === "file"
 
-            if( is_note ) {
-                this.$emit( "on-result-select", { shift: is_shift_pressed, ctrl: is_ctrl_pressed, note_id: item.id, })
-            }
+            if( is_note ) Messager.emit( "~search.vue", "select", { type: item.type, target: target, shift: is_shift_pressed, ctrl: is_ctrl_pressed, text: item.id })
+            if( is_file ) Messager.emit( "~search.vue", "select", { type: item.type, target: target, shift: is_shift_pressed, ctrl: is_ctrl_pressed, text: item.content })
 
-            if( is_file ) {
-                this.$emit( "on-result-select", { shift: is_shift_pressed, ctrl: is_ctrl_pressed, file: item.content, })
-            }
-
+            ilse.modals.close()
         },
 
         on_blur() {
@@ -335,10 +343,11 @@ export default {
 
         setup() {
 
-            if( this.shouldAutofocus ) {
-                const dom = document.getElementById( `${this.id}-search-input` )
-                    dom.focus()
-            }
+            printf( "this.component -> ", this.component )
+            printf( "this.$props.component -> ", this.$props.component )
+
+            const dom = document.getElementById( `${this.id}-search-input` )
+                dom.focus()
 
         },
 
@@ -391,22 +400,27 @@ export default {
     background-color: var( --background-color );
     color: var( --text-color );
     border: 1px solid var( --background-color );
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
 }
 
 .search-result {
-    position: absolute;
+    /*position: absolute;*/
     /*min-width: 50%;*/
-    min-width: 10%;
+    /*min-width: 10%;
     overflow: auto;
     height: 50vh;
     background-color: #f1f1f1;
     background-color: var( --background-color );
     color: var( --text-color );
-    padding: 5px;
-    filter: opacity(0.9);
-    box-shadow: 2px 3px 5px rgba(0,0,0,.2);
+    padding: 5px;*/
+    /*filter: opacity(0.9);*/
+    /*box-shadow: 2px 3px 5px rgba(0,0,0,.2);*/
     border-radius: 4px;
-    font-weight: 300;
+    /*font-weight: 300;*/
     z-index: 10;
 }
 

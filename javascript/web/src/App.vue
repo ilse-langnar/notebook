@@ -105,6 +105,40 @@ export default {
 
 }
 
+.shortcut {
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    height: 32px;
+    white-space: nowrap;
+    transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    cursor: default;
+    outline: 0px;
+    text-decoration: none;
+    border: 0px;
+    padding: 0px;
+    vertical-align: middle;
+    box-sizing: border-box;
+    /*color: rgb(117, 138, 161);
+    background: rgb(235, 242, 247);*/
+    color: var( --background-color );
+    padding: var( --padding );
+    background: var( --text-color );
+    border-radius: 2px;
+    font-size: 15px;
+    margin-left: 20px; 
+}
+
+.shorctu span {
+    padding: 8px 12px;
+    border-radius: var( --border-radius );
+    background: var( --background-color );
+    font-weight: 800;
+    white-space: nowrap;
+}
+
 input[type="range"] {
     -webkit-appearance: none;
     margin-right: 15px;
@@ -139,6 +173,101 @@ input[type=range]::-webkit-slider-runnable-track  {
     /*font-family: Mary, Helvetica, Georgia, Times New Roman, serif;*/
     font-family: var( --font-family )
 }
+
+/*========Markdown========*/
+.link {
+    color: #5ec7b8;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.tag {
+    color: #d3d3d3;
+    color: #698b99;
+}
+
+.cloze-deletion {
+    color: gray;
+}
+
+.separator {
+    width: 100%;
+    border: 1px solid #000;
+}
+
+.highlight {
+    background: yellow;
+    background-color: var( --text-color );
+    color: var( --background-color );
+    padding: 2px;
+    margin: 4px;
+    border-radius: var( --border-radius );
+}
+
+.strike-through {
+    text-decoration: line-through;
+}
+
+.img {
+    display: block;
+}
+
+.todo {
+    padding: 5px;
+
+}
+
+.video {
+    display: block;
+    clear: both;
+}
+
+.audio {
+    display: block;
+    clear: both;
+}
+
+input[type="checkbox"] {
+    height:1em;
+    width:1em;
+    cursor:pointer;
+    position:relative;
+    -webkit-transition: .10s;
+    border-radius:4em;
+    background-color:red;
+}
+
+blockquote {
+    padding: 5px;
+    margin: 10px;
+    border-left: 4px solid #bdbdbd;
+    border-radius: 4px;
+    margin-left: 10px;
+    background-color: #ededed;
+
+    /*background-color: var( --text-color );
+    color: var( --background-color );*/
+
+    border-left: 4px solid var( --text-color );
+    color: var( --text-color );
+    background: var( --background-color );
+    margin-left: auto;
+}
+
+code {
+    background-color: #ededed;
+    color: #000000;
+    padding: 0.25em 0.5em 0.25em;
+    border-radius: 4px;
+    font-family: CodeFire, CodeFira, monospace;
+}
+
+.note-reference {
+    color: #4f4f90;
+}
+/*========Markdown========*/
 
 .input {
     background: var( --background-color );
@@ -460,7 +589,6 @@ li,
 dl,
 dt,
 dd,
-blockquote,
 figure,
 fieldset,
 legend,

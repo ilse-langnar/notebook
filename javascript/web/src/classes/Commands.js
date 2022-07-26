@@ -544,6 +544,17 @@ class Commands {
                 name: "Toggle Resize Mode",
             },
 
+            {
+                id: "open-search-modal",
+                fn: async function() {
+                    ilse.modals.open( "search" )
+                },
+                description: "Open Search Modal",
+                name: "Open Search Modal",
+            },
+
+
+
         ]
     }
 

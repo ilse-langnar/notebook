@@ -552,6 +552,18 @@ class componentTypes {
             }
         })
 
+        this.add({
+            id: "search",
+            name: "Search",
+            description: "Search notes and files",
+            img: require("@/assets/images/lupe.svg"),
+            type: "vue",
+            component: require("@/components/Search.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
     }
 
     get( id ) {

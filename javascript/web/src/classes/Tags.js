@@ -49,8 +49,6 @@ export default class Tags {
             } else if( action === 'added' ) {
 
                 let tags        = ilse.utils.extract_tags( payload.note.content )
-                printf( "payload.note.content -> ", payload.note.content )
-                printf( "tags -> ", tags )
                 for( const tag of tags ) {
                     this.parse({ note: payload.note, tag })
                 }

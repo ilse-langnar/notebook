@@ -5,7 +5,8 @@
         img( src="@/assets/images/question-mark.svg" style="width: 20px; cursor: pointer; vertical-align: middle;" :title="Object.keys(ilse.tags.tags)" )
     br
     .loop( v-for="( note, index ) in ilse.notes.query( '- [ ] ' + filter )" :key="index" )
-        Note( :note="note" @on-blur="on_note_blur" )
+        // Note( :note="note" @on-blur="on_note_blur" )
+        Notes( :note="note" )
     // .loop( v-for="( tag, index ) in Object.keys(ilse.tags.tags)" :key="index" )
         p {{tag}}
 </template>
@@ -21,6 +22,7 @@ const printf                        = console.log;
 
 // Components
     import Note                         from "@/components/Note.vue"
+    import Notes                        from "@/components/Notes.vue"
 
 export default {
 
@@ -36,13 +38,10 @@ export default {
 
     components: {
         Note,
+        Notes,
     },
 
     methods: {
-
-        on_note_blur( payload ) {
-            // this.key = Math.random()
-        },
 
         setup() {
         },

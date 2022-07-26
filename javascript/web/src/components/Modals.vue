@@ -1,34 +1,11 @@
 <template lang="pug" >
 .modals
-
-    // .loop( v-for=" (modal, index) in ilse.modals.modals" )
-
-        modal(
-            :name='modal.id'
-            :adaptive="true"
-            :height="modal.props.modal.height" :width="modal.props.modal.width" style="border-radius: 20px;" :scrollable="modal.props.modal.scrollable"
-        )
-
-            component.modal.ilse-modal( :is="modal.box.component.default" :box="modal.props.box" )
-
     .loop( v-for=" (modal, index) in ilse.modals.modals" )
-
-        // .shadow( v-if="active_modal === modal.id" accesskey='esc' )
         .shadow( v-if="active_modal === modal.id" @click="on_shadow_click" )
             .modal-wrapper( :style="get_style(modal)"  )
-
                 .modal
-                    // .modal__header
-                        p {{modal.name}}
-
                     .modal__content
-                        component( :is="modal.component.component.default" :payload="payload" )
-
-                    // .modal__footer
-                        button.button Cancel
-                        button.button Close
-
-
+                        component( :is="modal.component.component.default" :component="payload" )
 
 </template>
 <script>
@@ -80,11 +57,14 @@ export default {
             Messager.on( "modals.vue", ( action, payload ) =>  {
 
                 if( action === 'open' ) {
+                    printf( "open -> action -> ", action )
+                    printf( "payload -> ", payload )
                     this.listen_key_up()
                     this.active_modal = payload.target
-                    this.payload      = payload.payload
+                    this.payload      = payload
                 } else if( action === 'close' ) {
-                    this.active_modal = ""
+                    this.close()
+                    // this.active_modal = ""
                 }
 
             })
@@ -100,7 +80,8 @@ export default {
                 let is_escape_key = event.which === 27
 
                 if( is_escape_key && _this.active_modal ) {
-                    _this.active_modal = ""
+                    _this.close()
+                    // _this.active_modal = ""
                     window.removeEventListener( "keydown", event_listener )
                 }
 

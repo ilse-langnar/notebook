@@ -17,24 +17,22 @@ const printf                        = console.log
 class KeyboardShortcut  {
 
     constructor() {
-        this.setup()
+        this.Mousetrap = Mousetrap
 
-        Mousetrap.bindGlobal( "ctrl+f", (event, combo ) => {
-            // ilse.electron.ipc.send( "ctrl+f" )
-        }, 'keydown' )
-
+        // Mousetrap.bindGlobal( "ctrl+f", (event, combo ) => { ilse.electron.ipc.send( "ctrl+f" ) }, 'keydown' )
         // Mousetrap.bindGlobal( "ctrl+space", (event, combo ) => {
             // let note = ilse.notes.add( "", ilse.notes.list.length - 1, 0 )
                 // note.focus()
         // }, 'keydown' )
 
+        this.setup()
     }
 
     setup() {
-        this.set_default_keys()
-        this.bind_keys()
         this.set_key_codes()
         this.add_default_key_codes()
+        this.set_default_keys()
+        this.bind_keys()
     }
 
     set_key_codes() {
@@ -44,6 +42,7 @@ class KeyboardShortcut  {
             221:    "right-square-bracket",
             46:     "delete",
             191:    "slash",
+            /*57:     "opening-parenthesis",*/
             9:      "tab",
         }
 
@@ -61,6 +60,7 @@ class KeyboardShortcut  {
             // { combo: "s", command: "note-search" },
             // { combo: "f", command: "file-search" },
             // { combo: "A", command: "Add Component" },
+            { combo: "ctrl+space s s", command: "open-search-modal" },
             { combo: "ctrl+space c f", command: "a" },
             { combo: "ctrl+1", command: "first-brain-read" },
             { combo: "shift+enter", command: "void:add-new-line" },
@@ -73,17 +73,21 @@ class KeyboardShortcut  {
             { combo: "ctrl+h", command: "toggle-home-page" },
             // { combo: "shift+/", command: "open-help" }, // ctrl-shift-/ = ctrl-?
 
+            { combo: "ctrl+space (", command: "void" },
+
 
             { combo: "ctrl+space shift+f", command: "open-file" },
 
-            { combo: "ctrl+space right-square-bracket", command: "open-textarea-search" },
-            { combo: "ctrl+space (", command: "open-note-search" },
+            /*{ combo: "ctrl+space right-square-bracket", command: "open-search-modal" },*/
+            /*{ combo: "opening-parenthesis", command: "open-search-modal" },*/
 
             { combo: "ctrl+space b t a", command: "first-brain-tag-add" },
             { combo: "ctrl+space b t r", command: "first-brain-tag-remove" },
+
+            // { combo: "ctrl+space ", command: "first-brain-tag-remove" },
         ]
 
-        this.make_child_reveal_bind()
+        // this.make_child_reveal_bind()
 
     }
 
@@ -133,9 +137,7 @@ class KeyboardShortcut  {
     make_child_reveal_bind() {
         let parent_keys = this.get_parent_keys()
 
-        Mousetrap.handleKey = function( one, two ) {
-            printf( ">>>>> one -> ", one )
-            printf( ">>>>> two -> ", two )
+        this.Mousetrap.handleKey = function( one, two ) {
         }
 
         parent_keys.map( key => {
@@ -145,11 +147,10 @@ class KeyboardShortcut  {
 
             })
 
-            Mousetrap.bind( key, (event, combo ) => {
-                printf( ">> KeyboardShortcut -> combo -> ", combo )
-                printf( ">> KeyboardShortcut -> event -> ", event )
-
-            })
+            // Mousetrap.bind( key, (event, combo ) => {
+                // printf( ">> KeyboardShortcut -> combo -> ", combo )
+                // printf( ">> KeyboardShortcut -> event -> ", event )
+            // })
 
         })
 
@@ -182,11 +183,11 @@ class KeyboardShortcut  {
     add_key_code( code, key_name ) {
 
         this.key_codes[code] = key_name
-        Mousetrap.addKeycodes(this.key_codes)
+        this.Mousetrap.addKeycodes(this.key_codes)
     }
 
     add_default_key_codes() {
-        Mousetrap.addKeycodes( this.key_codes )
+        this.Mousetrap.addKeycodes( this.key_codes )
     }
 
     add( combo, command, options = { prevent_default: true } ) {
@@ -263,7 +264,7 @@ class KeyboardShortcut  {
         // SPC -> space, R = shift+r, <number> => special
             let normalized_combo = this.get_normalized_combo( key )
 
-        Mousetrap.unbind( normalized_combo )
+        this.Mousetrap.unbind( normalized_combo )
     }
 
     bind_key( key ) {
@@ -271,7 +272,7 @@ class KeyboardShortcut  {
         let combo = this.get_normalized_combo( key )
 
         // Mousetrap.bindGlobal( combo, (event, combo ) => {
-        Mousetrap.bind( combo, (event, combo ) => {
+        this.Mousetrap.bindGlobal( combo, (event, combo ) => {
             ilse.commands.run( key.command )
         }, 'keydown' )
 
@@ -292,7 +293,7 @@ class KeyboardShortcut  {
 
         return new Promise((resolve, reject) => {
 
-            Mousetrap.record(function(sequence) {
+            this.Mousetrap.record(function(sequence) {
 
                 try {
                     resolve( sequence )

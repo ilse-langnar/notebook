@@ -1,16 +1,10 @@
 <template lang="pug" >
 .note.flex( v-if="is_on" :style="options.style" @click="on_note_root_click" )
 
-    p( v-if="!options.hideBullet" slot="icon" :title="get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" ).paragraph-note ⚫
+    p( v-if="!options.hideBullet" slot="icon" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" ).paragraph-note ⚫
 
-    // edit mode
-    // textarea.textarea(  v-if="inote.is_editable || !inote.content" v-model="options.is_tagless ? inote.tagless : inote.content" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" placeholder="New" @drop.prevent="add_file" @dragover.prevent @click="on_textarea_click($event, inote)" )
-
-    .is-tagless( v-if="options.is_tagless" )
-        textarea.textarea(  v-if="inote.is_editable || !inote.content" v-model="inote.tagless" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" placeholder="New" @drop.prevent="add_file" @dragover.prevent @click="on_textarea_click($event, inote)" )
-
-    .is-content( v-if="!options.is_tagless" )
-        textarea.textarea(  v-if="inote.is_editable || !inote.content" v-model="inote.content" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" placeholder="New" @drop.prevent="add_file" @dragover.prevent @click="on_textarea_click($event, inote)" )
+    // Edit Mode
+    textarea.textarea( v-if="inote.is_editable" v-model="options.is_tagless ? inote.tagless : inote.content" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" placeholder="New" @drop.prevent="add_file" @dragover.prevent @click="on_textarea_click($event, inote)" )
 
     // show mode
     .markdown( v-show="!inote.is_editable" v-html="get_html(options.is_tagless ? inote.tagless : inote.content )" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )
@@ -18,13 +12,12 @@
 
 
 
-
     // Search, both bullets/files
-    .search-overlay( v-if="is_search_overlay_on" style="" )
-        Search.centered( :width="100" :should-autofocus="true" :filter="search_filter" @on-result-select="on_note_search_result_select" @on-esc="close_focus_then_resize('search')" @on-blur="close_focus_then_resize('search')" )
+    // .search-overlay( v-if="is_search_overlay_on" style="" )
+        // Search.centered( :width="100" :should-autofocus="true" :filter="search_filter" @on-result-select="on_note_search_result_select" @on-esc="close_focus_then_resize('search')" @on-blur="close_focus_then_resize('search')" )
 
     // Options Lisp
-    .options-overlay( v-if="is_options_overlay_on" style="" )
+    // .options-overlay( v-if="is_options_overlay_on" style="" )
         Options.centered( :width="100" :should-autofocus="true" @on-result-select="on_note_search_result_select" @on-esc="close_focus_then_resize('options')" @on-blur="close_focus_then_resize('options')" )
 
 
@@ -39,10 +32,6 @@ const printf                        = console.log;
 // Messager
     import Messager                     from "@/classes/Messager.js"
 
-// Components
-    import Search                       from "@/components/Search.vue"
-    import Options                      from "@/components/Options.vue"
-
 export default {
 
     name: "note",
@@ -55,17 +44,10 @@ export default {
                 return {
                     style: "",
                     hideBullet: false,
-                    tagless: false,
+                    is_tagless: false,
                 }
             }
         },
-
-        customStyle: { type: String, required: false, default: "" },
-    },
-
-    components: {
-        Search,
-        Options,
     },
 
     data() {
@@ -80,7 +62,6 @@ export default {
             is_options_overlay_on: false,
             last_char: "",
             search: "",
-            search_filter: "all",
         }
     },
 
@@ -103,25 +84,7 @@ export default {
             // printf( "this.is_editable -> ", this.is_editable )
         },
 
-        // on_note_shift_click() {
-            // this.$emit( "on-note-shift-click", this.note )
-        // },
-
-        close_focus_then_resize( overlay ) {
-
-            this.close_overlay( overlay )
-
-            let note = this.inote
-            printf( "note -> ", note )
-
-            setTimeout( () => {
-                note.focus()
-                this.resize_textarea()
-            }, 200 )
-        },
-
         async add_file( event ) {
-            printf( ">> Note.vue -> add_file -> event -> ", event )
 
             let file        = event.dataTransfer.files[0] 
 
@@ -138,17 +101,15 @@ export default {
                 this.inote.caret.add( ` ![[${file.name}]]` ) }, 100 )
         },
 
-        on_note_search_result_select( payload ) {
+        // on_note_search_result_select( payload ) {
+        on_note_search_result_select( type, text ) {
 
-            printf( "payload -> ", payload )
+            let _this   = this
+            let note    = this.inote
+            printf( ">>>>on_note_search_result_select -> " )
 
-            let is_note = payload.note_id
-            let is_file = payload.file
-
-            let note = this.inote
-
-            let _this = this
             setTimeout( () => {
+
                 this.inote.focus()
 
                 note.caret.set( note.caret.pos.start, note.caret.pos.end )
@@ -157,43 +118,54 @@ export default {
                     // BUGFIX: For some reason after inserting "id+))" if we blur we'll lose and go back to "((" This fixes this issue by setting inote.content directly
                     let value
 
-                    if( is_note ) {
-                        value = note.caret.insert( `((${payload.note_id}))` )
-                    } else if( is_file ) {
-                        value = note.caret.insert( `${payload.file.replace(".md", "")}]]` )
+                    printf( "type -> ", type )
+                    printf( "note.content -> ", note.content )
+                    printf( "text -> ", text )
+                    if( type === "note" && note.content.indexOf(text) === -1 ) {
+                        value = note.caret.insert( `((${text}))` )
+                    } else if( type === "file" && note.content.indexOf( text.replace(".md", "") ) === -1 ) {
+                        value = note.caret.insert( `[[${text.replace(".md", "")}]]` )
                     }
 
                     setTimeout( () => { note.focus(); _this.resize_textarea() }, 1 )
 
                     _this.set_content( value )
+
+                    setTimeout( () => { _this.inote.focus() }, 100 )
                 }, 100 )
 
             }, 100 )
-            this.close_overlay( "search" )
+
+            // this.close_overlay( "search" )
+
         },
 
         set_content( value ) {
             this.inote.content = value
             this.resize_textarea()
-                    // this.inote.focus()
+            // this.inote.focus()
         },
 
+        /*
         open_overlay( name ) {
-            if( name === "search" ) this.is_search_overlay_on   = true
+            // if( name === "search" ) this.is_search_overlay_on   = true
+            if( name === "search" ) ilse.modals.open( "search", {type: "embed", id: this.inote.id}, function(note) { printf( "LLLL", note ) } )
             if( name === "options" ) this.is_options_overlay_on = true
             this.last_char     = ""
         },
+        */
 
+        /*
         close_overlay( name ) {
             if( name === "search" ) this.is_search_overlay_on   = false
             if( name === "options" ) this.is_options_overlay_on = false
             this.last_char     = ""
             // this.inote.focus()
         },
+        */
 
         on_note_left_click( event ) {
-            let note = this.note
-            this.$emit( "on-note-left-click", {note, event})
+            this.$emit( "on-note-left-click", this.note )
         },
 
         on_note_right_click() {
@@ -201,12 +173,12 @@ export default {
         },
 
         on_note_middle_click() {
-            printf( "this.note.children -> ", this.note.children )
-            printf( "this.note.depth -> ", this.note.depth )
             this.$emit( "on-note-middle-click", this.note )
         },
 
-        get_human_readable_creation_date( id ) {
+        // get_human_readable_creation_date( id ) {
+            // return ilse.utils.get_human_readable_creation_date(id)
+            /*
             if( !id ) return ""
 
             // BUGFIX: Normalize, if is child of another note remove the spaces
@@ -222,7 +194,8 @@ export default {
                 date_string     += `(${hour}:${seconds})`
 
             return date_string
-        },
+            */
+        // },
 
         resize_textarea() {
             let dom     = document.getElementById( this.inote.id )
@@ -248,14 +221,13 @@ export default {
 
             let is_list = char === "/" && this.last_char === "/"
                 if( is_list ) {
-                    this.open_overlay( "options" )
+                    // this.open_overlay( "options" )
                     return
                 }
 
             // let is_note_search = char === "(" && this.last_char === "("
             // if( is_note_search ) {
                 // this.inote.caret.get() 
-                // this.search_filter = "notes" // Search only for notes
                 // this.open_overlay( "search" )
             // }
 
@@ -280,7 +252,6 @@ export default {
             // === Refs === //
 
             let html = ilse.markdown.get_blockquote( content )
-            printf( "html -> ", html )
             return html
 
             /*
@@ -304,10 +275,24 @@ export default {
 
         on_focus( event, inote ) {
 
-            let shift = event.shiftKey
-                if( shift ) return
+            let _this = this
 
-            // BUGFIX: 
+            ilse.keyboard.Mousetrap.bindGlobal( "ctrl+space (", function(event){
+                printf( "ok boomer" )
+                event.preventDefault()
+                _this.open_search( "notes" )
+            })
+
+
+            ilse.keyboard.Mousetrap.bindGlobal( "ctrl+space right-square-bracket", function(event){
+                event.preventDefault()
+                _this.open_search( "files" )
+            })
+
+            // let shift = event.shiftKey
+                // if( shift ) return
+
+            // BUGFIX: No id nor content
             let is_note_malformed = !inote.content || !inote.id
                 if( is_note_malformed ) return ""
 
@@ -315,6 +300,7 @@ export default {
             let clicked_on_a_checkbox = event.target.type === "checkbox"
             if( clicked_on_a_checkbox ) {
                 this.inote.content = this.inote.content.replace( "- [ ]", "- [x]" )
+                ilse.notes.save()
                 return
             }
 
@@ -337,79 +323,24 @@ export default {
         },
 
         on_blur( event, inote ) {
-            printf( "Note.vue -> on_blur -> inote -> ", inote )
 
-            // this.resize_textarea()
-            // Messager.emit( "~note.vue", "blurred", inote )
+            ilse.keyboard.Mousetrap.unbind( "ctrl+space right-square-bracket")
+            ilse.keyboard.Mousetrap.unbind( "ctrl+space (")
 
             if( inote.id === this.inote.id ) {
+                // Blur
                 this.inote.is_editable = false
-                this.$emit( "on-blur", {
-                    event: event,
-                    note: inote
-                })
 
+                // Says we have blurred
+                this.$emit( "on-blur", { event: event, note: inote })
+
+                // ??
                 Messager.emit( "~note.vue", "blur", {note: this.inote})
-                // Messager.emit( "~note", "change", { note: this.inote })
+
+                // Save
                 ilse.notes.save()
-
             }
 
-        },
-
-        get_selection() {
-
-            /*
-            var selectedText = '';
-
-            // window.getSelection
-            if( window.getSelection ) {
-                selectedText = window.getSelection();
-            } else if(document.getSelection ) { // document.getSelection
-                selectedText = document.getSelection()
-            } else if( document.selection ) { // document.selection
-                selectedText = document.selection.createRange().text
-            } else {
-                return
-            }
-            printf( "selectedText -> ", selectedText )
-            // To write the selected text into the textarea
-            return selectedText
-            */
-
-
-
-            /*
-            let range = ""
-            if( window.getSelection ) {  // all browsers, except IE before version 9
-                range = window.getSelection ();
-            } else {
-                // Internet Explorer
-                if( document.selection.createRange ) range = document.selection.createRange()
-            }
-            printf( "@@@ range -> ", range )
-
-            return range
-            */
-
-
-            // printf( "window.getSelection() -> ", window.getSelection() )
-            // printf( "window.document.getSelection() -> ", window.document.getSelection() )
-            // printf( "window.document.selection -> ", window.document.selection )
-
-            if( window.getSelection ) {
-                return window.getSelection().toString()
-            } 
-
-            if( window.document.getSelection ) {
-                return window.document.getSelection().toString()
-            } 
-
-            if( window.document.selection ) {
-                return window.document.selection.createRange().text
-            }
-
-            return "";
         },
 
         // TODO: Take selected text, if [ then wrap the text around
@@ -421,7 +352,7 @@ export default {
             let is_meta  = event.metaKey
             let key      = event.key
 
-            let selection= this.get_selection()
+            let selection= ilse.utils.get_selection()
             let is_wrap  = key === "[" && selection
 
             if( is_wrap ) {
@@ -479,89 +410,30 @@ export default {
 
             // let is_file_search = char === "[" && shift
             let char           = event.key
-            let is_file_search = char === "{" && is_shift
-            if( is_file_search ) {
-                this.open_search()
-            }
+            // let is_file_search = char === "{" && is_shift
+            // if( is_file_search ) {
+                // this.open_search()
+            // }
 
         },
 
-        open_search( type = "all" ) {
+        open_search( filter = "all" ) {
             this.inote.caret.get() 
-            this.search_filter = type 
-            // this.search_filter = "files" // Search only for files
-            this.open_overlay( "search" )
+            printf( "Note.vue -> open_search -> type ", filter )
+            ilse.modals.open( "search", {mode: "embed", filter, is_markdown_mode_on: true, id: this.inote.id} )
         },
 
         listen() {
 
             let _this = this
+
+            Messager.on( "~search.vue", async ( action, payload ) => {
+                if( action === "select" && this.inote.id === payload.target) this.on_note_search_result_select( payload.type, payload.text )
+            })
+
             Messager.on( "~note.vue", async ( action, payload ) => {
-
-                if( action === "open-search" && payload.target === _this.inote.id ) {
-                    this.open_search( payload.type ) 
-                }
-
-                // Listen to note.vue
-                if( action === "link-click" ) {
-
-                    /*if( ilse.tried_too_fast )  {
-                        // setTimeout( () => { ilse.tried_too_fast = false }, 500 )
-                        return
-                    }
-                    ilse.tried_too_fast = true
-
-                    setTimeout( () => { ilse.tried_too_fast = false }, 500 )
-                    */
-                    // printf( "link-click" )
-                    // Messager.emit( "~note.vue", "clicked", { link: payload.link, event: payload.event, note: this.inote } )
-
-                    // printf( "ilse.lastCalled -> ", ilse.lastCalled )
-
-                    // if( !ilse.lastCalled ) ilse.lastCalled = 0
-
-                    /*
-                    _this.once  = function() {
-
-                        // let now = new Date().getTime()
-                        // printf( "now -> ", now )
-                        // printf( "1000 > ( now - ilse.lastCalled ) -> ", 1000 > ( now - ilse.lastCalled ) )
-                        // if( 1000 > (now - ilse.lastCalled) ) return
-
-                        // ilse.lastCalled = now
-
-                        printf( "@@@ payload.link -> ", payload.link )
-                        let is_relative   = payload.link.indexOf("@") !== -1
-                        if( !is_relative ) {
-                            payload.link = ilse.path.join( "/", "second", payload.link.replace("@","") )
-                            // payload.link = `/second/${payload.link.replace("@/", "")}`
-                        }
-                        printf( "@@@ is_relative -> ", is_relative )
-                        printf( "@@@ payload.link -> ", payload.link )
-
-                        _this.$emit( "on-link-click", { link: payload.link, event: payload.event, note: _this.inote } )
-                    }
-                    */
-                    // _this.once()
-
-                    // ilse.utils.throttle( function() {
-                        // printf( "ok boomer" )
-                        // _this.$emit( "on-link-click", { link: payload.link, event: payload.event, note: _this.inote } )
-                    // }, 1000 )
-
-                    // var lastClick = 0;
-                    // var delay = 100;
-
-                    // if (lastClick >= (Date.now() - delay))
-                        // return;
-                    // lastClick = Date.now();
-
-                    if( this.inote.id === payload.target ) {
-                        _this.$emit( "on-link-click", { link: payload.link, event: payload.event, note: _this.inote } )
-                    }
-
-
-                }
+                // if( action === "open-search" && payload.target === _this.inote.id ) this.open_search( payload.type ) 
+                if( action === "link-click" ) if( this.inote.id === payload.target ) _this.$emit( "on-link-click", { link: payload.link, event: payload.event, note: _this.inote } )
             })
 
         },
@@ -587,8 +459,6 @@ export default {
         },
 
         setup() {
-            // this.add_mutator_listener() 
-            // setTimeout( () => { this.resize_textarea() }, 100 )
             this.set_note_from_component()
             this.listen()
         },
@@ -612,21 +482,11 @@ export default {
 
 .textarea {
     width: 100% !important;
-    /*width: 100% !important;
-    width: fit-content !important;
-    width: auto !important; */
     overflow: hidden;
-
-    /*min-height: 20px;
-    height: 20px;
-    max-height: 20px;*/
-    /*height: fit-content !important;*/
     height: 30px !important;
-
     margin: 0 !important;
     padding: 0px !important;
     resize: none;
-
     font-size: 1em;
     margin-bottom: 6px;
     background: var( --background-color );
@@ -640,8 +500,6 @@ export default {
 .markdown {
     margin-bottom: 6px;
     width: fit-content;
-    /*min-width: 100%;
-    min-height: 20px;*/
 }
 
 .paragraph-note {
@@ -650,120 +508,8 @@ export default {
     cursor:       pointer;
     color:        #a3a3a3;
     color:        var(--text-color);
-    /*font-size:    24px;*/
     font-size:    1pc;
     cursor:       pointer;
-}
-
-.link {
-    color: #5ec7b8;
-}
-
-.link:hover {
-    text-decoration: underline;
-}
-
-.tag {
-    color: #d3d3d3;
-    color: #698b99;
-}
-
-.cloze-deletion {
-    color: gray;
-}
-
-.separator {
-    width: 100%;
-    border: 1px solid #000;
-}
-
-.highlight {
-    background: yellow;
-    background-color: var( --text-color );
-    color: var( --background-color );
-    padding: 2px;
-    margin: 4px;
-    border-radius: var( --border-radius );
-}
-
-.strike-through {
-    text-decoration: line-through;
-}
-
-.img {
-    display: block;
-}
-
-.mind-map .img:hover {
-    /*position: fixed;
-    width: 50vw;
-    height: 100vh;
-    z-index: 100;*/
-}
-
-.todo {
-    padding: 5px;
-
-}
-
-.video {
-    display: block;
-    clear: both;
-}
-
-.audio {
-    display: block;
-    clear: both;
-}
-
-input[type="checkbox"] {
-    height:1em;
-    width:1em;
-    cursor:pointer;
-    position:relative;
-    -webkit-transition: .10s;
-    border-radius:4em;
-    background-color:red;
-}
-
-blockquote {
-    padding: 5px;
-    border-left: 4px solid #bdbdbd;
-    border-radius: 4px;
-    margin-left: 10px;
-    background-color: #ededed;
-
-    /*background-color: var( --text-color );
-    color: var( --background-color );*/
-
-    border-left: 4px solid var( --text-color );
-    color: var( --text-color );
-    background: var( --background-color );
-    margin-left: auto;
-}
-
-code {
-    background-color: #ededed;
-    color: #000000;
-    padding: 0.25em 0.5em 0.25em;
-    border-radius: 4px;
-    font-family: CodeFire, CodeFira, monospace;
-}
-
-.note-reference {
-    color: #4f4f90;
-}
-
-
-.search-overlay, .options-overlay {
-    /*transform: translate( 50%, 0);*/
-    position: absolute;
-    background: var( --background-color );
-    color: var( --text-color );
-    z-index: 30;
-    width: 40%;
-    height: 20vh;
-    margin-top: 20px;
 }
 
 </style>

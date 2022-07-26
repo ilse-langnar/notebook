@@ -74,8 +74,9 @@ export default {
         },
 
         setup() {
-
+            // document.addEventListener( "keydown", event => { printf( "event -> ", event ) })
         },
+
     },
 
     mounted() {
