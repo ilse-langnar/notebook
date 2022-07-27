@@ -2,7 +2,7 @@
 .tags
 
     .space( style="height: 20px;" )
-    p.is-size-2.centered Tags
+    p.is-size-2.centered {{$t('tags')}}
 
     .is-pulled-left.loop( v-for="( tag_name, index ) in Object.keys(ilse.tags.tags)" :key="index" style="width: 300px; display: inline-block;  border: 1px solid #aaa; border-radius: 10px; margin-left: 5px; margin-bottom: 10px; padding: 5px; " @click="open_tag(tag_name)" )
         br

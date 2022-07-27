@@ -1,5 +1,5 @@
 <template lang="pug" >
-img.importer( v-if="is_on" src="@/assets/images/urgent.svg" title="Click to import" alt="Import" )
+img.importer( v-if="is_on" src="@/assets/images/urgent.svg" :title="$t('click_to_import')" alt="Import" )
 </template>
 <script>
 // eslint-disable-next-line

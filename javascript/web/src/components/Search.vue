@@ -6,30 +6,28 @@
 
         .display-mode
 
-            img( v-show="is_markdown_mode_on" src="@/assets/images/markdown.svg" @click="toggle_markdown_mode"  title="Render results as markdown?" aria-role="markdown" alt="markdown-mode" )
+            img( v-show="is_markdown_mode_on" src="@/assets/images/markdown.svg" @click="toggle_markdown_mode"  :title="$t('search_markdown_mode')" aria-role="markdown" :alt="$t('search_markdown_mode')" )
+            img( v-show="!is_markdown_mode_on" src="@/assets/images/letter-case.svg" @click="toggle_markdown_mode"  :title="$t('search_text_mode')" aria-role="text" :alt="$t('search_text_mode')" )
 
-            img( v-show="!is_markdown_mode_on" src="@/assets/images/letter-case.svg" @click="toggle_markdown_mode"  title="Render results as text?" aria-role="text" alt="text-mode" )
+            img( v-show="filter === 'notes' " src="@/assets/images/point.svg" @click="toggle_filter_mode" :title="$t('search_filter_mode_notes')" aria-role="markdown" :alt="$t('search_filter_mode_notes')" )
 
-            img( v-show="filter === 'notes' " src="@/assets/images/point.svg" @click="toggle_filter_mode" title="Filter Mode: Notes" aria-role="markdown" alt="markdown-mode" )
+            img( v-show="filter === 'files' " src="@/assets/images/file.svg" @click="toggle_filter_mode"  :title="$t('search_filter_mode_files')" aria-role="text" :alt="$t('search_filter_mode_files')" )
 
-            img( v-show="filter === 'files' " src="@/assets/images/file.svg" @click="toggle_filter_mode"  title="Filter Mode: Files " aria-role="text" alt="text-mode" )
+            img( v-show="filter === 'all' " src="@/assets/images/filter.svg" @click="toggle_filter_mode"  :title="$t('search_filter_mode_all')" aria-role="text" alt="$t('search_filter_mode_all')" )
 
-            img( v-show="filter === 'all' " src="@/assets/images/filter.svg" @click="toggle_filter_mode"  title="Filter Mode: Notes+Files" aria-role="text" alt="text-mode" )
-
-    .search-result( v-if="search_query" :style="get_search_result_style()" )
+    .search-result( v-if="search_query" )
         .item.flex( v-if="!search_result.length" )
-            p.is-size-6( style="" ) No Results Found for {{search_query}}
-        p.is-size-6.is-pulled-left( v-if="search_result.length" ) {{search_result.length}} Result[s]
-        // .clear
+            p.is-size-6 {{ $t( "search_nothing_found_for" ) }} {{search_query}}
+        p.is-size-6.is-pulled-left( v-if="search_result.length" ) {{search_result.length}} {{ $t('search_results') }}
         br
         .item.flex( v-if="search_result.length" v-for="( result, index ) in search_result" :key="index" :style="get_search_result_item_style( index )" :id="'search-item'+ index" )
 
             span.paragraph-note ⚫
-            p( v-if="!is_markdown_mode_on" :style="get_p_style(result.type)" title="Click to open" @click="on_search_result_click($event, result)" ) {{result.content}}
-            p( v-if="is_markdown_mode_on"  :style="get_p_style(result.type)" title="Click to open" @click="on_search_result_click($event, result)" v-html="get_html(result.content)" ) 
+            p( v-if="!is_markdown_mode_on" :style="get_p_style(result.type)" :title="$t('click_to_open')" @click="on_search_result_click($event, result)" ) {{result.content}}
+            p( v-if="is_markdown_mode_on"  :style="get_p_style(result.type)" :title="$t('click_to_open')" @click="on_search_result_click($event, result)" v-html="get_html(result.content)" ) 
     .nothing
         br
-        h1.centered Nothing
+        h1.centered {{ $t( "search_nothing" ) }}
 
 </template>
 <script>
@@ -48,10 +46,6 @@ export default {
 
     props: {
         id: { type: String, required: false, default: function() { return Math.random().toString() } },
-        width: { type: Number, required: false, },
-        shouldAutofocus: { type: Boolean, required: false, default: true },
-        isMarkdownModeOn: { type: Boolean, required: false, default: true },
-        // filter: { type: String, required: false, default: function() { return "all" } },
         component: { type: Object, required: false }
     },
 
@@ -68,9 +62,8 @@ export default {
             last_attempt: 0,
             timeout: {},
 
-            // is_markdown_mode_on: this.isMarkdownModeOn,
-            is_markdown_mode_on: this.component.payload.is_markdown_mode_on || true ,
-            filter: this.component.payload.filter || "all",
+            is_markdown_mode_on: (this.component && this.component.payload && this.component.payload.is_markdown_mode_on) || true ,
+            filter: (this.component && this.component.payload && this.component.payload.filter) || "all",
         }
     },
 
@@ -114,16 +107,6 @@ export default {
             if( type === "file" ) style += "font-weight: bold;"
 
             return style
-        },
-
-        get_search_result_style() {
-
-            let style = ``
-            if( this.width ) {
-                // style += `width: ${this.width}%;`
-            }
-            return style
-
         },
 
         toggle_markdown_mode() {
@@ -341,14 +324,13 @@ export default {
 
         },
 
-        setup() {
-
-            printf( "this.component -> ", this.component )
-            printf( "this.$props.component -> ", this.$props.component )
-
+        autofocus() {
             const dom = document.getElementById( `${this.id}-search-input` )
                 dom.focus()
+        },
 
+        setup() {
+            this.autofocus()
         },
 
     },

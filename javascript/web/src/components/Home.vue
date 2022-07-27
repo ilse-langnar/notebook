@@ -7,6 +7,7 @@
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded " :key="ilse.key" :data-theme="get_data_theme()" :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
 
         TopMenu
+        // HelloI18n
         List( v-show="!ilse.is_home_page_on" :components="ilse.components" unique-key="home" )
         HomePage( v-show="ilse.is_home_page_on" )
 
@@ -32,6 +33,7 @@ const printf                                        = console.log;
     import Notifications    from "@/components/Notifications.vue"
     import List             from "@/components/Components.vue"
     import HomePage         from "@/components/HomePage.vue"
+    import HelloI18n        from "@/components/HelloI18n.vue"
 
 
 export default {
@@ -49,6 +51,7 @@ export default {
 
         List,
         HomePage,
+        HelloI18n,
     },
 
     data() {
@@ -74,6 +77,7 @@ export default {
         },
 
         setup() {
+            ilse.vue = this
             // document.addEventListener( "keydown", event => { printf( "event -> ", event ) })
         },
 

@@ -374,29 +374,29 @@ export default class Utils {
         number = String(number)
 
         if( number === "01" ) {
-            return "January"
+            return ilse.vue.$t("month_january")
         } else if( number === "02" ) {
-            return "February"
+            return ilse.vue.$t("month_february")
         } else if( number === "03" ) {
-            return "March"
+            return ilse.vue.$t("month_march")
         } else if( number === "04" ) {
-            return "April"
+            return ilse.vue.$t("month_april")
         } else if( number === "05" ) {
-            return "May"
+            return ilse.vue.$t("month_may")
         } else if( number === "06" ) {
-            return "June"
+            return ilse.vue.$t("month_june")
         } else if( number === "07" ) {
-            return "July"
+            return ilse.vue.$t("month_july")
         } else if( number === "08" ) {
-            return "August"
+            return ilse.vue.$t("month_august")
         } else if( number === "09" ) {
-            return "September"
+            return ilse.vue.$t("month_september")
         } else if( number === "10" ) {
-            return "October"
+            return ilse.vue.$t("month_october")
         } else if( number === "11" ) {
-            return "November"
+            return ilse.vue.$t("month_november")
         } else if( number === "12" ) {
-            return "December"
+            return ilse.vue.$t("month_december")
         }
 
     }

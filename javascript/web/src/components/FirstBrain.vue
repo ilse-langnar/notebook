@@ -22,8 +22,8 @@
 
             .search( v-if="selected === 'Search' " )
 
-                img.is-pulled-left( src="@/assets/images/arrow-narrow-left.svg"   title="Previous"  @click="decrease_pointer()" style="cursor: pointer;" )
-                img.is-pulled-right( src="@/assets/images/arrow-narrow-right.svg"  title="Next"     @click="increase_pointer()" style="cursor: pointer;" )
+                img.is-pulled-left( src="@/assets/images/arrow-narrow-left.svg"   :title="$t('previous')"  @click="decrease_pointer()" style="cursor: pointer;" )
+                img.is-pulled-right( src="@/assets/images/arrow-narrow-right.svg"  :title="$t('next')"     @click="increase_pointer()" style="cursor: pointer;" )
 
                 br
                 input.input.centered
@@ -39,7 +39,7 @@
 
                 .flex
                     input.input
-                    img( :src=" priority_mode === 'table' ? require('@/assets/images/columns.svg') : require('@/assets/images/list-details.svg') " style="cursor: pointer;" @click="toggle_priority_mode()" title="Toggle display mode" )
+                    img( :src=" priority_mode === 'table' ? require('@/assets/images/columns.svg') : require('@/assets/images/list-details.svg') " style="cursor: pointer;" @click="toggle_priority_mode()" title="$t('toggle_display_mode')" )
 
                 br
 
@@ -63,7 +63,7 @@
                             input.input( v-model.number="ilse.brains.first.priorities.priorities[item]" type="number"  style="width: 55px; " @change="on_priority_change" )
 
                 .loop.flex.is-pulled-left( v-if="priority_mode === 'compressed' " v-for="( item, index ) in get_tags()" :key="index" )
-                    p( :title="'Total' + get_tags(item).length" ) {{item}} 
+                    p( :title="$t('total') + get_tags(item).length" ) {{item}} 
                     input.input( v-model.number="ilse.brains.first.priorities.priorities[item]" type="number"  style="width: 55px; " @change="on_priority_change" )
 
             .knowledge-tree( v-if="selected === 'Knowledge Tree' " )

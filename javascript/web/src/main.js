@@ -10,6 +10,8 @@ import router                   from "./router.js"
 
 
 import Popover from "vue-js-popover"
+
+import i18n from './i18n'
 Vue.use(Popover)
 
 // --------------------------------------------------------------------------- Test ---------------------------------------//
@@ -59,6 +61,8 @@ Vue.prototype.$log = console.log.bind( console ); // log from html
 // -----------------------> Init <-------------------------- //
 new Vue({
     router,
+    i18n,
+
     // store,
     render: h => h(App)
 }).$mount('#app')

@@ -1,6 +1,6 @@
 <template lang="pug" >
 .error-component-not-found
-    p Error ---- Component Not found ----
+    p Error ---- {{ $('component_not_found') }} ----
     img( src="@/assets/images/box-margin.svg" style="width: 50px;" )
 
 

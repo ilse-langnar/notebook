@@ -5,12 +5,11 @@
 
         .flex
             .options.centered
-                p.flexi.is-size-3.has-text-weight-bold( :title=" 'notes: ' + day.notes.length" @click="notify_now()" ) {{get_file( day )}}
-                img( src="@/assets/images/filter.svg" style="cursor: pointer; width: 20px; margin-left: 5px;" title="Filter"                    )
-                img( src="@/assets/images/minus.svg"  style="cursor: pointer; width: 20px; margin-left: 5px;" title="Filter"                    )
-                img( src="@/assets/images/plus.svg"   style="cursor: pointer; width: 20px; margin-left: 5px;" title="Filter"                    )
-                img( src="@/assets/images/x.svg"   style="cursor: pointer; width: 17px; margin-left: 5px;" title="Filter"  @click="remove(day)" )
-                // img( src="@/assets/images/school.svg"   style="cursor: pointer; width: 17px; margin-left: 5px;" title="Filter" @click="open_mindmap(day_index)" )
+                p.flexi.is-size-3.has-text-weight-bold( :title=" $t('notes') + day.notes.length" @click="notify_now()" ) {{get_file( day )}}
+                img( src="@/assets/images/filter.svg" style="cursor: pointer; width: 20px; margin-left: 5px;" :title="$t('filter')"                    )
+                img( src="@/assets/images/minus.svg"  style="cursor: pointer; width: 20px; margin-left: 5px;" :title="$t('filter')"                    )
+                img( src="@/assets/images/plus.svg"   style="cursor: pointer; width: 20px; margin-left: 5px;" :title="$t('filter')"                    )
+                img( src="@/assets/images/x.svg"   style="cursor: pointer; width: 17px; margin-left: 5px;" :title="$t('close')"  @click="remove(day)" )
 
         .note( v-for="(note, note_index) in day.notes" :key="note_index" :style="get_note_style(note)" )
             Note( :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" @on-note-middle-click="on_note_middle_click(note)" @on-note-right-click="on_note_right_click" )
@@ -23,7 +22,7 @@
         References( :file="get_file(day) + '.md'" ref="daily-notes-references" )
         .space
 
-    button.slick-button( @click="load_day_before" title="Load day before" ) Load More
+    button.slick-button( @click="load_day_before" :title="$t('load_day_before')" ) Load More
 
 </template>
 <script>

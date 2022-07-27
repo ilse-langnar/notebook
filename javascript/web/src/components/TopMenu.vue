@@ -3,25 +3,15 @@
 
     .menu-item( style="margin: auto;" )
 
-        // img( src="@/assets/images/menu.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Add Menu"  @click="toggle_menu" accesskey="m" )
+        .vspace
+
+        img( src="@/assets/images/home.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('homepage')"  @click="toggle_is_home_page_on" )
+        img( src="@/assets/images/calendar.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('open_daily_notes')"  @click="add_daiyl_notes" accesskey="d" )
+        img( src="@/assets/images/school.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_first_brain')"  @click="toggle_first_brain" )
 
         .vspace
 
-        img( src="@/assets/images/home.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   title="Home Page"  @click="toggle_is_home_page_on" )
-        img( src="@/assets/images/calendar.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   title="Go to Daily Notes"  @click="add_daiyl_notes" accesskey="d" )
-        img( src="@/assets/images/school.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   title="Toggle First Brain"  @click="toggle_first_brain" )
-
-        // img( src="@/assets/images/news.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Open File"  @click="open_file" accesskey="o" )
-
-        .vspace
-
-        // img( src="@/assets/images/report.svg"      style="cursor: pointer;width:20px;margin-left: 15px;"   title="Statistics"  @click="open_statistics" )
-
-        // img( src="@/assets/images/school.svg"      style="cursor: pointer; width: 20px; margin-left: 15px;"   title="Toggle First Brain Tools"  @click="toggle_first_brain_tools" accesskey="i" )
-
-
-        // .did( style="margin-top: 10px; clear: both; margin-left: 65px;" )
-        .did( style="width: 300px; height: 100px; position: fixed; bottom: 10px; left: 0px;" )
+        // .did( style="width: 300px; height: 100px; position: fixed; bottom: 10px; left: 0px;" )
             img( v-show="has_first_brain_tools" src="@/assets/images/player-play.svg"      style="cursor: pointer; width: 20px; "   title="Toggle First Brain Tools"  @click="ilse.brains.first.read_first()" accesskey="i" )
 
             img( v-show="has_first_brain_tools" src="@/assets/images/trash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.remove()" accesskey="i" )
@@ -38,45 +28,32 @@
             p( v-if="has_first_brain_tools" ) {{get_first_brain_last_item_info()}}
 
 
-
-
-
-
-
-
     .menu-item( style="margin: auto; " )
         SearchButton( :width="50" :should-autofocus="false" @on-result-select="on_note_search_on_result_select" )
 
     .menu-item( style="margin: auto; " )
-        // img( src="@/assets/images/circle-plus.svg" style="cursor: pointer; width: 20px; "   title="Add Component"  @click="add_component" accesskey="C" )
-        // .margin-small
-
-
         ImporterImg( style="margin-right: 5px;" )
-        img( src="@/assets/images/command.svg"   style="cursor: pointer; width: 20px; " title="Save" alt="Save" @click="toggle_command_pallet" )
-        // img( src="@/assets/images/save.svg"   style="cursor: pointer; width: 20px; " title="Save" alt="Save" @click="save" accesskey="s" )
-
+        img( src="@/assets/images/command.svg"   style="cursor: pointer; width: 20px; " :title="$t('open_command_pallet')" alt="$t('open_command_pallet')" @click="toggle_command_pallet" )
         .margin-small
 
-        img( src="@/assets/images/settings.svg"     style="cursor: pointer; width: 20px; " title="Configurations" @click="open_configuration_modal" accesskey="c" )
-
+        img( src="@/assets/images/settings.svg"     style="cursor: pointer; width: 20px; " :title="$t('configuration')" @click="open_configuration_modal" accesskey="c" )
         .margin-small
 
-        img( src="@/assets/images/folders.svg"    style="cursor: pointer; width: 20px; "   title="Help/Manual/Tutorial/APIs" v-popover="{ name: 'folders', position: 'bottom' }" )
-
+        img( src="@/assets/images/folders.svg"    style="cursor: pointer; width: 20px; "   :title="$t('folders')" v-popover="{ name: 'folders', position: 'bottom' }" )
         .margin-small
-        img( src="@/assets/images/lifebuoy.svg"    style="cursor: pointer; width: 20px; "   title="Help/Manual/Tutorial/APIs" accesskey="h" @click="open_help_modal" )
 
+        img( src="@/assets/images/lifebuoy.svg"    style="cursor: pointer; width: 20px; "   :title="$t('help_manual_tutorial_and_apis')" accesskey="h" @click="open_help_modal" )
         .margin-large
-        img.is-pulled-right( src="@/assets/images/moon-stars.svg"   style="cursor: pointer; width: 20px; " title="Toggle Dark Mode" @click="toggle_dark_mode()" )
+
+        img.is-pulled-right( src="@/assets/images/moon-stars.svg"   style="cursor: pointer; width: 20px; " :title="$t('toggle_dark_mode')" @click="toggle_dark_mode()" )
 
     Popover( direction="bottom" name="folders" style="width: 300px; background: var( --background-color ); color: var( --text-color ); " )
         .folders( style="padding: 5px; overflow: hidden; " )
-            .folder( v-for="( folder, index ) in ilse.target_directories" :key="index" @click="select_folder(folder)" :style="get_target_directory_style(folder)" :title="'Use ' + folder" )
-                img.is-pulled-right( src="@/assets/images/x.svg" style="width: 20px; display: block; margin: 0 auto;" title="Add another folder" @click="delete_dir(folder)" )
+            .folder( v-for="( folder, index ) in ilse.target_directories" :key="index" @click="select_folder(folder)" :style="get_target_directory_style(folder)" :title="$t('use') + folder" )
+                img.is-pulled-right( src="@/assets/images/x.svg" style="width: 20px; display: block; margin: 0 auto;" :title="$t('delete_folder')" @click="delete_dir(folder)" )
 
                 p {{folder}}
-            img( src="@/assets/images/plus.svg" style="width: 30px; display: block; margin: 0 auto;" @click="add_target_directory" title="Add another folder" )
+            img( src="@/assets/images/plus.svg" style="width: 30px; display: block; margin: 0 auto;" @click="add_target_directory" :title="$t('add_folder')" )
 
 </template>
 <script>
@@ -117,7 +94,6 @@ export default {
         },
 
         toggle_first_brain() {
-            printf( "toggle_first_brain" )
             ilse.modals.open( "first-brain" )
         },
 
@@ -127,33 +103,6 @@ export default {
 
         open_help_modal() {
             ilse.modals.open( "help" )
-        },
-
-        get_first_brain_last_item_info() {
-
-            let last   = this.ilse.brains.first.get_last()
-                if( !last ) return "No Last"
-
-            let chunks = last.split("/")
-                let name     = chunks[0]
-                let interest = chunks[1]
-                let topics   = chunks[2]
-
-            let info   = `${name} ${interest} ${topics}`
-
-            return info
-        },
-
-        toggle_first_brain_tools() {
-            this.has_first_brain_tools = !this.has_first_brain_tools
-        },
-
-        interest_repetition() {
-
-            this.ilse.electron.ipc.send("execute-zir", {
-                dir: ilse.target_directories[0]
-            })
-
         },
 
         toggle_dark_mode() {
@@ -261,14 +210,6 @@ export default {
             }
         },
 
-        async ask_for_new_note() {
-
-            let payload = await ilse.dialog.input( "New note", "Content:" )
-            let input   = payload.input
-            let index   = ilse.notes.list.length
-                ilse.notes.add( input, index, 0 )
-        },
-
         add_daiyl_notes() {
 
             let has_daily_notes_already = false
@@ -297,56 +238,12 @@ export default {
 
         },
 
-        toggle_menu() {
-
-            let has_menu_already = false
-            let menu_index       = null
-
-            let index = 0
-            for( const component of ilse.components ) {
-                index++
-
-                if( component.type === "menu" ) {
-                    has_menu_already = true
-                    menu_index       = index
-                }
-            }
-
-            if( has_menu_already ) {
-                // ilse.components.splice( menu_index, 1 )
-                // ilse.notification.send( "Already there", "The menu is already on!" )
-            } else {
-                let component = new ilse.classes.Component({ type: "menu", width: 0 })
-                    ilse.components.unshift( component )
-            }
-
-        },
-
-        open_statistics() {
-            let component = new ilse.classes.Component({ type: "statistics", width: 12, props: {} })
-                ilse.components.push( component )
-        },
-
-        open_file() {
-            let component = new ilse.classes.Component({ type: "file", width: 12, props: { file: "Ilse.md" } })
-                ilse.components.push( component )
-        },
-
-        open_interest_repetition() {
-            let component = new ilse.classes.Component({ type: "interest-repetition", width: 12, props: { } })
-                ilse.components.push( component )
-        },
-
         delete_dir( folder ) {
-
-            // let selected_folder = ilse.target_directories[0]
-                // let selected_folder_index = ilse.target_directories.indexOf( selected_folder )
 
             let index = ilse.target_directories.indexOf( folder )
                 ilse.target_directories.splice( index, 1 )
 
             ilse.target_directories.splice( selected_folder_index, 1 )
-            // ilse.target_directories.unshift( selected_folder )
 
             window.localStorage.setItem( "target-directories", JSON.stringify(ilse.target_directories) )
         },
@@ -379,9 +276,6 @@ export default {
                 ilse.target_directories.push( path )
 
                 let has_dir_already = ilse.target_directories.indexOf( path ) !== -1
-                printf( "ilse.target_directories -> ", ilse.target_directories )
-                printf( "path -> ", path )
-                printf( "has_dir_already -> ", has_dir_already )
                     if( has_dir_already ) return
 
                 window.localStorage.setItem( "target-directories", JSON.stringify(ilse.target_directories) )

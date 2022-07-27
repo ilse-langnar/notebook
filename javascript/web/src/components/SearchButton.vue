@@ -1,9 +1,9 @@
 <template lang="pug" >
 .search-button
-    button.button( @click="on_button_click()" )
-        span.text Search
+    button.button( @click="on_button_click()" :title="$t('search_click_to_search')")
+        span.text {{ $t('search') }}
         span.shortcut
-            img( src="@/assets/images/keyboard.svg" style="width: 10px; " )
+            // img( src="@/assets/images/keyboard.svg" style="width: 10px; " )
             span s s
 
 </template>

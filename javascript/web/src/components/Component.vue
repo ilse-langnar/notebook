@@ -73,7 +73,13 @@ export default {
 
         get_title( component ) {
  
-            let title = `width: ${component.width}\noffset: ${component.offset}\ntype: ${component.type}\n\nmiddle-click: Change Type\ndouble-click: ??\nDrag-n-Drop: Move around \nshift-click: Toggle Maximized`
+            let title = `width: ${component.width}
+            ${this.$t('offset')}: ${component.offset}
+            ${this.$t('type')}: ${component.type}
+            middle-click: Change Type
+            double-click: ??
+            Drag-n-Drop: Move around 
+            shift-click: Toggle Maximized`
             return title
         },
 

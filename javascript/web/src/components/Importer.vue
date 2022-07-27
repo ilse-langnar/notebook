@@ -6,7 +6,7 @@
         p {{item}}
 
     br
-    img.block.centered( src="@/assets/images/download.svg" title="Import" alt="Import" @click="import_now" style="width: 40px; cursor: pointer;" )
+    img.block.centered( src="@/assets/images/download.svg" :title="$t('importer')" alt="Import" @click="import_now" style="width: 40px; cursor: pointer;" )
 
 </template>
 <script>

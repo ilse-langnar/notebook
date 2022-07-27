@@ -1,8 +1,8 @@
 <template lang="pug" >
 .references
 
-    p.is-size-2.centered( v-if="refs && refs.length" ) Referneces ({{refs.length}}) {{ilse.links.is_loading ? '...' : ''}}
-    p.is-size-4.centered( v-if="!refs || !refs.length" ) No Referneces 
+    p.is-size-2.centered( v-if="refs && refs.length" ) {{ $t('references') }} ({{refs.length}}) {{ilse.links.is_loading ? '...' : ''}}
+    p.is-size-4.centered( v-if="!refs || !refs.length" ) No Referneces {{ $t('no_references') }}
 
     .loop( v-for="( ref, index ) in refs" :key="index" )
         // note( :note="get_note(ref)" )

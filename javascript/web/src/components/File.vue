@@ -2,11 +2,11 @@
 .file( style="height: 200px; width: 90%; margin: 0 auto;" )
 
     .flex
-        img.is-pulled-left( v-if="!ilse.config.favorites || !(ilse.config.favorites.indexOf(file) !== -1)" src="@/assets/images/star.svg" style="width: 20px; cursor: pointer; " @click="toggle_favorite(file)" title="Favorite" )
-        img.is-pulled-left( v-if="ilse.config.favorites && ilse.config.favorites.indexOf(file) !== -1" src="@/assets/images/star-off.svg" style="width: 20px; cursor: pointer; " @click="toggle_favorite(file)" title="Unfavorite" )
+        img.is-pulled-left( v-if="!ilse.config.favorites || !(ilse.config.favorites.indexOf(file) !== -1)" src="@/assets/images/star.svg" style="width: 20px; cursor: pointer; " @click="toggle_favorite(file)" :title="$t('favorite')" )
+        img.is-pulled-left( v-if="ilse.config.favorites && ilse.config.favorites.indexOf(file) !== -1" src="@/assets/images/star-off.svg" style="width: 20px; cursor: pointer; " @click="toggle_favorite(file)" :title="$t('unfavorite')" )
         input.is-size-4.centered.file-input( v-model="file" style="border: 0; " @keydown.enter="get_file" autofocus="autofocus" ref="input" @blur="get_file" )
 
-        img.is-pulled-right( src="@/assets/images/trash.svg" style="width: 20px; cursor: pointer; " @click="delete_file(file)" title="Delete File(Move to .trash/)" )
+        img.is-pulled-right( src="@/assets/images/trash.svg" style="width: 20px; cursor: pointer; " @click="delete_file(file)" title="$t('delete_file')" )
 
     // .file-wrapper( v-if="content" style="border: 1px solid #eee; border-radius: 7px; box-shadow: 2px 3px 5px rgba(0,0,0,.2); padding: 7px;" )
         br

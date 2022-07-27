@@ -3,18 +3,18 @@
   "version": "1.0.11",
   "private": true,
   "author": "ilse",
-  "email": "ilse-langnar-notebook@gmail.com",
   "scripts": {
     "build": "VUE_APP_TARGET=WEB vue-cli-service build",
-    "build:demo": "VUE_APP_TARGET=DEMO vue-cli-service build",
-    "serve:demo": "VUE_APP_TARGET=DEMO vue-cli-service serve",
+    "all": "VUE_APP_TARGET=ELECTRON electron-builder -wl",
     "build-electron": "VUE_APP_TARGET=ELECTRON bash scripts/build.sh",
-    "electron:build": "VUE_APP_TARGET=ELECTRON vue-cli-service electron:build",
+    "build:demo": "VUE_APP_TARGET=DEMO vue-cli-service build",
     "electron:all": "npm run electron:build -- --win nsis",
+    "electron:build": "VUE_APP_TARGET=ELECTRON vue-cli-service electron:build",
     "electron:serve": "VUE_APP_TARGET=ELECTRON vue-cli-service electron:serve",
+    "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\"",
     "postinstall": "VUE_APP_TARGET=ELECTRON electron-builder install-app-deps",
     "postuninstall": "VUE_APP_TARGET=ELECTRON electron-builder install-app-deps",
-    "all": "VUE_APP_TARGET=ELECTRON electron-builder -wl"
+    "serve:demo": "VUE_APP_TARGET=DEMO vue-cli-service serve"
   },
   "main": "background.js",
   "dependencies": {
@@ -70,7 +70,7 @@
     "vue": "^2.6.14",
     "vue-d3-network": "^0.1.28",
     "vue-ganttastic": "^0.9.34",
-    "vue-i18n": "^8.24.4",
+    "vue-i18n": "^8.26.3",
     "vue-js-popover": "^1.2.1",
     "vue-meta": "^2.4.0",
     "vue-network-d3": "^0.1.2",
@@ -85,6 +85,7 @@
     "vuex-persistedstate": "^4.0.0-beta.3"
   },
   "devDependencies": {
+    "@intlify/vue-i18n-loader": "^1.1.0",
     "@vue/cli": "^4.5.13",
     "@vue/cli-plugin-babel": "^4.5.13",
     "@vue/cli-plugin-eslint": "^4.5.13",
@@ -105,8 +106,10 @@
     "pug-loader": "^2.4.0",
     "pug-plain-loader": "^1.1.0",
     "vue-cli-plugin-electron-builder": "^2.1.1",
+    "vue-cli-plugin-i18n": "~2.3.1",
     "vue-template-compiler": "^2.6.14",
     "yaml": "^1.10.2"
   },
-  "bin": "npx.js"
+  "bin": "npx.js",
+  "email": "ilse-langnar-notebook@gmail.com"
 }

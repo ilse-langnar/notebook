@@ -137,12 +137,16 @@ export default class FSFilesystem {
     // async read_file( file_name, options = { binary: false, query_param: false}) {
     async read_file( file_path, mode = "utf8" ) {
 
+
         file_path   = path.join(target_directory , file_path )
         let content = fs.readFileSync( file_path, mode )
         return content
     }
 
     async write_file( file_path, content, options )  {
+
+        if( file_path.indexOf( "@/" ) !== -1 ) return
+
         fs.writeFileSync( path.join(target_directory , file_path), content, options )
     }
 

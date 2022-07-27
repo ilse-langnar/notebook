@@ -4,7 +4,6 @@
     .flex
         p.fitem {{ilse.brains.first.queue.length}} Items
         p.fitem {{get_tags().length}} Tags 
-        // p.fitem {{items_with_tags}} Tagged
         p.fitem {{ilse.brains.first.query('#').length}} Tagged
         p.fitem {{Math.round(ilse.brains.first.query('#').length / ilse.brains.first.queue.length * 100)}}%
 
@@ -17,7 +16,7 @@
             .loop.query( v-for="( item, item_query ) in get_items(node)" :key=" 'query-' + item_query" :title="item" ) {{item}}
                 // p( :title="item" ) {{item}}
 
-    img( src="@/assets/images/plus.svg" title="Add" @click="add(tree[0])" style="width: 50px; display: block; margin: 0 auto; " )
+    img( src="@/assets/images/plus.svg" :title="$t('add')" @click="add(tree[0])" style="width: 50px; display: block; margin: 0 auto; " )
 
 </template>
 <script>

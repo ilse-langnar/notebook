@@ -1,22 +1,5 @@
 <template lang="pug" >
 
-// .spreadsheet
-    .wrapper( style="overflow: auto; " )
-        input.input.centered( v-model="spreadsheet_name" placeholder="♰" title="Spreadsheet's Name" )
-        table( style="margin: 0 auto; " )
-            th( v-for="( column, index ) in table" :key="index"  style="margin-right: 0px;" )
-                td  {{alphabet[index]}}
-            tr( v-for="( column, index ) in 20" :key="'tr-' + index"  )
-                p {{index}}
-                td( v-for="( row, row_index ) in 26" :key=" 'row-' + row_index" ) 
-
-                    input.input( v-if="!table[index][row_index] || typeof table[index][row_index] === 'string' " v-model="table[index][row_index]" style="border: 1px solid var( --text-color ); padding: 1px; margin-right: 2px; min-width: 100px; width: 100px; height: 23px; overflow: hidden;" @blur="on_input_blur($event, index, row_index)" @keydown.enter="on_input_keydown_enter($event, index, row_index)" )
-                    ote( v-if="typeof table[index][row_index] === 'object' " :note="table[index][row_index]" :options="{ hideBullet: true, style: 'border: 1px solid var( --text-color ); padding: 1px; margin-right: 2px; min-width: 100px; width: 100px; height: 23px; overflow: hidden;', placeholder: 'NOTE', tagless: true }" )
-                    // GhostNote( v-if="!table[index][row_index]" @on-enter="on_no_note_ghost_enter" @on-blur="on_no_note_ghost_blur" :options="{ hideBullet: true, style: 'border: 1px solid var( --text-color ); padding: 1px; margin-right: 2px; min-width: 100px; width: 100px; height: 23px; overflow: hidden;', placeholder: '' }" :payload="{ column: index, row: row_index }" )
-
-
-
-
 .spreadsheet
     .wrapper( v-if="has_featched_spreadsheet_notes" )
         input.input.centered( v-model="spreadsheet_name" placeholder="♰" title="Spreadsheet's Name" )

@@ -4,11 +4,11 @@
     // img.img.is-pulled-right( src="@/assets/images/tool.svg" style="width: 20px; cursor: pointer; margin: 10px;" title="Network" v-popover="{ name: 'graph.config', position: 'left' }")
 
     .layout
-        img.img.is-pulled-right( v-if="layouts[0] === 'cose'" :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" title="Cose Layout" :style="get_layout_style('cose')" @click="select_next_layout()" )
-        img.img.is-pulled-right( v-if="layouts[0] === 'grid' " :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" title="Grid Layout" :style="get_layout_style('grid')" @click="select_next_layout()" )
-        img.img.is-pulled-right( v-if="layouts[0] === 'circle'" :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" title="Circle Layout" :style="get_layout_style('circle')" @click="select_next_layout()" )
-        img.img.is-pulled-right( v-if="layouts[0] === 'breadthfirst'" :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" title="Breadthfirst Layout" :style="get_layout_style('breadthfirst')" @click="select_next_layout()" )
-        img.img.is-pulled-right( v-if="layouts[0] === 'concentric'" :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" title="Concentric Layout" :style="get_layout_style('concentric')" @click="select_next_layout()" )
+        img.img.is-pulled-right( v-if="layouts[0] === 'cose'" :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" :title="$t('cose_layout')" :style="get_layout_style('cose')" @click="select_next_layout()" )
+        img.img.is-pulled-right( v-if="layouts[0] === 'grid' " :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" :title="$t('grid_layout')" :style="get_layout_style('grid')" @click="select_next_layout()" )
+        img.img.is-pulled-right( v-if="layouts[0] === 'circle'" :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" :title="$t('circle_layout')" :style="get_layout_style('circle')" @click="select_next_layout()" )
+        img.img.is-pulled-right( v-if="layouts[0] === 'breadthfirst'" :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" :title="$t('breadthfirst_layouot')" :style="get_layout_style('breadthfirst')" @click="select_next_layout()" )
+        img.img.is-pulled-right( v-if="layouts[0] === 'concentric'" :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" :title="$t('concentric_layout')" :style="get_layout_style('concentric')" @click="select_next_layout()" )
 
     #cy( ref="cy" )
 

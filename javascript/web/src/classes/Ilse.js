@@ -56,6 +56,26 @@ export default class Ilse {
         this.name                   = "Ilse Langnar's Notebook"
         this.key                    = "ilse-key"
         this.keys                   = { daily_notes: "daily-notes-key" }
+        this.ISO_language_name      = {
+            "en": "English(English)",
+            "zh": "Chinese Simplified(简体中文)",
+            "pt": "Brazillian Portuguese(Português Brasileiro)",
+            "es": "Spanish(Español)",
+            "kr": "Korean(한국어)",
+            "jp": "japanese(日本人)",
+            "nl": "Dutch(Nederlands)",
+            "hb": "Hebrew (עברית)",
+            "fr": "French (français)",
+            "it": "Italian (italiano)",
+            "gt": "Greek (Ελληνικά)",
+            "ar": "Arabic (عربى)",
+            "ru": "Russian (русский)",
+            "po": "Polish (Polskie)",
+            "de": "German(Deutsche)",
+        }
+        this.languages              = Object.keys(this.ISO_language_name)
+
+
         this.tried_too_fast         = false
         this.is_vitruvian_expanded  = false
         this.is_home_page_on        = false

@@ -5,27 +5,30 @@ const printf                    = console.log
 module.exports = {
 
     pluginOptions: {
-        electronBuilder: {
-            builderOptions: {
-                appId: 'com.ilse.notebook',
-                win: {
-                    // icon: 'src/assets/logo.svg',
-                },
-                linux: {
-                    // icon: 'src/assets/logo.svg',
-                    category: "Productivity",
-                },
-                mac: {
-                    // icon: 'src/assets/logo.svg',
-                    category: "Productivity",
-                }
-
-            },
-            nodeModulesPath: [ './node_modules' ],
-            // mainProcessFile: 'dist_electron/bundled/background.js',
-            nodeIntegration: true,
-            preload: 'src/preload.js',
-        }
+      electronBuilder: {
+        builderOptions: {
+          appId: 'com.ilse.notebook',
+          win: {},
+          linux: {
+            category: 'Productivity'
+          },
+          mac: {
+            category: 'Productivity'
+          }
+        },
+        nodeModulesPath: [
+          './node_modules'
+        ],
+        nodeIntegration: true,
+        preload: 'src/preload.js'
+      },
+      i18n: {
+        locale: 'en',
+        fallbackLocale: 'en',
+        localeDir: 'locales',
+        enableInSFC: true,
+        enableBridge: false
+      }
     },
 
     lintOnSave: false,

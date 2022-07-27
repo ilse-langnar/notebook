@@ -420,18 +420,6 @@ class componentTypes {
         })
 
         this.add({
-            id: "search-component",
-            name: "Search Component",
-            description: "Search: Files, Notes, images etc.",
-            img: require("@/assets/images/lupe.svg"),
-            type: "vue",
-            component: require("@/components/SearchComponent.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
             id: "text-file",
             name: "Text File",
             description: "Text File",

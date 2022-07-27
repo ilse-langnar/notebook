@@ -1,7 +1,7 @@
 <template lang="pug" >
 .draw
     VueSignatureCanvas( ref="handWrite" :canvasProps="{class: 'sig-canvas'}" style="border: 1px solid var( --text-color ); " )
-    button.button.slick-button.centered( style="display: block; " @click="save()" ) Save
+    button.button.slick-button.centered( style="display: block; " @click="save()" ) {{ $t('save') }}
 </template>
 <script>
 // eslint-disable-next-line

@@ -1,15 +1,15 @@
 <template lang="pug" >
 .write
-    h1.centered Write
+    h1.centered {{ $t('write') }}
 
     .flex( style="flex-direction: row; " )
         .loop.fitem( v-for="( item, index ) in list" :key="index" style="margin: auto; " )
             .flex
-                img.fitem( src="@/assets/images/x.svg" style="width: 10px; cursor: pointer; " alt="Delete" title="Delete Item" @click="list.splice( index, 1 )" )
+                img.fitem( src="@/assets/images/x.svg" style="width: 10px; cursor: pointer; " :alt="$t('delete_item')" :title="$t('delete_item')" @click="list.splice( index, 1 )" )
                 input.fitem.input( v-model="list[index]" style="width: 75%; border: 0; background: transparent; " )
-                img.fitem( src="@/assets/images/check.svg" style="width: 15px; cursor: pointer; margin-right: 10px; " alt="Select" title="Select Item" @click="path = item" )
+                img.fitem( src="@/assets/images/check.svg" style="width: 15px; cursor: pointer; margin-right: 10px; " :alt="$t('select_item')" :title="$t('select_item')" @click="path = item" )
         br
-    img.centered( src="@/assets/images/plus.svg" style="width: 30px; cursor: pointer;  " alt="Add Component" @click="add()" )
+    img.centered( src="@/assets/images/plus.svg" style="width: 30px; cursor: pointer;  " title="$t('add_component')" :alt="$t('add_component')" @click="add()" )
 
     h2.centered {{path}}
     .half.is-pulled-left( style="width: 50%; " )

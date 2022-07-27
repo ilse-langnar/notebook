@@ -43,7 +43,7 @@
     .flex
         .first( style="width: 50%; height: 44vh; border: 1px solid #000; " )
 
-             h1.centered {{( new Date().getDate() - 1 )}}th (Yesterday)
+             h1.centered {{( new Date().getDate() - 1 )}}th ({{$t('yesterday')}})
              .notes( v-if="get_days( ( new Date().getDate() - 1 ) )" )
                  .loop( v-for="( note, index ) in get_days( (new Date().getDate() - 1) )" :key="index" )
                      Note( :note="note" )
@@ -52,7 +52,7 @@
 
 
              img.centered( src="@/assets/images/plus.svg" style="width: 30px; cursor: pointer;" alt="Add Note" @click="add_note_to_date( (new Date().getDate() - 1 ) )" )
-             h1.centered {{( new Date().getDate() + 1 )}}th (Tomorrow)
+             h1.centered {{( new Date().getDate() + 1 )}}th ({{$t('tomorrow')}})
              .notes( v-if="get_days( ( new Date().getDate() + 1 ) )" )
                  .loop( v-for="( note, index ) in get_days( (new Date().getDate() + 1) )" :key="index" )
                      Note( :note="note" )
@@ -62,7 +62,7 @@
              img.centered( src="@/assets/images/plus.svg" style="width: 30px; cursor: pointer;" alt="Add Note" @click="add_note_to_date( (new Date().getDate() + 1 ) )" )
 
         .second( style="width: 50%; height: 44vh; border: 1px solid #000; " )
-             h1.centered {{( new Date().getDate() )}}th (Today)
+             h1.centered {{( new Date().getDate() )}}th ({{$t('today')}})
              .notes( v-if="get_days( ( new Date().getDate() ) )" )
                  .loop( v-for="( note, index ) in get_days( (new Date().getDate() ) )" :key="index" )
                      Note( :note="note" )
@@ -89,7 +89,7 @@ const printf                        = console.log;
 
 export default {
 
-    name: "Celandar",
+    name: "Calendar",
 
     data() {
         return {

@@ -7,13 +7,13 @@
         .mitem
             p.is-size-6 {{search_result.length}} / {{ilse.commands.commands.length || 0}} ({{Math.floor(search_result.length * 100 / ilse.commands.commands.length)}}%)
         .mitem
-            span Navigation: 
+            span {{$t('navigation')}}: 
                 strong ↑↓ 
         .mitem
-            span Run: 
+            span {{$t('run')}}: 
                 strong ↪ 
         .mitem
-            p Quit: 
+            p {{$t('quit')}}: 
                 strong ESC
     br
 

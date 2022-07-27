@@ -11,7 +11,7 @@
 
             span.paragraph-note ⚫
             img.img( :src="get_icon(result.icon)" )
-            p.text( title="Click to open" @click="on_search_result_click($event, result)" ) {{result.id}}
+            p.text( :title="$t('click_to_open')" @click="on_search_result_click($event, result)" ) {{result.id}}
 
 
 </template>
