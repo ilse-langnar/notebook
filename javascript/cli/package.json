@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [ "Note Taking", "taskwarrior", "zettelkasten", "flashcards", "anki", "supermemo", "command line", "journal", "journaling", "Diary", "Memory", "algorithm" ],
   "bin": "./index.js",
   "author": "Ilse Langnar",
   "license": "MIT",

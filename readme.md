@@ -33,20 +33,20 @@ This started with frustration not only with lock-in but the lack of extensabilit
 
 | Platform         | How     | Learn More |
 |--------------|-----------|------------|
-| Web(.html) | https://github.com/ilse-langnar/notebook/releases/download/1.0.10/demo.tar-1.0.11.gz | Learn More |
-| Desktop Linux(AppImage)           | https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage | 
-| Desktop Linux(AppImage)           | https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage | 
-| Desktop Windows(.exe)             | https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage | 
+| Web(.html) | ![Get](https://github.com/ilse-langnar/notebook/releases/download/1.0.10/demo.tar-1.0.11.gz) | Learn More |
+| Desktop Linux(AppImage)           | ![Download](https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage) | 
+| Desktop Linux(AppImage)           | ![Download](https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage) | 
+| Desktop Windows(.exe)             | ![Download](https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage) | 
 | Desktop MacOs(.dmg)               | Comming Soon |
 | Mobile Android(.apk)              | Comming Soon | 
 | Mobile iOS                        | Comming Soon | 
 | Command Line(nodejs)              | npx ilse | 
 | Command Line(lisp, binary)        | Commind Soon | 
 | Command Line(C/C++/Rust, binary)  | Commind Soon? | 
-| Script  Windows()                 | https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png | 
-| Script Linux(Rofi)                |  | 
-| Script Linux(Zenity)              |  | 
-| Script MacOS(Rofi)                |  | 
+| Script  Windows(VB)               | Commin Soon | 
+| Script Linux(Rofi)                | Commin Soon | 
+| Script Linux(Zenity)              | Commin Soon| 
+| Script MacOS(Rofi)                | Commin Soon | 
 
 ## Improves on:
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"  />
