@@ -57,6 +57,7 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Zen Mode                | Allows you to focus on a single component and forget about anything else. | |
 | Themes                | You can have multiple themes and switch between them as you like. | ![Themes](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-themes.gif) | |
 | Easy Import/Export    | You can have multiple themes  | |
+| Multi Language Support | You can have multiple themes  | |
 
 
 
@@ -103,10 +104,24 @@ You can take one screenshot for each item, in order to add them to your "study" 
 ## Making items(Flashcards) out of a biology book
 [![Watch the video](https://github.com/ilse-langnar/notebook/blob/dev/docs/ilse.jpeg)](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/first-brain.mp4)
 
-
-
 ## Plugins, Themes, Snippets 
-If you want to make a plugin, please download the [Plugin Template](https://github.com/ilse-langnar/plugin-template) if you want to make a Theme, then download the [Theme Template](https://github.com/ilse-langnar/theme-template) and if you want to make a snippt, just make a normal note with the tag `#i/css` and a css code block like ```css body { background: red; }```
+If you want to make a plugin, please download the [Plugin Template](https://github.com/ilse-langnar/plugin-template) if you want to make a Theme, then download the [Theme Template](https://github.com/ilse-langnar/theme-template) and if you want to make a snippt, just make a normal note with the tag `#i/css` and a css code block like `css body { background: red; }`
+
+## Ways of Contributing
+| Way         | Explanation     | Value |
+|--------------|-----------|------------|
+| Opening an issue    | If you have a question or something is wrong, you can [open a issue](https://github.com/ilse-langnar/notebook/issues/new)  so we can figure itt out. | Medium |
+| Help with translation | You can help translate ilse into another language such as: `Chinese Simplified(简体中文) Brazillian Portuguese(Português Brasileiro) Spanish(Español) Korean(한국어) japanese(日本人) Dutch(Nederlands) Hebrew (עברית) French (français) Italian (italiano) Greek (Ελληνικά) Arabic (عربى) Russian (русский) Polish (Polskie) German(Deutsche)` go to [Here](https://github.com/ilse-langnar/notebook/issues/new) edit the file with the ISO code for the language, translate it, then add push so I can add it the `dev` branch and then to a more stable branch. | Medium |
+| Donate Money| I'll work much harder and focused if I don't have to worry about my expenses thus making the project progress at a much faster rate. | High |
+| Make a `command` |  TODO | Low |
+| Make a `CSS Snippet` | TODO | Low |
+| Make a `Theme` |  TODO | Medium |
+| Make a `Plugin` |  TODO | High |
+| Make a `Blog/Article` |  TODO | Medium |
+| Fix a bug yourself |  TODO | High |
+| Become smarter| TODO | Inifinity |
+
+            
 
 ## Todos
 Todo List
