@@ -74,31 +74,31 @@ This started with frustration not only with lock-in but the lack of extensabilit
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-13.png" />
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-14.png" />
 
-## Forgetting Curve
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/forgetting-curve.jpg" />
 
-## Incremental Reading & Spaced Repetition( How it works )
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/incremental-reading.svg" style="width: 100% !important;" />
-
-## Incremental Video( How it works )
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/incremental-video.svg" style="width: 100% !important;" />
+## Studying with ilse
+| What         | Explanation     | Visual |
+|--------------|-----------|------------|
+| Incremental Learning | See: Incremental Reading & Incremental Video | | 
+| Incremental Reading | TODO | ![Incremental Reading](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/incremental-reading.svg) | 
+| Incremental Video | TODO | ![Incremental Video](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/incremental-video.svg) | 
+| Spaced Repetition | TODO | ![Spaced Repetition - Forgetting Curve](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/forgetting-curve.jpg) | 
+| Interleaving | TODO | | 
+| Testing |  TODO | | 
+| Creation |  TODO | | 
+| Ellaboration | TODO | | 
 
 ### Example 1 - Chemistry
-You import a wikipedia article on: Alcohol, and you see a table with a bunch of alcohols and how to name them: 
-<br>
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/all-alcohols.png" style="width: 100% !important;" />
-<br>
+| Step         | Explanation     | Visual |
+|--------------|-----------|------------|
+| 1 | You import a wikipedia article on: Alcohol, and you see a table with a bunch of alcohols and how to name them: | ![Alcohols](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/all-alcohols.png) |
+| 2 | You take screenshot of the first alcohol | ![First Alcohol](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol.png) |
+| 3 | You take screenshot of the second alcohol | ![Second Alcohol](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-1.png) |
+| 4 | You take screenshot of the third alcohol | ![Third Alcohol](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-2.png) |
+| 5 | You take screenshot of the Fourth alcohol | ![Fourth Alcohol](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-3.png) |
+| 6 | After taking a screenshot of each item, each one of them will be "queued" differently based on your memory, thus the schedule for each item will be different based on how well you remember the alcohol, allowing you to "chunk" this knowledge about alcohols | |
 
-You can take one screenshot for each item, in order to add them to your "study" where each item will get scheduled individually based on your memory
-<br>
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol.png" style="width: 200px;" />
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-1.png" style="width: 200px;" />
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-2.png" style="width: 200px;" />
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-3.png" style="width: 200px;" />
-<br>
+### Example 2 - TODO
 
-## Statistics
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/daily-info-statistics.png" style="width: 200px;" />
 
 ## One data, many forms
 | Data Format         | Explanation     | Visual |
@@ -110,9 +110,6 @@ You can take one screenshot for each item, in order to add them to your "study" 
 |  Xanadu | Comming Soon ...  | |
 
 
-## Plugins, Themes, Snippets 
-If you want to make a plugin, please download the [Plugin Template](https://github.com/ilse-langnar/plugin-template) if you want to make a Theme, then download the [Theme Template](https://github.com/ilse-langnar/theme-template) and if you want to make a snippt, just make a normal note with the tag `#i/css` and a css code block like `css body { background: red; }`
-
 ## Ways of Contributing
 | Way         | Explanation     | Value |
 |--------------|-----------|------------|
@@ -122,13 +119,13 @@ If you want to make a plugin, please download the [Plugin Template](https://gith
 | Become a tester |  TODO | High |
 | Make a `command` |  TODO | Low |
 | Make a `CSS Snippet` | TODO | Low |
-| Make a `Theme` |  TODO | Medium |
-| Make a `Plugin` |  TODO | High |
+| Make a `Theme` |  TODO [Theme Template](https://github.com/ilse-langnar/theme-template) | Medium |
+| Make a `Plugin` |  TODO [Plugin Template](https://github.com/ilse-langnar/plugin-template) | High |
 | Make a `Blog/Article` |  TODO | Medium |
+| Make Memes | Help spread the tool with virality and easy-to-consume memes | High |
+| Join Discord |  TODO | Medium |
 | Fix a bug yourself |  TODO | High |
 | Become smarter| TODO | Inifinity |
-
-            
 
 ## Todos
 Todo List
