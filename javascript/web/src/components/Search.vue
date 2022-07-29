@@ -16,7 +16,7 @@
             img( v-show="filter === 'all' " src="@/assets/images/filter.svg" @click="toggle_filter_mode"  :title="$t('search_filter_mode_all')" aria-role="text" alt="$t('search_filter_mode_all')" )
 
     .search-result( v-if="search_query" )
-        .item.flex( v-if="!search_result.length" )
+        .nothing.item.flex( v-if="!search_result.length" )
             p.is-size-6 {{ $t( "search_nothing_found_for" ) }} {{search_query}}
         p.is-size-6.is-pulled-left( v-if="search_result.length" ) {{search_result.length}} {{ $t('search_results') }}
         br
@@ -25,9 +25,6 @@
             span.paragraph-note ⚫
             p( v-if="!is_markdown_mode_on" :style="get_p_style(result.type)" :title="$t('click_to_open')" @click="on_search_result_click($event, result)" ) {{result.content}}
             p( v-if="is_markdown_mode_on"  :style="get_p_style(result.type)" :title="$t('click_to_open')" @click="on_search_result_click($event, result)" v-html="get_html(result.content)" ) 
-    .nothing
-        br
-        h1.centered {{ $t( "search_nothing" ) }}
 
 </template>
 <script>

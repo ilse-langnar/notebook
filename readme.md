@@ -31,10 +31,10 @@ This started with frustration not only with lock-in but the lack of extensabilit
 
 ## How
 
-| Platform         | How     | Learn More |
-|--------------|-----------|------------|
-| Web(.html) | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.0.10/demo.tar-1.0.11.gz) | Learn More |
-| Desktop Linux(AppImage)           | [Download](https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage) | 
+| Platform         | How     | Learn More | Demo |
+|--------------|-----------|------------|--------------|
+| Web(.html) | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.0.10/demo.tar-1.0.11.gz) | Learn More | |
+| Desktop Linux(AppImage)           | [Download](https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage) | https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/desktop-linux.gif |
 | Desktop Linux(AppImage)           | [Download](https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage) | 
 | Desktop Windows(.exe)             | [Download](https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage) | 
 | Desktop MacOs(.dmg)               | Comming Soon |
