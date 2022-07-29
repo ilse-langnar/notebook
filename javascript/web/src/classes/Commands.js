@@ -581,6 +581,17 @@ class Commands {
                 name: "Rotate theme",
             },
 
+            {
+                id: "reset-theme",
+                fn: async function() {
+                    ilse.themes.apply_default_theme()
+                },
+                description: "Will reset the theme to the default theme",
+                name: "Reset Theme",
+            },
+
+
+
         ]
     }
 

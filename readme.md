@@ -39,7 +39,7 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Desktop MacOs(.dmg)               | Comming Soon |
 | Mobile Android(.apk)              | Comming Soon | 
 | Mobile iOS                        | Comming Soon | 
-| Command Line(nodejs)              | npx ilse | 
+| Command Line(nodejs)              | `npx ilse` & `npm install ilse -g` & `yarn add global ilse` | 
 | Command Line(lisp, binary)        | Commind Soon | 
 | Command Line(C/C++/Rust, binary)  | Commind Soon? | 
 | Script  Windows(VB)               | Comming Soon | 
@@ -127,22 +127,4 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Fix a bug yourself |  TODO | High |
 | Become smarter| TODO | Inifinity |
 
-## Todos
-Todo List
-- Vitruvian
-    - [ ] Make Vim plugin for Vitruvian
-    - [ ] Make VSCode plugin for vitruvian
-    - [ ] Make Emacs plugin for vitruvian
-    - [ ] Make Sublime Text for vitruvian
-    - [ ] Make command line client for vitruvian
-- Ilse
-    - [ ] Make official docker image
-    - [ ] Make windows build work
-    - [ ] Make Linux build work
-    - [ ] Make OS X build work
-    - [ ] Make android client
-    - [ ] Make iOS client
-
-## Installing
-- [Installing](https://github.com/ilse-langnar/notebook/blob/dev/markdown/dev.md)
-- [Contributing](https://github.com/ilse-langnar/notebook/blob/dev/markdown/contributing.md)
+<br>
