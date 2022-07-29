@@ -42,10 +42,15 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Command Line(nodejs)              | npx ilse | 
 | Command Line(lisp, binary)        | Commind Soon | 
 | Command Line(C/C++/Rust, binary)  | Commind Soon? | 
-| Script  Windows(VB)               | Commin Soon | 
-| Script Linux(Rofi)                | Commin Soon | 
-| Script Linux(Zenity)              | Commin Soon| 
-| Script MacOS(Rofi)                | Commin Soon | 
+| Script  Windows(VB)               | Comming Soon | 
+| Script Linux(Rofi)                | Comming Soon | 
+| Script Linux(Zenity)              | Comming Soon| 
+| Script MacOS(Rofi)                | Comming Soon | 
+| Vim Plugin                | Help! | 
+| VSCode Plugin                | Help! | 
+| Emacs Plugin                | Help! | 
+| Sublime Text Plugin                | Help! | 
+| Headless Ilse(Docker)                | Comming Soon| 
 
 ## Improves on:
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"  />
@@ -96,13 +101,14 @@ You can take one screenshot for each item, in order to add them to your "study" 
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/daily-info-statistics.png" style="width: 200px;" />
 
 ## One data, many forms
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/spreadsheet-light-mode.png" style="width: 200px;" />
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/spreadsheet-dark-mode.png" style="width: 200px; " />
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/memex.png" style="width: 200px; " />
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/calendar.png" style="width: 200px; " />
+| Data Format         | Explanation     | Visual |
+|--------------|-----------|------------|
+|  Spreadsheet | TODO |  ![Spreadsheet](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/spreadsheet-light-mode.png) ![Spreadhseet](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/spreadsheet-dark-mode.png) |
+|  Memex | TODO  |  ![Memex](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/memex.png) |
+|  Calendar | TODO  |  ![Calendar](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/calendar.png) |
+|  Kanban | TODO  |  |
+|  Xanadu | Comming Soon ...  | |
 
-## Making items(Flashcards) out of a biology book
-[![Watch the video](https://github.com/ilse-langnar/notebook/blob/dev/docs/ilse.jpeg)](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/first-brain.mp4)
 
 ## Plugins, Themes, Snippets 
 If you want to make a plugin, please download the [Plugin Template](https://github.com/ilse-langnar/plugin-template) if you want to make a Theme, then download the [Theme Template](https://github.com/ilse-langnar/theme-template) and if you want to make a snippt, just make a normal note with the tag `#i/css` and a css code block like `css body { background: red; }`
@@ -113,6 +119,7 @@ If you want to make a plugin, please download the [Plugin Template](https://gith
 | Opening an issue    | If you have a question or something is wrong, you can [open a issue](https://github.com/ilse-langnar/notebook/issues/new)  so we can figure itt out. | Medium |
 | Help with translation | You can help translate ilse into another language such as: `Chinese Simplified(简体中文) Brazillian Portuguese(Português Brasileiro) Spanish(Español) Korean(한국어) japanese(日本人) Dutch(Nederlands) Hebrew (עברית) French (français) Italian (italiano) Greek (Ελληνικά) Arabic (عربى) Russian (русский) Polish (Polskie) German(Deutsche)` go to [Here](https://github.com/ilse-langnar/notebook/issues/new) edit the file with the ISO code for the language, translate it, then add push so I can add it the `dev` branch and then to a more stable branch. | Medium |
 | Donate Money| I'll work much harder and focused if I don't have to worry about my expenses thus making the project progress at a much faster rate. | High |
+| Become a tester |  TODO | High |
 | Make a `command` |  TODO | Low |
 | Make a `CSS Snippet` | TODO | Low |
 | Make a `Theme` |  TODO | Medium |
