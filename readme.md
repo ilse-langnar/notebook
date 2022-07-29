@@ -31,6 +31,11 @@ This started with frustration not only with lock-in but the lack of extensabilit
 
 ## How
 
+| Item         | Price     | # In stock |
+|--------------|-----------|------------|
+| Juicy Apples | 1.99      | *7*        |
+| Bananas      | **1.89**  | 5234       |
+
 | Platform | How | Learn More |
 |----|----|----|----|
 | Web                               |  | 
