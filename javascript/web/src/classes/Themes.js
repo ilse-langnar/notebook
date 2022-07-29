@@ -16,6 +16,8 @@ let DEFAULT_THEMES = [
         --border-radius: 6px;
         --padding: 4px;
         --font-family: Mary, Helvetica, Georgia, Times New Roman, serif;
+        --link-color: #428bca;
+        --link-color: #5ec7b8;
         }`,
         id: "light",
     },
@@ -28,7 +30,8 @@ let DEFAULT_THEMES = [
             --border-radius: 6px;
             --padding: 4px;
             --box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
+            --link-color: #428bca;
+            --link-color: #5ec7b8;
         }`,
         id: "dark",
 

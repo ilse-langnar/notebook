@@ -6,7 +6,7 @@
     br
     .loop( v-for="( note, index ) in ilse.notes.query( '- [ ] ' + filter )" :key="index" )
         // Note( :note="note" @on-blur="on_note_blur" )
-        Notes( :note="note" )
+        Notes( :note="note" @on-esc="on_note_esc" )
     // .loop( v-for="( tag, index ) in Object.keys(ilse.tags.tags)" :key="index" )
         p {{tag}}
 </template>
@@ -42,6 +42,10 @@ export default {
     },
 
     methods: {
+
+        on_note_esc() {
+            document.activeElement.blur()
+        },
 
         setup() {
         },

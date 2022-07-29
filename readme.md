@@ -29,6 +29,24 @@ And given that the format is standardized, if someone finds a new way of reprens
 This way we avoid anye sort of proprietary binary format for organization and visualization, even if the software rots and dies, the files are still going to be there, the standard is still there, so you can, for example, implement a command line spreadsheet that can be visualized in a cloud client, a Web Browser, a Callphone, a toaster ... you get it.
 This started with frustration not only with lock-in but the lack of extensability and standardazation of previous solutions.
 
+## How
+
+| Platform | How | Learn More |
+|----|----|----|----|
+| Web                               |  | 
+| Desktop Linux(AppImage)           | https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage | 
+| Desktop Windows(.exe)             | https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage | 
+| Desktop MacOs(.dmg)               | Comming Soon |
+| Mobile Android(.apk)              | Comming Soon | 
+| Mobile iOS                        | Comming Soon | 
+| Command Line(nodejs)              | npx ilse | 
+| Command Line(lisp, binary)        | Commind Soon | 
+| Command Line(C/C++/Rust, binary)  | Commind Soon? | 
+| Script  Windows()                 | https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png | 
+| Script Linux(Rofi)                |  | 
+| Script Linux(Zenity)              |  | 
+| Script MacOS(Rofi)                |  | 
+
 ## Improves on:
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"  />
 

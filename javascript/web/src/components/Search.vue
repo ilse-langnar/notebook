@@ -1,5 +1,5 @@
 <template lang="pug" >
-.note-search
+.search-wrapper
 
     .flex( style="margin: auto;" )
         input.input.search( ref="input" :id="id + '-search-input'" v-model="search_query" placeholder="🔎" accesskey="f" @keydown="on_key_down" @blur="on_blur" autofocus )
@@ -73,7 +73,7 @@ export default {
 
             // BUGFIX: this will load ALL notes ... heavy operation
                 if( !search ) {
-                    this.search_query = []
+                    this.close_search( false )
                     return
                 }
 
@@ -261,11 +261,11 @@ export default {
 
         },
 
-        close_search() {
+        close_search( blur = true ) {
             this.search_query  = "" // Reset
             this.search_result = [] // Reset
             this.can_search    = true // Reset
-            document.activeElement.blur() // Blur whatever element is focused!!
+            if( blur ) document.activeElement.blur() // Blur whatever element is focused!!
 
         },
 
@@ -342,6 +342,10 @@ export default {
 }
 </script>
 <style scoped>
+
+.search-wrapper {
+    filter: opacity( 0.7 );
+}
 
 .note-search .search {
     padding: 10px;

@@ -5,7 +5,7 @@
             .modal-wrapper( :style="get_style(modal)"  )
                 .modal
                     .modal__content
-                        component( :is="modal.component.component.default" :component="payload" )
+                        component.modal-component( :is="modal.component.component.default" :component="payload" )
 
 </template>
 <script>
@@ -117,6 +117,7 @@ export default {
     background: var( --background-color );
     border: 1px solid var( --text-color );
     border-radius: 10px;
+    /*opacity: 0.9;*/
 }
 
 .shadow {
@@ -157,6 +158,9 @@ export default {
     display: flex;
      /* Push the buttons to the right */
      justify-content: flex-end;
+}
+
+.modal-component {
 }
 
 </style>

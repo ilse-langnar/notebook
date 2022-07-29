@@ -7,7 +7,7 @@
             p {{width}} / {{search_result.length}}
     .wrap( style="display: flex; flex-wrap: wrap;  " )
         .no-result( v-if="!search_result.length" )
-            p {{$('no_results_found_for')}} {{query_string}}
+            p {{$t('no_results_found_for')}} {{query_string}}
         .note( v-for="( note, index ) in search_result" :key="index" )
             // p note: {{get_note_style(note)}}
             Note( :note="note" :style="get_note_style(note)" :options="{ hideBullet: true, style: '' }" )

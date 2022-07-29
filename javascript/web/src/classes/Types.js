@@ -552,6 +552,18 @@ class componentTypes {
             }
         })
 
+        this.add({
+            id: "modals-modals",
+            name: "ModalsModal",
+            description: "A list of all the modals available",
+            img: require("@/assets/images/square.svg"),
+            type: "vue",
+            component: require("@/components/ModalsModals.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
     }
 
     get( id ) {

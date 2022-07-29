@@ -37,23 +37,16 @@ export default class Markdown {
                   .replace("[[", "")
                   .replace("]]", "")
 
-              let is_relative  = link.indexOf("@") !== -1
-              // return `<span class="link" onclick="Messager.emit('~note.vue', 'link-click', { 'event': event, 'link': '${link}' } )" title="${link}" > [[${link}]] </span>`
-              // return `<span class="link" onclick="console.log('lllll'); var delay = 1000; window.lastClick = 0; if( 1000 > ( Date.now() - window.lastClick ) ) { console.log('threwe') } else { console.log('another'); window.lastClick = Date.now(); Messager.emit('~note.vue', 'link-click', { 'event': event, 'link': '${link}' } ) }; " title="${link}" > [[${link}]] </span>`
-              // TODO Find a way of ONLY acting on a target, the problem here
-              // return `<span class="link" onclick="console.log(this.parentNode.parentNode)" title="${link}" > [[${link}]] </span>`
-              return `<span class="link" onclick="console.log('lllll'); var delay = 1000; window.lastClick = 0; if( 1000 > ( Date.now() - window.lastClick ) ) { console.log('threwe') } else { console.log('another'); window.lastClick = Date.now(); Messager.emit('~note.vue', 'link-click', { 'event': event, 'link': '${link}', target: this.parentNode.parentNode.id} ) }; " title="${link}" > [[${link}]] </span>`
+              let has_spacer = link.indexOf("|") !== -1
+              if( has_spacer ) {
+                  let real = link.split("|")[1].trim()
 
-              // if( is_relative ) {
-                  // let relative_link= link.replace("@/", "")
-                  // printf( "@@@ relative_link -> ", relative_link )
-                  // link = relative_link
-                  // printf( "@@@@ link -> ", link )
-                  // printf( ">>>>>> ", relative_link )
-                  // return `<span class="link" onclick="Messager.emit('~note.vue', 'link-click', { 'event': event, 'link': '${relative_link}' } )" title="${link}" > [[${link}]] </span>`
-              // } else {
-                  // return `<span class="link" onclick="Messager.emit('~note.vue', 'link-click', { 'event': event, 'link': '${link}' } )" title="${link}" > [[${link}]] </span>`
-              // }
+                  return `<span class="link" onclick="console.log('lllll'); var delay = 1000; window.lastClick = 0; if( delay > ( Date.now() - window.lastClick ) ) { console.log('threwe') } else { console.log('another'); window.lastClick = Date.now(); Messager.emit('~note.vue', 'link-click', { 'event': event, 'link': '${link}', target: this.parentNode.parentNode.id} ) }; " title="${link}" > [[${real}]] </span>`
+              } else {
+                  return `<span class="link" onclick="console.log('lllll'); var delay = 1000; window.lastClick = 0; if( delay > ( Date.now() - window.lastClick ) ) { console.log('threwe') } else { console.log('another'); window.lastClick = Date.now(); Messager.emit('~note.vue', 'link-click', { 'event': event, 'link': '${link}', target: this.parentNode.parentNode.id} ) }; " title="${link}" > [[${link}]] </span>`
+              }
+
+
           }
 
         )
@@ -123,22 +116,54 @@ export default class Markdown {
                     .replace( "![[" , "" )
                     .replace( "]]" , "" )
 
-                let is_img      = url.indexOf(".png") !== -1 || url.indexOf(".jpg")  !== -1 || url.indexOf(".gif") !== -1 || url.indexOf(".jpeg") !== -1 || url.indexOf(".svg") !== -1
-                let is_video    = url.indexOf(".mp4") !== -1 || url.indexOf(".webm") !== -1
-                let is_audio    = url.indexOf(".mp3") !== -1 || url.indexOf(".ogg")  !== -1 || url.indexOf(".wav") !== -1
+                let extention   = url.substr(url.lastIndexOf("."), url.length )
+
+                let is_video    = extention === ".mp4" || extention === ".webm"
+                let is_img      = extention === ".png" || extention === ".jpg" || extention === ".gif" || extention === ".jpeg" || extention === ".svg"
+                let is_audio    = extention === ".mp3" || extention === ".ogg" || extention === ".wav"
+
+                let is_file     = !is_img && !is_video && !is_audio && ilse.files.list.indexOf( url + ".md") !== -1 && url.indexOf(".") === -1
                 let is_electron = process.env.VUE_APP_TARGET === "ELECTRON"
                 let is_demo     = process.env.VUE_APP_TARGET === "DEMO" // TODO: How do we render <img> while in a demo
                 let target_dir  = ilse.target_directories[0]
 
                 if( is_img ) {
-                    if( is_electron ) return `<img class="img" title="${url}" src="atom://${target_dir}/second/${url}" />`
-                    return `<img class="img" title="${url}" src="http://localhost:8090/file/${url}"/>`
+                    let zen_style = ilse.is_zen ? "width: 100px; " : ""
+                    if( is_electron ) return `<img style="${zen_style}" class="img" title="${url}" src="atom://${target_dir}/second/${url}" />`
+                    return `<img style="${zen_style}" class="img" title="${url}" src="http://localhost:8090/file/${url}"/>`
                 } else if( is_video ) {
                     if( is_electron ) return `<video class="video" title="${url}" controls src="atom://${target_dir}/second/${url}"/>`
                     return `<video class="video" title="${url} "controls title="${url}" src="http://localhost:8090/file/${url}"/>`
                 } else if( is_audio ) {
                     if( is_electron ) return `<audio class="audio" title="${url}" controls title="${url}" src="atom://${target_dir}/second/${url}"/>`
                     return `<audio class="audio" title="${url}" controls title="${url}" src="http://localhost:8090/file/${url}"/>`
+                } else if( is_file ) {
+                    let id = `file-${url}`
+                    let content
+                    async function get() {
+                        content = await ilse.filesystem.file.get( "/second/" + url + ".md" )
+                        if( !ilse.__HTML_CACHE ) {
+                            ilse.__HTML_CACHE = {}
+                            ilse.__HTML_CACHE[url] = content
+                        } else {
+                            ilse.__HTML_CACHE[url] = content
+                        }
+                    }
+                    get()
+
+                    if( is_electron ) return `
+                        <div>
+                            <h3> ${url} </h3>
+                            <textarea style="width: 50vw; height: 300px; background: var( --background-color ); color: var( --text-color ); resize: none;" >
+                                ${ilse.__HTML_CACHE ? ilse.__HTML_CACHE[url] : "HMMM"}
+                            <textarea/>
+                        </div>
+                    `
+                    // <img style="width: 1px;" onload="console.log(document.getElementById('${id}'))" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAIAAAD9MqGbAAAAA3NCSVQICAjb4U/gAAAAHElEQVQ4y2P8//8/A1mAiYFcMKpzVOeozuGoEwAt9wMjCmsdlAAAAABJRU5ErkJggg==" />
+                    // <img style="width: 1px;" onload="async function set() { printf( "${content}" ) }; set()" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAIAAAD9MqGbAAAAA3NCSVQICAjb4U/gAAAAHElEQVQ4y2P8//8/A1mAiYFcMKpzVOeozuGoEwAt9wMjCmsdlAAAAABJRU5ErkJggg==" />
+
+                    return `<div> <img style="border: 1px solid #000; width: 40px;" onload="console.log('hahaahahah')" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAIAAAD9MqGbAAAAA3NCSVQICAjb4U/gAAAAHElEQVQ4y2P8//8/A1mAiYFcMKpzVOeozuGoEwAt9wMjCmsdlAAAAABJRU5ErkJggg==" /> File: ${url} </div> `
+
                 }
 
             }

@@ -2,7 +2,8 @@
 .notes
     Note( :note="note" )
     .loop( v-for="( item, index ) in note.children" :key="index" :style="get_note_style(item)" )
-        Note( :note="item" )
+        // Note( :note="item" )
+        Notes( :note="item" )
 
 </template>
 <script>
@@ -17,6 +18,7 @@ const printf                        = console.log;
 
 // Components
     import Note                         from "@/components/Note.vue"
+    import Notes                        from "@/components/Notes.vue"
 
 export default {
 
@@ -34,6 +36,7 @@ export default {
 
     components: {
         Note,
+        Notes,
     },
 
     methods: {

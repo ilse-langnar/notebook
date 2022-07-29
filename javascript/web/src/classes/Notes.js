@@ -23,7 +23,7 @@ export default class Notes {
 
     async _setup() {
         this.listen()
-        // this.watch_file()
+        this.watch_file()
         this._auto_save()
     }
 
@@ -44,41 +44,63 @@ export default class Notes {
         // setTimeout( () => { this.save() }, 1000 * 5/*every 5 minutes*/ )
     }
 
-    // Watches notes for more or less notes.
-    async watch_file() {
+    watch_file() {
 
-        // let one_minute   = 1 /*minutes*/ * 60 /*second*/ * 1000 /*miliseconds*/
-        let thirty_seconds = 30 /*second*/ * 1000 /*miliseconds*/
-        let len            = this.list.length
-        let text
-        let notes
-        let has_new_notes
-        let depth
+        let _this = this
+        this.ilse.filesystem.file.watch( "notes", async (file, one) => {
 
-        setInterval( async () => {
-            len            = this.list.length
-            text           = await this.filesystem.file.get( "notes" )
-            notes          = text.split("\n")
-            has_new_notes  = notes.length !== len
+            window.lastClick2 = 0;
 
-            if( has_new_notes ) {
-                let new_notes_negative_index = len - notes.length
-                let new_items                = notes.slice( --new_notes_negative_index ).filter( e=>e )
-                let has_new_items            = new_items.length
+            if( 2000 > ( Date.now() - window.lastClickw ) ) {
+            } else {
+                window.lastClick2 = Date.now();
 
-                if( has_new_items ) {
+                let text  = await this.filesystem.file.get( "notes" )
+                let lines = text.split("\n")
 
-                    new_items.map( item => {
-                        this.add( item, this.list.length, 0 )
-                    })
+                let added = lines.slice( this.list.length-1, lines.length ).filter( e=>e )
+                added.map( note => { this.add( note.split(":")[1] ) })
+            };
 
-                    // Messager.emit( "~notes", "reload" ) // Problem: We'll try scrolling with that bread moment of no notes, which
-                }
-            }
-
-        }, thirty_seconds )
+        })
 
     }
+
+    // Watches notes for more or less notes.
+    // async watch_file() {
+
+        // let one_minute   = 1 /*minutes*/ * 60 /*second*/ * 1000 /*miliseconds*/
+        // let thirty_seconds = 30 /*second*/ * 1000 /*miliseconds*/
+        // let len            = this.list.length
+        // let text
+        // let notes
+        // let has_new_notes
+        // let depth
+
+        // setInterval( async () => {
+            // len            = this.list.length
+            // text           = await this.filesystem.file.get( "notes" )
+            // notes          = text.split("\n")
+            // has_new_notes  = notes.length !== len
+
+            // if( has_new_notes ) {
+                // let new_notes_negative_index = len - notes.length
+                // let new_items                = notes.slice( --new_notes_negative_index ).filter( e=>e )
+                // let has_new_items            = new_items.length
+
+                // if( has_new_items ) {
+
+                    // new_items.map( item => {
+                        // this.add( item, this.list.length, 0 )
+                    // })
+
+                    // Messager.emit( "~notes", "reload" ) // Problem: We'll try scrolling with that bread moment of no notes, which
+                // }
+            // }
+
+        // }, thirty_seconds )
+
+    // }
 
     async save( avoid_saving = false ) {
 
@@ -239,6 +261,7 @@ export default class Notes {
         let links
         let exists
         let is_media
+        let has_nickname
 
         // [ "20220122113043: Top [[Psycology Papers]]", "20220122113043: I have a new [[Idea]]" ]
         for( const note of notes ) {
@@ -265,6 +288,11 @@ export default class Notes {
                         exists = false
                     }
 
+                // For [[ Example | Another Name ]]
+                    has_nickname =  link.indexOf("|") !== -1
+                        if( has_nickname ) return
+
+                // Is an actual file, then create
                     if( !exists ) {
                         await this.filesystem.file.set( path.join("second" , link), link )
                     }

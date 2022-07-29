@@ -74,6 +74,7 @@ export default class Ilse {
             "de": "German(Deutsche)",
         }
         this.languages              = Object.keys(this.ISO_language_name)
+        this.is_zen                 = false
 
 
         this.tried_too_fast         = false
@@ -148,6 +149,7 @@ export default class Ilse {
         // Notes(bullets) / File(file)
             this.notes                  = new Notes( this.filesystem, this )
             this.files                  = new Files( this.filesystem, this )
+        printf( "this.files -> ", this.files )
 
         // Brains
             this.brains                 = {}
@@ -205,7 +207,7 @@ export default class Ilse {
     after_setup() {
         this.loaded()
         // this.auto_save()
-        this.create_daily_page()
+        // this.create_daily_page()
     }
 
     loaded() {
@@ -225,6 +227,7 @@ export default class Ilse {
 
     // FEATURE: every day we'll create a file named: "17th Set, 2022.md"
     async create_daily_page() {
+        printf( ">>> create_daily_page" )
 
         let today           = this.utils.get_daily_note_format() + ".md"// Jan 10th , 2020
         let exists          = await this.filesystem.file.exists( path.join("second" , today) )

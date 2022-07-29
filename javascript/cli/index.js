@@ -3,11 +3,18 @@ const printf        = console.log
 const envPaths      = require('./env-paths.js')
 const fs            = require('fs')
 const env_paths     = envPaths('ilse', { suffix: "" })
-const inquirer      = require("inquirer")
+printf( "env_paths -> ", env_paths )
+// const inquirer      = require("inquirer")
 
 const to_json       = require("ngraph.tojson")
 const from_json     = require("ngraph.fromjson")
 const createGraph   = require('ngraph.graph')
+const readline = require("readline");
+
+
+// Quine
+let target_directories
+    target_directories=""
 
 
 class Ilse {
@@ -18,27 +25,24 @@ class Ilse {
         this.command            = this.commands[0]
         this.payload            = this.commands[1]
         this.target_directory   = null
-        this.graph              = {}
 
         this.setup()
-        printf( "this.commands -> ", this.commands )
-        printf( "command -> ", this.command )
-        printf( "this.payload -> ", this.payload )
 
         if( this.command ) {
             this.run( this.command, this.payload )
-
         }
+    }
 
+    get_target_directory() {
+        return target_directories.split("|")[0]
     }
 
     prompt( question, fn ) {
 
-         // Prompt user to input data in console.
-         printf( question )
+        // Prompt user to input data in console.
+        printf( question )
 
         function readable( data ) {
-            printf( "readable -> @data -> ", data )
             fn( data )
             process.stdin.off( 'readable', fn )
         }
@@ -47,8 +51,44 @@ class Ilse {
         process.stdin.on( 'readable', fn )
     }
 
-    async setup() {
+    check_if_target_directory_is_defined() {
 
+        let is_defined = !!target_directories
+
+        if( !is_defined ) {
+
+            const rl = readline.createInterface({
+                input: process.stdin,
+                output: process.stdout
+            })
+
+            rl.question(`Please type the directory that you want to use as your home: (e.g /home/user/brain or C:\User\May\Brain)`, data =>  {
+
+                let exists     = fs.existsSync( data )
+                    if( !exists ) {
+                        printf( `ERROR: "${data}" does not exist` )
+                        process.exit( 0 )
+                    }
+
+                let content    = fs.readFileSync( __filename, "utf8" )
+                let normalized = content.replace(`target_directories=""`, `target_directories="${data}"`)
+                fs.writeFileSync( __filename, normalized )
+                rl.close()
+            })
+
+            // rl.on("close", function() { process.exit( 0 ) })
+
+            // this.prompt( `Please type the directory that you want to use as your home: (e.g /home/user/brain C:\User\May\Brain)`, data => {
+            // })
+        }
+
+    }
+
+    setup() {
+
+        this.check_if_target_directory_is_defined()
+
+        /*
         let has_config_dir_already = fs.existsSync( env_paths.config ) && fs.existsSync( `${env_paths.config}/target.json` )
 
         if( !has_config_dir_already ) {
@@ -79,21 +119,23 @@ class Ilse {
                 })
 
         } else if( has_config_dir_already ){
-
             let target              = fs.readFileSync( `${env_paths.config}/target.json`, "utf8" )
             let normalized_target   = JSON.parse( target )
-
                 this.target_directory   = `${normalized_target.target_directory}`
         }
 
         let file            = fs.readFileSync( `${this.target_directory}/.ilse/graph.json`, "utf8")
             this.graph = from_json( file )
+            */
 
     }
 
     run( command, payload ) {
 
-        if( command === 'add' || command === 'ad' || command === 'a' || ( command && !payload )/*ilse NoteHere.md*/ ) {
+        printf( "index.js command, payload -> ", command, payload )
+
+        /*
+        if( command === 'add' || command === 'ad' || command === 'a' || ( command && !payload ) ) {
             if( payload ) {
                 return this.add( payload )
             } else {
@@ -122,6 +164,7 @@ class Ilse {
         if( command === 'journal' || command === 'jrl' || command === 'j' ) {
             return this.show_journal( payload )
         }
+        */
 
     }
 

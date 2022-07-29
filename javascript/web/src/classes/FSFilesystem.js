@@ -7,6 +7,15 @@ const path                                       = require('path')
 
 var target_directory
 
+function error_check( file_path ) {
+    let is_relative   = file_path.indexOf("@/") !== -1
+        if( is_relative ) throw new Error( `Error: cannot access relative like this: @/` )
+
+    let is_going_back = file_path.indexOf("../") !== -1
+        if( is_going_back ) throw new Error( `Error: access relative urls like: ../(Security Issue)` )
+
+}
+
 export default class FSFilesystem {
 
     constructor( dir ) {
@@ -24,6 +33,7 @@ export default class FSFilesystem {
             upload  : this.upload_file,
             exists  : this.has_path,
             stats   : this.get_file_stats,
+            watch   : this.watch_file,
             is      : this.is_file,
         }
 
@@ -148,6 +158,15 @@ export default class FSFilesystem {
         if( file_path.indexOf( "@/" ) !== -1 ) return
 
         fs.writeFileSync( path.join(target_directory , file_path), content, options )
+    }
+
+
+    async watch_file( file_path, fn )  {
+
+        fs.watch(path.join(target_directory, file_path), function(event, targetfile, one){
+            fn( targetfile, one )
+        })
+
     }
 
 }

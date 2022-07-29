@@ -2,11 +2,11 @@
 .references
 
     p.is-size-2.centered( v-if="refs && refs.length" ) {{ $t('references') }} ({{refs.length}}) {{ilse.links.is_loading ? '...' : ''}}
-    p.is-size-4.centered( v-if="!refs || !refs.length" ) No Referneces {{ $t('no_references') }}
+    p.is-size-4.centered( v-if="!refs || !refs.length" ) {{ $t('no_references') }}
 
     .loop( v-for="( ref, index ) in refs" :key="index" )
         // note( :note="get_note(ref)" )
-        Note( :note="get_note(ref)" @on-link-click="on_note_link_click" )
+        Notes( :note="get_note(ref)" @on-link-click="on_note_link_click" )
 
 </template>
 <script>
@@ -20,7 +20,7 @@ const printf                        = console.log;
     import Messager                     from "@/classes/Messager.js"
 
 // Components
-    import Note                         from "@/components/Note.vue"
+    import Notes                        from "@/components/Notes.vue"
 
 export default {
 
@@ -38,7 +38,7 @@ export default {
     },
 
     components: {
-        Note,
+        Notes,
     },
 
     methods: {

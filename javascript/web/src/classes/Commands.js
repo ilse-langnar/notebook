@@ -553,7 +553,23 @@ class Commands {
                 name: "Open Search Modal",
             },
 
+            {
+                id: "open-modal-list",
+                fn: async function() {
+                    ilse.modals.open( "modals-modals" )
+                },
+                description: "List of all modals",
+                name: "Open Modal List",
+            },
 
+            {
+                id: "toggle-zen-mode",
+                fn: async function() {
+                    ilse.is_zen = !ilse.is_zen
+                },
+                description: "Will toggle zen mode",
+                name: "Toggle Zen Mode",
+            },
 
         ]
     }

@@ -176,7 +176,8 @@ input[type=range]::-webkit-slider-runnable-track  {
 
 /*========Markdown========*/
 .link {
-    color: #5ec7b8;
+    /*color: #5ec7b8;*/
+    color: var( --link-color );
 }
 
 .link:hover {
@@ -186,6 +187,14 @@ input[type=range]::-webkit-slider-runnable-track  {
 .tag {
     color: #d3d3d3;
     color: #698b99;
+}
+
+/* ![[Ilse]] */
+.file-embed {
+    margin-left: 10px;
+    border: 1px solid var( --text-color );
+    border-radius: var( --border-radius );
+    padding: var( --padding );
 }
 
 .cloze-deletion {

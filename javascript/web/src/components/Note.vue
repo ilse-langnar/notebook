@@ -508,7 +508,8 @@ export default {
     cursor:       pointer;
     color:        #a3a3a3;
     color:        var(--text-color);
-    font-size:    1pc;
+    /*font-size:    1pc;*/
+    font-size: 1.5em;
     cursor:       pointer;
 }
 
