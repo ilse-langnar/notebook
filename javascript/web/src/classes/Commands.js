@@ -571,6 +571,16 @@ class Commands {
                 name: "Toggle Zen Mode",
             },
 
+            {
+                id: "rotate-theme",
+                fn: async function() {
+                    printf( "ilse.themes -> ", ilse.themes )
+                    printf( "ilse.themes -> ", ilse.themes.themes )
+                },
+                description: "Go to the next theme available",
+                name: "Rotate theme",
+            },
+
         ]
     }
 
