@@ -31,12 +31,11 @@ This started with frustration not only with lock-in but the lack of extensabilit
 
 ## How
 
-| Platform         | How     | Demo |
+| Platform         | How     | Gif |
 |--------------|-----------|------------|
 | Web(.html) | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.0.10/demo.tar-1.0.11.gz) | Learn More | |
 | Desktop Linux(AppImage)           | [Download](https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage) | ![Demo](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/desktop-linux.gif) | 
-| Desktop Linux(AppImage)           | [Download](https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage) | 
-| Desktop Windows(.exe)             | [Download](https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage) | 
+| Desktop Windows(.exe)             | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.0.10/ilse-langnar-notebook.Setup.1.0.11.exe) | 
 | Desktop MacOs(.dmg)               | Comming Soon |
 | Mobile Android(.apk)              | Comming Soon | 
 | Mobile iOS                        | Comming Soon | 
@@ -50,6 +49,12 @@ This started with frustration not only with lock-in but the lack of extensabilit
 
 ## Improves on:
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"  />
+
+## Features
+| Feature         | Explanation     | Visual |
+|--------------|-----------|------------|
+| Dark Mode              | You can have different styles and they can have a light and a dark mode, if you download a theme, you can toggle dark mode with `C-SPC d d` or executing the "toggle-dark-mode" command | ![Dark Mode](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-dark-mode.gif) | 
+| Zen Mode                | Allows you to focus on a single component and forget about anything else. | |
 
 
 ## Screenshots

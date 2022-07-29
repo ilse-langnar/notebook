@@ -5,9 +5,9 @@
         .component( v-show="components.length && component.is_on" v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
             Component( :component="component" )
 
-    .no-components( v-if="!components.length" style="flex-direction: column; " )
+    .no-components( v-if="!components.length" style="flex-direction: column; height: 89vh; overflow: hidden !important; " )
         .centered( style="" )
-            h1.is-size-1.centered No Components ):
+            h1.is-size-1 {{ $t('no_components') }}
             img( src="@/assets/logo.svg" style="width: 20%;" )
 
     br
