@@ -1,9 +1,9 @@
 <template lang="pug" >
 .components-wrapper
-    // .components( style="display: flex; " :key="components_key" )
+
     .components( style="display: flex; flex-direction: row;" :key="components_key" )
         .component( v-show="components.length && component.is_on" v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
-            Component( :component="component" )
+            Component( :component="component" :style="get_component_style_2()" )
 
     .no-components( v-if="!components.length" style="flex-direction: column; height: 89vh; overflow: hidden !important; " )
         .centered( style="" )
@@ -46,6 +46,14 @@ export default {
     },
 
     methods: {
+
+        get_component_style_2() {
+            let style       = ``
+
+            if( ilse.is_zen ) style       += `width: 50%; margin: 0 auto;`
+
+            return style
+        },
 
         get_component_style( component ) {
             // let style = `flex: 1; margin-left: 10px; height: 100%; flex-basis: ${component.width * 10}%; `

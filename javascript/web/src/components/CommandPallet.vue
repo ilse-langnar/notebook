@@ -24,28 +24,16 @@
             p.is-pulled-left {{command.name}}
             .shortcut.is-pulled-right( v-if="get_shortcut_by_name(command.name)" )
                 span( v-if="get_shortcut_by_name(command.name)" ) {{get_shortcut_by_name(command.name).replace("ctrl+space", "")}}
-            // kbd.is-pulled-right( v-if="get_shortcut_by_name(command.name)" ) {{get_shortcut_by_name(command.name)}}
-
-        // .loop( v-for="( shortcut, shortcut_index ) in ilse.commands.get_command_shortcut(command.id)" :key="'shortcut-' + shortcut_index")
-            p {{shortctu}}
-
-        // .column.is-3
-            .is-pulled-left.source( v-if="get_command_by_name(command.name) && get_command_by_name(command.name).props" ) {{get_command_by_name(command.name).props.source}} 
-
-        // .column.is-2
-            // kbd.is-pulled-right.shortcut( v-if="get_shortcut_by_name(command.name)" ) {{get_shortcut_by_name(command.name)}}
-            kbd.is-pulled-right.shortcut( v-if="get_shortcut_by_name(command.name)" ) {{get_shortcut_by_name(command.name)}}
-
     br
 
     .flex( v-if="search_result.length" v-for="( result, index ) in search_result" @click="on_item_click($event, get_command_by_name(result.target) )" )
-        p.is-pulled-left.item {{result.target}}
+        .item
+            p.is-pulled-left {{result.target}}
+            .shortcut.is-pulled-right( v-if="get_shortcut_by_name(result.target)" )
+                span( v-if="get_shortcut_by_name(result.target)" ) {{get_shortcut_by_name(result.target).replace("ctrl+space", "")}}
+    br
 
-        // .column.is-3
-            kbd.is-pulled-left.source( v-if="get_command_by_name(result.target) && get_command_by_name(result.target).props" ) {{get_command_by_name(result.target).props.source}} 
 
-        // .column.is-2
-            p.is-pulled-right.shortcut( v-if="get_shortcut_by_name(result.target)" :title="result.target" ) {{get_shortcut_by_name(result.target)}}
     br
 
 </template>
@@ -146,6 +134,7 @@ export default {
             let command     = this.get_command_by_name(name)
             let id          = command.id
             let shortcut    = this.get_command_shortcut( id )
+            printf( `name: ${name} - command: ${command} - id: ${id} - shortcut: ${shortcut}` )
 
             return shortcut
         },
@@ -248,6 +237,7 @@ export default {
     border-radius: var( --border-radius );
     padding: 3px;
     cursor: pointer;
+    height: 35px;
 }
 
 .flex .item:hover {

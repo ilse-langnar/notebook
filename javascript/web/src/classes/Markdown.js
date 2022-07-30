@@ -253,6 +253,7 @@ export default class Markdown {
                   if( !note_content ) note_content = `Could not find note: ${ref} ):`
 
               // let html = this.render( note_content )
+
               return `<span class="note-reference" title="${ref}" > ${note_content} </span>`
           }
 
@@ -349,19 +350,22 @@ export default class Markdown {
             if( !link ) return `${last} \n\t ${text} `
 
         let link_content    = ilse.notes.query( link + ":")[0].content
+        printf( "text -> ", text )
+        printf( "link -> ", link )
+        printf( "link_content -> ", link_content )
 
         if( link ) {
             if( last ) {
-                last += `\n ${link_content}`
+                // last += `\n ${link_content}`
             } else {
                 last += `${text} \n ${link_content} `
             }
         }
 
-        let target          = ilse.notes.get_references( link_content )
+        let ref          = ilse.notes.get_references( link_content )
 
-        if( target ) {
-            let target_content  = ilse.notes.query( target + ":")[0].content
+        if( ref ) {
+            let target_content  = ilse.notes.query( ref + ":")[0].content
             return this.reference( target_content, last )
         } else {
             return last
@@ -378,15 +382,22 @@ export default class Markdown {
         let text   = this.reference( content )
         let chunks = text.split("\n")
 
-        let final  = "<blockquote>"
+        // let final  = "<blockquote>"
+        let final  = `<div class="note-reference" > `
         for( const [index, chunk] of chunks.entries() ) {
             if( index === 0 ) {
-                final += `<p> ${chunk} </p>`
+                // final += `<p> ${chunk} </p>`
+                // printf( "chunk -> ", chunk )
+                // final += `<span> ${chunk} </span>`
             } else {
-                final += `<blockquote style="margin-left: ${index * 10}px"> ${chunk} </blockquote>`
+                // final += `<blockquote style="margin-left: ${index * 10}px"> ${chunk} </blockquote>`
+                final += `<span> ${chunk} </span>`
             }
         }
-        final += "</blockquote>"
+        // final += "</blockquote>"
+
+        final += "</div>"
+
         return final
     }
 

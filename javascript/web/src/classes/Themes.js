@@ -9,8 +9,9 @@ const printf                        = console.log
 let DEFAULT_THEMES = [
     {
         css: `:root, .ilse[data-theme='light'] {
-        --background-color: #E9E9E9;
         --background-color: #EFEFEF;
+        --secondary-background-color: #D5DADF;
+        --secondary-text-color: #3c3b3b;
         --text-color: #717171;
         --border: 1px solid #4a4a4a;
         --border-radius: 6px;
@@ -26,6 +27,8 @@ let DEFAULT_THEMES = [
 
             --background-color: #131313ff;
             --text-color: #F8F8F8;
+            --secondary-background-color: #D5DADF;
+            --secondary-text-color: #000;
             --border: 2px solid #777;
             --border-radius: 6px;
             --padding: 4px;

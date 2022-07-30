@@ -111,7 +111,7 @@ export default {
     align-items: center;
     -webkit-box-pack: center;
     justify-content: center;
-    height: 32px;
+    height: 25px;
     white-space: nowrap;
     transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     cursor: default;
@@ -274,7 +274,12 @@ code {
 }
 
 .note-reference {
-    color: #4f4f90;
+    /*text-decoration: underline;*/
+    background-color: #D5DADF;
+    color: var( --secondary-text-color );
+    background-color: var( --secondary-background-color );
+    padding: var( --padding );
+    border-radius: var( --border-radius );
 }
 /*========Markdown========*/
 

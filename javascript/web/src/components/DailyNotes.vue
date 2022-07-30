@@ -1,5 +1,5 @@
 <template lang="pug" >
-.daily-notes#daily-notes( :style=" ilse.is_zen ? 'width: 50%; margin: 0 auto; ' : '' " :key="ilse.keys.daily_notes" )
+.daily-notes#daily-notes( :key="ilse.keys.daily_notes" )
 
     .day( v-for="( day, day_index ) in days" style="width: 97%; margin: 0 auto;" )
 

@@ -61,8 +61,20 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Dark Mode              | You can have different styles and they can have a light and a dark mode, if you download a theme, you can toggle dark mode with `C-SPC d d` or executing the "toggle-dark-mode" command | ![Dark Mode](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-dark-mode.gif) | 
 | Zen Mode                | Allows you to focus on a single component and forget about anything else. | |
 | Themes                | You can have multiple themes and switch between them as you like. | ![Themes](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-themes.gif) | |
-| Easy Import/Export    | You can have multiple themes  | |
-| Multi Language Support | You can have multiple themes  | |
+| Easy Import/Export    | TODO  | |
+| Multi Language Support | TODO  | |
+| Note Reference | TODO  | |
+| File Reference | TODO  | |
+| Multiple Components | TODO  | |
+| Homepage | TODO  | |
+| Graph | TODO  | |
+| Keyboard Shortcut | TODO  | |
+| Commands and Command Pallet | TODO  | |
+| Study Tools | See "Studying with Ilse" for more | |
+| Daily Notes | TODO | |
+| Multiple Directories | You can have as many directories as you want, maybe something for work, something for study etc. | |
+| CRM | TODO | |
+| Task Manager | TODO | |
 
 
 
@@ -75,7 +87,7 @@ This started with frustration not only with lock-in but the lack of extensabilit
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-14.png" />
 
 
-## Studying with ilse
+## Studying with Ilse
 | What         | Explanation     | Visual |
 |--------------|-----------|------------|
 | Incremental Learning | See: Incremental Reading & Incremental Video | | 

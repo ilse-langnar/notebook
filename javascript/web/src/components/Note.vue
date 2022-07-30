@@ -250,7 +250,6 @@ export default {
                 if( !ref ) return ilse.markdown.render( content ) // No note references, normal markdown.
 
             // === Refs === //
-
             let html = ilse.markdown.get_blockquote( content )
             return html
 

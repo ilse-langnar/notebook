@@ -17,7 +17,7 @@
     br
     .loop( v-if="is_on" v-for="( note, index ) of notes" :key="index" :style="get_note_style(note)" )
         
-        Note(
+        Notes(
             v-show="note.id"
             :note="note"
             :key="note.id + file"
@@ -53,7 +53,7 @@ const printf                        = console.log;
     import Messager                     from "@/classes/Messager.js"
 
 // Components
-    import Note                         from "@/components/Note.vue"
+    import Notes                        from "@/components/Notes.vue"
     import References                   from "@/components/References.vue"
     import GhostNote                    from "@/components/GhostNote.vue"
 
@@ -82,7 +82,7 @@ export default {
     },
 
     components: {
-        Note,
+        Notes,
         References,
         GhostNote,
     },

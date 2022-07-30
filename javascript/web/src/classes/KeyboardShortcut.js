@@ -67,7 +67,8 @@ class KeyboardShortcut  {
             { combo: "ctrl+space shift+l", command: "list-projects" },
 
             { combo: "ctrl+space v m", command: "open-note-on-a-mind-map" },
-            { combo: "ctrl+space d d", command: "toggle-dark-mode" },
+            { combo: "ctrl+space i d", command: "toggle-dark-mode" },
+            { combo: "ctrl+space i z", command: "toggle-zen-mode" },
             { combo: "ctrl+space v t", command: "open-note-on-a-table-pan" },
             { combo: "ctrl+space v shift+m", command: "open-note-on-a-memex" },
 

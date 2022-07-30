@@ -576,6 +576,8 @@ class Commands {
                 fn: async function() {
                     printf( "ilse.themes -> ", ilse.themes )
                     printf( "ilse.themes -> ", ilse.themes.themes )
+                    let themes =ilse.notes.query('#i/theme/')
+                    printf( "themes -> ", themes )
                 },
                 description: "Go to the next theme available",
                 name: "Rotate theme",
