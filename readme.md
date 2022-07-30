@@ -43,14 +43,17 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Command Line(lisp, binary)        | Commind Soon | 
 | Command Line(C/C++/Rust, binary)  | Commind Soon? | 
 | Script  Windows(VB)               | Comming Soon | 
-| Script Linux(Rofi)                | Comming Soon | 
+| Script Linux(Rofi)                | Comming Soon | ![Incremental Video](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/rofi.gif) |
 | Script Linux(Zenity)              | Comming Soon| 
-| Script MacOS(Rofi)                | Comming Soon | 
+| Script MacOS(Rofi)                | Comming Soon | ![Incremental Video](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/rofi.gif) 
 | Vim Plugin                | Help! | 
 | VSCode Plugin                | Help! | 
 | Emacs Plugin                | Help! | 
 | Sublime Text Plugin                | Help! | 
 | Headless Ilse(Docker)                | Comming Soon| 
+
+
+
 
 ## Improves on:
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"  />
