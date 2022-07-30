@@ -35,7 +35,7 @@ export default {
             ilse: ilse,
             query_string: "",
             search_result: [],
-            width: 30,
+            width: 99,
             list: [],
         }
     },
@@ -51,8 +51,8 @@ export default {
     methods: {
 
         get_note_style() {
-            // let style = `width: ${this.width}%; margin: 10px !important;`
-            let style = `display: block; width: 200px; height: auto; overflow: hidden; margin: 10px !important;`
+            let style = `width: ${this.width}%; margin: 10px !important;`
+            // let style = `display: block; width: 200px; height: auto; overflow: hidden; margin: 10px !important;`
             return style 
         },
 

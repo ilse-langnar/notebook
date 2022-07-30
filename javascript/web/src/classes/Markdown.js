@@ -140,8 +140,12 @@ export default class Markdown {
                 } else if( is_file ) {
                     let id = `file-${url}`
                     let content
+
+                    // ilse.__HTML_CACHE = {}
+
                     async function get() {
                         content = await ilse.filesystem.file.get( "/second/" + url + ".md" )
+                        printf( ">>> content -> ", content )
                         if( !ilse.__HTML_CACHE ) {
                             ilse.__HTML_CACHE = {}
                             ilse.__HTML_CACHE[url] = content
@@ -151,12 +155,13 @@ export default class Markdown {
                     }
                     get()
 
-                    if( is_electron ) return `
-                        <div>
+                    // ${ilse.__HTML_CACHE ? ilse.__HTML_CACHE[url] : "HMMM"}
+                    if( is_electron ) return `<div>
                             <h3> ${url} </h3>
                             <textarea style="width: 50vw; height: 300px; background: var( --background-color ); color: var( --text-color ); resize: none;" >
-                                ${ilse.__HTML_CACHE ? ilse.__HTML_CACHE[url] : "HMMM"}
-                            <textarea/>
+                            ${url}
+                            ${ilse.__HTML_CACHE[url]}
+                            </textarea>
                         </div>
                     `
                     // <img style="width: 1px;" onload="console.log(document.getElementById('${id}'))" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAIAAAD9MqGbAAAAA3NCSVQICAjb4U/gAAAAHElEQVQ4y2P8//8/A1mAiYFcMKpzVOeozuGoEwAt9wMjCmsdlAAAAABJRU5ErkJggg==" />
@@ -385,14 +390,16 @@ export default class Markdown {
         // let final  = "<blockquote>"
         let final  = `<div class="note-reference" > `
         for( const [index, chunk] of chunks.entries() ) {
-            if( index === 0 ) {
+
+            final += `<span> ${this.render(chunk)} </span>`
+            // printf( "chunk -> ", chunk )
+            // if( index === 0 ) {
                 // final += `<p> ${chunk} </p>`
                 // printf( "chunk -> ", chunk )
-                // final += `<span> ${chunk} </span>`
-            } else {
+                // final += `<p style="background: var( --text-color ); !important;"> ${this.render(chunk)} </p>`
+            // } else {
                 // final += `<blockquote style="margin-left: ${index * 10}px"> ${chunk} </blockquote>`
-                final += `<span> ${chunk} </span>`
-            }
+            // }
         }
         // final += "</blockquote>"
 

@@ -23,6 +23,9 @@ export default class FSFilesystem {
         // target_directory = dir + "/"
         target_directory = dir
 
+        // ilse.filesystem.file.read.async()
+        // ilse.filesystem.file.read.sync()
+
         this.file = {
             get     : this.read_file,
             set     : this.write_file,

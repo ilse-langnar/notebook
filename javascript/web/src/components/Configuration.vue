@@ -1,28 +1,29 @@
 <template lang="pug" >
-.configuration
+.configuration( :key="$i18n.locale" )
 
     .all
         .options( style="width: 20%; float: left;" )
             .item.flex( v-for="( option, index ) in options" :key="index" @click="selected = option.name" :style="get_option_style(option)" )
                 img( :src="get_img(option.img)" )
-                p( style="font-size: 0.7em; " ) &nbsp; &nbsp; {{option.name}} 
+                p( style="font-size: 0.7em; " ) &nbsp; &nbsp; {{ $t(option.name) }} 
             
         .options-configuration( style="width: 80%; float: right;" )
-            p.is-size-1( style="text-align: center;" ) {{selected}}
+            // p.is-size-1( style="text-align: center;" ) {{selected}}
+            p.is-size-1( style="text-align: center;" ) {{ $t(selected) }}
 
-            .general( v-if="selected === 'General' " )
-                p General
+            .general( v-if="selected === 'general' " )
+                p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-            .typography( v-if="selected === 'Typography' " )
+            .typography( v-if="selected === 'typography' " )
 
-            .plugins( v-if="selected === 'Plugins' " )
+            .plugins( v-if="selected === 'plugins' " )
                 .plugin( v-for="( plugin, index ) in ilse.plugin_manager.plugins" :key="index" )
                     img.is-pulled-right( src="@/assets/images/x.svg" style="width: 20px; cursor: pointer;" @click="delete_plugin(plugin)" )
                     h3 {{plugin.name}} by {{plugin.manifest.autor || "Anonymous" }}({{plugin.manifest.version}})
                     p {{plugin.manifest.description}}
                     img( :src="plugin.icon" )
 
-            .themes( v-if="selected === 'Themes' " )
+            .themes( v-if="selected === 'themes' " )
                 .centered
                     img( src="@/assets/images/paint.svg" :title="$t('apply')" alt="Apply" @click="ilse.themes.apply_default_theme()" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --text-color ); border-radius: var( --border-radius ); padding: var( --padding );" )
                     // img( src="@/assets/images/packge-export.svg" :title="$t('export_to_clipboard')" alt="Export everything to clipboard" @click="export_theme_to_clipboard()" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --text-color ); border-radius: var( --border-radius ); padding: var( --padding ); margin-left: 4px;" )
@@ -34,28 +35,27 @@
                         textarea.input( v-model="child.content" style="width: 100%;" )
                     .space
 
-            .components( v-if="selected === 'Components' " )
+            .components( v-if="selected === 'components' " )
                 .loop( v-for=" ( type, index ) in ilse.types.types" :key="index" style="border: 1px solid #000; float: left; margin-left: 10px; padding: 14px; margin-bottom: 8px; border-radius: 10px; width: 30%; height: 200px; overflow: hidden;"  )
                     p.is-size-4.centered {{type.name}} 
                     img.img( :src="type.img" style="display: block; margin: 0 auto; width: 40px;" )
                     // button.slick-button Select
 
-            .languages( v-if="selected === 'Languages' " )
-                p Language
+            .languages( v-if="selected === 'languages' " )
                 // p {{$i18n}}
                 select( v-model="$i18n.locale" )
-                    option( v-for="( lang, index ) in ilse.languages" :key="index" :value="lang" ) {{lang}}
+                    option( v-for="( lang, index ) in ilse.languages" :key="index" :value="lang" @select="ilse.modals.close()" ) {{ilse.ISO_language_name[lang]}}
 
 
 
-            .snippets( v-if="selected === 'Snippets' " )
+            .snippets( v-if="selected === 'snippets' " )
                 .snippet( v-for="( snippet, index ) in ilse.themes.snippets" :key="index" )
                     img.is-pulled-right( src="@/assets/images/x.svg" style="width: 20px; cursor: pointer;" @click="delete_snippet(plugin)" :title="$t('remove_snippet')" )
                     h2 {{snippet.note.id}}
                     // p {{snippet.css}}
                     p {{snippet.note.content}}
 
-            .graph( v-if="selected === 'Graph' " )
+            .graph( v-if="selected === 'graph' " )
                 p Layout: 
                 select.select( id="layout" )
                     option( value="breadthfirst" ) breadthfirst
@@ -64,7 +64,7 @@
                     option( value="concentric" ) concentric
                     option( value="cose" ) cose
 
-            .keyboard-shortcut( v-if="selected === 'Keyboard Shortcut' " )
+            .keyboard-shortcut( v-if="selected === 'keyboard_shortcut' " )
 
                 .key( v-for="( key, index ) in ilse.keyboard.keys" :key="index" )
                     img.is-pulled-right( src="@/assets/images/x.svg" style="width: 20px; cursor: pointer;" @click="delete_key(key)" :title="$t('remove_snippet')" )
@@ -94,15 +94,15 @@ export default {
             cache: null,
             items_with_tags: 0,
             options: [
-                { name: "General", img: "settings.svg" },
-                { name: "Typography", img: "typography.svg" },
-                { name: "Plugins", img: "plugin.svg" },
-                { name: "Themes", img: "palette.svg" },
-                { name: "Languages", img: "language.svg" },
-                { name: "Components", img: "tech-box.svg" },
-                { name: "Snippets", img: "brand-css3.svg" },
-                { name: "Graph", img: "network.svg" },
-                { name: "Keyboard Shortcut", img: "keyboard.svg" },
+                { name: "general", img: "settings.svg" },
+                { name: "typography", img: "typography.svg" },
+                { name: "plugins", img: "plugin.svg" },
+                { name: "themes", img: "palette.svg" },
+                { name: "languages", img: "language.svg" },
+                { name: "components", img: "tech-box.svg" },
+                { name: "snippets", img: "brand-css3.svg" },
+                { name: "graph", img: "network.svg" },
+                { name: "keyboard_shortcut", img: "keyboard.svg" },
             ]
         }
 

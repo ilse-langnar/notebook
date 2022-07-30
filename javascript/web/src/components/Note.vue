@@ -124,7 +124,7 @@ export default {
                     if( type === "note" && note.content.indexOf(text) === -1 ) {
                         value = note.caret.insert( `((${text}))` )
                     } else if( type === "file" && note.content.indexOf( text.replace(".md", "") ) === -1 ) {
-                        value = note.caret.insert( `[[${text.replace(".md", "")}]]` )
+                        value = note.caret.insert( `![[${text.replace(".md", "")}]]` )
                     }
 
                     setTimeout( () => { note.focus(); _this.resize_textarea() }, 1 )

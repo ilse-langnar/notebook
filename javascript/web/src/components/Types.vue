@@ -1,7 +1,6 @@
 <template lang="pug" >
 .types
     p.is-size-1.centered Types
-    // button.button.slick-button( @click="close" ) {{$t('close')}}
     br
 
     .loop( v-for=" ( type, index ) in ilse.types.types" :key="index" style="border: 1px solid #000; float: left; margin-left: 10px; padding: 14px; margin-bottom: 8px; border-radius: 10px; width: 32%"  )
@@ -32,6 +31,7 @@ export default {
 
     props: {
         payload: { type: Object, required: false }, // Avoid same :key to avoid DOM update errors in vue.js
+        component: { type: Object, required: false }, // Avoid same :key to avoid DOM update errors in vue.js
     },
 
     methods: {
@@ -40,10 +40,9 @@ export default {
             ilse.modals.close()
         },
 
-        select( type ) {
-            printf( "select -> type -> ", type )
-            this.payload.component.type  = type.id
-            this.payload.component.props = type.props
+        select( component ) {
+            this.component.payload.component.type  = component.id
+            this.component.payload.component.props = component.props
             this.close()
         },
 
