@@ -1,9 +1,8 @@
 const printf        = console.log
 
-const envPaths      = require('./env-paths.js')
+const envPaths      = require('./libs/env-paths.js')
 const fs            = require('fs')
 const env_paths     = envPaths('ilse', { suffix: "" })
-printf( "env_paths -> ", env_paths )
 // const inquirer      = require("inquirer")
 
 // const to_json       = require("ngraph.tojson")
@@ -14,23 +13,55 @@ const readline = require("readline");
 
 // Quine
 let target_directories
-    target_directories=""
-
+    target_directories="/home/viktor/Downloads/zettel/"
 
 class Ilse {
 
     constructor() {
 
         this.commands           = process.argv.splice(2)
+        printf( "this.commands -> ", this.commands )
         this.command            = this.commands[0]
         this.payload            = this.commands[1]
         this.target_directory   = null
 
+        let has_command         = this.commands.length
+
         this.setup()
 
-        if( this.command ) {
+        if( has_command ) {
             this.run( this.command, this.payload )
+        } else {
+            this.print_options()
         }
+    }
+
+    print_options() {
+
+        printf( `ilse: Show this options` )
+
+        // First Brain = memory
+        // Read
+        // Remove
+        // query
+        // tags
+        console.table({
+            "ilse":"Show this options",
+                "ilse help":"Show Help OPtions",
+                "ilse ui":"Enter TUI mode",
+                "ilse (f)irst":"Show options for first brain",
+                    "ilse (f)irst (n)ext":"Get next item",
+                    "ilse (f)irst (r)emove":"Remove argument",
+                    "ilse (f)irst (q)uery":"Query argument",
+                    "ilse (f)irst (t)ags":"List all tags",
+                "ilse (s)econd":"Show Options for second brain",
+                    "ilse (s)econd (r)emove":"Show Options for second brain",
+                    "ilse (s)econd (q)uery":"Show Options for second brain",
+                    "ilse (s)econd (t)ags":"Show Options for second brain",
+                    "ilse (s)econd (l)inks":"Show Options for second brain",
+                    "ilse (s)econd (a)dd":"Show Options for second brain",
+        })
+
     }
 
     get_target_directory() {
@@ -70,10 +101,20 @@ class Ilse {
                         process.exit( 0 )
                     }
 
-                let content    = fs.readFileSync( __filename, "utf8" )
-                let normalized = content.replace(`target_directories=""`, `target_directories="${data}"`)
-                fs.writeFileSync( __filename, normalized )
-                rl.close()
+                // Get this file's content
+                    let content    = fs.readFileSync( __filename, "utf8" )
+
+                // BUGFIX: /home/usb = /home/usb/
+                    data[data.length -1] === "/" ? data : data = data + "/"
+
+                // Actually replaces it
+                    let normalized = content.replace(`target_directories=""`, `target_directories="${data}"`)
+
+                // Write
+                    fs.writeFileSync( __filename, normalized )
+
+                // Close prompt
+                    rl.close()
             })
 
             // rl.on("close", function() { process.exit( 0 ) })
@@ -130,9 +171,13 @@ class Ilse {
 
     }
 
-    run( command, payload ) {
+    run( brain, payload ) {
 
-        printf( "index.js command, payload -> ", command, payload )
+        if( brain === "first" || brain === "f" )  {
+            printf( "first -> payload -> ", payload )
+        } else if( brain === "second" || brain === "s" ){
+            printf( "second -> payload -> ", payload )
+        }
 
         /*
         if( command === 'add' || command === 'ad' || command === 'a' || ( command && !payload ) ) {

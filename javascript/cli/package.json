@@ -6,7 +6,20 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [ "Note Taking", "taskwarrior", "zettelkasten", "flashcards", "anki", "supermemo", "command line", "journal", "journaling", "Diary", "Memory", "algorithm" ],
+  "keywords": [
+    "Note Taking",
+    "taskwarrior",
+    "zettelkasten",
+    "flashcards",
+    "anki",
+    "supermemo",
+    "command line",
+    "journal",
+    "journaling",
+    "Diary",
+    "Memory",
+    "algorithm"
+  ],
   "bin": "./index.js",
   "author": "Ilse Langnar",
   "license": "MIT",
@@ -14,6 +27,7 @@
     "arg": "^5.0.1",
     "blessed": "^0.1.81",
     "blessed-contrib": "^4.10.1",
+    "chalk": "^5.0.1",
     "env-paths": "^3.0.0"
   }
 }
