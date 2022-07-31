@@ -177,6 +177,8 @@ export default {
 
         on_key_down_esc() {
             this.$emit( "on-esc" )
+            let target              = this.component.payload.id
+            Messager.emit( "~search.vue", "cancel", { target: target })
             this.close_search()
         },
 
@@ -263,7 +265,6 @@ export default {
             this.search_result = [] // Reset
             this.can_search    = true // Reset
             if( blur ) document.activeElement.blur() // Blur whatever element is focused!!
-
         },
 
         search() {

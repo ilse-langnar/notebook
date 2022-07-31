@@ -162,7 +162,7 @@ export default class Ilse {
 
         this.markdown               = new Markdown()
 
-        this.commands               = new Commands()
+        this.commands               = new Commands(this)
         this.graph                  = new Graph()
         this.keyboard               = new KeyboardShortcut(this)
 

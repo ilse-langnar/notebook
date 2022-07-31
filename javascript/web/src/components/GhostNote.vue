@@ -1,7 +1,7 @@
 <template lang="pug" >
 .ghost-note.flex( :style="style + options.style" )
     p.paragraph-note( v-if="!options.hideBullet" ) ⚫
-    textarea.textarea.rendered( v-model="content" @input="on_input" @blur="on_blur" @focus="on_focus" :placeholder="options.placeholder" @keydown.enter="on_keydown_enter" @keydown.tab="on_keydown_tab" @drop.prevent="add_file" @dragover.prevent )
+    input.editable( v-model="content" @input="on_input" @blur="on_blur" @focus="on_focus" :placeholder="options.placeholder" @keydown.enter="on_keydown_enter" @keydown.tab="on_keydown_tab" @drop.prevent="add_file" @dragover.prevent )
 
 </template>
 <script>
@@ -111,12 +111,6 @@ export default {
 }
 </script>
 <style scoped >
-
-.rendered {
-    margin: 0 !important;
-    padding: 0 !important;
-    min-height: 30px;
-}
 
 .paragraph-note {
     margin-top:   -5px;

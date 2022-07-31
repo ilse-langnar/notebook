@@ -61,7 +61,6 @@ export default class Statistics {
             })
 
         })
-        printf( "this.statistics.statistics[0] -> ", this.statistics[0] )
 
     }
 

@@ -243,6 +243,7 @@ export default class FSFilesystem {
     }
 
     async write_file( file_path, content, options )  {
+
         if( file_path.indexOf( "@/" ) !== -1 ) return
         await promisified_write_file( path.join(target_directory , file_path), content, options )
     }

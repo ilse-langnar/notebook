@@ -428,8 +428,6 @@ export default {
 
                 if( action === "added" ) {
 
-                    printf( "payload -> ", payload )
-
                     // TODO: don't rely on "after"?
                     let index       = payload.index
                     let new_note    = payload.note

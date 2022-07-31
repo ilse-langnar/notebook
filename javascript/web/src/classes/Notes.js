@@ -22,6 +22,7 @@ export default class Notes {
     }
 
     async _setup() {
+        this.get_notes()
         this.demo()
         this.listen()
         this.watch_file()
@@ -79,7 +80,7 @@ export default class Notes {
         let is_demo          = this.ilse.platform === "demo"
             if( !is_demo ) return
 
-        if( has_notes ) await this.filesystem.file.write.async( "notes", "" )
+        // if( has_notes ) await this.filesystem.file.write.async( "notes", "" )
 
         // let demo_notes  = this.filesystem.filesystem.DEMO_NOTES
         let demo_notes  = ilse.DEMO_NOTES
@@ -88,52 +89,7 @@ export default class Notes {
         this.add( `Click on the help button on top for the tutorial`, this.list.length, 0 )
    }
 
-    async create_notes_if_not_there() {
-
-        let _this            = this
-        let content          = await this.filesystem.file.read.async( "notes" )
-        printf( "!!content -> ", !!content )
-
-        if( !content ) {
-            ilse.notes.add( "Write Something" )
-
-            setTimeout( () => {
-                ilse.notes.save()
-            }, 1000  )
-
-        }
-
-        // printf( "this.list -> ", this.list )
-        /*
-        let initial_notes = ilse.INITIAL_NOTES
-        printf( "initial_notes -> ", initial_notes )
-
-        let engine        = setInterval( () => {
-
-            if( initial_notes.length ) {
-                if( _this.add ) {
-                    _this.add( initial_notes[0] )
-                    initial_notes.shift()
-                }
-            } else {
-                clearInterval( engine )
-                this.save()
-                return
-            }
-
-        }, 1000 )
-        */
-
-        // note           = `${time_id}: "Hello, World"` // 20220120155758: Hello, World
-        // await this.filesystem.file.write.async( "notes", note )
-        // await this.filesystem.file.write.async( "notes", note )
-
-    }
-
     async get_notes() {
-
-        // BUGFIX: if no 'notes', create it and give a hello, world note.
-        await this.create_notes_if_not_there()
 
         let textfile         = await this.filesystem.file.read.async( "notes" )
 
@@ -146,8 +102,6 @@ export default class Notes {
         // Process note
         let notes      = textfile.split("\n")
         let instance
-        let is_child
-        let copy
 
         notes.map( (note, index) => {
             instance = new ilse.classes.Note( note )
@@ -454,8 +408,7 @@ export default class Notes {
         Messager.on( "~ilse", async (action, payload) => {
 
             if( action === "loaded" ) {
-                printf( "loaded -> " )
-                this.get_notes( payload )
+                // this.get_notes( payload )
             }
 
         })

@@ -8,16 +8,6 @@ const printf                            = console.log
 
 const DEFAULT_CONFIG = {
     components: [
-        /*
-        {
-            id: "8043416467068678",
-            width: 0,
-            is_on: true,
-            type: "menu",
-            props: {}
-        },
-        */
-
         {
             id: "16598606038384878",
             width: 8,
@@ -44,17 +34,15 @@ export default class Config {
 
     async load( ilse ) {
 
-        let config
+        let config = await ilse.filesystem.file.read.async( "config.json" )
 
-        try {
-            config = await ilse.filesystem.file.read.async( "config.json" )
-        } catch( e ) {
-            await ilse.filesystem.file.write.async( "config.json", JSON.stringify(DEFAULT_CONFIG) )
+        if( !config ) {
+            await ilse.filesystem.file.write.async( "config.json", JSON.stringify(DEFAULT_CONFIG, null, 4) )
             this.load( ilse )
+            return
+        } else {
+            config = JSON.parse( config )
         }
-
-        if( typeof config === "string" ) config = JSON.parse( config )
-            if( !config ) return
 
         // ==== Load Components ==== //
         let instance

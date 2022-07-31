@@ -10,7 +10,8 @@ class Commands {
 
     // TODO: ask-delete-this-component/tab/container -> this -> focused
     // TODO: Increase component width -> set-component-width -> set-component
-    constructor() {
+    constructor( ilse ) {
+        this.ilse = ilse
         this.commands = []
         this.setup()
     }
@@ -84,7 +85,7 @@ class Commands {
     // get_command_shortcuts("read-first-brain") -> [ "command+space v k" ]
     get_command_shortcuts( id ) {
 
-        let list = ilse.keyboard.keys
+        let list  = ilse.keyboard.keys
         let found = []
 
         list.map( item => {
@@ -92,6 +93,30 @@ class Commands {
         })
 
         return found
+    }
+
+
+    add_components_commands() {
+
+        let _this = this
+        let components = this.ilse.types.types
+
+        components.map( component => {
+
+            this.commands.push({
+
+                id: `open-${component.name}`,
+                fn: function() {
+                    let _component = new ilse.classes.Component({ type: component.id, width: 12, props: {} })
+                        ilse.components.push( _component )
+                },
+                description: `Will open: ${component.name}`,
+                name: `Open: ${component.name}`,
+
+            })
+
+        })
+
     }
 
     set_default_commands() {
@@ -195,6 +220,7 @@ class Commands {
                 name: "First Brain: Decrease",
             },
 
+            /*
             {
                 id: "open-file",
                 fn: function() {
@@ -205,6 +231,7 @@ class Commands {
                 description: "Will open a new file",
                 name: "Open File",
             },
+            */
 
             {
                 id: "open-help-modal",
@@ -327,6 +354,7 @@ class Commands {
                 name: "New Note",
             },
 
+            /*
             {
                 id: "search",
                 fn: async function() {
@@ -336,6 +364,7 @@ class Commands {
                 description: "Search Notes, Files and more",
                 name: "Search",
             },
+            */
 
             {
                 id: "add-new-line",
@@ -346,6 +375,7 @@ class Commands {
                 name: "Add New Line",
             },
 
+            /*
             {
                 id: "open-text-file",
                 fn: async function() {
@@ -360,6 +390,7 @@ class Commands {
                 description: "Will open a new text file",
                 name: "Open Text File",
             },
+            */
 
             {
                 id: "open-note-on-a-mind-map",
@@ -369,8 +400,6 @@ class Commands {
                     function on_click( event ) {
                         document.removeEventListener( "click", on_click )
                         let id        = event.target.id.split("-")[1]
-                        printf( "event.target -> ", event.target.id )
-                        printf( "id -> ", id )
                         if( id ) {
                             let component = new ilse.classes.Component({ type: "mind-map", width: 12, props: { id: id } })
                                 ilse.components.push( component )
@@ -435,11 +464,9 @@ class Commands {
                 fn: async function() {
 
                     let dom = document.activeElement
-                    printf( "dom -> ", dom )
                         if( !dom ) return
 
                     let id = dom.id
-                    printf( "id -> ", id )
                         if( !id ) return
                     let note = ilse.notes.query( `${id}: ` )[0]
                     Messager.emit( "~note.vue", "open-search", { target: note.id, type: "files" } )
@@ -487,6 +514,7 @@ class Commands {
                 name: "First Brain: Remove Tag",
             },
 
+            /*
             {
                 id: "open-query-blocks",
                 fn: async function() {
@@ -496,7 +524,9 @@ class Commands {
                 description: "Will open a new 'query blocks' component",
                 name: "Open Query Blocks",
             },
+            */
 
+            /*
             {
                 id: "open-spreadsheet",
                 fn: async function() {
@@ -506,7 +536,9 @@ class Commands {
                 description: "Will open a new component for Spreadsheets",
                 name: "Open Spreadsheets",
             },
+            */
 
+            /*
             {
                 id: "open-calendar",
                 fn: async function() {
@@ -516,7 +548,9 @@ class Commands {
                 description: "Will open a new component for the Calendar",
                 name: "Open Calendar",
             },
+            */
 
+            /*
             {
                 id: "open-kanban",
                 fn: async function() {
@@ -526,6 +560,7 @@ class Commands {
                 description: "Will open a new component for a Kanban",
                 name: "Open Kanban",
             },
+            */
 
             {
                 id: "toggle-home-page",
@@ -577,10 +612,7 @@ class Commands {
             {
                 id: "rotate-theme",
                 fn: async function() {
-                    printf( "ilse.themes -> ", ilse.themes )
-                    printf( "ilse.themes -> ", ilse.themes.themes )
-                    let themes =ilse.notes.query('#i/theme/')
-                    printf( "themes -> ", themes )
+                    // let themes =ilse.notes.query('#i/theme/')
                 },
                 description: "Go to the next theme available",
                 name: "Rotate theme",
@@ -595,9 +627,9 @@ class Commands {
                 name: "Reset Theme",
             },
 
-
-
         ]
+
+        this.add_components_commands()
     }
 
 }

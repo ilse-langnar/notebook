@@ -4,7 +4,7 @@
     p( v-if="!options.hideBullet" slot="icon" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" ).paragraph-note ⚫
 
     // Edit Mode
-    textarea.textarea( v-if="inote.is_editable" v-model="options.is_tagless ? inote.tagless : inote.content" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent @click="on_textarea_click($event, inote)" )
+    input.editable( v-if="inote.is_editable" v-model="options.is_tagless ? inote.tagless : inote.content" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent @click="on_textarea_click($event, inote)" )
 
     // show mode
     .markdown( v-show="!inote.is_editable" v-html="get_html(options.is_tagless ? inote.tagless : inote.content )" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )
@@ -127,7 +127,7 @@ export default {
                         value = note.caret.insert( `![[${text.replace(".md", "")}]]` )
                     }
 
-                    setTimeout( () => { note.focus(); _this.resize_textarea() }, 1 )
+                    // setTimeout( () => { note.focus(); _this.resize_textarea() }, 1 )
 
                     _this.set_content( value )
 
@@ -237,7 +237,7 @@ export default {
             Messager.emit( "~note", "change", { note: this.inote })
 
             // ilse.notes.save()
-            this.resize_textarea()
+            // this.resize_textarea()
         },
 
         get_html( content ) {
@@ -310,7 +310,7 @@ export default {
                 setTimeout( ( )  => {
                     let dom = document.getElementById( inote.id )
                     if( dom ) dom.focus()
-                    this.resize_textarea()
+                    // this.resize_textarea()
                 }, 50 )
 
                 this.inote.is_editable = true
@@ -418,8 +418,7 @@ export default {
 
         open_search( filter = "all" ) {
             this.inote.caret.get() 
-            printf( "Note.vue -> open_search -> type ", filter )
-            ilse.modals.open( "search", {mode: "embed", filter, is_markdown_mode_on: true, id: this.inote.id} )
+            ilse.modals.open( "search", {mode: "embed", filter, is_markdown_mode_on: true, id: this.inote.id })
         },
 
         listen() {
@@ -428,6 +427,7 @@ export default {
 
             Messager.on( "~search.vue", async ( action, payload ) => {
                 if( action === "select" && this.inote.id === payload.target) this.on_note_search_result_select( payload.type, payload.text )
+                if( action === "cancel" && this.inote.id === payload.target) this.inote.focus()
             })
 
             Messager.on( "~note.vue", async ( action, payload ) => {
@@ -479,9 +479,33 @@ export default {
     font-size: 1em;
 }
 
+/*
+.textarea.editable {
+    width:100%;
+    direction:rtl;
+    display:block;
+    max-width:100%;
+    line-height:1.5;
+    padding:15px 15px 30px;
+    border-radius:3px;
+    border:1px solid #F7E98D;
+    font:13px Tahoma, cursive;
+    transition:box-shadow 0.5s ease;
+    box-shadow:0 4px 6px rgba(0,0,0,0.1);
+    font-smoothing:subpixel-antialiased;
+    background:linear-gradient(#F9EFAF, #F7E98D);
+    background:-o-linear-gradient(#F9EFAF, #F7E98D);
+    background:-ms-linear-gradient(#F9EFAF, #F7E98D);
+    background:-moz-linear-gradient(#F9EFAF, #F7E98D);
+    background:-webkit-linear-gradient(#F9EFAF, #F7E98D);
+}
+*/
+
+/*
 .textarea {
     width: 100% !important;
     overflow: hidden;
+    line-height:1;
     height: 30px !important;
     margin: 0 !important;
     padding: 0px !important;
@@ -491,6 +515,23 @@ export default {
     background: var( --background-color );
     color: var( --text-color );
 }
+*/
+
+
+input:focus{
+    outline: none;
+}
+
+.editable {
+    background: var( --background-color );
+    color: var( --text-color );
+    width: 100%;
+    margin: 0 !important;
+    padding: 0px !important;
+    font-size: 1em;
+    border: 1px solid transparent;
+}
+
 
 .note .textarea {
     border-bottom: 1px solid var( --text-color );
@@ -499,6 +540,7 @@ export default {
 .markdown {
     margin-bottom: 6px;
     width: fit-content;
+    font-size: 1em;
 }
 
 .paragraph-note {
