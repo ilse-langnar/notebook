@@ -10,49 +10,38 @@ let ref
 export default class Caret {
 
     constructor( note ) {
-
-        this.pos    = {}
-
-        // ref = note
-        // this.note   = note
+        // this.pos    = {}
         this.id     = note.id
-        this.listen( note )
+        // this.listen( note )
     }
 
+    /*
     listen( note ) {
 
         Messager.on( "~carret", ( action, payload ) => {
-
-            if( action === 'append' && payload.target === note.id ) {
-                note.content += payload.content
-            }
-
+            if( action === 'append' && payload.target === note.id ) { note.content += payload.content }
         })
     }
+    */
 
-    set_element() {
-        this.element = document.getElementById( this.id )
-    }
+    // set_element() {
+        // this.element = document.getElementById( this.id )
+    // }
 
     add( content ) {
         this.set_element()
-        printf( "AAAAAAAAAAAAAAAAA Caret.js -> add -> content -> ", content )
         Messager.emit( "~carret", "append", { target: this.id, content: content })
-        // printf( "Caret.js -> add -> content -> ", content )
-        // let element = this.element
-        // printf( "Caret.js -> add -> element -> ", element )
-        // ref.content += content
-        // printf( "Caret.js -> add -> ref -> ", ref )
-        // this.note.content += content
-        // element.textContent += content
-        // printf( "Caret.js -> element.textContent -> ", element.textContent )
     }
 
     insert( text ) {
 
-        this.set_element()
-         // var txtarea = document.getElementById( this.inote.id )
-         var txtarea = this.element
+        // this.set_element()
+        // var txtarea = document.getElementById( this.inote.id )
+        // var txtarea = this.element
+
+        let note       = ilse.notes.query( `${this.id}: ` )[0]
+        const txtarea  = document.getElementById( note.id )
+        // var txtarea = dom
 
          var strPos = 0;
          var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ?
@@ -65,33 +54,38 @@ export default class Caret {
 
          } else if (br == "ff") strPos = txtarea.selectionStart;
 
-         var front = (txtarea.value).substring(0, strPos);
-         var back = (txtarea.value).substring(strPos, txtarea.value.length);
-         txtarea.value = front + text + back;
-         strPos = strPos + text.length;
-         if (br == "ie") {
-             txtarea.focus();
-             var range = document.selection.createRange();
-             range.moveStart('character', -txtarea.value.length);
-             range.moveStart('character', strPos);
-             range.moveEnd('character', 0);
-             range.select();
+        var front = (txtarea.value).substring(0, strPos);
+        var back = (txtarea.value).substring(strPos, txtarea.value.length);
+        txtarea.value = front + text + back;
+        strPos = strPos + text.length;
+        if (br == "ie") {
+            txtarea.focus();
+            var range = document.selection.createRange();
+            range.moveStart('character', -txtarea.value.length);
+            range.moveStart('character', strPos);
+            range.moveEnd('character', 0);
+            range.select();
 
-         } else if (br == "ff") {
-             txtarea.selectionStart = strPos;
-             txtarea.selectionEnd = strPos;
-             txtarea.focus();
-         }
+        } else if (br == "ff") {
+            txtarea.selectionStart = strPos;
+            txtarea.selectionEnd = strPos;
+            txtarea.focus();
+        }
 
-         return txtarea.value
+        // Set Note
+        note.content = txtarea.value
 
+        return txtarea.value
      }
 
     set( start, end ) {
 
         // const ctrl = document.getElementById( this.inote.id )
-        this.set_element()
-        const ctrl = this.element
+        // this.set_element()
+        // const ctrl = this.element
+        let note   = ilse.notes.query( `${this.id}: ` )[0]
+        const ctrl = document.getElementById( note.id )
+        // const ctrl = dom
 
 
         // IE >= 9 and other browsers
@@ -108,11 +102,13 @@ export default class Caret {
 
     }
 
-    get() {
+    get( ) {
 
         // const ctrl = document.getElementById( this.inote.id )
-        this.set_element()
-        const ctrl = this.element
+        // this.set_element()
+        // const ctrl = this.element
+        let note   = ilse.notes.query( `${this.id}: ` )[0]
+        const ctrl = document.getElementById( note.id )
 
         // IE < 9 Support
         if (document.selection) {

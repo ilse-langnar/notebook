@@ -63,22 +63,23 @@ This started with frustration not only with lock-in but the lack of extensabilit
 |--------------|-----------|------------|
 | Dark Mode              | You can have different styles and they can have a light and a dark mode, if you download a theme, you can toggle dark mode with `C-SPC d d` or executing the "toggle-dark-mode" command | ![Dark Mode](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-dark-mode.gif) | 
 | Zen Mode                | Allows you to focus on a single component and forget about anything else. | |
-| Themes                | You can have multiple themes and switch between them as you like. | ![Themes](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-themes.gif) | |
+| Themes                | You can have multiple themes and switch between them as you like. | ![Themes](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-themes.gif) | 
 | Easy Import/Export    | TODO  | |
 | Multi Language Support | Ilse supports many different language.  | ![Multi Language](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-multi-language.gif) |
-| Note Reference | You can embed a note inside another note.  | ![Note Embed](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-note-embed.gif) | |
-| File Reference | TODO  | |
+| Note Reference | You can embed a note inside another note.  | ![Note Embed](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-note-embed.gif) |
+| File Reference | Reference files inside notes.  | ![File Embed](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-file-embed.gif) |
 | Multiple Components | You can check a file while looking at the calendar and your daily notes.  | ![Multiple Components](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-multiple-components.gif) |
 | Homepage | TODO  | |
 | Graph | TODO  | |
 | Keyboard Shortcut | Bind shortcuts from simple such as `ctrl+s` to complex such as `ctrl+space i z`  | | ![Keyboard Shortcuts](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-shortcuts.gif) | 
 | Commands and Command Pallet | See all the available commands with the command pallet, execute any function with commands  | ![Command Pallet](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-command-pallet.gif) | 
-| Study Tools | See "Studying with Ilse" for more | |
+| Study Tools | See "Studying with Ilse" for more | 
 | Daily Notes | This is your hub, this is where you start off if you're confused as to where to go. | ![Daily Notes](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-daily-notes.gif) |
 | Multiple Directories | You can have as many directories as you want, maybe something for work, something for study etc. | |
 | CRM | TODO | |
 | Task Manager | TODO | |
 | File Embed | TODO | |
+| Media Embed | Embed images, videos, sounds, gifs and more. | ![Media Embed](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-media-embed.gif) |
 | Note Embed | TODO | |
 
 
@@ -140,7 +141,7 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Make a `Plugin` |  A plugin is where you actually extend ilse with more components, commands and functionality, make plugins using:  [Plugin Template](https://github.com/ilse-langnar/plugin-template). | High |
 | Make a `Blog/Article/Video` | Create something documenting how you use ilse in your life, I'll greatly appreciate it!. | Medium |
 | Make Memes | Help spread the tool with virality and easy-to-consume memes. | High |
-| Join Discord | I'll post updates, ideas, plugins, themes, snippets, commands screenshots and more. | Medium |
+| Join Discord | I'll post updates, ideas, plugins, themes, snippets, commands screenshots and more. https://discord.gg/9BVx8YHr | Medium |
 | Fix a bug yourself | Modify the code and then do a push into the `dev` branch, I'll later move it to more stable branches. | High |
 | Become smarter| That's the final goal here, the final goal is better thinking. | Inifinity |
 

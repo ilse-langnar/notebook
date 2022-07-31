@@ -4,7 +4,7 @@
     p( v-if="!options.hideBullet" slot="icon" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" ).paragraph-note ⚫
 
     // Edit Mode
-    input.editable( v-if="inote.is_editable" v-model="options.is_tagless ? inote.tagless : inote.content" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent @click="on_textarea_click($event, inote)" )
+    input.editable( v-if="inote.is_editable" type="text" v-model="options.is_tagless ? inote.tagless : inote.content" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent @click="on_textarea_click($event, inote)" )
 
     // show mode
     .markdown( v-show="!inote.is_editable" v-html="get_html(options.is_tagless ? inote.tagless : inote.content )" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )
@@ -106,44 +106,41 @@ export default {
 
             let _this   = this
             let note    = this.inote
-            printf( ">>>>on_note_search_result_select -> " )
+
+            // value = note.caret.insert( `((${text}))` )
+            // value = note.caret.insert( `![[${text.replace(".md", "")}]]` )
 
             setTimeout( () => {
 
                 this.inote.focus()
+                let dom         = document.getElementById( note.id )
+                printf( "dom -> ", dom )
 
-                note.caret.set( note.caret.pos.start, note.caret.pos.end )
+                note.caret.set( note.caret.pos.start, note.caret.pos.end, dom )
 
+                // TODO: 'insert' receives a dom, remove 'set-element', then find a way of persisting to the note.
                 setTimeout( () => {
+
                     // BUGFIX: For some reason after inserting "id+))" if we blur we'll lose and go back to "((" This fixes this issue by setting inote.content directly
+                    let is_note_ref = type === "note" && note.content.indexOf(text) === -1 
+                    let is_file_ref = type === "file" && note.content.indexOf( text.replace(".md", "") ) === -1 
                     let value
 
-                    printf( "type -> ", type )
-                    printf( "note.content -> ", note.content )
-                    printf( "text -> ", text )
-                    if( type === "note" && note.content.indexOf(text) === -1 ) {
-                        value = note.caret.insert( `((${text}))` )
-                    } else if( type === "file" && note.content.indexOf( text.replace(".md", "") ) === -1 ) {
-                        value = note.caret.insert( `![[${text.replace(".md", "")}]]` )
-                    }
+                    _this.inote.focus() 
 
-                    // setTimeout( () => { note.focus(); _this.resize_textarea() }, 1 )
+                    if( is_note_ref ) value = note.caret.insert( `((${text}))`, dom )
+                    if( is_file_ref ) value = note.caret.insert( `![[${text.replace(".md", "")}]]`, dom )
+                    // setTimeout( () => { _this.inote.focus() }, 1000 )
 
-                    _this.set_content( value )
+                    // this.inote.content = value
+                    // this.resize_textarea()
 
-                    setTimeout( () => { _this.inote.focus() }, 100 )
                 }, 100 )
 
             }, 100 )
 
             // this.close_overlay( "search" )
 
-        },
-
-        set_content( value ) {
-            this.inote.content = value
-            this.resize_textarea()
-            // this.inote.focus()
         },
 
         /*
@@ -272,7 +269,7 @@ export default {
             */
         },
 
-        on_focus( event, inote ) {
+        listen_to_embed_keys() {
 
             let _this = this
 
@@ -287,6 +284,17 @@ export default {
                 event.preventDefault()
                 _this.open_search( "files" )
             })
+
+        },
+
+        stop_listening_to_embed_keys() {
+            ilse.keyboard.Mousetrap.unbind( "ctrl+space right-square-bracket")
+            ilse.keyboard.Mousetrap.unbind( "ctrl+space (")
+        },
+
+        on_focus( event, inote ) {
+
+            this.listen_to_embed_keys()
 
             // let shift = event.shiftKey
                 // if( shift ) return
@@ -323,8 +331,7 @@ export default {
 
         on_blur( event, inote ) {
 
-            ilse.keyboard.Mousetrap.unbind( "ctrl+space right-square-bracket")
-            ilse.keyboard.Mousetrap.unbind( "ctrl+space (")
+            this.stop_listening_to_embed_keys()
 
             if( inote.id === this.inote.id ) {
                 // Blur
@@ -426,13 +433,20 @@ export default {
             let _this = this
 
             Messager.on( "~search.vue", async ( action, payload ) => {
+
                 if( action === "select" && this.inote.id === payload.target) this.on_note_search_result_select( payload.type, payload.text )
-                if( action === "cancel" && this.inote.id === payload.target) this.inote.focus()
+                if( action === "cancel" && this.inote.id === payload.target) {
+                    setTimeout( () => { this.inote.focus(); _this.listen_to_embed_keys() }, 500 )
+                }
             })
 
             Messager.on( "~note.vue", async ( action, payload ) => {
                 // if( action === "open-search" && payload.target === _this.inote.id ) this.open_search( payload.type ) 
                 if( action === "link-click" ) if( this.inote.id === payload.target ) _this.$emit( "on-link-click", { link: payload.link, event: payload.event, note: _this.inote } )
+            })
+
+            Messager.on( "~carret", async ( action, payload ) => {
+
             })
 
         },
@@ -478,6 +492,28 @@ export default {
     min-height: 20px;
     font-size: 1em;
 }
+
+/*
+.textarea {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 10px;
+
+    background: var( --background-color );
+    color: var( --text-color );
+    width: 100%;
+    margin: 0 !important;
+    padding: 0px !important;
+    font-size: 1em;
+    border: 1px solid transparent;
+    line-height: 1;
+    resize: none;
+    height: 1em;
+}
+*/
 
 /*
 .textarea.editable {

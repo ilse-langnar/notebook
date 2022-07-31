@@ -138,35 +138,14 @@ export default class Markdown {
                     if( is_electron ) return `<audio class="audio" title="${url}" controls title="${url}" src="atom://${target_dir}/second/${url}"/>`
                     return `<audio class="audio" title="${url}" controls title="${url}" src="http://localhost:8090/file/${url}"/>`
                 } else if( is_file ) {
-                    let id = `file-${url}`
-                    let content
 
-                    // ilse.__HTML_CACHE = {}
+                    let id      = `file-${url}`
+                    let content = ilse.filesystem.file.read.sync( "/second/" + url + ".md" )
 
-                    async function get() {
-                        content = await ilse.filesystem.file.read.sync( "/second/" + url + ".md" )
-                        printf( ">>> content -> ", content )
-                        if( !ilse.__HTML_CACHE ) {
-                            ilse.__HTML_CACHE = {}
-                            ilse.__HTML_CACHE[url] = content
-                        } else {
-                            ilse.__HTML_CACHE[url] = content
-                        }
-                    }
-                    get()
-
-                    // ${ilse.__HTML_CACHE ? ilse.__HTML_CACHE[url] : "HMMM"}
-                    if( is_electron ) return `<div>
+                    if( is_electron ) return `<div class="file-reference" >
                             <h3> ${url} </h3>
-                            <textarea style="width: 50vw; height: 300px; background: var( --background-color ); color: var( --text-color ); resize: none;" >
-                            ${url}
-                            ${ilse.__HTML_CACHE[url]}
-                            </textarea>
-                        </div>
-                    `
-                    // <img style="width: 1px;" onload="console.log(document.getElementById('${id}'))" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAIAAAD9MqGbAAAAA3NCSVQICAjb4U/gAAAAHElEQVQ4y2P8//8/A1mAiYFcMKpzVOeozuGoEwAt9wMjCmsdlAAAAABJRU5ErkJggg==" />
-                    // <img style="width: 1px;" onload="async function set() { printf( "${content}" ) }; set()" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAIAAAD9MqGbAAAAA3NCSVQICAjb4U/gAAAAHElEQVQ4y2P8//8/A1mAiYFcMKpzVOeozuGoEwAt9wMjCmsdlAAAAABJRU5ErkJggg==" />
-
+                            ${content}
+                        </div> `
                     return `<div> <img style="border: 1px solid #000; width: 40px;" onload="console.log('hahaahahah')" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAIAAAD9MqGbAAAAA3NCSVQICAjb4U/gAAAAHElEQVQ4y2P8//8/A1mAiYFcMKpzVOeozuGoEwAt9wMjCmsdlAAAAABJRU5ErkJggg==" /> File: ${url} </div> `
 
                 }
