@@ -22,26 +22,9 @@ export default class Notes {
     }
 
     async _setup() {
+        this.demo()
         this.listen()
         this.watch_file()
-        this._auto_save()
-    }
-
-    add_default() {
-
-        let has_any_nore = this.list.length
-            if( has_any_nore ) return
-
-        let time_id          = this.ilse.utils.get_unique_date_id() // 20220120155758
-        let spaces           = this.ilse.utils.get_depth_spaces( 0 )
-        let note           = `${spaces}${time_id}: Hello, World` // 20220120155758: Hello, World
-
-        let instance         = new this.ilse.classes.Note( note )
-            this.list.push( instance )
-    }
-
-    _auto_save() {
-        // setTimeout( () => { this.save() }, 1000 * 5/*every 5 minutes*/ )
     }
 
     watch_file() {
@@ -55,7 +38,7 @@ export default class Notes {
             } else {
                 window.lastClick2 = Date.now();
 
-                let text  = await this.filesystem.file.get( "notes" )
+                let text  = await this.filesystem.file.read.async( "notes" )
                 let lines = text.split("\n")
 
                 let added = lines.slice( this.list.length-1, lines.length ).filter( e=>e )
@@ -65,42 +48,6 @@ export default class Notes {
         })
 
     }
-
-    // Watches notes for more or less notes.
-    // async watch_file() {
-
-        // let one_minute   = 1 /*minutes*/ * 60 /*second*/ * 1000 /*miliseconds*/
-        // let thirty_seconds = 30 /*second*/ * 1000 /*miliseconds*/
-        // let len            = this.list.length
-        // let text
-        // let notes
-        // let has_new_notes
-        // let depth
-
-        // setInterval( async () => {
-            // len            = this.list.length
-            // text           = await this.filesystem.file.get( "notes" )
-            // notes          = text.split("\n")
-            // has_new_notes  = notes.length !== len
-
-            // if( has_new_notes ) {
-                // let new_notes_negative_index = len - notes.length
-                // let new_items                = notes.slice( --new_notes_negative_index ).filter( e=>e )
-                // let has_new_items            = new_items.length
-
-                // if( has_new_items ) {
-
-                    // new_items.map( item => {
-                        // this.add( item, this.list.length, 0 )
-                    // })
-
-                    // Messager.emit( "~notes", "reload" ) // Problem: We'll try scrolling with that bread moment of no notes, which
-                // }
-            // }
-
-        // }, thirty_seconds )
-
-    // }
 
     async save( avoid_saving = false ) {
 
@@ -124,33 +71,62 @@ export default class Notes {
 
         if( avoid_saving ) return
 
-        await this.filesystem.file.set( "notes", file )
+        await this.filesystem.file.write.async( "notes", file )
 
     }
+
+    async demo() {
+        let is_demo          = this.ilse.platform === "demo"
+            if( !is_demo ) return
+
+        if( has_notes ) await this.filesystem.file.write.async( "notes", "" )
+
+        // let demo_notes  = this.filesystem.filesystem.DEMO_NOTES
+        let demo_notes  = ilse.DEMO_NOTES
+        let len         = demo_notes.length
+
+        this.add( `Click on the help button on top for the tutorial`, this.list.length, 0 )
+   }
 
     async create_notes_if_not_there() {
 
         let _this            = this
-        let is_demo          = this.ilse.platform === "demo"
-        let has_z            = await this.filesystem.file.exists( "notes" )
+        let content          = await this.filesystem.file.read.async( "notes" )
+        printf( "!!content -> ", !!content )
 
-        let time_id          = ilse.utils.get_unique_date_id() // 20220120155758
-        let note           = `${time_id}: "Hello, World2"` // 20220120155758: Hello, World
-        let notes          = ""
+        if( !content ) {
+            ilse.notes.add( "Write Something" )
 
-        if( is_demo ) {
+            setTimeout( () => {
+                ilse.notes.save()
+            }, 1000  )
 
-            if( has_z ) await this.filesystem.file.set( "notes", "" )
-            let demo_notes  = this.filesystem.filesystem.DEFAULT_NOTES
-            let len         = demo_notes.length
-
-            this.add( `Click on the help button on top for the tutorial`, this.list.length, 0 )
-
-        } else {
-            if( has_z ) return
-            note           = `${time_id}: "Hello, World"` // 20220120155758: Hello, World
-            await this.filesystem.file.set( "notes", note )
         }
+
+        // printf( "this.list -> ", this.list )
+        /*
+        let initial_notes = ilse.INITIAL_NOTES
+        printf( "initial_notes -> ", initial_notes )
+
+        let engine        = setInterval( () => {
+
+            if( initial_notes.length ) {
+                if( _this.add ) {
+                    _this.add( initial_notes[0] )
+                    initial_notes.shift()
+                }
+            } else {
+                clearInterval( engine )
+                this.save()
+                return
+            }
+
+        }, 1000 )
+        */
+
+        // note           = `${time_id}: "Hello, World"` // 20220120155758: Hello, World
+        // await this.filesystem.file.write.async( "notes", note )
+        // await this.filesystem.file.write.async( "notes", note )
 
     }
 
@@ -159,7 +135,7 @@ export default class Notes {
         // BUGFIX: if no 'notes', create it and give a hello, world note.
         await this.create_notes_if_not_there()
 
-        let textfile         = await this.filesystem.file.get( "notes" )
+        let textfile         = await this.filesystem.file.read.async( "notes" )
 
             if( !textfile ) {
                 this.list           = []
@@ -228,7 +204,6 @@ export default class Notes {
     }
 
     _after_we_have_the_notes() {
-        this.add_default()
         this.has_loaded = true
         this._scan_tags()
         this._scan_links()
@@ -283,7 +258,7 @@ export default class Notes {
                 // if not exists, create
                     try {
                         // printf( "link -> ", link )
-                        exists         = await this.filesystem.file.exists( path.join("second" , link) )// link - > "Psycology Papers.md"
+                        exists         = await this.filesystem.file.exists.async( path.join("second" , link) )// link - > "Psycology Papers.md"
                     } catch( e ) {
                         exists = false
                     }
@@ -294,7 +269,7 @@ export default class Notes {
 
                 // Is an actual file, then create
                     if( !exists ) {
-                        await this.filesystem.file.set( path.join("second" , link), link )
+                        await this.filesystem.file.write.async( path.join("second" , link), link )
                     }
 
                 Messager.emit( "~notes", "link", { link, note } )
@@ -399,7 +374,20 @@ export default class Notes {
 
     add( content, index = null, depth = 0 ) {
 
-        let location         = index ? index : this.list.length - 1
+        let location         = 0
+        // if( index === 0 || index === -1 ) location = 0
+        if( index === null ) {
+            if( this.list.length >= 1 ) {
+                location = this.list.length - 1
+            } else {
+                location = 0
+            }
+        } else if( index === 0 ) {
+             location = this.list.length
+        } else {
+            location = index
+        }
+
         let time_id          = ilse.utils.get_unique_date_id() // 20220120155758
         let spaces           = ilse.utils.get_depth_spaces( depth )
         let note             = `${spaces}${time_id}: ${content}` // 20220120155758: Hello, World
@@ -407,22 +395,13 @@ export default class Notes {
         let instance         = new ilse.classes.Note( note )
             if( instance.depth >= 1 ) this.recursively_add_children( instance, location )
 
-            this.list.splice( location, 0, instance )
-
-        // do I need need this?
-        let after
-        location = Number(location)
-        if( location === 0  ) {
-            after = this.list[0]
+        if( location === 0 || location === -1 ) {
+            this.list.push( instance )
         } else {
-            after = this.list[location - 1]
+            this.list.splice( location, 0, instance )
         }
 
-        Messager.emit( "~notes", "added", {
-            note: instance,
-            after: after,
-        })
-
+        Messager.emit( "~notes", "added", { note: instance, index: location, })
         return instance
     }
 
@@ -475,6 +454,7 @@ export default class Notes {
         Messager.on( "~ilse", async (action, payload) => {
 
             if( action === "loaded" ) {
+                printf( "loaded -> " )
                 this.get_notes( payload )
             }
 

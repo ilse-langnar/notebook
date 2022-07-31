@@ -23,7 +23,7 @@ export default class Files {
     }
 
     async get_files() {
-        let files         = await this.filesystem.file.get_all()
+        let files         = await this.filesystem.file.get_all.async()
         this.list = files
     }
 

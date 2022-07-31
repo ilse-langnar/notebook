@@ -4,7 +4,7 @@
     .loading( v-if="!ilse.target_directories.length || !ilse.has_loaded " :key="ilse.key" )
         Setup
 
-    .ilse( v-if="ilse.target_directories.length && ilse.has_loaded " :key="ilse.key" :data-theme="get_data_theme()" :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
+    .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded" :key="ilse.key" :data-theme="get_data_theme()" :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
 
         TopMenu
         // HelloI18n

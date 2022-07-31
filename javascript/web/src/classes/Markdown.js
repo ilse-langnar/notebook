@@ -144,7 +144,7 @@ export default class Markdown {
                     // ilse.__HTML_CACHE = {}
 
                     async function get() {
-                        content = await ilse.filesystem.file.get( "/second/" + url + ".md" )
+                        content = await ilse.filesystem.file.read.sync( "/second/" + url + ".md" )
                         printf( ">>> content -> ", content )
                         if( !ilse.__HTML_CACHE ) {
                             ilse.__HTML_CACHE = {}

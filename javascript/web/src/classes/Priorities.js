@@ -24,7 +24,7 @@ export default class Priorities {
 
     async setup() {
 
-        let text        = await this.ilse.filesystem.file.get( "priorities" )
+        let text        = await this.ilse.filesystem.file.read.async( "priorities" )
         let list        = text.split("\n")
             list            = list.filter( e => e ) // BUGFIX: Removes any "" item
 
@@ -52,7 +52,7 @@ export default class Priorities {
         })
 
         let normalized_list = list.join("")
-        await this.ilse.filesystem.file.set( "priorities", normalized_list )
+        await this.ilse.filesystem.file.read.async( "priorities", normalized_list )
     }
 
 }

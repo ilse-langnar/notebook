@@ -69,40 +69,42 @@ export default class Filesystem {
         this.setup()
     }
 
-    setup() {
+    async setup() {
+        await this.create_default_dirs()
         this.loaded()
-        this.create_default_zir_files()
     }
 
-    async create_default_zir_files() {
+    async create_default_dirs() {
+
         if( !this.ilse.target_directories[0] ) return
 
-        let time_id         = this.ilse.utils.get_unique_date_id() // 20220120155758
-        let note            = `${time_id}: "Hello, World"` // 20220120155758: Hello, World
+        let has_notes       = await this.file.exists.async( "notes" )
+            if( !has_notes ) {
+                let time_id         = this.ilse.utils.get_unique_date_id()
+                let note            = `${time_id}: "Hello, World"` // 20220120155758: Hello, World
+                await this.file.write.async( "notes", note )
+            }
 
-        let has_notes       = await this.file.exists( "notes" )
-            if( !has_notes ) await this.file.set( "notes", note )
+        let has_queue       = await this.file.exists.async( "queue" )
+            if( !has_queue ) await this.file.write.async( "queue", "" )
 
-        let has_queue       = await this.file.exists( "queue" )
-            if( !has_queue ) await this.file.set( "queue", "" )
+        let has_statistics  = await this.file.exists.async( "statistics" )
+            if( !has_statistics ) await this.file.write.async( "statistics", "" )
 
-        let has_statistics  = await this.file.exists( "statistics" )
-            if( !has_statistics ) await this.file.set( "statistics", "" )
+        let has_priorities  = await this.file.exists.async( "priorities" )
+            if( !has_priorities ) await this.file.write.async( "priorities", "" )
 
-        let has_priorities  = await this.file.exists( "priorities" )
-            if( !has_priorities ) await this.file.set( "priorities", "" )
+        let has_first       = await this.dir.exists.async( "first" )
+            if( !has_first ) await this.dir.create.async( "first" )
 
-        let has_first       = await this.dir.exists( "first" )
-            if( !has_first ) await this.dir.create( "first" )
+        let has_second      = await this.dir.exists.async( "second" )
+            if( !has_second ) await this.dir.create.async( "second" )
 
-        let has_second      = await this.dir.exists( "second" )
-            if( !has_second ) await this.dir.create( "second" )
+        let has_trash       = await this.dir.exists.async(".trash")
+            if( !has_trash ) await this.dir.create.async( ".trash" )
 
-        let has_trash       = await this.dir.exists(".trash")
-            if( !has_trash ) await this.dir.create( ".trash" )
-
-        let has_plugins     = await this.dir.exists("plugins")
-            if( !has_plugins ) await this.dir.create( "plugins" )
+        let has_plugins     = await this.dir.exists.async("plugins")
+            if( !has_plugins ) await this.dir.create.async( "plugins" )
 
         // this.create_default_script()
 

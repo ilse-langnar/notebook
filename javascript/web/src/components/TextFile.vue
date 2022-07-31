@@ -66,7 +66,7 @@ export default {
             if( 3000 > (now - this.lastCalled) ) return
             this.lastCalled = now
 
-            await ilse.filesystem.file.set( fpath, text )
+            await ilse.filesystem.file.write.async( fpath, text )
         },
 
         go_back() {
@@ -94,15 +94,15 @@ export default {
 
             try {
 
-                let does_path_exists = await ilse.filesystem.file.exists( this.input )
-                let is_dir           = await ilse.filesystem.dir.is(  this.input )
+                let does_path_exists = await ilse.filesystem.file.exists.async( this.input )
+                let is_dir           = await ilse.filesystem.dir.is.async(  this.input )
 
                 if( does_path_exists && !is_dir ) {
                     this.type = "file"
-                    this.text = await ilse.filesystem.file.get(    this.input )
+                    this.text = await ilse.filesystem.file.read.async(    this.input )
                 } else if( does_path_exists && is_dir ){
                     this.type = "directory"
-                    this.directory_files = await ilse.filesystem.dir.list( this.input )
+                    this.directory_files = await ilse.filesystem.dir.list.async( this.input )
                 }
 
             } catch( e ) {

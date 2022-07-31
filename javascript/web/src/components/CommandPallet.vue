@@ -134,7 +134,6 @@ export default {
             let command     = this.get_command_by_name(name)
             let id          = command.id
             let shortcut    = this.get_command_shortcut( id )
-            printf( `name: ${name} - command: ${command} - id: ${id} - shortcut: ${shortcut}` )
 
             return shortcut
         },

@@ -47,9 +47,9 @@ export default class Config {
         let config
 
         try {
-            config = await ilse.filesystem.file.get( "config.json" )
+            config = await ilse.filesystem.file.read.async( "config.json" )
         } catch( e ) {
-            await ilse.filesystem.file.set( "config.json", JSON.stringify(DEFAULT_CONFIG) )
+            await ilse.filesystem.file.write.async( "config.json", JSON.stringify(DEFAULT_CONFIG) )
             this.load( ilse )
         }
 
@@ -116,7 +116,7 @@ export default class Config {
             object_to_save.keys       = ilse.keyboard.keys
 
 
-        await ilse.filesystem.file.set( "config.json", JSON.stringify( object_to_save, null, 4 ) )
+        await ilse.filesystem.file.write.async( "config.json", JSON.stringify( object_to_save, null, 4 ) )
 
         this.after_save()
     }

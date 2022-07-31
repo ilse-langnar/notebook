@@ -18,7 +18,7 @@ export default class Statistics {
 
     async setup() {
 
-        let text        = await this.ilse.filesystem.file.get( "statistics" )
+        let text        = await this.ilse.filesystem.file.read.async( "statistics" )
             if( !text ) return
 
         let list        = text.split("\n")

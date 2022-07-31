@@ -35,7 +35,7 @@ export default class Utils {
         return arr;
     }
 
-    sleep( ms ) {
+    sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
@@ -541,7 +541,7 @@ export default class Utils {
     async create_note( title, content ) {
 
         if( !title ) throw new Error( "Utils.js -> create_note(<title>, <content>)-> <title> is not defined" )
-        let result = await ilse.filesystem.file.set( title, content )
+        let result = await ilse.filesystem.file.write.async( title, content )
         return !!result
     }
 
@@ -833,7 +833,7 @@ export default class Utils {
                 if( file.indexOf("#") === -1 ) return []
 
         try {
-            content = await ilse.filesystem.file.get( file )
+            content = await ilse.filesystem.file.read.async( file )
         } catch( e ) {
             printf( "e -> ", e )
             return []
@@ -887,7 +887,7 @@ export default class Utils {
                 if( file.indexOf("#") !== -1 ) return []
 
         try {
-            content = await ilse.filesystem.file.get( file )
+            content = await ilse.filesystem.file.read.async( file )
         } catch( e ) {
             printf( "e -> ", e )
             return []

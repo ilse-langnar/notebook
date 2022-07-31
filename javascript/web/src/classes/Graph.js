@@ -41,7 +41,7 @@ export default class Graph {
     }
 
     async set_files() {
-        this.files          = await ilse.filesystem.file.get_all()
+        this.files          = await ilse.filesystem.file.get_all.async()
     }
 
     // Added files outside of ilse? no problem we scan them here.
@@ -76,7 +76,7 @@ export default class Graph {
 
         // Performance: Don't re-generate a graph if we already have it
         // TODO: Make saving/loading graph possible
-            let json           = await ilse.filesystem.file.get( 'graph.json' )
+            let json           = await ilse.filesystem.file.read.async( 'graph.json' )
 
             let has_graph
 
@@ -114,7 +114,7 @@ export default class Graph {
 
                 // Save generated graph to OS-FS
                     let normalized_graph = to_json( this.graph )
-                    await ilse.filesystem.file.set( "graph.json", normalized_graph )
+                    await ilse.filesystem.file.write.async( "graph.json", normalized_graph )
 
                 // UI
                     Messager.emit( "status-line", "set", "Graph Generated" )
@@ -361,7 +361,7 @@ export default class Graph {
             // Messager.emit( "status-line", "set", `Renamed ${old_title} to ${new_title}` )
 
         // Filesystem rename
-            await ilse.filesystem.file.rename( old_title, new_title )
+            await ilse.filesystem.file.rename.async( old_title, new_title )
 
         this.graph.removeNode( old_title )
 
@@ -485,13 +485,13 @@ export default class Graph {
         for( let backlink of backlinks ) {
             index++
 
-            let content = await ilse.filesystem.file.get( backlink.fromId )
+            let content = await ilse.filesystem.file.read.async( backlink.fromId )
 
             if( !content ) continue
 
             content = content.replace( old_link, new_link )
 
-            await ilse.filesystem.file.set( backlink.fromId, content )
+            await ilse.filesystem.file.write.async( backlink.fromId, content )
             Messager.emit( "status-line", "set", `Updating: ${index} of ${backlinks.length}` )
 
         }
@@ -511,7 +511,7 @@ export default class Graph {
             this.update_files_file( file, `${location}/${file}` )
 
         // Update on Filesystem
-            ilse.filesystem.file.rename( file, `${location}/${file}` )
+            ilse.filesystem.file.rename.async( file, `${location}/${file}` )
     }
 
     move_file_to_trash( file ) {

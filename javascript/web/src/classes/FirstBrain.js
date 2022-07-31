@@ -87,7 +87,7 @@ export default class FirstBrain {
     }
 
     async setup() {
-        let text   = await this.ilse.filesystem.file.get( "queue" )
+        let text   = await this.ilse.filesystem.file.read.async( "queue" )
             this.queue = text.split("\n")
             this.queue = this.queue.filter( e => e ) // BUGFIX: Removes any "" item
         // this.shuffle()
@@ -221,7 +221,7 @@ export default class FirstBrain {
         }
 
         // Analyze
-        let list             = await this.ilse.filesystem.dir.list( "first" )
+        let list             = await this.ilse.filesystem.dir.list.async( "first" )
         let normalized_list  = this.queue.map( item =>  { return item.split("/")[0] })
         let count            = 0
         let has_item
@@ -245,7 +245,7 @@ export default class FirstBrain {
     async save() {
         let array   = this.queue
         let queue   = array.join("\n")
-        await this.ilse.filesystem.file.set( "queue", queue )
+        await this.ilse.filesystem.file.read.async( "queue", queue )
     }
 
     last() {

@@ -60,7 +60,7 @@ export default {
             let blob        = buffer
 
             // Write to FS
-                await ilse.filesystem.file.set( ilse.path.join("second", file.name), blob )
+                await ilse.filesystem.file.write.async( ilse.path.join("second", file.name), blob )
 
             // Contentt
                 let content = `${this.content} ![[${file.name}]]`

@@ -56,6 +56,7 @@ export default class Ilse {
         this.name                   = "Ilse Langnar's Notebook"
         this.key                    = "ilse-key"
         this.keys                   = { daily_notes: "daily-notes-key" }
+        this.INITIAL_NOTES          = [ "This is ilse langnar's notebook", "try writing a note below!!" ]
         this.ISO_language_name      = {
             "en": "English(English)",
             "zh": "Chinese Simplified(简体中文)",
@@ -230,11 +231,11 @@ export default class Ilse {
         printf( ">>> create_daily_page" )
 
         let today           = this.utils.get_daily_note_format() + ".md"// Jan 10th , 2020
-        let exists          = await this.filesystem.file.exists( path.join("second" , today) )
+        let exists          = await this.filesystem.file.exists.async( path.join("second" , today) )
         let has_today_file  = !!exists
 
         if( !has_today_file ) {
-            await this.filesystem.file.set( path.join("second" , today), today )
+            await this.filesystem.file.write.async( path.join("second" , today), today )
         }
 
     }

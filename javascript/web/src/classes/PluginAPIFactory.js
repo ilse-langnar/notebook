@@ -64,7 +64,7 @@ class PluginAPIFactory {
 
             async save_plugin_telemetry() {
                 let normalized_statistics = JSON.stringify(PLUGIN_STATISTICS)
-                await this.filesystem.file.set( `plugins/${this.plugin_name}/statistics.json`, normalized_statistics, { query_param: true })
+                await this.filesystem.file.write.async( `plugins/${this.plugin_name}/statistics.json`, normalized_statistics, { query_param: true })
             }
 
             // FUTURE: Warn the user that this plugin access the filesystem
@@ -148,7 +148,7 @@ class PluginAPIFactory {
                 if( typeof json === "object" )  {
 
                     let normalized_data = pretty === true ? JSON.stringify( json, null, 4 ) : JSON.stringify( json )
-                    let data            = await this.filesystem.file.set( `plugins/${this.plugin_name}/data.json`, normalized_data )
+                    let data            = await this.filesystem.file.write.async( `plugins/${this.plugin_name}/data.json`, normalized_data )
 
                     return data
 
@@ -160,7 +160,7 @@ class PluginAPIFactory {
 
             // loads data.json from your plugin
             async load() {
-                let data = await this.filesystem.file.get( `plugins/${this.plugin_name}/data.json`)
+                let data = await this.filesystem.file.read.async( `plugins/${this.plugin_name}/data.json`)
                 return data
             }
 
@@ -169,7 +169,7 @@ class PluginAPIFactory {
                 if( typeof json === "object" )  {
 
                     let normalized_data = pretty === true ? JSON.stringify( json, null, 4 ) : JSON.stringify( json )
-                    let data            = await this.filesystem.file.set( `plugins/${this.plugin_name}/configuration.json`, normalized_data )
+                    let data            = await this.filesystem.file.write.async( `plugins/${this.plugin_name}/configuration.json`, normalized_data )
 
                     return data
 
@@ -181,7 +181,7 @@ class PluginAPIFactory {
 
             // loads configuration.json from your plugin
             async load_configuration() {
-                let data = await this.filesystem.file.get( `plugins/${this.plugin_name}/configuration.json`)
+                let data = await this.filesystem.file.read.async( `plugins/${this.plugin_name}/configuration.json`)
                 return data
             }
 

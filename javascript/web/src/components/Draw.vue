@@ -47,7 +47,7 @@ export default {
             let name       = `image-${ilse.utils.get_unique_date_id()}.png`
             let buffer     = ilse.utils.decode_base64_image(image)
 
-            ilse.filesystem.file.set( `second/${name}`, buffer.data )
+            ilse.filesystem.file.write.async( `second/${name}`, buffer.data )
         },
 
         setup() {

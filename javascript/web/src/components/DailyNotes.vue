@@ -121,7 +121,6 @@ export default {
 
         // TODO: I'm for some reason cropping the ID, this should not be happening.
         on_no_note_ghost_enter( payload ) {
-            printf( "on_no_note_ghost_blur -> payload -> ", payload )
 
             let content     = payload.content
             let depth       = 0
@@ -132,7 +131,6 @@ export default {
         },
 
         on_no_note_ghost_blur( payload ) {
-            printf( "blur" )
         },
 
         // This does not work because we don't have the note.id inside of notes in the first place.
@@ -158,7 +156,6 @@ export default {
             let depth   = 0 // BUGFIX: don't do note.depth, otherwise it'll be weird.
 
             let new_note = ilse.notes.add_after( content, depth, note )
-            printf( "new_note -> ", new_note )
                 new_note.focus()
         },
 
@@ -214,8 +211,6 @@ export default {
 
         on_note_link_click( payload ) {
 
-            printf( "on_note_link_click -> payload -> ", payload )
-
             let note             = payload.note
             let file             = payload.link
             let event            = payload.event
@@ -224,17 +219,12 @@ export default {
             let is_relative      = payload.link.indexOf( "@" ) !== -1 
 
             if( is_relative ) {
-                printf( "is_relative -> ", is_relative )
                 let component = new ilse.classes.Component({ type: "text-file", width: 12, props: { name: payload.link.replace("@", "") }})
-                printf( ">>> compoennt -> ", component )
                     ilse.components.push( component )
                     return
             }
 
-            printf( ">>> is_relative -> ", is_relative )
-
             let is_file_markdown = !(file.indexOf(".png") !== -1 || file.indexOf(".jpg") !== -1 || file.indexOf(".jpeg") !== -1 || file.indexOf(".gif") !== -1 || file.indexOf(".svg") !== -1 || file.indexOf(".mp4") !== -1 || file.indexOf(".webm") !== -1 || file.indexOf(".mp3") !== -1 || file.indexOf(".ogg") !== -1 || file.indexOf(".wav") !== -1 || file.indexOf(".md") !== -1) 
-                printf( ">>> is_file_markdown -> ", is_file_markdown )
                 if( is_file_markdown ) file += ".md"
 
             // <=======> Shift <=======> //
@@ -254,7 +244,6 @@ export default {
         },
 
         on_tab( payload ) {
-            printf( "on_tab -> payload -> ", payload )
             payload.note.$depth( 1 )
         },
 
@@ -411,7 +400,6 @@ export default {
 
         // Give me a note(object) and I'll tell which day it is on.
         get_note_day( note ) {
-            printf( "DailyNotes -> get_note_day -> note -> ", note )
 
             /*
             this.days.map( day => {
@@ -440,14 +428,14 @@ export default {
 
                 if( action === "added" ) {
 
-                    printf( "added -> payload -> ", payload )
-                    let after       = payload.after
+                    printf( "payload -> ", payload )
+
+                    // TODO: don't rely on "after"?
+                    let index       = payload.index
                     let new_note    = payload.note
-                    let is_equal
-                    let day         = this.get_note_day( after )
-
+                    let after       = index === 0 ? ilse.notes.list[0] : ilse.notes.list[index - 1]
+                    let day         =  ilse.notes.list.length === 1 ? this.days[0] : this.get_note_day( after )
                     let note_index  = day.notes.indexOf( after )
-
                     let day_index   = this.days.indexOf( day )
                         this.days[day_index].notes.splice( ++note_index, 0, new_note )
 

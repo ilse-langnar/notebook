@@ -47,7 +47,7 @@ export default {
     watch: {
 
         async path( path ) {
-            let text = await ilse.filesystem.file.get( `/second/${path}` )
+            let text = await ilse.filesystem.file.read.async( `/second/${path}` )
             this.markdown = ilse.markdown.render( text )
         }
 

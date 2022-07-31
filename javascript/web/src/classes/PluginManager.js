@@ -56,11 +56,11 @@ class PluginManager {
 
         this.before_run( plugin )
 
-        let index           = await ilse.filesystem.file.get( "plugins/" + plugin + "/main.js")
+        let index           = await ilse.filesystem.file.read.async( "plugins/" + plugin + "/main.js")
 
-        let readme          = await ilse.filesystem.file.get( "plugins/" + plugin + "/readme.md")
+        let readme          = await ilse.filesystem.file.read.async( "plugins/" + plugin + "/readme.md")
 
-        let manifest        = await ilse.filesystem.file.get( "plugins/" + plugin + "/manifest.json")
+        let manifest        = await ilse.filesystem.file.read.async( "plugins/" + plugin + "/manifest.json")
             manifest           = JSON.parse( manifest )
 
         let icon            = manifest.icon
@@ -68,7 +68,7 @@ class PluginManager {
         if( icon ) {
             let icon_path   = `plugins/${plugin}/${icon}`
             try {
-                let img         = await ilse.filesystem.file.get( icon_path )
+                let img         = await ilse.filesystem.file.read.async( icon_path )
                 var svg     = new Blob([img], { type: "image/svg+xml;charset=utf-8" })
                     icon        = URL.createObjectURL( svg )
             } catch( e ) {
@@ -105,7 +105,7 @@ class PluginManager {
 
         let plugins = []
         try {
-            plugins    = await this.ilse.filesystem.dir.list( `plugins/` )
+            plugins    = await this.ilse.filesystem.dir.list.async( `plugins/` )
             if( plugins.code ) plugins = []
         } catch( e ) {
             Messager.emit( "status-line", "set", "No plugins found" )
@@ -114,7 +114,7 @@ class PluginManager {
 
         for( let plugin of plugins ) {
 
-            let files = await this.ilse.filesystem.dir.list( `plugins/${plugin}` )
+            let files = await this.ilse.filesystem.dir.list.async( `plugins/${plugin}` )
 
             // Plugin files
             for( let file of files ) {

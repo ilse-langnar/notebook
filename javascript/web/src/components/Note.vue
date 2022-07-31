@@ -93,7 +93,7 @@ export default {
             const buffer    = Buffer.from( arrayBuffer  ,'binary' )
             let blob        = buffer
 
-            await ilse.filesystem.file.set( ilse.path.join("second", file.name), blob )
+            await ilse.filesystem.file.write.async( ilse.path.join("second", file.name), blob )
 
             this.inote.focus()
 

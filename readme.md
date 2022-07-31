@@ -65,16 +65,16 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Zen Mode                | Allows you to focus on a single component and forget about anything else. | |
 | Themes                | You can have multiple themes and switch between them as you like. | ![Themes](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-themes.gif) | |
 | Easy Import/Export    | TODO  | |
-| Multi Language Support | TODO  | |
-| Note Reference | TODO  | |
+| Multi Language Support | Ilse supports many different language.  | ![Multi Language](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-multi-language.gif) |
+| Note Reference | You can embed a note inside another note.  | ![Note Embed](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-note-embed.gif) | |
 | File Reference | TODO  | |
-| Multiple Components | TODO  | |
+| Multiple Components | You can check a file while looking at the calendar and your daily notes.  | ![Multiple Components](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-multiple-components.gif) |
 | Homepage | TODO  | |
 | Graph | TODO  | |
-| Keyboard Shortcut | TODO  | |
-| Commands and Command Pallet | TODO  | |
+| Keyboard Shortcut | Bind shortcuts from simple such as `ctrl+s` to complex such as `ctrl+space i z`  | | ![Keyboard Shortcuts](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-shortcuts.gif) | 
+| Commands and Command Pallet | See all the available commands with the command pallet, execute any function with commands  | ![Command Pallet](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-command-pallet.gif) | 
 | Study Tools | See "Studying with Ilse" for more | |
-| Daily Notes | TODO | |
+| Daily Notes | This is your hub, this is where you start off if you're confused as to where to go. | ![Daily Notes](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-daily-notes.gif) |
 | Multiple Directories | You can have as many directories as you want, maybe something for work, something for study etc. | |
 | CRM | TODO | |
 | Task Manager | TODO | |

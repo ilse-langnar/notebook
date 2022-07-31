@@ -236,7 +236,7 @@ class Commands {
             {
                 id: "list-projects",
                 fn: async function() {
-                    let list = await ilse.filesystem.dir.list( "projects/" )
+                    let list = await ilse.filesystem.dir.list.async( "projects/" )
                     ilse.dialog.listing( "Files", "/", list, async selected =>{
                         printf( "selected -> ", selected )
 
@@ -278,7 +278,7 @@ class Commands {
             {
                 id: "search-files",
                 fn: async function() {
-                    let list = await ilse.filesystem.dir.list( "/" )
+                    let list = await ilse.filesystem.dir.list.async( "/" )
                     let is_file, file
 
                     // function show_list( title, description path, list, fn )
@@ -287,15 +287,15 @@ class Commands {
 
                     ilse.dialog.listing( "Files", "/", list, async selected => {
 
-                        is_file = await ilse.filesystem.file.is( selected )
+                        is_file = await ilse.filesystem.file.is.async( selected )
 
                         if( is_file ) {
-                            file    = await ilse.filesystem.file.get( selected )
+                            file    = await ilse.filesystem.file.read.async( selected )
                             ilse.dialog.info( `File: ${selected}`, file )
                         } else {
 
                             printf( "selected -> ", selected )
-                            list = await ilse.filesystem.dir.list( `/${selected}` )
+                            list = await ilse.filesystem.dir.list.async( `/${selected}` )
                             printf( ">>> list -> ", list )
 
                             ilse.dialog.listing( "Files", `/${selected}`, list, async selected_2 => {
@@ -317,8 +317,11 @@ class Commands {
                     printf( "new-note -> " )
                     let payload = await ilse.dialog.input( "New note", "Content:" )
                     let input   = payload.input
+                    printf( "input -> ", input )
                     let index   = ilse.notes.list.length
-                        ilse.notes.add( input, index, 0 )
+                    printf( "index -> ", index )
+                        // ilse.notes.add( input, index, 0 )
+                        ilse.notes.add( input )
                 },
                 description: "Will open a prompt for a new note",
                 name: "New Note",
