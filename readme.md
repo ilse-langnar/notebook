@@ -135,7 +135,7 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Donate Money| I'll work much harder and focused if I don't have to worry about my expenses thus making the project progress at a much faster rate. | High |
 | Become a tester |  If you have a "niche" device please join as a tester to test the stability in different platforms(Blackberry, BDS?, MacOS, Linux Distros, Older Windows ) | High |
 | Make a `command` |  A command is a executable piece of code encapsulated into a name, they're very good for speed! | Low |
-| Make a `CSS Snippet` | CSS snippets fix little style errores where a full theme would be unecessary, use: "#i/css ```css html, body { background: red; }```" | Low |
+| Make a `CSS Snippet` | CSS snippets fix little style errores where a full theme would be unecessary, use: "#i/css `\`\`\`css html, body { background: red; }\`\`\`` | Low |
 | Make a `Theme` |  A theme is like a bunch of css snippets but they relate to each other to form a more "grand" structure, use this template to create themes:  [Theme Template](https://github.com/ilse-langnar/theme-template) | Medium |
 | Make a `Plugin` |  A plugin is where you actually extend ilse with more components, commands and functionality, make plugins using:  [Plugin Template](https://github.com/ilse-langnar/plugin-template) | High |
 | Make a `Blog/Article` |  TODO | Medium |
