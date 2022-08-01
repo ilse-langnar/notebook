@@ -99,7 +99,7 @@ export default class note {
 
     }
 
-    get_tags() {
+    get_tags( query ) {
 
         let content = this.content
         let chunks  = content.split( " " )
@@ -112,7 +112,12 @@ export default class note {
             tags.push( chunk )
         })
 
-        return tags
+        if( !query ) {
+            return tags
+        } else {
+            let filtered = tags.filter( tag => { if( tag === query ) return tag })
+            return filtered
+        }
     }
 
     focus() {

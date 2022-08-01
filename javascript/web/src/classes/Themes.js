@@ -10,7 +10,7 @@ let DEFAULT_THEMES = [
     {
         css: `:root, .ilse[data-theme='light'] {
         --background-color: #EFEFEF;
-        --secondary-background-color: #D5DADF;
+        --secondary-background-color: #CED8E0;
         --secondary-text-color: #3c3b3b;
         --text-color: #717171;
         --border: 1px solid #4a4a4a;
@@ -27,7 +27,7 @@ let DEFAULT_THEMES = [
 
             --background-color: #131313ff;
             --text-color: #F8F8F8;
-            --secondary-background-color: #D5DADF;
+            --secondary-background-color: #DCEAF8;
             --secondary-text-color: #000;
             --border: 2px solid #777;
             --border-radius: 6px;

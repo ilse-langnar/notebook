@@ -291,6 +291,14 @@ code {
     border-radius: var( --border-radius );
 }
 
+.component-embed {
+    background-color: #D5DADF;
+    color: var( --secondary-text-color );
+    background-color: var( --secondary-background-color );
+    padding: var( --padding );
+    border-radius: var( --border-radius );
+}
+
 /*========Markdown========*/
 
 .input {

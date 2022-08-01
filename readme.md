@@ -80,6 +80,7 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Task Manager | TODO | |
 | File Embed | TODO | |
 | Media Embed | Embed images, videos, sounds, gifs and more. | ![Media Embed](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-media-embed.gif) |
+| Component Embed | Embed kanban, calendar, spreadsheets, Todos, reminders, help, tutorials, Mind Maps, Memex, Files and more inside a note. | ![Component Embed](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-component-embed.gif) |
 | Note Embed | TODO | |
 
 

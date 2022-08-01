@@ -1,25 +1,16 @@
 <template lang="pug" >
-.note.flex( v-if="is_on" :style="options.style" @click="on_note_root_click" )
+.note
+    .flex( v-if="is_on" :style="options.style" @click="on_note_root_click" )
 
-    p( v-if="!options.hideBullet" slot="icon" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" ).paragraph-note ⚫
+        p( v-if="!options.hideBullet" slot="icon" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" ).paragraph-note ⚫
 
-    // Edit Mode
-    input.editable( v-if="inote.is_editable" type="text" v-model="options.is_tagless ? inote.tagless : inote.content" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent @click="on_textarea_click($event, inote)" )
+        // Edit Mode
+        input.editable( v-if="inote.is_editable" type="text" v-model="options.is_tagless ? inote.tagless : inote.content" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent @click="on_textarea_click($event, inote)" )
 
-    // show mode
-    .markdown( v-show="!inote.is_editable" v-html="get_html(options.is_tagless ? inote.tagless : inote.content )" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )
+        // show mode
+        .markdown( v-show="!inote.is_editable" v-html="get_html(options.is_tagless ? inote.tagless : inote.content )" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )
 
-
-
-
-    // Search, both bullets/files
-    // .search-overlay( v-if="is_search_overlay_on" style="" )
-        // Search.centered( :width="100" :should-autofocus="true" :filter="search_filter" @on-result-select="on_note_search_result_select" @on-esc="close_focus_then_resize('search')" @on-blur="close_focus_then_resize('search')" )
-
-    // Options Lisp
-    // .options-overlay( v-if="is_options_overlay_on" style="" )
-        Options.centered( :width="100" :should-autofocus="true" @on-result-select="on_note_search_result_select" @on-esc="close_focus_then_resize('options')" @on-blur="close_focus_then_resize('options')" )
-
+    Component.component-embed( v-if="get_component()" :component="get_component()" style="display: block; overflow: hidden; margin-left: 50px; width: 90%; box-shadow:0 4px 6px rgba(0,0,0,0.1); padding: var( --padding );  " )
 
 </template>
 <script>
@@ -31,6 +22,9 @@ const printf                        = console.log;
 
 // Messager
     import Messager                     from "@/classes/Messager.js"
+
+// Components
+    import Component                    from "@/components/Component.vue"
 
 export default {
 
@@ -50,6 +44,10 @@ export default {
         },
     },
 
+    components: {
+        Component,
+    },
+
     data() {
         return {
             ilse: ilse,
@@ -58,14 +56,50 @@ export default {
 
             // This is for the [note ref] and [file ref]
             is_on: false,
-            is_search_overlay_on: false,
-            is_options_overlay_on: false,
             last_char: "",
             search: "",
         }
     },
 
     methods: {
+
+        get_component() {
+
+            let tags = this.inote.get_tags()
+                if( !tags.length ) return null
+
+            let to_return
+            tags.map( tag => {
+                if( tag.split('/').length >= 1 && tag.split('/')[1] === "component"  ) {
+                    let instance  = new ilse.classes.Component({ type: tag.split('/')[2], width: 12 })
+                    to_return = instance
+                }
+            })
+
+            return to_return
+
+            /*
+            // has tag = good, here's the component based on that
+            let all = this.inote.get_tags()
+            return null
+            printf( "all -> ", all )
+            if( all.indexOf("#i/component/") ) {
+                printf( "HAS" )
+
+            } else {
+                printf( "HAS NOT " )
+            }
+
+            let tag  = tags[0]
+
+            if( tag ) {
+                let name      = tag.split("/")[2]
+                let instance  = new ilse.classes.Component({ type: name, width: 12 })
+                return instance
+            }
+            */
+
+        },
 
         on_note_root_click( event ) {
             let note = this.note
@@ -142,24 +176,6 @@ export default {
             // this.close_overlay( "search" )
 
         },
-
-        /*
-        open_overlay( name ) {
-            // if( name === "search" ) this.is_search_overlay_on   = true
-            if( name === "search" ) ilse.modals.open( "search", {type: "embed", id: this.inote.id}, function(note) { printf( "LLLL", note ) } )
-            if( name === "options" ) this.is_options_overlay_on = true
-            this.last_char     = ""
-        },
-        */
-
-        /*
-        close_overlay( name ) {
-            if( name === "search" ) this.is_search_overlay_on   = false
-            if( name === "options" ) this.is_options_overlay_on = false
-            this.last_char     = ""
-            // this.inote.focus()
-        },
-        */
 
         on_note_left_click( event ) {
             this.$emit( "on-note-left-click", this.note )
@@ -588,6 +604,11 @@ input:focus{
     /*font-size:    1pc;*/
     font-size: 1.5em;
     cursor:       pointer;
+}
+
+.clear {
+    height: 30px;
+    clear: both;
 }
 
 </style>

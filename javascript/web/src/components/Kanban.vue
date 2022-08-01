@@ -13,12 +13,13 @@
 .kanban
     input.input.board-name( v-model="board_name" )
     .wrapper
-        .loop( v-for="( item, index ) in boards" :key="index" @dragenter.prevent @dragover.prevent style="border: 1px solid #000;" )
-            .card( v-for="( card, card_index ) in item.cards" :key=" 'card-' + card_index" draggable @dragenter.prevent @dragover.prevent @drop.prevent="on_drop($event, card, item)" style="height: auto; border: 1px solid red;" )
+        .loop( v-for="( item, index ) in boards" :key="index" @dragenter.prevent @dragover.prevent )
+            .card( v-for="( card, card_index ) in item.cards" :key=" 'card-' + card_index" draggable @dragenter.prevent @dragover.prevent @drop.prevent="on_drop($event, card, item)" style="height: auto; " )
                 input.input.centered( v-if="card_index === 0" v-model="item.name" )
                 img.is-pulled-right( v-if="card_index === 0" src="@/assets/images/point.svg")
                 input.input( v-model="card.tagless" @blur="on_input_blur(card)" @keydown.enter="on_input_enter(card)" )
                 input.input( v-model="item.new_card" placeholder="Add a card ..." @keydown.enter="add_card(item, item.new_card)" )
+    br
 
 
 </template>
@@ -225,6 +226,10 @@ export default {
 
 .kanban .wrapper .loop .card {
     margin: 5px;
+    background: var( --background-color );
+    color: var( --text-color );
+    border-radius: var( --border-radius );
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
          
 
@@ -232,6 +237,13 @@ export default {
     display: block;
     margin: 0 auto;
     margin-bottom: 10px;
+}
+
+.kanban input.input.board-name {
+    background: transparent;
+    border: 0 !important;
+    color: var( --text-color );
+    background: var( --background-color );
 }
 
 </style>
