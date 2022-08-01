@@ -33,6 +33,7 @@ This started with frustration not only with lock-in but the lack of extensabilit
 
 | Platform         | How     | Gif |
 |--------------|-----------|------------|
+| Web Demo | [Check](https://ilse-langnar.github.io/notebook/demo/index.html) | Learn More | |
 | Web(.html) | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.0.10/demo.tar-1.0.11.gz) | Learn More | |
 | Desktop Linux(AppImage)           | [Download](https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage) | ![Demo](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/desktop-linux.gif) | 
 | Desktop Windows(.exe)             | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.0.10/ilse-langnar-notebook.Setup.1.0.11.exe) | 
@@ -70,7 +71,7 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | File Reference | Reference files inside notes.  | ![File Embed](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-file-embed.gif) |
 | Multiple Components | You can check a file while looking at the calendar and your daily notes.  | ![Multiple Components](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-multiple-components.gif) |
 | Homepage | TODO  | |
-| Graph | TODO  | |
+| Graph | Visualize relationship between notes, files, media and more.  | ![Graph](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-graph.gif) |
 | Keyboard Shortcut | Bind shortcuts from simple such as `ctrl+s` to complex such as `ctrl+space i z`  | | ![Keyboard Shortcuts](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-shortcuts.gif) | 
 | Commands and Command Pallet | See all the available commands with the command pallet, execute any function with commands  | ![Command Pallet](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-command-pallet.gif) | 
 | Study Tools | See "Studying with Ilse" for more | 

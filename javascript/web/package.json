@@ -27,6 +27,8 @@
     "clipboardy": "^2.3.0",
     "cssprefix": "^2.0.17",
     "cytoscape": "^3.20.0",
+    "cytoscape-dagre": "^2.4.0",
+    "cytoscape-qtip": "^2.8.0",
     "d3-force": "^3.0.0",
     "dom-arrow": "^0.0.12",
     "draw-line-connect": "^1.2.0",

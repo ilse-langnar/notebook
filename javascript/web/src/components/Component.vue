@@ -16,8 +16,8 @@
         :title="get_title(component)"
         )
 
-    br
     component( v-if="component.get_component()" :is="component.get_component()" :component="component" :style="get_component_margin(component)" )
+
 </template>
 <script>
 // eslint-disable-next-line

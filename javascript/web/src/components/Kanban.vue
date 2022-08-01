@@ -17,7 +17,7 @@
             .card( v-for="( card, card_index ) in item.cards" :key=" 'card-' + card_index" draggable @dragenter.prevent @dragover.prevent @drop.prevent="on_drop($event, card, item)" style="height: auto; " )
                 input.input.centered( v-if="card_index === 0" v-model="item.name" )
 
-                img.is-pulled-right( v-if="card_index === 0" src="@/assets/images/point.svg")
+                // img.is-pulled-right( v-if="card_index === 0" src="@/assets/images/point.svg")
 
                 Note( :note="card" :options="{ 'is_tagless': true, 'hideBullet': true, style: 'padding: 4px; font-size: 14px;' }" )
 
@@ -73,33 +73,14 @@ export default {
         },
 
         set_content_to_tagless_plus_tags( item ) {
-            printf( "set_content_to_tagless_plus_tags -> item -> ", item )
-            printf( "set_content_to_tagless_plus_tags.get_tags() -> item -> ", item.get_tags() )
-
             item.content  = `${item.tagless} ${item.get_tags().join(" ")}`
-            printf( "item.content -> ", item.content )
         },
 
-
-        set_obj( note ) {
-            printf( "note.tags -> ", note.tags )
-            printf( "note -> ", note )
-            printf( "note.tagless -> ", note.tagless )
-            printf( "note.proxy -> ", note.proxy )
-            // this.obj[note.id] = note.
-        },
 
         on_drop( event, note, item ) {
-            printf( "note.content -> ", note.content )
             let name = note.get_tags()[0]
             let new_board = item.name
-            printf( "name -> ", name )
-            printf( "on_drop -> event -> ", event )
-            printf( "on_drop -> item -> ", item )
-            printf( "on_drop -> note -> ", note )
-            printf( "before -> note.content -> ", note.content )
             note.content.replace( `#i/kanban/${this.board_name}/${name}`, `#i/kanban/${this.board_name}/${new_board}` )
-            printf( "after -> note.content -> ", note.content )
         },
 
         add_card( item, text ) {
@@ -124,7 +105,6 @@ export default {
                     if( !has_kanban_tag ) return
                 is_correct_name = note.content.indexOf( name ) !== -1
                     if( !is_correct_name ) return
-                this.set_obj( note )
                 notes.push( note )
                 
             })
@@ -149,10 +129,6 @@ export default {
             })
 
             return kanban_tags
-        },
-
-        get_board_names() {
-
         },
 
         // Board Name -> [ { name: board_name_1, notes: [] }, { name: board_name_2, notes: [] } ]

@@ -54,6 +54,7 @@
 
                 p {{folder}}
             img( src="@/assets/images/plus.svg" style="width: 30px; display: block; margin: 0 auto;" @click="add_target_directory" :title="$t('add_folder')" )
+    br
 
 </template>
 <script>

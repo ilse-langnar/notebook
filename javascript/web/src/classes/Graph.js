@@ -44,6 +44,7 @@ export default class Graph {
         this.files          = await ilse.filesystem.file.get_all.async()
     }
 
+    /*
     // Added files outside of ilse? no problem we scan them here.
     async check_for_new_files() {
 
@@ -65,6 +66,7 @@ export default class Graph {
 
         Messager.emit( "status-line", "set", `Checked ${files_len} for new files` )
     }
+    */
 
     // If graph exists load it, if not generate it
     async initialize_graph() {
@@ -95,7 +97,7 @@ export default class Graph {
                 this.graph = graph
 
                 // BUGFIX: sometimes the user will add files outside of ilse, we should scan those too
-                    this.check_for_new_files()
+                    // this.check_for_new_files()
 
                 Messager.emit( "~graph", "loaded", this.graph )
 
@@ -105,10 +107,6 @@ export default class Graph {
         // No Graph
             if( !has_graph ) {
 
-                // UI, : Set Graph
-                    Messager.emit( "status-line", "set", "Graph not found" )
-                    Messager.emit( "status-line", "set", "Generating Graph" )
-
                 // Heavy Operation, generating the graph
                     // await this.generate()
 
@@ -116,15 +114,10 @@ export default class Graph {
                     let normalized_graph = to_json( this.graph )
                     await ilse.filesystem.file.write.async( "graph.json", normalized_graph )
 
-                // UI
-                    Messager.emit( "status-line", "set", "Graph Generated" )
-
                 // Messaging
                     // Messager.emit( "~graph", "generated" )
                     Messager.emit( "~graph", "loaded", this.graph )
             }
-
-        this.is_loading = false
 
     }
 
@@ -251,6 +244,7 @@ export default class Graph {
 
 
     // Get links, tags, yaml from a note's content, then emit so other components can do somethign
+    /*
     get_node_props( content, file ) {
 
         let links = []
@@ -259,7 +253,7 @@ export default class Graph {
         let YAML_TOKEN = ilse.config.yaml_token || "---yaml"
 
         if( content.indexOf( "[[" ) !== -1 ) {
-            links = ilse.utils.extract_tokens_by_delimiters( content, /\[\[.*/, /\]\]/ )
+            links = ilse.utils.extract_tokens_by_delimiters( content, /\[\[.*\/, /\]\]/ )
             Messager.emit( "~graph", "links", { links, file } )
         }
 
@@ -287,7 +281,9 @@ export default class Graph {
         return props
 
     }
+    */
 
+    /*
     get_node_props_for_generation( content, file ) {
 
         let links = []
@@ -296,7 +292,7 @@ export default class Graph {
         let YAML_TOKEN = ilse.config.yaml_token || "---yaml"
 
         if( content.indexOf( "[[" ) !== -1 ) {
-            links = ilse.utils.extract_tokens_by_delimiters( content, /\[\[.*/, /\]\]/ )
+            links = ilse.utils.extract_tokens_by_delimiters( content, /\[\[.\*\/, /\]\]/ )
 
             // Have Links
             if( links.length ) {
@@ -326,13 +322,15 @@ export default class Graph {
 
         return props
     }
+    */
 
     // ilse.graph.files = [ "Javascript.md", "Markdown.md" ], this will update the file as in ilse.graph.files so the current app can search it.o
-    update_files_file( old_title, new_title ) {
-        let index = this.files.indexOf( old_title )
-        this.files.splice( index, 1, new_title )
-    }
+    // update_files_file( old_title, new_title ) {
+        // let index = this.files.indexOf( old_title )
+        // this.files.splice( index, 1, new_title )
+    // }
 
+    /*
     async rename( old_title, new_title ) {
 
         // BUGFIX: sometimes, we want to rename something that we have not yet scanned, thus, we will re-scan them if they don't exist
@@ -366,6 +364,7 @@ export default class Graph {
         this.graph.removeNode( old_title )
 
     }
+    */
 
     async save( graph ) {
 
@@ -416,6 +415,7 @@ export default class Graph {
 
     }
 
+    /*
     rename_links( old_title, new_title ) {
 
         let node            = this.graph.getNode( old_title )
@@ -452,7 +452,9 @@ export default class Graph {
         return renamed_links
 
     }
+    */
 
+    /*
     // ????
     async update_file_on_graph( old_title, new_title ) {
 
@@ -467,8 +469,10 @@ export default class Graph {
             new_node.links  = renamed_links
             new_node.data   = old_node.data
     }
+    */
 
 
+    /*
     // Update backlinks( notes that links to this file )
     async update_file_on_filesystem( old_title, new_title ) {
 
@@ -499,7 +503,9 @@ export default class Graph {
         Messager.emit( "status-line", "set", `Updated: ${backlinks.length} links` )
 
     }
+    */
 
+    /*
     async move_file( file, location ) {
 
         // Update it on ilse.graph.graph
@@ -513,52 +519,51 @@ export default class Graph {
         // Update on Filesystem
             ilse.filesystem.file.rename.async( file, `${location}/${file}` )
     }
+    */
 
-    move_file_to_trash( file ) {
-        this.move_file( file, `.trash` )
-    }
+    // move_file_to_trash( file ) {
+        // this.move_file( file, `.trash` )
+    // }
 
     listen() {
 
-        Messager.on( "~links", async ( action, payload ) => {
+        // Messager.on( "~links", async ( action, payload ) => {
 
-            if( action === 'new' ) {
-                this.set_node( payload.link )
-            }
+            // if( action === 'new' ) {
+                // this.set_node( payload.link )
+            // }
+        // })
 
-        })
+        // Messager.on( "~filesystem", async ( action, payload ) => {
 
-        Messager.on( "~filesystem", async ( action, payload ) => {
+            // if( action === 'loaded' ) {
+                // this.initialize_graph()
+            // }
 
-            if( action === 'loaded' ) {
-                this.initialize_graph()
-            }
-
-        })
+        // })
 
         Messager.on( "graph", async ( action, payload ) => {
 
             if( action === 'rename-node' ) {
 
-                let old_title = payload.old_title
-                let new_title = payload.new_title
-
-                this.rename( old_title, new_title )
+                // let old_title = payload.old_title
+                // let new_title = payload.new_title
+                // this.rename( old_title, new_title )
             } else if( action === 'set-node' ) {
 
-                this.set_node( payload, this.graph, false )
+                // this.set_node( payload, this.graph, false )
 
-                // Add new file/node to ilse.graph.files
-                    let index            = this.files.indexOf( payload )
-                    let has_file_already = index !== -1
-                    if( !has_file_already ) { this.files.push( payload ) }
+                // // Add new file/node to ilse.graph.files
+                    // let index            = this.files.indexOf( payload )
+                    // let has_file_already = index !== -1
+                    // if( !has_file_already ) { this.files.push( payload ) }
 
             } else if( action === 'save' ) {
-                await this.save( this.graph )
-                Messager.emit( "status-line", "set", "Saved Graph" )
+                // await this.save( this.graph )
+                // Messager.emit( "status-line", "set", "Saved Graph" )
             } else if( action === 'move-file-to-trash' ) {
-                let file = payload.file
-                this.move_file_to_trash( file )
+                // let file = payload.file
+                // this.move_file_to_trash( file )
             }
 
         })

@@ -10,7 +10,9 @@
         // show mode
         .markdown( v-show="!inote.is_editable" v-html="get_html(options.is_tagless ? inote.tagless : inote.content )" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )
 
-    Component.component-embed( v-if="get_component()" :component="get_component()" )
+    .component-part( v-if="get_component()" )
+        div( style="font-size: 1.5em; margin-left: 20px; padding: 0px; " ) ⚫
+            Component.component-embed( :component="get_component()" :options="{ hide_bullet: true }" )
 
 </template>
 <script>
@@ -590,7 +592,7 @@ input:focus{
 }
 
 .markdown {
-    margin-bottom: 6px;
+    /*margin-bottom: 6px;*/
     width: fit-content;
     font-size: 1em;
 }

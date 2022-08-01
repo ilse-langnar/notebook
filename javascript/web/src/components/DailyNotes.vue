@@ -12,7 +12,10 @@
                 img( src="@/assets/images/x.svg"   style="cursor: pointer; width: 17px; margin-left: 5px;" :title="$t('close')"  @click="remove(day)" )
 
         .note( v-for="(note, note_index) in day.notes" :key="note_index" :style="get_note_style(note)" )
-            Note( :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" @on-note-middle-click="on_note_middle_click(note)" @on-note-right-click="on_note_right_click" )
+
+            Notes( v-if="note.depth === 0" :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" @on-note-middle-click="on_note_middle_click(note)" @on-note-right-click="on_note_right_click"  )
+
+            // Note( v-if="note.depth === 0" :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" @on-note-middle-click="on_note_middle_click(note)" @on-note-right-click="on_note_right_click" )
 
         GhostNote( v-if="day.notes.length" @on-enter="on_ghost_note_enter" @on-blur="on_ghost_note_blur" :payload="day" )
 
@@ -37,6 +40,7 @@ const printf                        = console.log;
 
 // Components 
     import Note                         from "@/components/Note.vue"
+    import Notes                        from "@/components/Notes.vue"
     import GhostNote                    from "@/components/GhostNote.vue"
     import References                   from "@/components/References.vue"
 
@@ -54,6 +58,7 @@ export default {
 
     components: {
         Note,
+        Notes,
         GhostNote,
         References,
     },

@@ -55,9 +55,6 @@ export default class Config {
         let has_components = ilse.components.length
 
         if( !has_components ) {
-            let menu    = new ilse.classes.Component({ type: "menu", width: 0 })
-                ilse.components.push( menu )
-
             let daily_notes    = new ilse.classes.Component({ type: "daily-notes", width: 12 })
                 ilse.components.push( daily_notes )
         }

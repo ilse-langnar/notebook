@@ -76,15 +76,10 @@ export default class note {
         let is_move_right   = number > 0
         let note
 
-        printf( "this.depth -> ", depth )
-
         if( is_move_right ) {
 
             let spaces      = ilse.utils.get_depth_spaces( this.depth + number )
                 note          = `${spaces}${this.id}: ${this.content}`
-                printf( "note -> ", note )
-                printf( "this.id -> ", this.id )
-                printf( "this.id.length -> ", this.id.length )
                 setTimeout( () => { this.focus() }, 100 )
 
             this.constructor( note  )

@@ -2,6 +2,7 @@ const printf        = console.log
 
 const envPaths      = require('./libs/env-paths.js')
 const fs            = require('fs')
+const path          = require('path')
 const env_paths     = envPaths('ilse', { suffix: "" })
 // const inquirer      = require("inquirer")
 
@@ -9,6 +10,8 @@ const env_paths     = envPaths('ilse', { suffix: "" })
 // const from_json     = require("ngraph.fromjson")
 // const createGraph   = require('ngraph.graph')
 const readline = require("readline");
+
+var term = require( 'terminal-kit'  ).terminal;
 
 
 // Quine
@@ -171,7 +174,43 @@ class Ilse {
 
     }
 
+    tui() {
+
+        term.cyan( 'Choose a file:\n'  ) ;
+
+        let text  = fs.readFileSync(`${path.join(target_directories, "notes")}`, "utf8" )
+        let items = text.split("\n")
+
+        term.gridMenu( items , function( error , response  ) {
+
+            printf( "response -> ", response )
+            // term( '\n'  ).eraseLineAfter.green(
+                // "#%s selected: %s (%s,%s)\n" ,
+                // response.selectedIndex ,
+                // response.selectedText ,
+                // response.x ,
+                // response.y
+            // )
+
+            // term( 'a'  ).eraseLineAfter.green(
+                // "#%s selected: %s (%s,%s)\n" ,
+                // response.selectedIndex ,
+                // response.selectedText ,
+                // response.x ,
+                // response.y
+            // )
+
+            process.exit() ;
+        })
+
+    }
+
     run( brain, payload ) {
+
+        if( brain === "ui" ) {
+            this.tui()
+            return
+        }
 
         if( brain === "first" || brain === "f" )  {
             printf( "first -> payload -> ", payload )

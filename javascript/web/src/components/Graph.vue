@@ -1,18 +1,14 @@
 <template lang="pug" >
 .graph( tabindex="0" :ref="link" :id="link" :title="link" autofocus="autofocus" )
-
-    // img.img.is-pulled-right( src="@/assets/images/tool.svg" style="width: 20px; cursor: pointer; margin: 10px;" title="Network" v-popover="{ name: 'graph.config', position: 'left' }")
-
-    .layout
+    input.input( v-model="target" style="width: 100%; background: var( --background-color ); color: var( --text-color ); ")
+    .layout( style="position: relative; top: 25px; right: 25px; z-index: 100; " )
         img.img.is-pulled-right( v-if="layouts[0] === 'cose'" :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" :title="$t('cose_layout')" :style="get_layout_style('cose')" @click="select_next_layout()" )
         img.img.is-pulled-right( v-if="layouts[0] === 'grid' " :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" :title="$t('grid_layout')" :style="get_layout_style('grid')" @click="select_next_layout()" )
         img.img.is-pulled-right( v-if="layouts[0] === 'circle'" :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" :title="$t('circle_layout')" :style="get_layout_style('circle')" @click="select_next_layout()" )
-        img.img.is-pulled-right( v-if="layouts[0] === 'breadthfirst'" :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" :title="$t('breadthfirst_layouot')" :style="get_layout_style('breadthfirst')" @click="select_next_layout()" )
+        img.img.is-pulled-right( v-if="layouts[0] === 'breadthfirst'" :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" :title="$t('breadthfirst_layout')" :style="get_layout_style('breadthfirst')" @click="select_next_layout()" )
         img.img.is-pulled-right( v-if="layouts[0] === 'concentric'" :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" :title="$t('concentric_layout')" :style="get_layout_style('concentric')" @click="select_next_layout()" )
 
     #cy( ref="cy" )
-
-    // button.button.slick-button( @click="run" ) run
 
 </template>
 <script>
@@ -27,10 +23,16 @@ const printf                        = console.log;
 
 // Libs
     // import createGraph                  from 'ngraph.graph'
-    // import Viva                         from  "vivagraphjs"
-
-    import cytoscape                    from "cytoscape/dist/cytoscape.min.js"
     // import fcose                        from "cytoscape-fcose"
+    // import Viva                         from  "vivagraphjs"
+    import cytoscape                    from "cytoscape/dist/cytoscape.min.js"
+    import qtip                         from "cytoscape-qtip";
+    import dagre                        from "cytoscape-dagre";
+
+
+// Install Libraries
+    cytoscape.use( qtip )
+    cytoscape.use( dagre )
 
 export default {
 
@@ -39,7 +41,9 @@ export default {
     data() {
         return {
             ilse: ilse,
+            target: "",
             layouts: [
+                // "dagre",
                 "breadthfirst",
                 "grid",
                 "circle",
@@ -54,6 +58,18 @@ export default {
 
     props: {
         component: { type: Object, required: false, },
+    },
+
+    watch: {
+
+        target( target ) {
+
+            if( target.indexOf(".md") !== -1 ) {
+                this.run()
+            }
+
+        },
+
     },
 
     methods: {
@@ -102,7 +118,7 @@ export default {
             if( has_link ) {
                 this.generate_graph( link )
             } else {
-                this.generate_graph( "Javascript.md" ) // Default k
+                this.generate_graph( this.target ) // Default k
             }
         },
 
@@ -132,7 +148,6 @@ export default {
         add_links( file, elements ) {
 
             let node  = ilse.graph.graph.getNode( file )
-            printf( "node -> ", node )
 
             let links = node.links
                 if( !links ) return elements
@@ -144,10 +159,11 @@ export default {
             // Add what note links to 
             for( const [index, link] of links.entries() ) {
 
-                index % 2 === 0  ? bottom = 100 : bottom = -100
+                // index % 2 === 0  ? bottom = 100 : bottom = -100
                 note = ilse.notes.query( `${link.fromId}:` )[0]
-                normalized_name = ilse.utils.add_new_lines(note.content, 10)
-                printf( "normalized_name -> ", normalized_name )
+                // normalized_name = ilse.utils.add_new_lines(note.content, 10)
+                // normalized_name = ilse.utils.add_new_lines(note.content, 30)
+                // printf( "normalized_name -> ", normalized_name )
                 // var newStr = str.replace(/.{200}/g, "$0\n")
 
 
@@ -160,20 +176,23 @@ export default {
                         // name:   note.content,
                         // name:   normalized_name,
                         // name: normalized_name,
-                        label:  normalized_name,
+                        // label:  `${note.content}\nLorem`,
+                        // label:  note.id,
+                        label:  note.content,
+                        name: note.content,
                         // label:   note.content,
                     },
-                    classes: 'bottom-left'  ,
+                    // classes: ''  ,
                     // classes: "bottom-center",
 
                     // data: { label: normalized_name },
 
                     // nodeSep: 20,
-                    position: {
+                    // position: {
                         // x: bottom + ilse.utils.random_integer()
-                        y: 0,
-                        x: 0,
-                    },
+                        // y: 0,
+                        // x: 0,
+                    // },
                     // style: {
                         // 'background-color': 'red'
                     // },
@@ -214,6 +233,19 @@ export default {
                 style: [ // the stylesheet for the graph
 
                     {
+                        selector: "node[label]",
+                        style: {
+                            label: "data(label)",
+                            "font-size": "12",
+                            color: "#000",
+                            "overlay-padding": "6px",
+                            'height': '20px',
+                            "text-halign": "center",
+                            "text-valign": "center"
+                        }
+                    },
+
+                    {
                         selector: 'selected-node',
                         style: {
                             'background-color': 'red',
@@ -228,20 +260,27 @@ export default {
                         selector: 'node',
                         style: {
                             'background-color': '#666',
-                            'height': '60px',
-                            'width': '60px',
-                            'overflow': 'auto',
+                            // 'width' : 'data(size)',
+                            // 'height' : 'data(size)',
+                            'width' : '40px',
+                            'height' : '40px',
+                            /*'overflow': 'auto',*/
                             'border-color': 'black',
                             'text-background-opacity': 1,
                             'text-background-color': 'lightgray',
+                            "overlay-padding": "6px",
+                            "text-max-width": "200px",
+                            "text-valign": "bottom",
+                            "text-wrap": "ellipsis",
 
-                            'text-align': 'left',
-                            'text-hallign': 'left',
-                            'float': 'left',
+                            'text-align': 'top',
+                            'text-hallign': 'top',
+                            // 'float': 'left',
 
                             // 'label': 'data(id)',
                             // 'label': 'data(name)',
                             'label': 'data(label)',
+                            /*'label': 'data(node)',*/
                         }
                     },
 
@@ -259,12 +298,43 @@ export default {
 
                 ],
 
+
                 layout: {
-                    // name: 'breadthfirst', // grid, circle, concentric, breadthfirst, cose, 
+                    /*
                     name: this.layouts[0], // grid, circle, concentric, breadthfirst, cose, 
+
+                    padding: 10,
+                    nodeDimensionsIncludeLabels: true,
+                    idealEdgeLength: 100,
+                    edgeElasticity: 0.1,
+
                     rows: this.rows,
                     columns: 10,
                     cols: 10,
+                    */
+
+                    name: this.layouts[0], // grid, circle, concentric, breadthfirst, cose, 
+                    fit: true,
+                    // circle: true,
+                    // directed: true, // up or down
+                    // padding: 10,
+                    spacingFactor: .3,
+                    animate: true,
+                    animationDuration: 500,
+                    avoidOverlap: true,
+                    nodeDimensionsIncludeLabels: true,
+
+                    // columns: 3,
+                    // cols: 3,
+
+                    //Put all the clusters to the bottom row
+                    // position: function (ele) {
+                        // if (ele.data("type") === "cluster") {
+                            // return { row: 3  };
+                        // }
+                        // return { row: 1  };
+                    // },
+
                 }
 
             })
@@ -300,10 +370,19 @@ export default {
             })
             */
 
+            cy.nodes().each(function (node) {
+                node.qtip({
+                    content: `${node.data("id")}`,
+                    show: { event: "mouseenter mouseover" },
+                    hide: { event: "mouseleave mouseout" }
+                });
+
+            });
+
             cy.nodes().forEach( (el, index) => {
 
-                let y       = el.position().y
-                let x       = el.position().x
+                // let y       = el.position().y
+                // let x       = el.position().x
                 // let should  = index % 2 === 0
 
                     // el.position({ y: y })
@@ -345,7 +424,7 @@ export default {
             printf( "this.component -> ", this.component )
 
             ilse.graph.generate()
-            setTimeout( () => { this.run() }, 1000 )
+            // setTimeout( () => { this.run() }, 1000 )
         },
 
     },
@@ -359,12 +438,9 @@ export default {
 <style>
 
 #cy {
-    margin-left: 20px;
-    width: 80%;
+    width: 98%;
     height: 450px;
     display: block;
-    margin-top: 10px;
-    border: 2px solid #666;
     border-radius: 7px;
     box-shadow: 2px 3px 5px rgba(0,0,0,.2);
 }

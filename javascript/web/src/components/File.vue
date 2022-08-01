@@ -15,6 +15,7 @@
         br
 
     br
+
     .loop( v-if="is_on" v-for="( note, index ) of notes" :key="index" :style="get_note_style(note)" )
         
         Notes(
@@ -36,6 +37,8 @@
 
 
     GhostNote.is-pulled-left( @on-blur="on_ghost_note_blur" @on-enter="on_ghost_note_enter" )
+
+    button.button.slick-button.centered( v-if="is_create_file_button_on" style="display: block;" @click="create(file)" ) Create
 
     .space
     References( v-if="content && file" :file="file" :key="content" )
@@ -75,6 +78,7 @@ export default {
             refs: [],
             notes: [],
             is_on: false,
+            is_create_file_button_on: false,
 
             // BUGFIX: this fucking shit does not want to update when a file is passed direstly from a saved component AAAAAAAAAAAAAAAAAA
             ref_key: 0,
@@ -95,6 +99,10 @@ export default {
     },
 
     methods: {
+
+        async create( file ) {
+            await ilse.filesystem.file.write.async( ilse.path.join("second" , file), "" )
+        },
 
         // Control the margins
         get_note_style( note ) {
@@ -210,7 +218,8 @@ export default {
                 if( !has_text ) return
 
             let time_id         = ilse.utils.get_unique_date_id() // 20220120155758
-            let note          = new ilse.classes.Note( `${time_id}: ${content}`)
+            let note            = new ilse.classes.Note( `${time_id}: ${content}`)
+            printf( "note -> ", note )
                 this.notes.push( note )
 
             this.save()
@@ -219,6 +228,7 @@ export default {
         async save() {
 
             let file     = this.file
+            printf( "file -> ", file )
 
             let is_buggy = !file
                 if( is_buggy ) {
@@ -227,6 +237,7 @@ export default {
                 }
 
             let content          = this.content 
+            printf( "content -> ", content )
             let notes          = ""
             let note_id_regexp = /^\s*[0-9]{13}.*/
 
@@ -235,6 +246,7 @@ export default {
 
             // Non note content
             let lines             = content.split("\n") 
+            printf( "lines -> ", lines )
             let index             = 0
             let is_last
             for( const line of lines ) {
@@ -256,6 +268,8 @@ export default {
             // note content
             for( const note of this.notes ) {
 
+                printf( "note.get() -> ", note.get() )
+
                 is_empty = !note.get() 
                     if( is_empty ) continue
 
@@ -272,7 +286,9 @@ export default {
 
             let content         = " "
             let time_id         = ilse.utils.get_unique_date_id() // 20220120155758
+            printf( "time_id -> ", time_id )
             let spaces          = ilse.utils.get_depth_spaces( payload.note.depth )
+            printf( "spaces -> ", spaces )
             let source         = `${spaces}${time_id}: ${content}`
             printf( "source -> ", source )
 
@@ -299,6 +315,7 @@ export default {
         },
 
         on_tab( payload ) {
+            printf( "on_tab -wdionqwdio -> ", payload )
             payload.note.$depth( 1 )
         },
 
@@ -378,11 +395,13 @@ export default {
             try {
                 content         = await ilse.filesystem.file.read.async( ilse.path.join("second" , this.file) )
                 this.content    = content
+                this.is_create_file_button_on = false
                 this.check_for_existing_notes()
             } catch(e) {
                 // ilse.notification.send( "New File", `Created file name: ${this.file}` )
                 // await ilse.filesystem.file.set( this.file, this.file )
                 // this.content    = this.file
+                this.is_create_file_button_on = true
                 ilse.notification.send( "Error", `Could not find file: ${this.file}` )
             }
             this.is_on = true

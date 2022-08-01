@@ -295,14 +295,19 @@ code {
     background-color: #D5DADF;
     color: var( --secondary-text-color );
     background-color: var( --secondary-background-color );
-    padding: var( --padding );
     border-radius: var( --border-radius );
     max-height: 400px;
     overflow: auto;
-    margin-left: 50px;
+    margin-left: 25px;
+    margin-bottom: 4px;
     width: 90%;
     box-shadow:0 4px 6px rgba(0,0,0,0.1);
     padding: var( --padding );
+}
+
+hr {
+    width: 100%;
+    border: 1px solid #000;
 }
 
 /*========Markdown========*/

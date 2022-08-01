@@ -28,6 +28,7 @@
     "blessed": "^0.1.81",
     "blessed-contrib": "^4.10.1",
     "chalk": "^5.0.1",
-    "env-paths": "^3.0.0"
+    "env-paths": "^3.0.0",
+    "terminal-kit": "^2.4.0"
   }
 }
