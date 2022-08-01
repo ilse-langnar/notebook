@@ -33,7 +33,7 @@ This started with frustration not only with lock-in but the lack of extensabilit
 
 | Platform         | How     | Gif |
 |--------------|-----------|------------|
-| Web Demo | [Check](https://ilse-langnar.github.io/notebook/demo/index.html) | Learn More | |
+| Web Demo | [Check](https://ilse-langnar.github.io/notebook/demo/index.html) | Learn More | 
 | Web(.html) | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.0.10/demo.tar-1.0.11.gz) | Learn More | |
 | Desktop Linux(AppImage)           | [Download](https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage) | ![Demo](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/desktop-linux.gif) | 
 | Desktop Windows(.exe)             | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.0.10/ilse-langnar-notebook.Setup.1.0.11.exe) | 
