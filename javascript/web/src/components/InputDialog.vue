@@ -173,6 +173,14 @@ export default {
     background: #fff;
     border-radius: 10px;
     padding: 15px;
+    background: var( --background-color );
+    color: var( --text-color );
+    box-shadow: var( --text-color ) 0px 5px 15px;
+}
+
+.dialog {
+    background: var( --background-color );
+    color: var( --text-color );
 }
 
 .shadow {
@@ -189,7 +197,6 @@ export default {
 .dialog .description {
     justify-content: center;
     font-weight: 100;
-    color: #4a4a4a;
 }
 
 .dialog .title {

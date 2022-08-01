@@ -382,6 +382,18 @@ export default class Notes {
         }
     }
 
+    add_list( list ) {
+
+        let number = ilse.utils.get_unique_date_id()
+        let instance
+
+        list.map( string => {
+            instance = new ilse.classes.Note( `${number++}: ${string}` )
+            ilse.notes.list.push( instance )
+        })
+
+    }
+
     get_references( string ) {
 
         let chunks = string.split(" ")

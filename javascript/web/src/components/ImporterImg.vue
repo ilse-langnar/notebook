@@ -32,7 +32,11 @@ export default {
 
             ilse.electron.ipc.on( "focus", async () => {
 
-                let string         = await ilse.clipboard.read()
+                let string
+                try {
+                    string         = await ilse.clipboard.read()
+                } catch( e ) {}
+
                 if( !string ) {
                     this.is_on = false
                     return
@@ -45,7 +49,6 @@ export default {
                 }
 
                 this.open_importer_modal()
-
             })
 
             ilse.electron.ipc.on( "focus", () => {
@@ -71,7 +74,7 @@ export default {
         */
 
         setup() {
-            // this.repeat()
+            this.repeat()
         },
 
     },
