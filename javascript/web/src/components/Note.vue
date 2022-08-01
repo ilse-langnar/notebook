@@ -10,7 +10,7 @@
         // show mode
         .markdown( v-show="!inote.is_editable" v-html="get_html(options.is_tagless ? inote.tagless : inote.content )" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )
 
-    Component.component-embed( v-if="get_component()" :component="get_component()" style="display: block; overflow: hidden; margin-left: 50px; width: 90%; box-shadow:0 4px 6px rgba(0,0,0,0.1); padding: var( --padding );  " )
+    Component.component-embed( v-if="get_component()" :component="get_component()" )
 
 </template>
 <script>

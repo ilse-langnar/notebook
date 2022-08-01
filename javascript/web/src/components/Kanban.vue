@@ -16,9 +16,13 @@
         .loop( v-for="( item, index ) in boards" :key="index" @dragenter.prevent @dragover.prevent )
             .card( v-for="( card, card_index ) in item.cards" :key=" 'card-' + card_index" draggable @dragenter.prevent @dragover.prevent @drop.prevent="on_drop($event, card, item)" style="height: auto; " )
                 input.input.centered( v-if="card_index === 0" v-model="item.name" )
+
                 img.is-pulled-right( v-if="card_index === 0" src="@/assets/images/point.svg")
-                input.input( v-model="card.tagless" @blur="on_input_blur(card)" @keydown.enter="on_input_enter(card)" )
-                input.input( v-model="item.new_card" placeholder="Add a card ..." @keydown.enter="add_card(item, item.new_card)" )
+
+                Note( :note="card" :options="{ 'is_tagless': true, 'hideBullet': true, style: 'padding: 4px; font-size: 14px;' }" )
+
+                // input.input( v-if="card_index === item.cards.length - 1" v-model="item.new_card" placeholder="Add a card ..." @keydown.enter="add_card(item, item.new_card)" )
+            input.input.card( v-model="item.new_card" placeholder="Add a card ..." @keydown.enter="add_card(item, item.new_card)" style="width: 95%;" )
     br
 
 
@@ -198,6 +202,9 @@ export default {
 </script>
 <style scoped>
 
+.kanban {
+}
+
 .kanban .wrapper {
     display: flex;
     flex-direction: row;
@@ -216,6 +223,7 @@ export default {
     margin-top: 1px;
     border-radius: var( --border-radius );
     box-shadow: #485361 0px 5px 15px;
+    height: fit-content;
 }
 
 .kanban .wrapper .loop input {
