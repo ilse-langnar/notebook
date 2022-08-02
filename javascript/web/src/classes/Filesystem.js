@@ -41,6 +41,7 @@ export default class Filesystem {
 
         this.has_checked_zir_files = false
 
+        printf( "process.env.VUE_APP_TARGET -> ", process.env.VUE_APP_TARGET )
         if( process.env.VUE_APP_TARGET === "ELECTRON" ) {
 
             let new_filesystem  = new FSFilesystem( dir )
