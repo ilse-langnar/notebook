@@ -64,7 +64,6 @@ This started with frustration not only with lock-in but the lack of extensabilit
 |--------------|-----------|------------|
 | Dark Mode              | You can have different styles and they can have a light and a dark mode, if you download a theme, you can toggle dark mode with `C-SPC d d` or executing the "toggle-dark-mode" command | ![Dark Mode](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-dark-mode.gif) | 
 | Zen Mode                | Allows you to focus on a single component and forget about anything else. | ![Zen Mode](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-zen-mode.gif) | 
- feature-zen-mode.gif
 | Themes                | You can have multiple themes and switch between them as you like. | ![Themes](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-themes.gif) | 
 | Easy Import/Export    | You can import a theme or a plugin with a single click.  | ![Easy Import/Export](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-easy-import-and-export.gif) | |
 | Multi Language Support | Ilse supports many different language.  | ![Multi Language](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-multi-language.gif) |
