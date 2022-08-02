@@ -16,7 +16,11 @@
         :title="get_title(component)"
         )
 
-    component( v-if="component.get_component()" :is="component.get_component()" :component="component" :style="get_component_margin(component)" )
+
+    .vue( v-if="component.get_component() && ilse.types.get(component.type).type === 'vue' " )
+        component( :is="component.get_component()" :component="component" :style="get_component_margin(component)" )
+    .html-css-and-javascript( v-if="ilse.types.get(component.type).type === 'html' " )
+        div( :id="component.id" ) {{embed_into_html(component)}}
 
 </template>
 <script>
@@ -53,6 +57,15 @@ export default {
     },
 
     methods: {
+
+        embed_into_html( payload ) {
+
+            setTimeout( () => {
+                let TYPE =ilse.types.get(payload.type)
+                let dom  = document.getElementById( payload.id )
+                dom.append( TYPE.component )
+            }, 1000 )
+        },
 
         on_shift_click( index ) {
             this.toggle_is_component_maximized( index )

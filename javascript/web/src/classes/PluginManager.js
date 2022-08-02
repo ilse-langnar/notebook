@@ -40,14 +40,41 @@ class PluginManager {
 
     load() {
         let result = this.ilse.notes.query(`#i/plugin`)
-        printf( "result[0] -> ", result[0] )
-        printf( "result -> ", result )
 
-        window.ilse = new PluginAPIFactory( Math.random().toString().replace("0.", "") )
+        result.map( item => {
+            this.run( item )
+        })
+
+    }
+
+    run( note ) {
+
+        // let result = this.ilse.notes.query(`#i/plugin`)
+        // let note   = result[0]
+        let js      = ""
+
+        note.children.map( _note => {
+            js += _note.content + ";"
+        })
+
+        // window.ilse = new PluginAPIFactory( Math.random().toString().replace("0.", "") )
+        window.ilse = {
+            graph:  ilse.graph,
+            tags: ilse.tags.tags,
+            notification: ilse.notification,
+            links: ilse.links.links,
+            classes:  {
+                component:  ilse.classes.Component,
+                Note:       ilse.classes.Note,
+            },
+            utils: ilse.utils,
+            types: ilse.types,
+        } // ilse
+        printf( "js -> ", js )
+
+        eval( js )
+
         printf( "window.ilse -> ", window.ilse )
-
-        let o = new window.ilse()
-        printf( "o -> ", o )
     }
 
     /*

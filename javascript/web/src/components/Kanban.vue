@@ -19,7 +19,7 @@
 
                 // img.is-pulled-right( v-if="card_index === 0" src="@/assets/images/point.svg")
 
-                Note( :note="card" :options="{ 'is_tagless': true, 'hideBullet': true, style: 'padding: 4px; font-size: 14px;' }" )
+                Note( :note="card" :options="{ 'is_tagless': true, 'hide_bullet': true, style: 'padding: 4px; font-size: 14px;' }" )
 
                 // input.input( v-if="card_index === item.cards.length - 1" v-model="item.new_card" placeholder="Add a card ..." @keydown.enter="add_card(item, item.new_card)" )
             input.input.card( v-model="item.new_card" placeholder="Add a card ..." @keydown.enter="add_card(item, item.new_card)" style="width: 95%;" )

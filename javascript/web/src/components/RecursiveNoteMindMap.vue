@@ -124,7 +124,7 @@ export default {
 
             let options = {
                 style,
-                hideBullet: true,
+                hide_bullet: true,
             }
 
             return options

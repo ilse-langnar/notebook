@@ -8,14 +8,14 @@
         .parents( style="width: 20%;" )
             .has_parent( v-if="ilse.notes.get_note_parent_v2( selected )" )
                 // p ::: {{ilse.notes.get_note_parent_v2( selected )}}
-                Note( v-if="ilse.notes.get_note_parent_v2( selected )" :note="ilse.notes.get_note_parent_v2( selected )" :options="{ hideBullet: true }" @on-note-click="on_parent_click(selected)" )
+                Note( v-if="ilse.notes.get_note_parent_v2( selected )" :note="ilse.notes.get_note_parent_v2( selected )" :options="{ hide_bullet: true }" @on-note-click="on_parent_click(selected)" )
             .no_parent( v-else )
                 p No Parent
 
         .main( style="width: 60%; height: fit-content; " )
             // button.button.slick-button( @click="show_info" ) Show Info
             h2( v-if="selected && selected.id" ) {{selected.id}}
-            Note( v-if="selected" :note="selected" :options="{ hideBullet: true }" @on-enter="on_enter" )
+            Note( v-if="selected" :note="selected" :options="{ hide_bullet: true }" @on-enter="on_enter" )
 
             // .has_references( v-if="ilse.notes.query(selected.id + ':' ).length > 1" )
                 .referneces( v-for="( ref, index) in ilse.notes.query(selected.id + ':' )" :key="'ref-' + index")
@@ -26,7 +26,7 @@
         // .children( style="width: 20%;" )
             .has_children( v-if="selected.children && selected.children.length" )
                 .children( v-for="( _note, index ) in selected.children" :key="index" style="z-index: 100; overflow: hidden; margin-bottom: 10px; border: 1px solid var(--text-color); border-radius: var( --border-radius );" )
-                    Note( :note="_note" :options="{ hideBullet: true }" @on-note-click="on_note_click" style="margin-bottom: 100px;")
+                    Note( :note="_note" :options="{ hide_bullet: true }" @on-note-click="on_note_click" style="margin-bottom: 100px;")
             .no_children( v-if="!selected.children && selected.children.length" )
                 p No children
     // .centered-note

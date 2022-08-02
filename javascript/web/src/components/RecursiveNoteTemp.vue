@@ -203,7 +203,7 @@ export default {
         },
 
         get_note_options( note ) {
-            if( !note ) return { style: "", hideBullet: true }
+            if( !note ) return { style: "", hide_bullet: true }
             printf( "RecursiveNote -> get_note_options -> note -> ", note )
 
             let style   = `display: block !important; margin-bottom: 10px !important; margin-left: 10px; border-radius: var( --border-radius ); `
@@ -211,7 +211,7 @@ export default {
 
             let options = {
                 style,
-                hideBullet: true,
+                hide_bullet: true,
             }
 
             return options

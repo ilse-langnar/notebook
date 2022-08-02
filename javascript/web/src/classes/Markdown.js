@@ -333,6 +333,8 @@ export default class Markdown {
         let link            = ilse.notes.get_references( text )
             if( !link ) return `${last} \n\t ${text} `
 
+        printf( "link -> ", link )
+        printf( "text -> ", text )
         let link_content    = ilse.notes.query( link + ":")[0].content
         printf( "text -> ", text )
         printf( "link -> ", link )
@@ -357,31 +359,22 @@ export default class Markdown {
 
     }
 
-    get_blockquote( content ) {
+    get_note_with_refs( content ) {
 
+        printf( "get_note_with_refs -> content -> ", content )
         let ignore = content.indexOf("#!scan") !== -1
             if( ignore ) return
 
         // === Refs === //
         let text   = this.reference( content )
+        printf( "text -> ", text )
         let chunks = text.split("\n")
+        printf( "chunks -> ", chunks )
 
-        // let final  = "<blockquote>"
         let final  = `<div class="note-reference" > `
         for( const [index, chunk] of chunks.entries() ) {
-
             final += `<span> ${this.render(chunk)} </span>`
-            // printf( "chunk -> ", chunk )
-            // if( index === 0 ) {
-                // final += `<p> ${chunk} </p>`
-                // printf( "chunk -> ", chunk )
-                // final += `<p style="background: var( --text-color ); !important;"> ${this.render(chunk)} </p>`
-            // } else {
-                // final += `<blockquote style="margin-left: ${index * 10}px"> ${chunk} </blockquote>`
-            // }
         }
-        // final += "</blockquote>"
-
         final += "</div>"
 
         return final
@@ -392,4 +385,3 @@ export default class Markdown {
     }
 
 }
-

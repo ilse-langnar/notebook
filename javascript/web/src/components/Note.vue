@@ -2,10 +2,12 @@
 .note
     .flex( v-if="is_on" :style="options.style" @click="on_note_root_click" )
 
-        p( v-if="!options.hideBullet" slot="icon" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" ).paragraph-note ⚫
+        p( v-if="!options.hide_bullet" slot="icon" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" ).paragraph-note ⚫
 
         // Edit Mode
-        input.editable( v-if="inote.is_editable" type="text" v-model="options.is_tagless ? inote.tagless : inote.content" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent @click="on_textarea_click($event, inote)" )
+        // input.editable( v-if="inote.is_editable" type="text" v-model="options.is_tagless ? inote.tagless : inote.content" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent @click="on_textarea_click($event, inote)" )
+
+        div.editable( contentEditable v-if="inote.is_editable" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent ) {{options.is_tagless ? inote.tagless : inote.content}}
 
         // show mode
         .markdown( v-show="!inote.is_editable" v-html="get_html(options.is_tagless ? inote.tagless : inote.content )" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )
@@ -39,7 +41,7 @@ export default {
             default: function() {
                 return {
                     style: "",
-                    hideBullet: false,
+                    hide_bullet: false,
                     is_tagless: false,
                 }
             }
@@ -123,18 +125,20 @@ export default {
         async add_file( event ) {
 
             let file        = event.dataTransfer.files[0] 
+                if( !file ) return
 
             let fileData    = new Blob( [file] )
             let arrayBuffer = await fileData.arrayBuffer() 
             const buffer    = Buffer.from( arrayBuffer  ,'binary' )
             let blob        = buffer
+            let name        = file.name || Math.random().toString().replace("0.", "")
 
-            await ilse.filesystem.file.write.async( ilse.path.join("second", file.name), blob )
+            await ilse.filesystem.file.write.async( ilse.path.join("second", name), blob )
 
             this.inote.focus()
 
             setTimeout( () => {
-                this.inote.caret.add( ` ![[${file.name}]]` ) }, 100 )
+                this.inote.caret.add( ` ![[${name}]]` ) }, 100 )
         },
 
         // on_note_search_result_select( payload ) {
@@ -150,8 +154,18 @@ export default {
 
                 this.inote.focus()
                 let dom         = document.getElementById( note.id )
-                printf( "dom -> ", dom )
 
+                // BUGFIX: For some reason after inserting "id+))" if we blur we'll lose and go back to "((" This fixes this issue by setting inote.content directly
+                let is_note_ref = type === "note" && note.content.indexOf(text) === -1 
+                let is_file_ref = type === "file" && note.content.indexOf( text.replace(".md", "") ) === -1 
+                let value
+
+                // _this.inote.focus() 
+                if( is_note_ref ) _this.inote.content += ` ((${text}))`, dom 
+                if( is_file_ref ) _this.inote.content += ` ![[${text.replace(".md", "")}]]`, dom 
+
+
+                /*
                 note.caret.set( note.caret.pos.start, note.caret.pos.end, dom )
 
                 // TODO: 'insert' receives a dom, remove 'set-element', then find a way of persisting to the note.
@@ -166,14 +180,17 @@ export default {
 
                     if( is_note_ref ) value = note.caret.insert( `((${text}))`, dom )
                     if( is_file_ref ) value = note.caret.insert( `![[${text.replace(".md", "")}]]`, dom )
+
                     // setTimeout( () => { _this.inote.focus() }, 1000 )
 
                     // this.inote.content = value
                     // this.resize_textarea()
 
                 }, 100 )
+                */
 
             }, 100 )
+
 
             // this.close_overlay( "search" )
 
@@ -224,6 +241,7 @@ export default {
             setTimeout( () => { dom.focus() }, 100 )
         },
 
+        /*
         // BUGFIX: textarea's height is dynamic
         on_input( event ) {
 
@@ -254,6 +272,7 @@ export default {
             // ilse.notes.save()
             // this.resize_textarea()
         },
+        */
 
         get_html( content ) {
 
@@ -265,7 +284,7 @@ export default {
                 if( !ref ) return ilse.markdown.render( content ) // No note references, normal markdown.
 
             // === Refs === //
-            let html = ilse.markdown.get_blockquote( content )
+            let html = ilse.markdown.get_note_with_refs( content )
             return html
 
             /*
@@ -318,7 +337,8 @@ export default {
                 // if( shift ) return
 
             // BUGFIX: No id nor content
-            let is_note_malformed = !inote.content || !inote.id
+            // let is_note_malformed = !inote.content || !inote.id
+            let is_note_malformed = !inote.id
                 if( is_note_malformed ) return ""
 
             // FEATURE: Checkbox
@@ -348,6 +368,9 @@ export default {
         },
 
         on_blur( event, inote ) {
+
+            // save(contentEditable)
+            this.inote.content = event.target.innerText
 
             this.stop_listening_to_embed_keys()
 
@@ -571,6 +594,9 @@ export default {
 }
 */
 
+.editable:focus {
+    outline: none;
+}
 
 input:focus{
     outline: none;
@@ -584,6 +610,8 @@ input:focus{
     padding: 0px !important;
     font-size: 1em;
     border: 1px solid transparent;
+    height: fit-content; 
+    width: fit-content;
 }
 
 
@@ -593,6 +621,7 @@ input:focus{
 
 .markdown {
     /*margin-bottom: 6px;*/
+    min-width: 100px;
     width: fit-content;
     font-size: 1em;
 }

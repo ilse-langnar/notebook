@@ -1,6 +1,9 @@
 const printf        = console.log
 
-const envPaths      = require('./libs/env-paths.js')
+// Libs
+    const envPaths      = require('./libs/env-paths.js')
+    const get_date_id   = require('./libs/get-date-id.js')
+
 const fs            = require('fs')
 const path          = require('path')
 const env_paths     = envPaths('ilse', { suffix: "" })
@@ -11,8 +14,8 @@ const env_paths     = envPaths('ilse', { suffix: "" })
 // const createGraph   = require('ngraph.graph')
 const readline = require("readline");
 
-var term = require( 'terminal-kit'  ).terminal;
-
+var term  = require( 'terminal-kit'  ).terminal;
+let stdin = process.stdin;
 
 // Quine
 let target_directories
@@ -23,7 +26,6 @@ class Ilse {
     constructor() {
 
         this.commands           = process.argv.splice(2)
-        printf( "this.commands -> ", this.commands )
         this.command            = this.commands[0]
         this.payload            = this.commands[1]
         this.target_directory   = null
@@ -39,15 +41,23 @@ class Ilse {
         }
     }
 
-    print_options() {
+    listen() {
 
-        printf( `ilse: Show this options` )
+        stdin.on( "data", chunk => {
+            let id = get_date_id()
+            printf( `${id}: ${chunk}` )
+        })
+
+    }
+
+    print_options() {
 
         // First Brain = memory
         // Read
         // Remove
         // query
         // tags
+        /*
         console.table({
             "ilse":"Show this options",
                 "ilse help":"Show Help OPtions",
@@ -64,6 +74,7 @@ class Ilse {
                     "ilse (s)econd (l)inks":"Show Options for second brain",
                     "ilse (s)econd (a)dd":"Show Options for second brain",
         })
+        */
 
     }
 
@@ -74,7 +85,7 @@ class Ilse {
     prompt( question, fn ) {
 
         // Prompt user to input data in console.
-        printf( question )
+        // printf( question )
 
         function readable( data ) {
             fn( data )
@@ -100,7 +111,7 @@ class Ilse {
 
                 let exists     = fs.existsSync( data )
                     if( !exists ) {
-                        printf( `ERROR: "${data}" does not exist` )
+                        // printf( `ERROR: "${data}" does not exist` )
                         process.exit( 0 )
                     }
 
@@ -131,6 +142,7 @@ class Ilse {
     setup() {
 
         this.check_if_target_directory_is_defined()
+        this.listen()
 
         /*
         let has_config_dir_already = fs.existsSync( env_paths.config ) && fs.existsSync( `${env_paths.config}/target.json` )
@@ -183,7 +195,6 @@ class Ilse {
 
         term.gridMenu( items , function( error , response  ) {
 
-            printf( "response -> ", response )
             // term( '\n'  ).eraseLineAfter.green(
                 // "#%s selected: %s (%s,%s)\n" ,
                 // response.selectedIndex ,
@@ -213,9 +224,9 @@ class Ilse {
         }
 
         if( brain === "first" || brain === "f" )  {
-            printf( "first -> payload -> ", payload )
+            // printf( "first -> payload -> ", payload )
         } else if( brain === "second" || brain === "s" ){
-            printf( "second -> payload -> ", payload )
+            // printf( "second -> payload -> ", payload )
         }
 
         /*
@@ -253,12 +264,12 @@ class Ilse {
     }
 
     show_link( payload ) {
-        printf( "this.graph.getNode( payload ) -> ", this.graph.getNode( payload ) )
+        // printf( "this.graph.getNode( payload ) -> ", this.graph.getNode( payload ) )
     }
 
     show_tags( payload ) {
-        let node        = this.graph.getNode( payload )
-        printf( node.data.tags )
+        // let node        = this.graph.getNode( payload )
+        // printf( node.data.tags )
     }
 
     show_journal() {
@@ -268,12 +279,12 @@ class Ilse {
         let file
         try {
             file        = fs.readFileSync( `${this.target_directory}/${today_date}.md`, "utf8" )
-            printf( file )
+            // printf( file )
         } catch( e ) {
-            printf( `Creating journal for: ${today_date} ...` )
+            // printf( `Creating journal for: ${today_date} ...` )
             fs.writeFileSync( `${this.target_directory}/${today_date}.md`, today_date )
             file        = fs.readFileSync( `${this.target_directory}/${today_date}.md`, "utf8" )
-            printf( file )
+            // printf( file )
         }
     }
 
@@ -300,7 +311,7 @@ class Ilse {
                     let has_file_already    = fs.existsSync( `${this.target_directory}/${payload}` )
                     if( !has_file_already ) {
                         fs.writeFileSync( `${this.target_directory}/${payload}`, file )
-                        printf( `${payload} Created!!` )
+                        // printf( `${payload} Created!!` )
                     } else {
 
                     }

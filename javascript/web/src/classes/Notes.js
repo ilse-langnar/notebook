@@ -396,7 +396,9 @@ export default class Notes {
 
     get_references( string ) {
 
+        printf( "string -> ", string )
         let chunks = string.split(" ")
+        printf( "chunks -> ", chunks )
         let has_opening_parenthesis
         let has_closing_parenthesis
         let has_both
@@ -408,6 +410,7 @@ export default class Notes {
           has_closing_parenthesis  = chunk.indexOf( "))" ) !== -1
 
           has_both                 = has_opening_parenthesis && has_closing_parenthesis
+            if( has_both ) printf( "chunk -> ", chunk )
           if( has_both ) ref = chunk.replace( " ", "" ).replace( "((", "" ).replace( "))", "" )
 
         }

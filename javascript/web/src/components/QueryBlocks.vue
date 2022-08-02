@@ -10,7 +10,7 @@
             p {{$t('no_results_found_for')}} {{query_string}}
         .note( v-for="( note, index ) in search_result" :key="index" )
             // p note: {{get_note_style(note)}}
-            Note( :note="note" :style="get_note_style(note)" :options="{ hideBullet: true, style: '' }" )
+            Note( :note="note" :style="get_note_style(note)" :options="{ hide_bullet: true, style: '' }" )
             // br
 </template>
 <script>

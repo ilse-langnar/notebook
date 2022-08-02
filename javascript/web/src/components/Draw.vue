@@ -48,6 +48,9 @@ export default {
             let buffer     = ilse.utils.decode_base64_image(image)
 
             ilse.filesystem.file.write.async( `second/${name}`, buffer.data )
+
+            let content    = `![[${name}]]`
+            ilse.notes.add( content )
         },
 
         setup() {

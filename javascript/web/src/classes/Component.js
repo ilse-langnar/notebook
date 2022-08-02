@@ -32,12 +32,18 @@ export default class Component {
         let id              = this.type
         let type            = ilse.types.get( id )
 
-        let is_component_ok = type && type.component && type.component.default
-        if( is_component_ok ) {
-            return type.component.default
-        } else {
-            throw new Error( `Could not find type: ${id}, it seems that it does not exists!!` )
+        if( type.type === "vue" ) {
+            let is_component_ok = type && type.component && type.component.default
+            if( is_component_ok ) {
+                return type.component.default
+            } else {
+                throw new Error( `Could not find type: ${id}, it seems that it does not exists!!` )
+            }
+        } else if( type.type === "html" ) {
+            return type.component
+
         }
+
     }
     // <---------------------> component Type <--------------------->  //
 

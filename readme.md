@@ -74,7 +74,7 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Graph | Visualize relationship between notes, files, media and more.  | ![Graph](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-graph.gif) |
 | Keyboard Shortcut | Bind shortcuts from simple such as `ctrl+s` to complex such as `ctrl+space i z`  | | ![Keyboard Shortcuts](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-shortcuts.gif) | 
 | Commands and Command Pallet | See all the available commands with the command pallet, execute any function with commands  | ![Command Pallet](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-command-pallet.gif) | 
-| Study Tools | See "Studying with Ilse" for more | 
+| Study Tools | See "Studying with Ilse" for more | ![Study](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-study.gif) |
 | Daily Notes | This is your hub, this is where you start off if you're confused as to where to go. | ![Daily Notes](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-daily-notes.gif) |
 | Multiple Directories | You can have as many directories as you want, maybe something for work, something for study etc. | |
 | CRM | TODO | |

@@ -580,17 +580,14 @@ class componentTypes {
 
     get( id ) {
 
-        let types = this.types
+        let types     = this.types
+        let to_return = null
 
-        for( const type of types ) {
+        types.map( type => {
+            if( type.id === id ) to_return = type
+        })
 
-            if( type.id === id ) {
-                // printf( `FOUND: ${id} -> type -> `, type )
-                return type
-            }
-        }
-
-        return null
+        return to_return
 
     }
 

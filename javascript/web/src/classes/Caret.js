@@ -41,6 +41,9 @@ export default class Caret {
 
         let note       = ilse.notes.query( `${this.id}: ` )[0]
         const txtarea  = document.getElementById( note.id )
+        printf( "txtarea -> ", txtarea )
+        printf( "txtarea.value -> ", txtarea.value )
+        printf( "txtarea.innerText -> ", txtarea.innerText)
         // var txtarea = dom
 
          var strPos = 0;
@@ -49,19 +52,19 @@ export default class Caret {
          if (br == "ie") {
              txtarea.focus();
              var range = document.selection.createRange();
-             range.moveStart('character', -txtarea.value.length);
+             range.moveStart('character', -txtarea.innerText.length);
              strPos = range.text.length;
 
          } else if (br == "ff") strPos = txtarea.selectionStart;
 
-        var front = (txtarea.value).substring(0, strPos);
-        var back = (txtarea.value).substring(strPos, txtarea.value.length);
-        txtarea.value = front + text + back;
+        var front = (txtarea.innerText).substring(0, strPos);
+        var back = (txtarea.innerText).substring(strPos, txtarea.innerText.length);
+        txtarea.innerText = front + text + back;
         strPos = strPos + text.length;
         if (br == "ie") {
             txtarea.focus();
             var range = document.selection.createRange();
-            range.moveStart('character', -txtarea.value.length);
+            range.moveStart('character', -txtarea.innerText.length);
             range.moveStart('character', strPos);
             range.moveEnd('character', 0);
             range.select();
@@ -73,12 +76,15 @@ export default class Caret {
         }
 
         // Set Note
-        note.content = txtarea.value
+        note.content = txtarea.innerText
 
-        return txtarea.value
+        return txtarea.innerText
      }
 
     set( start, end ) {
+
+        printf( "set -> start -> ", start )
+        printf( "set -> end -> ", end )
 
         // const ctrl = document.getElementById( this.inote.id )
         // this.set_element()
@@ -115,7 +121,7 @@ export default class Caret {
             ctrl.focus();
             var range = document.selection.createRange();
             var rangelen = range.text.length;
-            range.moveStart('character', -ctrl.value.length);
+            range.moveStart('character', -ctrl.innerText.length);
             var start = range.text.length - rangelen;
             return {
                 'start': start,
