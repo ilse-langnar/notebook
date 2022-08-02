@@ -34,9 +34,9 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Platform         | How     | Gif |
 |--------------|-----------|------------|
 | Web Demo | [Check](https://ilse-langnar.github.io/notebook/demo/index.html) | Learn More | 
-| Web(.html) | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.0.10/demo.tar-1.0.11.gz) | Learn More | |
-| Desktop Linux(AppImage)           | [Download](https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage) | ![Demo](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/desktop-linux.gif) | 
-| Desktop Windows(.exe)             | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.0.10/ilse-langnar-notebook.Setup.1.0.11.exe) | 
+| Web(.html) | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.0/html.1.1.0.tar.gz) | Learn More | |
+| Desktop Linux(AppImage)           | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.0/ilse-langnar-notebook-1.0.11.AppImage) | ![Demo](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/desktop-linux.gif) | 
+| Desktop Windows(.exe)             | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.0/ilse-langnar-notebook.Setup.1.0.11.exe) | 
 | Desktop MacOs(.dmg)               | Comming Soon |
 | Mobile Android(.apk)              | Comming Soon | 
 | Mobile iOS                        | Comming Soon | 
@@ -65,7 +65,7 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Dark Mode              | You can have different styles and they can have a light and a dark mode, if you download a theme, you can toggle dark mode with `C-SPC d d` or executing the "toggle-dark-mode" command | ![Dark Mode](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-dark-mode.gif) | 
 | Zen Mode                | Allows you to focus on a single component and forget about anything else. | |
 | Themes                | You can have multiple themes and switch between them as you like. | ![Themes](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-themes.gif) | 
-| Easy Import/Export    | TODO  | ![Easy Import/Export](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-easy-import-and-export.gif) | |
+| Easy Import/Export    | You can import a theme or a plugin with a single click.  | ![Easy Import/Export](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-easy-import-and-export.gif) | |
 | Multi Language Support | Ilse supports many different language.  | ![Multi Language](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-multi-language.gif) |
 | Note Reference | You can embed a note inside another note.  | ![Note Embed](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-note-embed.gif) |
 | File Reference | Reference files inside notes.  | ![File Embed](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-file-embed.gif) |
@@ -78,7 +78,7 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Daily Notes | This is your hub, this is where you start off if you're confused as to where to go. | ![Daily Notes](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-daily-notes.gif) |
 | Multiple Directories | You can have as many directories as you want, maybe something for work, something for study etc. | |
 | CRM | TODO | |
-| Task Manager | TODO | |
+| Task Manager | Manage all of your todos in one single place. | ![Task Management](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-task-management.gif) | |
 | File Embed | TODO | |
 | Media Embed | Embed images, videos, sounds, gifs and more. | ![Media Embed](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-media-embed.gif) |
 | Component Embed | Embed kanban, calendar, spreadsheets, Todos, reminders, help, tutorials, Mind Maps, Memex, Files and more inside a note. | ![Component Embed](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-component-embed.gif) |

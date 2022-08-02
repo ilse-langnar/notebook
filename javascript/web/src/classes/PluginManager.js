@@ -10,7 +10,6 @@ const printf                        = console.log
 // Utils
     import Messager                     from "@/classes/Messager.js"
 
-
 class PluginManager {
 
     constructor( ilse ) {
@@ -22,17 +21,42 @@ class PluginManager {
     }
 
     setup() {
-        this.load()
+        setTimeout( () => { this.load() }, 1000 )
     }
 
+    async import_from_url( url, name = Math.random().toString() ) {
+
+        // let response = await fetch( url )
+        // printf( "response -> ", response )
+
+        // var s   = document.createElement("script");
+            // s.src   = url
+            // s.id    = name;
+            // // s.async = true;
+            // s.type  = "text/javascript";
+
+        // document.getElementsByTagName("head")[0].appendChild(s)
+    }
+
+    load() {
+        let result = this.ilse.notes.query(`#i/plugin`)
+        printf( "result[0] -> ", result[0] )
+        printf( "result -> ", result )
+
+        window.ilse = new PluginAPIFactory( Math.random().toString().replace("0.", "") )
+        printf( "window.ilse -> ", window.ilse )
+
+        let o = new window.ilse()
+        printf( "o -> ", o )
+    }
+
+    /*
     get( plugin_name ) {
 
         let plugins = this.plugins
 
         for( let plugin of plugins ) {
-
             if( plugin.name === plugin_name ) return plugin
-
         }
 
         return null
@@ -45,13 +69,14 @@ class PluginManager {
             this.plugins.push( plugin )
 
         return plugin
-
     }
 
     before_run( plugin ) {
         window.Plugin      = new PluginAPIFactory( plugin )
     }
+    */
 
+    /*
     async run( plugin ) {
 
         this.before_run( plugin )
@@ -93,6 +118,7 @@ class PluginManager {
         // BUGFIX
             // this.plugin_api = plugin_api
     }
+    */
 
     // Makes sure no global user has acces to other plugin scoped, only when they're created
     /*
@@ -101,6 +127,7 @@ class PluginManager {
     }
     */
 
+    /*
     async load() {
 
         let plugins = []
@@ -136,6 +163,7 @@ class PluginManager {
 
         // this.reset_global_plugin_api()
     }
+    */
 
 
 }

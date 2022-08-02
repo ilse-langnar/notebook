@@ -23,10 +23,10 @@ class PluginAPIFactory {
                     this.name = plugin_name
 
                 // Messager
-                    this.Messager                   = Messager
+                    // this.Messager                   = Messager
 
                 // Internals
-                    this.filesystem                 = ilse.filesystem
+                    // this.filesystem                 = ilse.filesystem
                     this.graph                      = ilse.graph
                     this.tags                       = ilse.tags.tags
                     this.notification               = ilse.notification
@@ -119,9 +119,6 @@ class PluginAPIFactory {
 
             add_type({ id, name, description, img, type, component, props }) {
 
-                props.plugin = "LLLL"
-
-                printf( "ilse -> ", ilse )
                 let is_pure_svg = img.indexOf( "<svg" ) !== -1
                 if( is_pure_svg ) {
                     var svg = new Blob([img], { type: "image/svg+xml;charset=utf-8" })
@@ -143,6 +140,7 @@ class PluginAPIFactory {
                 return id
             }
 
+            /*
             async save( json, pretty = false ) {
 
                 if( typeof json === "object" )  {
@@ -184,6 +182,7 @@ class PluginAPIFactory {
                 let data = await this.filesystem.file.read.async( `plugins/${this.plugin_name}/configuration.json`)
                 return data
             }
+            */
 
         }
 

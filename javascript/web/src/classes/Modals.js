@@ -138,6 +138,13 @@ class Modals {
             props: {},
         })
 
+        this.add({
+            id: "make-extention",
+            name: "MakeExtention",
+            component: ilse.types.get( "make-extention" ),
+            props: {},
+        })
+
     }
 
     open( id, payload, on_close = null ) {

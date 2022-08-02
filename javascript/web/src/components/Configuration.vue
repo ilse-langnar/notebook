@@ -35,6 +35,9 @@
                         textarea.input( v-model="child.content" style="width: 100%;" )
                     .space
 
+            .plugins( v-if="selected === 'marketplace' " )
+                p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
             .components( v-if="selected === 'components' " )
                 .loop( v-for=" ( type, index ) in ilse.types.types" :key="index" style="border: 1px solid #000; float: left; margin-left: 10px; padding: 14px; margin-bottom: 8px; border-radius: 10px; width: 30%; height: 200px; overflow: hidden;"  )
                     p.is-size-4.centered {{type.name}} 
@@ -97,6 +100,7 @@ export default {
                 { name: "general", img: "settings.svg" },
                 { name: "typography", img: "typography.svg" },
                 { name: "plugins", img: "plugin.svg" },
+                { name: "marketplace", img: "building-store.svg" },
                 { name: "themes", img: "palette.svg" },
                 { name: "languages", img: "language.svg" },
                 { name: "components", img: "tech-box.svg" },

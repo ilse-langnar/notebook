@@ -69,6 +69,10 @@ class KeyboardShortcut  {
             { combo: "ctrl+space v m", command: "open-note-on-a-mind-map" },
             { combo: "ctrl+space i d", command: "toggle-dark-mode" },
             { combo: "ctrl+space i z", command: "toggle-zen-mode" },
+
+            { combo: "ctrl+space i e", command: "open-make-extention-modal" },
+            { combo: "ctrl+space i p i", command: "import-plugin-from-url" },
+
             { combo: "ctrl+space v t", command: "open-note-on-a-table-pan" },
             { combo: "ctrl+space v shift+m", command: "open-note-on-a-memex" },
 

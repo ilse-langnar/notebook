@@ -627,6 +627,27 @@ class Commands {
                 name: "Reset Theme",
             },
 
+            {
+                id: "open-make-extention-modal",
+                fn: async function() {
+                    ilse.modals.open("make-extention")
+                },
+                description: "Open make extention modal",
+                name: "Open Make Extention Modal",
+            },
+
+            {
+                id: "import-plugin-from-url",
+                fn: async function() {
+                    let payload = await ilse.dialog.input( "Import Plugin", "url:" )
+                    let url     = payload.input
+                    ilse.plugin_manager.import_from_url( url )
+                },
+                description: "Import Plugin from URL",
+                name: "Import Plugin from URL",
+            },
+
+
         ]
 
         this.add_components_commands()

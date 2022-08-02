@@ -564,6 +564,18 @@ class componentTypes {
             }
         })
 
+        this.add({
+            id: "make-extention",
+            name: "MakeExtention",
+            description: "Make themes, plugins, css snippets, commands and others extentions.",
+            img: require("@/assets/images/square.svg"),
+            type: "vue",
+            component: require("@/components/MakeExtention.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
     }
 
     get( id ) {
