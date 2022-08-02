@@ -26,7 +26,7 @@
   "dependencies": {
     "arg": "^5.0.1",
     "blessed": "^0.1.81",
-    "blessed-contrib": "^4.10.1",
+    "blessed-contrib": "^4.11.0",
     "chalk": "^5.0.1",
     "env-paths": "^3.0.0",
     "terminal-kit": "^2.4.0"

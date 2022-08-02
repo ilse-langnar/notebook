@@ -83,6 +83,10 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Media Embed | Embed images, videos, sounds, gifs and more. | ![Media Embed](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-media-embed.gif) |
 | Component Embed | Embed kanban, calendar, spreadsheets, Todos, reminders, help, tutorials, Mind Maps, Memex, Files and more inside a note. | ![Component Embed](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-component-embed.gif) |
 | Note Embed | TODO | |
+| Platform Independent | TODO | |
+| Plain Text | TODO | |
+| Free and Open Source | TODO | |
+| Zettelkasten | TODO | |
 
 
 
