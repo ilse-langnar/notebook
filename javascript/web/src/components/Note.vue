@@ -603,7 +603,8 @@ input:focus{
 }
 
 .editable {
-    background: var( --background-color );
+    /*background: var( --background-color );*/
+    background: transparent;
     color: var( --text-color );
     width: 100%;
     margin: 0 !important;
@@ -631,7 +632,7 @@ input:focus{
     text-align:   center;
     cursor:       pointer;
     color:        #a3a3a3;
-    color:        var(--text-color);
+    color:        var( --text-color );
     /*font-size:    1pc;*/
     font-size: 1.5em;
     cursor:       pointer;

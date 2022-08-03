@@ -576,6 +576,42 @@ class componentTypes {
             }
         })
 
+        this.add({
+            id: "random-note",
+            name: "RandomNote",
+            description: "Get a random note, a random note from query or a random note from a file",
+            img: require("@/assets/images/dice-3.svg"),
+            type: "vue",
+            component: require("@/components/RandomNote.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
+        this.add({
+            id: "left-sidebar",
+            name: "LeftSidebar",
+            description: "Left Sidebar is the component thatt embeds inside the left sidebar",
+            img: require("@/assets/images/arrow-narrow-left.svg"),
+            type: "vue",
+            component: require("@/components/LeftSidebar.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
+        this.add({
+            id: "right-sidebar",
+            name: "RightSidebar",
+            description: "Right Sidebar is the component thatt embeds inside the right sidebar",
+            img: require("@/assets/images/arrow-narrow-right.svg"),
+            type: "vue",
+            component: require("@/components/RightSidebar.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
     }
 
     get( id ) {

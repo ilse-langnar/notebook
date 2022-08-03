@@ -1,6 +1,6 @@
 <template lang="pug" >
 .draw
-    VueSignatureCanvas( ref="handWrite" :canvasProps="{class: 'sig-canvas'}" style="border: 1px solid var( --text-color ); " )
+    VueSignatureCanvas( ref="handWrite" :canvasProps="{class: 'sig-canvas'}" style="border: 1px solid var( --text-color ); border-radius: var( --border-radius ); " )
     button.button.slick-button.centered( style="display: block; " @click="save()" ) {{ $t('save') }}
 </template>
 <script>
@@ -69,8 +69,6 @@ export default {
 .sig-canvas {
     display: block;
     margin: 0 auto; 
-    width: 100%;
-    height: 100vh;
     background-color: rgba(244,244,244,0);
     /*position: fixed;*/
     z-index: 9;

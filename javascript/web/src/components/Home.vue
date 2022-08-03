@@ -8,8 +8,16 @@
 
         TopMenu
         // HelloI18n
-        List( v-show="!ilse.is_home_page_on" :components="ilse.components" unique-key="home" )
-        HomePage( v-show="ilse.is_home_page_on" )
+        // img( src="@/assets/images/arrow-narrow-right.svg" style="position: fixed; left: 10px;  width: 25px; height: 25px;  " @click="ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open")
+
+        // .left( v-show="is_left_on" style="display: flex;" )
+            .div( style="width: 80%; " )
+                p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            List( :components="ilse.components" unique-key="home" )
+
+        // List( v-show="!is_left_on" :components="ilse.components" unique-key="home" )
+
+        List( :components="ilse.components" unique-key="home" )
 
         Modals
         Dialogs
@@ -32,7 +40,6 @@ const printf                                        = console.log;
     import Dialogs          from "@/components/Dialogs.vue"
     import Notifications    from "@/components/Notifications.vue"
     import List             from "@/components/Components.vue"
-    import HomePage         from "@/components/HomePage.vue"
     import HelloI18n        from "@/components/HelloI18n.vue"
 
 
@@ -50,22 +57,18 @@ export default {
         Notifications,
 
         List,
-        HomePage,
         HelloI18n,
     },
 
     data() {
         return {
+            is_left_on: false,
             ilse: ilse,
             key: Math.random(),
         }
     },
 
     methods: {
-
-        get_ilse_style() {
-            if( ilse.config.is_home_page_on ) return "overflow: hidden; "
-        },
 
         open_shortcuts() {
             ilse.modals.open( "keyboard-shortcut" )

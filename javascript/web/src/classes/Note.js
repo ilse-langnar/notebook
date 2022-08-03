@@ -24,7 +24,7 @@ export default class note {
             this.id          = this.id.trim() // "    20220124102749" -> "20220124102749"
             this.id          = this.id.substr( 0, 14 ) // 20220124102749: This is the [[Writing]] -> 20220124102749
             this.id          = this.id.replace(":", "")
-            if( this.id.length !== 14 ) this.id = `${this.id}0` // BUGFIX
+            if( this.id.length < 14 ) this.id = `${this.id}0` // BUGFIX
 
         this.content     = this.$raw
             this.content     = this.content.trim() // "    20220124102749: Example [[Writing]]" -> "20220124102749: Example [[Writing]]"
@@ -76,10 +76,12 @@ export default class note {
         let is_move_right   = number > 0
         let note
 
+        printf( "before -> this.$raw -> ", this.$raw )
         if( is_move_right ) {
 
             let spaces      = ilse.utils.get_depth_spaces( this.depth + number )
                 note          = `${spaces}${this.id}: ${this.content}`
+            printf( "note -> ", note )
                 setTimeout( () => { this.focus() }, 100 )
 
             this.constructor( note  )
@@ -87,6 +89,7 @@ export default class note {
 
             let spaces      = ilse.utils.get_depth_spaces( this.depth + number )
                 note          = `${spaces}${this.id}: ${this.content}`
+            printf( "note -> ", note )
                 setTimeout( () => { this.focus() }, 100 )
 
             this.constructor( note )

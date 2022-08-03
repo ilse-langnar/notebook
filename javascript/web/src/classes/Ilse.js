@@ -81,6 +81,8 @@ export default class Ilse {
         this.tried_too_fast         = false
         this.is_vitruvian_expanded  = false
         this.is_home_page_on        = false
+        this.is_left_sidebar_open    = false
+        this.is_right_sidebar_open   = false
         this.style                  = ""
 
         this.platform               = process.env.VUE_APP_TARGET.toLowerCase()

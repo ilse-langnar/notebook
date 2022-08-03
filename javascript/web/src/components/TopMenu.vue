@@ -1,7 +1,9 @@
 <template lang="pug" >
 .top-menu( v-if="!ilse.is_zen" style="width: 100%; display: flex; padding: 0.3em 0.5em; " )
 
+    img( src="@/assets/images/arrow-narrow-right.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('homepage')" @click="ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open" )
     .menu-item( style="margin: auto;" )
+
 
         .vspace
 
@@ -53,7 +55,10 @@
                 img.is-pulled-right( src="@/assets/images/x.svg" style="width: 20px; display: block; margin: 0 auto;" :title="$t('delete_folder')" @click="delete_dir(folder)" )
 
                 p {{folder}}
+
             img( src="@/assets/images/plus.svg" style="width: 30px; display: block; margin: 0 auto;" @click="add_target_directory" :title="$t('add_folder')" )
+
+    img( src="@/assets/images/arrow-narrow-left.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('homepage')" @click="ilse.is_right_sidebar_open = !ilse.is_right_sidebar_open" )
     br
 
 </template>

@@ -70,13 +70,16 @@ class KeyboardShortcut  {
             { combo: "ctrl+space i d", command: "toggle-dark-mode" },
             { combo: "ctrl+space i z", command: "toggle-zen-mode" },
 
+            { combo: "ctrl+space i l", command: "toggle-left-sidebar" },
             { combo: "ctrl+space i e", command: "open-make-extention-modal" },
             { combo: "ctrl+space i p i", command: "import-plugin-from-url" },
 
             { combo: "ctrl+space v t", command: "open-note-on-a-table-pan" },
             { combo: "ctrl+space v shift+m", command: "open-note-on-a-memex" },
 
-            { combo: "ctrl+h", command: "toggle-home-page" },
+            { combo: "ctrl+space tab", command: "toggle-left-sidebar" },
+            { combo: "ctrl+space shift+tab", command: "toggle-right-sidebar" },
+
             // { combo: "shift+/", command: "open-help" }, // ctrl-shift-/ = ctrl-?
 
             { combo: "ctrl+space (", command: "void" },
@@ -279,6 +282,7 @@ class KeyboardShortcut  {
 
         // Mousetrap.bindGlobal( combo, (event, combo ) => {
         this.Mousetrap.bindGlobal( combo, (event, combo ) => {
+            event.preventDefault()
             ilse.commands.run( key.command )
         }, 'keydown' )
 

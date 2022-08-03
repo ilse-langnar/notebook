@@ -2,8 +2,13 @@
 .components-wrapper
 
     .components( style="display: flex; flex-direction: row;" :key="components_key" )
+
+        Component.left-sidebar( v-show="ilse.is_left_sidebar_open" :component="get_left_sidebar()" :options="{ hide_bullet: true }" :style="get_component_style(get_left_sidebar())" )
+
         .component( v-show="components.length && component.is_on" v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
             Component( :component="component" :style="get_component_style_2()" )
+
+        Component.right-sidebar( v-show="ilse.is_right_sidebar_open" :component="get_right_sidebar()" :options="{ hide_bullet: true }" :style="get_component_style(get_right_sidebar())" )
 
     .no-components( v-if="!components.length" style="flex-direction: column; height: 89vh; overflow: hidden !important; " )
         .centered( style="" )
@@ -46,6 +51,19 @@ export default {
     },
 
     methods: {
+
+        get_left_sidebar() {
+            let c         = { 'id': 'left-sidebar', 'width': 12, 'is_on': true, 'type': 'left-sidebar', 'props': {} }
+            let component = new ilse.classes.Component( c )
+            return component
+        },
+
+        get_right_sidebar() {
+            let c         = { 'id': 'right-sidebar', 'width': 12, 'is_on': true, 'type': 'right-sidebar', 'props': {} }
+            printf( "right -> c- > ", c )
+            let component = new ilse.classes.Component( c )
+            return component
+        },
 
         get_component_style_2() {
             let style       = ``

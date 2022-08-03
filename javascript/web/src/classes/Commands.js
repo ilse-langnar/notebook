@@ -563,15 +563,6 @@ class Commands {
             */
 
             {
-                id: "toggle-home-page",
-                fn: async function() {
-                    ilse.is_home_page_on = !ilse.is_home_page_on
-                },
-                description: "Toggle Home Page",
-                name: "Toggle Home Page",
-            },
-
-            {
                 id: "toggle-resize-mode",
                 fn: async function() {
                     ilse.config.is_resize_mode_on = !ilse.config.is_resize_mode_on
@@ -647,7 +638,23 @@ class Commands {
                 name: "Import Plugin from URL",
             },
 
+            {
+                id: "toggle-left-sidebar",
+                fn: async function() {
+                    ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open
+                },
+                description: "Toggle Left Sidebar",
+                name: "Toggle Left Sidebar",
+            },
 
+            {
+                id: "toggle-right-sidebar",
+                fn: async function() {
+                    ilse.is_right_sidebar_open = !ilse.is_right_sidebar_open
+                },
+                description: "Toggle Right Sidebar",
+                name: "Toggle Right Sidebar",
+            },
         ]
 
         this.add_components_commands()

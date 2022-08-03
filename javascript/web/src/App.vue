@@ -189,6 +189,25 @@ input[type=range]::-webkit-slider-runnable-track  {
     color: #698b99;
 }
 
+.left-sidebar {
+    min-height: 80vh;
+    border-radius: var( --border-radius );
+    /*width: 50%;*/
+    flex-basis: 70%;
+    background-color: var( --secondary-background-color );
+    padding: var( --padding );
+}
+
+.right-sidebar {
+    min-height: 80vh;
+    border-radius: var( --border-radius );
+    /*width: 50%;*/
+    flex-basis: 70%;
+    background-color: var( --secondary-background-color );
+    padding: var( --padding );
+}
+
+
 /* ![[Ilse]] */
 .file-embed {
     margin-left: 10px;

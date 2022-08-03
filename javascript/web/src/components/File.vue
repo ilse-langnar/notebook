@@ -102,6 +102,7 @@ export default {
 
         async create( file ) {
             await ilse.filesystem.file.write.async( ilse.path.join("second" , file), "" )
+            this.is_create_file_button_on = false
         },
 
         // Control the margins
