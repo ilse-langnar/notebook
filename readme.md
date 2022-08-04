@@ -86,6 +86,7 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Platform Independent | TODO | |
 | Plain Text | TODO | |
 | Free and Open Source | TODO | |
+| Right/Left Sidebar |  You can put anything you want there with quick access | ![Right Sidebar](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-right-sidebar.gif) | 
 | Zettelkasten | TODO | |
 
 

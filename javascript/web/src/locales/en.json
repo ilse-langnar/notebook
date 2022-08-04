@@ -84,5 +84,14 @@
   "components": "Components",
   "snippets": "Snippets",
   "graph": "Graph",
+  "review": "Review",
+  "daily_statistics": "Daily Statistics",
+  "knowledge_tree": "Knowledge Tree",
+  "search": "Search",
+  "library": "Library",
+  "videos": "Videos",
+  "images": "Images",
+  "global_statistics": "Global Statistics",
+  "how_does_it_work": "How does it work",
   "keyboard_shortcut": "Keyboard Shortcut"
 }

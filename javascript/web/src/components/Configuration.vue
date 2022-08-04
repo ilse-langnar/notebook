@@ -8,7 +8,6 @@
                 p( style="font-size: 0.7em; " ) &nbsp; &nbsp; {{ $t(option.name) }} 
             
         .options-configuration( style="width: 80%; float: right;" )
-            // p.is-size-1( style="text-align: center;" ) {{selected}}
             p.is-size-1( style="text-align: center;" ) {{ $t(selected) }}
 
             .general( v-if="selected === 'general' " )

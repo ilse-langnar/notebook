@@ -4,14 +4,12 @@
         .options( style="width: 20%; float: left;" )
             .item.flex( v-for="( option, index ) in options" :key="index" @click="selected = option.name" :style="get_option_style(option)" )
                 img( :src="get_img(option.img)" )
-                p( style="font-size: 0.7em; " ) &nbsp; &nbsp; {{option.name}} 
+                p( style="font-size: 0.7em; " ) &nbsp; &nbsp; {{ $t(option.name) }} 
             
         .options-configuration( style="width: 80%; float: right;" )
-            p.is-size-1( style="text-align: center;" ) {{selected}}
+            p.is-size-1( style="text-align: center;" ) {{ $t(selected) }}
 
             .review( v-if="selected === 'Review' " )
-                // p( :title="get_first_brain_last_item_info()" ) {{get_first_brain_last_item_info()}}
-                // p LAST: {{get_first_brain_current_item()}}
                 p( :title="get_first_brain_current_item()" ) {{get_first_brain_current_item()}}
 
 
@@ -140,6 +138,11 @@
                         summary {{book}}
                         .extracts( v-for="( extract, extract_index ) in ilse.brains.first.query(book.split('/')[0])" :key=" 'extracts-' + extract_index" )
 
+            .how-does-it-work( v-if="selected === 'How does it work' " )
+                p In order to this to work properly, you need a script to open the files natively.
+                a( href="windows" ) Windows
+                a( href="Linux" ) Linux
+                a( href="MacOS" ) MacOS
 </template>
 <script>
 // eslint-disable-next-line
@@ -197,6 +200,7 @@ export default {
                 { name: "Videos", img: "video.svg" },
                 { name: "Images", img: "photo.svg" },
                 { name: "Global Statistics", img: "report.svg" },
+                { name: "How does it work", img: "question-mark.svg" },
             ]
         }
     },

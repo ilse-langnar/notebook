@@ -62,7 +62,6 @@ class KeyboardShortcut  {
             // { combo: "A", command: "Add Component" },
             { combo: "ctrl+space s s", command: "open-search-modal" },
             { combo: "ctrl+space c f", command: "a" },
-            { combo: "ctrl+1", command: "first-brain-read" },
             { combo: "shift+enter", command: "void:add-new-line" },
             { combo: "ctrl+space shift+l", command: "list-projects" },
 
@@ -82,7 +81,8 @@ class KeyboardShortcut  {
 
             // { combo: "shift+/", command: "open-help" }, // ctrl-shift-/ = ctrl-?
 
-            { combo: "ctrl+space (", command: "void" },
+            { combo: "ctrl+(", command: "void" },
+            { combo: "ctrl+space .", command: "void" },
 
 
             { combo: "ctrl+space shift+f", command: "open-file" },

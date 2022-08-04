@@ -1,6 +1,6 @@
 <template lang="pug" >
 .draw
-    VueSignatureCanvas( ref="handWrite" :canvasProps="{class: 'sig-canvas'}" style="border: 1px solid var( --text-color ); border-radius: var( --border-radius ); " )
+    VueSignatureCanvas( ref="handWrite" :canvasProps="{class: 'sig-canvas'}" style="border: 1px solid var( --text-color ); border-radius: var( --border-radius ); " width="650px" height="500px")
     button.button.slick-button.centered( style="display: block; " @click="save()" ) {{ $t('save') }}
 </template>
 <script>
@@ -51,6 +51,7 @@ export default {
 
             let content    = `![[${name}]]`
             ilse.notes.add( content )
+            ilse.notification.send( "Added", `Added Picture: ![[${name}]]` )
         },
 
         setup() {

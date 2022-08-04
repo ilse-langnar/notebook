@@ -308,9 +308,13 @@ export default {
 
         listen_to_embed_keys() {
 
+            printf( "Note.vue -> listen_to_embed_keys - " )
+
             let _this = this
 
-            ilse.keyboard.Mousetrap.bindGlobal( "ctrl+space (", function(event){
+            // ilse.keyboard.Mousetrap.bindGlobal( "ctrl+space (", function(event){
+            // ilse.keyboard.Mousetrap.bindGlobal( "ctrl+.", function(event){
+            ilse.keyboard.Mousetrap.bindGlobal( "ctrl+.", function(event){
                 printf( "ok boomer" )
                 event.preventDefault()
                 _this.open_search( "notes" )
