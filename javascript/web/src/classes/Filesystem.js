@@ -81,6 +81,8 @@ export default class Filesystem {
 
     async create_default_dirs() {
 
+        printf( "create_default_dirs -> this.ilse.target_directories ", this.ilse.target_directories )
+        printf( "create_default_dirs -> this.ilse.target_directories[0] ", this.ilse.target_directories[0] )
         if( !this.ilse.target_directories[0] ) return
 
         let has_notes       = await this.file.exists.async( "notes" )
