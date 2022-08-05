@@ -7,9 +7,9 @@ const printf                        = console.log
     import Messager                     from "@/classes/Messager.js"
 
 // Filesystem
-    import RESTFilesystem               from "@/classes/RESTFilesystem.js"
-    import FSFilesystem                 from "@/classes/FSFilesystem.js"
-    import LocalStorageFilesystem       from "@/classes/LocalStorageFilesystem.js"
+    // import RESTFilesystem               from "@/classes/RESTFilesystem.js"
+    // import FSFilesystem                 from "@/classes/FSFilesystem.js"
+    // import LocalStorageFilesystem       from "@/classes/LocalStorageFilesystem.js"
 
 // Libs
     import axios                         from "axios"
@@ -44,6 +44,7 @@ export default class Filesystem {
         printf( "process.env.VUE_APP_TARGET -> ", process.env.VUE_APP_TARGET )
         if( process.env.VUE_APP_TARGET === "ELECTRON" ) {
 
+            const FSFilesystem = require("@/classes/FSFilesystem.js").default
             let new_filesystem  = new FSFilesystem( dir )
                 this.file = new_filesystem.file
                 this.dir  = new_filesystem.dir
@@ -52,6 +53,7 @@ export default class Filesystem {
 
         if( process.env.VUE_APP_TARGET === "WEB" ) {
 
+            const RESTFilesystem = require("@/classes/RESTFilesystem.js").default
             let new_filesystem  = new RESTFilesystem()
                 this.file = new_filesystem.file
                 this.dir  = new_filesystem.dir
@@ -60,6 +62,8 @@ export default class Filesystem {
 
         if( process.env.VUE_APP_TARGET === "DEMO" ) {
 
+            const LocalStorageFilesystem = require("@/classes/LocalStorageFilesystem.js").default
+            printf( "LocalStorageFilesystem -> ", LocalStorageFilesystem )
             this.filesystem  = new LocalStorageFilesystem()
                 this.file    = this.filesystem.file
                 this.dir     = this.filesystem.dir

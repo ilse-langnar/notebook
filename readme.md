@@ -70,24 +70,21 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Note Reference | You can embed a note inside another note.  | ![Note Embed](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-note-embed.gif) |
 | File Reference | Reference files inside notes.  | ![File Embed](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-file-embed.gif) |
 | Multiple Components | You can check a file while looking at the calendar and your daily notes.  | ![Multiple Components](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-multiple-components.gif) |
-| Homepage | TODO  | |
 | Graph | Visualize relationship between notes, files, media and more.  | ![Graph](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-graph.gif) |
 | Keyboard Shortcut | Bind shortcuts from simple such as `ctrl+s` to complex such as `ctrl+space i z`  | | ![Keyboard Shortcuts](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-shortcuts.gif) | 
 | Commands and Command Pallet | See all the available commands with the command pallet, execute any function with commands  | ![Command Pallet](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-command-pallet.gif) | 
 | Study Tools | See "Studying with Ilse" for more | ![Study](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-study.gif) |
 | Daily Notes | This is your hub, this is where you start off if you're confused as to where to go. | ![Daily Notes](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-daily-notes.gif) |
 | Multiple Directories | You can have as many directories as you want, maybe something for work, something for study etc. | |
-| CRM | TODO | |
+| CRM | Keep track of in Ilse | |
 | Task Manager | Manage all of your todos in one single place. | ![Task Management](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-task-management.gif) | |
-| File Embed | TODO | |
 | Media Embed | Embed images, videos, sounds, gifs and more. | ![Media Embed](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-media-embed.gif) |
 | Component Embed | Embed kanban, calendar, spreadsheets, Todos, reminders, help, tutorials, Mind Maps, Memex, Files and more inside a note. | ![Component Embed](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-component-embed.gif) |
-| Note Embed | TODO | |
-| Platform Independent | TODO | |
-| Plain Text | TODO | |
-| Free and Open Source | TODO | |
+| Platform Independent | You can use it on Windows, Linux, MacOS, BDS??, Android, iOS etc. You can also develop a client for a platform if we don't support it. | |
+| Plain Text | We don't store anything in proprietary binary format, thus if we ever were to "die" you would still have your notes and your files. | |
+| Free and Open Source | I would appreciate if you paid something but it's free and open source. | |
 | Right/Left Sidebar |  You can put anything you want there with quick access | ![Right Sidebar](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-right-sidebar.gif) | 
-| Zettelkasten | TODO | |
+| Zettelkasten | We don't use directories and you have access to links to link a note to a file or to another note. | |
 
 
 

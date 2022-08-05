@@ -4,8 +4,10 @@
         input.input( v-model="query" placeholder="#todo, #work, #today" @keydown.enter="key = Math.random()" )
         input.input( v-model="num" type="number" min="1" max="100" style="width: 10%;" )
     .loop( v-for="( item, index ) in get_random_note(query)" )
-        Notes( :note="item" :key="key" )
         // Notes( :note="get_random_note(query)" :key="key" )
+
+        Notes( :note="item" :key="key" )
+        // Note( :note="item" :key="key" )
 
 </template>
 <script>
@@ -19,6 +21,7 @@ const printf                        = console.log;
     import Messager                     from "@/classes/Messager.js"
 
 // Components
+    import Note                         from "@/components/Note.vue"
     import Notes                        from "@/components/Notes.vue"
 
 export default {
@@ -30,6 +33,7 @@ export default {
 
     components: {
         Notes,
+        Note,
     },
 
     data() {

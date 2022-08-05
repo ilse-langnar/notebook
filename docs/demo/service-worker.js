@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "precache-manifest.f947d16a5cdc5b0b137c955c9063b423.js"
+  "precache-manifest.8f1c332aab3a3b86383e24506184c4b5.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "ilse-langnar-notebook"});

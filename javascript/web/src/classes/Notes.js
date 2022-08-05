@@ -83,13 +83,22 @@ export default class Notes {
         // if( has_notes ) await this.filesystem.file.write.async( "notes", "" )
 
         // let demo_notes  = this.filesystem.filesystem.DEMO_NOTES
-        let demo_notes  = ilse.DEMO_NOTES
+
+        let demo_notes  = this.ilse.DEMO_NOTES
+        printf( "@@@@@ demo_notes -> ", demo_notes )
         let len         = demo_notes.length
 
-        this.add( `Click on the help button on top for the tutorial`, this.list.length, 0 )
+        this.add_list( demo_notes )
+
+        // this.add( `Click on the help button on top for the tutorial`, this.list.length, 0 )
    }
 
     async get_notes() {
+
+        printf( "get_notes() -> this.filesystem -> ", this.filesystem )
+        printf( "get_notes() -> this.filesystem.file -> ", this.filesystem.file )
+        printf( "get_notes() -> this.filesystem.file.read -> ", this.filesystem.file.read )
+        printf( "get_notes() -> this.filesystem.file.read.async -> ", this.filesystem.file.read.async )
 
         let textfile         = await this.filesystem.file.read.async( "notes" )
 
@@ -104,7 +113,7 @@ export default class Notes {
         let instance
 
         notes.map( (note, index) => {
-            instance = new ilse.classes.Note( note )
+            instance = new this.ilse.classes.Note( note )
             if( instance.depth >= 1 ) {
                 this.recursively_add_children( instance, index )
             }
@@ -170,7 +179,7 @@ export default class Notes {
 
         for( const note of this.list ) {
 
-            tags  = ilse.utils.extract_tags( note.content )
+            tags  = this.ilse.utils.extract_tags( note.content )
 
             has_no_scan = tags.indexOf( "#!scan" ) !== -1 || tags.indexOf( "#!" ) !== -1  || tags.indexOf( "#!!!" ) !== -1
                 if( has_no_scan ) continue // Don't scan tags if we have either: #!scan #! or #!!!( #!! only block link scanning, while #!!! blocks both links AND tag scanning )
@@ -195,13 +204,13 @@ export default class Notes {
         // [ "20220122113043: Top [[Psycology Papers]]", "20220122113043: I have a new [[Idea]]" ]
         for( const note of notes ) {
 
-            links              = ilse.utils.extract_tokens_by_delimiters( note.content,  /^\[\[.*/, /\]\]$/ ) // "Something to [[Write]]" -> [ "Write" ]
+            links              = this.ilse.utils.extract_tokens_by_delimiters( note.content,  /^\[\[.*/, /\]\]$/ ) // "Something to [[Write]]" -> [ "Write" ]
 
             // [ [ "[[Javascript]]", "[[Psycology Papers]]" ] ]
             for( let link of links ) {
 
                 // BUGFIX: Don't process : ![[img.png]] ![[music.mp4]] as a link
-                    is_media = ilse.utils.has_media_extention( link )
+                    is_media = this.ilse.utils.has_media_extention( link )
                     if( is_media ) continue //skip
 
                 // Nroamlize [[Psycology Papers]] -> Psycology\ Papers.md
@@ -230,7 +239,7 @@ export default class Notes {
             }
         }
 
-        ilse.links.is_loading = false
+        this.ilse.links.is_loading = false
 
         Messager.emit( "~notes", "loaded", this )
 
@@ -345,11 +354,11 @@ export default class Notes {
             location = index
         }
 
-        let time_id          = ilse.utils.get_unique_date_id() // 20220120155758
-        let spaces           = ilse.utils.get_depth_spaces( depth )
+        let time_id          = this.ilse.utils.get_unique_date_id() // 20220120155758
+        let spaces           = this.ilse.utils.get_depth_spaces( depth )
         let note             = `${spaces}${time_id}: ${content}` // 20220120155758: Hello, World
 
-        let instance         = new ilse.classes.Note( note )
+        let instance         = new this.ilse.classes.Note( note )
             if( instance.depth >= 1 ) this.recursively_add_children( instance, location )
 
         if( location === 0 || location === -1 ) {
@@ -387,17 +396,90 @@ export default class Notes {
 
     add_list( list ) {
 
-        let number = ilse.utils.get_unique_date_id()
+        let number = this.ilse.utils.get_unique_date_id()
         let instance
 
-        list.map( string => {
-            instance = new ilse.classes.Note( `${number++}: ${string}` )
-            ilse.notes.list.push( instance )
+        list.map( item => {
+            instance = new this.ilse.classes.Note( `${this.ilse.utils.get_depth_spaces(item.depth)}${number++}: ${item.content}` )
+            this.list.push( instance )
         })
 
     }
 
-    get_references( string ) {
+    /*
+    // Removed resolved, have only last
+    reference( text, last = "" ) {
+
+        let link            = ilse.notes.get_note_reference( text )
+            if( !link ) return `${last} \n\t ${text} `
+        let link_content    = ilse.notes.query( link + ":")[0].content
+
+        if( link ) {
+            if( last ) {
+                // last += `\n ${link_content}`
+            } else {
+                last += `${text} \n ${link_content} `
+            }
+        }
+
+        let ref          = ilse.notes.get_note_reference( link_content )
+
+        if( ref ) {
+            let target_content  = ilse.notes.query( ref + ":")[0].content
+            return this.reference( target_content, last )
+        } else {
+            return last
+        }
+
+    }
+    */
+
+    get_note_with_refs( content ) {
+
+        let ignore = content.indexOf("#!scan") !== -1
+            if( ignore ) return
+
+        // === Refs === //
+        let text   = this.reference( content )
+        let chunks = text.split("\n")
+        let refs
+
+        let final  = `<div class="note-reference" > `
+        for( const [index, chunk] of chunks.entries() ) {
+            // refs = this.get_note_reference( chunk )
+            // printf( "chunk -> ", chunk )
+
+            printf( "chunk[0] -> ", chunk[0] )
+            printf( "chunk[1] -> ", chunk[1] )
+
+            if( chunk[0] === "(" && chunk[1] === "(" ) {
+                printf( "FOUND IT KKKLDKDKDKDKDKDKD" )
+            }
+            printf( "refs -> ", refs )
+            printf( "chunk -> ", chunk )
+            final += `<span> ${this.ilse.markdown.render(chunk)} </span>`
+        }
+        final += "</div>"
+
+        return final
+    }
+
+    // 20220804160914: - [ ] #ilse Does note embed get its children too??? ![[Ilse]]  ((20220306102411))
+    extract_note_references( string ) {
+
+        let chunks      = string.split(" ")
+        let references  = []
+        let reference
+
+        chunks.map( chunk => {
+            reference = this.get_note_reference( chunk )
+            if( reference ) references.push( reference )
+        })
+
+        return references
+    }
+
+    get_note_reference( string ) {
 
         let chunks = string.split(" ")
         let has_opening_parenthesis

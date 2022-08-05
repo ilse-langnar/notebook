@@ -10,7 +10,20 @@
         div.editable( contentEditable v-if="inote.is_editable" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent ) {{options.is_tagless ? inote.tagless : inote.content}}
 
         // show mode
-        .markdown( v-show="!inote.is_editable" v-html="get_html(options.is_tagless ? inote.tagless : inote.content )" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )
+
+        // .markdown( v-show="!inote.is_editable" v-html="get_html(options.is_tagless ? inote.tagless : inote.content )" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )
+        .markdown( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )
+
+    .note-references( v-if="inote.get_note_references()" style="width: 60%; margin-left: 50px; " )
+        .note-reference( v-for="( item, index ) in ilse.notes.extract_note_references(inote.content)" )
+            // Notes( :note="ilse.notes.query(item + ':')[0]" )
+            Notes( :note="ilse.notes.query(item + ':')[0]" )
+
+    // .file-references( v-if="ilse.notes.get_reference(inote.content)" style="width: 60%; margin-left: 50px; " )
+        .file-reference( v-for="( item, index ) in ilse.notes.get_references(inote.content)" )
+            File
+
+
 
     .component-part( v-if="get_component()" )
         div( style="font-size: 1.5em; margin-left: 20px; padding: 0px; " ) ⚫
@@ -29,10 +42,13 @@ const printf                        = console.log;
 
 // Components
     import Component                    from "@/components/Component.vue"
+    import Notes                        from "@/components/Notes.vue"
+    import Note                         from "@/components/Note.vue"
+    import File                         from "@/components/Note.vue"
 
 export default {
 
-    name: "note",
+    name: "Note",
 
     props: {
         component: { type: Object, required: false, },
@@ -50,6 +66,9 @@ export default {
 
     components: {
         Component,
+        Notes,
+        Note,
+        File,
     },
 
     data() {
@@ -66,6 +85,7 @@ export default {
     },
 
     methods: {
+
 
         get_component() {
 
@@ -274,21 +294,30 @@ export default {
         },
         */
 
-        get_html( content ) {
+        get_html( note ) {
 
+            let content         = this.options.is_tagless ? note.tagless : note.content
+
+            // let ref                   = ilse.notes.extract_note_references( content ) // TODO: Make this a notes function
+            // let html                  = ilse.notes.get_note_with_refs( content )
+
+            return ilse.markdown.render( content )
+
+            /*
+            // return ilse.markdown.render( content )
             // Empty note
             if( !content ) return "<NOTHING>"
 
             // === no Ref === //
-            let ref                   = ilse.notes.get_references( content ) // TODO: Make this a notes function
+            let ref                   = ilse.notes.extract_note_references( content ) // TODO: Make this a notes function
                 if( !ref ) return ilse.markdown.render( content ) // No note references, normal markdown.
 
             // === Refs === //
-            let html = ilse.markdown.get_note_with_refs( content )
+            let html                  = ilse.notes.get_note_with_refs( content )
             return html
+            */
 
             /*
-            let text   = ilse.notes.reference( .content ) 
             let chunks = text.split("\n")
 
             printf( "chunks -> ", chunks )

@@ -65,7 +65,7 @@
                     input.input( v-model.number="ilse.brains.first.priorities.priorities[item]" type="number"  style="width: 55px; " @change="on_priority_change" )
 
             .knowledge-tree( v-if="selected === 'Knowledge Tree' " )
-                KnowledgeTree 
+                // KnowledgeTree 
 
 
             .global-statistics( v-if="selected === 'Global Statistics' " )
@@ -155,8 +155,7 @@ const printf                                        = console.log;
     import Messager                     from "@/classes/Messager.js"
 
 // Import
-    import VuejsHeatmap     from 'vuejs-heatmap'
-    import KnowledgeTree    from "@/components/KnowledgeTree.vue"
+    // import KnowledgeTree    from "@/components/KnowledgeTree.vue"
     
 
 export default {
@@ -164,8 +163,7 @@ export default {
     name: "FirstBrain",
 
     components: {
-        VuejsHeatmap,
-        KnowledgeTree,
+        // KnowledgeTree,
     },
 
     data() {

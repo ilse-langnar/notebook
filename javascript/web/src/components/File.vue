@@ -4,7 +4,7 @@
     .flex
         img.is-pulled-left( v-if="!ilse.config.favorites || !(ilse.config.favorites.indexOf(file) !== -1)" src="@/assets/images/star.svg" style="width: 20px; cursor: pointer; " @click="toggle_favorite(file)" :title="$t('favorite')" )
         img.is-pulled-left( v-if="ilse.config.favorites && ilse.config.favorites.indexOf(file) !== -1" src="@/assets/images/star-off.svg" style="width: 20px; cursor: pointer; " @click="toggle_favorite(file)" :title="$t('unfavorite')" )
-        input.is-size-4.centered.file-input( v-model="file" style="border: 0; " @keydown.enter="get_file" autofocus="autofocus" ref="input" @blur="get_file" )
+        input.is-size-4.centered.file-input( v-model="file" style="border: 0; " @keydown.enter="get_file" autofocus="autofocus" ref="input" )
 
         img.is-pulled-right( src="@/assets/images/trash.svg" style="width: 20px; cursor: pointer; " @click="delete_file(file)" title="$t('delete_file')" )
 
@@ -65,7 +65,7 @@ export default {
     name: "File",
 
     props: {
-       path: { type: String, required: false, },
+       // path: { type: String, required: false, },
        component: { type: Object, required: false, },
     },
 

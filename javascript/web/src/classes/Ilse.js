@@ -46,6 +46,10 @@ const printf                        = console.log
 // Utilities
     import Messager                     from "@/classes/Messager.js"
 
+// Constants
+    import DEMO_NOTES                    from "@/classes/DEMO_NOTES.js"
+printf( ">>> Ilse.js -> DEMO_NOTES -> ", DEMO_NOTES )
+
 // Entry point for our app, there is only one ilse in the entire app, this is the glue for everything else + components
 export default class Ilse {
 
@@ -76,13 +80,15 @@ export default class Ilse {
         }
         this.languages              = Object.keys(this.ISO_language_name)
         this.is_zen                 = false
+        this.DEMO_NOTES             = DEMO_NOTES
+        printf( "Ilse.js -> this.DEMO_NOTES -> ", this.DEMO_NOTES )
 
 
         this.tried_too_fast         = false
         this.is_vitruvian_expanded  = false
         this.is_home_page_on        = false
-        this.is_left_sidebar_open    = false
-        this.is_right_sidebar_open   = false
+        this.is_left_sidebar_open   = false
+        this.is_right_sidebar_open  = false
         this.style                  = ""
 
         this.platform               = process.env.VUE_APP_TARGET.toLowerCase()

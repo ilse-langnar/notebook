@@ -50,6 +50,40 @@ export default class note {
         return final.join(" ")
     }
 
+    get_file_references() {
+
+        if( this.content.indexOf("![[") === -1 ) return []
+
+        let chunks      = this.content.split(" ")
+        let list        = []
+        let regexp      = /^\!\[\[([^|\]\n]+)(\|([^\]\n]+))?\]\]/
+        let match
+
+        chunks.map( chunk => {
+            match = chunk.match( regexp )
+            if( match ) list.push( chunk )
+        })
+
+        return list
+    }
+
+    get_note_references() {
+
+        if( this.content.indexOf("((") === -1 ) return []
+
+        let chunks      = this.content.split(" ")
+        let list        = []
+        let regexp      = /[\s\S]*[(]\((.*)\)[)]/
+        let match
+
+        chunks.map( chunk => {
+            match = chunk.match( regexp )
+            if( match ) list.push( chunk )
+        })
+
+        return list
+    }
+
     get() {
 
         let is_note_malformed = !this.content || !this.id

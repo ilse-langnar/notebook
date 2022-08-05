@@ -12,19 +12,9 @@ let promisified_write_file = promisify( fs.writeFile )
 let promisified_create_dir = promisify( fs.mkdir )
 let promisified_stats      = promisify( fs.lstat )
 
-
 const path                                       = require('path')
 
 var target_directory
-
-function error_check( file_path ) {
-    let is_relative   = file_path.indexOf("@/") !== -1
-        if( is_relative ) throw new Error( `Error: cannot access relative like this: @/` )
-
-    let is_going_back = file_path.indexOf("../") !== -1
-        if( is_going_back ) throw new Error( `Error: access relative urls like: ../(Security Issue)` )
-
-}
 
 export default class FSFilesystem {
 
@@ -65,6 +55,7 @@ export default class FSFilesystem {
                 "sync": this.is_file_sync,
             }
         }
+
         this.dir = {
 
             exists: {

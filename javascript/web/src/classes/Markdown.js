@@ -226,24 +226,23 @@ export default class Markdown {
               }
               */
 
-              let ref = ilse.notes.get_references( match[0] )
+              let refs     = ilse.utils.get_note_references_from_string( match[0] )
+              let ref      = refs[0]
+              let has_refs = !!refs[0]
+                  if( !has_refs ) return `<span> ((MALFORMED REF)) </span>`
+              // let ref  = ilse.notes.extract_note_references( match[0] )
+                  // if( !ref ) return `<span> ((MALFORMED REF)) </span>`
 
-              // printf( "note_ref -> match -> ", ref )
-              if( !ref ) return `<span class="note-reference" > ((MALFORMED REF)) </span>`
-
-              // let note_content = ilse.notes.query(`${ref}: `)[0]
               let note_content = ilse.notes.query(ref)[0]
                   if( note_content ) note_content  = note_content.content
                   if( !note_content ) note_content = `Could not find note: ${ref} ):`
 
-              // let html = this.render( note_content )
-
-              return `<span class="note-reference" title="${ref}" > ${note_content} </span>`
+              return `<span title="${ref}" > ${note_content} </span>`
           }
 
         )
 
-        this.plugins.push( note_ref )
+        // this.plugins.push( note_ref )
 
         const separator = MarkdownPlugin(
             /^\S*---\S*$/,
@@ -281,6 +280,7 @@ export default class Markdown {
         // - [ ]
         const todo = MarkdownPlugin(
             // /-\ \[|\]/gi,
+            // [^\n]+ [\n]
             /^ *\[([\sx])] /i,
 
             // this function will be called when something matches
@@ -325,59 +325,6 @@ export default class Markdown {
         }
 
         this.md = md
-    }
-
-    // Removed resolved, have only last
-    reference( text, last = "" ) {
-
-        let link            = ilse.notes.get_references( text )
-            if( !link ) return `${last} \n\t ${text} `
-
-        printf( "link -> ", link )
-        printf( "text -> ", text )
-        let link_content    = ilse.notes.query( link + ":")[0].content
-        printf( "text -> ", text )
-        printf( "link -> ", link )
-        printf( "link_content -> ", link_content )
-
-        if( link ) {
-            if( last ) {
-                // last += `\n ${link_content}`
-            } else {
-                last += `${text} \n ${link_content} `
-            }
-        }
-
-        let ref          = ilse.notes.get_references( link_content )
-
-        if( ref ) {
-            let target_content  = ilse.notes.query( ref + ":")[0].content
-            return this.reference( target_content, last )
-        } else {
-            return last
-        }
-
-    }
-
-    get_note_with_refs( content ) {
-
-        printf( "get_note_with_refs -> content -> ", content )
-        let ignore = content.indexOf("#!scan") !== -1
-            if( ignore ) return
-
-        // === Refs === //
-        let text   = this.reference( content )
-        printf( "text -> ", text )
-        let chunks = text.split("\n")
-        printf( "chunks -> ", chunks )
-
-        let final  = `<div class="note-reference" > `
-        for( const [index, chunk] of chunks.entries() ) {
-            final += `<span> ${this.render(chunk)} </span>`
-        }
-        final += "</div>"
-
-        return final
     }
 
     render( string ) {

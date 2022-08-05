@@ -30,6 +30,8 @@ export default {
 
         repeat() {
 
+            if( ilse.platform  !== "electron" ) return // Don't do anything for non-electron for now
+
             ilse.electron.ipc.on( "focus", async () => {
 
                 let string
@@ -49,10 +51,6 @@ export default {
                 }
 
                 this.open_importer_modal()
-            })
-
-            ilse.electron.ipc.on( "focus", () => {
-
             })
 
         },
