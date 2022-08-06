@@ -28,30 +28,51 @@ export default {
             ilse.modals.open( "importer" )
         },
 
-        repeat() {
+        async check() {
+            printf( "CHECK" )
 
-            if( ilse.platform  !== "electron" ) return // Don't do anything for non-electron for now
+            let string
+            try {
+                string         = await ilse.clipboard.read()
+            } catch( e ) {}
+
+            if( !string ) {
+                this.is_on = false
+                return
+            }
+
+            let is_importing   = string.indexOf("ilse-importer:") !== -1
+            if( !is_importing ) {
+                this.is_on = false;
+                return
+            }
+
+            this.open_importer_modal()
+        },
+
+        on_electron() {
 
             ilse.electron.ipc.on( "focus", async () => {
-
-                let string
-                try {
-                    string         = await ilse.clipboard.read()
-                } catch( e ) {}
-
-                if( !string ) {
-                    this.is_on = false
-                    return
-                }
-
-                let is_importing   = string.indexOf("ilse-importer:") !== -1
-                if( !is_importing ) {
-                    this.is_on = false;
-                    return
-                }
-
-                this.open_importer_modal()
+                this.check()
             })
+
+        },
+
+        on_non_electron() {
+
+            document.addEventListener( "focus", event => {
+                this.check()
+            }, true )
+
+        },
+
+        repeat() {
+
+            if( ilse.platform === "electron" )  {
+                this.on_electron()
+            } else {
+                this.on_non_electron()
+            }
 
         },
 

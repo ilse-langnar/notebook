@@ -41,7 +41,6 @@ export default class Filesystem {
 
         this.has_checked_zir_files = false
 
-        printf( "process.env.VUE_APP_TARGET -> ", process.env.VUE_APP_TARGET )
         if( process.env.VUE_APP_TARGET === "ELECTRON" ) {
 
             const FSFilesystem = require("@/classes/FSFilesystem.js").default
@@ -63,7 +62,6 @@ export default class Filesystem {
         if( process.env.VUE_APP_TARGET === "DEMO" ) {
 
             const LocalStorageFilesystem = require("@/classes/LocalStorageFilesystem.js").default
-            printf( "LocalStorageFilesystem -> ", LocalStorageFilesystem )
             this.filesystem  = new LocalStorageFilesystem()
                 this.file    = this.filesystem.file
                 this.dir     = this.filesystem.dir
@@ -81,8 +79,6 @@ export default class Filesystem {
 
     async create_default_dirs() {
 
-        printf( "create_default_dirs -> this.ilse.target_directories ", this.ilse.target_directories )
-        printf( "create_default_dirs -> this.ilse.target_directories[0] ", this.ilse.target_directories[0] )
         if( !this.ilse.target_directories[0] ) return
 
         let has_notes       = await this.file.exists.async( "notes" )

@@ -31,6 +31,9 @@ class Commands {
         }
 
         // Check for duplicates
+        printf( "this -> ", this )
+        printf( "Commands.add -> this.commands -> ", this.commands )
+        printf( "Commands.add -> this.commands.map -> ", this.commands.map )
             let id_list = this.commands.map( command => {
                 return command.id
             }).filter( e => e )
@@ -576,7 +579,7 @@ class Commands {
             {
                 id: "open-search-modal",
                 fn: async function() {
-                    ilse.modals.open( "search" )
+                    ilse.modals.open( "search", { mode: "global", filter: "all", is_markdown_mode_on: true, id: null  })
                 },
                 description: "Open Search Modal",
                 name: "Open Search Modal",
@@ -655,6 +658,16 @@ class Commands {
                 description: "Toggle Right Sidebar",
                 name: "Toggle Right Sidebar",
             },
+
+            {
+                id: "print-keys",
+                fn: async function() {
+                    printf( "ilse.keyboard -> ", ilse.keyboard )
+                },
+                description: "Printf Keys",
+                name: "Printf Keys",
+            },
+
         ]
 
         this.add_components_commands()

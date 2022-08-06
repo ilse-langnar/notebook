@@ -100,7 +100,6 @@ export default class Config {
             object_to_save.dark       = this.dark
             object_to_save.keys       = ilse.keyboard.keys
 
-
         await ilse.filesystem.file.write.async( "config.json", JSON.stringify( object_to_save, null, 4 ) )
 
         this.after_save()

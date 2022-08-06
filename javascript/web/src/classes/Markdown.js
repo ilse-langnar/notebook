@@ -139,6 +139,8 @@ export default class Markdown {
                     return `<audio class="audio" title="${url}" controls title="${url}" src="http://localhost:8090/file/${url}"/>`
                 } else if( is_file ) {
 
+                    return `<span> ${url} </span>`
+                    /*
                     let id      = `file-${url}`
                     let content = ilse.filesystem.file.read.sync( "/second/" + url + ".md" )
 
@@ -147,6 +149,7 @@ export default class Markdown {
                             ${content}
                         </div> `
                     return `<div> <img style="border: 1px solid #000; width: 40px;" onload="console.log('hahaahahah')" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAIAAAD9MqGbAAAAA3NCSVQICAjb4U/gAAAAHElEQVQ4y2P8//8/A1mAiYFcMKpzVOeozuGoEwAt9wMjCmsdlAAAAABJRU5ErkJggg==" /> File: ${url} </div> `
+                    */
 
                 }
 

@@ -16,7 +16,8 @@ const printf                        = console.log
 
 class KeyboardShortcut  {
 
-    constructor() {
+    constructor( ilse ) {
+        this.ilse      = ilse
         this.Mousetrap = Mousetrap
 
         // Mousetrap.bindGlobal( "ctrl+f", (event, combo ) => { ilse.electron.ipc.send( "ctrl+f" ) }, 'keydown' )
@@ -49,6 +50,12 @@ class KeyboardShortcut  {
     }
 
     set_default_keys() {
+
+        // if( this.ilse.config.keys ) {
+            // printf( "!!!!!! this.ilse.config.keys -> ", this.ilse.config.keys )
+            // this.keys = this.ilse.config.keys
+            // return
+        // }
 
         this.keys = [
             // { combo: "ctrl+space", command: "new-note" },
@@ -210,8 +217,10 @@ class KeyboardShortcut  {
             options,
         }
 
-        this.keys.push(key)
-        this.bind_key(key)
+        this.keys.push( key )
+        printf( "AAAAAA add() -> key -> ", key )
+        this.bind_key( key )
+        printf( "key.combo BINDED" )
     }
 
     // matches a-z

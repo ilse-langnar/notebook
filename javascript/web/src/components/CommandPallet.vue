@@ -116,13 +116,15 @@ export default {
 
         },
 
-        get_command_shortcut( command_id ) {
+        get_command_shortcut( id ) {
 
             let keys = ilse.keyboard.keys
-            let combo=null
+            let _keys = this.ilse.config.keys
+
+            let combo
 
             keys.map( key => {
-                if( key.command === command_id ) combo = key.combo
+                if( key.command === id ) combo = key.combo
             })
 
             return combo

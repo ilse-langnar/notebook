@@ -201,22 +201,23 @@ app.whenReady().then(() => {
 
 
 async function createWindow() {
-  // Create the browser window.
-  const win = new BrowserWindow({
-    // kiosk: true,
-    width: 800,
-    height: 600,
-    webPreferences: {
 
-      // Use pluginOptions.nodeIntegration, leave this alone
-      // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
-      contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
-      preload: path.join(__dirname, 'preload.js'),
-      webSecutity: false,
+    // Create the browser window.
+    const win = new BrowserWindow({
+        // kiosk: true,
+        // frame: true
+        width: 800,
+        height: 600,
+        webPreferences: {
+            webSecutity: false,
+            // Use pluginOptions.nodeIntegration, leave this alone
+            // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
+            nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
+            contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
+            preload: path.join(__dirname, 'preload.js'),
 
-    }
-  })
+        }
+    })
 
     win.on( "focus", event => {
         event.sender.send( "focus" )

@@ -16,7 +16,13 @@
             .typography( v-if="selected === 'typography' " )
 
             .plugins( v-if="selected === 'plugins' " )
-                .plugin( v-for="( plugin, index ) in ilse.plugin_manager.plugins" :key="index" )
+
+                .loop( v-for="( note, index ) in ilse.notes.query('#i/plugin/')" :key="index" )
+                    Notes( :note="note" )
+                    .space
+
+
+                // .plugin( v-for="( plugin, index ) in ilse.plugin_manager.plugins" :key="index" )
                     img.is-pulled-right( src="@/assets/images/x.svg" style="width: 20px; cursor: pointer;" @click="delete_plugin(plugin)" )
                     h3 {{plugin.name}} by {{plugin.manifest.autor || "Anonymous" }}({{plugin.manifest.version}})
                     p {{plugin.manifest.description}}
@@ -25,13 +31,11 @@
             .themes( v-if="selected === 'themes' " )
                 .centered
                     img( src="@/assets/images/paint.svg" :title="$t('apply')" alt="Apply" @click="ilse.themes.apply_default_theme()" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --text-color ); border-radius: var( --border-radius ); padding: var( --padding );" )
-                    // img( src="@/assets/images/packge-export.svg" :title="$t('export_to_clipboard')" alt="Export everything to clipboard" @click="export_theme_to_clipboard()" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --text-color ); border-radius: var( --border-radius ); padding: var( --padding ); margin-left: 4px;" )
                 .loop( v-for="( note, index ) in ilse.notes.query('#i/theme/')" :key="index" )
-                    h3.inline {{note.content}}
-                    img.img.is-pulled-right( src="@/assets/images/paint.svg" :title="('apply')" alt="Apply" @click="ilse.themes.apply( note )" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --background-color );" )
-                    img.img.is-pulled-right( src="@/assets/images/packge-export.svg" :title="$t('export_to_clipboard')" alt="Export to clipboard" @click="export_theme_to_clipboard(note)" )
-                    .loop( v-for="( child, child_index ) in note.children" :key="'child-' + child_index" )
-                        textarea.input( v-model="child.content" style="width: 100%;" )
+                    img.img.is-pulled-left( src="@/assets/images/paint.svg" :title="('apply')" alt="Apply" @click="ilse.themes.apply( note )" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --background-color );" )
+                    img.img.is-pulled-left( src="@/assets/images/packge-export.svg" :title="$t('export_to_clipboard')" alt="Export to clipboard" @click="export_theme_to_clipboard(note)" )
+                    .s-clear
+                    Notes( :note="note" )
                     .space
 
             .plugins( v-if="selected === 'marketplace' " )
@@ -46,7 +50,7 @@
             .languages( v-if="selected === 'languages' " )
                 // p {{$i18n}}
                 select( v-model="$i18n.locale" )
-                    option( v-for="( lang, index ) in ilse.languages" :key="index" :value="lang" @select="ilse.modals.close()" ) {{ilse.ISO_language_name[lang]}}
+                    option( v-for="( lang, index ) in ilse.languages" :key="index" :value="lang" @select="ilse.modals.close()" ) {{ilse.SUPPORTED_LANGUAGES[lang]}}
 
 
 
@@ -85,6 +89,9 @@ const printf                        = console.log;
 // Messager
     import Messager                     from "@/classes/Messager.js"
 
+// Components
+    import Notes                        from "@/components/Notes.vue"
+
 export default {
 
     name: "Configuration",
@@ -109,6 +116,10 @@ export default {
             ]
         }
 
+    },
+
+    components: {
+        Notes,
     },
 
     methods: {
@@ -346,6 +357,10 @@ export default {
 
 .inline {
     display: inline-block;
+}
+
+.s-clear {
+    clear: both;
 }
 
 </style>

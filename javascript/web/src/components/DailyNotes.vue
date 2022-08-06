@@ -435,17 +435,11 @@ export default {
 
                     // TODO: don't rely on "after"?
                     let index       = payload.index
-                    printf( "index -> ", index )
                     let new_note    = payload.note
-                    printf( "new_note -> ", new_note )
                     let after       = index === 0 ? ilse.notes.list[0] : ilse.notes.list[index - 1]
-                    printf( "after -> ", after )
                     let day         =  ilse.notes.list.length === 1 ? this.days[0] : this.get_note_day( after )
-                    printf( "day -> ", day )
                     let note_index  = day.notes.indexOf( after )
-                    printf( "note_index -> ", note_index )
                     let day_index   = this.days.indexOf( day )
-                    printf( "day_index -> ", day_index )
                         this.days[day_index].notes.splice( ++note_index, 0, new_note )
 
                     /*

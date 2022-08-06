@@ -18,23 +18,9 @@
 
     .loop( v-if="is_on" v-for="( note, index ) of notes" :key="index" :style="get_note_style(note)" )
         
-        Notes(
-            v-show="note.id"
-            :note="note"
-            :key="note.id + file"
+        component( v-if="note.id" :is="require('@/components/Notes.vue').default" :note="note" @on-enter="on_note_enter" @on-link-click="on_note_link_click" @on-blur="on_note_blur" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" )
 
-            @on-enter="on_note_enter"
-            @on-link-click="on_note_link_click"
-            @on-blur="on_note_blur" 
-
-            @on-tab="on_tab"
-            @on-shift-tab="on_shift_tab"
-            @on-esc="on_note_esc"
-            @on-arrow-up="on_note_arrow_up"
-            @on-arrow-down="on_note_arrow_down"
-            @on-note-left-click="on_note_left_click" 
-        )
-
+        // Notes( v-show="note.id" :note="note" :key="note.id + file" @on-enter="on_note_enter" @on-link-click="on_note_link_click" @on-blur="on_note_blur" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" )
 
     GhostNote.is-pulled-left( @on-blur="on_ghost_note_blur" @on-enter="on_ghost_note_enter" )
 

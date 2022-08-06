@@ -48,55 +48,43 @@ const printf                        = console.log
 
 // Constants
     import DEMO_NOTES                    from "@/classes/DEMO_NOTES.js"
-printf( ">>> Ilse.js -> DEMO_NOTES -> ", DEMO_NOTES )
+    import SUPPORTED_LANGUAGES           from "@/classes/SUPPORTED_LANGUAGES.js"
 
 // Entry point for our app, there is only one ilse in the entire app, this is the glue for everything else + components
 export default class Ilse {
 
     constructor() {
 
+        // consts
+        this.SUPPORTED_LANGUAGES    = SUPPORTED_LANGUAGES
+        this.DEMO_NOTES             = DEMO_NOTES
+
         this.components             = []
-        this.env                    = process.env
+
         this.name                   = "Ilse Langnar's Notebook"
         this.key                    = "ilse-key"
         this.keys                   = { daily_notes: "daily-notes-key" }
-        this.INITIAL_NOTES          = [ "This is ilse langnar's notebook", "try writing a note below!!" ]
-        this.ISO_language_name      = {
-            "en": "English(English)",
-            "zh": "Chinese Simplified(简体中文)",
-            "pt": "Brazillian Portuguese(Português Brasileiro)",
-            "es": "Spanish(Español)",
-            "kr": "Korean(한국어)",
-            "jp": "japanese(日本人)",
-            "nl": "Dutch(Nederlands)",
-            "hb": "Hebrew (עברית)",
-            "fr": "French (français)",
-            "it": "Italian (italiano)",
-            "gt": "Greek (Ελληνικά)",
-            "ar": "Arabic (عربى)",
-            "ru": "Russian (русский)",
-            "po": "Polish (Polskie)",
-            "de": "German(Deutsche)",
-        }
-        this.languages              = Object.keys(this.ISO_language_name)
+        this.languages              = Object.keys(SUPPORTED_LANGUAGES)
+
+        // booleans
         this.is_zen                 = false
-        this.DEMO_NOTES             = DEMO_NOTES
-        printf( "Ilse.js -> this.DEMO_NOTES -> ", this.DEMO_NOTES )
-
-
         this.tried_too_fast         = false
         this.is_vitruvian_expanded  = false
         this.is_home_page_on        = false
         this.is_left_sidebar_open   = false
         this.is_right_sidebar_open  = false
+        this.has_loaded             = false
+
         this.style                  = ""
 
+        // platform/env
+        this.env                    = process.env
         this.platform               = process.env.VUE_APP_TARGET.toLowerCase()
 
         this.classes                = { Component, Note, PanSVG }
-        this.path                   = path
 
-        this.has_loaded             = false
+        // utils?
+        this.path                   = path
 
         // Init
             this.setup()
@@ -158,7 +146,6 @@ export default class Ilse {
         // Notes(bullets) / File(file)
             this.notes                  = new Notes( this.filesystem, this )
             this.files                  = new Files( this.filesystem, this )
-        printf( "this.files -> ", this.files )
 
         // Brains
             this.brains                 = {}

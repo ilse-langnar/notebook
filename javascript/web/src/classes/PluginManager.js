@@ -62,19 +62,21 @@ class PluginManager {
             graph:  ilse.graph,
             tags: ilse.tags.tags,
             notification: ilse.notification,
-            links: ilse.links.links,
-            classes:  {
-                component:  ilse.classes.Component,
-                Note:       ilse.classes.Note,
+            components: ilse.components,
+            keyboard: {
+                add: ilse.keyboard.add.bind(ilse.keyboard)
             },
+            commands: {
+                add: ilse.commands.add.bind(ilse.commands)
+            },
+            links: ilse.links.links,
+            classes: ilse.classes,
             utils: ilse.utils,
             types: ilse.types,
         } // ilse
-        printf( "js -> ", js )
 
         eval( js )
 
-        printf( "window.ilse -> ", window.ilse )
     }
 
     /*

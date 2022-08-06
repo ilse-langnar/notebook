@@ -1,80 +1,7 @@
 <template lang="pug" >
-// .edit-note
-
-    .loop( v-for="( note, index ) in notes" :key="index" :style="get_note_style(note)" )
-
-        Note( :note="get_note(note)" 
-            @on-enter="on_enter"
-            @on-ctrl-enter="on_ctrl_enter"
-            @on-ctrl-shift-delete="on_ctrl_shift_delete"
-            @on-tab="on_tab"
-            @on-shift-tab="on_shift_tab"
-            @on-note-left-click="on_note_left_click" 
-            @on-arrow-up="on_arrow_up"
-            @on-arrow-down="on_arrow_down"
-            @on-link-click="on_note_link_click"
-        )
-
-    GhostNote( @on-blur="on_ghost_note_blur" @on-enter="on_ghost_note_enter" )
-
 // .edit-note( :style="get_root_style( note ? note : component.props.note )" )
-
-    Note( v-if="note"  :note="note" 
-        @on-note-left-click="on_note_left_click" 
-        @on-enter="on_enter"
-        @on-ctrl-enter="on_ctrl_enter"
-        @on-ctrl-shift-delete="on_ctrl_shift_delete"
-        @on-tab="on_tab"
-        @on-shift-tab="on_shift_tab"
-        @on-arrow-up="on_arrow_up"
-        @on-arrow-down="on_arrow_down"
-        @on-link-click="on_note_link_click")
-
-    Note( v-if="!note" :note="component.props.note"
-        @on-note-left-click="on_note_left_click" 
-        @on-enter="on_enter"
-        @on-ctrl-enter="on_ctrl_enter"
-        @on-ctrl-shift-delete="on_ctrl_shift_delete"
-        @on-tab="on_tab"
-        @on-shift-tab="on_shift_tab"
-        @on-arrow-up="on_arrow_up"
-        @on-arrow-down="on_arrow_down"
-        @on-link-click="on_note_link_click")
-    .wrapper
-        .children( v-for="( _note, index ) in (note && note.children) ? note.children : component.props.note.children" :key="index" :style="get_note_style(_note)" )
-            EditNote( :note="_note" )
-
-
-.edit-note( :style="get_root_style( note ? note : component.props.note )" )
-
-
-    ul
-        li
-            Note( v-if="note"  :note="note" 
-                @on-note-left-click="on_note_left_click" 
-                @on-enter="on_enter"
-                @on-ctrl-enter="on_ctrl_enter"
-                @on-ctrl-shift-delete="on_ctrl_shift_delete"
-                @on-tab="on_tab"
-                @on-shift-tab="on_shift_tab"
-                @on-arrow-up="on_arrow_up"
-                @on-arrow-down="on_arrow_down"
-                @on-link-click="on_note_link_click")
-            Note( v-if="!note" :note="component.props.note"
-                @on-note-left-click="on_note_left_click" 
-                @on-enter="on_enter"
-                @on-ctrl-enter="on_ctrl_enter"
-                @on-ctrl-shift-delete="on_ctrl_shift_delete"
-                @on-tab="on_tab"
-                @on-shift-tab="on_shift_tab"
-                @on-arrow-up="on_arrow_up"
-                @on-arrow-down="on_arrow_down"
-                @on-link-click="on_note_link_click")
-    ul 
-        li.li.children( v-for="( _note, index ) in (note && note.children) ? note.children : component.props.note.children" :key="index" :style="get_note_style(_note)" )
-            EditNote( :note="_note" )
-
-
+.edit-note
+    Notes( :note="ilse.notes.query(component.props.note+ ':' )[0]" @on-note-left-click="on_note_left_click" @on-enter="on_enter" @on-ctrl-enter="on_ctrl_enter" @on-ctrl-shift-delete="on_ctrl_shift_delete" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-arrow-up="on_arrow_up" @on-arrow-down="on_arrow_down" @on-link-click="on_note_link_click")
 </template>
 <script>
 // eslint-disable-next-line
@@ -90,6 +17,7 @@ const printf                        = console.log;
     import Note                         from "@/components/Note.vue"
     import GhostNote                    from "@/components/GhostNote.vue"
     import EditNote                     from "@/components/EditNote.vue"
+    import Notes                        from "@/components/Notes.vue"
 
 export default {
 
@@ -101,6 +29,7 @@ export default {
     },
 
     components: {
+        Notes,
         Note,
         GhostNote,
         EditNote,
@@ -204,12 +133,31 @@ export default {
             return style
         },
 
-        on_enter( payload ) { 
+        // TODO: BUG: When we type enter we correctly add the note but it's not rendered corretly, also setting the depth is problematic k
+        on_enter( payload ) {
+
             let note = payload.note
             let depth  = note.depth
-                ilse.notes.add_after( "", depth, note )
+            let new_note = ilse.notes.add_after( "", depth, note )
+                new_note.focus()
+
+            setTimeout( () => { ilse.save() }, 1000 )
+        },
+
+
+        /*
+        on_enter( payload ) { 
+                printf( "EditNote.vue -> on_enter -> payload -> ", payload )
+            let note   = payload.note
+                printf( "EditNote.vue -> on_enter -> note -> ", note )
+            let depth  = note.depth
+                printf( "EditNote.vue -> on_enter -> depth -> ", depth )
+            // ilse.notes.add_after( "", depth, note )
+            let index = ilse.notes.list.indexOf(note)
+                ilse.notes.add( "", ++index )
             // setTimeout( () => { ilse.save() }, 1000 )
         },
+        */
 
         on_ctrl_enter( payload ) {
             let note = payload.note
@@ -272,20 +220,22 @@ export default {
                     printf( "~notes -> action -> ", action )
                     printf( "~notes -> payload -> ", payload )
                     let after       = payload.after
-                    let new_note  = payload.note
+                    printf( "after -> ", after )
+                    let new_note    = payload.note
+                    printf( "new_note -> ", new_note )
 
                     printf( "this.notes -> ", this.notes )
 
-                    let index = 0 
-                    for( const note of this.notes ) {
-                        index++
+                    // let index = 0 
+                    // for( const note of this.notes ) {
+                        // index++
 
-                        if( note.id !== after.id ) continue
+                        // if( note.id !== after.id ) continue
 
-                        this.notes.splice( ++index, 0, new_note )
-                        new_note.focus() 
-                            return
-                    } // for 
+                        // this.notes.splice( ++index, 0, new_note )
+                        // new_note.focus() 
+                            // return
+                    // } // for 
 
                 }
 

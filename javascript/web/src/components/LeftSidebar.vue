@@ -12,7 +12,6 @@
     // Components
     .flex
         .item( v-for="( chunk, index ) in get_chunks()" :key="index" )
-            // .fitem( v-for="( component, component_index ) in chunk" :key="'component-index-' + component_index" style="width: 300px; height: 300px; overflow: auto; " )
             .fitem.home-component( v-for="( component, component_index ) in chunk" :key="'component-index-' + component_index" )
                 IlseComponent( v-if="component.type" :component="new ilse.classes.Component(component)" :options="{ hide_bullet: true }" )
 

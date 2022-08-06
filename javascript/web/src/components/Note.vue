@@ -19,11 +19,13 @@
             // Notes( :note="ilse.notes.query(item + ':')[0]" )
             Notes( :note="ilse.notes.query(item + ':')[0]" )
 
-    // .file-references( v-if="ilse.notes.get_reference(inote.content)" style="width: 60%; margin-left: 50px; " )
-        .file-reference( v-for="( item, index ) in ilse.notes.get_references(inote.content)" )
-            File
-
-
+    // p :: {{inote.get_file_references()}}
+    // .file-references( v-if="inote.get_file_references()" style="width: 60%; margin-left: 50px; " )
+        .file-reference( v-for="( item, index ) in ilse.notes.extract_file_references(inote.content)" )
+            // p LL: {{ilse.utils.is_markdown_file(item)}}
+            // File( :component="{ props: { file: item + '.md' } }" )
+            // p IS: {{ilse.utils.is_markdown(item)}}
+            component( v-if="ilse.utils.is_markdown_file(item)" :is="require('@/components/File.vue').default" :component="{ props: { file: item + '.md' } }" )
 
     .component-part( v-if="get_component()" )
         div( style="font-size: 1.5em; margin-left: 20px; padding: 0px; " ) ⚫
@@ -299,7 +301,6 @@ export default {
             let content         = this.options.is_tagless ? note.tagless : note.content
 
             // let ref                   = ilse.notes.extract_note_references( content ) // TODO: Make this a notes function
-            // let html                  = ilse.notes.get_note_with_refs( content )
 
             return ilse.markdown.render( content )
 
@@ -313,7 +314,6 @@ export default {
                 if( !ref ) return ilse.markdown.render( content ) // No note references, normal markdown.
 
             // === Refs === //
-            let html                  = ilse.notes.get_note_with_refs( content )
             return html
             */
 
@@ -337,22 +337,20 @@ export default {
 
         listen_to_embed_keys() {
 
-            printf( "Note.vue -> listen_to_embed_keys - " )
-
             let _this = this
 
-            // ilse.keyboard.Mousetrap.bindGlobal( "ctrl+space (", function(event){
             // ilse.keyboard.Mousetrap.bindGlobal( "ctrl+.", function(event){
-            ilse.keyboard.Mousetrap.bindGlobal( "ctrl+.", function(event){
+            // ilse.keyboard.Mousetrap.bindGlobal( "ctrl+.", function(event){
+            ilse.keyboard.Mousetrap.bindGlobal( "ctrl+space (", function(event){
                 printf( "ok boomer" )
                 event.preventDefault()
-                _this.open_search( "notes" )
+                ilse.modals.open( "search", { mode: "embed", filter: "notes", is_markdown_mode_on: true, id: _this.inote.id })
             })
 
 
             ilse.keyboard.Mousetrap.bindGlobal( "ctrl+space right-square-bracket", function(event){
                 event.preventDefault()
-                _this.open_search( "files" )
+                ilse.modals.open( "search", { mode: "embed", filter: "files", is_markdown_mode_on: true, id: _this.inote.id })
             })
 
         },
@@ -498,7 +496,7 @@ export default {
         },
 
         open_search( filter = "all" ) {
-            this.inote.caret.get() 
+            // this.inote.caret.get() 
             ilse.modals.open( "search", {mode: "embed", filter, is_markdown_mode_on: true, id: this.inote.id })
         },
 

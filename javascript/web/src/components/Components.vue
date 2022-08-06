@@ -60,7 +60,6 @@ export default {
 
         get_right_sidebar() {
             let c         = { 'id': 'right-sidebar', 'width': 12, 'is_on': true, 'type': 'right-sidebar', 'props': {} }
-            printf( "right -> c- > ", c )
             let component = new ilse.classes.Component( c )
             return component
         },

@@ -1,41 +1,30 @@
 const printf        = console.log
 
-printf( "1" )
 // Libs
-printf( "2" )
     const envPaths      = require('./libs/env-paths.js')
-printf( "3" )
     const get_date_id   = require('./libs/get-date-id.js')
 
-printf( "4" )
+// blessed
+    const Filesystem    = require('./libs/Filesystem.js')
+
 const fs            = require('fs')
-printf( "5" )
 const path          = require('path')
-printf( "6" )
 const env_paths     = envPaths('ilse', { suffix: "" })
-printf( "7" )
 // const inquirer      = require("inquirer")
 
 // const to_json       = require("ngraph.tojson")
 // const from_json     = require("ngraph.fromjson")
 // const createGraph   = require('ngraph.graph')
 const readline = require("readline");
-printf( "8" )
 
 var term  = require( 'terminal-kit'  ).terminal;
-printf( "9" )
 // let stdin = process.stdin;
 
 // Quine
 let target_directories
-printf( "10" )
-    target_directories="/home/viktor/Downloads/zettel/"
+    target_directories=""
 
-printf( "11" )
 var blessed     = require('blessed')
-printf( "12" )
-let contrib = require('blessed-contrib')
-printf( "13" )
 
 class Ilse {
 
@@ -204,28 +193,10 @@ class Ilse {
 
     tui() {
 
-        let screen  = blessed.screen()
-        let line    = contrib.line(
-            { style:
-                { line: "yellow"
-                    , text: "green"
-                    , baseline: "black"}
-                , xLabelPadding: 3
-                , xPadding: 5
-                , label: 'Title'}
-        )
-        let data = {
-            x: ['t1', 't2', 't3', 't4'],
-            y: [5, 1, 7, 5]
+        if( !target_directory ) return
 
-        }
-        screen.append(line) //must append before setting data
-        line.setData([data])
-
-        screen.key(['escape', 'q', 'C-c'], function(ch, key) {
-        })
-
-        screen.render()
+        let filesystem = Filesystem( blessed, "" )
+        printf( "index.js -> tui -> filesystem -> ", filesystem )
     }
 
     run( brain, payload ) {

@@ -85,7 +85,6 @@ export default class Notes {
         // let demo_notes  = this.filesystem.filesystem.DEMO_NOTES
 
         let demo_notes  = this.ilse.DEMO_NOTES
-        printf( "@@@@@ demo_notes -> ", demo_notes )
         let len         = demo_notes.length
 
         this.add_list( demo_notes )
@@ -94,11 +93,6 @@ export default class Notes {
    }
 
     async get_notes() {
-
-        printf( "get_notes() -> this.filesystem -> ", this.filesystem )
-        printf( "get_notes() -> this.filesystem.file -> ", this.filesystem.file )
-        printf( "get_notes() -> this.filesystem.file.read -> ", this.filesystem.file.read )
-        printf( "get_notes() -> this.filesystem.file.read.async -> ", this.filesystem.file.read.async )
 
         let textfile         = await this.filesystem.file.read.async( "notes" )
 
@@ -434,36 +428,6 @@ export default class Notes {
     }
     */
 
-    get_note_with_refs( content ) {
-
-        let ignore = content.indexOf("#!scan") !== -1
-            if( ignore ) return
-
-        // === Refs === //
-        let text   = this.reference( content )
-        let chunks = text.split("\n")
-        let refs
-
-        let final  = `<div class="note-reference" > `
-        for( const [index, chunk] of chunks.entries() ) {
-            // refs = this.get_note_reference( chunk )
-            // printf( "chunk -> ", chunk )
-
-            printf( "chunk[0] -> ", chunk[0] )
-            printf( "chunk[1] -> ", chunk[1] )
-
-            if( chunk[0] === "(" && chunk[1] === "(" ) {
-                printf( "FOUND IT KKKLDKDKDKDKDKDKD" )
-            }
-            printf( "refs -> ", refs )
-            printf( "chunk -> ", chunk )
-            final += `<span> ${this.ilse.markdown.render(chunk)} </span>`
-        }
-        final += "</div>"
-
-        return final
-    }
-
     // 20220804160914: - [ ] #ilse Does note embed get its children too??? ![[Ilse]]  ((20220306102411))
     extract_note_references( string ) {
 
@@ -477,6 +441,46 @@ export default class Notes {
         })
 
         return references
+    }
+    // 20220804160914: - [ ] #ilse Does note embed get its children too??? ![[Ilse]]  ((20220306102411))
+    extract_file_references( string ) {
+
+        let chunks      = string.split(" ")
+        let references  = []
+        let reference
+
+        chunks.map( chunk => {
+            reference = this.get_file_reference( chunk )
+            if( reference ) references.push( reference )
+        })
+
+        return references
+    }
+
+    get_file_reference( string ) {
+
+        let chunks = string.split(" ")
+        let has_opening_parenthesis
+        let has_closing_parenthesis
+        let has_both
+        let ref
+
+        for( const chunk of chunks ) {
+
+
+          has_opening_parenthesis  = chunk.indexOf( "![[" ) !== -1
+          has_closing_parenthesis  = chunk.indexOf( "]]" ) !== -1
+
+          has_both                 = has_opening_parenthesis && has_closing_parenthesis
+          if( has_both ) ref = chunk.replace( " ", "" ).replace( "![[", "" ).replace( "]]", "" )
+
+        }
+
+        if( ilse.files.list.indexOf( ref + ".md") !== -1 ) {
+            return null
+        } else {
+            return ref
+        }
     }
 
     get_note_reference( string ) {
