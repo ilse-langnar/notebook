@@ -1,13 +1,12 @@
 <template lang="pug" >
 .top-menu( v-if="!ilse.is_zen" style="width: 100%; display: flex; padding: 0.3em 0.5em; " )
 
-    img( src="@/assets/images/arrow-narrow-right.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('homepage')" @click="ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open" )
+    img( src="@/assets/images/arrow-narrow-right.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_left_sidebar')" @click="ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open" )
     .menu-item( style="margin: auto;" )
 
 
         .vspace
 
-        img( src="@/assets/images/home.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('homepage')"  @click="toggle_is_home_page_on" )
         img( src="@/assets/images/calendar.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('open_daily_notes')"  @click="add_daiyl_notes" accesskey="d" )
         img( src="@/assets/images/school.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_first_brain')"  @click="toggle_first_brain" )
 
@@ -58,7 +57,7 @@
 
             img( src="@/assets/images/plus.svg" style="width: 30px; display: block; margin: 0 auto;" @click="add_target_directory" :title="$t('add_folder')" )
 
-    img( src="@/assets/images/arrow-narrow-left.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('homepage')" @click="ilse.is_right_sidebar_open = !ilse.is_right_sidebar_open" )
+    img( src="@/assets/images/arrow-narrow-left.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_right_sidebar')" @click="ilse.is_right_sidebar_open = !ilse.is_right_sidebar_open" )
     br
 
 </template>

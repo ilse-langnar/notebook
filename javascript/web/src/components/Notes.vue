@@ -108,7 +108,7 @@ export default {
 <style scoped>
 
 .notes .loop {
-    border-left: 1px solid var( --text-color );
+    border-left: 1px solid #999;
 }
 
 

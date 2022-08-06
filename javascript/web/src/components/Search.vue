@@ -356,7 +356,7 @@ export default {
 <style scoped>
 
 .search-wrapper {
-    filter: opacity( 0.7 );
+    /*filter: opacity( 0.7 );*/
 }
 
 .note-search .search {

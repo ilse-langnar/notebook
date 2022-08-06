@@ -476,6 +476,11 @@ term-canvas@0.0.5:
   resolved "https://registry.yarnpkg.com/term-canvas/-/term-canvas-0.0.5.tgz#597afac2fa6369a6f17860bce9c5f66d6ea0ca96"
   integrity sha512-eZ3rIWi5yLnKiUcsW8P79fKyooaLmyLWAGqBhFspqMxRNUiB4GmHHk5AzQ4LxvFbJILaXqQZLwbbATLOhCFwkw==
 
+term.js@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/term.js/-/term.js-0.0.7.tgz#526f24cfc0f2ef6f80f517c9e27dae947bc87315"
+  integrity sha512-c65+7Z/51TDl/owjT2BrPHhMtJu5MjcvPWTC2oAV/ybzuwUCuj5/OQ08urfEHkQpfphyXs/zZRCjZfnSC3bntA==
+
 terminal-kit@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/terminal-kit/-/terminal-kit-2.4.0.tgz#d572601ee3e25bcf1c05e223990436fce8f1a075"

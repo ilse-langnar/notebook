@@ -19,6 +19,21 @@
             // Notes( :note="ilse.notes.query(item + ':')[0]" )
             Notes( :note="ilse.notes.query(item + ':')[0]" )
 
+
+    // .query( v-if="inote.get_tags() && get_query(inote)" style="width: 60%; margin-left: 50px; " )
+
+        // p {{ilse.notes.query(get_query(inote))}}
+        .loop( v-for="(item, index) in ilse.notes.query(get_query(inote))" :key="index" )
+            Notes( :note="item" )
+
+        // .file-reference( v-for="( item, index ) in ilse.notes.extract_file_references(inote.content)" )
+            // p LL: {{ilse.utils.is_markdown_file(item)}}
+            // File( :component="{ props: { file: item + '.md' } }" )
+            // p IS: {{ilse.utils.is_markdown(item)}}
+            component( v-if="ilse.utils.is_markdown_file(item)" :is="require('@/components/File.vue').default" :component="{ props: { file: item + '.md' } }" )
+
+
+
     // p :: {{inote.get_file_references()}}
     // .file-references( v-if="inote.get_file_references()" style="width: 60%; margin-left: 50px; " )
         .file-reference( v-for="( item, index ) in ilse.notes.extract_file_references(inote.content)" )
@@ -88,6 +103,17 @@ export default {
 
     methods: {
 
+        get_query( note ) {
+
+            let tags = note.get_tags()
+            let to_return
+
+            tags.map( tag => {
+                if( tag.indexOf("query") !== -1 ) to_return = tag.split("/")[2]
+            })
+
+            return to_return
+        },
 
         get_component() {
 

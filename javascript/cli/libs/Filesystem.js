@@ -4,13 +4,6 @@ function Filesystem( blessed, location = null ) {
 
     if( !location ) throw new Error( "ERROR: Filesystem.js -> location IS NULL" )
 
-    var screen = blessed.screen({
-        tput: true,
-        smartCSR: true,
-        // dump: __dirname + '/logs/file.log',
-        warnings: true
-    });
-
     var fm = blessed.filemanager({
         parent: screen,
         border: 'line',

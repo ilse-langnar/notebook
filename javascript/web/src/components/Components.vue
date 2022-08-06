@@ -4,9 +4,10 @@
     .components( style="display: flex; flex-direction: row;" :key="components_key" )
 
         Component.left-sidebar( v-show="ilse.is_left_sidebar_open" :component="get_left_sidebar()" :options="{ hide_bullet: true }" :style="get_component_style(get_left_sidebar())" )
+        Component.second-menu( v-show="!ilse.is_left_sidebar_open" :component="get_second_menu_component()" :options="{ hide_bullet: true }" style="width: 20%; overflow: hidden; " )
 
         .component( v-show="components.length && component.is_on" v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
-            Component( :component="component" :style="get_component_style_2()" )
+            Component( :component="component" )
 
         Component.right-sidebar( v-show="ilse.is_right_sidebar_open" :component="get_right_sidebar()" :options="{ hide_bullet: true }" :style="get_component_style(get_right_sidebar())" )
 
@@ -52,6 +53,12 @@ export default {
 
     methods: {
 
+        get_second_menu_component() {
+            let c         = { 'id': 'menu', 'width': 1, 'is_on': true, 'type': 'menu', 'props': {} }
+            let component = new ilse.classes.Component( c )
+            return component
+        },
+
         get_left_sidebar() {
             let c         = { 'id': 'left-sidebar', 'width': 12, 'is_on': true, 'type': 'left-sidebar', 'props': {} }
             let component = new ilse.classes.Component( c )
@@ -65,24 +72,25 @@ export default {
         },
 
         get_component_style_2() {
-            let style       = ``
-
-            if( ilse.is_zen ) style       += `width: 50%; margin: 0 auto;`
+            let style       = `overflow-y: auto; max-height: 93vh; background: var( --background-color ); border-radius: var( --border-radius );`
+            // if( ilse.is_zen ) style       += `width: 50%; margin: 0 auto;`
 
             return style
         },
 
         get_component_style( component ) {
+
+            let normal_style = `flex: 1; flex-basis: ${component.width * 10}%; overflow: auto; max-height: 93vh; background: var( --background-color ); border-radius: var( --border-radius ); `; 
+            return normal_style
+
             // let style = `flex: 1; margin-left: 10px; height: 100%; flex-basis: ${component.width * 10}%; `
+            // let resize_style = `height: 100%; width: 100%; resize: horizontal; overflow: auto; `
 
-            let normal_style = `flex: 1; height: 100%; flex-basis: ${component.width * 10}%; `
-            let resize_style = `height: 100%; width: 100%; resize: horizontal; overflow: auto; `
-
-            if( ilse.config.is_resize_mode_on ) {
-                return resize_style
-            } else {
-                return normal_style
-            }
+            // if( ilse.config.is_resize_mode_on ) {
+                // return resize_style
+            // } else {
+                // return normal_style
+            // }
 
         },
 

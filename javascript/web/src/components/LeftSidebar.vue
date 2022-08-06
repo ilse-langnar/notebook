@@ -1,6 +1,7 @@
 <template lang="pug">
 .left-sidebar
 
+    // .div( style="background: #fff; border-radius: 10px; border: 1px solid transparent; width: 30px; padding: 3px;  " )
     img( src="@/assets/images/settings.svg" style="width: 20px;" @click="is_config_open = !is_config_open" )
 
     .flex( v-if="is_config_open" style="height: 50px; margin: auto; " )

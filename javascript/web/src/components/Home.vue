@@ -135,7 +135,8 @@ export default {
 .ilse  {
     color: var( --text-color );
     background: var( --background-color ) !important;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
 }
 
 </style>

@@ -190,10 +190,12 @@ input[type=range]::-webkit-slider-runnable-track  {
 }
 
 .left-sidebar {
-    min-height: 80vh;
+    min-height: 91vh;
     border-radius: var( --border-radius );
     /*width: 50%;*/
-    flex-basis: 70%;
+    flex-basis: 100%;
+    min-width: 50%;
+    width: 100%;
     background-color: var( --secondary-background-color );
     padding: var( --padding );
 }
@@ -292,6 +294,14 @@ code {
     font-family: CodeFire, CodeFira, monospace;
 }
 
+.query {
+    /*text-decoration: underline;*/
+    background-color: #D5DADF;
+    color: var( --text-color );
+    background-color: var( --background-color );
+    padding: var( --padding );
+    border-radius: var( --border-radius );
+}
 .note-reference {
     /*text-decoration: underline;*/
     background-color: #D5DADF;

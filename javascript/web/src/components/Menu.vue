@@ -1,26 +1,40 @@
 <template lang="pug" >
 .menu
+    p.item Daily Notes
+    p.item Study
+
+    // hr
+
     br
-    // .item.flex
-        img( src="@/assets/images/calendar.svg" style="width: 18px;")
-        p( @click="add_daily_notes" title="Daily Notes" ) Daily Notes
+    // h2.centered Favorites
+    // .item( v-for="( favorite, index ) in ilse.config.favorites" :key="index" @click="open_file(favorite)" @click.ctrl="open_file_graph(favorite)" :title="favorite" style="padding: 4px; ")
+        p {{favorite}}
 
-    // .item.flex
-        img( src="@/assets/images/math-function.svg" style="width: 18px;")
-        p( @click="interest_repetition" title="Interest Repetition" ) Interest Repetition
+    br
+    details.centered
+        summary Favorites
+        .item( v-for="( favorite, index ) in ilse.config.favorites" :key="index" @click="open_file(favorite)" @click.ctrl="open_file_graph(favorite)" :title="favorite" style="padding: 4px; ")
+            p {{favorite}}
+    details.centered
+        summary Templates
+    details.centered
+        summary Plugins
+    details.centered
+        summary Themes
 
-    // .item.flex
-        img( src="@/assets/images/report.svg" style="width: 18px;")
-        p( @click="statistics" title="Statistics") Statistics
 
-    .mini-space
-    p( style="cursor: auto; text-align: center;" ) Favorites:
 
-    .loop( v-for="( favorite, index ) in ilse.config.favorites" :key="index" @click="open_file(favorite)" @click.ctrl="open_file_graph(favorite)" :title="favorite" )
+
+    
+
+    // .mini-space
+    // p( style="cursor: auto; text-align: center;" ) Favorites:
+
+    // .loop( v-for="( favorite, index ) in ilse.config.favorites" :key="index" @click="open_file(favorite)" @click.ctrl="open_file_graph(favorite)" :title="favorite" )
         p.item {{ilse.utils.truncate_text(favorite, 8)}}
 
-    .mini-space
-    p( style="cursor: auto; text-align: center;" ) Plugins:
+    // .mini-space
+    // p( style="cursor: auto; text-align: center;" ) Plugins:
 
 </template>
 <script>
@@ -96,6 +110,8 @@ export default {
     cursor: pointer;
     margin: 3px;
     margin-bottom: 5px;
+    background: var( --background-color );
+    color: var( --text-color );
 }
 
 .flex {
@@ -104,7 +120,9 @@ export default {
 }
 
 .menu {
-    flex-grow: 0% !important
+    /*flex-grow: 0% !important;*/
+    padding: var( --padding );
+    height: 93vh !important;
 }
 
 .item img{
