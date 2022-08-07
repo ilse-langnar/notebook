@@ -85,6 +85,7 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Free and Open Source | I would appreciate if you paid something but it's free and open source. | |
 | Right/Left Sidebar |  You can put anything you want there with quick access | ![Right Sidebar](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-right-sidebar.gif) | 
 | Zettelkasten | We don't use directories and you have access to links to link a note to a file or to another note. | |
+| Inline Embeds | You can use {{}} to embed things such as: Queries, todos, tags, word-count, timer and more! | |
 
 
 

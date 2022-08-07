@@ -32,24 +32,22 @@ const printf        = console.log
     const Shadow        = require('./libs/Shadow.js')
     const ShrinkFail    = require('./libs/ShrinkFail.js')
 
-const fs            = require('fs')
-const path          = require('path')
-const env_paths     = envPaths('ilse', { suffix: "" })
-// const inquirer      = require("inquirer")
+// Libraries
+    // const to_json       = require("ngraph.tojson")
+    // const from_json     = require("ngraph.fromjson")
+    // const createGraph   = require('ngraph.graph')
+    // let stdin = process.stdin;
+    const readline      = require("readline");
+    var blessed         = require('blessed')
+    const fs            = require('fs')
+    const path          = require('path')
+    const env_paths     = envPaths('ilse', { suffix: "" })
 
-// const to_json       = require("ngraph.tojson")
-// const from_json     = require("ngraph.fromjson")
-// const createGraph   = require('ngraph.graph')
-const readline = require("readline");
-
-var term  = require( 'terminal-kit'  ).terminal;
-// let stdin = process.stdin;
 
 // Quine
 let target_directories
     target_directories=""
 
-var blessed     = require('blessed')
 
 class Ilse {
 
@@ -59,35 +57,26 @@ class Ilse {
         this.command            = this.commands[0]
         this.payload            = this.commands[1]
         this.target_directory   = null
+        this.exe( this.command, this.payload )
+
+        this.setup()
+    }
+
+    exe() {
 
         let has_command         = this.commands.length
 
-        this.setup()
 
         if( has_command ) {
             this.run( this.command, this.payload )
         } else {
             this.print_options()
         }
-    }
-
-    listen() {
-
-        // stdin.on( "data", chunk => {
-            // let id = get_date_id()
-            // printf( `${id}: ${chunk}` )
-        // })
 
     }
 
     print_options() {
 
-        // First Brain = memory
-        // Read
-        // Remove
-        // query
-        // tags
-        /*
         console.table({
             "ilse":"Show this options",
                 "ilse help":"Show Help OPtions",
@@ -104,26 +93,11 @@ class Ilse {
                     "ilse (s)econd (l)inks":"Show Options for second brain",
                     "ilse (s)econd (a)dd":"Show Options for second brain",
         })
-        */
 
     }
 
     get_target_directory() {
         return target_directories.split("|")[0]
-    }
-
-    prompt( question, fn ) {
-
-        // Prompt user to input data in console.
-        // printf( question )
-
-        // function readable( data ) {
-            // fn( data )
-            // process.stdin.off( 'readable', fn )
-        // }
-
-        // When user input data and click enter key.
-        // process.stdin.on( 'readable', fn )
     }
 
     check_if_target_directory_is_defined() {
@@ -161,59 +135,12 @@ class Ilse {
                     rl.close()
             })
 
-            // rl.on("close", function() { process.exit( 0 ) })
-
-            // this.prompt( `Please type the directory that you want to use as your home: (e.g /home/user/brain C:\User\May\Brain)`, data => {
-            // })
         }
 
     }
 
     setup() {
-
         this.check_if_target_directory_is_defined()
-        this.listen()
-
-        /*
-        let has_config_dir_already = fs.existsSync( env_paths.config ) && fs.existsSync( `${env_paths.config}/target.json` )
-
-        if( !has_config_dir_already ) {
-
-            let config = {
-                target_directory: "",
-            }
-
-            inquirer
-                .prompt([
-                    {
-                        name: 'target',
-                        message: 'Type the path for your ilse universe:'
-                    },
-                ])
-                .then(answers => {
-
-                    config.target_directory = answers.target
-
-                    fs.mkdirSync( `${env_paths.config}/`)
-                    fs.writeFileSync( `${env_paths.config}/target.json` , JSON.stringify( config ) )
-
-
-                    let target              = fs.readFileSync( `${env_paths.config}/target.json`, "utf8" )
-                    let normalized_target   = JSON.parse( target )
-                        this.target_directory   = `/${normalized_target.target_directory}`
-
-                })
-
-        } else if( has_config_dir_already ){
-            let target              = fs.readFileSync( `${env_paths.config}/target.json`, "utf8" )
-            let normalized_target   = JSON.parse( target )
-                this.target_directory   = `${normalized_target.target_directory}`
-        }
-
-        let file            = fs.readFileSync( `${this.target_directory}/.ilse/graph.json`, "utf8")
-            this.graph = from_json( file )
-            */
-
     }
 
     tui() {
@@ -352,38 +279,6 @@ class Ilse {
             // printf( "second -> payload -> ", payload )
         }
 
-        /*
-        if( command === 'add' || command === 'ad' || command === 'a' || ( command && !payload ) ) {
-            if( payload ) {
-                return this.add( payload )
-            } else {
-                return this.add( command )
-            }
-        }
-
-        if( command === 'link' || command === 'lin' || command === 'l' || (command[0] === '[' && command[1] === '[') ) {
-
-            if( payload ) {
-                return this.show_link( payload )
-            } else {
-
-                let normalized_link = command.replace( "[[", "" ).replace( "]]", "" )
-                    normalized_link += ".md"
-
-                return this.show_link( normalized_link )
-            }
-
-        }
-
-        if( command === 'tags' || command === 'tag' || command === 't' ) {
-            return this.show_tags( payload )
-        }
-
-        if( command === 'journal' || command === 'jrl' || command === 'j' ) {
-            return this.show_journal( payload )
-        }
-        */
-
     }
 
     show_link( payload ) {
@@ -393,22 +288,6 @@ class Ilse {
     show_tags( payload ) {
         // let node        = this.graph.getNode( payload )
         // printf( node.data.tags )
-    }
-
-    show_journal() {
-
-        let today_date  = get_daily_note_format()
-
-        let file
-        try {
-            file        = fs.readFileSync( `${this.target_directory}/${today_date}.md`, "utf8" )
-            // printf( file )
-        } catch( e ) {
-            // printf( `Creating journal for: ${today_date} ...` )
-            fs.writeFileSync( `${this.target_directory}/${today_date}.md`, today_date )
-            file        = fs.readFileSync( `${this.target_directory}/${today_date}.md`, "utf8" )
-            // printf( file )
-        }
     }
 
     add( payload ) {
@@ -447,18 +326,6 @@ class Ilse {
 
     }
 
-}
-
-
-function get_daily_note_format() {
-
-    const today = new Date()
-    let month   = today.toLocaleString('default', { month: 'long'  })
-    let day     = today.getDate()
-    let year    = today.getFullYear()
-    let format  = `${month} ${day}th, ${year}`
-
-    return format
 }
 
 new Ilse()
