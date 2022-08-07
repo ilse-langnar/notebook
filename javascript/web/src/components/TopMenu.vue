@@ -1,31 +1,31 @@
 <template lang="pug" >
 .top-menu( v-if="!ilse.is_zen" style="width: 100%; display: flex; padding: 0.3em 0.5em; " )
 
-    img( src="@/assets/images/arrow-narrow-right.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_left_sidebar')" @click="ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open" )
+    img( :src="irequire.img('arrow-narrow-right.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_left_sidebar')" @click="ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open" )
     .menu-item( style="margin: auto;" )
 
 
         .vspace
 
-        img( src="@/assets/images/calendar.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('open_daily_notes')"  @click="add_daiyl_notes" accesskey="d" )
-        img( src="@/assets/images/school.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_first_brain')"  @click="toggle_first_brain" )
+        img( :src="irequire.img('calendar.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('open_daily_notes')"  @click="add_daiyl_notes" accesskey="d" )
+        img( :src="irequire.img('school.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_first_brain')"  @click="toggle_first_brain" )
 
         .vspace
 
         // .did( style="width: 300px; height: 100px; position: fixed; bottom: 10px; left: 0px;" )
-            img( v-show="has_first_brain_tools" src="@/assets/images/player-play.svg"      style="cursor: pointer; width: 20px; "   title="Toggle First Brain Tools"  @click="ilse.brains.first.read_first()" accesskey="i" )
+            img( v-show="has_first_brain_tools" :src="irequire.img('player-play.svg')"      style="cursor: pointer; width: 20px; "   title="Toggle First Brain Tools"  @click="ilse.brains.first.read_first()" accesskey="i" )
 
-            img( v-show="has_first_brain_tools" src="@/assets/images/trash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.remove()" accesskey="i" )
+            img( v-show="has_first_brain_tools" :src="irequire.img('trash.svg')"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.remove()" accesskey="i" )
 
-            img( v-show="has_first_brain_tools" src="@/assets/images/arrows-shuffle.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.shuffle()" accesskey="i" )
+            img( v-show="has_first_brain_tools" :src="irequire.img('arrows-shuffle.svg')"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.shuffle()" accesskey="i" )
 
-            img( v-show="has_first_brain_tools" src="@/assets/images/lupe.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.show_query( item => ilse.brains.first.read(item) )" accesskey="i" )
+            img( v-show="has_first_brain_tools" :src="irequire.img('lupe.svg')"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.show_query( item => ilse.brains.first.read(item) )" accesskey="i" )
 
-            img( v-show="has_first_brain_tools" src="@/assets/images/hash.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.add_topic()" accesskey="i" )
+            img( v-show="has_first_brain_tools" :src="irequire.img('hash.svg')"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.add_topic()" accesskey="i" )
 
-            img( v-show="has_first_brain_tools" src="@/assets/images/plus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.increase()" accesskey="i" )
+            img( v-show="has_first_brain_tools" :src="irequire.img('plus.svg')"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.increase()" accesskey="i" )
 
-            img( v-show="has_first_brain_tools" src="@/assets/images/minus.svg"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.decrease()" accesskey="i" )
+            img( v-show="has_first_brain_tools" :src="irequire.img('minus.svg')"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.decrease()" accesskey="i" )
             p( v-if="has_first_brain_tools" ) {{get_first_brain_last_item_info()}}
 
 
@@ -34,30 +34,30 @@
 
     .menu-item( style="margin: auto; " )
         ImporterImg( style="margin-right: 5px;" )
-        img( src="@/assets/images/command.svg"   style="cursor: pointer; width: 20px; " :title="$t('open_command_pallet')" alt="$t('open_command_pallet')" @click="toggle_command_pallet" )
+        img( :src="irequire.img('command.svg')"   style="cursor: pointer; width: 20px; " :title="$t('open_command_pallet')" alt="$t('open_command_pallet')" @click="toggle_command_pallet" )
         .margin-small
 
-        img( src="@/assets/images/settings.svg"     style="cursor: pointer; width: 20px; " :title="$t('configuration')" @click="open_configuration_modal" accesskey="c" )
+        img( :src="irequire.img('settings.svg')"     style="cursor: pointer; width: 20px; " :title="$t('configuration')" @click="open_configuration_modal" accesskey="c" )
         .margin-small
 
-        img( src="@/assets/images/folders.svg"    style="cursor: pointer; width: 20px; "   :title="$t('folders')" v-popover="{ name: 'folders', position: 'bottom' }" )
+        img( :src="irequire.img('folders.svg')"    style="cursor: pointer; width: 20px; "   :title="$t('folders')" v-popover="{ name: 'folders', position: 'bottom' }" )
         .margin-small
 
-        img( src="@/assets/images/lifebuoy.svg"    style="cursor: pointer; width: 20px; "   :title="$t('help_manual_tutorial_and_apis')" accesskey="h" @click="open_help_modal" )
+        img( :src="irequire.img('lifebuoy.svg')"    style="cursor: pointer; width: 20px; "   :title="$t('help_manual_tutorial_and_apis')" accesskey="h" @click="open_help_modal" )
         .margin-large
 
-        img.is-pulled-right( src="@/assets/images/moon-stars.svg"   style="cursor: pointer; width: 20px; " :title="$t('toggle_dark_mode')" @click="toggle_dark_mode()" )
+        img.is-pulled-right( :src="irequire.img('moon-stars.svg')"   style="cursor: pointer; width: 20px; " :title="$t('toggle_dark_mode')" @click="toggle_dark_mode()" )
 
     Popover( direction="bottom" name="folders" style="width: 300px; background: var( --background-color ); color: var( --text-color ); " )
         .folders( style="padding: 5px; overflow: hidden; " )
             .folder( v-for="( folder, index ) in ilse.target_directories" :key="index" @click="select_folder(folder)" :style="get_target_directory_style(folder)" :title="$t('use') + folder" )
-                img.is-pulled-right( src="@/assets/images/x.svg" style="width: 20px; display: block; margin: 0 auto;" :title="$t('delete_folder')" @click="delete_dir(folder)" )
+                img.is-pulled-right( :src="irequire.img('x.svg')" style="width: 20px; display: block; margin: 0 auto;" :title="$t('delete_folder')" @click="delete_dir(folder)" )
 
                 p {{folder}}
 
-            img( src="@/assets/images/plus.svg" style="width: 30px; display: block; margin: 0 auto;" @click="add_target_directory" :title="$t('add_folder')" )
+            img( :src="irequire.img('plus.svg')" style="width: 30px; display: block; margin: 0 auto;" @click="add_target_directory" :title="$t('add_folder')" )
 
-    img( src="@/assets/images/arrow-narrow-left.svg"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_right_sidebar')" @click="ilse.is_right_sidebar_open = !ilse.is_right_sidebar_open" )
+    img( :src="irequire.img('arrow-narrow-left.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_right_sidebar')" @click="ilse.is_right_sidebar_open = !ilse.is_right_sidebar_open" )
     br
 
 </template>

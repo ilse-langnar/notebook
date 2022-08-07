@@ -8,7 +8,7 @@
 
         TopMenu
         // HelloI18n
-        // img( src="@/assets/images/arrow-narrow-right.svg" style="position: fixed; left: 10px;  width: 25px; height: 25px;  " @click="ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open")
+        // img( :src="irequire.img('arrow-narrow-right.svg')" style="position: fixed; left: 10px;  width: 25px; height: 25px;  " @click="ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open")
 
         // .left( v-show="is_left_on" style="display: flex;" )
             .div( style="width: 80%; " )

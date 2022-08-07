@@ -6,10 +6,10 @@
         .flex
             .options.centered
                 p.flexi.is-size-3.has-text-weight-bold( :title=" $t('notes') + day.notes.length" @click="notify_now()" ) {{get_file( day )}}
-                img( src="@/assets/images/filter.svg" style="cursor: pointer; width: 20px; margin-left: 5px;" :title="$t('filter')"                    )
-                img( src="@/assets/images/minus.svg"  style="cursor: pointer; width: 20px; margin-left: 5px;" :title="$t('filter')"                    )
-                img( src="@/assets/images/plus.svg"   style="cursor: pointer; width: 20px; margin-left: 5px;" :title="$t('filter')"                    )
-                img( src="@/assets/images/x.svg"   style="cursor: pointer; width: 17px; margin-left: 5px;" :title="$t('close')"  @click="remove(day)" )
+                img( :src="irequire.img('filter.svg')" style="cursor: pointer; width: 20px; margin-left: 5px;" :title="$t('filter')"                    )
+                img( :src="irequire.img('minus.svg')"  style="cursor: pointer; width: 20px; margin-left: 5px;" :title="$t('filter')"                    )
+                img( :src="irequire.img('plus.svg')"   style="cursor: pointer; width: 20px; margin-left: 5px;" :title="$t('filter')"                    )
+                img( :src="irequire.img('x.svg')"   style="cursor: pointer; width: 17px; margin-left: 5px;" :title="$t('close')"  @click="remove(day)" )
 
         // .note( v-for="(note, note_index) in day.notes" :key="note_index" :style="get_note_style(note)" )
         .note( v-for="(note, note_index) in day.notes.filter( e=> e.depth === 0 )" :key="note_index" :style="get_note_style(note)" )

@@ -6,14 +6,14 @@
 
         .display-mode
 
-            img( v-show="is_markdown_mode_on" src="@/assets/images/markdown.svg" @click="toggle_markdown_mode"  :title="$t('search_markdown_mode')" aria-role="markdown" :alt="$t('search_markdown_mode')" )
-            img( v-show="!is_markdown_mode_on" src="@/assets/images/letter-case.svg" @click="toggle_markdown_mode"  :title="$t('search_text_mode')" aria-role="text" :alt="$t('search_text_mode')" )
+            img( v-show="is_markdown_mode_on" :src="irequire.img('markdown.svg')" @click="toggle_markdown_mode"  :title="$t('search_markdown_mode')" aria-role="markdown" :alt="$t('search_markdown_mode')" )
+            img( v-show="!is_markdown_mode_on" :src="irequire.img('letter-case.svg')" @click="toggle_markdown_mode"  :title="$t('search_text_mode')" aria-role="text" :alt="$t('search_text_mode')" )
 
-            img( v-show="filter === 'notes' " src="@/assets/images/point.svg" @click="toggle_filter_mode" :title="$t('search_filter_mode_notes')" aria-role="markdown" :alt="$t('search_filter_mode_notes')" )
+            img( v-show="filter === 'notes' " :src="irequire.img('point.svg')" @click="toggle_filter_mode" :title="$t('search_filter_mode_notes')" aria-role="markdown" :alt="$t('search_filter_mode_notes')" )
 
-            img( v-show="filter === 'files' " src="@/assets/images/file.svg" @click="toggle_filter_mode"  :title="$t('search_filter_mode_files')" aria-role="text" :alt="$t('search_filter_mode_files')" )
+            img( v-show="filter === 'files' " :src="irequire.img('file.svg')" @click="toggle_filter_mode"  :title="$t('search_filter_mode_files')" aria-role="text" :alt="$t('search_filter_mode_files')" )
 
-            img( v-show="filter === 'all' " src="@/assets/images/filter.svg" @click="toggle_filter_mode"  :title="$t('search_filter_mode_all')" aria-role="text" alt="$t('search_filter_mode_all')" )
+            img( v-show="filter === 'all' " :src="irequire.img('filter.svg')" @click="toggle_filter_mode"  :title="$t('search_filter_mode_all')" aria-role="text" alt="$t('search_filter_mode_all')" )
 
     .search-result( v-if="search_query" )
         .nothing.item.flex( v-if="!search_result.length" )

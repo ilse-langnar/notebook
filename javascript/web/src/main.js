@@ -55,6 +55,10 @@ Vue.use(Popover)
 Vue.config.productionTip = false
 Vue.config.performance = true;
 Vue.prototype.$log = console.log.bind( console ); // log from html
+
+import IlseRequire                  from "@/classes/IlseRequire.js"
+Vue.prototype.irequire = new IlseRequire()
+
 // -----------------------> Config <-------------------------- //
 
 

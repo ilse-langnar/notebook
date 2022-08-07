@@ -1,13 +1,13 @@
 <template lang="pug">
 .right-sidebar
 
-    img( src="@/assets/images/settings.svg" style="width: 20px;" @click="is_config_open = !is_config_open" )
+    img( :src="irequire.img('settings.svg')" style="width: 20px;" @click="is_config_open = !is_config_open" )
 
     .flex( v-if="is_config_open" style="height: 50px; margin: auto; " )
         .loop.fitem( v-for="( item, index ) in list" :key="index" style="margin: auto; " )
-            img.is-pulled-right( src="@/assets/images/x.svg" style="width: 10px; cursor: pointer;  " alt="Delete"  @click="list.splice(index, 1)" )
+            img.is-pulled-right( :src="irequire.img('x.svg')" style="width: 10px; cursor: pointer;  " alt="Delete"  @click="list.splice(index, 1)" )
             input.input( v-model="item.type" style="background: transparent; border: 0 !important;" )
-        img.is-pulled-right( src="@/assets/images/plus.svg" style="width: 30px; cursor: pointer;  " alt="Add Component" @click="add_component" )
+        img.is-pulled-right( :src="irequire.img('plus.svg')" style="width: 30px; cursor: pointer;  " alt="Add Component" @click="add_component" )
     
     // Components
     .flex

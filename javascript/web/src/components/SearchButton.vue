@@ -3,7 +3,7 @@
     button.button( @click="on_button_click()" :title="$t('search_click_to_search')")
         span.text {{ $t('search') }}
         span.shortcut
-            // img( src="@/assets/images/keyboard.svg" style="width: 10px; " )
+            // img( :src="irequire.img('keyboard.svg')" style="width: 10px; " )
             span s s
 
 </template>

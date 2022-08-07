@@ -14,7 +14,7 @@
 
                     Note( v-else :title="JSON.stringify(item.note)" :note="item.note" :options="{ hide_bullet: true, style: 'border: 1px solid var( --text-color );padding: 0px; margin-right: 2px; min-width: 80px; width: 80px; height: 23px; overflow: hidden;', placeholder: 'NOTE', is_tagless: true }" @on-blur="on_note_blur" )
 
-        img( src="@/assets/images/plus.svg" style="width: 20px; cursor: pointer;" @click="add_new_column(columns)" )
+        img( :src="irequire.img('plus.svg')" style="width: 20px; cursor: pointer;" @click="add_new_column(columns)" )
 
 
 </template>

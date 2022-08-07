@@ -16,7 +16,7 @@
             .loop.query( v-for="( item, item_query ) in get_items(node)" :key=" 'query-' + item_query" :title="item" ) {{item}}
                 // p( :title="item" ) {{item}}
 
-    img( src="@/assets/images/plus.svg" :title="$t('add')" @click="add(tree[0])" style="width: 50px; display: block; margin: 0 auto; " )
+    img( :src="irequire.img('plus.svg')" :title="$t('add')" @click="add(tree[0])" style="width: 50px; display: block; margin: 0 auto; " )
 
 </template>
 <script>

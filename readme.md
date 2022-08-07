@@ -34,9 +34,10 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Platform         | How     | Gif |
 |--------------|-----------|------------|
 | Web Demo | [Check](https://ilse-langnar.github.io/notebook/demo/index.html) | Learn More | 
-| Web(.html) | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.0/html.1.1.0.tar.gz) | Learn More | |
-| Desktop Linux(AppImage)           | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.0/ilse-langnar-notebook-1.0.11.AppImage) | ![Demo](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/desktop-linux.gif) | 
-| Desktop Windows(.exe)             | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.0/ilse-langnar-notebook.Setup.1.0.11.exe) | 
+| Quine(Single .html) | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.2/index.html) | Learn More | |
+| Web(.html) | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.2/html.1.0.11.tar.gz) | Learn More | |
+| Desktop Linux(AppImage)           | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.2/ilse-langnar-notebook-1.0.11.AppImage) | ![Demo](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/desktop-linux.gif) | 
+| Desktop Windows(.exe)             | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.2/ilse-langnar-notebook.Setup.1.0.11.exe) | 
 | Desktop MacOs(.dmg)               | Comming Soon |
 | Mobile Android(.apk)              | Comming Soon | 
 | Mobile iOS                        | Comming Soon | 

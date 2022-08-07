@@ -2,7 +2,7 @@
 .component
     img.is-pulled-right(
         v-if="!options.hide_bullet"
-        src="@/assets/images/point.svg"
+        :src="irequire.img('point.svg')"
 
         @click.shift="on_shift_click(component_index)"
         @click.left="on_left_click($event, component)"

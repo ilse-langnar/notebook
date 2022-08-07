@@ -1,7 +1,7 @@
 <template lang="pug" >
 .error-component-not-found
     p Error ---- {{ $('component_not_found') }} ----
-    img( src="@/assets/images/box-margin.svg" style="width: 50px;" )
+    img( :src="irequire.img('box-margin.svg')" style="width: 50px;" )
 
 
 </template>
