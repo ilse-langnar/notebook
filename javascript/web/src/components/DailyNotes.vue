@@ -11,9 +11,9 @@
                 img( src="@/assets/images/plus.svg"   style="cursor: pointer; width: 20px; margin-left: 5px;" :title="$t('filter')"                    )
                 img( src="@/assets/images/x.svg"   style="cursor: pointer; width: 17px; margin-left: 5px;" :title="$t('close')"  @click="remove(day)" )
 
+        // .note( v-for="(note, note_index) in day.notes" :key="note_index" :style="get_note_style(note)" )
         .note( v-for="(note, note_index) in day.notes.filter( e=> e.depth === 0 )" :key="note_index" :style="get_note_style(note)" )
-
-            Notes( :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" @on-note-middle-click="on_note_middle_click(note)" @on-note-right-click="on_note_right_click"  )
+            Notes( v-if="note.depth === 0" :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" @on-note-middle-click="on_note_middle_click(note)" @on-note-right-click="on_note_right_click"  )
             // Notes( v-if="note.depth === 0" :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" @on-note-middle-click="on_note_middle_click(note)" @on-note-right-click="on_note_right_click"  )
 
             // Note( :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" @on-note-middle-click="on_note_middle_click(note)" @on-note-right-click="on_note_right_click" )
@@ -260,9 +260,14 @@ export default {
         // TODO: BUG: When we type enter we correctly add the note but it's not rendered corretly, also setting the depth is problematic k
         on_enter( payload ) {
 
-            let note = payload.note
-            let depth  = note.depth
+            printf( "DailyNotes -> on_enter -> payload -> ", payload )
+
+            let note     = payload.note
+            printf( "note -> ", note )
+            let depth    = note.depth
+            printf( "depth -> ", depth )
             let new_note = ilse.notes.add_after( "", depth, note )
+            printf( "new_note -> ", new_note )
                 new_note.focus()
 
             setTimeout( () => { ilse.save() }, 1000 )

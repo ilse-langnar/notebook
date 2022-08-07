@@ -145,6 +145,7 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Make a `Theme` |  A theme is like a bunch of css snippets but they relate to each other to form a more "grand" structure, use this template to create themes:  [Theme Template](https://github.com/ilse-langnar/theme-template). | Medium |
 | Make a `Plugin` |  A plugin is where you actually extend ilse with more components, commands and functionality, make plugins using:  [Plugin Template](https://github.com/ilse-langnar/plugin-template). | High |
 | Make a `Blog/Article/Video` | Create something documenting how you use ilse in your life, I'll greatly appreciate it!. | Medium |
+| Make `Flashcards`  | Create a project with the sturcture like: [Flashcards Template](https://github.com/ilse-langnar/flashcards-template). and fill it with your item. | Medium |
 | Make Memes | Help spread the tool with virality and easy-to-consume memes. | High |
 | Join Discord | I'll post updates, ideas, plugins, themes, snippets, commands screenshots and more. https://discord.gg/9BVx8YHr | Medium |
 | Fix a bug yourself | Modify the code and then do a push into the `dev` branch, I'll later move it to more stable branches. | High |

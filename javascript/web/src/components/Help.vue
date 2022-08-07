@@ -50,7 +50,6 @@
                     img( src="@/assets/images/school.svg" )
                     p or
                     br
-                    img( src="@/assets/images/first-brain.png" )
                     p And I'll be imported automatically
 
                 .question
@@ -58,7 +57,6 @@
                     p A: Open the "first" brain panel by clicking on
                     img( src="@/assets/images/school.svg" )
                     p Then it should look like this: 
-                    img( src="@/assets/images/first-brain.png" )
                     p Then click on the "play" button or double click on it.
 
                 .question

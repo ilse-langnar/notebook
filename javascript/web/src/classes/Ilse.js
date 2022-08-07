@@ -19,6 +19,7 @@ const printf                        = console.log
     import Statistics                   from "@/classes/Statistics.js"
     import PanSVG                       from "@/classes/PanSVG.js"
     import Cache                        from "@/classes/Cache.js"
+    import IlseRequire                  from "@/classes/IlseRequire.js"
 
     // UI Elements
         import Menu                         from "@/classes/Menu.js"
@@ -107,6 +108,8 @@ export default class Ilse {
     }
 
     setup() {
+
+        window.irequire = new IlseRequire()
 
         this.before_setup()
         // this.set_watch()
