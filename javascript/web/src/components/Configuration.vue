@@ -7,18 +7,18 @@
                 img( :src="get_img(option.img)" )
                 p( style="font-size: 0.7em; " ) &nbsp; &nbsp; {{ $t(option.name) }} 
             
-        .options-configuration( style="width: 80%; float: right;" )
+        .options-configuration( style="width: 80%; float: right;" :key="selected" )
             p.is-size-1( style="text-align: center;" ) {{ $t(selected) }}
 
             .general( v-if="selected === 'general' " )
                 p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-            .typography( v-if="selected === 'typography' " )
+            // .typography( v-if="selected === 'typography' " )
 
             .plugins( v-if="selected === 'plugins' " )
 
                 .loop( v-for="( note, index ) in ilse.notes.query('#i/plugin/')" :key="index" )
-                    Notes( :note="note" )
+                    Notes( :note="note" :options="{ is_collapsed: true }" )
                     .space
 
 
@@ -35,12 +35,12 @@
                     img.img.is-pulled-left( src="@/assets/images/paint.svg" :title="('apply')" alt="Apply" @click="ilse.themes.apply( note )" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --background-color );" )
                     img.img.is-pulled-left( src="@/assets/images/packge-export.svg" :title="$t('export_to_clipboard')" alt="Export to clipboard" @click="export_theme_to_clipboard(note)" )
                     .s-clear
-                    Notes( :note="note" )
+                    Notes( :note="note" :options="{ is_collapsed: true }" )
                     .space
 
             .templates( v-if="selected === 'templates' " )
                 .loop( v-for="( note, index ) in ilse.notes.query('#i/template/')" :key="index" )
-                    Notes( :note="note" )
+                    Notes( :note="note" :options="{ is_collapsed: true }" )
 
 
 
@@ -61,7 +61,12 @@
 
 
             .snippets( v-if="selected === 'snippets' " )
-                .snippet( v-for="( snippet, index ) in ilse.themes.snippets" :key="index" )
+
+                .loop( v-for="( note, index ) in ilse.notes.query('#i/css')" :key="index" )
+                    Notes( :note="note" )
+                    // img.img.is-pulled-left( src="@/assets/images/paint.svg" :title="('apply')" alt="Apply" @click="ilse.themes.apply( note )" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --background-color );" )
+
+                // .snippet( v-for="( snippet, index ) in ilse.themes.snippets" :key="index" )
                     img.is-pulled-right( src="@/assets/images/x.svg" style="width: 20px; cursor: pointer;" @click="delete_snippet(plugin)" :title="$t('remove_snippet')" )
                     h2 {{snippet.note.id}}
                     // p {{snippet.css}}
@@ -83,6 +88,9 @@
                     input( v-model="key.combo" style="margin-right: 3px;" )
                     input( v-model="key.command" :title="Object.values(ilse.commands.commands).map( item => ` ${item.name}` )" )
                 button.button.slick-button.centered( @click="add_keyboard_shortcut()" ) Add
+
+            .lorem( v-if="selected === 'lore' " )
+                p LORE
 
 </template>
 <script>
@@ -110,7 +118,7 @@ export default {
             items_with_tags: 0,
             options: [
                 { name: "general", img: "settings.svg" },
-                { name: "typography", img: "typography.svg" },
+                // { name: "typography", img: "typography.svg" },
                 { name: "plugins", img: "plugin.svg" },
                 { name: "themes", img: "palette.svg" },
                 { name: "templates", img: "template.svg" },
@@ -120,6 +128,7 @@ export default {
                 { name: "snippets", img: "brand-css3.svg" },
                 { name: "graph", img: "network.svg" },
                 { name: "keyboard_shortcut", img: "keyboard.svg" },
+                { name: "lore", img: "vocabulary.svg" },
             ]
         }
 

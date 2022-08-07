@@ -181,12 +181,11 @@ export default class Theme {
         // BUGFIX:
             if( !note ) return ""
 
-        let content     = note.content
-        let chunks      = content.split( "```" )
+        // let content     = note.content
+        /// let chunks      = content.split( "```" )
+        // let css         = chunks[1].replace( "css", "" )
 
-        let css         = chunks[1].replace( "css", "" )
-
-        return css
+        return note.tagless
     }
 
     check_has_snippet_changed( note ) {

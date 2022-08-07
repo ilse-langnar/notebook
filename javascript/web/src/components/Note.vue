@@ -2,16 +2,17 @@
 .note
     .flex( v-if="is_on" :style="options.style" @click="on_note_root_click" )
 
-        p( v-if="!options.hide_bullet" slot="icon" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" ).paragraph-note ⚫
+        .bullet( v-if="!options.hide_bullet" )
+            p( v-if="is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" style="" ).paragraph-note ⚫
+            p( v-if="!is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" style="" ).paragraph-note ⚫
 
-        // Edit Mode
-        // input.editable( v-if="inote.is_editable" type="text" v-model="options.is_tagless ? inote.tagless : inote.content" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" @input="on_input" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent @click="on_textarea_click($event, inote)" )
 
+        // p( v-if="!options.hide_bullet" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" style="border: 1px solid #000; width: 10px; height: 10px; margin: 10px; " ).paragraph-note ⚫
+
+        // edit
         div.editable( contentEditable v-if="inote.is_editable" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent ) {{options.is_tagless ? inote.tagless : inote.content}}
 
-        // show mode
-
-        // .markdown( v-show="!inote.is_editable" v-html="get_html(options.is_tagless ? inote.tagless : inote.content )" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )
+        // show
         .markdown( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )
 
     .note-references( v-if="inote.get_note_references()" style="width: 60%; margin-left: 50px; " )
@@ -76,6 +77,7 @@ export default {
                     style: "",
                     hide_bullet: false,
                     is_tagless: false,
+                    is_collapsed: false,
                 }
             }
         },
@@ -96,8 +98,7 @@ export default {
 
             // This is for the [note ref] and [file ref]
             is_on: false,
-            last_char: "",
-            search: "",
+            is_collapsed: this.options.is_collapsed,
         }
     },
 
@@ -245,6 +246,7 @@ export default {
         },
 
         on_note_left_click( event ) {
+            this.is_collapsed = !this.is_collapsed
             this.$emit( "on-note-left-click", this.note )
         },
 
@@ -277,6 +279,7 @@ export default {
             */
         // },
 
+        /*
         resize_textarea() {
             let dom     = document.getElementById( this.inote.id )
                 if( !dom )  return ""
@@ -287,38 +290,6 @@ export default {
             dom.style.height = dom.scrollHeight + "px"
 
             setTimeout( () => { dom.focus() }, 100 )
-        },
-
-        /*
-        // BUGFIX: textarea's height is dynamic
-        on_input( event ) {
-
-            // === on (( open search === //
-            let char       = event.data
-                if( !char )  {
-                    // this.close_overlay()
-                    return
-                }
-
-            let is_list = char === "/" && this.last_char === "/"
-                if( is_list ) {
-                    // this.open_overlay( "options" )
-                    return
-                }
-
-            // let is_note_search = char === "(" && this.last_char === "("
-            // if( is_note_search ) {
-                // this.inote.caret.get() 
-                // this.open_overlay( "search" )
-            // }
-
-            this.last_char = char
-            // === on (( open search === //
-
-            Messager.emit( "~note", "change", { note: this.inote })
-
-            // ilse.notes.save()
-            // this.resize_textarea()
         },
         */
 
