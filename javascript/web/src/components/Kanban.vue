@@ -5,7 +5,7 @@
     .wrapper
         .loop( v-for="( item, index ) in boards" :key="index" @drop.prevent="on_drop" @dragenter.prevent @dragover.prevent )
             input.input.centered( v-model="item.name" )
-            img.is-pulled-right( src="@/assets/images/point.svg")
+            img.is-pulled-right( :src="irequire.img('point.svg')")
             .card( v-for="( card, card_index ) in item.cards" :key=" 'card-' + card_index" draggable @dragenter.prevent @dragover.prevent style="border: 1px solid #000;" )
                 input.input( v-model="card.tagless" @blur="on_input_blur(card)" @keydown.enter="on_input_enter(card)" )
             input.input( v-model="item.new_card" placeholder="Add a card ..." @keydown.enter="add_card(item, item.new_card)" )
@@ -17,7 +17,7 @@
             .card( v-for="( card, card_index ) in item.cards" :key=" 'card-' + card_index" draggable @dragenter.prevent @dragover.prevent @drop.prevent="on_drop($event, card, item)" style="height: auto; " )
                 input.input.centered( v-if="card_index === 0" v-model="item.name" )
 
-                // img.is-pulled-right( v-if="card_index === 0" src="@/assets/images/point.svg")
+                // img.is-pulled-right( v-if="card_index === 0" :src="irequire.img('point.svg')")
 
                 Note( :note="card" :options="{ 'is_tagless': true, 'hide_bullet': true, style: 'padding: 4px; font-size: 14px;' }" )
 

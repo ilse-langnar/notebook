@@ -3,9 +3,11 @@
     .flex( v-if="is_on" :style="options.style" @click="on_note_root_click" )
 
         .bullet( v-if="!options.hide_bullet" )
-            p( v-if="is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" style="" ).paragraph-note ⚫
-            p( v-if="!is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" style="" ).paragraph-note ⚫
+            p.collapsed( v-if="inote.is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" ).paragraph-note &#8277;
+            p.expanded( v-if="!inote.is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" ).paragraph-note &bull;
 
+
+                    
 
         // p( v-if="!options.hide_bullet" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" style="border: 1px solid #000; width: 10px; height: 10px; margin: 10px; " ).paragraph-note ⚫
 
@@ -15,10 +17,16 @@
         // show
         .markdown( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )
 
-    .note-references( v-if="inote.get_note_references()" style="width: 60%; margin-left: 50px; " )
+    .file-reference( v-for="( item, index ) in ilse.notes.get_file_references(inote.content)" )
+        component( :is="require('@/components/File.vue').default" :component="{ props: { file: item.replace('![[', '').replace(']]', '') + '.md' } }" )
+
+    // .note-references( v-if="inote.get_note_references()" style="width: 60%; margin-left: 50px; " )
         .note-reference( v-for="( item, index ) in ilse.notes.extract_note_references(inote.content)" )
             // Notes( :note="ilse.notes.query(item + ':')[0]" )
             Notes( :note="ilse.notes.query(item + ':')[0]" )
+
+
+
 
 
     // .query( v-if="inote.get_tags() && get_query(inote)" style="width: 60%; margin-left: 50px; " )
@@ -27,17 +35,9 @@
         .loop( v-for="(item, index) in ilse.notes.query(get_query(inote))" :key="index" )
             Notes( :note="item" )
 
-        // .file-reference( v-for="( item, index ) in ilse.notes.extract_file_references(inote.content)" )
-            // p LL: {{ilse.utils.is_markdown_file(item)}}
-            // File( :component="{ props: { file: item + '.md' } }" )
-            // p IS: {{ilse.utils.is_markdown(item)}}
-            component( v-if="ilse.utils.is_markdown_file(item)" :is="require('@/components/File.vue').default" :component="{ props: { file: item + '.md' } }" )
-
-
-
     // p :: {{inote.get_file_references()}}
     // .file-references( v-if="inote.get_file_references()" style="width: 60%; margin-left: 50px; " )
-        .file-reference( v-for="( item, index ) in ilse.notes.extract_file_references(inote.content)" )
+        .file-reference( v-for="( item, index ) in ilse.notes.get_file_references(inote.content)" )
             // p LL: {{ilse.utils.is_markdown_file(item)}}
             // File( :component="{ props: { file: item + '.md' } }" )
             // p IS: {{ilse.utils.is_markdown(item)}}
@@ -75,9 +75,9 @@ export default {
             default: function() {
                 return {
                     style: "",
+                    bullet_1: "&bull;",
                     hide_bullet: false,
                     is_tagless: false,
-                    is_collapsed: false,
                 }
             }
         },
@@ -98,7 +98,6 @@ export default {
 
             // This is for the [note ref] and [file ref]
             is_on: false,
-            is_collapsed: this.options.is_collapsed,
         }
     },
 
@@ -246,7 +245,7 @@ export default {
         },
 
         on_note_left_click( event ) {
-            this.is_collapsed = !this.is_collapsed
+            if( this.inote.children.length ) this.inote.is_collapsed = !this.inote.is_collapsed
             this.$emit( "on-note-left-click", this.note )
         },
 
@@ -669,6 +668,18 @@ input:focus{
 .clear {
     height: 30px;
     clear: both;
+}
+
+.note .bullet p {
+    margin-right: 7px;
+    width: 10px;
+    height: 10px;
+}
+
+.note .bullet p.collapsed {
+    font-size: 0.9em;
+    margin-right: 5px;
+    margin-top: 2px;
 }
 
 </style>

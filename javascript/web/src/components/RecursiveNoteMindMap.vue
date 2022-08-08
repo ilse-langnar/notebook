@@ -32,7 +32,6 @@ const printf                        = console.log;
     import LeaderLine from "leader-line-new"
     // import ArrowLine from "arrow-line"
     import * as arrowLine from 'arrow-line'; // to import, or
-    // require( "@/assets/js/arrows.1.0.0.js" )
 
     import PlanDraggable                 from "plain-draggable"
 

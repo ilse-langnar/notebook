@@ -13,10 +13,12 @@
 
         // .note( v-for="(note, note_index) in day.notes" :key="note_index" :style="get_note_style(note)" )
         .note( v-for="(note, note_index) in day.notes.filter( e=> e.depth === 0 )" :key="note_index" :style="get_note_style(note)" )
-            Notes( v-if="note.depth === 0" :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" @on-note-middle-click="on_note_middle_click(note)" @on-note-right-click="on_note_right_click"  )
+            Notes( :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" @on-note-middle-click="on_note_middle_click(note)" @on-note-right-click="on_note_right_click"  )
+            // Note( :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" @on-note-middle-click="on_note_middle_click(note)" @on-note-right-click="on_note_right_click" )
+
+            // Avoid repetitives?
             // Notes( v-if="note.depth === 0" :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" @on-note-middle-click="on_note_middle_click(note)" @on-note-right-click="on_note_right_click"  )
 
-            // Note( :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" @on-note-middle-click="on_note_middle_click(note)" @on-note-right-click="on_note_right_click" )
 
         GhostNote( v-if="day.notes.length" @on-enter="on_ghost_note_enter" @on-blur="on_ghost_note_blur" :payload="day" :options="{ placeholder: '' }" )
 
@@ -65,6 +67,12 @@ export default {
     },
 
     methods: {
+
+        render_note( note ) {
+            printf( "note.id -> ", note.id )
+            printf( "document.getElementById(note) -> ", document.getElementById(note.id) )
+            return !document.getElementById(note.id)
+        },
 
         remove( day ) {
             let index = this.days.indexOf( day )
@@ -260,17 +268,36 @@ export default {
         // TODO: BUG: When we type enter we correctly add the note but it's not rendered corretly, also setting the depth is problematic k
         on_enter( payload ) {
 
-            printf( "DailyNotes -> on_enter -> payload -> ", payload )
+            // printf( "DailyNote -> payload -> ", payload )
 
             let note     = payload.note
-            printf( "note -> ", note )
-            let depth    = note.depth
-            printf( "depth -> ", depth )
-            let new_note = ilse.notes.add_after( "", depth, note )
-            printf( "new_note -> ", new_note )
+            let new_note = ilse.notes.add_after( "", note.depth, note )
                 new_note.focus()
 
-            setTimeout( () => { ilse.save() }, 1000 )
+            // let day      = this.get_note_day( note )
+            // let index    = day.notes.indexOf( note )
+            // day.notes.slice( ++index, 0, new_note )
+            // day.notes.push( new_note )
+            // printf( "after -> day.notes.length -> ", day.notes.length )
+
+            // setTimeout( () => { new_note.focus() }, 1000 )
+
+            // setTimeout( () => { ilse.save() }, 1000 )
+
+            // let day_index   = this.days.indexOf( day )
+                // this.days[day_index].notes.splice( ++index, 0, new_note )
+
+            // day.notes.splice( index, 0, new_note )
+            // day.notes.push( new_note )
+
+
+            // note.children.push( new_note )
+            // let day      = this.get_note_day( note )
+            // printf( "day -> ", day )
+            // printf( "index -> ", index )
+            // day.notes.splice( index, 0, new_note )
+            // day.notes.splice( ++index, 0, note )
+
         },
 
         get_file( day ) {
@@ -438,29 +465,51 @@ export default {
             Messager.on( "~notes", (action, payload) => {
 
                 if( action === "added" ) {
+                    printf( "DailyNote -> added -> action, payload -> ", action, payload )
 
-                    // TODO: don't rely on "after"?
                     let index       = payload.index
                     let new_note    = payload.note
                     let after       = index === 0 ? ilse.notes.list[0] : ilse.notes.list[index - 1]
+                    // if( after.depth !== new_note.depth ) return
+                    // let day         =  ilse.notes.list.length === 1 ? this.days[0] : this.get_note_day( after )
+                    // let note_index  = day.notes.indexOf( after )
+                    // let day_index   = this.days.indexOf( day )
+                        // this.days[day_index].notes.splice( ++note_index, 0, new_note )
+
+
+                    let parent      = ilse.notes.get_note_parent_v2(new_note)
+                    if( parent ) {
+                        let note_index  = parent.children.indexOf( after )
+                        printf( "note_index -> ", note_index )
+                        printf( "parent.children[note_index].content -> ", parent.children[note_index].content )
+                        printf( "parent.children[++note_index].content -> ", parent.children[++note_index].content )
+                        printf( "new_note.depth -> ", new_note.depth )
+                        printf( "after.depth -> ", after.depth )
+                        // parent.children.splice( ++note_index, 0, new_note )
+                            // new_note.focus()
+                    } else {
+                        let index       = payload.index
+                        let new_note    = payload.note
+                        let after       = index === 0 ? ilse.notes.list[0] : ilse.notes.list[index - 1]
+                        if( after.depth !== new_note.depth ) return
+                        let day         =  ilse.notes.list.length === 1 ? this.days[0] : this.get_note_day( after )
+                        let note_index  = day.notes.indexOf( after )
+                        let day_index   = this.days.indexOf( day )
+                            this.days[day_index].notes.splice( ++note_index, 0, new_note )
+
+                    }
+
+                    // TODO: don't rely on "after"?
+                    /*
+                    let index       = payload.index
+                    let new_note    = payload.note
+                    let after       = index === 0 ? ilse.notes.list[0] : ilse.notes.list[index - 1]
+                    if( after.depth !== new_note.depth ) return
                     let day         =  ilse.notes.list.length === 1 ? this.days[0] : this.get_note_day( after )
                     let note_index  = day.notes.indexOf( after )
                     let day_index   = this.days.indexOf( day )
                         this.days[day_index].notes.splice( ++note_index, 0, new_note )
-
-                    /*
-                    for( const day of this.days ) {
-                        for( const note of day.notes ) {
-                            if( note.id === after.id ) {
-                                printf( "day.notes.indexOf(note) -> ", day.notes.indexOf(note) )
-                                let index = day.notes.indexOf( note )
-                                day.notes.splice( ++index, 0, new_note )
-                                return
-                            }
-
-                        }
-                    }
-                    */
+                        */
 
                 } else if( action === "deleted" ) {
 

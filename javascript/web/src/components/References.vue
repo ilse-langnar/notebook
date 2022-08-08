@@ -1,13 +1,16 @@
 <template lang="pug" >
 .references
 
-    p.is-size-2.centered( v-if="refs && refs.length" ) {{ $t('references') }} ({{refs.length}}) {{ilse.links.is_loading ? '...' : ''}}
-    p.is-size-4.centered( v-if="!refs || !refs.length" ) {{ $t('no_references') }}
+    details
 
-    .loop( v-for="( ref, index ) in refs" :key="index" )
-        // note( :note="get_note(ref)" )
-        Notes( :note="get_note(ref)" @on-link-click="on_note_link_click" )
+        summary.is-size-2.centered 
+            p.is-size-2.centered( v-if="refs && refs.length" ) &#10656; {{ $t('references') }} ({{refs.length}}) {{ilse.links.is_loading ? '...' : ''}}
+            p.is-size-4.centered( v-if="!refs || !refs.length" ) &#10656; {{ $t('no_references') }}
 
+
+        .loop( v-for="( ref, index ) in refs" :key="index" )
+            // note( :note="get_note(ref)" )
+            Notes( :note="get_note(ref)" @on-link-click="on_note_link_click" )
 </template>
 <script>
 // eslint-disable-next-line
@@ -28,6 +31,7 @@ export default {
 
     props: {
         file: { type: String, required: false, },
+        options: { type: Object, required: false, },
     },
 
     data() {

@@ -12,28 +12,11 @@
 
         .vspace
 
-        // .did( style="width: 300px; height: 100px; position: fixed; bottom: 10px; left: 0px;" )
-            img( v-show="has_first_brain_tools" :src="irequire.img('player-play.svg')"      style="cursor: pointer; width: 20px; "   title="Toggle First Brain Tools"  @click="ilse.brains.first.read_first()" accesskey="i" )
-
-            img( v-show="has_first_brain_tools" :src="irequire.img('trash.svg')"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.remove()" accesskey="i" )
-
-            img( v-show="has_first_brain_tools" :src="irequire.img('arrows-shuffle.svg')"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.shuffle()" accesskey="i" )
-
-            img( v-show="has_first_brain_tools" :src="irequire.img('lupe.svg')"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.show_query( item => ilse.brains.first.read(item) )" accesskey="i" )
-
-            img( v-show="has_first_brain_tools" :src="irequire.img('hash.svg')"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.add_topic()" accesskey="i" )
-
-            img( v-show="has_first_brain_tools" :src="irequire.img('plus.svg')"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.increase()" accesskey="i" )
-
-            img( v-show="has_first_brain_tools" :src="irequire.img('minus.svg')"      style="cursor: pointer; width: 20px; margin-left: 10px;"   title="Toggle First Brain Tools"  @click="ilse.brains.first.decrease()" accesskey="i" )
-            p( v-if="has_first_brain_tools" ) {{get_first_brain_last_item_info()}}
-
 
     .menu-item( style="margin: auto; " )
         SearchButton( :width="50" :should-autofocus="false" @on-result-select="on_note_search_on_result_select" )
 
     .menu-item( style="margin: auto; " )
-        ImporterImg( style="margin-right: 5px;" )
         img( :src="irequire.img('command.svg')"   style="cursor: pointer; width: 20px; " :title="$t('open_command_pallet')" alt="$t('open_command_pallet')" @click="toggle_command_pallet" )
         .margin-small
 
@@ -73,7 +56,6 @@ const printf                        = console.log;
 
 // Components
     import SearchButton                 from "@/components/SearchButton.vue"
-    import ImporterImg                  from "@/components/ImporterImg.vue"
 
 export default {
 
@@ -88,7 +70,6 @@ export default {
 
     components: {
         SearchButton,
-        ImporterImg,
     },
 
 

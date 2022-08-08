@@ -83,15 +83,20 @@ export default {
         get_layout_image( layouts ) {
 
             if( layouts[0] === "breadthfirst" ) {
-                return require( "@/assets/images/layout-grid.svg" )
+                // return require( "@/assets/images/layout-grid.svg" )
+                return ilse.irequire.img( "layout-grid.svg" )
             } else if( layouts[0] === "grid" ) {
-                return require( "@/assets/images/grid-dots.svg" )
+                // return require( "@/assets/images/grid-dots.svg" )
+                return ilse.irequire.img( "grid-dots.svg" )
             } else if( layouts[0] === "circle" ) {
-                return require( "@/assets/images/sitemap.svg" )
+                // return require( "@/assets/images/sitemap.svg" )
+                return ilse.irequire.img( "sitemap.svg" )
             } else if( layouts[0] === "concentric" ) {
-                return require( "@/assets/images/network.svg" )
+                // return require( "@/assets/images/network.svg" )
+                return ilse.irequire.img( "network.svg" )
             } else if( layouts[0] === "cose" ) {
-                return require( "@/assets/images/atom.svg" )
+                // return require( "@/assets/images/atom.svg" )
+                return ilse.irequire.img( "atom.svg" )
             }
         },
 

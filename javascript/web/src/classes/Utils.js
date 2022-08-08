@@ -972,6 +972,24 @@ export default class Utils {
         return extention
     }
 
+    is_markdown_file( file ) {
+        printf( "Utils.js -> is_markdown_file -> file ", file )
+
+        // let extention       = file.substr(file.lastIndexOf("."), file.length )
+            // if( extention === ".png" || extention === ".jpg" || extention === ".jpeg" || extention === ".gif" || extention === ".mp4" || extention === ".mp3" || extention === ".ogg" || extention === ".wav" ) return false
+
+        let files      = ilse.files.list
+        let normalized = file + ".md"
+        let has        = files.indexOf( normalized ) !== -1
+        printf( `has: ${has} normalized: ${normalized}` )
+
+        if( has ) {
+            return true
+        } else {
+            return false
+        }
+    }
+
     is_markdown( file ) {
 
         if( !file ) throw new Error( "Utils.js -> is_markdown(<file>) => <file> is not defined" )

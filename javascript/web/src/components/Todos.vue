@@ -2,7 +2,7 @@
 .tag-todo( :key="key" )
     .centered
         input.input( v-model="filter" )
-        img( src="@/assets/images/question-mark.svg" style="width: 20px; cursor: pointer; vertical-align: middle;" :title="Object.keys(ilse.tags.tags)" )
+        img( :src="irequire.img('question-mark.svg')" style="width: 20px; cursor: pointer; vertical-align: middle;" :title="Object.keys(ilse.tags.tags)" )
     br
     .loop( v-for="( note, index ) in ilse.notes.query( '- [ ] ' + filter )" :key="index" )
         // Note( :note="note" @on-blur="on_note_blur" )

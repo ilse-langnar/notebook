@@ -16,7 +16,7 @@
              .no-notes( v-if="!notes_for_selected_day.length" )
                  p There are no notes here
 
-             img.centered( src="@/assets/images/plus.svg" style="width: 30px; cursor: pointer;" alt="Add Note" @click="add_note_to_date(selected_day)" )
+             img.centered( :src="irequire.img('plus.svg')" style="width: 30px; cursor: pointer;" alt="Add Note" @click="add_note_to_date(selected_day)" )
 
 .calendar
 
@@ -38,7 +38,7 @@
                  .no-notes( v-if="!notes_for_selected_day.length" )
                      p There are no notes here
 
-                 img.centered( src="@/assets/images/plus.svg" style="width: 30px; cursor: pointer;" alt="Add Note" @click="add_note_to_date(selected_day)" )
+                 img.centered( :src="irequire.img('plus.svg')" style="width: 30px; cursor: pointer;" alt="Add Note" @click="add_note_to_date(selected_day)" )
 
     .flex
         .first( style="width: 50%; height: 44vh; border: 1px solid #000; " )
@@ -51,7 +51,7 @@
                  p There are no notes here
 
 
-             img.centered( src="@/assets/images/plus.svg" style="width: 30px; cursor: pointer;" alt="Add Note" @click="add_note_to_date( (new Date().getDate() - 1 ) )" )
+             img.centered( :src="irequire.img('plus.svg')" style="width: 30px; cursor: pointer;" alt="Add Note" @click="add_note_to_date( (new Date().getDate() - 1 ) )" )
              h1.centered {{( new Date().getDate() + 1 )}}th ({{$t('tomorrow')}})
              .notes( v-if="get_days( ( new Date().getDate() + 1 ) )" )
                  .loop( v-for="( note, index ) in get_days( (new Date().getDate() + 1) )" :key="index" )
@@ -59,7 +59,7 @@
              .no-notes( v-if="get_days( (new Date().getDate() + 1) )" )
                  p There are no notes here
 
-             img.centered( src="@/assets/images/plus.svg" style="width: 30px; cursor: pointer;" alt="Add Note" @click="add_note_to_date( (new Date().getDate() + 1 ) )" )
+             img.centered( :src="irequire.img('plus.svg')" style="width: 30px; cursor: pointer;" alt="Add Note" @click="add_note_to_date( (new Date().getDate() + 1 ) )" )
 
         .second( style="width: 50%; height: 44vh; border: 1px solid #000; " )
              h1.centered {{( new Date().getDate() )}}th ({{$t('today')}})
@@ -69,7 +69,7 @@
              .no-notes( v-if="get_days( (new Date().getDate() ) )" )
                  p There are no notes here
 
-             img.centered( src="@/assets/images/plus.svg" style="width: 30px; cursor: pointer;" alt="Add Note" @click="add_note_to_date( (new Date().getDate() ) )" )
+             img.centered( :src="irequire.img('plus.svg')" style="width: 30px; cursor: pointer;" alt="Add Note" @click="add_note_to_date( (new Date().getDate() ) )" )
 
 
 

@@ -67,6 +67,7 @@ class KeyboardShortcut  {
             // { combo: "s", command: "note-search" },
             // { combo: "f", command: "file-search" },
             // { combo: "A", command: "Add Component" },
+            { combo: "ctrl+v", command: "check-clipboard" },
             { combo: "ctrl+space s s", command: "open-search-modal" },
             { combo: "ctrl+space c f", command: "a" },
             { combo: "shift+enter", command: "void:add-new-line" },
@@ -291,7 +292,7 @@ class KeyboardShortcut  {
 
         // Mousetrap.bindGlobal( combo, (event, combo ) => {
         this.Mousetrap.bindGlobal( combo, (event, combo ) => {
-            event.preventDefault()
+            if( key.prevent_default ) event.preventDefault()
             ilse.commands.run( key.command )
         }, 'keydown' )
 

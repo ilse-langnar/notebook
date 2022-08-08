@@ -250,7 +250,7 @@ export default class Notes {
 
     }
 
-    query( q = "" ) {
+    query( q = "", limit = null ) {
 
         // FEATURE: O(n)
         if( q === "" ) return this.list
@@ -268,8 +268,38 @@ export default class Notes {
             result.push( note )
         }
 
-        return result
+
+        if( typeof(limit) === "number" ) {
+            result.length = limit
+            return result
+        } else {
+            return result
+        }
     }
+
+    /*
+    get_recursive( note, payload = [] ) {
+
+        if( !note ) throw new Error( "Notes.js -> ERROR: note not foundk" )
+
+        payload.push( note.content )
+
+        printf( "note.children.length -> ", note.children.length )
+        if( note.children.length ) {
+
+            for( let child of note.children ) {
+                // printf( "child.content -> ", child.content )
+                payload.push( child.content )
+                return this.get_recursive( child, payload )
+            }
+
+        } else {
+            // printf( "payload -> ", payload )
+            return payload
+        }
+
+    }
+    */
 
     // Get a note's index( probabily for child insertion )
     get_index( id ) {
@@ -442,6 +472,8 @@ export default class Notes {
 
         return references
     }
+
+    /*
     // 20220804160914: - [ ] #ilse Does note embed get its children too??? ![[Ilse]]  ((20220306102411))
     extract_file_references( string ) {
 
@@ -456,31 +488,62 @@ export default class Notes {
 
         return references
     }
+    */
 
-    get_file_reference( string ) {
+    get_file_references( string ) {
 
+
+        let list       = ilse.utils.extract_tokens_by_delimiters( string, /\[\[*./, /\]\]/ )
+        let to_return  = []
+        let extention
+
+        list.map( file => {
+            if( file.indexOf(".") === -1 && file.indexOf("!") !== -1 ) to_return.push( file )
+        })
+
+        return to_return
+
+        /*
         let chunks = string.split(" ")
         let has_opening_parenthesis
         let has_closing_parenthesis
         let has_both
         let ref
+        let is
+        let list = []
+        printf( "chunks -> ", chunks )
 
         for( const chunk of chunks ) {
 
+            printf( `chunk: ${chunk} list: ${JSON.stringify(list)}` )
+            if( chunk.indexOf("![[") !== -1 ) {
+                is = true
+            }
 
-          has_opening_parenthesis  = chunk.indexOf( "![[" ) !== -1
-          has_closing_parenthesis  = chunk.indexOf( "]]" ) !== -1
+            if( is ) list.push( chunk )
 
-          has_both                 = has_opening_parenthesis && has_closing_parenthesis
-          if( has_both ) ref = chunk.replace( " ", "" ).replace( "![[", "" ).replace( "]]", "" )
+            if( chunk.indexOf("]]") !== -1 ) {
+                list.push( chunk )
+                is = false
+            }
 
         }
 
-        if( ilse.files.list.indexOf( ref + ".md") !== -1 ) {
-            return null
-        } else {
-            return ref
-        }
+        printf( "list.join(' ') -> ", list.join(' ') )
+        printf( "\n\n" )
+
+        let no_dup = list.
+        return list
+
+        // has_both                 = has_opening_parenthesis && has_closing_parenthesis
+        // if( has_both ) ref = chunk.replace( " ", "" ).replace( "![[", "" ).replace( "]]", "" )
+        // printf( "Notes.js -> get_file_reference -> string -> ", string )
+        // if( ilse.files.list.indexOf( ref + ".md") !== -1 ) {
+            // return null
+        // } else {
+            // return ref
+        // }
+        */
     }
 
     get_note_reference( string ) {

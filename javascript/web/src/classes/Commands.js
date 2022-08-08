@@ -31,9 +31,6 @@ class Commands {
         }
 
         // Check for duplicates
-        printf( "this -> ", this )
-        printf( "Commands.add -> this.commands -> ", this.commands )
-        printf( "Commands.add -> this.commands.map -> ", this.commands.map )
             let id_list = this.commands.map( command => {
                 return command.id
             }).filter( e => e )
@@ -666,6 +663,32 @@ class Commands {
                 },
                 description: "Printf Keys",
                 name: "Printf Keys",
+            },
+
+            {
+                id: "check-clipboard",
+                fn: async function() {
+
+                    let string
+                    try {
+                        string         = await ilse.clipboard.read()
+                    } catch( e ) {}
+
+                    if( !string ) {
+                        this.is_on = false
+                        return
+                    }
+
+                    let is_importing   = string.indexOf("#i/theme/") !== -1 || string.indexOf("#i/plugin/") !== -1 || string.indexOf("#i/template/") !== -1
+                    if( !is_importing ) {
+                        this.is_on = false;
+                        return
+                    }
+
+                    ilse.modals.open( "importer" )
+                },
+                description: "Check Clipboard",
+                name: "Check Clipboard",
             },
 
         ]

@@ -20,8 +20,8 @@
 
             .search( v-if="selected === 'Search' " )
 
-                img.is-pulled-left( src="@/assets/images/arrow-narrow-left.svg"   :title="$t('previous')"  @click="decrease_pointer()" style="cursor: pointer;" )
-                img.is-pulled-right( src="@/assets/images/arrow-narrow-right.svg"  :title="$t('next')"     @click="increase_pointer()" style="cursor: pointer;" )
+                img.is-pulled-left( :src="irequire.img('arrow-narrow-left.svg')"   :title="$t('previous')"  @click="decrease_pointer()" style="cursor: pointer;" )
+                img.is-pulled-right( :src="irequire.img('arrow-narrow-right.svg')"  :title="$t('next')"     @click="increase_pointer()" style="cursor: pointer;" )
 
                 br
                 input.input.centered
@@ -37,7 +37,7 @@
 
                 .flex
                     input.input
-                    img( :src=" priority_mode === 'table' ? require('@/assets/images/columns.svg') : require('@/assets/images/list-details.svg') " style="cursor: pointer;" @click="toggle_priority_mode()" title="$t('toggle_display_mode')" )
+                    img( :src=" priority_mode === 'table' ? :require('irequire.img(columns.svg') : :require(irequire.img('list-details.svg') '')'')" style="cursor: pointer;" @click="toggle_priority_mode()" title="$t('toggle_display_mode')" )
 
                 br
 
@@ -73,8 +73,8 @@
 
             .daily-statistics( v-if="selected === 'Daily Statistics' " )
 
-                img.is-pulled-left( src="@/assets/images/arrow-narrow-left.svg"   @click="decrease_left_arrow()" )
-                img.is-pulled-right( src="@/assets/images/arrow-narrow-right.svg" @click="increase_right_arrow()" )
+                img.is-pulled-left( :src="irequire.img('arrow-narrow-left.svg')"   @click="decrease_left_arrow()" )
+                img.is-pulled-right( :src="irequire.img('arrow-narrow-right.svg')" @click="increase_right_arrow()" )
                 br
 
                 .loop( v-if="list[index] && get_pretty_date(daily_statistics_days[0]) === get_pretty_date(list[index].id) " v-for="( list, index ) in Object.values(get_cubes())" :key="index" )
@@ -523,7 +523,8 @@ export default {
         },
 
         get_img( img ) {
-            let result = require(`@/assets/images/${img}`)
+            // let result = require(`@/assets/images/${img}`)
+            let result = ilse.irequire.img( img )
             return result
         },
 

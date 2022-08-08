@@ -13,7 +13,6 @@ const printf                        = console.log
     import MarkdownPlugin               from "markdown-it-regexp"
     // const wikilinks                     = require( 'markdown-it-wikilinks')
 
-
 export default class Markdown {
 
     constructor() {
@@ -122,7 +121,7 @@ export default class Markdown {
                 let is_img      = extention === ".png" || extention === ".jpg" || extention === ".gif" || extention === ".jpeg" || extention === ".svg"
                 let is_audio    = extention === ".mp3" || extention === ".ogg" || extention === ".wav"
 
-                let is_file     = !is_img && !is_video && !is_audio && ilse.files.list.indexOf( url + ".md") !== -1 && url.indexOf(".") === -1
+                let is_file     = !is_img && !is_video && !is_audio && url.indexOf(".") === -1
                 let is_electron = process.env.VUE_APP_TARGET === "ELECTRON"
                 let is_demo     = process.env.VUE_APP_TARGET === "DEMO" // TODO: How do we render <img> while in a demo
                 let target_dir  = ilse.target_directories[0]
@@ -139,7 +138,7 @@ export default class Markdown {
                     return `<audio class="audio" title="${url}" controls title="${url}" src="http://localhost:8090/file/${url}"/>`
                 } else if( is_file ) {
 
-                    return `<span> ${url} </span>`
+                    return `<span> ![[${url}]] </span>`
                     /*
                     let id      = `file-${url}`
                     let content = ilse.filesystem.file.read.sync( "/second/" + url + ".md" )
@@ -175,20 +174,42 @@ export default class Markdown {
 
         this.plugins.push( tag )
 
-        const cloze_deletion = MarkdownPlugin(
+        const inline_embed = MarkdownPlugin(
 
             /*/@(\w+)/,*/
-            /{{c[0-9]::.*}}/,
+            /{{.*}}/,
 
             // this function will be called when something matches
             function( match, utils ) {
-                let content = match[0]
+
+                let content       = match[0].replace("{{", "").replace("}}", "")
+                let chunks        = content.split("/")
+                let target        = ilse.embeds.get( chunks[0] )
+                if( target ) {
+
+                    return target.fn( chunks )
+                } else {
+                    return `<span class="inline-embed" > ${content} </span>`
+                }
+
+                let id            = Math.random()
+                let div           = document.createElement( "div" )
+                    div.innerHTML = content
+                    div.id        = id
+
+                printf( "div -> ", div )
+                printf( "inline_embed -> content -> ", content )
+                printf( "ilse.embeds -> ", ilse.embeds )
+
                 // return `<a href="https://example.com"> </a>`
-                return `<span class="cloze-deletion" title="cloze" > ${content} </span>`
+                // return `<span class="inline-embed" title="cloze" > ${content} </span>`
+
+                vm.$mount('#some-place');
+                return div.outerHTML
             }
         )
 
-        this.plugins.push( cloze_deletion )
+        this.plugins.push( inline_embed )
 
         var note_ref = MarkdownPlugin(
           /* /\(({2}([^)]*)\){2}/g,

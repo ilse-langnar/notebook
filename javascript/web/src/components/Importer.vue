@@ -1,5 +1,5 @@
 <template lang="pug" >
-.impoter
+.impoter( v-if="list[0]" )
     h1.centered Importer
 
     .import-theme( v-if="list[0].indexOf('theme') " )
@@ -11,7 +11,7 @@
         code {{item}}
 
     br
-    img.block.centered( src="@/assets/images/download.svg" :title="$t('importer')" alt="Import" @click="import_now" style="width: 40px; cursor: pointer;" )
+    img.block.centered( :src="irequire.img('download.svg')" :title="$t('importer')" alt="Import" @click="import_now" style="width: 40px; cursor: pointer;" )
 
 </template>
 <script>
@@ -54,6 +54,7 @@ export default {
         async set() {
             let string = await ilse.clipboard.read()
             this.list  = string.split("\n")
+            printf( "this.list -> ", this.list )
         },
 
         setup() {

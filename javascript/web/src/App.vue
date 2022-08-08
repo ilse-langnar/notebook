@@ -282,7 +282,7 @@ blockquote {
 
     border-left: 4px solid var( --text-color );
     color: var( --text-color );
-    background: var( --background-color );
+    background: var( --secondary-background-color );
     margin-left: auto;
 }
 
@@ -318,6 +318,8 @@ code {
     background-color: var( --secondary-background-color );
     padding: var( --padding );
     border-radius: var( --border-radius );
+    width: 80%;
+    margin-left: 10%;
 }
 
 .component-embed {

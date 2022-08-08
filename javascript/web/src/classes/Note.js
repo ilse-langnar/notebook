@@ -15,6 +15,7 @@ export default class note {
 
         this.$raw        = note
         this.is_editable = false
+        this.is_collapsed= false
         this.children    = []
         // this.source     = source
 
@@ -54,15 +55,29 @@ export default class note {
 
         if( this.content.indexOf("![[") === -1 ) return []
 
-        let chunks      = this.content.split(" ")
-        let list        = []
-        let regexp      = /^\!\[\[([^|\]\n]+)(\|([^\]\n]+))?\]\]/
+        let words = this.content.split(" ")
+        words.map( word => {
+
+        })
+
+        // let regexp      = /^\!\[\[([^|\]\n]+)(\|([^\]\n]+))?\]\]/
+        // let chunks      = this.content.split(" ")
+        // let arr         = regexp.exec(this.content)
+        // printf( "arr -> ", arr )
+        // return arr[1]
+        // let list        = []
+        // let regexp      = /^\!\[\[([^|\]\n]+)(\|([^\]\n]+))?\]\]/
         let match
 
+        printf( "chunks -> ", chunks )
         chunks.map( chunk => {
-            match = chunk.match( regexp )
-            if( match ) list.push( chunk )
+            // printf( "chunk[0] -> ", chunk[] )
+            if( chunk[0] === "!" && chunk[1] === "[" && chunk[2] === "[") list.push( chunk )
+            // match = chunk.match( regexp )
+            // if( match ) list.push( chunk )
         })
+
+        printf( "list -> ", list )
 
         return list
     }
@@ -156,7 +171,8 @@ export default class note {
         setTimeout( () => {
             let dom     = document.getElementById( this.id )
             if( dom ) dom.focus()
-        }, 50 )
+        }, 10 )
+        // }, 50 )
 
     }
 

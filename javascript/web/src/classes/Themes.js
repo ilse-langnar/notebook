@@ -19,6 +19,7 @@ let DEFAULT_THEMES = [
         --font-family: Mary, Helvetica, Georgia, Times New Roman, serif;
         --link-color: #428bca;
         --link-color: #5ec7b8;
+        --secondary-link-color: #70a7a8;
         }`,
         id: "light",
     },
@@ -35,6 +36,7 @@ let DEFAULT_THEMES = [
             --box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
             --link-color: #428bca;
             --link-color: #5ec7b8;
+            --secondary-link-color: #99c6c2;
         }`,
         id: "dark",
 

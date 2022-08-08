@@ -19,6 +19,7 @@ const printf                        = console.log
     import Statistics                   from "@/classes/Statistics.js"
     import PanSVG                       from "@/classes/PanSVG.js"
     import Cache                        from "@/classes/Cache.js"
+    import Embeds                       from "@/classes/Embeds.js"
     // import IlseRequire                  from "@/classes/IlseRequire.js"
 
     // UI Elements
@@ -121,7 +122,7 @@ export default class Ilse {
 
         // Utils
             this.utils                  = new Utils()
-            this.cache                  = new Cache()
+            this.cache                  = new Cache(this)
 
         // Filesystem
             this.filesystem             = new Filesystem( this, this.target_directories[0] )
@@ -140,6 +141,7 @@ export default class Ilse {
             this.links                  = new Links()
 
         // UI Elements
+            this.embeds                 = new Embeds()
             this.modals                 = new Modals()
             this.notification           = new Notification()
             this.dialog                 = new Dialog()
