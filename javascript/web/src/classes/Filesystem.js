@@ -68,6 +68,15 @@ export default class Filesystem {
 
         }
 
+        if( process.env.VUE_APP_TARGET === "QUINE" ) {
+
+            const DOMFilesystem = require("@/classes/DOMFilesystem.js").default
+            this.filesystem  = new DOMFilesystem()
+                this.file    = this.filesystem.file
+                this.dir     = this.filesystem.dir
+
+        }
+
         this.has_ilse_dir   = false
         this.setup()
     }

@@ -3,6 +3,7 @@ const printf                                    = console.log
 import ilse                                     from "@/ilse.js"
 
 const BrowserFS =                                require( "browserfs")
+printf( "BrowserFS -> ", BrowserFS )
 const { promisify  } = require('util')
 
 BrowserFS.install( window )
@@ -16,6 +17,8 @@ BrowserFS.configure({
 
 let fs                         = window.require("fs")
 const path                     = require('path')
+printf( "BrowserFS -> ", BrowserFS )
+printf( "fs -> ", fs )
 
 // Promisified functions
     let promisified_list_dir   = promisify( fs.readdir )

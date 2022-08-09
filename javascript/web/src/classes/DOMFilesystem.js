@@ -16,9 +16,11 @@ const path                                       = require('path')
 
 var target_directory
 
-export default class FSFilesystem {
+export default class DOMFilesystem {
 
     constructor( dir ) {
+
+        let dom = document.getElementById( "db" )
 
         // target_directory = dir + "/"
         target_directory = dir
