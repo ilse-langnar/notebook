@@ -4,8 +4,37 @@ const printf    = console.log
 // import { app, protocol, BrowserWindow, ipcMain, dialog, globalShortcut, remote } from 'electron'
 import { app, protocol, BrowserWindow, ipcMain, dialog, globalShortcut, remote } from 'electron'
 
-// const electron      = require( "electron" )
-    // const app           = electron.app
+import electron from "electron"
+
+import Store from "electron-store"
+
+// FEATURE: in-page-search v1
+    import searchInPage from 'electron-in-page-search';
+
+    // globalShortcut.register('Control+f', () => { });
+
+    ipcMain.on("ctrl+f", (event, arg)=>{
+        // let findInPage = new FindInPage( electron.remote.getCurrentWebContents() )
+        // findInPage.openFindWindow()
+
+        event.sender.send('on-find')
+        // const inPageSearch = searchInPage( remote.getCurrentWebContents() )
+        // inPageSearch.openSearchWindow()
+        // const inPageSearch = searchInPage( remote.getCurrentWebContents() )
+        // inPageSearch.openSearchWindow();
+    })
+
+
+    // v2
+        const schema = {
+            defaultKeyCombination: {
+                type: 'string',
+                default: 'Control+f'
+            }
+        }
+        const store = new Store({schema})
+
+// const app           = electron.app
     // const protocol      = electron.protocol
     // const BrowserWindow = electron.BrowserWindow
     // const ipcMain       = electron.ipcMain
@@ -178,6 +207,18 @@ app.whenReady().then(() => {
     })
 
 
+    // const electron      = require( "electron" )
+    // globalShortcut.register(store.get('defaultKeyCombination'), () => {
+    globalShortcut.register('Control+f', () => {
+        window.webContents.send('on-find');
+    });
+    // globalShortcut.register(store.get('defaultKeyCombination'), () => {
+        // const inPageSearch = searchInPage( electron.remote.getCurrentWebContents() )
+        // inPageSearch.openSearchWindow();
+    // })
+
+
+
     protocol.registerFileProtocol('app', (request, callback) => {
 
         let url = request.url.substr(5)
@@ -214,6 +255,9 @@ async function createWindow() {
             // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
             nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
             contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
+            // contextIsolation: false,
+            enableRemoteModule: true,
+            // enableRemoteModule: true,
             preload: path.join(__dirname, 'preload.js'),
 
         }

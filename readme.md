@@ -23,7 +23,7 @@ If anything goes wrong, please open a [Issue](https://github.com/ilse-langnar/no
 
 ## Why
 To augment human cognition with memory, references and more.
-Ilse is based on the Vitruvian Brain Framework: https://ilse-langnar.github.io/notebook/vitruvian-brain.html
+Ilse is based on the Apex Cerebrum Framework: https://ilse-langnar.github.io/notebook/apex-cerebrum.html
 We avoid any type of lock-in due to the fact that a simple set of files and folder is able to reproduce the entire system, which means that with a simple standardized format can be visualized in multiple ways like: __Mind Maps__, __Tree__, __Infinite Canvas__, __Spreadsheet__, and more.
 And given that the format is standardized, if someone finds a new way of reprensenting data, we would simply have to write a plugin that representes those already standardized into the desired new format(presentation).
 This way we avoid anye sort of proprietary binary format for organization and visualization, even if the software rots and dies, the files are still going to be there, the standard is still there, so you can, for example, implement a command line spreadsheet that can be visualized in a cloud client, a Web Browser, a Callphone, a toaster ... you get it.

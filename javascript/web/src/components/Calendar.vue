@@ -18,7 +18,7 @@
 
              img.centered( :src="irequire.img('plus.svg')" style="width: 30px; cursor: pointer;" alt="Add Note" @click="add_note_to_date(selected_day)" )
 
-.calendar
+// .calendar
 
     .flex
         .first( style="width: 50%; height: 44vh; border: 1px solid #000; " )
@@ -71,7 +71,10 @@
 
              img.centered( :src="irequire.img('plus.svg')" style="width: 30px; cursor: pointer;" alt="Add Note" @click="add_note_to_date( (new Date().getDate() ) )" )
 
-
+.calendar
+    // p {{initial_views[0]}}
+    // button.button.slick-button( @click="next_option()" ) Toggle
+    FullCalendar( :options="calendarOptions" style="width: 600px; height: 500px; " )
 
 </template>
 <script>
@@ -87,21 +90,71 @@ const printf                        = console.log;
 // Components 
     import Note                         from "@/components/Note.vue"
 
+import '@fullcalendar/core/vdom' // solves problem with Vite
+import FullCalendar from '@fullcalendar/vue'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import interactionPlugin from '@fullcalendar/interaction'
+
 export default {
 
     name: "Calendar",
 
     data() {
+        let _this = this
         return {
             ilse: ilse,
+            initial_views: [ "dayGridWeek", "dayGridMonth" ],
             week_days: [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ],
             selected_day: new Date().getDate(),
             notes_for_selected_day: [],
+
+            calendarOptions: {
+                height: 500,
+                width: 700,
+                contentHeight: 600,
+                themeSystem: 'bootstrap5',
+                selectable: true,
+
+
+                dayMaxEventRows: true, // for all non-TimeGrid views
+                views: {
+                    timeGrid: {
+                        dayMaxEventRows: 6 // adjust to 6 only for timeGridWeek/timeGridDay
+                    }
+                },
+
+
+
+                dateClick: info => {
+                    printf( "info -> ", info )
+                    printf( "this.calendarOptions -> ", this.calendarOptions )
+                },
+                theme: "darkly",
+                plugins: [ dayGridPlugin, interactionPlugin  ],
+                // initialView: 'dayGridWeek',
+                // initialView: 'resourceTimeGridDay',
+                // initialView: 'dayGridMonth',
+                // initialView: 'dayGridDay',
+                initialView: 'dayGridWeek',
+                eventColor: '#378006',
+                events: [
+                    { title: 'event 1', date: '2019-04-01'  },
+                    { title: 'event 2', date: '2019-04-02'  },
+                    // { title: "- [ ] Do Something", daysOfWeek: [ '3'  ], startTime: '11:00:00', endTime: '11:30:00', color: 'red' },
+                    { title: 'simple event', start: '2022-08-02' },
+                    { title: 'another', start: '2022-08-02' },
+                    { title: 'haha', start: '2022-08-02' },
+                    // { date: '2022-08-08', startTime: '11:00:00', endTime: '11:30:00', color: 'red' },
+                ],
+
+            },
+
         }
     },
 
     components: {
         Note,
+        FullCalendar,
     },
 
     props: {
@@ -109,6 +162,14 @@ export default {
     },
 
     methods: {
+
+        next_option() {
+            let removed_item = this.initial_views.shift()
+            printf( "removed_item -> ", removed_item )
+            this.calendarOptions.initialView = removed_item
+            this.initial_views.push( removed_item )
+            this.$forceUpdate()
+        },
 
         add_note_to_date( selected_day ) {
 

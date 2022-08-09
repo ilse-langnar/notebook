@@ -1,6 +1,6 @@
 <template lang="pug" >
 .ghost-note.flex( :style="style + options.style" )
-    p.paragraph-note( v-if="!options.hide_bullet" ) ⚫
+    p.paragraph-note( v-if="!options.hide_bullet" ) &bull;
     input.editable( v-model="content" @input="on_input" @blur="on_blur" @focus="on_focus" :placeholder="options.placeholder" @keydown.enter="on_keydown_enter" @keydown.tab="on_keydown_tab" @drop.prevent="add_file" @dragover.prevent )
 
 </template>

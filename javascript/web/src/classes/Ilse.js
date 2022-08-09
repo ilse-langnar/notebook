@@ -24,7 +24,6 @@ const printf                        = console.log
 
     // UI Elements
         import Menu                         from "@/classes/Menu.js"
-        import Options                      from "@/classes/Options.js"
         import Modals                       from "@/classes/Modals.js"
         import Notification                 from "@/classes/Notification.js"
         import Dialog                       from "@/classes/Dialog.js"
@@ -146,7 +145,6 @@ export default class Ilse {
             this.notification           = new Notification()
             this.dialog                 = new Dialog()
             this.menu                   = new Menu()
-            this.options                = new Options()
 
         // Snippets / Themes
             this.themes                 = new Themes( this )

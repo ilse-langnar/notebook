@@ -174,6 +174,13 @@ input[type=range]::-webkit-slider-runnable-track  {
     font-family: var( --font-family )
 }
 
+
+.fc {
+    background: var( --background-color );
+    color: var( --text-color );
+    height: 500px;
+}
+
 /*========Markdown========*/
 .link {
     /*color: #5ec7b8;*/

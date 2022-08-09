@@ -20,7 +20,7 @@ class KeyboardShortcut  {
         this.ilse      = ilse
         this.Mousetrap = Mousetrap
 
-        // Mousetrap.bindGlobal( "ctrl+f", (event, combo ) => { ilse.electron.ipc.send( "ctrl+f" ) }, 'keydown' )
+        Mousetrap.bindGlobal( "ctrl+f", (event, combo ) => { event.preventDefault(); ilse.electron.ipc.send( "ctrl+f" ) }, 'keydown' )
         // Mousetrap.bindGlobal( "ctrl+space", (event, combo ) => {
             // let note = ilse.notes.add( "", ilse.notes.list.length - 1, 0 )
                 // note.focus()

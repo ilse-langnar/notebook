@@ -45,6 +45,23 @@ export default class Electron {
             // this.on_focus_change.map( item => item(false) )
         })
 
+
+        // FEATURE: in-page-search
+        const remote       = require('electron').remote;
+        const FindInPage   = require('electron-find').FindInPage;
+        // const searchInPage = require('electron-in-page-search').default;
+
+
+        let findInPage = new FindInPage( remote.getCurrentWebContents() )
+
+        this.ipc.on('on-find', (e, args) => {
+            // const inPageSearch = searchInPage(remote.getCurrentWebContents());
+            // inPageSearch.openSearchWindow();
+
+            findInPage.openFindWindow()
+        })
+
+
     }
 
 }
