@@ -1,12 +1,12 @@
 <template lang="pug" >
 .notes
-    component( :is="require('@/components/Note.vue').default" :note="note" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" @on-note-middle-click="on_note_middle_click(note)" @on-note-right-click="on_note_right_click"  )
+    component( :is="require('@/components/Note.vue').default" :note="note" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-click="on_note_click" )
     
 
 
-    .children( v-if="!note.is_collapsed" :class="note.children.length ? 'one' : 'two'" )
+    .children( v-show="!note.is_collapsed" :class="note.children.length ? 'one' : 'two'" :key="note.children.length + options.key" )
         .loop( v-for="( item, index ) in note.children" :key="index" :style="get_note_style(item)" )
-            Notes( :note="item" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" @on-note-middle-click="on_note_middle_click(note)" @on-note-right-click="on_note_right_click"  )
+            Notes( :note="item" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-click="on_note_click" )
 
 </template>
 <script>
@@ -30,7 +30,9 @@ export default {
     props: {
         note: { type: Object, required: false, },
         options: { type: Object, required: false, default: function() {
-            return { }
+            return {
+                key: 0,
+            }
         } },
     },
 
@@ -46,6 +48,10 @@ export default {
     },
 
     methods: {
+
+        on_note_click( payload ) {
+            this.$emit( "on-note-click", payload )
+        },
 
         on_enter( payload ) {
             this.$emit( "on-enter", payload )
@@ -84,18 +90,6 @@ export default {
 
         on_note_arrow_down( payload ) {
             this.$emit( "on-arrow-down", payload )
-        },
-
-        on_note_left_click( payload ) {
-            this.$emit( "on-left-click", payload )
-        },
-
-        on_note_middle_click( payload ) {
-            this.$emit( "on-middle-click", payload )
-        },
-
-        on_note_right_click( payload ) {
-            this.$emit( "on-right-click", payload )
         },
 
         // Control the margins

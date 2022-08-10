@@ -9,10 +9,9 @@ import router                   from "./router.js"
 // -----------------------> MainConfig <-------------------------- //
 
 
-import Popover from "vue-js-popover"
+// import Popover from "vue-js-popover"
 
-import i18n from './i18n'
-Vue.use(Popover)
+// Vue.use(Popover)
 
 // --------------------------------------------------------------------------- Test ---------------------------------------//
 // import VuejsDialog from "vuejs-dialog";
@@ -62,6 +61,7 @@ Vue.prototype.irequire = new IlseRequire()
 // -----------------------> Config <-------------------------- //
 
 
+import i18n from './i18n'
 // -----------------------> Init <-------------------------- //
 new Vue({
     router,

@@ -206,7 +206,6 @@ app.whenReady().then(() => {
         if( err ) console.error( "ERROR: Could not register file:// protocol" )
     })
 
-
     // const electron      = require( "electron" )
     // globalShortcut.register(store.get('defaultKeyCombination'), () => {
     globalShortcut.register('Control+f', () => {

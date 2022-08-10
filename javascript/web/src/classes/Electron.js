@@ -28,7 +28,41 @@ export default class Electron {
         this.dialog                 = {}
         this.dialog.open = function() { _this.ipc.send( "open-file-dialog" ) }
 
+        this.setup()
+    }
+
+    setup() {
+        this.enable_cors()
         this.listen()
+    }
+
+    enable_cors() {
+
+        const filter = {
+            urls: ['*://*.github.com/*']
+
+        };
+        const session = electron.remote.session
+        session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback) => {
+            printf( "details -> ", details )
+            printf( "details.requestHeaders -> ", details.requestHeaders )
+            printf( "1" )
+            printf( "details.requestHeaders -> ", details.requestHeaders )
+            printf( "details.requestHeaders -> ", details.requestHeaders.Origin )
+            details.requestHeaders.Origin = null;
+            // details.requestHeaders['Origin'] = null;
+            printf( "2" )
+            printf( "details.headers -> ", details.headers )
+            details.requestHeaders['Access-Control-Allow-Origin'] = [ 'https://github.com'  ];
+            // details.responseHeaders['Access-Control-Allow-Origin'] = [ 'http://localhost:3000'  ];
+
+            // details.headers['Origin'] = null; printf( "2" )
+            printf( "3" )
+            callback({ requestHeaders: details.requestHeaders  })
+            printf( "4" )
+
+        });
+
     }
 
     listen() {

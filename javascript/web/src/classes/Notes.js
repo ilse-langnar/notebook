@@ -23,7 +23,7 @@ export default class Notes {
 
     async _setup() {
         this.get_notes()
-        // this.demo()
+        this.demo()
         this.listen()
         this.watch_file()
     }
@@ -76,9 +76,15 @@ export default class Notes {
 
     }
 
-    // async demo() {
-        // let is_demo          = this.ilse.platform === "demo"
-            // if( !is_demo ) return
+    async demo() {
+
+        let is_demo          = this.ilse.platform === "demo"
+        if( is_demo ) {
+            let dom = document.createElement( "div" )
+                dom.id  = "db"
+            let root = this.ilse.filesystem.file.read.async("/")
+            printf( "root -> ", root )
+        }
 
         // if( has_notes ) await this.filesystem.file.write.async( "notes", "" )
 
@@ -90,7 +96,7 @@ export default class Notes {
         // this.add_list( demo_notes )
 
         // this.add( `Click on the help button on top for the tutorial`, this.list.length, 0 )
-   // }
+   }
 
     async get_notes() {
 

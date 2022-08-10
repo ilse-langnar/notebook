@@ -53,7 +53,7 @@ export default class Filesystem {
         if( process.env.VUE_APP_TARGET === "WEB" ) {
 
             const RESTFilesystem = require("@/classes/RESTFilesystem.js").default
-            let new_filesystem  = new RESTFilesystem()
+            let new_filesystem  = new RESTFilesystem( dir )
                 this.file = new_filesystem.file
                 this.dir  = new_filesystem.dir
 
@@ -62,7 +62,7 @@ export default class Filesystem {
         if( process.env.VUE_APP_TARGET === "DEMO" ) {
 
             const LocalStorageFilesystem = require("@/classes/LocalStorageFilesystem.js").default
-            this.filesystem  = new LocalStorageFilesystem()
+            this.filesystem  = new LocalStorageFilesystem( dir )
                 this.file    = this.filesystem.file
                 this.dir     = this.filesystem.dir
 
@@ -71,7 +71,7 @@ export default class Filesystem {
         if( process.env.VUE_APP_TARGET === "QUINE" ) {
 
             const DOMFilesystem = require("@/classes/DOMFilesystem.js").default
-            this.filesystem  = new DOMFilesystem()
+            this.filesystem  = new DOMFilesystem( dir )
                 this.file    = this.filesystem.file
                 this.dir     = this.filesystem.dir
 
@@ -83,11 +83,22 @@ export default class Filesystem {
 
     async setup() {
         await this.create_default_dirs()
+        setTimeout( () => { this.test() }, 3000 )
         this.loaded()
+    }
+
+    async test() {
+
+        if( process.env.VUE_APP_TARGET === "QUINE" ) {
+            let result = this.dir.is.async( "/" )
+            printf( "result -> ", result )
+        }
+
     }
 
     async create_default_dirs() {
 
+        // let is_demo_or_quine = process.env.VUE_APP_TARGET === "QUINE"
         if( !this.ilse.target_directories[0] ) return
 
         let has_notes       = await this.file.exists.async( "notes" )

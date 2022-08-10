@@ -6,10 +6,14 @@ const printf                        = console.log
 // Messager
     import Messager                     from "@/classes/Messager.js"
 
+// Classes
+    import IlseRequire                  from "@/classes/IlseRequire.js"
+
 class componentTypes {
 
-    constructor() {
+    constructor( ilse ) {
 
+        this.ilse                       = ilse
         // Init
             this.types                  = []
 
@@ -141,7 +145,7 @@ class componentTypes {
             id: "daily-notes",
             name: "Daily Notes",
             description: "",
-            img: require("@/assets/images/calendar.svg"),
+            img: this.ilse.irequire.img("calendar.svg"),
             type: "vue",
             component: require("@/components/DailyNotes.vue"),
             props: {
@@ -154,7 +158,7 @@ class componentTypes {
             id: "right-sidebar",
             name: "Right Sidebar",
             description: "",
-            img: require("@/assets/images/calendar.svg"),
+            img: this.ilse.irequire.img("calendar.svg"),
             type: "vue",
             component: require("@/components/RightSidebar.vue"),
             props: {
@@ -167,7 +171,7 @@ class componentTypes {
             id: "empty",
             name: "Empty",
             description: "",
-            img: require("@/assets/images/circle-0.svg"),
+            img: this.ilse.irequire.img("circle-0.svg"),
             type: "vue",
             component: require("@/components/Empty.vue"),
             props: {
@@ -179,7 +183,7 @@ class componentTypes {
             id: "graph",
             name: "Graph",
             description: "",
-            img: require("@/assets/images/network.svg"),
+            img: this.ilse.irequire.img("network.svg"),
             type: "vue",
             component: require("@/components/Graph.vue"),
             props: {
@@ -191,7 +195,7 @@ class componentTypes {
             id: "command-pallet",
             name: "Command Pallet",
             description: "",
-            img: require("@/assets/images/command.svg"),
+            img: this.ilse.irequire.img("command.svg"),
             type: "vue",
             component: require("@/components/CommandPallet.vue"),
             props: {
@@ -204,7 +208,7 @@ class componentTypes {
             id: "search-files",
             name: "Search Files",
             description: "",
-            img: require("@/assets/images/lupe.svg"),
+            img: this.ilse.irequire.img("lupe.svg"),
             type: "vue",
             component: require("@/components/Search.vue"),
             props: {
@@ -217,7 +221,7 @@ class componentTypes {
             id: "test",
             name: "Test",
             description: "",
-            img: require("@/assets/images/test-pipe.svg"),
+            img: this.ilse.irequire.img("test-pipe.svg"),
             type: "vue",
             component: require("@/components/Test.vue"),
             props: {
@@ -229,7 +233,7 @@ class componentTypes {
             id: "tags",
             name: "tags",
             description: "",
-            img: require("@/assets/images/hash.svg"),
+            img: this.ilse.irequire.img("hash.svg"),
             type: "vue",
             component: require("@/components/Tags.vue"),
             props: {
@@ -241,7 +245,7 @@ class componentTypes {
             id: "file",
             name: "File",
             description: "",
-            img: require("@/assets/images/file.svg"),
+            img: this.ilse.irequire.img("file.svg"),
             type: "vue",
             component: require("@/components/File.vue"),
             props: {
@@ -253,7 +257,7 @@ class componentTypes {
             id: "menu",
             name: "Menu",
             description: "",
-            img: require("@/assets/images/menu.svg"),
+            img: this.ilse.irequire.img("menu.svg"),
             type: "vue",
             component: require("@/components/Menu.vue"),
             props: {
@@ -265,7 +269,7 @@ class componentTypes {
             id: "note",
             name: "Note",
             description: "A note editor for a note and its children",
-            img: require("@/assets/images/point.svg"),
+            img: this.ilse.irequire.img("point.svg"),
             type: "vue",
             component: require("@/components/Note.vue"),
             props: {
@@ -278,7 +282,7 @@ class componentTypes {
             id: "edit-note",
             name: "Edit Note",
             description: "Edit a single note",
-            img: require("@/assets/images/edit.svg"),
+            img: this.ilse.irequire.img("edit.svg"),
             type: "vue",
             component: require("@/components/EditNote.vue"),
             props: {
@@ -291,7 +295,7 @@ class componentTypes {
             id: "configuration",
             name: "Configuration",
             description: "Change Configurations",
-            img: require("@/assets/images/settings.svg"),
+            img: this.ilse.irequire.img("settings.svg"),
             type: "vue",
             component: require("@/components/Configuration.vue"),
             props: {
@@ -303,7 +307,7 @@ class componentTypes {
             id: "types",
             name: "Types",
             description: "See and set types",
-            img: require("@/assets/images/letter-t.svg"),
+            img: this.ilse.irequire.img("letter-t.svg"),
             type: "vue",
             component: require("@/components/Types.vue"),
             props: {
@@ -315,7 +319,7 @@ class componentTypes {
             id: "knowledge-tree",
             name: "KnowledgeTree",
             description: "Knowledge Tree",
-            img: require("@/assets/images/tree.svg"),
+            img: this.ilse.irequire.img("tree.svg"),
             type: "vue",
             component: require("@/components/KnowledgeTree.vue"),
             props: {
@@ -327,7 +331,7 @@ class componentTypes {
             id: "help",
             name: "Help",
             description: "Help",
-            img: require("@/assets/images/question-mark.svg"),
+            img: this.ilse.irequire.img("question-mark.svg"),
             type: "vue",
             component: require("@/components/Help.vue"),
             props: {
@@ -339,7 +343,7 @@ class componentTypes {
             id: "type-selection",
             name: "Type Selection",
             description: "List of all of your types",
-            img: require("@/assets/images/hand-click.svg"),
+            img: this.ilse.irequire.img("hand-click.svg"),
             type: "vue",
             component: require("@/components/Types.vue"),
             props: {
@@ -351,7 +355,7 @@ class componentTypes {
             id: "first-brain",
             name: "First Brain",
             description: "Study, Remember, Think and more",
-            img: require("@/assets/images/school.svg"),
+            img: this.ilse.irequire.img("school.svg"),
             type: "vue",
             component: require("@/components/FirstBrain.vue"),
             props: {
@@ -363,7 +367,7 @@ class componentTypes {
             id: "mind-map",
             name: "Mind Map",
             description: "Mind Map",
-            img: require("@/assets/images/map.svg"),
+            img: this.ilse.irequire.img("map.svg"),
             type: "vue",
             component: require("@/components/MindMap.vue"),
             props: {
@@ -375,7 +379,7 @@ class componentTypes {
             id: "keyboard-shortcut",
             name: "Keyboard Shortcut",
             description: "List of keys and what commands they invoke",
-            img: require("@/assets/images/keyboard.svg"),
+            img: this.ilse.irequire.img("keyboard.svg"),
             type: "vue",
             component: require("@/components/KeyboardShortcut.vue"),
             props: {
@@ -387,7 +391,7 @@ class componentTypes {
             id: "memex",
             name: "Memex",
             description: "View Mode",
-            img: require("@/assets/images/table.svg"),
+            img: this.ilse.irequire.img("table.svg"),
             type: "vue",
             component: require("@/components/Memex.vue"),
             props: {
@@ -399,7 +403,7 @@ class componentTypes {
             id: "org-chart",
             name: "Org Chart",
             description: "Org Chart",
-            img: require("@/assets/images/tree.svg"),
+            img: this.ilse.irequire.img("tree.svg"),
             type: "vue",
             component: require("@/components/OrgChart.vue"),
             props: {
@@ -411,7 +415,7 @@ class componentTypes {
             id: "table-pan",
             name: "Table Pan",
             description: "It's like a mind map bot downwards",
-            img: require("@/assets/images/hand-click.svg"),
+            img: this.ilse.irequire.img("hand-click.svg"),
             type: "vue",
             component: require("@/components/TablePan.vue"),
             props: {
@@ -423,7 +427,7 @@ class componentTypes {
             id: "text-file",
             name: "Text File",
             description: "Text File",
-            img: require("@/assets/images/file.svg"),
+            img: this.ilse.irequire.img("file.svg"),
             type: "vue",
             component: require("@/components/TextFile.vue"),
             props: {
@@ -435,7 +439,7 @@ class componentTypes {
             id: "query-blocks",
             name: "Query Blocks",
             description: "A list of items",
-            img: require("@/assets/images/square.svg"),
+            img: this.ilse.irequire.img("square.svg"),
             type: "vue",
             component: require("@/components/QueryBlocks.vue"),
             props: {
@@ -447,7 +451,7 @@ class componentTypes {
             id: "spreadsheet",
             name: "Spreadsheet",
             description: "A spreadsheet",
-            img: require("@/assets/images/table.svg"),
+            img: this.ilse.irequire.img("table.svg"),
             type: "vue",
             component: require("@/components/Spreadsheet.vue"),
             props: {
@@ -460,7 +464,7 @@ class componentTypes {
             id: "kanban",
             name: "kanban",
             description: "Kanban Board",
-            img: require("@/assets/images/layout-board.svg"),
+            img: this.ilse.irequire.img("layout-board.svg"),
             type: "vue",
             component: require("@/components/Kanban.vue"),
             props: {
@@ -472,7 +476,7 @@ class componentTypes {
             id: "calendar",
             name: "Calendar",
             description: "Calendar",
-            img: require("@/assets/images/calendar.svg"),
+            img: this.ilse.irequire.img("calendar.svg"),
             type: "vue",
             component: require("@/components/Calendar.vue"),
             props: {
@@ -484,7 +488,7 @@ class componentTypes {
             id: "favorites",
             name: "Favorites",
             description: "Favorites",
-            img: require("@/assets/images/star.svg"),
+            img: this.ilse.irequire.img("star.svg"),
             type: "vue",
             component: require("@/components/Favorites.vue"),
             props: {
@@ -496,7 +500,7 @@ class componentTypes {
             id: "todos",
             name: "Todos",
             description: "List of notes with '- [ ]' in them ",
-            img: require("@/assets/images/square.svg"),
+            img: this.ilse.irequire.img("square.svg"),
             type: "vue",
             component: require("@/components/Todos.vue"),
             props: {
@@ -508,7 +512,7 @@ class componentTypes {
             id: "importer",
             name: "Importer",
             description: "Importers themes, documents, flashcards, css snippets, components plugins and more.",
-            img: require("@/assets/images/urgent.svg"),
+            img: this.ilse.irequire.img("urgent.svg"),
             type: "vue",
             component: require("@/components/Importer.vue"),
             props: {
@@ -520,7 +524,7 @@ class componentTypes {
             id: "write",
             name: "Wrtie",
             description: "Write Something (:",
-            img: require("@/assets/images/writing.svg"),
+            img: this.ilse.irequire.img("writing.svg"),
             type: "vue",
             component: require("@/components/Write.vue"),
             props: {
@@ -532,7 +536,7 @@ class componentTypes {
             id: "draw",
             name: "Draw",
             description: "Draw",
-            img: require("@/assets/images/photo.svg"),
+            img: this.ilse.irequire.img("photo.svg"),
             type: "vue",
             component: require("@/components/Draw.vue"),
             props: {
@@ -544,7 +548,7 @@ class componentTypes {
             id: "search",
             name: "Search",
             description: "Search notes and files",
-            img: require("@/assets/images/lupe.svg"),
+            img: this.ilse.irequire.img("lupe.svg"),
             type: "vue",
             component: require("@/components/Search.vue"),
             props: {
@@ -556,7 +560,7 @@ class componentTypes {
             id: "modals-modals",
             name: "ModalsModal",
             description: "A list of all the modals available",
-            img: require("@/assets/images/square.svg"),
+            img: this.ilse.irequire.img("square.svg"),
             type: "vue",
             component: require("@/components/ModalsModals.vue"),
             props: {
@@ -568,7 +572,7 @@ class componentTypes {
             id: "make-extention",
             name: "MakeExtention",
             description: "Make themes, plugins, css snippets, commands and others extentions.",
-            img: require("@/assets/images/square.svg"),
+            img: this.ilse.irequire.img("square.svg"),
             type: "vue",
             component: require("@/components/MakeExtention.vue"),
             props: {
@@ -580,7 +584,7 @@ class componentTypes {
             id: "random-note",
             name: "RandomNote",
             description: "Get a random note, a random note from query or a random note from a file",
-            img: require("@/assets/images/dice-3.svg"),
+            img: this.ilse.irequire.img("dice-3.svg"),
             type: "vue",
             component: require("@/components/RandomNote.vue"),
             props: {
@@ -592,7 +596,7 @@ class componentTypes {
             id: "left-sidebar",
             name: "LeftSidebar",
             description: "Left Sidebar is the component thatt embeds inside the left sidebar",
-            img: require("@/assets/images/arrow-narrow-left.svg"),
+            img: this.ilse.irequire.img("arrow-narrow-left.svg"),
             type: "vue",
             component: require("@/components/LeftSidebar.vue"),
             props: {
@@ -604,12 +608,38 @@ class componentTypes {
             id: "right-sidebar",
             name: "RightSidebar",
             description: "Right Sidebar is the component thatt embeds inside the right sidebar",
-            img: require("@/assets/images/arrow-narrow-right.svg"),
+            img: this.ilse.irequire.img("arrow-narrow-right.svg"),
             type: "vue",
             component: require("@/components/RightSidebar.vue"),
             props: {
                 is_internal: true,
             }
+        })
+
+        this.add({
+            id: "folders",
+            name: "Folders",
+            description: "Select which folder ilse will work with",
+            img: this.ilse.irequire.img("folders.svg"),
+            type: "vue",
+            component: require("@/components/Folders.vue"),
+            props: {
+                is_internal: true,
+            }
+
+        })
+
+        this.add({
+            id: "dashboard",
+            name: "Dashboard",
+            description: "Dashboard: Summary of everything",
+            img: this.ilse.irequire.img("dashboard.svg"),
+            type: "vue",
+            component: require("@/components/Dashboard.vue"),
+            props: {
+                is_internal: true,
+            }
+
         })
 
     }

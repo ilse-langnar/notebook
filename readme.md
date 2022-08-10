@@ -82,7 +82,7 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Media Embed | Embed images, videos, sounds, gifs and more. | ![Media Embed](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-media-embed.gif) |
 | Component Embed | Embed kanban, calendar, spreadsheets, Todos, reminders, help, tutorials, Mind Maps, Memex, Files and more inside a note. | ![Component Embed](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-component-embed.gif) |
 | Platform Independent | You can use it on Windows, Linux, MacOS, BDS??, Android, iOS etc. You can also develop a client for a platform if we don't support it. | |
-| Plain Text | We don't store anything in proprietary binary format, thus if we ever were to "die" you would still have your notes and your files. | |
+| Plain Text & No Lock-In| We don't store anything in proprietary binary format, thus if we ever were to "die" you would still have your notes and your files. Since it's a simple text/files structure that will live for a thousand years. | |
 | Free and Open Source | I would appreciate if you paid something but it's free and open source. | |
 | Right/Left Sidebar |  You can put anything you want there with quick access | ![Right Sidebar](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-right-sidebar.gif) | 
 | Zettelkasten | We don't use directories and you have access to links to link a note to a file or to another note. | |

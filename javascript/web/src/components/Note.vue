@@ -1,15 +1,16 @@
 <template lang="pug" >
 .note
-    .flex( v-if="is_on" :style="options.style" @click="on_note_root_click" )
+    // .flex( v-if="is_on" :style="options.style" @click="on_note_root_click" )
+    .flex( v-if="is_on" :style="options.style" )
 
         .bullet( v-if="!options.hide_bullet" )
-            p.collapsed( v-if="inote.is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" ).paragraph-note &#8277;
-            p.expanded( v-if="!inote.is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" ).paragraph-note &bull;
+            p.collapsed( v-if="inote.is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click="on_note_click" @click.middle="on_note_click" @click.right="on_note_click" :id=" 'bullet-' + inote.id" ) &#8277;
+            p.expanded( v-if="!inote.is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click="on_note_click" @click.middle="on_note_click" @click.right="on_note_click" :id=" 'bullet-' + inote.id" ) &bull;
 
 
                     
 
-        // p( v-if="!options.hide_bullet" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" style="border: 1px solid #000; width: 10px; height: 10px; margin: 10px; " ).paragraph-note ⚫
+        // p( v-if="!options.hide_bullet" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_note_middle_click" @click.right="on_note_right_click" @click.left="on_note_left_click" :id=" 'bullet-' + inote.id" style="border: 1px solid #000; width: 10px; height: 10px; margin: 10px; " ) ⚫
 
         // edit
         div.editable( contentEditable v-if="inote.is_editable" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent ) {{options.is_tagless ? inote.tagless : inote.content}}
@@ -103,6 +104,18 @@ export default {
 
     methods: {
 
+        on_note_click( event ) {
+
+            if( this.inote.children.length ) this.inote.is_collapsed = !this.inote.is_collapsed
+
+            let button
+            if( event.button === 0 ) button = "left"
+            if( event.button === 2 ) button = "right"
+            if( event.button === 1 ) button = "middle"
+
+            this.$emit( "on-note-click", { note: this.note, event: event, button: button })
+        },
+
         get_query( note ) {
 
             let tags = note.get_tags()
@@ -153,10 +166,10 @@ export default {
 
         },
 
-        on_note_root_click( event ) {
-            let note = this.note
-            this.$emit( "on-note-click", {note, event})
-        },
+        // on_note_root_click( event ) {
+            // let note = this.note
+            // this.$emit( "on-note-click", {note, event})
+        // },
 
         on_textarea_click( event, note ) {
 
@@ -242,19 +255,6 @@ export default {
 
             // this.close_overlay( "search" )
 
-        },
-
-        on_note_left_click( event ) {
-            if( this.inote.children.length ) this.inote.is_collapsed = !this.inote.is_collapsed
-            this.$emit( "on-note-left-click", this.note )
-        },
-
-        on_note_right_click() {
-            this.$emit( "on-note-right-click", this.note )
-        },
-
-        on_note_middle_click() {
-            this.$emit( "on-note-middle-click", this.note )
         },
 
         // get_human_readable_creation_date( id ) {
@@ -654,7 +654,7 @@ input:focus{
     font-size: 1em;
 }
 
-.paragraph-note {
+.bullet p {
     margin-top:   -5px;
     text-align:   center;
     cursor:       pointer;

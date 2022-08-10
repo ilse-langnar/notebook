@@ -691,6 +691,89 @@ class Commands {
                 name: "Check Clipboard",
             },
 
+            /*
+            {
+                id: "aaaa",
+                fn: async function() {
+                    // let result
+                    // let text
+                    // const els  = [...document.getElementsByTagName('script')];
+                    // let list   =[]
+                    // els.map( item => { list.push( item ) })
+
+                    // let res  = await fetch({url: "https://github.com/ilse-langnar/notebook/releases/download/1.1.2/index.html", mode: "no-cors"})
+                    // let text = await res.text()
+                    // printf( "text -> ", text )
+
+
+                    let html = `<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title> Ilse Langnar's Notebook</title>
+    </head>
+    <body>
+        <div id="app"> </div>
+        @@1
+        @@2
+    </body> `
+
+
+                    let index = 0
+                    function printScriptTextContent(script)
+                    {
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("GET",script.src)
+                            xhr.onreadystatechange = function () {
+                                if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                                    if( index === 1 ) html = html.replace( "@@1", `<script> ${xhr.responseText} </script> `)
+                                    if( index === 2 ) html = html.replace( "@@2", `<script> ${xhr.responseText} </script> ` )
+                                    index++
+                                    if( index === 2 ) ilse.utils.download_text( html.replace("@@2", `<script> ${xhr.responseText} </script> `), "index.html" )
+                                }
+
+                            };
+                        xhr.send();
+
+                    }
+
+                    Array.prototype.slice.call(document.querySelectorAll("script[src]")).forEach(printScriptTextContent);
+
+                    // ilse.utils.download_text( text, "index.html" )
+
+                    printf( "list -> ", list )
+                    let first   = await fetch( list[0].src )
+                    printf( "first -> ", first )
+                    let second  = await fetch( list[1].src )
+
+                    let first_text       = await first.text()
+                    let second_text      = await second.text()
+
+                    let html = `<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title> Ilse Langnar's Notebook</title>
+    </head>
+    <body>
+        <div id="app"> </div>
+        <script> ${first_text} </script>
+        <script> ${second_text} </script>
+    </body>
+</html> `
+
+
+                },
+                description: "aaaaa",
+                name: "Aaaaa",
+            }, */
+
+
+
         ]
 
         this.add_components_commands()

@@ -369,6 +369,44 @@ export default class Utils {
         return format
     }
 
+    get_month_shortcut( name ) {
+        let chunks = name.split("")
+        chunks.length = 3
+        let ready = chunks.join(",")
+        printf( "ready -> ", ready )
+        return ready.replace(",", "")
+    }
+
+    get_month_name_by_number( number ) {
+
+        if( number === 1 ) {
+            return ilse.vue.$t("month_january")
+        } else if( number === 2 ) {
+            return ilse.vue.$t("month_february")
+        } else if( number === 3 ) {
+            return ilse.vue.$t("month_march")
+        } else if( number === 4 ) {
+            return ilse.vue.$t("month_april")
+        } else if( number === 5 ) {
+            return ilse.vue.$t("month_may")
+        } else if( number === 6 ) {
+            return ilse.vue.$t("month_june")
+        } else if( number === 7 ) {
+            return ilse.vue.$t("month_july")
+        } else if( number === 8 ) {
+            return ilse.vue.$t("month_august")
+        } else if( number === 9 ) {
+            return ilse.vue.$t("month_september")
+        } else if( number === 10 ) {
+            return ilse.vue.$t("month_october")
+        } else if( number === 11 ) {
+            return ilse.vue.$t("month_november")
+        } else if( number === 12 ) {
+            return ilse.vue.$t("month_december")
+        }
+
+    }
+
     get_number_month( number ) {
 
         number = String(number)
@@ -1148,5 +1186,16 @@ export default class Utils {
         return list
     }
 
-}
+    download_text( content, name ) {
+        var data    = content
 
+        var a       = document.createElement("a");
+            a.download  = name
+
+        var t       = new Blob([data], { type: "text/plain" });
+            a.href = window.URL.createObjectURL(t);
+            a.click()
+
+    }
+
+}

@@ -50,7 +50,8 @@
   "no_references": "No References",
   "importer": "Importer",
   "click_to_import": "Click To Import",
-  "references": "References",
+  "linked_references": "Linked References",
+  "unlinked_references": "Unlinked References",
   "select": "Select",
   "add": "Add",
   "previous": "Previous",
@@ -97,5 +98,10 @@
   "global_statistics": "Global Statistics",
   "how_does_it_work": "How does it work",
   "keyboard_shortcut": "Keyboard Shortcut",
-  "lore": "Lore"
+  "show_linked_references": "Show Linked References",
+  "show_unlinked_references": "Show Unlinked References",
+  "lore": "Lore",
+  "open_dashboard": "Open Dashboard",
+  "study": "Study",
+  "daily_notes": "Daily Notes"
 }

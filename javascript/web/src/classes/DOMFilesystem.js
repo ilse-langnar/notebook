@@ -1,29 +1,46 @@
 const printf                                    = console.log
 
-import ilse                                      from "@/ilse.js"
+// ilse
+    import ilse                                      from "@/ilse.js"
 
-const fs                                         = require('fs')
-const fs_promises                                = fs.promises
-const { promisify  } = require('util')
+// libs
+    import path                                      from "path"
 
-let promisified_list_dir   = promisify( fs.readdir )
-let promisified_read_file  = promisify( fs.readFile )
-let promisified_write_file = promisify( fs.writeFile )
-let promisified_create_dir = promisify( fs.mkdir )
-let promisified_stats      = promisify( fs.lstat )
-
-const path                                       = require('path')
-
-var target_directory
+// globals
+    let filesystem
+    var target_directory
+    let fs
 
 export default class DOMFilesystem {
 
     constructor( dir ) {
 
-        let dom = document.getElementById( "db" )
+        target_directory = "/"
 
-        // target_directory = dir + "/"
-        target_directory = dir
+        let dom = document.createElement("div")
+            dom.id  = "db"
+
+        filesystem = {
+            "/": {
+                "notes": "",
+                "queue": "",
+                "statistics": "",
+                "second/": {
+
+                },
+                "first/": {
+
+                },
+                ".trash/": {
+
+                },
+                "plugins/": {
+
+                },
+            }
+        }
+
+        dom.innerText = JSON.stringify( filesystem )
 
         // ilse.filesystem.file.read.async()
         // ilse.filesystem.file.read.sync()
@@ -78,35 +95,53 @@ export default class DOMFilesystem {
             }
         }
 
-        /*
-        this.file = {
-            get     : this.read_file,
-            set     : this.write_file,
-            delete  : this.delete_file,
-            rename  : this.rename_file,
-            get_all : this.get_all_files,
-            random  : this.get_random_files,
-            upload  : this.upload_file,
-            exists  : this.has_path,
-            watch   : this.watch_file,
-            is      : this.is_file,
+        fs = {
+
+            readFileSync: function( full_path, mode ) {
+
+                printf( "readFileSync -> full_path -> ", full_path )
+                let chunks = full_path.split("/").filter( e=>e )
+                let obj
+
+                for( let chunk of chunks ) {
+                    obj = filesystem[chunk]
+                }
+
+                printf( "obj -> ", obj )
+                printf( "typeof obj -> ", typeof obj )
+                if( typeof obj === "string" ) {
+                    return obj
+                } else {
+                    throw new Error( "DOMFilesystem: You're trying to use fs.readFile on a directory!! Use a File Path instead!! " )
+                }
+            },
+
+            watch: function() {
+
+            },
+
+
         }
 
-        this.dir = {
-            exists  : this.has_path,
-            create  : this.create_dir,
-            list    : this.read_dir,
-            is      : this.is_directory,
-        }
-        */
     }
 
     // <-------------------------------> Dir <-------------------------------> //
 
     async is_directory( full_path ) {
-        // let is = await fs.lstat( path.join( target_directory, full_path ) ).isDirectory()
-        let is = await promisified_stats( path.join( target_directory, full_path ) ).isDirectory()
-        return is
+
+        let chunks = full_path.split("/").filter( e=>e )
+
+        for( let chunk of chunks ) {
+            obj = filesystem[chunk]
+        }
+
+        // let is_directory = obj.indexOf("/") !== -1
+        if( typeof obj === "string" ) {
+            return false
+        } else  {
+            return true
+        }
+
     }
 
     async is_file( full_path ) {
@@ -228,9 +263,8 @@ export default class DOMFilesystem {
 
         // printf( "fs_promises.readFile -> ", readFile )
         // let content = await fs_promises.readFile( path.join(target_directory, file_path), mode )
-        let content = await promisified_read_file( path.join(target_directory, file_path), mode )
-
-
+        // let content = await promisified_read_file( path.join(target_directory, file_path), mode )
+        let content = fs.readFileSync( path.join( target_directory, file_path ) )
         return content
 
     }
@@ -295,8 +329,11 @@ export default class DOMFilesystem {
 
     read_file_sync( file_path, mode = "utf8" ) {
 
+        printf( "DOMFilesystem -> file_path -> ", file_path )
+        printf( "DOMFilesystem -> target_directory -> ", target_directory )
 
         file_path   = path.join(target_directory , file_path )
+        printf( "file_path -> ", file_path )
         let content = fs.readFileSync( file_path, mode )
         return content
     }

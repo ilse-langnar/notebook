@@ -7,8 +7,8 @@
 
         .vspace
 
-        img( :src="irequire.img('calendar.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('open_daily_notes')"  @click="add_daiyl_notes" accesskey="d" )
-        img( :src="irequire.img('school.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_first_brain')"  @click="toggle_first_brain" )
+        // img( :src="irequire.img('calendar.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('open_daily_notes')"  @click="add_daiyl_notes" accesskey="d" )
+        // img( :src="irequire.img('school.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_first_brain')"  @click="toggle_first_brain" )
 
         .vspace
 
@@ -23,22 +23,13 @@
         img( :src="irequire.img('settings.svg')"     style="cursor: pointer; width: 20px; " :title="$t('configuration')" @click="open_configuration_modal" accesskey="c" )
         .margin-small
 
-        img( :src="irequire.img('folders.svg')"    style="cursor: pointer; width: 20px; "   :title="$t('folders')" v-popover="{ name: 'folders', position: 'bottom' }" )
+        img( :src="irequire.img('folders.svg')"    style="cursor: pointer; width: 20px; "   :title="$t('folders')" @click="open_folders_modal" )
         .margin-small
 
         img( :src="irequire.img('lifebuoy.svg')"    style="cursor: pointer; width: 20px; "   :title="$t('help_manual_tutorial_and_apis')" accesskey="h" @click="open_help_modal" )
         .margin-large
 
         img.is-pulled-right( :src="irequire.img('moon-stars.svg')"   style="cursor: pointer; width: 20px; " :title="$t('toggle_dark_mode')" @click="toggle_dark_mode()" )
-
-    Popover( direction="bottom" name="folders" style="width: 300px; background: var( --background-color ); color: var( --text-color ); " )
-        .folders( style="padding: 5px; overflow: hidden; " )
-            .folder( v-for="( folder, index ) in ilse.target_directories" :key="index" @click="select_folder(folder)" :style="get_target_directory_style(folder)" :title="$t('use') + folder" )
-                img.is-pulled-right( :src="irequire.img('x.svg')" style="width: 20px; display: block; margin: 0 auto;" :title="$t('delete_folder')" @click="delete_dir(folder)" )
-
-                p {{folder}}
-
-            img( :src="irequire.img('plus.svg')" style="width: 30px; display: block; margin: 0 auto;" @click="add_target_directory" :title="$t('add_folder')" )
 
     img( :src="irequire.img('arrow-narrow-left.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_right_sidebar')" @click="ilse.is_right_sidebar_open = !ilse.is_right_sidebar_open" )
     br
@@ -75,13 +66,19 @@ export default {
 
     methods: {
 
+        open_folders_modal() {
+            ilse.modals.open("folders");
+        },
+
         toggle_is_home_page_on() {
             ilse.is_home_page_on = !ilse.is_home_page_on 
         },
 
+        /*
         toggle_first_brain() {
             ilse.modals.open( "first-brain" )
         },
+        */
 
         toggle_command_pallet() {
             ilse.modals.open( "command-pallet" )
@@ -196,6 +193,7 @@ export default {
             }
         },
 
+        /*
         add_daiyl_notes() {
 
             let has_daily_notes_already = false
@@ -223,70 +221,7 @@ export default {
             }
 
         },
-
-        delete_dir( folder ) {
-
-            let index = ilse.target_directories.indexOf( folder )
-                ilse.target_directories.splice( index, 1 )
-
-            ilse.target_directories.splice( selected_folder_index, 1 )
-
-            window.localStorage.setItem( "target-directories", JSON.stringify(ilse.target_directories) )
-        },
-
-        get_target_directory_style( folder ) {
-
-            const is_folder_already_active = ilse.target_directories[0] === folder 
-
-            let style = `margin-bottom: 10px; cursor: pointer;`
-            if( is_folder_already_active ) {
-                style += `border: 1px solid #000; padding: 3px; border-radius: 5px;`
-            }
-
-            return style
-
-        },
-
-        async add_target_directory() {
-
-            let current_list = ilse.target_directories
-
-            ilse.electron.dialog.open()
-
-            ilse.electron.ipc.on( "selected-file", ( event , payload ) => {
-
-                // BUGFIX: something wrong with the files
-                let path              = payload[0]
-                    if( !path ) return
-
-                ilse.target_directories.push( path )
-
-                let has_dir_already = ilse.target_directories.indexOf( path ) !== -1
-                    if( has_dir_already ) return
-
-                window.localStorage.setItem( "target-directories", JSON.stringify(ilse.target_directories) )
-                    window.location.reload()
-
-            })
-
-
-        },
-
-        select_folder( folder ) {
-
-            const is_folder_already_active = ilse.target_directories[0] === folder 
-            if( is_folder_already_active ) {
-                ilse.notification.send( "Error", "This folder is already selected" )
-                return
-            }
-
-            let index = ilse.target_directories.indexOf( folder )
-                ilse.target_directories.splice( index, 1 )
-                ilse.target_directories.unshift( folder )
-
-            window.localStorage.setItem( "target-directories", JSON.stringify(ilse.target_directories) )
-            window.location.reload()
-        },
+        */
 
         async save() {
             await ilse.save()

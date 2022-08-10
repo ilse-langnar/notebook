@@ -1,7 +1,17 @@
 <template lang="pug" >
 .menu
-    p.item Daily Notes
-    p.item Study
+
+    .flex( @click="add_daiyl_notes" )
+        img( :src="irequire.img('calendar.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('daily_notes')" )
+        span.item Daily Notes
+
+    .flex( @click="toggle_first_brain" )
+        img( :src="irequire.img('school.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('study')" )
+        span.item Study
+
+    .flex( @click="open_dashboard" )
+        img( :src="irequire.img('dashboard.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('open_dashboard')" )
+        span.item Dashboard
 
     // hr
 
@@ -43,7 +53,46 @@ export default {
 
     methods: {
 
+        add_daiyl_notes() {
+
+            let has_daily_notes_already = false
+            let daily_notes_index       = null
+
+            let index = 0
+            for( const component of ilse.components ) {
+                index++
+
+                if( component.type === "daily-notes" ) {
+                    has_daily_notes_already = true
+                    daily_notes_index       = index
+                }
+            }
+
+            if( !has_daily_notes_already ) {
+                let component = new ilse.classes.Component({ type: "daily-notes", width: 12 })
+                    ilse.components.push( component )
+            } else {
+
+                if( ilse.components.length >= 1 ) {
+                    ilse.components.splice( daily_notes_index, 1 )
+                }
+
+            }
+
+        },
+
+        toggle_first_brain() {
+            ilse.modals.open( "first-brain" )
+        },
+
+        open_dashboard() {
+            let component = new ilse.classes.Component({ type: "dashboard", width: 12, props: {}})
+                ilse.components.push( component )
+        },
+
         on_note_link_click( payload ) {
+
+            printf( "Menu.vue -> on_note_click -> payload -> ", payload )
 
             let note             = payload.note
             let file             = payload.link

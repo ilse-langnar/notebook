@@ -20,7 +20,7 @@ const printf                        = console.log
     import PanSVG                       from "@/classes/PanSVG.js"
     import Cache                        from "@/classes/Cache.js"
     import Embeds                       from "@/classes/Embeds.js"
-    // import IlseRequire                  from "@/classes/IlseRequire.js"
+    import IlseRequire                  from "@/classes/IlseRequire.js"
 
     // UI Elements
         import Menu                         from "@/classes/Menu.js"
@@ -125,6 +125,7 @@ export default class Ilse {
 
         // Filesystem
             this.filesystem             = new Filesystem( this, this.target_directories[0] )
+            this.irequire               = new IlseRequire()
 
         // Config
             this.config                 = new Config()
@@ -133,7 +134,7 @@ export default class Ilse {
             this.clipboard              = new Clipboard()
 
         // Components
-            this.types                  = new Types()
+            this.types                  = new Types( this )
 
         // links/tags
             this.tags                   = new Tags()

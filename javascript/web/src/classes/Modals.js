@@ -145,6 +145,13 @@ class Modals {
             props: {},
         })
 
+        this.add({
+            id: "folders",
+            name: "Folders",
+            component: ilse.types.get( "folders" ),
+            props: {},
+        })
+
     }
 
     open( id, payload, on_close = null ) {

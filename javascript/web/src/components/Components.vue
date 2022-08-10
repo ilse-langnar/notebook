@@ -4,7 +4,7 @@
     .components( style="display: flex; flex-direction: row;" :key="components_key" )
 
         Component.left-sidebar( v-show="ilse.is_left_sidebar_open" :component="get_left_sidebar()" :options="{ hide_bullet: true }" :style="get_component_style(get_left_sidebar())" )
-        Component.second-menu( v-show="!ilse.is_left_sidebar_open" :component="get_second_menu_component()" :options="{ hide_bullet: true }" style="width: 20%; overflow: auto; " )
+        Component.second-menu( v-show="!ilse.is_left_sidebar_open && !ilse.is_zen" :component="get_second_menu_component()" :options="{ hide_bullet: true }" style="width: 20%; overflow: auto; " )
 
         .component( v-show="components.length && component.is_on" v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
             Component( :component="component" )

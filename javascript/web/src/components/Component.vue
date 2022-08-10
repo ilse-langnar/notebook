@@ -130,26 +130,6 @@ export default {
             printf( "on_db_click -> component -> ", component )
         },
 
-        get_popover_position( index ) {
-
-            // this.options_key = Math.random()
-
-            if( ilse.components.length === 1 ) {
-                return "left"
-            }
-
-            if( ilse.components.length === 2 ) {
-                if( index === 0 ) return "bottom"
-                if( index === 1 ) return "left"
-            }
-
-            if( ilse.components.length > 2 ) {
-                if( index === ilse.components.length - 1) return "left"
-                return "bottom"
-            }
-
-        },
-
         toggle_is_component_maximized( component_index ) {
 
             let is_there_an_off_component = false

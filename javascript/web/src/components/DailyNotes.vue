@@ -3,21 +3,22 @@
 
     .day( v-for="( day, day_index ) in days" style="width: 97%; margin: 0 auto;" )
 
-        .flex
-            .options.centered
-                p.flexi.is-size-3.has-text-weight-bold( :title=" $t('notes') + day.notes.length" @click="notify_now()" ) {{get_file( day )}}
-                img( :src="irequire.img('filter.svg')" style="cursor: pointer; width: 20px; margin-left: 5px;" :title="$t('filter')"                    )
-                img( :src="irequire.img('minus.svg')"  style="cursor: pointer; width: 20px; margin-left: 5px;" :title="$t('filter')"                    )
-                img( :src="irequire.img('plus.svg')"   style="cursor: pointer; width: 20px; margin-left: 5px;" :title="$t('filter')"                    )
-                img( :src="irequire.img('x.svg')"   style="cursor: pointer; width: 17px; margin-left: 5px;" :title="$t('close')"  @click="remove(day)" )
+        .flex( style="margin: 0 auto; width: 40%; " )
+            .centered
+                span.flexi.is-size-3.has-text-weight-bold( :title=" $t('notes') + day.notes.length" @click="notify_now()" ) {{get_file( day )}}
+            p.fitem &#128269;
+        .options.centered
+            p.fitem.remove( @click="remove(day)" style="cursor: pointer;" ) &#88;
 
         // .note( v-for="(note, note_index) in day.notes" :key="note_index" :style="get_note_style(note)" )
         .note( v-for="(note, note_index) in day.notes.filter( e=> e.depth === 0 )" :key="note_index" :style="get_note_style(note)" )
-            Notes( :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" @on-note-middle-click="on_note_middle_click(note)" @on-note-right-click="on_note_right_click"  )
-            // Note( :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" @on-note-middle-click="on_note_middle_click(note)" @on-note-right-click="on_note_right_click" )
+
+            Notes( :note="note" :key="note.id + notes_key" @on-enter="on_enter" @on-note-click="on_note_click" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" :options="options" )
+
+            // Note( :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" )
 
             // Avoid repetitives?
-            // Notes( v-if="note.depth === 0" :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-left-click="on_note_left_click" @on-note-middle-click="on_note_middle_click(note)" @on-note-right-click="on_note_right_click"  )
+            // Notes( v-if="note.depth === 0" :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down"  )
 
 
         GhostNote( v-if="day.notes.length" @on-enter="on_ghost_note_enter" @on-blur="on_ghost_note_blur" :payload="day" :options="{ placeholder: '' }" )
@@ -55,7 +56,9 @@ export default {
         return {
             ilse: ilse,
             key: 0,
+            notes_key: 0,
             days: [], // [ { id: "20220128", notes: [ { text: "20220124102749: This is a [[Writing]] example", index: 15532 } ] } ]
+            options: {},
         }
     },
 
@@ -103,14 +106,28 @@ export default {
 
         },
 
-        on_note_middle_click( note ) {
-            ilse.clipboard.write( note.id )
-        },
+        on_note_click( payload ) {
 
-        on_note_left_click( payload ) {
-
+printf( ">>> DailyNotes -> payload -> ", payload )
             let note        = payload.note
             let event       = payload.event
+
+            printf( "event -> ", event )
+            printf( "event.button -> ", event.button )
+
+            return
+            if( button === 1 ) {
+
+            }
+
+            // Right click
+            ilse.notes.delete( note )
+
+            // middle
+            ilse.clipboard.write( note.id )
+
+            // left_click
+
             let is_shift    = event.shiftKey
             let is_ctrl     = event.ctrlKey
 
@@ -126,11 +143,6 @@ export default {
                 let component = new ilse.classes.Component({ type: "table-pan", width: 12, props: { id: note.id } })
                     ilse.components.push( component )
             }
-
-        },
-
-        on_note_right_click( note ) {
-            ilse.notes.delete( note )
         },
 
         // TODO: I'm for some reason cropping the ID, this should not be happening.
@@ -258,10 +270,59 @@ export default {
         },
 
         on_tab( payload ) {
-            payload.note.$depth( 1 )
+
+            printf( "DailyNotes -> payload -> ", payload )
+
+            let note = payload.note
+
+            // we'll take it from notes: [  ] and put it on parent.children
+            if( note.depth === 0 ) {
+
+                let day                     = this.get_note_day( note )
+                let note_index              = day.notes.indexOf( note )
+                let previous_note           = day.notes[--note_index]
+
+                if( previous_note.depth === 0 ) {
+                    payload.note.$depth( 1 )
+                    previous_note.children.push(note)
+                } else {
+                    let previous_note_parent    = ilse.notes.get_note_parent_v2( previous_note )
+                    let day_index               = this.days.indexOf( day )
+                        payload.note.$depth( 1 )
+                        previous_note_parent.children.push( note )
+                }
+
+            } else {
+
+                let day                     = this.get_note_day( note )
+                let note_index              = day.notes.indexOf( note )
+                let previous_note           = day.notes[--note_index]
+                let previous_note_parent    = ilse.notes.get_note_parent_v2( previous_note )
+
+                // BUGFIX: On 1 depth of difference between notes.
+                if( note.depth - previous_note.depth  !== 1) return
+
+                payload.note.$depth( 1 )
+            }
+
         },
 
         on_shift_tab( payload ) {
+
+            let note = payload.note
+            // TODO: Remove from parent and put it on our notes
+            if( note.depth === 1 ) {
+
+                let day                     = this.get_note_day( note )
+                let note_index              = day.notes.indexOf( note )
+                let previous_note           = day.notes[--note_index]
+                previous_note.children.splice( ++previous_note, 1 )
+
+            } else {
+
+            }
+
+            // this.options.key = Math.random().toString()
             payload.note.$depth( -1 )
         },
 
@@ -439,15 +500,6 @@ export default {
         // Give me a note(object) and I'll tell which day it is on.
         get_note_day( note ) {
 
-            /*
-            this.days.map( day => {
-                printf( "ddd day -> ", day )
-                day.notes.map( note => {
-                    printf( "note -> ", note )
-                })
-            })
-            */
-
             for( const day of this.days ) {
                 for( const day_note of day.notes ) {
                     if( day_note.id === note.id ) return day
@@ -467,49 +519,34 @@ export default {
                 if( action === "added" ) {
                     printf( "DailyNote -> added -> action, payload -> ", action, payload )
 
-                    let index       = payload.index
-                    let new_note    = payload.note
-                    let after       = index === 0 ? ilse.notes.list[0] : ilse.notes.list[index - 1]
                     // if( after.depth !== new_note.depth ) return
                     // let day         =  ilse.notes.list.length === 1 ? this.days[0] : this.get_note_day( after )
                     // let note_index  = day.notes.indexOf( after )
                     // let day_index   = this.days.indexOf( day )
                         // this.days[day_index].notes.splice( ++note_index, 0, new_note )
+                        // let after_index = this.days[day_index].notes.indexOf(after)
 
+                    let index       = payload.index
+                    let new_note    = payload.note
 
-                    let parent      = ilse.notes.get_note_parent_v2(new_note)
-                    if( parent ) {
-                        let note_index  = parent.children.indexOf( after )
-                        printf( "note_index -> ", note_index )
-                        printf( "parent.children[note_index].content -> ", parent.children[note_index].content )
-                        printf( "parent.children[++note_index].content -> ", parent.children[++note_index].content )
-                        printf( "new_note.depth -> ", new_note.depth )
-                        printf( "after.depth -> ", after.depth )
-                        // parent.children.splice( ++note_index, 0, new_note )
-                            // new_note.focus()
-                    } else {
-                        let index       = payload.index
-                        let new_note    = payload.note
+                    if( new_note.depth === 0 ) {
+
                         let after       = index === 0 ? ilse.notes.list[0] : ilse.notes.list[index - 1]
-                        if( after.depth !== new_note.depth ) return
+                        // if( after.depth !== new_note.depth ) return
                         let day         =  ilse.notes.list.length === 1 ? this.days[0] : this.get_note_day( after )
                         let note_index  = day.notes.indexOf( after )
                         let day_index   = this.days.indexOf( day )
                             this.days[day_index].notes.splice( ++note_index, 0, new_note )
 
-                    }
+                    } else {
 
-                    // TODO: don't rely on "after"?
-                    /*
-                    let index       = payload.index
-                    let new_note    = payload.note
-                    let after       = index === 0 ? ilse.notes.list[0] : ilse.notes.list[index - 1]
-                    if( after.depth !== new_note.depth ) return
-                    let day         =  ilse.notes.list.length === 1 ? this.days[0] : this.get_note_day( after )
-                    let note_index  = day.notes.indexOf( after )
-                    let day_index   = this.days.indexOf( day )
-                        this.days[day_index].notes.splice( ++note_index, 0, new_note )
-                        */
+                        let after       = index === 0 ? ilse.notes.list[0] : ilse.notes.list[index - 1]
+                        let parent      = ilse.notes.get_note_parent_v2(new_note)
+                        let after_index = parent.children.indexOf( after )
+
+                        parent.children.splice( ++after_index, 0, new_note )
+                            new_note.focus()
+                    }
 
                 } else if( action === "deleted" ) {
 
@@ -539,4 +576,12 @@ export default {
     height: 100%;
 }
 
+.flex p.fitem  {
+    margin-top: 10px; 
+}
+
+.flex p.remove  {
+    cursor: pointer;
+}
+              
 </style>
