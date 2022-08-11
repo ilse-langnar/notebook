@@ -120,8 +120,10 @@ export default class Markdown {
                 let is_video    = extention === ".mp4" || extention === ".webm"
                 let is_img      = extention === ".png" || extention === ".jpg" || extention === ".gif" || extention === ".jpeg" || extention === ".svg"
                 let is_audio    = extention === ".mp3" || extention === ".ogg" || extention === ".wav"
+                // let is_pdf      = extention === ".pdf"
+                // else if( is_pdf ) { if( is_electron ) return `<iframe height="100%" width=100% src="atom://${target_dir}/second/${url}" ></iframe>`; return `<iframe height="100%" width=100% src="http://localhost:8090/file/${url}" ></iframe>`; }
 
-                let is_file     = !is_img && !is_video && !is_audio && url.indexOf(".") === -1
+                let is_file     = !is_img && !is_video && !is_audio && !is_pdf && url.indexOf(".") === -1
                 let is_electron = process.env.VUE_APP_TARGET === "ELECTRON"
                 let is_demo     = process.env.VUE_APP_TARGET === "DEMO" // TODO: How do we render <img> while in a demo
                 let target_dir  = ilse.target_directories[0]

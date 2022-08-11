@@ -29,117 +29,17 @@ class componentTypes {
 
     add_default_component_types() {
 
-        /*
         this.add({
-            id: "spaced-repetition",
-            name: "Spaced Repetition",
-            description: "",
+            id: "top-menu",
+            name: "Top Menu",
+            description: "Top Menu",
+            img: this.ilse.irequire.img("menu.svg"),
             type: "vue",
-            component: require("@/components/Plugins/SpacedRepetition.vue"),
+            component: require("@/components/TopMenu.vue"),
             props: {
                 is_internal: true,
             }
         })
-        */
-        /*
-        this.add({
-            id: "help",
-            name: "Help",
-            description: "",
-            type: "vue",
-            component: require("@/components/Help.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-        */
-        /*
-        this.add({
-            id: "links",
-            name: "Links",
-            description: "",
-            type: "vue",
-            component: require("@/components/Links/Links.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-        */
-
-        /*
-        this.add({
-            id: "templates",
-            name: "Templates",
-            description: "",
-            type: "vue",
-            component: require("@/components/Templates/Templates.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-        */
-
-        /*
-        this.add({
-            id: "themes",
-            name: "Themes",
-            description: "",
-            type: "vue",
-            component: require("@/components/Themes.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-        */
-
-        /*
-        this.add({
-            id: "link-statistics",
-            name: "Link Statistics",
-            description: "",
-            type: "vue",
-            component: require("@/components/Links/Links-Statistics.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-        */
-
-        /*
-        this.add({
-            id: "link-references",
-            name: "Link References",
-            description: "",
-            type: "vue",
-            component: require("@/components/Links/Links-References.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-        */
-
-        /*
-        this.add({
-            id: "plugin-menu",
-            name: "Plugin Menu",
-            description: "",
-            type: "vue",
-            component: require("@/components/Menu/Plugin.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-        */
-
-        // .container.is-2( @click="run_command('ask-for-new-component-name')" )
-            // p.is-size-7( v-if="ilse.component && ilse.component.props && ilse.component.props.file" :title="ilse.component.props.file" ) {{ilse.component.props.file}}
-
-
-        // .container.is-2( @click="run_command('toggle-right-sidebar')" )
-            // p.is-size-7( v-if="ilse.component && ilse.component.props && ilse.component.props.file" ) ({{get_file_links().length}} 🔗  )  ( {{get_file_backlinks().length}} ⋘  )
-
-        // .container.is-4
-            // p.is-size-7( :title="ilse.status_line.history" ) {{ilse.status_line.status}}
 
         this.add({
             id: "daily-notes",
@@ -152,20 +52,6 @@ class componentTypes {
                 is_internal: true,
             }
         })
-
-        /*
-        this.add({
-            id: "right-sidebar",
-            name: "Right Sidebar",
-            description: "",
-            img: this.ilse.irequire.img("calendar.svg"),
-            type: "vue",
-            component: require("@/components/RightSidebar.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-        */
 
         this.add({
             id: "empty",
@@ -639,8 +525,22 @@ class componentTypes {
             props: {
                 is_internal: true,
             }
+        })
+
+        this.add({
+            id: "debugger",
+            name: "Debugger",
+            description: "Debugger: For Devs",
+            img: this.ilse.irequire.img("dashboard.svg"),
+            type: "vue",
+            component: require("@/components/Debugger.vue"),
+            props: {
+                is_internal: true,
+            }
 
         })
+
+
 
     }
 

@@ -4,6 +4,8 @@ const printf                    = console.log
 
 module.exports = {
 
+    productionSourceMap: false,
+
     pluginOptions: {
       electronBuilder: {
         builderOptions: {

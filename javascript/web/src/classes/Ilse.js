@@ -87,12 +87,14 @@ export default class Ilse {
         // utils?
         this.path                   = path
 
-        // Init
-            this.setup()
+        // BUGFIX: In my quine I need a time to wait for the DOM to load, otherwise I overwrite since it thinks it does not exists.
+            this.before_setup()
+            setTimeout( () => { this.setup() }, 1000 )
     }
 
     before_setup() {
 
+        // === Electron === //
         this.target_directories     = []
         let list        = window.localStorage.getItem( "target-directories" )
 
@@ -103,7 +105,7 @@ export default class Ilse {
             if( bugfix_list_has_items ) this.target_directories     = list
 
         // === DEMO === //
-        if( this.platform === "demo" ) this.target_directories = [ "/" ]
+        if( this.platform === "demo" || this.platform === "quine" ) this.target_directories = [ "/" ]
 
     }
 
@@ -114,7 +116,6 @@ export default class Ilse {
         // printf( "irequire -> ", irequire )
         // printf( "irequire.img -> ", irequire.img )
 
-        this.before_setup()
         // this.set_watch()
 
         this.last_save_attempt      = 0

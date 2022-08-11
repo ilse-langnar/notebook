@@ -6,6 +6,9 @@ const printf                                    = console.log
 // libs
     import path                                      from "path"
 
+// JSON
+    import CONFIG_TEMPLATE                           from  "@/classes/CONFIG_TEMPLATE.js"
+
 // globals
     let filesystem
     var target_directory
@@ -17,14 +20,13 @@ export default class DOMFilesystem {
 
         target_directory = "/"
 
-        let dom = document.createElement("div")
-            dom.id  = "db"
-
         filesystem = {
             "/": {
                 "notes": "",
                 "queue": "",
                 "statistics": "",
+                "priorities": "",
+                "config.json": JSON.stringify(CONFIG_TEMPLATE),
                 "second/": {
 
                 },
@@ -40,10 +42,18 @@ export default class DOMFilesystem {
             }
         }
 
-        dom.innerText = JSON.stringify( filesystem )
+        let db = document.getElementById("db")
+        printf( ">>>>>>>>>>>>>>>>> db -> ", db )
 
-        // ilse.filesystem.file.read.async()
-        // ilse.filesystem.file.read.sync()
+        if( db ) { // has, load
+            filesystem   = JSON.parse(db.innerText)
+        } else { // has not, create
+            let db       = document.createElement( "div" )
+                db.id        = "db"
+                db.innerText = JSON.stringify( db.innerText )
+
+        }
+
 
         this.file = {
 
@@ -97,22 +107,47 @@ export default class DOMFilesystem {
 
         fs = {
 
+            save() {
+
+                setTimeout( () => {
+
+                    let dom = document.getElementById( "db" )
+                    printf( "DOMFilesystem -> save -> dom -> ", dom )
+
+                    // BUGFIX: don't exist yet
+                    if( dom ) {
+                        printf( "DOMFilesystem -> save -> dom -> ", dom )
+                        printf( "WE HAVE THE DOM " )
+                        dom.innerText = JSON.stringify(filesystem)
+                        printf( "WE HAVE THE DOM -> dom.innerText -> ", dom.innerText )
+                        document.body.appendChild( dom )
+                    } else {
+                        printf( "WE DO NOT HABE THE DOM" )
+                        dom = document.createElement( "div" )
+                        printf( "WE DO NOT HABE THE DOM -> dom(new) -> ", dom )
+                            dom.id    = "db"
+                            dom.style = "display: none;"
+                        dom.innerText = JSON.stringify(filesystem)
+                        printf( "dom.innerText -> ", dom.innerText )
+                        printf( "dom -> ", dom )
+                        document.body.appendChild( dom )
+                    }
+                }, 10 )
+            },
+
             readFileSync: function( full_path, mode ) {
 
-                printf( "readFileSync -> full_path -> ", full_path )
                 let chunks = full_path.split("/").filter( e=>e )
-                let obj
+                let obj = filesystem["/"]
 
                 for( let chunk of chunks ) {
-                    obj = filesystem[chunk]
+                    obj = obj[chunk]
                 }
 
-                printf( "obj -> ", obj )
-                printf( "typeof obj -> ", typeof obj )
                 if( typeof obj === "string" ) {
                     return obj
                 } else {
-                    throw new Error( "DOMFilesystem: You're trying to use fs.readFile on a directory!! Use a File Path instead!! " )
+                    throw new Error( `DOMFilesystem: You're trying to use fs.readFile on a directory!! Use a File Path instead!! (${full_path})`)
                 }
             },
 
@@ -120,6 +155,45 @@ export default class DOMFilesystem {
 
             },
 
+            readDir: function( full_path ) {
+
+                let chunks = full_path.split("/").filter( e=>e )
+                let obj = filesystem["/"]
+
+                for( let chunk of chunks ) {
+                    if( obj[chunk + "/"] ) {
+                        obj = obj[chunk + "/"]
+                    } else {
+                        obj = obj[chunk]
+                    }
+                }
+
+                if( typeof obj === "object" ) {
+                    return Object.keys(obj)
+                } else {
+                    throw new Error( `DOMFilesystem: You're trying to use fs.readDir on a file!! Use a File Directory instead!! (${full_path})`)
+                }
+
+            },
+
+            writeFileSync: function( full_path, content, options ) {
+
+                let chunks = full_path.split("/").filter( e=>e )
+
+                if( chunks.length === 1 ) {
+                    filesystem["/"][full_path] = content
+                } else if( chunks.length === 2 ) {
+                    filesystem["/"][chunks[0] + "/"][chunks[1]] = content
+                } else if( chunks.length === 3 ) {
+                    filesystem["/"][chunks[0] + "/"][chunks[1] + "/"][chunks[3]] = content
+                } else if( chunks.length === 4 ) {
+                    filesystem["/"][chunks[0]][chunks[1] + "/"][chunks[2] + "/"][chunks[3]] = content
+                }
+
+                fs.save()
+
+                return content
+            },
 
         }
 
@@ -130,12 +204,17 @@ export default class DOMFilesystem {
     async is_directory( full_path ) {
 
         let chunks = full_path.split("/").filter( e=>e )
+        let obj    = filesystem["/"]
+        let last
 
         for( let chunk of chunks ) {
-            obj = filesystem[chunk]
+            if( obj[chunk + "/"] ) {
+                obj = obj[chunk + "/"]
+            } else {
+                obj = obj[chunk]
+            }
         }
 
-        // let is_directory = obj.indexOf("/") !== -1
         if( typeof obj === "string" ) {
             return false
         } else  {
@@ -175,8 +254,24 @@ export default class DOMFilesystem {
 
 
     is_directory_sync( full_path ) {
-        let is = fs.lstatSync( path.join( target_directory, full_path ) ).isDirectory()
-        return is
+
+        let chunks = full_path.split("/").filter( e=>e )
+        let obj    = filesystem["/"]
+        let last
+
+        for( let chunk of chunks ) {
+            if( obj[chunk + "/"] ) {
+                obj = obj[chunk + "/"]
+            } else {
+                obj = obj[chunk]
+            }
+        }
+
+        if( typeof obj === "string" ) {
+            return false
+        } else  {
+            return true
+        }
     }
 
     is_file_sync( full_path ) {
@@ -208,7 +303,7 @@ export default class DOMFilesystem {
 
     async get_all_files() {
 
-        let files   = await promisified_list_dir( path.join(target_directory , "second") )
+        let files   = await fs.readDir("/second" )
             if( !files ) files = []
 
         return files
@@ -243,7 +338,7 @@ export default class DOMFilesystem {
     }
 
     async list_dir( directory_path ) {
-        let list      = await promisified_list_dir( path.join(target_directory , directory_path) )
+        let list      = await fs.readDir( "/" + directory_path )
         return list
     }
 
@@ -264,7 +359,8 @@ export default class DOMFilesystem {
         // printf( "fs_promises.readFile -> ", readFile )
         // let content = await fs_promises.readFile( path.join(target_directory, file_path), mode )
         // let content = await promisified_read_file( path.join(target_directory, file_path), mode )
-        let content = fs.readFileSync( path.join( target_directory, file_path ) )
+        // let content = fs.readFileSync( path.join( target_directory, file_path ) )
+        let content = fs.readFileSync( file_path )
         return content
 
     }
@@ -272,7 +368,8 @@ export default class DOMFilesystem {
     async write_file( file_path, content, options )  {
 
         if( file_path.indexOf( "@/" ) !== -1 ) return
-        await promisified_write_file( path.join(target_directory , file_path), content, options )
+        // await promisified_write_file( path.join(target_directory , file_path), content, options )
+        await fs.writeFileSync( file_path, content, options )
     }
 
 
@@ -328,12 +425,7 @@ export default class DOMFilesystem {
     upload_file_sync( file_name, data ) { }
 
     read_file_sync( file_path, mode = "utf8" ) {
-
-        printf( "DOMFilesystem -> file_path -> ", file_path )
-        printf( "DOMFilesystem -> target_directory -> ", target_directory )
-
-        file_path   = path.join(target_directory , file_path )
-        printf( "file_path -> ", file_path )
+        // file_path   = path.join(target_directory , file_path )
         let content = fs.readFileSync( file_path, mode )
         return content
     }
@@ -342,7 +434,8 @@ export default class DOMFilesystem {
 
         if( file_path.indexOf( "@/" ) !== -1 ) return
 
-        fs.writeFileSync( path.join(target_directory , file_path), content, options )
+        // fs.writeFileSync( path.join(target_directory , file_path), content, options )
+        fs.writeFileSync( file_path, content, options )
     }
 
 

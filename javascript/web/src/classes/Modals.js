@@ -152,6 +152,15 @@ class Modals {
             props: {},
         })
 
+        this.add({
+            id: "debugger",
+            name: "Debugger",
+            component: ilse.types.get( "debugger" ),
+            props: {},
+        })
+
+
+
     }
 
     open( id, payload, on_close = null ) {

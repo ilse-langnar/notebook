@@ -5,7 +5,7 @@
 
         .flex( style="margin: 0 auto; width: 40%; " )
             .centered
-                span.flexi.is-size-3.has-text-weight-bold( :title=" $t('notes') + day.notes.length" @click="notify_now()" ) {{get_file( day )}}
+                span.flexi.is-size-3.has-text-weight-bold( :title=" $t('notes') + day.notes.length" ) {{get_file( day )}}
             p.fitem &#128269;
         .options.centered
             p.fitem.remove( @click="remove(day)" style="cursor: pointer;" ) &#88;
@@ -90,22 +90,6 @@ export default {
         },
         */
 
-        notify_now() {
-
-            ilse.notification.send( "ERROR", `BAD FORMAT: lll`)
-/*
-
-            ilse.notification.send( "Title", "Description", {
-                type: "normal",
-                on_cancel: function( notification ) {
-                    printf( "on_cancel -> notification -> ", notification )
-                }
-                on_close: function() {},
-            })
-            */
-
-        },
-
         on_note_click( payload ) {
 
 printf( ">>> DailyNotes -> payload -> ", payload )
@@ -166,22 +150,19 @@ printf( ">>> DailyNotes -> payload -> ", payload )
             let day
 
             this.days.map( _day => {
+                printf( "_day -> ", _day )
                 if( _day.id === id ) day = _day
             })
-            /*
-            let index = 0
-            for( const _day of this.days ) {
-                index++
-
-                if( _day.id === id ) day = _day
-            }
-            */
 
             let content = payload.content
+            printf( "DailyNotes -> content -> ", content )
             let note    = day.notes[ day.notes.length - 1 ]
+            printf( "DailyNotes -> note -> ", note )
             let depth   = 0 // BUGFIX: don't do note.depth, otherwise it'll be weird.
+            printf( "DailyNotes -> depth -> ", depth )
 
             let new_note = ilse.notes.add_after( content, depth, note )
+            printf( "new_note -> ", new_note )
                 new_note.focus()
         },
 
@@ -304,6 +285,8 @@ printf( ">>> DailyNotes -> payload -> ", payload )
 
                 payload.note.$depth( 1 )
             }
+
+            note.focus()
 
         },
 

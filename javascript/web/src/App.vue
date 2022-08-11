@@ -278,7 +278,7 @@ input[type="checkbox"] {
 
 blockquote {
     padding: 5px;
-    margin: 10px;
+    margin: 4px;
     border-left: 4px solid #bdbdbd;
     border-radius: 4px;
     margin-left: 10px;

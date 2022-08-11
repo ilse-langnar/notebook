@@ -62,8 +62,8 @@ class KeyboardShortcut  {
             { combo: "ctrl+space shift+a", command: "open-command-pallet-modal" },
             { combo: "ctrl+enter", command: "new-note" },
             // { combo: "ctrl+.", command: "new-note" },
-            { combo: "ctrl+s", command: "save" },
-            { combo: "ctrl+p", command: "open-command-pallet-modal" },
+            /*{ combo: "ctrl+s", command: "save" },*/
+            { combo: "ctrl+p", command: "open-command-pallet-modal", prevent_default: true },
             // { combo: "s", command: "note-search" },
             // { combo: "f", command: "file-search" },
             // { combo: "A", command: "Add Component" },

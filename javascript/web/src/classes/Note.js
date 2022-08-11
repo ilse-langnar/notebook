@@ -105,7 +105,7 @@ export default class note {
             if( is_note_malformed ) return ""
 
         let spaces = ilse.utils.get_depth_spaces( this.depth )
-        let note = `${spaces}${this.id}: ${this.content.trim()}`
+        let note = `${spaces}${this.id.replace(" ", "0")}: ${this.content.trim()}`
             if( this.id.length !== 14 ) {
                 ilse.notification.send( "ERROR", `BAD FORMAT: ${note}`)
             }

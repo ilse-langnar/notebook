@@ -6,19 +6,9 @@
 
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded" :key="ilse.key" :data-theme="get_data_theme()" :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
 
-        TopMenu
-        // HelloI18n
-        // img( :src="irequire.img('arrow-narrow-right.svg')" style="position: fixed; left: 10px;  width: 25px; height: 25px;  " @click="ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open")
-
-        // .left( v-show="is_left_on" style="display: flex;" )
-            .div( style="width: 80%; " )
-                p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            List( :components="ilse.components" unique-key="home" )
-
-        // List( v-show="!is_left_on" :components="ilse.components" unique-key="home" )
-
+        // TopMenu
+        Component.top-menu( :component="get_top_menu()" :options="{ hide_bullet: true }" style="" )
         List( :components="ilse.components" unique-key="home" )
-
         Modals
         Dialogs
         Notifications( v-if="ilse.has_loaded" )
@@ -40,7 +30,7 @@ const printf                                        = console.log;
     import Dialogs          from "@/components/Dialogs.vue"
     import Notifications    from "@/components/Notifications.vue"
     import List             from "@/components/Components.vue"
-    import HelloI18n        from "@/components/HelloI18n.vue"
+    import Component        from "@/components/Component.vue"
 
 
 export default {
@@ -57,7 +47,7 @@ export default {
         Notifications,
 
         List,
-        HelloI18n,
+        Component,
     },
 
     data() {
@@ -69,6 +59,13 @@ export default {
     },
 
     methods: {
+
+        get_top_menu() {
+            let type = ilse.config.top_menu_component || "top-menu"
+            let c         = { 'id': 'top-menu', 'width': 12, 'is_on': true, 'type': type, 'props': {} }
+            let component = new ilse.classes.Component( c )
+            return component
+        },
 
         open_shortcuts() {
             ilse.modals.open( "keyboard-shortcut" )

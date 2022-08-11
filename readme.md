@@ -53,6 +53,7 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Emacs Plugin                | Help! | 
 | Sublime Text Plugin                | Help! | 
 | Headless Ilse(Docker)                | Comming Soon| 
+| Telegram Bot           | Comming Soon| 
 
 
 

@@ -74,7 +74,7 @@
 .calendar
     // p {{initial_views[0]}}
     // button.button.slick-button( @click="next_option()" ) Toggle
-    FullCalendar( :options="calendarOptions" style="width: 600px; height: 500px; " )
+    // FullCalendar( :options="calendarOptions" style="width: 600px; height: 500px; " )
 
 </template>
 <script>
@@ -90,10 +90,10 @@ const printf                        = console.log;
 // Components 
     import Note                         from "@/components/Note.vue"
 
-import '@fullcalendar/core/vdom' // solves problem with Vite
-import FullCalendar from '@fullcalendar/vue'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from '@fullcalendar/interaction'
+// import '@fullcalendar/core/vdom' // solves problem with Vite
+// import FullCalendar from '@fullcalendar/vue'
+// import dayGridPlugin from '@fullcalendar/daygrid'
+// import interactionPlugin from '@fullcalendar/interaction'
 
 export default {
 
@@ -108,6 +108,7 @@ export default {
             selected_day: new Date().getDate(),
             notes_for_selected_day: [],
 
+            /*
             calendarOptions: {
                 height: 500,
                 width: 700,
@@ -148,13 +149,14 @@ export default {
                 ],
 
             },
+            */
 
         }
     },
 
     components: {
         Note,
-        FullCalendar,
+        // FullCalendar,
     },
 
     props: {
