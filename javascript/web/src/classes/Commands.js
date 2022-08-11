@@ -594,7 +594,9 @@ class Commands {
             {
                 id: "toggle-zen-mode",
                 fn: async function() {
-                    ilse.is_zen = !ilse.is_zen
+                    ilse.config.is_zen  = !ilse.config.is_zen
+                    ilse.is_zen         = !ilse.config.is_zen
+                    ilse.config.save()
                 },
                 description: "Will toggle zen mode",
                 name: "Toggle Zen Mode",
@@ -690,6 +692,51 @@ class Commands {
                 description: "Check Clipboard",
                 name: "Check Clipboard",
             },
+
+            {
+                id: "export-quine",
+                fn: async function() {
+                    let o = await fetch("https://raw.githubusercontent.com/ilse-langnar/notebook/dev/javascript/quine/index.html")
+                    printf( "o -> ", o )
+                    let text = await o.text()
+                    printf( "text -> ", text )
+
+                    let filesystem = {
+                        "/": {
+                            "notes": "",
+                            "queue": "",
+                            "statistics": "",
+                            "priorities": "",
+                            "config.json": JSON.stringify( ilse.config.get_normalized_config() ),
+                            "second/": {
+
+                            },
+                            "first/": {
+
+                            },
+                            ".trash/": {
+
+                            },
+                            "plugins/": {
+
+                            },
+                        }
+                    }
+                    printf( "filesystem -> ", filesystem )
+
+                    text = text.replace( "<div id=\"app\"> </div>", `<div id="app"> </div>
+                    <div id="db">
+                        ${JSON.stringify(filesystem)}
+                    </div>
+                    `)
+                    printf( "text -> ", text )
+
+                    ilse.utils.download_text( text, "index.html" )
+                },
+                description: "Export Quine",
+                name: "Export Quine",
+            },
+
 
             /*
             {

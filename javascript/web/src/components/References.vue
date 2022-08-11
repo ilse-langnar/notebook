@@ -10,7 +10,7 @@
                 p.is-size-2.centered( v-if="refs && refs.length && !is_linked" ) &#10656; {{ $t('unlinked_references') }} ({{ilse.notes.query( file.replace('.md', '') + ' ' ).length}})
                 p.is-size-4.centered( v-if="!refs || !refs.length" ) &#10656; {{ $t('no_references') }} 
                 img( v-if="!is_linked" :src="irequire.img('brackets.svg')"      style="cursor: pointer; width: 20px; "      :title="$t('show_linked_references')" @click="is_linked = !is_linked" )
-                img( v-if="is_linked" :src="irequire.img('brackets-off.svg')"      style="cursor: pointer; width: 20px; " :title="$t('show_unlined_references')" @click="is_linked=!is_linked" )
+                img( v-if="is_linked" :src="irequire.img('brackets-off.svg')"      style="cursor: pointer; width: 20px; " :title="$t('show_unlinked_references')" @click="is_linked=!is_linked" )
 
 
 

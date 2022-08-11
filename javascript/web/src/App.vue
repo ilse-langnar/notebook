@@ -301,6 +301,10 @@ code {
     font-family: CodeFire, CodeFira, monospace;
 }
 
+.markdown ol li {
+    margin-left: 20px;
+}
+
 .query {
     /*text-decoration: underline;*/
     background-color: #D5DADF;

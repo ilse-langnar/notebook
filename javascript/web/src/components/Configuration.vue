@@ -11,7 +11,8 @@
             p.is-size-1( style="text-align: center;" ) {{ $t(selected) }}
 
             .general( v-if="selected === 'general' " )
-                p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                p.is-pulled-left {{ilse.platform}}
+                p.is-pulled-right {{ilse.env.VUE_APP_VERSION}}
 
             // .typography( v-if="selected === 'typography' " )
 
@@ -64,20 +65,6 @@
                 select( v-model="$i18n.locale" )
                     option( v-for="( lang, index ) in ilse.languages" :key="index" :value="lang" @select="ilse.modals.close()" ) {{ilse.SUPPORTED_LANGUAGES[lang]}}
 
-
-
-            .snippets( v-if="selected === 'snippets' " )
-
-                .loop( v-for="( note, index ) in ilse.notes.query('#i/css')" :key="index" )
-                    Notes( :note="note" )
-                    // img.img.is-pulled-left( :src="irequire.img('paint.svg')" :title="('apply')" alt="Apply" @click="ilse.themes.apply( note )" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --background-color );" )
-
-                // .snippet( v-for="( snippet, index ) in ilse.themes.snippets" :key="index" )
-                    img.is-pulled-right( :src="irequire.img('x.svg')" style="width: 20px; cursor: pointer;" @click="delete_snippet(plugin)" :title="$t('remove_snippet')" )
-                    h2 {{snippet.note.id}}
-                    // p {{snippet.css}}
-                    p {{snippet.note.content}}
-
             .graph( v-if="selected === 'graph' " )
                 p Layout: 
                 select.select( id="layout" )
@@ -94,9 +81,6 @@
                     input( v-model="key.combo" style="margin-right: 3px;" )
                     input( v-model="key.command" :title="Object.values(ilse.commands.commands).map( item => ` ${item.name}` )" )
                 button.button.slick-button.centered( @click="add_keyboard_shortcut()" ) Add
-
-            .lorem( v-if="selected === 'lore' " )
-                p LORE
 
 </template>
 <script>
@@ -119,7 +103,7 @@ export default {
     data() {
         return {
             ilse: ilse,
-            selected: "General",
+            selected: "general",
             cache: null,
             items_with_tags: 0,
             options: [
@@ -132,10 +116,8 @@ export default {
                 { name: "marketplace", img: "building-store.svg" },
                 { name: "languages", img: "language.svg" },
                 { name: "components", img: "tech-box.svg" },
-                { name: "snippets", img: "brand-css3.svg" },
                 { name: "graph", img: "network.svg" },
                 { name: "keyboard_shortcut", img: "keyboard.svg" },
-                { name: "lore", img: "vocabulary.svg" },
             ]
         }
 

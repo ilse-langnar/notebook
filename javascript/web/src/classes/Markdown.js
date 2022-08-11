@@ -279,6 +279,21 @@ export default class Markdown {
 
         this.plugins.push( separator )
 
+
+        // wqdionqwdoidqwn
+        const number_list = MarkdownPlugin(
+            // /(^(\d+\.)(\s)(.*)(?:$)?)+/gi,
+            // /[0-9]+\\.(.*)/gi,
+            /\s[0-9]+\.(.*)/g,
+            function( match, utils ) {
+                let content       = match[0]
+                printf( "content -> ", content )
+                return `<span> LL </span>`
+            }
+        )
+
+        this.plugins.push( number_list )
+
         const code_block = MarkdownPlugin(
             /*/```([^]+?.*[^]+?[^]+?)/,*/
             /(\\`{3}\\n+)(.*)(\\n+\\`{3})/,

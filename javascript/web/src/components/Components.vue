@@ -72,13 +72,6 @@ export default {
             return component
         },
 
-        get_component_style_2() {
-            let style       = `overflow-y: auto; max-height: 93vh; background: var( --background-color ); border-radius: var( --border-radius );`
-            // if( ilse.is_zen ) style       += `width: 50%; margin: 0 auto;`
-
-            return style
-        },
-
         get_component_style( component ) {
 
             let normal_style = `flex: 1; flex-basis: ${component.width * 10}%; overflow: auto; max-height: 93vh; background: var( --background-color ); border-radius: var( --border-radius ); `; 

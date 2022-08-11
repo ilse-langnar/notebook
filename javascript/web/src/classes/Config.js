@@ -88,9 +88,7 @@ export default class Config {
 
     }
 
-    // Saves the config to filesystem
-    async save() {
-
+    get_normalized_config() {
 
         let components      = ilse.components
 
@@ -99,6 +97,23 @@ export default class Config {
             object_to_save.components = components
             object_to_save.dark       = this.dark
             object_to_save.keys       = ilse.keyboard.keys
+
+        return object_to_save
+    }
+
+    // Saves the config to filesystem
+    async save() {
+
+
+        // let components      = ilse.components
+
+        // let object_to_save  = {}
+        // let object_to_save  = this
+            // object_to_save.components = components
+            // object_to_save.dark       = this.dark
+            // object_to_save.keys       = ilse.keyboard.keys
+
+        let object_to_save = this.get_normalized_config()
 
         await ilse.filesystem.file.write.async( "config.json", JSON.stringify( object_to_save, null, 4 ) )
 

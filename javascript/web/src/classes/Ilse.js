@@ -215,6 +215,7 @@ export default class Ilse {
 
     after_setup() {
         this.loaded()
+        this.is_zen                 = this.config.is_zen
         // this.auto_save()
         // this.create_daily_page()
     }
