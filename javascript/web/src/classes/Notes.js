@@ -429,9 +429,17 @@ export default class Notes {
         let number = this.ilse.utils.get_unique_date_id()
         let instance
 
-        list.map( item => {
-            instance = new this.ilse.classes.Note( `${this.ilse.utils.get_depth_spaces(item.depth)}${number++}: ${item.content}` )
-            this.list.push( instance )
+        list.map( (item, index) => {
+            // instance = new this.ilse.classes.Note( `${this.ilse.utils.get_depth_spaces(item.depth)}${number++}: ${item.content}` )
+            if( index === 0 ) {
+                item = `${ilse.utils.get_unique_date_id()}: ${item}`
+                instance = new this.ilse.classes.Note( item )
+                this.list.push( instance )
+            } else {
+                item = `    ${ilse.utils.get_unique_date_id()}: ${item}`
+                instance = new this.ilse.classes.Note( item )
+                this.list.push( instance )
+            }
         })
 
     }

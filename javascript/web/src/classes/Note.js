@@ -25,7 +25,8 @@ export default class note {
             this.id          = this.id.trim() // "    20220124102749" -> "20220124102749"
             this.id          = this.id.substr( 0, 14 ) // 20220124102749: This is the [[Writing]] -> 20220124102749
             this.id          = this.id.replace(":", "")
-            if( this.id.length < 14 ) this.id = `${this.id}0` // BUGFIX
+            this.id          = this.id.replace(" ", "0")
+            // if( this.id.length < 14 ) this.id = `${this.id}0` // BUGFIX
 
         this.content     = this.$raw
             this.content     = this.content.trim() // "    20220124102749: Example [[Writing]]" -> "20220124102749: Example [[Writing]]"

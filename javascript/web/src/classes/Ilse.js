@@ -88,8 +88,13 @@ export default class Ilse {
         this.path                   = path
 
         // BUGFIX: In my quine I need a time to wait for the DOM to load, otherwise I overwrite since it thinks it does not exists.
-            this.before_setup()
-            setTimeout( () => { this.setup() }, 1000 )
+        this.before_setup()
+
+        if( this.platform === "quine" ) {
+            setTimeout( () => { this.setup() }, 100 )
+        } else {
+            this.setup();
+        }
     }
 
     before_setup() {

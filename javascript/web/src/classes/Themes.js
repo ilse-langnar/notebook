@@ -16,7 +16,7 @@ let DEFAULT_THEMES = [
         --border: 1px solid #4a4a4a;
         --border-radius: 6px;
         --padding: 4px;
-        --font-family: Mary, Helvetica, Georgia, Times New Roman, serif;
+        --font-family: Mary, Helvetica, Georgia, Times New Roman, serif, -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
         --link-color: #428bca;
         --link-color: #5ec7b8;
         --secondary-link-color: #70a7a8;

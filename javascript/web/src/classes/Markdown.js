@@ -40,9 +40,9 @@ export default class Markdown {
               if( has_spacer ) {
                   let real = link.split("|")[1].trim()
 
-                  return `<span class="link" onclick="console.log('lllll'); var delay = 1000; window.lastClick = 0; if( delay > ( Date.now() - window.lastClick ) ) { console.log('threwe') } else { console.log('another'); window.lastClick = Date.now(); Messager.emit('~note.vue', 'link-click', { 'event': event, 'link': '${link}', target: this.parentNode.parentNode.id} ) }; " title="${link}" > [[${real}]] </span>`
+                  return `<span class="link" onclick="console.log('lllll'); var delay = 1000; window.lastClick = 0; if( delay > ( Date.now() - window.lastClick ) ) { console.log('threwe') } else { console.log('another'); window.lastClick = Date.now(); Messager.emit('~note.vue', 'link-click', { 'event': event, 'link': '${link}', target: (this.parentNode.parentNode.id ? this.parentNode.parentNode.id : this.parentNode.parentNode.parentNode.id) } ) }; " title="${link}" > [[${real}]] </span>`
               } else {
-                  return `<span class="link" onclick="console.log('lllll'); var delay = 1000; window.lastClick = 0; if( delay > ( Date.now() - window.lastClick ) ) { console.log('threwe') } else { console.log('another'); window.lastClick = Date.now(); Messager.emit('~note.vue', 'link-click', { 'event': event, 'link': '${link}', target: this.parentNode.parentNode.id} ) }; " title="${link}" > [[${link}]] </span>`
+                  return `<span class="link" onclick="console.log('lllll'); var delay = 1000; window.lastClick = 0; if( delay > ( Date.now() - window.lastClick ) ) { console.log('threwe') } else { console.log('another'); window.lastClick = Date.now(); Messager.emit('~note.vue', 'link-click', { 'event': event, 'link': '${link}', target: (this.parentNode.parentNode.id ? this.parentNode.parentNode.id : this.parentNode.parentNode.parentNode.id ) } ) }; " title="${link}" > [[${link}]] </span>`
               }
 
 

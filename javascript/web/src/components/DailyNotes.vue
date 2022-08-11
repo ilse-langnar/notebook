@@ -8,7 +8,7 @@
                 span.flexi.is-size-3.has-text-weight-bold( :title=" $t('notes') + day.notes.length" ) {{get_file( day )}}
             p.fitem &#128269;
         .options.centered
-            p.fitem.remove( @click="remove(day)" style="cursor: pointer;" ) &#88;
+            p.fitem.remove( @click="remove(day)" style="" ) &#88;
 
         // .note( v-for="(note, note_index) in day.notes" :key="note_index" :style="get_note_style(note)" )
         .note( v-for="(note, note_index) in day.notes.filter( e=> e.depth === 0 )" :key="note_index" :style="get_note_style(note)" )
@@ -565,6 +565,8 @@ printf( ">>> DailyNotes -> payload -> ", payload )
 
 .flex p.remove  {
     cursor: pointer;
+    width: 20px; 
+    margin: 0 auto;
 }
               
 </style>

@@ -386,7 +386,8 @@ select option {
     color: var( --text-color );
     cursor: pointer;
     display: inline-block;
-    font-family: Mary, -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    /*font-family: Mary, -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";*/
+    font-family: var( --font-family );
     font-size: 14px;
     font-weight: 500;
     line-height: 20px;
@@ -653,7 +654,7 @@ fieldset[disabled] .pagination-ellipsis {
   background: none;
   border: none;
   color: currentColor;
-  font-family: Mary, inherit;
+  font-family: var( --font-family );
   font-size: 1em;
   margin: 0;
   padding: 0;
@@ -773,7 +774,8 @@ input,
 optgroup,
 select,
 textarea {
-  font-family: Mary, BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  /*font-family: Mary, BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;*/
+  font-family: var( --font-family );
 }
 
 code,

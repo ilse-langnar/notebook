@@ -42,7 +42,6 @@ export default {
             let copy          = Array.from( this.list )
             let name          = copy.shift().split(":")[2]
 
-
             ilse.notes.add_list( copy )
 
             ilse.notes.save()

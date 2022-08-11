@@ -38,6 +38,12 @@
                     Notes( :note="note" :options="{ is_collapsed: true }" )
                     .space
 
+            .css-snippets( v-if="selected === 'css-snippets' " )
+                .centered
+                .loop( v-for="( note, index ) in ilse.notes.query('#i/css')" :key="index" )
+                    Notes( :note="note" :options="{ hide_bullet: true }" )
+
+
             .templates( v-if="selected === 'templates' " )
                 .loop( v-for="( note, index ) in ilse.notes.query('#i/template/')" :key="index" )
                     Notes( :note="note" :options="{ is_collapsed: true }" )
@@ -121,6 +127,7 @@ export default {
                 // { name: "typography", img: "typography.svg" },
                 { name: "plugins", img: "plugin.svg" },
                 { name: "themes", img: "palette.svg" },
+                { name: "css-snippets", img: "brand-css3.svg" },
                 { name: "templates", img: "template.svg" },
                 { name: "marketplace", img: "building-store.svg" },
                 { name: "languages", img: "language.svg" },
