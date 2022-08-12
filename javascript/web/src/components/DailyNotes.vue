@@ -533,7 +533,7 @@ printf( ">>> DailyNotes -> payload -> ", payload )
 
                 } else if( action === "deleted" ) {
 
-                    let note      = payload
+                    let note        = payload
                     let day         = this.get_note_day( note )
                     let note_index= day.notes.indexOf( note )
                     let day_index   = this.days.indexOf( day )

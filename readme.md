@@ -88,6 +88,7 @@ This started with frustration not only with lock-in but the lack of extensabilit
 | Right/Left Sidebar |  You can put anything you want there with quick access | ![Right Sidebar](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-right-sidebar.gif) | 
 | Zettelkasten | We don't use directories and you have access to links to link a note to a file or to another note. | |
 | Inline Embeds | You can use {{}} to embed things such as: Queries, todos, tags, word-count, timer and more! | |
+| Drag & Drop | Drag and Drop either notes, media or other. | |
 
 
 
@@ -98,6 +99,11 @@ This started with frustration not only with lock-in but the lack of extensabilit
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-2.png" />
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-13.png" />
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-14.png" />
+
+## Use Cases
+As a Note-Taking tool: 
+As a Study(memory) tool:
+As a App Factory tool: 
 
 
 ## Studying with Ilse

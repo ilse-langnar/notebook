@@ -288,7 +288,7 @@ blockquote {
     color: var( --background-color );*/
 
     border-left: 4px solid var( --text-color );
-    color: var( --text-color );
+    color: var( --secondary-text-color );
     background: var( --secondary-background-color );
     margin-left: auto;
 }
@@ -726,6 +726,7 @@ img,
 video {
   height: auto;
   max-width: 100%;
+  margin: 3px;
 }
 
 iframe {

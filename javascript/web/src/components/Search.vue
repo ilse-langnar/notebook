@@ -20,11 +20,14 @@
             p.is-size-6 {{ $t( "search_nothing_found_for" ) }} {{search_query}}
         p.is-size-6.is-pulled-left( v-if="search_result.length" ) {{search_result.length}} {{ $t('search_results') }}
         br
-        .item.flex( v-if="search_result.length" v-for="( result, index ) in search_result" :key="index" :style="get_search_result_item_style( index )" :id="'search-item'+ index" )
 
-            span.paragraph-note ⚫
-            p( v-if="!is_markdown_mode_on" :style="get_p_style(result.type)" :title="$t('click_to_open')" @click="on_search_result_click($event, result)" ) {{result.content}}
-            p( v-if="is_markdown_mode_on"  :style="get_p_style(result.type)" :title="$t('click_to_open')" @click="on_search_result_click($event, result)" v-html="get_html(result.content)" ) 
+        // .item.flex( v-if="search_result.length" v-for="( result, index ) in search_result" :key="index" :style="get_search_result_item_style( index )" :id="'search-item'+ index" )
+
+        .item.flex( v-if="search_result.length" v-for="( item, index ) in ilse.notes.query(search_query)" :key="index" :style="get_search_result_item_style( index )" :id="'search-item'+ index" )
+            // span.paragraph-note ⚫
+            Notes( :note="item" )
+            // p( v-if="!is_markdown_mode_on" :style="get_p_style(result.type)" :title="$t('click_to_open')" @click="on_search_result_click($event, result)" ) {{result.content}}
+            // p( v-if="is_markdown_mode_on"  :style="get_p_style(result.type)" :title="$t('click_to_open')" @click="on_search_result_click($event, result)" v-html="get_html(result.content)" ) 
 
 </template>
 <script>
@@ -37,6 +40,9 @@ const printf                        = console.log;
 // Messager
     import Messager                     from "@/classes/Messager.js"
 
+// Components
+    import Notes                        from "@/components/Notes.vue"
+
 export default {
 
     name: "Search",
@@ -44,6 +50,10 @@ export default {
     props: {
         id: { type: String, required: false, default: function() { return Math.random().toString() } },
         component: { type: Object, required: false }
+    },
+
+    components: {
+        Notes,
     },
 
     data() {
@@ -158,12 +168,13 @@ export default {
 
         on_blur() {
             setTimeout( () => {
-                this.close_search()
+                // this.close_search()
                 this.$emit( "on-blur" )
             }, 200 )
         },
 
         on_key_down_enter( event ) {
+            return 
             let is_shift_pressed  = event.shiftKey
             let is_ctrl_pressed   = event.ctrlKey
 

@@ -83,7 +83,10 @@ class Modals {
             id: "command-pallet",
             name: "Command Pallet",
             component: ilse.types.get( "command-pallet" ),
-            props: { },
+            props: {
+                style: "width: 55%; height: 50%; "
+
+            },
         })
 
         this.add({

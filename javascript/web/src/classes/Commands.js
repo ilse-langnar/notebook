@@ -696,14 +696,18 @@ class Commands {
             {
                 id: "export-quine",
                 fn: async function() {
-                    let o = await fetch("https://raw.githubusercontent.com/ilse-langnar/notebook/dev/javascript/quine/index.html")
-                    printf( "o -> ", o )
+
+                    let o    = await fetch("https://raw.githubusercontent.com/ilse-langnar/notebook/dev/javascript/quine/index.html")
                     let text = await o.text()
-                    printf( "text -> ", text )
+                    let items= ilse.notes.query( "[[Blog]]" )
+                    let notes= ""
+                    items.map( item => {
+                        notes += `${item.get()}\n`
+                    })
 
                     let filesystem = {
                         "/": {
-                            "notes": "",
+                            "notes": notes,
                             "queue": "",
                             "statistics": "",
                             "priorities": "",

@@ -1,7 +1,11 @@
 <template lang="pug" >
 .command-pallet
 
-    input.input( v-model="input" autofocus ref="command_pallet" @keydown.escape="turn_off" @keydown.enter="on_keydown_enter" @blur="on_blur" @input="on_input" @focus="on_focus" )
+    .flex
+        img( :src="irequire.img('command.svg')" style="width: 28px;  " )
+        input.input( v-model="input" autofocus ref="command_pallet" @keydown.escape="turn_off" :placeholder="$t('search')" @keydown.enter="on_keydown_enter" @blur="on_blur" @input="on_input" @focus="on_focus" )
+        img( :src="irequire.img('question-mark.svg')" style="width: 20px;  " )
+    // input.input( v-model="input" autofocus ref="command_pallet" @keydown.escape="turn_off" @keydown.enter="on_keydown_enter" @blur="on_blur" @input="on_input" @focus="on_focus" )
 
     .flex
         .mitem
@@ -21,7 +25,9 @@
         h1.is-size-1( v-if=" search_result === 0" ) No Results ):
 
         .item
-            p.is-pulled-left {{command.name}}
+            .is-pulled-left
+                span {{command.name}}
+                span.description.is-size-7 &nbsp; &nbsp; &nbsp; {{command.description}}
             .shortcut.is-pulled-right( v-if="get_shortcut_by_name(command.name)" )
                 span( v-if="get_shortcut_by_name(command.name)" ) {{get_shortcut_by_name(command.name).replace("ctrl+space", "")}}
     br
@@ -232,7 +238,6 @@ export default {
 }
 
 .flex .item {
-    border: 1px solid var( --text-color );
     width: 100%;
     margin-bottom: 5px;
     border-radius: var( --border-radius );
@@ -244,19 +249,22 @@ export default {
 .flex .item:hover {
     background: var( --text-color );
     color: var( --background-color );
-    border: 1px solid var( --text-color );
     border-radius: var( --border-radius );
 }
 
 input.input {
     background: var( --background-color );
     color: var( --text-color );
-    border: 1px solid var( --text-color );
     width: 100%;
+    border: 0 !important;
 }
 
 strong  {
     color: var( --text-color );
 }
 
+.item .is-pulled-left span.description {
+    color: #999;
+}
+ 
 </style>

@@ -1,9 +1,8 @@
 <template lang="pug" >
 .note
-    // .flex( v-if="is_on" :style="options.style" @click="on_note_root_click" )
-    .flex( v-if="is_on" :style="options.style" )
+    .flex( v-if="is_on" :style="options.style" :class=" is_dragging_over ? 'dragging-over' : '' " :data-unique-id="inote.id" draggable @drag="on_drag" @dragover="is_dragging_over = true" @dragleave="is_dragging_over = false" @dragend="is_dragging_over = false" @drop="on_drop" )
 
-        .bullet( v-if="!options.hide_bullet" )
+        .bullet( v-if="!options.hide_bullet" :data-unique-id="inote.id" )
             p.collapsed( v-if="inote.is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click="on_note_click" @click.middle="on_note_click" @click.right="on_note_click" :id=" 'bullet-' + inote.id" ) &#8277;
             p.expanded( v-if="!inote.is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click="on_note_click" @click.middle="on_note_click" @click.right="on_note_click" :id=" 'bullet-' + inote.id" ) &bull;
 
@@ -91,6 +90,7 @@ export default {
             ilse: ilse,
 
             inote: this.note,
+            is_dragging_over: false,
 
             // This is for the [note ref] and [file ref]
             is_on: false,
@@ -98,6 +98,36 @@ export default {
     },
 
     methods: {
+
+        on_drag( event ) {
+
+            if( !ilse.dragging ) {
+                ilse.dragging = event.srcElement.getAttribute("data-unique-id")
+            }
+
+        },
+
+        on_drop( event ) {
+
+            printf( "event.target -> ", event.target )
+
+            let dom 
+            if( event.srcElement.parentNode.getAttribute("data-unique-id") ) {
+                dom = event.srcElement.parentNode 
+            } else if( event.srcElement.parentNode.parentNode.getAttribute("data-unique-id") ) {
+                dom = event.srcElement.parentNode.parentNode 
+            } else if(  event.srcElement.parentNode.parentNode.parentNode.getAttribute("data-unique-id") ) {
+                dom = event.srcElement.parentNode.parentNode.parentNode
+            }
+
+            let id     =  dom.getAttribute( "data-unique-id" )
+            let target = ilse.notes.query( `${id}: ` )[0]
+            let source = ilse.notes.query( `${ilse.dragging}: ` )[0]
+            target.children.push( source )
+
+            Messager.emit( "~notes", "deleted", source )
+            this.is_dragging_over = false
+        },
 
         on_note_click( event ) {
 
@@ -679,6 +709,10 @@ input:focus{
     font-size: 0.9em;
     margin-right: 5px;
     margin-top: 2px;
+}
+
+.dragging-over {
+    background: var( --secondary-background-color );
 }
 
 </style>

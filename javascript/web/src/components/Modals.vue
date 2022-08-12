@@ -34,7 +34,7 @@ export default {
     methods: {
 
         get_style( modal ) {
-            return modal.props.style
+            return modal.props.style || "width: 70%; height: 70%;"
         },
 
         close() {
@@ -106,6 +106,10 @@ export default {
 </script>
 <style>
 
+.modals {
+    border-radius: 10px;
+}
+
 .modal-wrapper {
     position: fixed;
     width: 70%;
@@ -115,9 +119,16 @@ export default {
     transform: translate( -50%, -50% );
     z-index: 13;
     background: var( --background-color );
-    border: 1px solid var( --text-color );
     border-radius: 10px;
+    overflow: auto;
     /*opacity: 0.9;*/
+}
+
+.wrapper {
+    border: 1px solid #000;
+    border-radius: 10;
+    padding: 2px;
+
 }
 
 .shadow {
@@ -136,7 +147,7 @@ export default {
     border-radius: 10px;
     z-index: 12;
     overflow: auto;
-    height: 70vh;
+    /*height: 70vh;*/
     padding: 10px;
 }
 
