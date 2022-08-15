@@ -14,7 +14,8 @@ export default class note {
     constructor( note /*, source*/  ) {
 
         // BUGFIX: Sometimes before the ID there's a single space.
-        if( note[0] === " " && note[1] !== " " ) note = note.split("").shift().join("")
+        // if( note[0] === " " && note[1] !== " " ) note = note.split("").shift().join("")
+        if( note[0] === " " && note[1] !== " " ) note = note.replace(/\ /, "")
             // note = note.trim()
 
         this.$raw        = note
@@ -31,7 +32,7 @@ export default class note {
             this.id          = this.id.replace(":", "")
             this.id          = this.id.replace(" ", "0")
             // if( this.id.length < 14 ) this.id = `${this.id}0` // BUGFIX
-            if( this.id.length < 14 ) this.id = this.id.replace( " ", "0" )
+            if( this.id.length < 14 ) this.id = this.id.replace( /\ /g, "0" )
 
         this.content     = this.$raw
             this.content     = this.content.trim() // "    20220124102749: Example [[Writing]]" -> "20220124102749: Example [[Writing]]"

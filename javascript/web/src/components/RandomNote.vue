@@ -3,10 +3,10 @@
     .flex
         input.input( v-model="query" placeholder="#todo, #work, #today" @keydown.enter="key = Math.random()" )
         input.input( v-model="num" type="number" min="1" max="100" style="width: 10%;" )
-    .loop( v-for="( item, index ) in get_random_note(query)" )
+    .loop( v-for="( item, index ) in get_random_note(query)" :key="index + key" )
         // Notes( :note="get_random_note(query)" :key="key" )
 
-        Notes( :note="item" :key="key" )
+        Notes( :note="item" )
         // Note( :note="item" :key="key" )
 
 </template>

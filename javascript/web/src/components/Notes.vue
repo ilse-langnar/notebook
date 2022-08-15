@@ -95,7 +95,11 @@ export default {
 
             // let style = `display: flex;`
             let style = ``
-                if( note.depth )            style += `margin-left: ${13 * note.depth}px !important; `
+
+            // TODO: The bigger 'depth' is, the lower margin I'll give.
+            let divider = Math.pow( 2, note.depth - 1)
+            let final = 21 * note.depth / divider
+            if( note.depth )            style += `margin-left: ${final}px !important; `
 
             return style
         },
@@ -245,7 +249,7 @@ export default {
         },
 
         check_for_collapse_tag() {
-            if( this.note.content.indexOf("#!c") !== -1 )  this.note.is_collapsed = true
+            if( this.note && this.note.content.indexOf("#!c") !== -1 )  this.note.is_collapsed = true
         },
 
         setup() {

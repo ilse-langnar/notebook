@@ -23,7 +23,7 @@
     // .favorites( v-for="( item, index ) in ilse.notes.query('#favorite')" ) 
         Notes( :note="item" @on-link-click="on_note_link_click" )
 
-    RandomNote( :options="{ min: 3, query: '- [ ]' }" )
+    // RandomNote( :options="{ min: 3, query: '- [ ]', hide_input: true }" )
 </template>
 <script>
 // eslint-disable-next-line
@@ -37,7 +37,7 @@ const printf                        = console.log;
 
 // Components
     import Notes                        from "@/components/Notes.vue"
-    import RandomNote                   from "@/components/Notes.vue"
+    import RandomNote                   from "@/components/RandomNote.vue"
 
 export default {
 
