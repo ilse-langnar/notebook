@@ -145,7 +145,7 @@ export default {
 .modal {
     /* Border */
     border-radius: 10px;
-    z-index: 12;
+    z-index: 13;
     overflow: auto;
     /*height: 70vh;*/
     padding: 10px;
