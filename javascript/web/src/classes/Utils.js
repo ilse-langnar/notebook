@@ -1198,4 +1198,20 @@ export default class Utils {
 
     }
 
+    // ilse.utils.get_dom_recursive_prop_up( dom, target )
+    get_dom_recursive_prop_up( dom, target, callback, attempts = 0 ) {
+
+        if( attempts >= 5 ) return null
+
+        printf( `1: ${attempts}` )
+        if( dom.getAttribute(target) )  {
+            let attr = dom.getAttribute(target)
+            callback( attr )
+        } else {
+            attempts++
+            this.get_dom_recursive_prop_up( dom.parentNode, target, attempts )
+        }
+
+    }
+
 }

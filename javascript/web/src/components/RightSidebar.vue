@@ -51,7 +51,7 @@ export default {
 
         list( list ) {
             ilse.config.right_sidebar = list
-            ilse.config.save()
+            ilse.config.save( false )
         }
 
     },
@@ -70,7 +70,7 @@ export default {
         },
 
         setup() {
-            this.list = ilse.config.right_sidebar || [ { id: "8944871287849104", width: 12, is_on: true, type: "calendar", props: {} } ]
+            this.list = ilse.config.right_sidebar || [ { id: "8944871287849104", width: 12, is_on: true, type: "draw", props: {} } ]
         },
 
     },

@@ -16,6 +16,7 @@ export default class Notes {
         this.filesystem     = filesystem
         this.ilse           = ilse
         this.list           = []
+        this.cache          = {}
         this.has_loaded     = false
 
         this._setup()
@@ -258,14 +259,18 @@ export default class Notes {
 
     query( q = "", limit = null ) {
 
+        let name = "query-" + q
+
         // FEATURE: O(n)
-        if( q === "" ) return this.list
+            if( q === "" ) return this.list
+
+        // FEATURE: Check name Queries( O(n) )
+            if( ilse.cache.get(name) ) return ilse.cache.get(name)
 
         let has_match = false
         let result    = []
         let list      = this.list
 
-        // printf( "-----> this.list -> ", this.list )
         for( const note of list ) {
 
             has_match = note.$raw.indexOf( q ) !== -1
@@ -274,6 +279,8 @@ export default class Notes {
             result.push( note )
         }
 
+        // FEATURE: Setname
+            ilse.cache.set(name, result)
 
         if( typeof(limit) === "number" ) {
             result.length = limit
@@ -368,7 +375,7 @@ export default class Notes {
     }
     */
 
-    add( content, index = null, depth = 0 ) {
+    add( content, index = null, depth = 0, options = {} ) {
 
         let location         = 0
         // if( index === 0 || index === -1 ) location = 0
@@ -398,6 +405,9 @@ export default class Notes {
         }
 
         Messager.emit( "~notes", "added", { note: instance, index: location, })
+
+        if( options.debug ) debugger
+
         return instance
     }
 

@@ -259,6 +259,7 @@ input[type=range]::-webkit-slider-runnable-track  {
 .video {
     display: block;
     clear: both;
+    margin: 3px;
 }
 
 .audio {
@@ -726,7 +727,6 @@ img,
 video {
   height: auto;
   max-width: 100%;
-  margin: 3px;
 }
 
 iframe {

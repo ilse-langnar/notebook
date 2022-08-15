@@ -50,6 +50,20 @@ export default {
 
     methods: {
 
+        on_keydown( event ) {
+
+            // let content = this.content
+            let content = event.target.innerText
+            let key     = event.key
+
+            if( key === "Enter" ) {
+                this.$emit( "on-enter", { content: content, payload: this.payload })
+                event.target.innerText = ""
+                document.activeElement.blur()
+           }
+
+        },
+
         async add_file( event ) {
 
             let file        = event.dataTransfer.files[0] 

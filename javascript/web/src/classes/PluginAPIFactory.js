@@ -6,8 +6,6 @@ const printf = console.log
 // Utils
     import Messager                     from "@/classes/Messager.js"
 
-// const importFrom                       = require('import-from')
-
 const PLUGIN_STATISTICS = {}
 
 class PluginAPIFactory {

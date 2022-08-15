@@ -1,8 +1,9 @@
 <template lang="pug" >
 .note
-    .flex( v-if="is_on" :style="options.style" :class=" is_dragging_over ? 'dragging-over' : '' " :data-unique-id="inote.id" draggable @drag="on_drag" @dragover="is_dragging_over = true" @dragleave="is_dragging_over = false" @dragend="is_dragging_over = false" @drop="on_drop" )
+    // .flex( v-if="is_on" :style="options.style" @click="on_note_root_click" )
+    .flex( v-if="is_on" :style="options.style" :class=" is_dragging_over ? 'dragging-over' : '' " )
 
-        .bullet( v-if="!options.hide_bullet" :data-unique-id="inote.id" )
+        .bullet( v-if="!options.hide_bullet" )
             p.collapsed( v-if="inote.is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click="on_note_click" @click.middle="on_note_click" @click.right="on_note_click" :id=" 'bullet-' + inote.id" ) &#8277;
             p.expanded( v-if="!inote.is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click="on_note_click" @click.middle="on_note_click" @click.right="on_note_click" :id=" 'bullet-' + inote.id" ) &bull;
 
@@ -10,7 +11,7 @@
         .markdown( contentEditable v-if="inote.is_editable" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent ) {{options.is_tagless ? inote.tagless : inote.content}}
 
         // show
-        .markdown( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent )
+        .markdown( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent :data-unique-id="inote.id" draggable @dragover="is_dragging_over = true" @dragleave="is_dragging_over = false" @dragend="is_dragging_over = false" @drop="on_drop" @drag="ilse.dragging = inote.id" )
 
     .file-reference( v-for="( item, index ) in ilse.notes.get_file_references(inote.content)" )
         component( :is="require('@/components/File.vue').default" :component="{ props: { file: item.replace('![[', '').replace(']]', '') + '.md' } }" )
@@ -73,6 +74,7 @@ export default {
                     bullet_1: "&bull;",
                     hide_bullet: false,
                     is_tagless: false,
+                    read_only: false,
                 }
             }
         },
@@ -88,9 +90,9 @@ export default {
     data() {
         return {
             ilse: ilse,
+            is_dragging_over: false,
 
             inote: this.note,
-            is_dragging_over: false,
 
             // This is for the [note ref] and [file ref]
             is_on: false,
@@ -99,39 +101,119 @@ export default {
 
     methods: {
 
-        on_drag( event ) {
+        on_drop( event ) {
+	
+            let dom = event.srcElement.parentNode
+            printf( "Note.vue -> dom -> ", dom )
+            if( !dom.getAttribute("data-unique-id") ) dom = dom.parentNode
+            printf( "Note.vue -> dom -> ", dom )
+            if( !dom.getAttribute("data-unique-id") ) dom = dom.parentNode
+            printf( "Note.vue -> dom -> ", dom )
 
-            if( !ilse.dragging ) {
-                ilse.dragging = event.srcElement.getAttribute("data-unique-id")
+            let id = dom.getAttribute( "data-unique-id" )
+
+            printf( "id -> ", id )
+            printf( "ilse.dragging -> ", ilse.dragging )
+            let target = ilse.notes.query( `${id}: ` )[0]
+            printf( "target -> ", target )
+            let source = ilse.notes.query( `${ilse.dragging}: ` )[0]
+            printf( "source -> ", source )
+                target.children.push( source )
+            let drag   = ilse.notes.query( `${ilse.dragging}: ` )[0]
+            printf( "drag -> ", drag )
+
+            // BUGFIX: recursive add.
+            if( target.id === drag.id ) {
+                ilse.dragging = ""
+                    return 
             }
 
+            this.reset_drag_n_drop()
+
+            // BUGFIX: we need to have the target's depth + 1
+            drag.depth = target.depth + 1
+
+            // Notes.js
+
+            let drag_index   = ilse.notes.list.indexOf( drag )
+            printf( "drag_index -> ", drag_index )
+
+            let target_index = ilse.notes.list.indexOf( target )
+            printf( "target_index -> ", target_index )
+
+
+            // target.add_child( drag, { debug: true, ilse: ilse })
+
+            // ilse.notes.list.splice( drag_index, 1 )
+            // ilse.notes.delete( drag )
+            // ilse.notes.list.splice( target_index, 0, drag )
+
+            // Notes.vue
+            // printf( "Pushing" )
+            // target.children.push( drag )
+            // Messager.emit( "~notes", "deleted", drag )
+            // Messager.emit( "~notes", "added", { drag })
+
+
+            // Messager.emit( "~notes", "deleted", source )
         },
 
-        on_drop( event ) {
+        reset_drag_n_drop() {
+            this.is_dragging_over   = false
+            ilse.dragging           = ""
+        },
+ 
 
-            printf( "event.target -> ", event.target )
+        /*
+        on_drop( event ) {
 
             let dom 
             if( event.srcElement.parentNode.getAttribute("data-unique-id") ) {
+
                 dom = event.srcElement.parentNode 
-            } else if( event.srcElement.parentNode.parentNode.getAttribute("data-unique-id") ) {
-                dom = event.srcElement.parentNode.parentNode 
-            } else if(  event.srcElement.parentNode.parentNode.parentNode.getAttribute("data-unique-id") ) {
-                dom = event.srcElement.parentNode.parentNode.parentNode
+                    dom = event.srcElement.parentNode.parentNode.parentNode
             }
 
+            printf( "ilse.dragging -> ", ilse.dragging )
             let id     =  dom.getAttribute( "data-unique-id" )
             let target = ilse.notes.query( `${id}: ` )[0]
             let source = ilse.notes.query( `${ilse.dragging}: ` )[0]
             target.children.push( source )
+            let drag   = ilse.notes.query( `${ilse.dragging}: ` )[0]
+
+            // BUGFIX: recursive add.
+            if( target.id === drag.id ) {
+                ilse.dragging = ""
+                    return 
+            }
+
+        // BUGFIX: we need to have the target's depth + 1
+        drag.depth = target.depth + 1
+
+            // Notes.js
+            let drag_index   = ilse.notes.list.indexOf( drag )
+            let target_index = ilse.notes.list.indexOf( target )
+            // ilse.notes.list.splice( drag_index, 1 )
+            ilse.notes.delete( drag )
+            ilse.notes.list.splice( target_index, 0, drag )
+
+            // Notes.vue
+            target.children.push( drag )
+            // Messager.emit( "~notes", "deleted", drag )
+            // Messager.emit( "~notes", "added", { drag })
 
             Messager.emit( "~notes", "deleted", source )
             this.is_dragging_over = false
-        },
+            ilse.dragging = ""
+       },
+       */
 
         on_note_click( event ) {
 
-            if( this.inote.children.length ) this.inote.is_collapsed = !this.inote.is_collapsed
+            printf( "Note.vue -> this.inote.children.length -> ", this.inote.children.length )
+            printf( "Note.vue -> event.button  -> ", event.button )
+
+            if( this.inote.children.length && event.button === 0 ) this.inote.is_collapsed = !this.inote.is_collapsed
 
             let button
             if( event.button === 0 ) button = "left"
@@ -209,6 +291,8 @@ export default {
         },
 
         async add_file( event ) {
+
+            if( this.options.read_only ) return
 
             let file        = event.dataTransfer.files[0] 
                 if( !file ) return
@@ -382,6 +466,8 @@ export default {
         },
 
         on_focus( event, inote ) {
+
+            if( this.options.read_only ) return
 
             this.listen_to_embed_keys()
 
@@ -681,6 +767,7 @@ input:focus{
     min-width: 100px;
     width: fit-content;
     font-size: 1em;
+    user-select: text;
 }
 
 .bullet p {
@@ -713,6 +800,7 @@ input:focus{
 
 .dragging-over {
     background: var( --secondary-background-color );
+
 }
 
 </style>

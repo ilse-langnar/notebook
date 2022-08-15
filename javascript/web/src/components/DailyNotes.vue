@@ -500,14 +500,6 @@ printf( ">>> DailyNotes -> payload -> ", payload )
             Messager.on( "~notes", (action, payload) => {
 
                 if( action === "added" ) {
-                    printf( "DailyNote -> added -> action, payload -> ", action, payload )
-
-                    // if( after.depth !== new_note.depth ) return
-                    // let day         =  ilse.notes.list.length === 1 ? this.days[0] : this.get_note_day( after )
-                    // let note_index  = day.notes.indexOf( after )
-                    // let day_index   = this.days.indexOf( day )
-                        // this.days[day_index].notes.splice( ++note_index, 0, new_note )
-                        // let after_index = this.days[day_index].notes.indexOf(after)
 
                     let index       = payload.index
                     let new_note    = payload.note
@@ -535,11 +527,10 @@ printf( ">>> DailyNotes -> payload -> ", payload )
 
                     let note        = payload
                     let day         = this.get_note_day( note )
+                        if( !day ) return
                     let note_index= day.notes.indexOf( note )
                     let day_index   = this.days.indexOf( day )
                         this.days[day_index].notes.splice( note_index, 1 )
-
-                    // this.key = Math.random()
                 }
 
             })

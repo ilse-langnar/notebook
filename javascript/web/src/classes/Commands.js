@@ -20,10 +20,25 @@ class Commands {
         this.set_default_commands()
     }
 
-    add({ id, name, description, fn, props = {} }) {
+    add_for_plugin({  id, name, icon, description, fn, props = {} }) {
+        props.is_plugin = true
+        this.add({ id, name, icon, description, fn, props })
+    }
+
+
+    add({ id, name, icon, description, fn, props = {} }) {
+
+        props.is_plugin = !!props.is_plugin
+
+        if( props.is_plugin ) {
+            icon = icon ? icon : "plugin.svg"
+        } else {
+            icon = icon ? icon : "command.svg"
+        }
 
         let command = {
             id: id,
+            icon: icon,
             fn: fn,
             description: description,
             name: name,
@@ -95,6 +110,33 @@ class Commands {
         return found
     }
 
+    add_components_commands() {
+
+        let _this = this
+        let components = this.ilse.types.types
+        let icon
+
+        components.map( component => {
+
+            // BUGFIX: hide things like TopMenu(nonusable)
+            if( component.props.is_hidden ) return
+
+            icon = component.props.is_plugin ?  "plugin.svg" : "package.svg"
+
+            this.add({
+                id: `open-${component.id}`,
+                name: `Open: ${component.name}`,
+                icon: icon,
+                description: `Will open: ${component.name}`,
+                fn: function() {
+                    let _component = new ilse.classes.Component({ type: component.id, width: 12, props: {} })
+                    ilse.components.push( _component )
+                },
+                props: {},
+            })
+
+        })
+    }
 
     add_components_commands() {
 
@@ -106,6 +148,7 @@ class Commands {
             this.commands.push({
 
                 id: `open-${component.name}`,
+                icon: "tech-box.svg",
                 fn: function() {
                     let _component = new ilse.classes.Component({ type: component.id, width: 12, props: {} })
                         ilse.components.push( _component )
@@ -121,13 +164,15 @@ class Commands {
 
     set_default_commands() {
 
-        this.commands = [
+        let commands = [
 
             {
                 id: "void",
+                icon: "mood-empty.svg",
                 fn: function() { },
                 description: "Void",
                 name: "Void",
+                props: {},
             },
 
             {
@@ -137,42 +182,51 @@ class Commands {
                 },
                 description: "Open Command Pallet Modal",
                 name: "Open Command Pallet Modal",
+                props: {},
             },
 
             {
                 id: "toggle-dark-mode",
+                icon: "moon-stars.svg",
                 fn: function() {
                     ilse.config.dark = !ilse.config.dark
                 },
                 description: "Will turn on if it's off, and off if it's on",
                 name: "Toggle Dark Mode",
+                props: {},
             },
 
             {
                 id: "open-keyboard-shortcuts-modal",
+                icon: "keyboard.svg",
                 fn: function() {
                     ilse.modals.open( "keyboard-shortcut" )
                 },
                 description: "Will open modal with the list of shortcuts",
                 name: "Open Keyboard Shortcuts Modal",
+                props: {},
             },
 
             {
                 id: "open-types-selection",
+                icon: "letter-t.svg",
                 fn: function() {
                     ilse.modals.open( "type-selection" )
                 },
                 description: "Will open a modal with a list of <Types>",
                 name: "Open Type Selection",
+                props: {},
             },
 
             {
                 id: "save",
+                icon: "save.svg",
                 fn: function() {
                     ilse.save()
                 },
                 description: "Will save: bullets, config etc.",
                 name: "Save",
+                props: {},
             },
 
             {
@@ -182,6 +236,7 @@ class Commands {
                 },
                 description: "Will read an item from first brain",
                 name: "First Brain: Read",
+                props: {},
             },
 
             {
@@ -191,6 +246,7 @@ class Commands {
                 },
                 description: "Will shuffle your queu",
                 name: "First Brain: Shuffle",
+                props: {},
             },
 
             {
@@ -200,6 +256,7 @@ class Commands {
                 },
                 description: "Will open the last time",
                 name: "First Brain: Open Last",
+                props: {},
             },
 
             {
@@ -209,6 +266,7 @@ class Commands {
                 },
                 description: "Will increase interest interet on last item",
                 name: "First Brain: Increase",
+                props: {},
             },
 
             {
@@ -218,6 +276,7 @@ class Commands {
                 },
                 description: "Will decrease interest interet on last item",
                 name: "First Brain: Decrease",
+                props: {},
             },
 
             /*
@@ -230,25 +289,30 @@ class Commands {
                 },
                 description: "Will open a new file",
                 name: "Open File",
+                props: {},
             },
             */
 
             {
                 id: "open-help-modal",
+                icon: "lifebuoy.svg",
                 fn: function() {
                     ilse.modals.open( "help" )
                 },
                 description: "Will open the help modal",
                 name: "Open Help Modal",
+                props: {},
             },
 
             {
                 id: "open-configuration-modal",
+                icon: "settings.svg",
                 fn: function() {
                     ilse.modals.open( "configuration" )
                 },
                 description: "Will open the configuration modal",
                 name: "Open Configuration Modal",
+                props: {},
             },
 
             {
@@ -258,6 +322,7 @@ class Commands {
                 },
                 description: "Will open the all-in-one first-brain modal",
                 name: "Open First Brain Modal",
+                props: {},
             },
 
             {
@@ -271,6 +336,7 @@ class Commands {
                 },
                 description: "Will list your projects",
                 name: "List Projects",
+                props: {},
             },
 
             {
@@ -300,10 +366,12 @@ class Commands {
                 },
                 description: "Will add if it's not there, will remove if it's there",
                 name: "Toggle Menu",
+                props: {},
             },
 
             {
                 id: "search-files",
+                icon: "lupe.svg",
                 fn: async function() {
                     let list = await ilse.filesystem.dir.list.async( "/" )
                     let is_file, file
@@ -336,10 +404,12 @@ class Commands {
                 },
                 description: "Will search the files for the first brain",
                 name: "Search files",
+                props: {},
             },
 
             {
                 id: "new-note",
+                icon: "point.svg",
                 fn: async function() {
                     printf( "new-note -> " )
                     let payload = await ilse.dialog.input( "New note", "Content:" )
@@ -352,6 +422,7 @@ class Commands {
                 },
                 description: "Will open a prompt for a new note",
                 name: "New Note",
+                props: {},
             },
 
             /*
@@ -363,6 +434,7 @@ class Commands {
                 },
                 description: "Search Notes, Files and more",
                 name: "Search",
+                props: {},
             },
             */
 
@@ -373,6 +445,7 @@ class Commands {
                 },
                 description: "Add new line",
                 name: "Add New Line",
+                props: {},
             },
 
             /*
@@ -389,11 +462,13 @@ class Commands {
                 },
                 description: "Will open a new text file",
                 name: "Open Text File",
+                props: {},
             },
             */
 
             {
                 id: "open-note-on-a-mind-map",
+                icon: "hand-move.svg",
                 fn: async function() {
                     document.body.style.cursor = "crosshair";
                     let event_listener
@@ -412,6 +487,7 @@ class Commands {
                 },
                 description: "Will listen to your click and open the note on a mind map",
                 name: "Open Note on a Mind Map",
+                props: {},
             },
 
             {
@@ -434,6 +510,7 @@ class Commands {
                 },
                 description: "Will listen to your click and open the note on a table pan",
                 name: "Open Note on a Table Pan",
+                props: {},
             },
 
             {
@@ -457,6 +534,7 @@ class Commands {
                 },
                 description: "Will listen to your click and open the note on a memex",
                 name: "Open Note on a Memex",
+                props: {},
             },
 
             {
@@ -474,6 +552,7 @@ class Commands {
                 },
                 description: "",
                 name: "Open Textarea Search",
+                props: {},
             },
 
             {
@@ -493,6 +572,7 @@ class Commands {
                 },
                 description: "",
                 name: "Open Textarea Search",
+                props: {},
             },
 
 
@@ -503,6 +583,7 @@ class Commands {
                 },
                 description: "Add a tag to the last item on your first brain",
                 name: "First Brain: Add Tag",
+                props: {},
             },
 
             {
@@ -512,6 +593,7 @@ class Commands {
                 },
                 description: "Remove a tag to the last item on your first brain",
                 name: "First Brain: Remove Tag",
+                props: {},
             },
 
             /*
@@ -523,6 +605,7 @@ class Commands {
                 },
                 description: "Will open a new 'query blocks' component",
                 name: "Open Query Blocks",
+                props: {},
             },
             */
 
@@ -535,6 +618,7 @@ class Commands {
                 },
                 description: "Will open a new component for Spreadsheets",
                 name: "Open Spreadsheets",
+                props: {},
             },
             */
 
@@ -547,6 +631,7 @@ class Commands {
                 },
                 description: "Will open a new component for the Calendar",
                 name: "Open Calendar",
+                props: {},
             },
             */
 
@@ -559,6 +644,7 @@ class Commands {
                 },
                 description: "Will open a new component for a Kanban",
                 name: "Open Kanban",
+                props: {},
             },
             */
 
@@ -571,15 +657,18 @@ class Commands {
                 },
                 description: "Toggle Resize Mode",
                 name: "Toggle Resize Mode",
+                props: {},
             },
 
             {
                 id: "open-search-modal",
+                icon: "lupe.svg",
                 fn: async function() {
                     ilse.modals.open( "search", { mode: "global", filter: "all", is_markdown_mode_on: true, id: null  })
                 },
                 description: "Open Search Modal",
                 name: "Open Search Modal",
+                props: {},
             },
 
             {
@@ -589,10 +678,12 @@ class Commands {
                 },
                 description: "List of all modals",
                 name: "Open Modal List",
+                props: {},
             },
 
             {
                 id: "toggle-zen-mode",
+                icon: "yin-yang.svg",
                 fn: async function() {
                     ilse.config.is_zen  = !ilse.config.is_zen
                     ilse.is_zen         = !ilse.config.is_zen
@@ -600,6 +691,7 @@ class Commands {
                 },
                 description: "Will toggle zen mode",
                 name: "Toggle Zen Mode",
+                props: {},
             },
 
             {
@@ -609,6 +701,7 @@ class Commands {
                 },
                 description: "Go to the next theme available",
                 name: "Rotate theme",
+                props: {},
             },
 
             {
@@ -618,6 +711,7 @@ class Commands {
                 },
                 description: "Will reset the theme to the default theme",
                 name: "Reset Theme",
+                props: {},
             },
 
             {
@@ -627,10 +721,12 @@ class Commands {
                 },
                 description: "Open make extention modal",
                 name: "Open Make Extention Modal",
+                props: {},
             },
 
             {
                 id: "import-plugin-from-url",
+                icon: "packge-import.svg",
                 fn: async function() {
                     let payload = await ilse.dialog.input( "Import Plugin", "url:" )
                     let url     = payload.input
@@ -638,6 +734,7 @@ class Commands {
                 },
                 description: "Import Plugin from URL",
                 name: "Import Plugin from URL",
+                props: {},
             },
 
             {
@@ -647,6 +744,7 @@ class Commands {
                 },
                 description: "Toggle Left Sidebar",
                 name: "Toggle Left Sidebar",
+                props: {},
             },
 
             {
@@ -656,6 +754,7 @@ class Commands {
                 },
                 description: "Toggle Right Sidebar",
                 name: "Toggle Right Sidebar",
+                props: {},
             },
 
             {
@@ -665,6 +764,7 @@ class Commands {
                 },
                 description: "Printf Keys",
                 name: "Printf Keys",
+                props: {},
             },
 
             {
@@ -691,23 +791,21 @@ class Commands {
                 },
                 description: "Check Clipboard",
                 name: "Check Clipboard",
+                props: {},
             },
 
             {
                 id: "export-quine",
+                icon: "plant.svg",
                 fn: async function() {
-
-                    let o    = await fetch("https://raw.githubusercontent.com/ilse-langnar/notebook/dev/javascript/quine/index.html")
+                    let o = await fetch("https://raw.githubusercontent.com/ilse-langnar/notebook/dev/javascript/quine/index.html")
+                    printf( "o -> ", o )
                     let text = await o.text()
-                    let items= ilse.notes.query( "[[Blog]]" )
-                    let notes= ""
-                    items.map( item => {
-                        notes += `${item.get()}\n`
-                    })
+                    printf( "text -> ", text )
 
                     let filesystem = {
                         "/": {
-                            "notes": notes,
+                            "notes": "",
                             "queue": "",
                             "statistics": "",
                             "priorities": "",
@@ -739,6 +837,7 @@ class Commands {
                 },
                 description: "Export Quine",
                 name: "Export Quine",
+                props: {},
             },
 
 
@@ -821,11 +920,23 @@ class Commands {
                 },
                 description: "aaaaa",
                 name: "Aaaaa",
+                props: {},
             }, */
 
-
-
         ]
+
+
+        let icon
+        commands.map( command => {
+            this.add({
+                id: command.id,
+                name: command.name,
+                icon: command.icon,
+                description: command.description,
+                fn: command.fn,
+                props: command.props
+            })
+        })
 
         this.add_components_commands()
     }

@@ -85,7 +85,6 @@ class Modals {
             component: ilse.types.get( "command-pallet" ),
             props: {
                 style: "width: 55%; height: 50%; "
-
             },
         })
 
@@ -131,7 +130,9 @@ class Modals {
             id: "search",
             name: "Search",
             component: ilse.types.get( "search" ),
-            props: {},
+            props: {
+                style: "width: 55%; height: 50%; "
+            },
         })
 
         this.add({
@@ -162,7 +163,12 @@ class Modals {
             props: {},
         })
 
-
+        this.add({
+            id: "digital-garden",
+            name: "Digital Garden",
+            component: ilse.types.get( "digital-garden" ),
+            props: {},
+        })
 
     }
 

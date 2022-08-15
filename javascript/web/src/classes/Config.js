@@ -102,7 +102,7 @@ export default class Config {
     }
 
     // Saves the config to filesystem
-    async save() {
+    async save( save_notes = false ) {
 
 
         // let components      = ilse.components
@@ -117,11 +117,7 @@ export default class Config {
 
         await ilse.filesystem.file.write.async( "config.json", JSON.stringify( object_to_save, null, 4 ) )
 
-        this.after_save()
-    }
-
-    after_save() {
-        ilse.notes.save()
+        if( save_notes ) ilse.notes.save()
     }
 
     listen() {

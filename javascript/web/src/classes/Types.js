@@ -38,6 +38,7 @@ class componentTypes {
             component: require("@/components/TopMenu.vue"),
             props: {
                 is_internal: true,
+                is_hidden: true,
             }
         })
 
@@ -540,7 +541,18 @@ class componentTypes {
 
         })
 
+        this.add({
+            id: "digital-garden",
+            name: "Digital Garden",
+            description: "Host your own Digital Garden",
+            img: this.ilse.irequire.img("square.svg"),
+            type: "vue",
+            component: require("@/components/Digital Garden.vue"),
+            props: {
+                is_internal: true,
+            }
 
+        })
 
     }
 

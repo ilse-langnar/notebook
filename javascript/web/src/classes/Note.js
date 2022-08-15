@@ -13,6 +13,10 @@ export default class note {
 
     constructor( note /*, source*/  ) {
 
+        // BUGFIX: Sometimes before the ID there's a single space.
+        if( note[0] === " " && note[1] !== " " ) note = note.split("").shift().join("")
+            // note = note.trim()
+
         this.$raw        = note
         this.is_editable = false
         this.is_collapsed= false
@@ -27,6 +31,7 @@ export default class note {
             this.id          = this.id.replace(":", "")
             this.id          = this.id.replace(" ", "0")
             // if( this.id.length < 14 ) this.id = `${this.id}0` // BUGFIX
+            if( this.id.length < 14 ) this.id = this.id.replace( " ", "0" )
 
         this.content     = this.$raw
             this.content     = this.content.trim() // "    20220124102749: Example [[Writing]]" -> "20220124102749: Example [[Writing]]"
@@ -37,6 +42,24 @@ export default class note {
         this.tagless     = this.get_tagless(this.content)
 
         this.caret       = new Caret( this )
+    }
+
+    // Add to notes.list
+    add_child( note, options = {} ) {
+        printf( "Note.js -> add_child -> options -> ", options )
+
+        // Add to notes
+            let index = options.ilse.notes.list.indexOf( this )
+            printf( "ilse -> ", ilse )
+            printf( "ilse.notes -> ", ilse.notes )
+            // options.ilse.notes.add( note.content, ++index, ++this.depth, { debug: false } )
+
+        // Add to self
+            this.children.push( note )
+        // if( options.debug ) debugger;
+
+        // Messager.emit( "~notes", "added", { note: note, index: index })
+
     }
 
     get_tagless( content ) {

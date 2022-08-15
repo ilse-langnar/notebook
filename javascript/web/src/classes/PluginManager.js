@@ -67,7 +67,7 @@ class PluginManager {
                 add: ilse.keyboard.add.bind(ilse.keyboard)
             },
             commands: {
-                add: ilse.commands.add.bind(ilse.commands)
+                add: ilse.commands.add_for_plugin.bind(ilse.commands)
             },
             links: ilse.links.links,
             classes: ilse.classes,

@@ -51,7 +51,7 @@ export default {
 
         list( list ) {
             ilse.config.left_sidebar = list
-            ilse.config.save()
+            ilse.config.save( false )
         }
 
     },

@@ -36,20 +36,15 @@ export default {
 
     methods: {
 
-        save() {
-            // printf( "image -> ", image )
-            // let normalized = image.replace("data:image/png;base64,", "")
-            // printf( "normalized -> ", normalized )
-            // let blob       = ilse.utils.base64_2_blob( normalized, "image/png" )
-
-            let el         = this.$refs.handWrite
-            let image      = el.toDataURL()
+        async save() {
             let name       = `image-${ilse.utils.get_unique_date_id()}.png`
             let buffer     = ilse.utils.decode_base64_image(image)
 
             ilse.filesystem.file.write.async( `second/${name}`, buffer.data )
+            await ilse.filesystem.file.write.async( `second/${name}`, buffer.data )
 
             let content    = `![[${name}]]`
+
             ilse.notes.add( content )
             ilse.notification.send( "Added", `Added Picture: ![[${name}]]` )
         },

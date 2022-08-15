@@ -32,8 +32,32 @@ export default class Electron {
     }
 
     setup() {
+        this.enable_context_menu()
         this.enable_cors()
         this.listen()
+    }
+
+    enable_context_menu() {
+        const remote       = require('electron').remote;
+        const { Menu, MenuItem  } = remote;
+
+        window.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            const menu = new Menu();
+            menu.append(new MenuItem(new MenuItem({label: "This menu item is always shown"})));
+            if (e.target.id === "p1" || e.target.id === "p3") {
+                menu.append(new MenuItem({
+                    label: "This menu is not always shown",
+                    click: function(){
+                        printf( "HAHAHAHA" )
+                    }
+                }));
+            }
+
+            menu.popup({ window: remote.getCurrentWindow()  })
+
+        }, false)
+
     }
 
     enable_cors() {

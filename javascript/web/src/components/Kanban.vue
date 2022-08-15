@@ -156,12 +156,6 @@ export default {
                 this.add( key, obj[key] )
             })
 
-            values.map( value => {
-                printf( "value -> ", value )
-            })
-
-            printf( "obj -> ", obj )
-
         },
 
         setup() {

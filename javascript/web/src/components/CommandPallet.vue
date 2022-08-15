@@ -2,10 +2,9 @@
 .command-pallet
 
     .flex
-        img( :src="irequire.img('command.svg')" style="width: 28px;  " )
-        input.input( v-model="input" autofocus ref="command_pallet" @keydown.escape="turn_off" :placeholder="$t('search')" @keydown.enter="on_keydown_enter" @blur="on_blur" @input="on_input" @focus="on_focus" )
-        img( :src="irequire.img('question-mark.svg')" style="width: 20px;  " )
-    // input.input( v-model="input" autofocus ref="command_pallet" @keydown.escape="turn_off" @keydown.enter="on_keydown_enter" @blur="on_blur" @input="on_input" @focus="on_focus" )
+        img( :src="irequire.img('command.svg')" style="width: 23px; margin-bottom: 6px; " )
+        input.input( v-model="input" autofocus ref="command_pallet" @keydown.escape="turn_off" @keydown.enter="on_keydown_enter" @blur="on_blur" @input="on_input" @focus="on_focus" )
+        img( :src="irequire.img('question-mark.svg')" style="width: 20px; margin-bottom: 6px; " )
 
     .flex
         .mitem
@@ -21,25 +20,14 @@
                 strong ESC
     br
 
-    .flex( v-if="!search_result.length" v-for="( command, index ) in ilse.commands.commands" @click="on_item_click($event, command)" )
-        h1.is-size-1( v-if=" search_result === 0" ) No Results ):
-
-        .item
-            .is-pulled-left
+    .flex( v-for="( command, index ) in search_result.length ? search_result : ilse.commands.commands" @click="ilse.commands.run(command.id); ilse.modals.close()" )
+         .item
+             .is-pulled-left
+                img( v-if="command.icon" :src="irequire.img(command.icon)" style="width: 17px; position: relative; top: 5px;  margin-right: 5px; " :title="command.icon" )
                 span {{command.name}}
-                span.description.is-size-7 &nbsp; &nbsp; &nbsp; {{command.description}}
-            .shortcut.is-pulled-right( v-if="get_shortcut_by_name(command.name)" )
-                span( v-if="get_shortcut_by_name(command.name)" ) {{get_shortcut_by_name(command.name).replace("ctrl+space", "")}}
-    br
-
-    .flex( v-if="search_result.length" v-for="( result, index ) in search_result" @click="on_item_click($event, get_command_by_name(result.target) )" )
-        .item
-            p.is-pulled-left {{result.target}}
-            .shortcut.is-pulled-right( v-if="get_shortcut_by_name(result.target)" )
-                span( v-if="get_shortcut_by_name(result.target)" ) {{get_shortcut_by_name(result.target).replace("ctrl+space", "")}}
-    br
-
-
+                span.description.is-size-7 &nbsp; &nbsp; &nbsp; {{command.description}} 
+             .shortcut.is-pulled-right( v-if="get_shortcut_by_name(command.name)" )
+                 span( v-if="get_shortcut_by_name(command.name)" ) {{get_shortcut_by_name(command.name).replace("ctrl+space", "")}}
     br
 
 </template>
@@ -84,12 +72,8 @@ export default {
     methods: {
 
         on_item_click( event, command ) {
-
-            let shift = event.shiftKey
             command.fn()
-                // this.run_command( command )
-
-            if( !shift ) ilse.modals.close() // FEATURE: hold shift for not to close.
+            if( !event.shiftKey ) ilse.modals.close() // FEATURE: hold shift for not to close.
         },
 
         focus() {
@@ -100,14 +84,6 @@ export default {
 
             }
 
-        },
-
-        run_command( name ) {
-
-            let command = this.get_command_by_name( name )
-            let id      = command.id
-
-            ilse.commands.run( id )
         },
 
         get_command_by_name( name ) {
@@ -151,6 +127,7 @@ export default {
         },
 
         turn_off() {
+
         },
 
         on_keydown_enter( event ) {
@@ -159,46 +136,33 @@ export default {
             let ctrl                = event.ctrlKey
             let number_of_result    = this.search_result.length
 
-            // TODO: Fix this, if only one result, automatically search
             if( has_result ) {
-                let first_result = this.search_result[0].target
-                this.run_command( first_result )
+                ilse.commands.run( this.search_result[0].id )
                 ilse.modals.close()
             } else {
-
                 this.search()
-
-                if( ctrl ) { // Instant Search
-                    setTimeout( () => {
-                        let first_result = this.search_result[0].target
-                        this.run_command( first_result )
-                        ilse.modals.close()
-                    }, 10 )
-                }
             }
 
         },
 
         on_blur() {
+
         },
 
         search() {
 
-            /*
-            let _this = this
-            let timeout 
-            clearTimeout( timeout )
-            timeout = setTimeout( () => {
-            }, 1000 )
-            */
+            let input           = this.input.toLowerCase()
+            let list            = ilse.commands.commands
+            let command_name
 
-            let input           = this.input
-
-            let list            = ilse.commands.commands.map( command => { return command.name }).filter( e=>e )
-
-            let result          = ilse.utils.fuzzy_search( input, list )
+            let result          = list.map( command => {
+                command_name = command.name.toLowerCase()
+                if( command && command_name.search(input) !== -1 ) return command
+            }).filter( e=>e )
 
             this.search_result = result
+ 
+            return
         },
 
         on_input() {
@@ -220,6 +184,7 @@ export default {
 
 .command-pallet {
     z-index: 100 !important;
+    overflow: hidden;
 }
 
 .flex .column {
@@ -263,8 +228,4 @@ strong  {
     color: var( --text-color );
 }
 
-.item .is-pulled-left span.description {
-    color: #999;
-}
- 
 </style>

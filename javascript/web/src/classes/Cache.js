@@ -14,6 +14,8 @@ export default class Cache {
 
     set( key, value ) {
         this.cache[key] = value
+        // Clean
+        setTimeout( () => { delete this.cache[key] }, ilse.config.cache_clean_time || 1000 * 60 )
     }
 
     get( key ) {
