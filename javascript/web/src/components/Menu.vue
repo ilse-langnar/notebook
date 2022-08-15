@@ -20,9 +20,10 @@
     // .item( v-for="( favorite, index ) in ilse.config.favorites" :key="index" @click="open_file(favorite)" @click.ctrl="open_file_graph(favorite)" :title="favorite" style="padding: 4px; ")
         p {{favorite}}
 
-    .favorites( v-for="( item, index ) in ilse.notes.query('#favorite')" ) 
+    // .favorites( v-for="( item, index ) in ilse.notes.query('#favorite')" ) 
         Notes( :note="item" @on-link-click="on_note_link_click" )
 
+    RandomNote( :options="{ min: 3, query: '- [ ]' }" )
 </template>
 <script>
 // eslint-disable-next-line
@@ -36,6 +37,7 @@ const printf                        = console.log;
 
 // Components
     import Notes                        from "@/components/Notes.vue"
+    import RandomNote                   from "@/components/Notes.vue"
 
 export default {
 
@@ -43,6 +45,7 @@ export default {
 
     components: {
         Notes,
+        RandomNote,
     },
 
     data() {

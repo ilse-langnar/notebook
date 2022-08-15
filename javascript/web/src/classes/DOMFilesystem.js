@@ -51,7 +51,7 @@ export default class DOMFilesystem {
             let db       = document.createElement( "div" )
                 db.id        = "db"
                 db.innerText = JSON.stringify( db.innerText )
-
+                dom.style = "display: none;"
         }
 
 
@@ -119,6 +119,8 @@ export default class DOMFilesystem {
                         printf( "DOMFilesystem -> save -> dom -> ", dom )
                         printf( "WE HAVE THE DOM " )
                         dom.innerText = JSON.stringify(filesystem)
+                            dom.id    = "db"
+                            dom.style = "display: none;"
                         printf( "WE HAVE THE DOM -> dom.innerText -> ", dom.innerText )
                         document.body.appendChild( dom )
                     } else {

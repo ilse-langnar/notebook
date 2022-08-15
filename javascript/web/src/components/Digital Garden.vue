@@ -28,6 +28,9 @@
         p Description: 
         textarea.textarea( v-model="description" )
 
+    .flex
+        button( @click="export_garden" ) Export Garden
+
     .clear
     .flex
         p Selected Notes: 
@@ -37,6 +40,7 @@
                 Notes( :note="item" :options="{ read_only: true }" )
             .loop( v-if="!ilse.notes.query(link).length" )
                 p Nothing Found for: {{link}}
+        br
 
 </template>
 <script>
@@ -60,6 +64,7 @@ export default {
         return {
             ilse: ilse,
             garden_url: "https://raw.githubusercontent.com/ilse-langnar/notebook/dev/javascript/quine/index.html",
+            description: "",
 
             link: "",
             links: [],
@@ -71,6 +76,52 @@ export default {
     },
 
     methods: {
+
+        async export_garden() {
+
+            let o    = await fetch("https://raw.githubusercontent.com/ilse-langnar/notebook/dev/javascript/quine/index.html")
+            let text = await o.text()
+            let notes= ""
+
+            this.links.map( link => {
+                ilse.notes.query(link).map( item => {
+                    notes += item.get() + "\n"
+                })
+            })
+
+            printf( "notes -> ", notes )
+
+            let filesystem = {
+                "/": {
+                    "notes": notes,
+                    "queue": "",
+                    "statistics": "",
+                    "priorities": "",
+                    "config.json": JSON.stringify( ilse.config.get_normalized_config() ),
+                    "second/": {
+
+                    },
+                    "first/": {
+
+                    },
+                    ".trash/": {
+
+                    },
+                    "plugins/": {
+
+                    },
+                }
+            }
+
+            text = text.replace( "<div id=\"app\"> </div>", `<div id="app"> </div>
+            <div id="db">
+                ${JSON.stringify(filesystem)}
+            </div>
+            `)
+
+            ilse.utils.download_text( text, "index.html" )
+
+        },
 
         add_link( input ) {
             this.links.push( input )
