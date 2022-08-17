@@ -23,6 +23,7 @@ export default class Config {
 
         this.favorites = []
         this.dark      = false
+        this.can_save  = false
         // this.filesystem = filesystem
 
         this.setup()
@@ -43,6 +44,7 @@ export default class Config {
         } else {
             config = JSON.parse( config )
         }
+
 
         // ==== Load Components ==== //
         let instance
@@ -71,8 +73,8 @@ export default class Config {
             if( key === "components" ) continue
             this[key] = config[key]
         }
-        // ==== Load Favorites ==== //
 
+        // ==== Load Favorites ==== //
 
         // ==== Load Keys ==== //
         // ilse.keyboard.keys = config.keys
@@ -86,6 +88,7 @@ export default class Config {
         if( !this.data ) this.data = {}
         // ==== Internal Components ==== //
 
+        this.can_save = true
     }
 
     get_normalized_config() {
@@ -98,12 +101,13 @@ export default class Config {
             object_to_save.dark       = this.dark
             object_to_save.keys       = ilse.keyboard.keys
 
-        return object_to_save
+        return JSON.stringify(object_to_save, null, 4)
     }
 
     // Saves the config to filesystem
     async save( save_notes = false ) {
 
+        if( !this.can_save ) return
 
         // let components      = ilse.components
 
@@ -114,8 +118,10 @@ export default class Config {
             // object_to_save.keys       = ilse.keyboard.keys
 
         let object_to_save = this.get_normalized_config()
+        // let object_to_save = JSON.stringify( this, null, 4 )
 
-        await ilse.filesystem.file.write.async( "config.json", JSON.stringify( object_to_save, null, 4 ) )
+        // await ilse.filesystem.file.write.async( "config.json", JSON.stringify( object_to_save, null, 4 ) )
+        await ilse.filesystem.file.write.async( "config.json", object_to_save )
 
         if( save_notes ) ilse.notes.save()
     }

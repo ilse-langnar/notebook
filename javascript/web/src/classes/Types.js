@@ -263,18 +263,6 @@ class componentTypes {
         })
 
         this.add({
-            id: "keyboard-shortcut",
-            name: "Keyboard Shortcut",
-            description: "List of keys and what commands they invoke",
-            img: this.ilse.irequire.img("keyboard.svg"),
-            type: "vue",
-            component: require("@/components/KeyboardShortcut.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
             id: "memex",
             name: "Memex",
             description: "View Mode",

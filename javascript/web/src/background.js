@@ -6,7 +6,7 @@ import { app, protocol, BrowserWindow, ipcMain, dialog, globalShortcut, remote }
 
 import electron from "electron"
 
-import Store from "electron-store"
+// import Store from "electron-store"
 
 // FEATURE: in-page-search v1
     import searchInPage from 'electron-in-page-search';
@@ -14,29 +14,63 @@ import Store from "electron-store"
     // globalShortcut.register('Control+f', () => { });
 
     ipcMain.on("ctrl+f", (event, arg)=>{
+        event.sender.send('on-find')
         // let findInPage = new FindInPage( electron.remote.getCurrentWebContents() )
         // findInPage.openFindWindow()
-
-        event.sender.send('on-find')
         // const inPageSearch = searchInPage( remote.getCurrentWebContents() )
         // inPageSearch.openSearchWindow()
         // const inPageSearch = searchInPage( remote.getCurrentWebContents() )
         // inPageSearch.openSearchWindow();
     })
 
-
     // v2
-        const schema = {
-            defaultKeyCombination: {
-                type: 'string',
-                default: 'Control+f'
-            }
-        }
-        const store = new Store({schema})
+        // const schema = {
+            // defaultKeyCombination: {
+                // type: 'string',
+                // default: 'Control+f'
+            // }
+        // }
+        // const store = new Store({schema})
+
+const contextMenu = require('electron-context-menu');
+
+contextMenu({
+
+    showCopyImageAddress: true,
+    showSaveLinkAs:       true,
+    showLearnSpelling:    true,
+    showCopyImage:        true,
+    showSaveImageAs:      true,
+    showSaveImage:        true,
+	prepend: (defaultActions, parameters, browserWindow) => [
+		{
+			label: `Rainbow`,
+			visible: parameters.mediaType === "image",
+            onClick: function(){
+                printf( "wdqndwoiqnwd" )
+            },
+		},
+		{
+			label: `Search lll for <>`,
+			/// visible: parameters.selectionText.trim().length > 0,
+			click: (event) => {
+                // console.log( ">>>> " )
+                // printf( "event -> ", event )
+                // event.sender.send( 'example' )
+                // printf( "defaultActions -> ", defaultActions )
+                // printf( "parameters -> ", parameters )
+                // printf( "browserWindow -> ", browserWindow )
+                // printf( "LLLL" )
+                // shell.openExternal()
+			}
+		}
+	]
+})
+
 
 // const app           = electron.app
     // const protocol      = electron.protocol
-    // const BrowserWindow = electron.BrowserWindow
+   // const BrowserWindow = electron.BrowserWindow
     // const ipcMain       = electron.ipcMain
     // const dialog        = electron.dialog
     // const globalShortcut= electron.globalShortcut
@@ -249,6 +283,7 @@ async function createWindow() {
         width: 800,
         height: 600,
         webPreferences: {
+            spellcheck: true,
             webSecutity: false,
             // Use pluginOptions.nodeIntegration, leave this alone
             // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info

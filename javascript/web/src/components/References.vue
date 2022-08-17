@@ -1,22 +1,36 @@
 <template lang="pug" >
 .references
 
-    details
+    p.is-size-5 References
 
+    // details
         summary.is-size-2.centered 
-            .flex
-                p.is-size-2.centered( v-if="is_linked" ) &#10656; {{ $t('linked_references') }} {{ilse.notes.query( '[[' + file.replace('.md', '') + ']]' ).length}}
-                p.is-size-2.centered( v-if="!is_linked" ) &#10656; {{ $t('unlinked_references') }} ({{ilse.notes.query( file.replace('.md', '') + ' ' ).length}})
-                p.is-size-4.centered( v-if="!ilse.notes.query( '[[' + file.replace('.md', '') + ']]' ).length && ilse.notes.query( file.replace('.md', '') + ' ' ).length " ) &#10656; {{ $t('no_references') }} 
-                img( v-if="!is_linked" :src="irequire.img('brackets.svg')"      style="cursor: pointer; width: 20px; "      :title="$t('show_linked_references')" @click="is_linked = !is_linked" )
-                img( v-if="is_linked" :src="irequire.img('brackets-off.svg')"      style="cursor: pointer; width: 20px; " :title="$t('show_unlinked_references')" @click="is_linked=!is_linked" )
 
-        .linked( v-show="is_linked" )
+    // .flex
+        .linked( v-if="is_linked && ilse.notes.query( '[[' + file.replace('.md', '') + ']]' ).length " )
+            p.is-size-2.centered( v-if="" ) &#10656; {{ $t('linked_references') }} {{ilse.notes.query( '[[' + file.replace('.md', '') + ']]' ).length}}
+        .unlinked( v-if="!is_linked && ilse.notes.query( ' ' + file.replace('.md', '') + ' ' ).length " )
+            p.is-size-2.centered( v-else-if="" ) &#10656; {{ $t('unlinked_references') }} ({{ilse.notes.query( file.replace('.md', '') + ' ' ).length}})
+
+        // p.is-size-4.centered( v-else ) &#10656; {{ $t('no_references') }} 
+        // img( v-if="!is_linked" :src="irequire.img('brackets.svg')"      style="cursor: pointer; width: 20px; "      :title="$t('show_linked_references')" @click="is_linked = !is_linked" )
+        // img( v-if="is_linked" :src="irequire.img('brackets-off.svg')"      style="cursor: pointer; width: 20px; " :title="$t('show_unlinked_references')" @click="is_linked=!is_linked" )
+
+    details
+        summary Linked References({{ilse.notes.query( '[[' + file.replace('.md', '') + ']]' ).length}})
+
+        .linked
             .loop( v-for="( item, index ) in ilse.notes.query( '[[' + file.replace('.md', '') + ']]' )" :key="index" )
                 Notes( :note="item" @on-link-click="on_note_link_click" )
-        .un-linked( v-show="!is_linked" )
+
+    details
+        summary Unlinked References({{ilse.notes.query( ' ' + file.replace('.md', '') + ' ' ).length}})
+        .un-linked
             .loop( v-for="( item, index ) in ilse.notes.query( ' ' + file.replace('.md', '') + ' ' )" :key="index" )
-                Notes( :note="item" @on-link-click="on_note_link_click" )
+                .flex
+                    Notes( :note="item" @on-link-click="on_note_link_click" )
+                    button( @click="link(item)" ) Link
+
 </template>
 <script>
 // eslint-disable-next-line
@@ -53,6 +67,12 @@ export default {
     },
 
     methods: {
+
+        link( note ) {
+            let file = this.file.replace(".md", "")
+            // note.content = note.content.replace( file, '[[' + file + ']]' )
+            note.content = note.content.replace( new RegExp(`(${file})`, 'ig'), `[[${file}]]` )
+        },
 
         on_note_link_click( payload ) {
 
@@ -100,5 +120,12 @@ details:focus {
 details summary:focus {
     outline: none;
 }
+
+.un-linked button  {
+    height: 20px;
+    width: 30px;
+
+}
+
 
 </style>

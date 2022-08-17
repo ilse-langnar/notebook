@@ -321,6 +321,9 @@ code {
     background-color: var( --secondary-background-color );
     padding: var( --padding );
     border-radius: var( --border-radius );
+    width: 60%;
+    margin-left: 50px; 
+    overflow: hidden;
 }
 
 .file-reference {
@@ -377,6 +380,15 @@ select option {
     color: var( --text-color );
 }
 
+button {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    color: var( --text-color );
+    appearance: none;
+    cursor: pointer;
+    display: inline-block;
+    border: 0px !important;
+}
+
 .slick-button {
     flex: 1;
     margin: 24px;
@@ -387,6 +399,8 @@ select option {
     border-radius: 6px;
     box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
     box-sizing: border-box;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     color: #24292E;
     color: var( --text-color );
     cursor: pointer;
@@ -408,7 +422,8 @@ select option {
     word-wrap: break-word;
     display: block;
     margin: 1em auto;
-    border: 1px solid var( --text-color ) !important;
+    /*border: 1px solid var( --text-color ) !important;*/
+    border: 0px !important;
 }
 
 .is-light {

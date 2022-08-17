@@ -20,10 +20,19 @@
     // .item( v-for="( favorite, index ) in ilse.config.favorites" :key="index" @click="open_file(favorite)" @click.ctrl="open_file_graph(favorite)" :title="favorite" style="padding: 4px; ")
         p {{favorite}}
 
-    // .favorites( v-for="( item, index ) in ilse.notes.query('#favorite')" ) 
-        Notes( :note="item" @on-link-click="on_note_link_click" )
+    br
+    hr
 
-    // RandomNote( :options="{ min: 3, query: '- [ ]', hide_input: true }" )
+    .favorites( v-for="( item, index ) in ilse.notes.query('#favorite')" ) 
+        Notes( :note="item" @on-link-click="on_note_link_click" :options="{}" )
+
+    br
+    hr
+
+    p {{ilse.notes.query('- [ ]').length}}
+    .todos( v-for="( item, index ) in ilse.notes.query('- [ ]')" ) 
+        Notes( :note="item" @on-link-click="on_note_link_click" :options="{}" )
+
 </template>
 <script>
 // eslint-disable-next-line

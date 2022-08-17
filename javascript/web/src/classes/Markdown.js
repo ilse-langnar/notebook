@@ -357,7 +357,7 @@ export default class Markdown {
 
     after_setup() {
 
-        const md = new MarkdownIt()
+        const md = new MarkdownIt({ html: true })
             // .use( markdownItPluginTaskList )
             // .use( wikilinks )
 

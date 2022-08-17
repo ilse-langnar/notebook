@@ -124,6 +124,7 @@ export default class Theme {
             style.className     = `theme`
 
         document.getElementsByTagName('head')[0].appendChild( style )
+
         ilse.config.save()
     }
 

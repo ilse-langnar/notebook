@@ -51,7 +51,7 @@ export default class DOMFilesystem {
             let db       = document.createElement( "div" )
                 db.id        = "db"
                 db.innerText = JSON.stringify( db.innerText )
-                db.style = "display: none;"
+                dom.style = "display: none;"
         }
 
 

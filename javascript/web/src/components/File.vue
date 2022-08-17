@@ -24,10 +24,10 @@
 
     GhostNote.is-pulled-left( @on-blur="on_ghost_note_blur" @on-enter="on_ghost_note_enter" :options="{ placeholder: '' }" )
 
-    button.button.slick-button.centered( v-if="is_create_file_button_on" style="display: block;" @click="create(file)" ) Create
+    button.slick-button.centered( v-if="is_create_file_button_on" style="display: block;" @click="create(file)" ) Create
 
     .space
-    References( v-if="content && file" :file="file" :key="content" )
+    References( v-if="file" :file="file" :key="content" )
     .space
 
 </template>

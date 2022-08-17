@@ -259,6 +259,7 @@ export default class Notes {
 
     query( q = "", limit = null ) {
 
+        q = q.toLowerCase()
         let name = "query-" + q
 
         // FEATURE: O(n)
@@ -273,7 +274,7 @@ export default class Notes {
 
         for( const note of list ) {
 
-            has_match = note.$raw.indexOf( q ) !== -1
+            has_match = note.$raw.toLowerCase().indexOf( q ) !== -1
                 if( !has_match ) continue
 
             result.push( note )

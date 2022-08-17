@@ -11,12 +11,12 @@
         .markdown( contentEditable v-if="inote.is_editable" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent ) {{options.is_tagless ? inote.tagless : inote.content}}
 
         // show
-        .markdown( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent :data-unique-id="inote.id" draggable @dragover="is_dragging_over = true" @dragleave="is_dragging_over = false" @dragend="is_dragging_over = false" @drop="on_drop" @drag="ilse.dragging = inote.id" )
+        .html( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent :data-unique-id="inote.id" draggable @dragover="is_dragging_over = true" @dragleave="is_dragging_over = false" @dragend="is_dragging_over = false" @drop="on_drop" @drag="ilse.dragging = inote.id" )
 
     .file-reference( v-for="( item, index ) in ilse.notes.get_file_references(inote.content)" )
         component( :is="require('@/components/File.vue').default" :component="{ props: { file: item.replace('![[', '').replace(']]', '') + '.md' } }" )
 
-    // .note-references( v-if="inote.get_note_references()" style="width: 60%; margin-left: 50px; " )
+    .note-references( v-if="inote.get_note_references()" style="" )
         .note-reference( v-for="( item, index ) in ilse.notes.extract_note_references(inote.content)" )
             // Notes( :note="ilse.notes.query(item + ':')[0]" )
             Notes( :note="ilse.notes.query(item + ':')[0]" )
@@ -101,48 +101,50 @@ export default {
 
     methods: {
 
-        on_drop( event ) {
-	
+        get_dom() {
             let dom = event.srcElement.parentNode
-            printf( "Note.vue -> dom -> ", dom )
             if( !dom.getAttribute("data-unique-id") ) dom = dom.parentNode
-            printf( "Note.vue -> dom -> ", dom )
             if( !dom.getAttribute("data-unique-id") ) dom = dom.parentNode
-            printf( "Note.vue -> dom -> ", dom )
 
-            let id = dom.getAttribute( "data-unique-id" )
+            return dom
+        },
 
-            printf( "id -> ", id )
-            printf( "ilse.dragging -> ", ilse.dragging )
-            let target = ilse.notes.query( `${id}: ` )[0]
-            printf( "target -> ", target )
-            let source = ilse.notes.query( `${ilse.dragging}: ` )[0]
-            printf( "source -> ", source )
-                target.children.push( source )
-            let drag   = ilse.notes.query( `${ilse.dragging}: ` )[0]
-            printf( "drag -> ", drag )
+        on_drop( event ) {
 
-            // BUGFIX: recursive add.
-            if( target.id === drag.id ) {
-                ilse.dragging = ""
-                    return 
-            }
+            let dom          = this.get_dom()
+            let id           = dom.getAttribute( "data-unique-id" )
 
+            // For UI
+            let drop         = ilse.notes.query( `${id}: ` )[0]
+            let dragging     = ilse.notes.query( `${ilse.dragging}: ` )[0]
+
+                // BUGFIX: we need to have the drop's depth + 1
+                dragging.depth   = drop.depth + 1
+
+                // BUGFIX: 
+                if( drop.id === dragging.id ) ilse.dragging = ""
+
+                // Will update Notes.vue(UI) given that :key="note.children.length"
+                drop.children.push( dragging )
+
+            // For actual list(of objects)
+            let drop_index = ilse.notes.list.indexOf( drop )
+                printf( "drop_index -> ", drop_index )
+            let drag_index = ilse.notes.list.indexOf( dragging )
+                printf( "drag -> ", drag_index )
+
+
+            // Remove background Style
             this.reset_drag_n_drop()
 
-            // BUGFIX: we need to have the target's depth + 1
-            drag.depth = target.depth + 1
+            // BUGFIX: recursive add.
 
+            // BUGFIX: we need to have the drop's depth + 1
+            // let drag_index   = ilse.notes.list.indexOf( dragging )
+            // let target_index = ilse.notes.list.indexOf( drop )
             // Notes.js
 
-            let drag_index   = ilse.notes.list.indexOf( drag )
-            printf( "drag_index -> ", drag_index )
-
-            let target_index = ilse.notes.list.indexOf( target )
-            printf( "target_index -> ", target_index )
-
-
-            // target.add_child( drag, { debug: true, ilse: ilse })
+            // drop.add_child( drag, { debug: true, ilse: ilse })
 
             // ilse.notes.list.splice( drag_index, 1 )
             // ilse.notes.delete( drag )
@@ -150,7 +152,7 @@ export default {
 
             // Notes.vue
             // printf( "Pushing" )
-            // target.children.push( drag )
+            // drop.children.push( drag )
             // Messager.emit( "~notes", "deleted", drag )
             // Messager.emit( "~notes", "added", { drag })
 
@@ -405,19 +407,23 @@ export default {
 
             let content         = this.options.is_tagless ? note.tagless : note.content
 
+            if( content.indexOf("<") !== -1 ) {
+                printf( "note.content -> ", note.content )
+                printf( "content ->" )
+            }
+
+
+            let normalized = ilse.markdown.render( content )
+            return normalized
+
             // let ref                   = ilse.notes.extract_note_references( content ) // TODO: Make this a notes function
-
-            return ilse.markdown.render( content )
-
             /*
             // return ilse.markdown.render( content )
             // Empty note
             if( !content ) return "<NOTHING>"
-
             // === no Ref === //
             let ref                   = ilse.notes.extract_note_references( content ) // TODO: Make this a notes function
                 if( !ref ) return ilse.markdown.render( content ) // No note references, normal markdown.
-
             // === Refs === //
             return html
             */
@@ -762,7 +768,7 @@ input:focus{
     border-bottom: 1px solid var( --text-color );
 }
 
-.markdown {
+.markdown, .html {
     /*margin-bottom: 6px;*/
     min-width: 100px;
     width: fit-content;

@@ -58,7 +58,8 @@ export default {
             key: 0,
             notes_key: 0,
             days: [], // [ { id: "20220128", notes: [ { text: "20220124102749: This is a [[Writing]] example", index: 15532 } ] } ]
-            options: {},
+            options: {
+            },
         }
     },
 

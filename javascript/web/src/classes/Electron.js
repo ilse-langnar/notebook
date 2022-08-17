@@ -32,7 +32,7 @@ export default class Electron {
     }
 
     setup() {
-        this.enable_context_menu()
+        // this.enable_context_menu()
         this.enable_cors()
         this.listen()
     }
@@ -44,7 +44,10 @@ export default class Electron {
         window.addEventListener('contextmenu', (e) => {
             e.preventDefault();
             const menu = new Menu();
+
             menu.append(new MenuItem(new MenuItem({label: "This menu item is always shown"})));
+            menu.append(new MenuItem(new MenuItem({label: "Example 2"})));
+
             if (e.target.id === "p1" || e.target.id === "p3") {
                 menu.append(new MenuItem({
                     label: "This menu is not always shown",
@@ -101,6 +104,10 @@ export default class Electron {
         this.ipc.on( "blur", () => {
             _this.is_focused = false
             // this.on_focus_change.map( item => item(false) )
+        })
+
+        this.ipc.on( "example", () => {
+            printf( "AAAAAAAAAAAAAA" )
         })
 
 

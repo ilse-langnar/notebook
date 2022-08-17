@@ -76,7 +76,7 @@
 
             .keyboard-shortcut( v-if="selected === 'keyboard_shortcut' " )
 
-                .key( v-for="( key, index ) in ilse.keyboard.keys" :key="index" )
+                .loop( v-for="( key, index ) in ilse.keyboard.keys" :key="index" )
                     img.is-pulled-right( :src="irequire.img('x.svg')" style="width: 20px; cursor: pointer;" @click="delete_key(key)" :title="$t('remove_snippet')" )
                     input( v-model="key.combo" style="margin-right: 3px;" )
                     input( v-model="key.command" :title="Object.values(ilse.commands.commands).map( item => ` ${item.name}` )" )
@@ -367,6 +367,17 @@ export default {
 
 .s-clear {
     clear: both;
+}
+
+.keyboard-shortcut .loop {
+    background: var( --background-color );
+    color: var( --text-color );
+}
+
+.keyboard-shortcut input {
+    background: var( --background-color );
+    color: var( --text-color );
+    border: 0 !important;
 }
 
 </style>

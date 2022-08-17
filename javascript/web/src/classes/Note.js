@@ -47,12 +47,9 @@ export default class note {
 
     // Add to notes.list
     add_child( note, options = {} ) {
-        printf( "Note.js -> add_child -> options -> ", options )
 
         // Add to notes
             let index = options.ilse.notes.list.indexOf( this )
-            printf( "ilse -> ", ilse )
-            printf( "ilse.notes -> ", ilse.notes )
             // options.ilse.notes.add( note.content, ++index, ++this.depth, { debug: false } )
 
         // Add to self
@@ -60,6 +57,21 @@ export default class note {
         // if( options.debug ) debugger;
 
         // Messager.emit( "~notes", "added", { note: note, index: index })
+
+    }
+
+    move( index ) {
+
+        try {
+            let current_index = ilse.notes.list.indexOf(this)
+            ilse.utils.array_move( ilse.notes.list, current_index, index )
+        } catch( e ) {
+            debugger;
+        }
+
+        this.children.map( child => {
+            // child.move( ++index )
+        })
 
     }
 

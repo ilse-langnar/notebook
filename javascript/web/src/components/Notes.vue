@@ -2,7 +2,7 @@
 .notes( v-if="note" )
     component( :is="require('@/components/Note.vue').default" :note="note" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-click="on_note_click" :options="options" )
     
-    .children( v-show="!note.is_collapsed" :class="note.children.length ? 'one' : ''" :key="note.children.length + options.key" )
+    .children( v-show="!note.is_collapsed" :class="(note.children.length && !options.prevent_depth_margin) ? 'left-border' : ''" :key="note.children.length + options.key" )
         .loop( v-for="( item, index ) in note.children" :key="index" :style="get_note_style(item)" )
             Notes( :note="item" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-click="on_note_click" :options="options" )
 
@@ -29,6 +29,7 @@ export default {
         note: { type: Object, required: false, },
         options: { type: Object, required: false, default: function() {
             return {
+                prevent_depth_margin: false,
                 key: 0,
             }
         } },
@@ -92,6 +93,9 @@ export default {
 
         // Control the margins
         get_note_style( note ) {
+
+            // FEATURE: Some components want a flat notes
+            if( this.options.prevent_depth_margin ) return
 
             // let style = `display: flex;`
             let style = ``
@@ -270,8 +274,11 @@ export default {
 .notes .loop {
 }
 
+.children {
 
-.one {
+}
+
+.left-border {
     border-left: 1px solid #999; 
     margin: 5px;
 }
