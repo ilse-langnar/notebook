@@ -5,6 +5,8 @@ const printf                                    = console.log
 
 // libs
     import path                                      from "path"
+    import DOMFilesystem2                            from "dom-filesystem"
+
 
 // JSON
     import CONFIG_TEMPLATE                           from  "@/classes/CONFIG_TEMPLATE.js"
@@ -22,7 +24,7 @@ export default class DOMFilesystem {
 
         filesystem = {
             "/": {
-                "notes": "",
+                "notes": "20210810100520: [[Ilse Ideas]] How can I integrate bullets + spaced repetition better?",
                 "queue": "",
                 "statistics": "",
                 "priorities": "",
@@ -43,7 +45,6 @@ export default class DOMFilesystem {
         }
 
         let db = document.getElementById("db")
-        printf( ">>>>>>>>>>>>>>>>> db -> ", db )
 
         if( db ) { // has, load
             filesystem   = JSON.parse(db.innerText)
@@ -51,7 +52,7 @@ export default class DOMFilesystem {
             let db       = document.createElement( "div" )
                 db.id        = "db"
                 db.innerText = JSON.stringify( db.innerText )
-                dom.style = "display: none;"
+
         }
 
 
@@ -112,27 +113,17 @@ export default class DOMFilesystem {
                 setTimeout( () => {
 
                     let dom = document.getElementById( "db" )
-                    printf( "DOMFilesystem -> save -> dom -> ", dom )
 
                     // BUGFIX: don't exist yet
                     if( dom ) {
-                        printf( "DOMFilesystem -> save -> dom -> ", dom )
-                        printf( "WE HAVE THE DOM " )
                         dom.innerText = JSON.stringify(filesystem)
-                            dom.id    = "db"
-                            dom.style = "display: none;"
-                        printf( "WE HAVE THE DOM -> dom.innerText -> ", dom.innerText )
-                        document.body.appendChild( dom )
+                        document.head.appendChild( dom )
                     } else {
-                        printf( "WE DO NOT HABE THE DOM" )
                         dom = document.createElement( "div" )
-                        printf( "WE DO NOT HABE THE DOM -> dom(new) -> ", dom )
                             dom.id    = "db"
                             dom.style = "display: none;"
                         dom.innerText = JSON.stringify(filesystem)
-                        printf( "dom.innerText -> ", dom.innerText )
-                        printf( "dom -> ", dom )
-                        document.body.appendChild( dom )
+                        document.head.appendChild( dom )
                     }
                 }, 10 )
             },
@@ -140,7 +131,14 @@ export default class DOMFilesystem {
             readFileSync: function( full_path, mode ) {
 
                 let chunks = full_path.split("/").filter( e=>e )
-                let obj = filesystem["/"]
+                let obj    = filesystem["/"]
+                let len    = chunks.lenght
+                    if( !len ) return obj[full_path]
+                printf( "chunks -> ", chunks )
+                printf( "readFileSync -> full_path -> ", full_path )
+                printf( "len -> ", len )
+                printf( "obj[full_path] -> ", obj[full_path] )
+                // if( len === 1 ) return obj[full_path]
 
                 for( let chunk of chunks ) {
                     obj = obj[chunk]

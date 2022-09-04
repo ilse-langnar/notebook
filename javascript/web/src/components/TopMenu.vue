@@ -1,7 +1,7 @@
 <template lang="pug" >
 .top-menu( v-if="!ilse.is_zen" style="width: 100%; display: flex; padding: 0.3em 0.5em; " )
 
-    img( :src="irequire.img('arrow-narrow-right.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_left_sidebar')" @click="ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open" )
+    // img( :src="irequire.img('arrow-narrow-right.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_left_sidebar')" @click="ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open" )
     .menu-item( style="margin: auto;" )
 
 
@@ -14,10 +14,11 @@
 
 
     .menu-item( style="margin: auto; " )
-        SearchButton( :width="50" :should-autofocus="false" @on-result-select="on_note_search_on_result_select" )
+        // SearchButton( :width="50" :should-autofocus="false" @on-result-select="on_note_search_on_result_select" )
+        Gene( component="SearchButton.html" @SearchButton="on_search_button" )
 
     .menu-item( style="margin: auto; " )
-        img( :src="irequire.img('command.svg')"   style="cursor: pointer; width: 20px; " :title="$t('open_command_pallet')" alt="$t('open_command_pallet')" @click="toggle_command_pallet" )
+        img( :src="irequire.img('command.svg')" style="cursor: pointer; width: 20px;" :title="$t('open_command_pallet')" alt="$t('open_command_pallet')" @click="toggle_command_pallet" )
         .margin-small
 
         img( :src="irequire.img('settings.svg')"     style="cursor: pointer; width: 20px; " :title="$t('configuration')" @click="open_configuration_modal" accesskey="c" )
@@ -31,7 +32,8 @@
 
         img.is-pulled-right( :src="irequire.img('moon-stars.svg')"   style="cursor: pointer; width: 20px; " :title="$t('toggle_dark_mode')" @click="toggle_dark_mode()" )
 
-    img( :src="irequire.img('arrow-narrow-left.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_right_sidebar')" @click="ilse.is_right_sidebar_open = !ilse.is_right_sidebar_open" )
+    // img( :src="irequire.img('arrow-narrow-left.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_right_sidebar')" @click="ilse.is_right_sidebar_open = !ilse.is_right_sidebar_open" )
+
     br
 
 </template>
@@ -48,6 +50,9 @@ const printf                        = console.log;
 // Components
     import SearchButton                 from "@/components/SearchButton.vue"
 
+// Components
+    import Gene                         from "@/components/Gene.vue"
+
 export default {
 
     name: "TopMenu",
@@ -61,10 +66,18 @@ export default {
 
     components: {
         SearchButton,
+        Gene,
     },
 
-
     methods: {
+
+        on_search_button( payload ) {
+
+            if( payload.action === 'click' ) {
+                ilse.modals.open( "search", { mode: "global", filter: "all", is_markdown_mode_on: true, id: null  })
+            }
+
+        },
 
         open_folders_modal() {
             ilse.modals.open("folders");
@@ -89,16 +102,10 @@ export default {
         },
 
         toggle_dark_mode() {
-
-            let is_dark = ilse.config.dark
-
-            if( is_dark ) {
-                ilse.config.dark = false
-            } else {
-                ilse.config.dark = true
-            }
-
-            ilse.config.save()
+            // ilse.config.dark = !ilse.config.dark
+            ilse.commands.run( "toggle-dark-mode" )
+            // ilse.config.save()
+            // printf( "ilse.config.dark -> ", ilse.config.dark )
         },
 
         open_configuration_modal() {

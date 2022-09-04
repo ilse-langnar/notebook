@@ -66,17 +66,17 @@ class componentTypes {
             }
         })
 
-        this.add({
-            id: "graph",
-            name: "Graph",
-            description: "",
-            img: this.ilse.irequire.img("network.svg"),
-            type: "vue",
-            component: require("@/components/Graph.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
+        // this.add({
+            // id: "graph",
+            // name: "Graph",
+            // description: "",
+            // img: this.ilse.irequire.img("network.svg"),
+            // type: "vue",
+            // component: require("@/components/Graph.vue"),
+            // props: {
+                // is_internal: true,
+            // }
+        // })
 
         this.add({
             id: "command-pallet",

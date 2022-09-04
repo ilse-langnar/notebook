@@ -54,7 +54,40 @@ export default {
 
         },
 
+        set_font_face() {
+
+            // const mary = new FontFace('Mary', `url(assets/mary.ttf)`);
+            const mary = new FontFace('Mary', `url( ${require("@/assets/mary.ttf")} )`);
+
+            mary.load().then(function(loadedFont) {
+                document.fonts.add( loadedFont )
+                text.style.fontFamily = ' "Mary" '
+            }).catch(function(error) {
+                printf( 'Failed to load font: ' + error )
+            })
+
+
+/*
+printf( "set_font_face" )
+            let font_face = `
+            @font-face {
+                font-family: Mary;
+                font-style: normal;
+                font-weight: lighter;
+                src: url("fonts/assets/mary.6cf07156.ttf");
+            } `
+
+            printf( ">>>>>>>>>>> font_face -> ", font_face )
+            let style = document.createElement('style')
+                style.appendChild( document.createTextNode( font_face ) )
+
+            document.head.appendChild( style )
+            */
+
+        },
+
         setup() {
+            if( process.env.VUE_APP_TARGET === "ELECTRON" ) this.set_font_face()
         },
 
     },
@@ -68,12 +101,14 @@ export default {
 <style>
 
 
+/*
 @font-face {
     font-family: Mary;
     font-style: normal;
     font-weight: lighter;
     src: url("assets/mary.ttf");
 }
+*/
 
 ::selection {
     color: var( --background-color );

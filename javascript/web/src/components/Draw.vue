@@ -6,12 +6,7 @@
 <script>
 // eslint-disable-next-line
 const printf                        = console.log;
-
-// Ilse
-    import ilse                         from "@/ilse.js"
-
-// Messager
-    import Messager                     from "@/classes/Messager.js"
+const dna = window.dna ? window.dna : { on: ()=>{}, emit: ()=>{}, example: ()=>{}, export: ()=>{}, import: ()=>{} }
 
 // Libs
     import VueSignatureCanvas           from "vue-signature-canvas";
@@ -26,7 +21,6 @@ export default {
 
     data() {
         return {
-            ilse: ilse,
         }
     },
 
@@ -36,6 +30,7 @@ export default {
 
     methods: {
 
+        /*
         async save() {
             let name       = `image-${ilse.utils.get_unique_date_id()}.png`
             let buffer     = ilse.utils.decode_base64_image(image)
@@ -47,6 +42,41 @@ export default {
 
             ilse.notes.add( content )
             ilse.notification.send( "Added", `Added Picture: ![[${name}]]` )
+        },
+
+
+        save() {
+            let el         = this.$refs.handWrite
+            let image      = el.toDataURL()
+            let name       = `image-${ilse.utils.get_unique_date_id()}.png`
+            let buffer     = ilse.utils.decode_base64_image(image)
+
+            ilse.filesystem.file.write.async( `second/${name}`, buffer.data )
+
+            let content    = `![[${name}]]`
+                ilse.notes.add( content )
+            ilse.notification.send( "Added", `Added Picture: ![[${name}]]` )
+
+        },
+        */
+
+        decode_base64_image( dataString ) {
+            var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+                response = {};
+            if (matches.length !== 3) return new Error('Invalid input string');
+
+            response.type = matches[1];
+            response.data = new Buffer(matches[2], 'base64');
+
+            return response;
+        },
+
+        save() {
+            let el         = this.$refs.handWrite
+            let image      = el.toDataURL()
+            let buffer     = this.decode_base64_image(image)
+
+            dna.emit( "save", buffer )
         },
 
         setup() {

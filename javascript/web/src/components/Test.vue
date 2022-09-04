@@ -1,24 +1,4 @@
 <template lang="pug" >
-// .test
-    // p.is-size-1.is-light.centered Statistics
-    // img( src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F89%2F05%2F05%2F89050576bbc2f10542b79567178026c8.png&f=1&nofb=1" )
-
-    svg( xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" )
-        path(id="connector" fill="none" stroke="black" stroke-width="10" )
-
-    #a This is a regular HTML div.
-    #b So is this.
-
-
-// .test( style="width: 90%; display: block; margin: 0 auto; " )
-    button.button.slick-button( @click="on_click" ) Click
-    br
-    br
-    br
-    br
-    br
-    p.is-pulled-left( v-for="( word, index ) in list" :key="index" :style="word.style + 'text-align: center; '" ) {{word.word}}
-
 .test( style="border: 1px solid #000; width: 100%;" )
     p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 </template>
@@ -28,13 +8,13 @@ const printf                                                    = console.log;
     // import printf                                                       from "@/utils/functions/debugging/printf.js"
 
     // import axios                                        from "axios"
-    import ilse                                         from "@/ilse.js"
+    // import ilse                                         from "@/ilse.js"
     // import GraphPixel                                   from  "ngraph.pixel"
     // import HLayout                                      from  "ngraph.hlayout"
     // import createGraph                                  from 'ngraph.graph'
-    import LeaderLine                                   from "leader-line-new"
-    import orgchart                                     from "orgchart"
-    printf( "orgchart -> ", orgchart )
+    // import LeaderLine                                   from "leader-line-new"
+    // import orgchart                                     from "orgchart"
+    // printf( "orgchart -> ", orgchart )
 
 export default {
 
@@ -141,15 +121,6 @@ html, body {
     height: 100%;
     padding: 0;
     margin: 0;
-}
-
-div {
-    color: white;
-    text-align: center;
-    padding: 10px;
-    position: fixed;
-    width: 200px;
-    height: 100px;
 }
 
 #a {

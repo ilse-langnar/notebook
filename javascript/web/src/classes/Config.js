@@ -89,6 +89,17 @@ export default class Config {
         // ==== Internal Components ==== //
 
         this.can_save = true
+
+        this.after_load()
+    }
+
+
+    get_theme_tone() {
+        ilse.theme_tone = this.dark ? "dark" : "light"
+    }
+
+    after_load() {
+        this.get_theme_tone()
     }
 
     get_normalized_config() {

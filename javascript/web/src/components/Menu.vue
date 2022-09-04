@@ -20,18 +20,22 @@
     // .item( v-for="( favorite, index ) in ilse.config.favorites" :key="index" @click="open_file(favorite)" @click.ctrl="open_file_graph(favorite)" :title="favorite" style="padding: 4px; ")
         p {{favorite}}
 
-    br
-    hr
+    .divider( v-if="ilse.notes.query('#favorite').length" )
+        br
+        hr
+
 
     .favorites( v-for="( item, index ) in ilse.notes.query('#favorite')" ) 
         Notes( :note="item" @on-link-click="on_note_link_click" :options="{}" )
 
-    br
-    hr
+    .divider( v-if="ilse.notes.query('- [ ]').length" )
+        br
+        hr
 
-    p {{ilse.notes.query('- [ ]').length}}
-    .todos( v-for="( item, index ) in ilse.notes.query('- [ ]')" ) 
-        Notes( :note="item" @on-link-click="on_note_link_click" :options="{}" )
+    .todos-wrapper( v-if="ilse.notes.query('- [ ]').length" )
+        p.centered Todos({{ilse.notes.query('- [ ]').length}})
+        .todos( v-for="( item, index ) in ilse.notes.query('- [ ]')" ) 
+            Notes( :note="item" @on-link-click="on_note_link_click" :options="{}" )
 
 </template>
 <script>

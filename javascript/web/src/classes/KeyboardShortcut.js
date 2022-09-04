@@ -158,7 +158,6 @@ class KeyboardShortcut  {
         }
 
         parent_keys.map( key => {
-            printf( "key -> ", key )
 
             document.addEventListener( "keydown", event => {
 
@@ -219,9 +218,7 @@ class KeyboardShortcut  {
         }
 
         this.keys.push( key )
-        printf( "AAAAAA add() -> key -> ", key )
         this.bind_key( key )
-        printf( "key.combo BINDED" )
     }
 
     // matches a-z

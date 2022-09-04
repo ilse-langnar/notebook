@@ -61,9 +61,7 @@ export default class Filesystem {
 
         if( process.env.VUE_APP_TARGET === "QUINE" ) {
             let result = await this.dir.is.async( "/" )
-            printf( "result -> ", result )
             let config = await this.file.read.async( "config.json" )
-            printf( "config -> ", config )
         }
 
     }

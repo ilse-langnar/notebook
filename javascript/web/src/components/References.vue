@@ -31,6 +31,15 @@
                     Notes( :note="item" @on-link-click="on_note_link_click" )
                     button( @click="link(item)" ) Link
 
+    // details
+        // summary Unlinked References({{ilse.notes.query( ' ' + file.replace('.md', '') + ' ' ).length}})
+        summary Unlinked References({{query_unlinked}})
+        .un-linked
+            .loop( v-for="( item, index ) in ilse.notes.query( ' ' + file.replace('.md', '') + ' ' )" :key="index" )
+                .flex
+                    Notes( :note="item" @on-link-click="on_note_link_click" )
+                    button( @click="link(item)" ) Link
+
 </template>
 <script>
 // eslint-disable-next-line
@@ -67,6 +76,17 @@ export default {
     },
 
     methods: {
+
+        /*
+        query_unlinked( file ) {
+            let normalized = file.replace('.md', '') 
+            let r = `[^\\[\\[](${normalized})[^\\]\\]]` // normalized, but without the [[]]
+            printf( "r -> ", r )
+            let reg_exp    = new RegExp( r, "ig" )
+            let result     = ilse.notes.query_regexp( reg_exp )
+            return result
+        },
+        */
 
         link( note ) {
             let file = this.file.replace(".md", "")

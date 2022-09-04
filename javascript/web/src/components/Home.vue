@@ -4,7 +4,8 @@
     .loading( v-if="!ilse.target_directories.length || !ilse.has_loaded " :key="ilse.key" )
         Setup
 
-    .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded" :key="ilse.key" :data-theme="get_data_theme()" :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
+    // .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded" :key="ilse.key" :data-theme="get_data_theme()" :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
+    .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded" :key="ilse.key" :data-theme="ilse.config.dark ? 'dark' : 'light' " :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
 
         // TopMenu
         Component.top-menu( :component="get_top_menu()" :options="{ hide_bullet: true }" style="" )
@@ -58,6 +59,15 @@ export default {
         }
     },
 
+    computed: {
+
+        get_data_theme() {
+            return ilse.config.dark ? 'dark' : 'light'
+        },
+
+
+    },
+
     methods: {
 
         get_top_menu() {
@@ -71,14 +81,14 @@ export default {
             ilse.modals.open( "keyboard-shortcut" )
         },
 
-        get_data_theme() {
-            let theme = ilse.config.dark ? 'dark' : 'light'
-            return theme
-        },
+        // get_data_theme() {
+            // return ilse.config.dark ? 'dark' : 'light'
+            // return theme
+            // return ilse.theme_tone
+        // },
 
         setup() {
             ilse.vue = this
-            // document.addEventListener( "keydown", event => { printf( "event -> ", event ) })
         },
 
     },

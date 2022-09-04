@@ -257,6 +257,45 @@ export default class Notes {
 
     }
 
+    // ilse.notes.query_regexp( /<string>s?/ ) = for plurals, I might also use this in = References / .? <term> .?  / = for more iclusive query
+    query_regexp( q = / / , limit = null ) {
+
+        let name = "query-" + q
+
+        // FEATURE: O(n)
+            if( q === "" ) return this.list
+
+        // FEATURE: Check name Queries( O(n) )
+            if( ilse.cache.get(name) ) return ilse.cache.get(name)
+
+        let has_match = false
+        let result    = []
+        let list      = this.list
+        let reg_exp
+
+        for( const note of list ) {
+
+            // reg_exp   = new RegExp( `(${q})`, "ig" )
+            // has_match = reg_exp.match( note.content )
+            // has_match = q.match( note.content )
+            has_match = note.content.match( q )
+            // note.content = note.content.replace( new RegExp(`(${file})`, 'ig'), `[[${file}]]` )
+                if( !has_match ) continue
+
+            result.push( note )
+        }
+
+        // FEATURE: Setname
+            ilse.cache.set(name, result)
+
+        if( typeof(limit) === "number" ) {
+            result.length = limit
+            return result
+        } else {
+            return result
+        }
+    }
+
     query( q = "", limit = null ) {
 
         q = q.toLowerCase()

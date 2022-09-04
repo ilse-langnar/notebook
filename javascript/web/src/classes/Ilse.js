@@ -173,7 +173,7 @@ export default class Ilse {
         this.keyboard               = new KeyboardShortcut(this)
 
         // === Electron.js === //
-        if( this.platform === "electron" ) this.electron               = new Electron( this )
+        if( this.env.VUE_APP_TARGET === "ELECTRON" ) this.electron               = new Electron( this )
 
         // this.command_prompt         = new CommandPrompt()
         // this.plugin_menu            = new PluginMenu()
@@ -211,15 +211,59 @@ export default class Ilse {
 
     }
 
+    set_dna() {
+
+        let dna     = require( "html-dna" ).default
+        printf( "window.dna -> ", window.dna )
+
+        window.dna.on( "ll", d => {
+            printf( "Ilse.js >>> d -> ", d )
+        })
+
+        setTimeout( () => {
+            window.dna.emit( "ll", Math.random() )
+        }, 5000 )
+
+        /*
+        window.dna = { // const dna = require("html-dna"); window.dna = dna
+
+            on: function( label, callback ) {
+                printf( "Ilse.js -> on" )
+                Messager.on( label, callback )
+            },
+
+            emit: function( label, payload ) {
+                printf( "Ilse.js -> emit" )
+                Messager.emit( label, payload )
+            },
+
+            example: function() {
+                printf( "example" )
+            },
+
+            export: function() {
+                printf( "export" )
+            },
+
+            import: function() {
+                printf( "import" )
+            },
+
+        }
+        */
+    }
+
     after_setup() {
         this.loaded()
         this.is_zen                 = this.config.is_zen
+        this.set_dna()
         // this.auto_save()
         // this.create_daily_page()
     }
 
     loaded() {
         this.has_loaded             = true
+        printf( "EMITTING IS LOADED" )
         Messager.emit( "~ilse", "loaded", this )
     }
 

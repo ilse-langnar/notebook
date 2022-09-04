@@ -190,6 +190,7 @@ class Commands {
                 icon: "moon-stars.svg",
                 fn: function() {
                     ilse.config.dark = !ilse.config.dark
+                    ilse.config.save()
                 },
                 description: "Will turn on if it's off, and off if it's on",
                 name: "Toggle Dark Mode",
@@ -493,19 +494,33 @@ class Commands {
             {
                 id: "open-note-on-a-table-pan",
                 fn: async function() {
+                    printf( "1" )
                     document.body.style.cursor = "crosshair";
+                    printf( "2" )
                     let event_listener
+                    printf( "3" )
                     function on_click( event ) {
+                        printf( "4" )
                         document.removeEventListener( "click", on_click )
+                        printf( "5" )
                         let id        = event.target.id.split("-")[1]
+                        printf( "id -> ", id )
+                        printf( "6" )
                         if( id ) {
+                            printf( "7" )
                             let component = new ilse.classes.Component({ type: "table-pan", width: 12, props: { id: id } })
+                                printf( "8" )
                                 ilse.components.push( component )
+                                printf( "9" )
                         }
+                                printf( "10" )
                         document.body.style.cursor = "auto";
+                        printf( "11" )
 
                     }
+                    printf( "12" )
                     event_listener = document.addEventListener( "click", on_click )
+                    printf( "13" )
 
                 },
                 description: "Will listen to your click and open the note on a table pan",
