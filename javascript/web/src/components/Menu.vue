@@ -20,22 +20,30 @@
     // .item( v-for="( favorite, index ) in ilse.config.favorites" :key="index" @click="open_file(favorite)" @click.ctrl="open_file_graph(favorite)" :title="favorite" style="padding: 4px; ")
         p {{favorite}}
 
-    .divider( v-if="ilse.notes.query('#favorite').length" )
+    // .divider( v-if="ilse.notes.query('#favorite').length" )
         br
         hr
 
 
-    .favorites( v-for="( item, index ) in ilse.notes.query('#favorite')" ) 
-        Notes( :note="item" @on-link-click="on_note_link_click" :options="{}" )
-
-    .divider( v-if="ilse.notes.query('- [ ]').length" )
-        br
-        hr
-
-    .todos-wrapper( v-if="ilse.notes.query('- [ ]').length" )
-        p.centered Todos({{ilse.notes.query('- [ ]').length}})
-        .todos( v-for="( item, index ) in ilse.notes.query('- [ ]')" ) 
+    details
+        summary #favorite
+        .favorites( v-for="( item, index ) in ilse.notes.query('#favorite')" ) 
             Notes( :note="item" @on-link-click="on_note_link_click" :options="{}" )
+
+    details
+        summary Favorited Files
+        .favorites( v-for="( item, index ) in ilse.config.favorites" @click="on_favorite_click(item)" ) 
+            p.link [[{{item}}]]
+
+    // .divider( v-if="ilse.notes.query('- [ ]').length" )
+        hr
+
+    details
+        summary Todos
+        .todos-wrapper( v-if="ilse.notes.query('- [ ]').length" )
+            p.centered Todos({{ilse.notes.query('- [ ]').length}})
+            .todos( v-for="( item, index ) in ilse.notes.query('- [ ]')" ) 
+                Notes( :note="item" @on-link-click="on_note_link_click" :options="{}" )
 
 </template>
 <script>
@@ -68,6 +76,12 @@ export default {
     },
 
     methods: {
+
+        on_favorite_click( file ) {
+            let component = new ilse.classes.Component({ type: "file", width: 8, props: { file }})
+                ilse.components.push( component )
+        },
+
 
         add_daiyl_notes() {
 

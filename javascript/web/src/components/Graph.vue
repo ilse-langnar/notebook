@@ -1,6 +1,6 @@
 <template lang="pug" >
 .graph( tabindex="0" :ref="link" :id="link" :title="link" autofocus="autofocus" )
-    input.input( v-model="target" style="width: 100%; background: var( --background-color ); color: var( --text-color ); ")
+    input.input.centered( v-model="component.props.file" style="width: 100%; background: var( --background-color ); color: var( --text-color ); width: fit-content; display: block; " )
     .layout( style="position: relative; top: 25px; right: 25px; z-index: 100; " )
         img.img.is-pulled-right( v-if="layouts[0] === 'cose'" :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" :title="$t('cose_layout')" :style="get_layout_style('cose')" @click="select_next_layout()" )
         img.img.is-pulled-right( v-if="layouts[0] === 'grid' " :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" :title="$t('grid_layout')" :style="get_layout_style('grid')" @click="select_next_layout()" )
@@ -26,13 +26,13 @@ const printf                        = console.log;
     // import fcose                        from "cytoscape-fcose"
     // import Viva                         from  "vivagraphjs"
     import cytoscape                    from "cytoscape/dist/cytoscape.min.js"
-    import qtip                         from "cytoscape-qtip";
-    import dagre                        from "cytoscape-dagre";
+    // import qtip                         from "cytoscape-qtip";
+    // import dagre                        from "cytoscape-dagre";
 
 
 // Install Libraries
-    cytoscape.use( qtip )
-    cytoscape.use( dagre )
+    // cytoscape.use( qtip )
+    // cytoscape.use( dagre )
 
 export default {
 
@@ -41,12 +41,12 @@ export default {
     data() {
         return {
             ilse: ilse,
-            target: "",
+            target: this.component.file,
             layouts: [
                 // "dagre",
+                "circle",
                 "breadthfirst",
                 "grid",
-                "circle",
                 "concentric",
                 "breadthfirst",
                 "cose", 
@@ -375,14 +375,13 @@ export default {
             })
             */
 
-            cy.nodes().each(function (node) {
-                node.qtip({
-                    content: `${node.data("id")}`,
-                    show: { event: "mouseenter mouseover" },
-                    hide: { event: "mouseleave mouseout" }
-                });
-
-            });
+            // cy.nodes().each(function (node) {
+                // node.qtip({
+                    // content: `${node.data("id")}`,
+                    // show: { event: "mouseenter mouseover" },
+                    // hide: { event: "mouseleave mouseout" }
+                // });
+            // });
 
             cy.nodes().forEach( (el, index) => {
 
@@ -429,6 +428,8 @@ export default {
             printf( "this.component -> ", this.component )
 
             ilse.graph.generate()
+
+            setTimeout( () => { this.run() }, 1000 )
             // setTimeout( () => { this.run() }, 1000 )
         },
 

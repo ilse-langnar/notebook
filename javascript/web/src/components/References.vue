@@ -3,43 +3,20 @@
 
     p.is-size-5 References
 
-    // details
-        summary.is-size-2.centered 
-
-    // .flex
-        .linked( v-if="is_linked && ilse.notes.query( '[[' + file.replace('.md', '') + ']]' ).length " )
-            p.is-size-2.centered( v-if="" ) &#10656; {{ $t('linked_references') }} {{ilse.notes.query( '[[' + file.replace('.md', '') + ']]' ).length}}
-        .unlinked( v-if="!is_linked && ilse.notes.query( ' ' + file.replace('.md', '') + ' ' ).length " )
-            p.is-size-2.centered( v-else-if="" ) &#10656; {{ $t('unlinked_references') }} ({{ilse.notes.query( file.replace('.md', '') + ' ' ).length}})
-
-        // p.is-size-4.centered( v-else ) &#10656; {{ $t('no_references') }} 
-        // img( v-if="!is_linked" :src="irequire.img('brackets.svg')"      style="cursor: pointer; width: 20px; "      :title="$t('show_linked_references')" @click="is_linked = !is_linked" )
-        // img( v-if="is_linked" :src="irequire.img('brackets-off.svg')"      style="cursor: pointer; width: 20px; " :title="$t('show_unlinked_references')" @click="is_linked=!is_linked" )
-
     details
-        summary Linked References({{ilse.notes.query( '[[' + file.replace('.md', '') + ']]' ).length}})
+        summary Linked References({{query_linked(file).length}})
 
         .linked
-            .loop( v-for="( item, index ) in ilse.notes.query( '[[' + file.replace('.md', '') + ']]' )" :key="index" )
+            .loop( v-for="( item, index ) in query_linked(file)" :key="index" )
                 Notes( :note="item" @on-link-click="on_note_link_click" )
 
     details
-        summary Unlinked References({{ilse.notes.query( ' ' + file.replace('.md', '') + ' ' ).length}})
+        summary Unlinked References({{query_unlinked(file).length}})
         .un-linked
-            .loop( v-for="( item, index ) in ilse.notes.query( ' ' + file.replace('.md', '') + ' ' )" :key="index" )
+            .loop( v-for="( item, index ) in query_unlinked(file)" :key="index" )
                 .flex
                     Notes( :note="item" @on-link-click="on_note_link_click" )
                     button( @click="link(item)" ) Link
-
-    // details
-        // summary Unlinked References({{ilse.notes.query( ' ' + file.replace('.md', '') + ' ' ).length}})
-        summary Unlinked References({{query_unlinked}})
-        .un-linked
-            .loop( v-for="( item, index ) in ilse.notes.query( ' ' + file.replace('.md', '') + ' ' )" :key="index" )
-                .flex
-                    Notes( :note="item" @on-link-click="on_note_link_click" )
-                    button( @click="link(item)" ) Link
-
 </template>
 <script>
 // eslint-disable-next-line
@@ -77,16 +54,17 @@ export default {
 
     methods: {
 
-        /*
+        query_linked( file ) {
+            let result     = ilse.notes.query(`[[${file}]]`)
+            return result
+        },
+
         query_unlinked( file ) {
-            let normalized = file.replace('.md', '') 
-            let r = `[^\\[\\[](${normalized})[^\\]\\]]` // normalized, but without the [[]]
-            printf( "r -> ", r )
+            let r = `[^\\[\\[](${file})[^\\]\\]]` // file, but without the [[]]
             let reg_exp    = new RegExp( r, "ig" )
             let result     = ilse.notes.query_regexp( reg_exp )
             return result
         },
-        */
 
         link( note ) {
             let file = this.file.replace(".md", "")
