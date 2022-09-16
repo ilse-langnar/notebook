@@ -362,14 +362,26 @@ code {
 }
 
 .file-reference {
-    /*text-decoration: underline;*/
-    background-color: #D5DADF;
+
+    text-decoration: underline;
+    text-decoration: underline;
+    text-decoration: none;
+    text-decoration: italic;
+
     color: var( --secondary-text-color );
+    color: var( --text-color );
+
+    background-color: #D5DADF;
     background-color: var( --secondary-background-color );
+    background-color: var( --background-color );
+
     padding: var( --padding );
     border-radius: var( --border-radius );
     width: 80%;
+
     margin-left: 10%;
+    margin-left: 3%;
+
 }
 
 .component-embed {

@@ -1,28 +1,53 @@
 <template lang="pug" >
-.file( :key="key" )
+.wrapper 
+    .flex
+        .loopl.flexi( v-for="( item, index ) in file.split('/').filter(e=>e)" :key="index" )
 
-    .centered
-        input.input( v-model="file" @keydown.enter="on_input_keydown_enter" )
+            .flex
+                p {{item}}
+                p( v-if="index !== file.split('/').filter(e=>e).length -1" style="margin-left: 20px;" ) &gt;
 
-    .centered
-        img( v-if="!ilse.config.favorites || !(ilse.config.favorites.indexOf(file) !== -1)" :src="irequire.img('star.svg')" style="width: 20px; cursor: pointer; " @click="toggle_favorite(file)" :title="$t('favorite')" )
-        img( v-if="ilse.config.favorites && ilse.config.favorites.indexOf(file) !== -1" :src="irequire.img('star-off.svg')" style="width: 20px; cursor: pointer; " @click="toggle_favorite(file)" :title="$t('unfavorite')" )
+            details#graph-details
+                summary Graph
+                Graph.flexi( v-if="is_graph_on" :component="{ props: { file: item + '.md' } }" )
 
-    br
+            // details
+                summary Media( {{get_links(item) ? get_links(item).filter( e=> e.content.indexOf("![[") !== -1 ).length : 0 }} )
+                .loop( v-for="( item, index ) in get_links(item)" :key="index" )
+                    .render( v-if="item.content.indexOf('![[') !== -1" )
+                        Notes( :note="item" )
 
-    details#graph-details
-        summary Graph( {{get_links(file).length}} )
-        Graph.flexi( v-if="is_graph_on" :component="{ props: { file: file + '.md' } }" )
+            .space
+            References( :file="item" )
+            .space
 
-    details
-        summary Media( {{get_links(file).filter( e=> e.content.indexOf("![[") !== -1 ).length}} )
-        .loop( v-for="( item, index ) in get_links(file)" :key="index" )
-            .render( v-if="item.content.indexOf('![[') !== -1" )
-                Notes( :note="item" )
+    // .file( :key="key" )
 
-    .space
-    References( v-if="file" :file="file" )
-    .space
+        .centered
+            input.input( v-model="file" @keydown.enter="on_input_keydown_enter" )
+
+        .centered
+            img( v-if="!ilse.config.favorites || !(ilse.config.favorites.indexOf(file) !== -1)" :src="irequire.img('star.svg')" style="width: 20px; cursor: pointer; " @click="toggle_favorite(file)" :title="$t('favorite')" )
+            img( v-if="ilse.config.favorites && ilse.config.favorites.indexOf(file) !== -1" :src="irequire.img('star-off.svg')" style="width: 20px; cursor: pointer; " @click="toggle_favorite(file)" :title="$t('unfavorite')" )
+
+        br
+
+        .loop( v-for="( item, index ) in file.split('/')" :key="index" )
+            p {{item}}
+
+        details#graph-details
+            summary Graph
+            Graph.flexi( v-if="is_graph_on" :component="{ props: { file: file + '.md' } }" )
+
+        details
+            summary Media( {{get_links(file) ? get_links(file).filter( e=> e.content.indexOf("![[") !== -1 ).length : 0 }} )
+            .loop( v-for="( item, index ) in get_links(file)" :key="index" )
+                .render( v-if="item.content.indexOf('![[') !== -1" )
+                    Notes( :note="item" )
+
+        .space
+        References( v-if="file" :file="file" )
+        .space
 
 </template>
 <script>
@@ -52,6 +77,7 @@ export default {
     data() {
         return {
             ilse: ilse,
+            // file: this.component.props.file || "",
             file: this.component.props.file || "",
             is_graph_on: false,
             key: 0,
@@ -82,9 +108,27 @@ export default {
             return list
         },
 
+        get_links_with_children( file ) {
+
+            let list  = ilse.links.links[file + ".md" ]
+            printf( "list -> ", list )
+                if( !list ) return
+            let notes = []
+            let result
+
+            list.map( item => {
+                // result = ilse.notes.query(item)[0]
+                // notes.push( result )
+            })
+
+            return []
+            // return notes
+        },
+
         get_links( file ) {
 
             let list  = ilse.links.links[file + ".md" ]
+                if( !list ) return
             let notes = []
             let result
 
@@ -116,6 +160,7 @@ export default {
         listen_to_details() {
 
             var details = document.querySelector("#graph-details")
+                if( !details ) return
                 printf( "details -> ", details )
 
             let _this = this

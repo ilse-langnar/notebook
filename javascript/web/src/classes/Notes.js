@@ -44,7 +44,11 @@ export default class Notes {
                 let lines = text.split("\n")
 
                 let added = lines.slice( this.list.length-1, lines.length ).filter( e=>e )
-                added.map( note => { this.add( note.split(":")[1] ) })
+                    if( !added.length ) return
+
+                // added.map( note => this.add( note.split(":")[1] ) )
+
+                added.map( note => this.add( note.slice(note.indexOf(":")+1, note.length ) ) )
             };
 
         })
@@ -232,9 +236,9 @@ export default class Notes {
                         if( has_nickname ) return
 
                 // Is an actual file, then create
-                    if( !exists ) {
-                        await this.filesystem.file.write.async( path.join("second" , link), link )
-                    }
+                    // if( !exists ) {
+                        // await this.filesystem.file.write.async( path.join("second" , link), link )
+                    // }
 
                 Messager.emit( "~notes", "link", { link, note } )
             }

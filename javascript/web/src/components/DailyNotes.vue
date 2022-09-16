@@ -549,6 +549,8 @@ printf( ">>> DailyNotes -> payload -> ", payload )
 
 .daily-notes {
     height: 100%;
+    /*width: 100vw;*/
+    overflow: hidden;
 }
 
 .flex p.fitem  {

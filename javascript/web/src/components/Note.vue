@@ -14,6 +14,18 @@
         .html( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent :data-unique-id="inote.id" draggable @dragover="is_dragging_over = true" @dragleave="is_dragging_over = false" @dragend="is_dragging_over = false" @drop="on_drop" @drag="ilse.dragging = inote.id" )
 
     .file-reference( v-for="( item, index ) in ilse.notes.get_file_references(inote.content)" )
+        details
+            // summary {{item}}
+            summary 
+            .no-name( v-if="item.indexOf('|') === -1" )
+                .loop( v-for="( i, index_2 ) in ilse.notes.query( item.replace('![[', '').replace( ']]', '' ) ) " :key=" 's' + index_2")
+                    Notes( v-if="inote.id !== i.id" :note="i" )
+            .with-name( v-else )
+                summary {{item.split("|")[1].replace("]]", "")}}
+                .loopl( v-for="( note, ref_index ) in ilse.notes.query( item.split('|')[0].replace( '![[', '') )" :key="'search' + ref_index" ) 
+                    Notes( v-if="inote.id !== note.id" :note="note" :options="{}" )
+
+    // .file-reference( v-for="( item, index ) in ilse.notes.get_file_references(inote.content)" )
         component( :is="require('@/components/File.vue').default" :component="{ props: { file: item.replace('![[', '').replace(']]', '') + '.md' } }" )
 
     .note-references( v-if="inote.get_note_references()" style="" )
@@ -251,45 +263,10 @@ export default {
             })
 
             return to_return
-
-            /*
-            // has tag = good, here's the component based on that
-            let all = this.inote.get_tags()
-            return null
-            printf( "all -> ", all )
-            if( all.indexOf("#i/component/") ) {
-                printf( "HAS" )
-
-            } else {
-                printf( "HAS NOT " )
-            }
-
-            let tag  = tags[0]
-
-            if( tag ) {
-                let name      = tag.split("/")[2]
-                let instance  = new ilse.classes.Component({ type: name, width: 12 })
-                return instance
-            }
-            */
-
         },
 
-        // on_note_root_click( event ) {
-            // let note = this.note
-            // this.$emit( "on-note-click", {note, event})
-        // },
-
         on_textarea_click( event, note ) {
-
             if( !note.content ) note.content += "EMPTY"
-            // let dom = document.getElementById( note.id )
-            // printf( ">>> dom -> ", dom )
-            // this.is_editable = !this.is_editable
-            // document.activeElement.blur()
-            // this.inote.is_editable = true
-            // dom.focus()
-            // printf( "this.is_editable -> ", this.is_editable )
         },
 
         async add_file( event ) {
@@ -367,41 +344,6 @@ export default {
             // this.close_overlay( "search" )
 
         },
-
-        // get_human_readable_creation_date( id ) {
-            // return ilse.utils.get_human_readable_creation_date(id)
-            /*
-            if( !id ) return ""
-
-            // BUGFIX: Normalize, if is child of another note remove the spaces
-                id = id.trim()
-
-            let year        = id.substr( 0, 4 )
-            let month       = id.substr( 4, 2 )
-            let day         = id.substr( 6, 2 )
-            let hour        = id.substr( 8, 2 )
-            let seconds     = id.substr( 10, 2 )
-
-            let date_string = ilse.utils.convert_from_date_unique_id_to_daily_note_format( id)
-                date_string     += `(${hour}:${seconds})`
-
-            return date_string
-            */
-        // },
-
-        /*
-        resize_textarea() {
-            let dom     = document.getElementById( this.inote.id )
-                if( !dom )  return ""
-
-            dom.style.height = "auto"
-            // dom.style.height = (dom.scrollHeight - 30 ) + "px"
-             dom.style["max-height"] = dom.scrollHeight + "px"
-            dom.style.height = dom.scrollHeight + "px"
-
-            setTimeout( () => { dom.focus() }, 100 )
-        },
-        */
 
         get_html( note ) {
 
@@ -677,66 +619,6 @@ export default {
     min-height: 20px;
     font-size: 1em;
 }
-
-/*
-.textarea {
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-top: 6px;
-    margin-bottom: 10px;
-
-    background: var( --background-color );
-    color: var( --text-color );
-    width: 100%;
-    margin: 0 !important;
-    padding: 0px !important;
-    font-size: 1em;
-    border: 1px solid transparent;
-    line-height: 1;
-    resize: none;
-    height: 1em;
-}
-*/
-
-/*
-.textarea.editable {
-    width:100%;
-    direction:rtl;
-    display:block;
-    max-width:100%;
-    line-height:1.5;
-    padding:15px 15px 30px;
-    border-radius:3px;
-    border:1px solid #F7E98D;
-    font:13px Tahoma, cursive;
-    transition:box-shadow 0.5s ease;
-    box-shadow:0 4px 6px rgba(0,0,0,0.1);
-    font-smoothing:subpixel-antialiased;
-    background:linear-gradient(#F9EFAF, #F7E98D);
-    background:-o-linear-gradient(#F9EFAF, #F7E98D);
-    background:-ms-linear-gradient(#F9EFAF, #F7E98D);
-    background:-moz-linear-gradient(#F9EFAF, #F7E98D);
-    background:-webkit-linear-gradient(#F9EFAF, #F7E98D);
-}
-*/
-
-/*
-.textarea {
-    width: 100% !important;
-    overflow: hidden;
-    line-height:1;
-    height: 30px !important;
-    margin: 0 !important;
-    padding: 0px !important;
-    resize: none;
-    font-size: 1em;
-    margin-bottom: 6px;
-    background: var( --background-color );
-    color: var( --text-color );
-}
-*/
 
 .markdown:focus {
     outline: none;

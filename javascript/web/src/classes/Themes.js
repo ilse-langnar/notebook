@@ -17,6 +17,7 @@ let DEFAULT_THEMES = [
         --border-radius: 6px;
         --padding: 4px;
         --font-family: Mary, Helvetica, Georgia, Times New Roman, serif, -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        --font-size: 1em;
         --link-color: #428bca;
         --link-color: #5ec7b8;
         --secondary-link-color: #70a7a8;
@@ -33,6 +34,8 @@ let DEFAULT_THEMES = [
             --border: 2px solid #777;
             --border-radius: 6px;
             --padding: 4px;
+            --font-family: Mary, Helvetica, Georgia, Times New Roman, serif, -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+            --font-size: 1em;
             --box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
             --link-color: #428bca;
             --link-color: #5ec7b8;

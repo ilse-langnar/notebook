@@ -1,49 +1,44 @@
 <template lang="pug" >
 .menu
 
-    .flex( @click="add_daiyl_notes" )
-        img( :src="irequire.img('calendar.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('daily_notes')" )
-        span.item Daily Notes
+    // Buttons
+    // .buttons
+        .flex( @click="add_daiyl_notes" )
+            img( :src="irequire.img('calendar.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('daily_notes')" )
+            span.item Daily Notes
 
-    .flex( @click="toggle_first_brain" )
-        img( :src="irequire.img('school.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('study')" )
-        span.item Study
+        .flex( @click="toggle_first_brain" )
+            img( :src="irequire.img('school.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('study')" )
+            span.item Study
 
-    .flex( @click="open_dashboard" )
-        img( :src="irequire.img('dashboard.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('open_dashboard')" )
-        span.item Dashboard
-
-    // hr
-
-    br
-    // h2.centered Favorites
-    // .item( v-for="( favorite, index ) in ilse.config.favorites" :key="index" @click="open_file(favorite)" @click.ctrl="open_file_graph(favorite)" :title="favorite" style="padding: 4px; ")
-        p {{favorite}}
-
-    // .divider( v-if="ilse.notes.query('#favorite').length" )
-        br
-        hr
+        .flex( @click="open_dashboard" )
+            img( :src="irequire.img('dashboard.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('open_dashboard')" )
+            span.item Dashboard
 
 
-    details
+
+    // Collapsables
+    /// details
         summary #favorite
         .favorites( v-for="( item, index ) in ilse.notes.query('#favorite')" ) 
             Notes( :note="item" @on-link-click="on_note_link_click" :options="{}" )
 
     details
-        summary Favorited Files
+        summary Starred
         .favorites( v-for="( item, index ) in ilse.config.favorites" @click="on_favorite_click(item)" ) 
             p.link [[{{item}}]]
 
-    // .divider( v-if="ilse.notes.query('- [ ]').length" )
-        hr
+    details.filesystem
+        summary Filesystem
+        p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-    details
-        summary Todos
-        .todos-wrapper( v-if="ilse.notes.query('- [ ]').length" )
-            p.centered Todos({{ilse.notes.query('- [ ]').length}})
-            .todos( v-for="( item, index ) in ilse.notes.query('- [ ]')" ) 
-                Notes( :note="item" @on-link-click="on_note_link_click" :options="{}" )
+    .loopl( v-for="( item, index ) in ilse.notes.query( '#favorite' )" ) 
+
+        .file-referencel( v-for="( file, file_reference_index ) in ilse.notes.get_file_references(item.content)" :keu="'file-reference-index' + index" )
+            details
+                summary {{file.split("|")[1].replace("]]", "")}}
+                .loopl( v-if="note.content.indexOf('#favorite') === -1 " v-for="( note, ref_index ) in ilse.notes.query(  file.split('|')[0].replace( '![[', '') )" :key="'search' + ref_index" ) 
+                    Notes( :note="note" :options="{}" )
 
 </template>
 <script>
@@ -59,6 +54,10 @@ const printf                        = console.log;
 // Components
     import Notes                        from "@/components/Notes.vue"
     import RandomNote                   from "@/components/RandomNote.vue"
+
+// Functions
+    import add_component                from "@/classes/add_component.js"
+    import update_key                   from "@/classes/update_key.js"
 
 export default {
 
@@ -78,107 +77,27 @@ export default {
     methods: {
 
         on_favorite_click( file ) {
-            let component = new ilse.classes.Component({ type: "file", width: 8, props: { file }})
-                ilse.components.push( component )
+            add_component({ type: "file", width: 8, props: { file  }})
         },
 
-
-        add_daiyl_notes() {
-
-            let has_daily_notes_already = false
-            let daily_notes_index       = null
-
-            let index = 0
-            for( const component of ilse.components ) {
-                index++
-
-                if( component.type === "daily-notes" ) {
-                    has_daily_notes_already = true
-                    daily_notes_index       = index
-                }
-            }
-
-            if( !has_daily_notes_already ) {
-                let component = new ilse.classes.Component({ type: "daily-notes", width: 12 })
-                    ilse.components.push( component )
-            } else {
-
-                if( ilse.components.length >= 1 ) {
-                    ilse.components.splice( daily_notes_index, 1 )
-                }
-
-            }
-
+        open_dashboard() {
+            add_component({ type: "dashboard", width: 12, props: {}})
         },
 
+        // TODO: make this actually toggle instead of just opening.
         toggle_first_brain() {
             ilse.modals.open( "first-brain" )
         },
 
-        open_dashboard() {
-            let component = new ilse.classes.Component({ type: "dashboard", width: 12, props: {}})
-                ilse.components.push( component )
+        add_daiyl_notes() {
+            let has_daily_notes_already = !!ilse.components.map( component => {if( component.type === "daily-notes" ) return component }).filter( e=>e )[0]
+            if( !has_daily_notes_already )
+                add_component({ type: "daily-notes", width: 12 })
         },
 
-        on_note_link_click( payload ) {
-
-            printf( "Menu.vue -> on_note_click -> payload -> ", payload )
-
-            let note             = payload.note
+        on_note_link_click( payload /*{link, event}*/ ) {
             let file             = payload.link
-            let event            = payload.event
-            let is_shift         = event.shiftKey
-            let is_ctrl          = event.ctrlKey
-            let is_relative      = payload.link.indexOf( "@" ) !== -1 
-
-            if( is_relative ) {
-                let component = new ilse.classes.Component({ type: "text-file", width: 12, props: { name: payload.link.replace("@", "") }})
-                    ilse.components.push( component )
-                    return
-            }
-
-            let is_file_markdown = !(file.indexOf(".png") !== -1 || file.indexOf(".jpg") !== -1 || file.indexOf(".jpeg") !== -1 || file.indexOf(".gif") !== -1 || file.indexOf(".svg") !== -1 || file.indexOf(".mp4") !== -1 || file.indexOf(".webm") !== -1 || file.indexOf(".mp3") !== -1 || file.indexOf(".ogg") !== -1 || file.indexOf(".wav") !== -1 || file.indexOf(".md") !== -1) 
-                if( is_file_markdown ) file += ".md"
-
-            // <=======> Shift <=======> //
-            if( is_shift ) {
-                let component = new ilse.classes.Component({ type: "file", width: 8, props: { file }})
-                    ilse.components.push( component )
-            }
-            // <=======> Shift <=======> //
-
-            // <=======> Ctrl <=======> //
-            if( is_ctrl ) {
-                let component = new ilse.classes.Component({ type: "graph", width: 8, props: { file }})
-                    ilse.components.push( component )
-            }
-            // <=======> Ctrl <=======> //
-
-        },
-
-        open_file_graph( file ) {
-            let component = new ilse.classes.Component({ type: "graph", width: 8, props: { file }})
-                ilse.components.push( component )
-        },
-
-        open_file( file ) {
-            let component = new ilse.classes.Component({ type: "file", width: 8, props: { file } })
-                ilse.components.push( component )
-        },
-
-        add_daily_notes() {
-            let component = new ilse.classes.Component({ type: "daily-notes", with: 8 })
-                ilse.components.push( component )
-        },
-
-        interest_repetition() {
-            let component = new ilse.classes.Component({ type: "interest-repetition", width: 8 })
-                ilse.components.push( component )
-        },
-
-        statistics() {
-            let component = new ilse.classes.Component({ type: "statistics", width: 8 })
-                ilse.components.push( component )
+            add_component({ type: "file", width: 8 , props: { file }})
         },
 
         setup() {
