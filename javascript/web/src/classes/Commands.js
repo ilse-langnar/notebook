@@ -230,6 +230,7 @@ class Commands {
                 props: {},
             },
 
+            /*
             {
                 id: "first-brain-read",
                 fn: function() {
@@ -279,6 +280,7 @@ class Commands {
                 name: "First Brain: Decrease",
                 props: {},
             },
+            */
 
             /*
             {
@@ -316,6 +318,7 @@ class Commands {
                 props: {},
             },
 
+            /*
             {
                 id: "open-first-brain-modal",
                 fn: function() {
@@ -325,6 +328,7 @@ class Commands {
                 name: "Open First Brain Modal",
                 props: {},
             },
+            */
 
             {
                 id: "list-projects",
@@ -591,6 +595,7 @@ class Commands {
             },
 
 
+            /*
             {
                 id: "first-brain-tag-add",
                 fn: async function() {
@@ -610,6 +615,7 @@ class Commands {
                 name: "First Brain: Remove Tag",
                 props: {},
             },
+            */
 
             /*
             {

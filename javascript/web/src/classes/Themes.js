@@ -12,6 +12,7 @@ let DEFAULT_THEMES = [
         --background-color: #EFEFEF;
         --secondary-background-color: #CED8E0;
         --secondary-text-color: #3c3b3b;
+        --terciary-text-color: #8D9EAC;
         --text-color: #717171;
         --border: 1px solid #4a4a4a;
         --border-radius: 6px;
@@ -31,6 +32,7 @@ let DEFAULT_THEMES = [
             --text-color: #F8F8F8;
             --secondary-background-color: #DCEAF8;
             --secondary-text-color: #000;
+            --terciary-text-color: #8D9EAC;
             --border: 2px solid #777;
             --border-radius: 6px;
             --padding: 4px;

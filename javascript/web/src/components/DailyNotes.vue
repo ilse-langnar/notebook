@@ -3,12 +3,13 @@
 
     .day( v-for="( day, day_index ) in days" style="width: 97%; margin: 0 auto;" )
 
+        button.slick-button( @click="remove(day)" ) x
         .flex( style="margin: 0 auto; width: 40%; " )
             .centered
                 span.flexi.is-size-3.has-text-weight-bold( :title=" $t('notes') + day.notes.length" ) {{get_file( day )}}
             p.fitem &#128269;
         .options.centered
-            p.fitem.remove( @click="remove(day)" style="" ) &#88;
+            // p.fitem.remove( @click="remove(day)" style="" ) &#88;
 
         // .note( v-for="(note, note_index) in day.notes" :key="note_index" :style="get_note_style(note)" )
         .note( v-for="(note, note_index) in day.notes.filter( e=> e.depth === 0 )" :key="note_index" :style="get_note_style(note)" )
@@ -364,7 +365,11 @@ printf( ">>> DailyNotes -> payload -> ", payload )
         load_day_before() {
 
             let has_days = this.days.length
-                if( !has_days ) return
+                if( !has_days ) {
+                    let today_id     = ilse.utils.get_unique_date_id() // 20200125
+                    this.add_day( today_id ) 
+                    return
+                }
 
             // Last day on list
             let last_day_id       = this.days[this.days.length - 1].id // last day in "days"

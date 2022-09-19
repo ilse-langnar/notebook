@@ -118,7 +118,7 @@ export default {
                 if( !is_shift ) return
 
             let is_file_markdown = !(file.indexOf(".mp4") !== -1 || file.indexOf(".png") !== -1 || file.indexOf(".jpg") !== -1 || file.indexOf(".jpeg") !== -1 || file.indexOf(".gif") !== -1 || file.indexOf(".svg") !== -1 || file.indexOf(".mp4") !== -1 || file.indexOf(".webm") !== -1 || file.indexOf(".mp3") !== -1 || file.indexOf(".ogg") !== -1 || file.indexOf(".wav") !== -1)
-                if( is_file_markdown ) file += ".md"
+                // if( is_file_markdown ) file += ".md"
 
             let component = new ilse.classes.Component({ type: "file", width: 8, props: { file }})
                 ilse.components.push( component )

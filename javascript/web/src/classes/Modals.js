@@ -102,15 +102,15 @@ class Modals {
             props: {},
         })
 
-        let first_brain = ilse.types.get( "first-brain" )
-        printf( ">>> first_brain -> ", first_brain )
+        // let first_brain = ilse.types.get( "first-brain" )
+        // printf( ">>> first_brain -> ", first_brain )
 
-        this.add({
-            id: "first-brain",
-            name: "First Brain",
-            component: ilse.types.get( "first-brain" ),
-            props: {},
-        })
+        // this.add({
+            // id: "first-brain",
+            // name: "First Brain",
+            // component: ilse.types.get( "first-brain" ),
+            // props: {},
+        // })
 
         this.add({
             id: "keyboard-shortcut",

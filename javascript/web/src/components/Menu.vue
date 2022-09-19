@@ -2,20 +2,21 @@
 .menu
 
     // Buttons
-    // .buttons
+    .buttons
         .flex( @click="add_daiyl_notes" )
             img( :src="irequire.img('calendar.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('daily_notes')" )
             span.item Daily Notes
 
-        .flex( @click="toggle_first_brain" )
+        // .flex( @click="toggle_first_brain" )
             img( :src="irequire.img('school.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('study')" )
             span.item Study
 
-        .flex( @click="open_dashboard" )
+        // .flex( @click="open_dashboard" )
             img( :src="irequire.img('dashboard.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('open_dashboard')" )
             span.item Dashboard
 
-
+    br
+    br
 
     // Collapsables
     /// details

@@ -15,8 +15,6 @@ const printf                        = console.log
     import Files                        from "@/classes/Files.js"
     import Markdown                     from "@/classes/Markdown.js"
     import Electron                     from "@/classes/Electron.js"
-    import Priorities                   from "@/classes/Priorities.js"
-    import Statistics                   from "@/classes/Statistics.js"
     import PanSVG                       from "@/classes/PanSVG.js"
     import Cache                        from "@/classes/Cache.js"
     import Embeds                       from "@/classes/Embeds.js"
@@ -29,7 +27,9 @@ const printf                        = console.log
         import Dialog                       from "@/classes/Dialog.js"
 
     // Brains
-        import FirstBrain                   from "@/classes/FirstBrain.js"
+        // import FirstBrain                   from "@/classes/FirstBrain.js"
+            // import Priorities                   from "@/classes/Priorities.js"
+            // import Statistics                   from "@/classes/Statistics.js"
         // import SecondBrain                   from "@/classes/SecondBrain.js"
 
     import Clipboard                    from "@/classes/Clipboard.js"
@@ -159,10 +159,10 @@ export default class Ilse {
             this.files                  = new Files( this.filesystem, this )
 
         // Brains
-            this.brains                 = {}
-            this.brains.first           = new FirstBrain( this )
-                this.brains.first.statistics= new Statistics( this )
-                this.brains.first.priorities= new Priorities( this )
+            // this.brains                 = {}
+            // this.brains.first           = new FirstBrain( this )
+                // this.brains.first.statistics= new Statistics( this )
+                // this.brains.first.priorities= new Priorities( this )
                 // this.brains.first.queue     = new Queue( this )
             // this.brains.second          = new SecondBrain( this )
 

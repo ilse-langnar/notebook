@@ -8,7 +8,7 @@
             p.expanded( v-if="!inote.is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click="on_note_click" @click.middle="on_note_click" @click.right="on_note_click" :id=" 'bullet-' + inote.id" ) &bull;
 
         // edit
-        .markdown( contentEditable v-if="inote.is_editable" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent ) {{options.is_tagless ? inote.tagless : inote.content}}
+        .edit( contentEditable v-if="inote.is_editable" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent ) {{options.is_tagless ? inote.tagless : inote.content}}
 
         // show
         .html( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent :data-unique-id="inote.id" draggable @dragover="is_dragging_over = true" @dragleave="is_dragging_over = false" @dragend="is_dragging_over = false" @drop="on_drop" @drag="ilse.dragging = inote.id" )
@@ -349,10 +349,7 @@ export default {
 
             let content         = this.options.is_tagless ? note.tagless : note.content
 
-            if( content.indexOf("<") !== -1 ) {
-                printf( "note.content -> ", note.content )
-                printf( "content ->" )
-            }
+            // if( content.indexOf("<") !== -1 ) { printf( "note.content -> ", note.content ) printf( "content ->" ) }
 
 
             let normalized = ilse.markdown.render( content )
@@ -435,7 +432,11 @@ export default {
                 return
             }
 
-            // :?????
+            // Blur all others
+            printf( "on_focus -> blurring everything" )
+            Messager.emit( "~note.vue", "blur-all" )
+
+            // Correct
             if( this.inote.id === inote.id ) {
 
                 // BUGFIX: don't need to click on note twice to actually focus on it.
@@ -443,7 +444,7 @@ export default {
                     let dom = document.getElementById( inote.id )
                     if( dom ) dom.focus()
                     // this.resize_textarea()
-                }, 50 )
+                }, 10 )
 
                 this.inote.is_editable = true
 
@@ -451,9 +452,13 @@ export default {
                 this.inote.is_editable = false
             }
 
+
         },
 
+        // BUG: Focusin on a note does not blue others
         on_blur( event, inote ) {
+
+            printf( "Note.vue -> on_blur -> inote -> ", inote.content )
 
             // save(contentEditable)
             this.inote.content = event.target.innerText
@@ -468,7 +473,7 @@ export default {
                 this.$emit( "on-blur", { event: event, note: inote })
 
                 // ??
-                Messager.emit( "~note.vue", "blur", {note: this.inote})
+                // Messager.emit( "~note.vue", "blur", {note: this.inote})
 
                 // Save
                 ilse.notes.save()
@@ -570,11 +575,12 @@ export default {
             Messager.on( "~note.vue", async ( action, payload ) => {
                 // if( action === "open-search" && payload.target === _this.inote.id ) this.open_search( payload.type ) 
                 if( action === "link-click" ) if( this.inote.id === payload.target ) _this.$emit( "on-link-click", { link: payload.link, event: payload.event, note: _this.inote } )
+                if( action === "blur-all" ) {
+                    this.is_editable = false
+                }
             })
 
-            Messager.on( "~carret", async ( action, payload ) => {
-
-            })
+            Messager.on( "~carret", async ( action, payload ) => { })
 
         },
 
@@ -618,10 +624,12 @@ export default {
     padding: 0 !important;
     min-height: 20px;
     font-size: 1em;
+    /*margin-bottom: 10px !important;*/
 }
 
-.markdown:focus {
+.edit:focus {
     outline: none;
+    border-bottom: 1px solid var( --text-color );
 }
 
 .editable:focus {
@@ -650,7 +658,7 @@ input:focus{
     border-bottom: 1px solid var( --text-color );
 }
 
-.markdown, .html {
+.edit, .html {
     /*margin-bottom: 6px;*/
     min-width: 100px;
     width: fit-content;
@@ -664,7 +672,6 @@ input:focus{
     cursor:       pointer;
     color:        #a3a3a3;
     color:        var( --text-color );
-    /*font-size:    1pc;*/
     font-size: 1.5em;
     cursor:       pointer;
 }

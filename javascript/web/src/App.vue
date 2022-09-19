@@ -54,9 +54,9 @@ export default {
 
         },
 
+        // Font-Loading needs to be dynamic because of quine
         set_font_face() {
 
-            // const mary = new FontFace('Mary', `url(assets/mary.ttf)`);
             const mary = new FontFace('Mary', `url( ${require("@/assets/mary.ttf")} )`);
 
             mary.load().then(function(loadedFont) {
@@ -66,22 +66,15 @@ export default {
                 printf( 'Failed to load font: ' + error )
             })
 
+            /*
+            const mary = new FontFace('Inter', `url( ${require("@/assets/Inter.ttf")} )`);
 
-/*
-printf( "set_font_face" )
-            let font_face = `
-            @font-face {
-                font-family: Mary;
-                font-style: normal;
-                font-weight: lighter;
-                src: url("fonts/assets/mary.6cf07156.ttf");
-            } `
-
-            printf( ">>>>>>>>>>> font_face -> ", font_face )
-            let style = document.createElement('style')
-                style.appendChild( document.createTextNode( font_face ) )
-
-            document.head.appendChild( style )
+            mary.load().then(function(loadedFont) {
+                document.fonts.add( loadedFont )
+                text.style.fontFamily = ' "Inter" '
+            }).catch(function(error) {
+                printf( 'Failed to load font: ' + error )
+            })
             */
 
         },
@@ -229,6 +222,7 @@ input[type=range]::-webkit-slider-runnable-track  {
 .tag {
     color: #d3d3d3;
     color: #698b99;
+    color: var(--terciary-text-color);
 }
 
 .left-sidebar {

@@ -238,6 +238,7 @@ class componentTypes {
             }
         })
 
+        /*
         this.add({
             id: "first-brain",
             name: "First Brain",
@@ -249,6 +250,7 @@ class componentTypes {
                 is_internal: true,
             }
         })
+        */
 
         this.add({
             id: "mind-map",
