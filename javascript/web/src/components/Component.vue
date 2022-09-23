@@ -17,9 +17,17 @@
         )
 
 
-    .vue( v-if="component.get_component() && ilse.types.get(component.type).type === 'vue' " )
-        component( :is="component.get_component()" :component="component" :style="get_component_margin(component)" )
-    .html-css-and-javascript( v-if="ilse.types.get(component.type).type === 'html' " )
+    .embed( v-if="component.type === 'embed' " )
+        embed( :src="get_embed_src(component.component)" )
+
+    // .vue( v-if="component.get_component() && ilse.types.get(component.type).type === 'vue' " )
+
+    // p {{ component.type === 'vue' ? 'AAAA' : "NOO" }}
+    .vue( v-if="component.type === 'vue' " )
+        component( :is="component.component.default" :component="component" :style="get_component_margin(component)" )
+
+    // .html-css-and-javascript( v-if="ilse.types.get(component.type).type === 'html' " )
+    .html-css-and-javascript( v-if="component.type === 'html' " )
         div( :id="component.id" ) {{embed_into_html(component)}}
 
 </template>
@@ -57,6 +65,16 @@ export default {
     },
 
     methods: {
+
+        get_embed_src( id ) {
+            let target_dir  = ilse.target_directories[0]
+                printf( "@@target_dir -> ", target_dir )
+
+            let final       = `app://${target_dir}/${id}`
+                printf( "@@final -> ", final )
+
+            return final
+        },
 
         embed_into_html( payload ) {
 

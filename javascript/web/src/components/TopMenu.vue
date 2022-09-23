@@ -7,11 +7,6 @@
 
         .vspace
 
-        // img( :src="irequire.img('calendar.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('open_daily_notes')"  @click="add_daiyl_notes" accesskey="d" )
-        // img( :src="irequire.img('school.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_first_brain')"  @click="toggle_first_brain" )
-
-        .vspace
-
 
     .menu-item( style="margin: auto; " )
         // SearchButton( :width="50" :should-autofocus="false" @on-result-select="on_note_search_on_result_select" )
@@ -199,36 +194,6 @@ export default {
 
             }
         },
-
-        /*
-        add_daiyl_notes() {
-
-            let has_daily_notes_already = false
-            let daily_notes_index       = null
-
-            let index = 0
-            for( const component of ilse.components ) {
-                index++
-
-                if( component.type === "daily-notes" ) {
-                    has_daily_notes_already = true
-                    daily_notes_index       = index
-                }
-            }
-
-            if( !has_daily_notes_already ) {
-                let component = new ilse.classes.Component({ type: "daily-notes", width: 12 })
-                    ilse.components.push( component )
-            } else {
-
-                if( ilse.components.length >= 1 ) {
-                    ilse.components.splice( daily_notes_index, 1 )
-                }
-
-            }
-
-        },
-        */
 
         async save() {
             await ilse.save()

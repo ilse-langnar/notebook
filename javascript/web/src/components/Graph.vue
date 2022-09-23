@@ -194,7 +194,7 @@ export default {
 
                     // nodeSep: 20,
                     // position: {
-                        // x: bottom + ilse.utils.random_integer()
+                        // x: bottom + random_number()
                         // y: 0,
                         // x: 0,
                     // },
@@ -391,7 +391,7 @@ export default {
 
                     // el.position({ y: y })
                 // if( should ) {
-                    // el.position({ y: y + ilse.utils.random_integer(10, 300 ) })
+                    // el.position({ y: y + random_number(10, 300 ) })
                     // el.position({ y: y + 50 })
                 // } else {
                     // el.position({ y: y - 50 })

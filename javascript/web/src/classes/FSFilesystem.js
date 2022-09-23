@@ -123,16 +123,9 @@ export default class FSFilesystem {
     }
 
     async has_path( full_path ) {
-
-        try {
-            // await fs.access( path.join( target_directory, full_path ) )
-            await fs.existsSync( path.join( target_directory, full_path ) )
-            return true
-
-        } catch {
-            return false
-        }
+        return fs.existsSync( path.join( target_directory, full_path ) )
     }
+
 
 
 
@@ -171,7 +164,7 @@ export default class FSFilesystem {
 
     async get_all_files() {
 
-        let files   = await promisified_list_dir( path.join(target_directory , "second") )
+        let files   = await promisified_list_dir( target_directory )
             if( !files ) files = []
 
         return files
@@ -250,7 +243,7 @@ export default class FSFilesystem {
 
     get_all_files_sync() {
 
-        let files   = fs.readdirSync( path.join(target_directory , "second") )
+        let files   = fs.readdirSync( target_directory )
             if( !files ) files = []
 
         return files

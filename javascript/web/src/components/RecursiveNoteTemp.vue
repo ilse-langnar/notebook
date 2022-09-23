@@ -39,6 +39,10 @@ const printf                        = console.log;
     import { dragmove  }                from "@knadh/dragmove"
 
 
+
+// function 
+    import random_rgba                  from "@/classes/random_rgba.js"
+
 export default {
 
     name: "RecursiveNote",
@@ -422,7 +426,7 @@ export default {
             // if( note.depth === 0 ) style += "width: 100%; height: 100%; "
             // if( note.children.length === 0 ) style += "width: 100px; height: 100px; float: left; margin-right: 10px; "
 
-            let color = ilse.utils.random_rgba()
+            let color = random_rgba()
             let style = `border-left: 1px solid ${color}; border-right: 1px solid ${color}; border-radius: var( --border-radius ); background: var( --background-color ); width: fit-content; margin: 20px 00px; padding: 1px; `
 
             return style

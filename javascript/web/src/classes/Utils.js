@@ -9,6 +9,9 @@ const printf                        = console.log
     // Functions
         import fuzzy_sort                   from "@/assets/js/fuzzysort.js"
 
+// functions
+    import yyyymmddhhss_to_pretty       from "@/classes/yyyymmddhhss_to_pretty.js"
+
 export default class Utils {
 
     constructor() {
@@ -33,10 +36,6 @@ export default class Utils {
             dt.setDate(dt.getDate() + 1);
         }
         return arr;
-    }
-
-    sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     is_scrolled_into_view( el ) {
@@ -119,32 +118,6 @@ export default class Utils {
         return result
     }
 
-    random_integer(min = 1, max = 100 ) {
-
-        if (min==null && max==null)
-            return 0;
-
-        if (max == null) {
-            max = min;
-            min = 0;
-
-        }
-            return min + Math.floor(Math.random() * (max - min + 1));
-
-    };
-
-    move_array(arr, old_index, new_index) {
-
-        if( new_index >= arr.length ) {
-            var k = new_index - arr.length + 1;
-            while( k-- ) {
-                arr.push(undefined);
-            }
-        }
-        arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-        return arr; // for testing
-    }
-
     get_depth_spaces( depth ) {
 
         if( depth === null || depth === undefined ) return ""
@@ -162,126 +135,10 @@ export default class Utils {
         return spaces
     }
 
-    split_array_into_pairs( source ) {
-
-        let normalized = source.reduce( (result, value, index, array) => {
-
-            if( index % 2 === 0 ) {
-                result.push( source.slice( index, index + 2 ) )
-            }
-            return result
-
-        }, []);
-
-        return normalized
-    }
-
-    /*
-    debounce(fn, timeout) {
-
-        let timer
-        return (...args) => {
-            if (!timer) {
-                fn.apply(this, args)
-            }
-            clearTimeout(timer)
-            timer = setTimeout(() => { timer = undefined }, timeout)
-        }
-
-        let o = this.get_javascript_unique_date_id()
-        printf( "o -> ", o )
-    }
-    */
-
-    /*
-    debounce(func, wait, immediate) {
-        var timeout;
-        return function() {
-            var context = this, args = arguments;
-            var later = function() {
-                timeout = null;
-                if (!immediate) func.apply(context, args);
-
-            };
-
-        }
-    }
-
-    debounce( func, time, id ) {
-
-        let is_attempting_too_fast  = window["last-attempt-" + id ] >= ( Date.now() - time )
-            if( is_attempting_too_fast ) return
-
-        window["last-attempt-" + id ] = Date.now()
-
-        func()
-    }
-    */
-
     // matches a-z
     get_just_year_from_date_metadata( date ) {
         let normalized = date.split("T")[0]
         return normalized
-    }
-
-    // matches a-z
-    is_letter(str) {
-        return str.length === 1 && str.match(/[a-zA-Z]/i);
-    }
-
-    shuffle_array( copy ) {
-
-        let array = copy.slice();
-        var currentIndex = array.length, temporaryValue, randomIndex;
-
-        // While there remain elements to shuffle...
-        while (0 !== currentIndex) {
-
-            // Pick a remaining element...
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-
-            // And swap it with the current element.
-            temporaryValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;
-        }
-
-        return array;
-    }
-
-
-
-    /*
-    debounce( func, wait, immediate ) {
-
-        var timeout;
-        return function() {
-            var context = this, args = arguments;
-            var later = function() {
-                timeout = null;
-                if (!immediate) func.apply(context, args);
-
-            };
-            var callNow = immediate && !timeout;
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-            if (callNow) func.apply(context, args);
-
-        };
-
-    }
-    */
-
-    split_array_into_nth_legnth( source, size = 1 ) {
-
-        var arrays = []
-        let copy   = source
-
-        while( copy.length > 0 ) {
-            arrays.push( copy.splice(0, size) )
-        }
-        return arrays
     }
 
     get_normalized_date_from_stats( stats ) {
@@ -442,28 +299,6 @@ export default class Utils {
     // ( "02", "2022" ) -> 31
     get_numer_of_days_in_month( iMonth, iYear ) {
         return 32 - new Date(iYear, iMonth, 32).getDate();
-    }
-
-    // 20220123180536 -> Febuary 20th, 2020
-    convert_from_date_unique_id_to_daily_note_format( unique_id ) {
-
-        // printf( "convert_from_date_unique_id_to_daily_note_format -> unique_id -> ", unique_id )
-
-        let year    = unique_id.substr( 0, 4 )
-        // printf( "year -> ", year )
-
-        // let month   = unique_id.substr( 4, 2 )
-        let month   = unique_id.substr( 4, 2 )
-            month   = this.get_number_month( month )
-        // printf( "month -> ", month )
-
-        let day     = unique_id.substr( 6, 2 )
-        // printf( "day -> ", day )
-
-        let format  = `${month} ${day}th, ${year}`
-        // printf( "format -> ", format )
-
-        return format
     }
 
     transform_unix_epoch_into_us_en_date( epoch  ) {
@@ -983,9 +818,7 @@ export default class Utils {
             return file + ".md"
 
         }
-
         return file
-
     }
 
     is_file_on_fs( file ) {
@@ -1037,25 +870,6 @@ export default class Utils {
         return is_markdown
     }
 
-    search( query = "", list = [] ) {
-
-
-        let result    = []
-        let has_match = false
-
-        let index = 0
-        for( const item of list ) {
-            index++
-
-            has_match = item.indexOf( query ) !== -1
-
-            if( has_match ) result.push( item )
-
-        }
-
-        return result
-    }
-
     fuzzy_search( search = "", list = []) {
         let search_results                  = fuzzy_sort.go( search, list )
         return search_results
@@ -1075,11 +889,6 @@ export default class Utils {
             'g': vals[1],
             'b': vals[2]
         }
-    }
-
-    random_rgba() {
-        var o = Math.round, r = Math.random, s = 255;
-        return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';
     }
 
     get_links_and_backlinks( file ) {
@@ -1122,27 +931,10 @@ export default class Utils {
         let hour        = id.substr( 8, 2 )
         let seconds     = id.substr( 10, 2 )
 
-        let date_string = ilse.utils.convert_from_date_unique_id_to_daily_note_format( id)
+        let date_string = yyyymmddhhss_to_pretty( id)
             date_string     += `(${hour}:${seconds})`
 
         return date_string
-    }
-
-    get_selection() {
-
-        if( window.getSelection ) {
-            return window.getSelection().toString()
-        }
-
-        if( window.document.getSelection ) {
-            return window.document.getSelection().toString()
-        }
-
-        if( window.document.selection ) {
-            return window.document.selection.createRange().text
-        }
-
-        return "";
     }
 
     decode_base64_image( dataString ) {
@@ -1169,69 +961,4 @@ export default class Utils {
         }
     }
 
-    get_note_references_from_string( content ) {
-
-        if( content.indexOf("((") === -1 ) return []
-
-        let chunks      = content.split(" ")
-        let list        = []
-        let regexp      = /[\s\S]*[(]\((.*)\)[)]/
-        let match
-
-        chunks.map( chunk => {
-            match = chunk.match( regexp )
-            if( match ) list.push( chunk )
-        })
-
-        return list
-    }
-
-    download_text( content, name ) {
-        var data    = content
-
-        var a       = document.createElement("a");
-            a.download  = name
-
-        var t       = new Blob([data], { type: "text/plain" });
-            a.href = window.URL.createObjectURL(t);
-            a.click()
-
-    }
-
-    // ilse.utils.get_dom_recursive_prop_up( dom, target )
-    get_dom_recursive_prop_up( dom, target, callback, attempts = 0 ) {
-
-        if( attempts >= 5 ) return null
-
-        printf( `1: ${attempts}` )
-        if( dom.getAttribute(target) )  {
-            let attr = dom.getAttribute(target)
-            callback( attr )
-        } else {
-            attempts++
-            this.get_dom_recursive_prop_up( dom.parentNode, target, attempts )
-        }
-
-    }
-
-    array_move(arr, old_index, new_index) {
-        if (new_index >= arr.length) {
-            var k = new_index - arr.length + 1;
-            while (k--) {
-                arr.push(undefined);
-            }
-
-        }
-        arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-        return arr; // for testing
-
-    }
-
-    string_to_html( string ) {
-
-        let parser = new DOMParser()
-
-        let doc    = parser.parseFromString( string, 'text/html')
-        return doc
-    }
 }

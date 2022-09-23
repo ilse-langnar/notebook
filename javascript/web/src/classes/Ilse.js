@@ -82,7 +82,8 @@ export default class Ilse {
         this.env                    = process.env
         this.platform               = process.env.VUE_APP_TARGET.toLowerCase()
 
-        this.classes                = { Component, Note, PanSVG }
+        // this.classes                = { Component, Note, PanSVG }
+        this.classes                = { Note, PanSVG }
 
         // utils?
         this.path                   = path
@@ -253,17 +254,32 @@ export default class Ilse {
         */
     }
 
+    load_daily_notes() {
+
+        let components      = this.components
+        let has_daily_notes = false
+
+        components.map( component => {
+            if( component.id === "daily-noyes" ) has_daily_notes = true
+        })
+
+        if( !has_daily_notes ) {
+            let daily_notes = this.types.get( "daily-notes" )
+            this.components.push( daily_notes )
+
+        }
+    }
+
     after_setup() {
         this.loaded()
+        this.load_daily_notes()
         this.is_zen                 = this.config.is_zen
-        this.set_dna()
+        // this.set_dna()
         // this.auto_save()
-        // this.create_daily_page()
     }
 
     loaded() {
         this.has_loaded             = true
-        printf( "EMITTING IS LOADED" )
         Messager.emit( "~ilse", "loaded", this )
     }
 
@@ -275,20 +291,6 @@ export default class Ilse {
         this.last_attempt           =  Date.now()
 
          this.config.save()
-    }
-
-    // FEATURE: every day we'll create a file named: "17th Set, 2022.md"
-    async create_daily_page() {
-        printf( ">>> create_daily_page" )
-
-        let today           = this.utils.get_daily_note_format() + ".md"// Jan 10th , 2020
-        let exists          = await this.filesystem.file.exists.async( path.join("second" , today) )
-        let has_today_file  = !!exists
-
-        if( !has_today_file ) {
-            await this.filesystem.file.write.async( path.join("second" , today), today )
-        }
-
     }
 
     reload() {

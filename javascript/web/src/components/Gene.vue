@@ -1,5 +1,5 @@
 <template lang="pug" >
-.html( v-html="get_html()" )
+.gene( v-html="get_html()" )
 </template>
 <script>
 // eslint-disable-next-line
@@ -10,6 +10,9 @@ const printf                        = console.log;
 // Ilse
     import ilse                         from "@/ilse.js"
 
+// functions
+    import string_to_html               from "@/classes/string_to_html.js"
+
 export default {
 
     name: "Gene",
@@ -19,6 +22,7 @@ export default {
         payload: { type: Object, required: false },
     },
 
+    /*
     watch: {
 
         payload: {
@@ -30,6 +34,7 @@ export default {
         },
 
     },
+    */
 
     data() {
         return {
@@ -41,9 +46,13 @@ export default {
 
         get_html() {
 
+            let string =  require(`@/components/${this.component}`).default
+            return string
+
+            /*
             let _this  = this
             let string =  require(`@/components/${this.component}`).default
-            let html   = ilse.utils.string_to_html( string )
+            let html   = string_to_html( string )
             let scripts= html.getElementsByTagName( "script" )
             let list   = [...scripts]
 
@@ -61,6 +70,7 @@ export default {
             // dna.emit( this.component, this.payload )
 
             return string
+            */
         },
 
         setup() {

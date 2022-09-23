@@ -1,12 +1,18 @@
 <template lang="pug" >
 .components-wrapper
 
+    Component.top-menu( :component="get_menu()" :options="{ hide_bullet: true }" )
+
     .components( style="display: flex; flex-direction: row;" :key="components_key" )
 
-        Component.left-sidebar( v-show="ilse.is_left_sidebar_open" :component="get_left_sidebar()" :options="{ hide_bullet: true }" :style="get_component_style(get_left_sidebar())" )
-        Component.second-menu( v-show="!ilse.is_left_sidebar_open && !ilse.is_zen" :component="get_menu_component()" :options="{ hide_bullet: true }" style="width: 20%; overflow: auto; " )
+        // Component.left-sidebar( v-show="ilse.is_left_sidebar_open" :component="get_left_sidebar()" :options="{ hide_bullet: true }" :style="get_component_style(get_left_sidebar())" )
+        Component.second-menu( v-show="!ilse.is_left_sidebar_open && !ilse.is_zen" :component="get_menu_component()" :options="{hide_bullet: true }" style="width: 20%; overflow: auto; " )
 
-        .component( v-show="components.length && component.is_on" v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
+        // p len: @@ {{components.length}}
+        // p {{components}}
+
+        .component( v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
+            // v-show="components.length && component.is_on" 
             Component( :component="component" )
 
         Component.right-sidebar( v-show="ilse.is_right_sidebar_open" :component="get_right_sidebar()" :options="{ hide_bullet: true }" :style="get_component_style(get_right_sidebar())" )
@@ -54,9 +60,10 @@ export default {
     methods: {
 
         get_menu_component() {
-            let type = ilse.config.menu_component || "menu"
-            let c         = { 'id': 'menu', 'width': 1, 'is_on': true, 'type': type, 'props': {} }
-            let component = new ilse.classes.Component( c )
+            // let type = ilse.config.menu_component || "menu"
+            // let c         = { 'id': 'menu', 'width': 1, 'is_on': true, 'type': type, 'props': {} }
+            // let component = new ilse.classes.Component( c )
+            let component = ilse.types.get( "menu" )
             return component
         },
 
@@ -67,8 +74,9 @@ export default {
         },
 
         get_right_sidebar() {
-            let c         = { 'id': 'right-sidebar', 'width': 12, 'is_on': true, 'type': 'right-sidebar', 'props': {} }
-            let component = new ilse.classes.Component( c )
+            let component = ilse.types.get( "right-sidebar" )
+            // let c         = { 'id': 'right-sidebar', 'width': 12, 'is_on': true, 'type': 'right-sidebar', 'props': {} }
+            // let component = new ilse.classes.Component( c )
             return component
         },
 
@@ -88,6 +96,38 @@ export default {
             // } else {
                 // return normal_style
             // }
+
+        },
+
+        get_menu() {
+
+            let menu         = null
+            let component
+
+            if( !menu ) {
+
+                component = ilse.types.get( "top-menu" )
+
+            } else {
+                component = ilse.types.get( "top-menu-embed" )
+
+                if( !component ) {
+
+                    component = ilse.types.add({
+                        id: "top-menu-embed",
+                        name: "Top Menu Embed",
+                        description: "Top menu from the user",
+                        img: ilse.irequire.img( "menu.svg" ),
+                        component: "piano.html",
+                        width: 12,
+                        is_on: true,
+                        type: "embed",
+                        props: {},
+                    })
+                }
+
+            }
+            return component
 
         },
 

@@ -83,7 +83,7 @@
     "to-string-loader": "^1.2.0",
     "v-calendar": "^2.3.1",
     "vivagraphjs": "^0.12.0",
-    "vue": "^2.6.14",
+    "vue": "^2.6.14:",
     "vue-d3-network": "^0.1.28",
     "vue-ganttastic": "^0.9.34",
     "vue-i18n": "^8.26.3",

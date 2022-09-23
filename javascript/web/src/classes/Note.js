@@ -9,6 +9,9 @@ const printf                        = console.log
 // Classes
     import Caret                        from "@/classes/Caret.js"
 
+// functions
+    import move_array_item              from "@/classes/move_array_item.js"
+
 export default class note {
 
     constructor( note /*, source*/  ) {
@@ -26,13 +29,13 @@ export default class note {
 
         this.depth       = note.substr( 0, note.indexOf(":") ).split("    ").length - 1 // Extract all "    " before ID
 
-        this.id          = note
-            this.id          = this.id.trim() // "    20220124102749" -> "20220124102749"
-            this.id          = this.id.substr( 0, 14 ) // 20220124102749: This is the [[Writing]] -> 20220124102749
-            this.id          = this.id.replace(":", "")
-            this.id          = this.id.replace(" ", "0")
-            // if( this.id.length < 14 ) this.id = `${this.id}0` // BUGFIX
-            if( this.id.length < 14 ) this.id = this.id.replace( /\ /g, "0" )
+        this.id          = this.get_id( note )
+            // this.id          = this.id.trim() // "    20220124102749" -> "20220124102749"
+            // this.id          = this.id.substr( 0, 23 ) // 20220124102749: This is the [[Writing]] -> 20220124102749
+            // this.id          = this.id.replace(":", "")
+            // this.id          = this.id.replace(" ", "0")
+            // if( this.id.length < 23 ) this.id = `${this.id}0` // BUGFIX
+            // if( this.id.length < 23 ) this.id = this.id.replace( /\ /g, "0" )
 
         this.content     = this.$raw
             this.content     = this.content.trim() // "    20220124102749: Example [[Writing]]" -> "20220124102749: Example [[Writing]]"
@@ -60,11 +63,22 @@ export default class note {
 
     }
 
+    get_id( note ) {
+
+        let id      = note.trim()
+            id          = id.substr( 0, 23 ) // 20220124102749: This is the [[Writing]] -> 20220124102749
+            id          = id.replace( ":", "" )
+
+        if( id.length < 23 ) printf( `ERROR: Wrong ID: id -> ${id}, ${JSON.stringify(this)}` )
+
+        return id
+    }
+
     move( index ) {
 
         try {
             let current_index = ilse.notes.list.indexOf(this)
-            ilse.utils.array_move( ilse.notes.list, current_index, index )
+            move_array_item( ilse.notes.list, current_index, index )
         } catch( e ) {
             debugger;
         }
@@ -140,12 +154,18 @@ export default class note {
 
         let is_note_malformed = !this.content || !this.id
             if( is_note_malformed ) return ""
+        let id = this.id
+        if( id.length !== 23 ) {
+            printf( `len: ${id.length} id: ${id} ` )
+            printf( "this.$raw -> ", this.$raw )
+        }
 
         let spaces = ilse.utils.get_depth_spaces( this.depth )
-        let note = `${spaces}${this.id.replace(" ", "0")}: ${this.content.trim()}`
-            if( this.id.length !== 14 ) {
-                ilse.notification.send( "ERROR", `BAD FORMAT: ${note}`)
-            }
+        // printf( "spaces -> ", spaces )
+        let note   = `${spaces}${id}: ${this.content.trim()}`
+            // if( id.length !== 23 ) {
+                // ilse.notification.send( "ERROR", `BAD FORMAT: ${note}`)
+            // }
 
         return note
     }

@@ -25,6 +25,11 @@
             Notes( :note="item" @on-link-click="on_note_link_click" :options="{}" )
 
     details
+        summary Book
+        .loopl( v-for="( note, ref_index ) in ilse.notes.query( '.html' )" :key="'search' + ref_index" ) 
+            Notes( v-if="note.content.indexOf('![[') !== -1 " :note="note" :options="{}" )
+
+    details
         summary Starred
         .favorites( v-for="( item, index ) in ilse.config.favorites" @click="on_favorite_click(item)" ) 
             p.link [[{{item}}]]
@@ -91,9 +96,18 @@ export default {
         },
 
         add_daiyl_notes() {
-            let has_daily_notes_already = !!ilse.components.map( component => {if( component.type === "daily-notes" ) return component }).filter( e=>e )[0]
-            if( !has_daily_notes_already )
-                add_component({ type: "daily-notes", width: 12 })
+            let component = ilse.types.get( "daily-notes" )
+            ilse.components.push( component )
+
+            return
+            let has_daily_notes_already = !!ilse.components.map( component => {if( component.id === "daily-notes" ) return component }).filter( e=>e )[0]
+            printf( "has_daily_notes_already -> ", has_daily_notes_already )
+            if( !has_daily_notes_already ) {
+                printf( "HAS NOT" )
+                    let component = ilse.types.get( "daily-notes" )
+                    ilse.components.push( component )
+            }
+                // add_component({ type: "daily-notes", width: 12 })
         },
 
         on_note_link_click( payload /*{link, event}*/ ) {

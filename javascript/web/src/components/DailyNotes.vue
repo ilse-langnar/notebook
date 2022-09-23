@@ -49,6 +49,12 @@ const printf                        = console.log;
     import GhostNote                    from "@/components/GhostNote.vue"
     import References                   from "@/components/References.vue"
 
+// Constants
+    import HTML_TEMPLATE                from "@/classes/HTML_TEMPLATE.js"
+
+// functions
+    import yyyymmddhhss_to_pretty       from "@/classes/yyyymmddhhss_to_pretty.js"
+
 export default {
 
     name: "DailyNotes",
@@ -60,6 +66,8 @@ export default {
             notes_key: 0,
             days: [], // [ { id: "20220128", notes: [ { text: "20220124102749: This is a [[Writing]] example", index: 15532 } ] } ]
             options: {
+                placeholder: '',
+                render_as_html: false,
             },
         }
     },
@@ -92,14 +100,40 @@ export default {
         },
         */
 
-        on_note_click( payload ) {
+        async on_note_click( payload ) {
 
-printf( ">>> DailyNotes -> payload -> ", payload )
             let note        = payload.note
             let event       = payload.event
+            let button      = payload.button
 
-            printf( "event -> ", event )
-            printf( "event.button -> ", event.button )
+            printf( "button -> ", button )
+
+            if( button === "middle" ) {
+                printf( "note -> ", note )
+
+                let id     = note.id
+                let content= note.content
+                let date   = id.split("-")[0]
+                let uuid   = id.split("-")[1]
+
+                let name   = yyyymmddhhss_to_pretty( date ) + `(${uuid}).html`
+                let has    = await ilse.filesystem.file.exists.async( name )
+
+                if( !has ) {
+
+                    printf( "!has -> ", !has )
+                    printf( "I'm Creating it:" )
+                    let html = ilse.markdown.render( content )
+                    printf( "html -> ", html )
+
+                    await ilse.filesystem.file.write.async( name, HTML_TEMPLATE.replace("@TITLE@", name).replace("@BODY@", html) )
+                    printf( "We now have it !!!!" )
+                }
+
+                this.options.render_as_html = !this.options.render_as_html
+
+            }
+
 
             return
             if( button === 1 ) {
@@ -348,7 +382,7 @@ printf( ">>> DailyNotes -> payload -> ", payload )
 
         get_file( day ) {
             // 20220123180536 -> Febuary 20th, 2020
-            let date = ilse.utils.convert_from_date_unique_id_to_daily_note_format( day.id )
+            let date = yyyymmddhhss_to_pretty( day.id )
             return date
         },
 

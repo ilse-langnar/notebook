@@ -110,6 +110,7 @@ class Commands {
         return found
     }
 
+    /*
     add_components_commands() {
 
         let _this = this
@@ -129,14 +130,16 @@ class Commands {
                 icon: icon,
                 description: `Will open: ${component.name}`,
                 fn: function() {
-                    let _component = new ilse.classes.Component({ type: component.id, width: 12, props: {} })
-                    ilse.components.push( _component )
+                    // let _component = new ilse.classes.Component({ type: component.id, width: 12, props: {} })
+                    let _component = new ilse.types.get( component.id )
+                        ilse.components.push( _component )
                 },
                 props: {},
             })
 
         })
     }
+    */
 
     add_components_commands() {
 
@@ -150,7 +153,8 @@ class Commands {
                 id: `open-${component.name}`,
                 icon: "tech-box.svg",
                 fn: function() {
-                    let _component = new ilse.classes.Component({ type: component.id, width: 12, props: {} })
+                    // let _component = new ilse.classes.Component({ type: component.id, width: 12, props: {} })
+                    let _component = _this.ilse.types.get( component.id )
                         ilse.components.push( _component )
                 },
                 description: `Will open: ${component.name}`,
@@ -179,6 +183,16 @@ class Commands {
                 id: "open-command-pallet-modal",
                 fn: function() {
                     ilse.modals.open( "command-pallet" )
+                },
+                description: "Open Command Pallet Modal",
+                name: "Open Command Pallet Modal",
+                props: {},
+            },
+
+            {
+                id: "open-modal-of-bad-notes",
+                fn: function() {
+                    // TODO
                 },
                 description: "Open Command Pallet Modal",
                 name: "Open Command Pallet Modal",
@@ -819,6 +833,8 @@ class Commands {
                 id: "export-quine",
                 icon: "plant.svg",
                 fn: async function() {
+                    printf( "export-quine: TODO" )
+                    /*
                     let o = await fetch("https://raw.githubusercontent.com/ilse-langnar/notebook/dev/javascript/quine/index.html")
                     printf( "o -> ", o )
                     let text = await o.text()
@@ -831,18 +847,10 @@ class Commands {
                             "statistics": "",
                             "priorities": "",
                             "config.json": JSON.stringify( ilse.config.get_normalized_config() ),
-                            "second/": {
-
-                            },
-                            "first/": {
-
-                            },
-                            ".trash/": {
-
-                            },
-                            "plugins/": {
-
-                            },
+                            "second/": { },
+                            "first/": { },
+                            ".trash/": { },
+                            "plugins/": { },
                         }
                     }
                     printf( "filesystem -> ", filesystem )
@@ -855,6 +863,7 @@ class Commands {
                     printf( "text -> ", text )
 
                     ilse.utils.download_text( text, "index.html" )
+                    */
                 },
                 description: "Export Quine",
                 name: "Export Quine",

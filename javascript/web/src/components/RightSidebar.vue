@@ -14,7 +14,8 @@
         .item( v-for="( chunk, index ) in get_chunks()" :key="index" )
             // .fitem( v-for="( component, component_index ) in chunk" :key="'component-index-' + component_index" style="width: 300px; height: 300px; overflow: auto; " )
             .fitem.home-component( v-for="( component, component_index ) in chunk" :key="'component-index-' + component_index" )
-                IlseComponent( v-if="component.type" :component="new ilse.classes.Component(component)" :options="{ hide_bullet: true }" )
+                // IlseComponent( v-if="component.type" :component="new ilse.classes.Component(component)" :options="{ hide_bullet: true }" )
+                IlseComponent( v-if="component.type" :component="component" :options="{ hide_bullet: true }" )
 
 </template>
 <script>
@@ -22,13 +23,16 @@
 const printf                                        = console.log;
 
 // Ilse
-    import ilse             from "@/ilse.js"
+    import ilse                             from "@/ilse.js"
 
 // Messager
-    import Messager                     from "@/classes/Messager.js"
+    import Messager                         from "@/classes/Messager.js"
 
 // Components
     import IlseComponent                    from "@/components/Component.vue"
+
+// functions
+    import split_array_into_nth_chunks      from "@/classes/split_array_into_nth_chunks.js"
 
 export default {
 
@@ -65,7 +69,7 @@ export default {
 
         get_chunks() {
             let copy = Array.from( this.list )
-            let list = ilse.utils.split_array_into_nth_legnth( copy, this.number_of_columns )
+            let list = split_array_into_nth_chunks( copy, this.number_of_columns )
             return list
         },
 

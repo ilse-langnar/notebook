@@ -8,6 +8,11 @@ const printf = console.log
 
 export default function export_digital_garden( template, links, removed ) {
 
+    printf( "TODO" )
+    printf( "template -> ", template )
+    printf( "links -> " ,links )
+    printf( "removed -> ", removed )
+
     let notes= ""
 
     links.map( link => {

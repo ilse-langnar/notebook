@@ -250,8 +250,6 @@ app.whenReady().then(() => {
         // inPageSearch.openSearchWindow();
     // })
 
-
-
     protocol.registerFileProtocol('app', (request, callback) => {
 
         let url = request.url.substr(5)
@@ -263,8 +261,6 @@ app.whenReady().then(() => {
     }, err => {
         if( err ) console.error( "ERROR: Could not register file:// protocol" )
     })
-
-
 
     protocol.registerFileProtocol('atom', (request, callback) => {
         const url = request.url.substr(7)

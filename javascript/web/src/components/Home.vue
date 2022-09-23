@@ -1,5 +1,7 @@
 <template lang="pug">
 .home
+    // TopMenu
+    // Component.top-menu( :component="get_main()" :options="{ hide_bullet: true }" )
 
     .loading( v-if="!ilse.target_directories.length || !ilse.has_loaded " :key="ilse.key" )
         Setup
@@ -7,12 +9,19 @@
     // .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded" :key="ilse.key" :data-theme="get_data_theme()" :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded" :key="ilse.key" :data-theme="ilse.config.dark ? 'dark' : 'light' " :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
 
-        // TopMenu
-        Component.top-menu( :component="get_top_menu()" :options="{ hide_bullet: true }" style="" )
-        List( :components="ilse.components" unique-key="home" )
-        Modals
-        Dialogs
-        Notifications( v-if="ilse.has_loaded" )
+        .rendered
+            // Component( v-if="get_main()"  :component="get_main()"       :options="{ hide_bullet: true }" style="width: 100%; ")
+            .flex
+                .l( style="border: 1px solid #000; width: 40px; left: 0px; height: 100vh;" )
+                    img( :src="irequire.img('logo.svg')" style="cursor: pointer; width: 40px;" )
+
+                .l
+                    embed(     v-if="get_main()" :src="get_embed_src(get_main().component)" style="width: 100% !important; height: 100vh !important; overflow: hidden !important; border: 1px solid #000; " )
+                    Renderer(  v-if="!get_main()" :components="ilse.components" unique-key="home" )
+
+    Modals
+    Dialogs
+    Notifications( v-if="ilse.has_loaded" )
 </template>
 <script>
 // eslint-disable-next-line
@@ -30,7 +39,7 @@ const printf                                        = console.log;
     import Modals           from "@/components/Modals.vue"
     import Dialogs          from "@/components/Dialogs.vue"
     import Notifications    from "@/components/Notifications.vue"
-    import List             from "@/components/Components.vue"
+    import Renderer         from "@/components/Components.vue"
     import Component        from "@/components/Component.vue"
 
 
@@ -47,7 +56,7 @@ export default {
         Setup,
         Notifications,
 
-        List,
+        Renderer,
         Component,
     },
 
@@ -70,11 +79,68 @@ export default {
 
     methods: {
 
-        get_top_menu() {
-            let type = ilse.config.top_menu_component || "top-menu"
-            let c         = { 'id': 'top-menu', 'width': 12, 'is_on': true, 'type': type, 'props': {} }
-            let component = new ilse.classes.Component( c )
+        get_embed_src( id ) {
+            let target_dir  = ilse.target_directories[0]
+            let final       = `app://${target_dir}/${id}`
+            return final
+        },
+
+        get_main() {
+
+            let main         = ilse.filesystem.file.exists.sync( "main.html" )
+                if( !main ) return
+
+            let component = ilse.types.get( "main" )
+            if( !component )
+                component = ilse.types.add({
+                    id: "main",
+                    name: "Main",
+                    description: "Main(Total View)",
+                    img: ilse.irequire.img( "menu.svg" ),
+                    component: "main.html",
+                    width: 12,
+                    is_on: true,
+                    type: "embed",
+                    props: {},
+                })
+
+            printf( "component -> ", component )
+
             return component
+        },
+
+        // let type      = ilse.config.top_menu_component || "top-menu"
+        get_menu() {
+
+            // let menu         = ilse.filesystem.file.read.sync( "piano.html" )
+            let menu         = null
+
+            if( !menu ) {
+
+                let component = ilse.types.get( "top-menu" )
+                return component
+
+            } else {
+                let component = ilse.types.get( "top-menu-embed" )
+
+                if( !component ) {
+
+                    component = ilse.types.add({
+                        id: "top-menu-embed",
+                        name: "Top Menu Embed",
+                        description: "Top menu from the user",
+                        img: ilse.irequire.img( "menu.svg" ),
+                        component: "piano.html",
+                        width: 12,
+                        is_on: true,
+                        type: "embed",
+                        props: {},
+                    })
+                }
+
+                return component
+            }
+
         },
 
         open_shortcuts() {

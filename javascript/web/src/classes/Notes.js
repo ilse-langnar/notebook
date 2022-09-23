@@ -6,9 +6,6 @@ const printf                        = console.log
 // Messager
     import Messager                         from "@/classes/Messager.js"
 
-// Node.js
-    const path                              = require("path")
-
 export default class Notes {
 
     constructor( filesystem, ilse ) {
@@ -57,12 +54,29 @@ export default class Notes {
 
     async save( avoid_saving = false ) {
 
+        if( avoid_saving ) return
+
         let normalized = this.list.join("\n")
         let file       = ""
-        let notes    = this.list
+        let notes      = this.list
         let is_last    = false
         let $note
 
+        notes.map( ( note, index ) => {
+
+            is_last = index === notes.length -1
+
+            $note =  note.get()
+                if( !$note ) return
+
+            file += note.get() + "\n"
+        })
+
+        // printf( "file -> ", file )
+
+        // await this.filesystem.file.write.async( "notes", file )
+
+        /*
         let index = 0
         for( const note of notes ) {
             index++
@@ -74,11 +88,7 @@ export default class Notes {
 
             file += note.get() + "\n"
         }
-
-        if( avoid_saving ) return
-
-        await this.filesystem.file.write.async( "notes", file )
-
+        */
     }
 
     async demo() {
@@ -118,7 +128,12 @@ export default class Notes {
         let instance
 
         notes.map( (note, index) => {
+
+            // BUGFIX: avoid empty
+            if( !note ) return
+
             instance = new this.ilse.classes.Note( note )
+
             if( instance.depth >= 1 ) {
                 this.recursively_add_children( instance, index )
             }
@@ -226,7 +241,7 @@ export default class Notes {
                 // if not exists, create
                     try {
                         // printf( "link -> ", link )
-                        exists         = await this.filesystem.file.exists.async( path.join("second" , link) )// link - > "Psycology Papers.md"
+                        exists         = await this.filesystem.file.exists.async( link )// link - > "Psycology Papers.md"
                     } catch( e ) {
                         exists = false
                     }
@@ -237,7 +252,7 @@ export default class Notes {
 
                 // Is an actual file, then create
                     // if( !exists ) {
-                        // await this.filesystem.file.write.async( path.join("second" , link), link )
+                        // await this.filesystem.file.write.async( link, link )
                     // }
 
                 Messager.emit( "~notes", "link", { link, note } )

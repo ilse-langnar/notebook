@@ -58,6 +58,9 @@ import Hierarchy from "@antv/hierarchy"
 // const rootNode       = layout.doLayout() // you have x, y, centX, centY, actualHeight, actualWidth, etc.
 
 
+// functions
+    import random_number from "@/classes/random_number.js"
+
 export default {
 
     name: "RecursiveNoteMindMap",
@@ -333,7 +336,7 @@ export default {
             // let style = `margin: 10px; background: #fff; width: fit-content; height: 100px; margin: auto; margin-top: 20px; padding: 3px; `
             // let style = `background: #fff; width: 100%; height: 100px; margin: 10px 0px; margin-top: 20px; padding: 1px; `
             let style = ` background: var( --background-color ); width: right200px; margin: 10px 0px; margin-top: 20px; padding: 1px; position: relative; `
-            let random_number = ilse.utils.random_integer(0, 1)
+            let random_number = random_number(0, 1)
             printf( "random_number -> ", random_number )
             if( random_number === 0 ) {
                 style += `flex-direction: row;`

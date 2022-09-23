@@ -4,14 +4,17 @@
     .flex( v-if="is_on" :style="options.style" :class=" is_dragging_over ? 'dragging-over' : '' " )
 
         .bullet( v-if="!options.hide_bullet" )
-            p.collapsed( v-if="inote.is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click="on_note_click" @click.middle="on_note_click" @click.right="on_note_click" :id=" 'bullet-' + inote.id" ) &#8277;
-            p.expanded( v-if="!inote.is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click="on_note_click" @click.middle="on_note_click" @click.right="on_note_click" :id=" 'bullet-' + inote.id" ) &bull;
+            p.collapsed( v-if="inote.is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_bullet_middle_click" @click.right="on_bullet_right_click" @click.left="on_bullet_left_click" @dbclick="on_bullet_db_click" :id=" 'bullet-' + inote.id" ) &#8277;
+            p.expanded( v-if="!inote.is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_bullet_middle_click" @click.right="on_bullet_right_click" @click.left="on_bullet_left_click" @dbclick="on_bullet_db_click" :id=" 'bullet-' + inote.id" ) &bull;
 
         // edit
-        .edit( contentEditable v-if="inote.is_editable" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent ) {{options.is_tagless ? inote.tagless : inote.content}}
+        // .edit( contentEditable v-if="inote.is_editable" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent ) {{options.is_tagless ? inote.tagless : inote.content}}
+        .edit( contentEditable v-if="inote.is_editable" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" ) {{options.is_tagless ? inote.tagless : inote.content}}
 
         // show
-        .html( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent :data-unique-id="inote.id" draggable @dragover="is_dragging_over = true" @dragleave="is_dragging_over = false" @dragend="is_dragging_over = false" @drop="on_drop" @drag="ilse.dragging = inote.id" )
+        // .html( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent :data-unique-id="inote.id" draggable @dragover="is_dragging_over = true" @dragleave="is_dragging_over = false" @dragend="is_dragging_over = false" @drop="on_drop" @drag="ilse.dragging = inote.id" )
+
+        .html( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" :data-unique-id="inote.id" )
 
     .file-reference( v-for="( item, index ) in ilse.notes.get_file_references(inote.content)" )
         details
@@ -72,6 +75,13 @@ const printf                        = console.log;
     import Note                         from "@/components/Note.vue"
     import File                         from "@/components/Note.vue"
 
+// Constants
+    import HTML_TEMPLATE                from "@/classes/HTML_TEMPLATE.js"
+
+// functions
+    import yyyymmddhhss_to_pretty       from "@/classes/yyyymmddhhss_to_pretty.js"
+    import get_clipboard                from "@/classes/get_clipboard.js"
+
 export default {
 
     name: "Note",
@@ -87,6 +97,7 @@ export default {
                     hide_bullet: false,
                     is_tagless: false,
                     read_only: false,
+                    render_as_html: false,
                 }
             }
         },
@@ -222,12 +233,11 @@ export default {
        },
        */
 
-        on_note_click( event ) {
-
-            printf( "Note.vue -> this.inote.children.length -> ", this.inote.children.length )
-            printf( "Note.vue -> event.button  -> ", event.button )
+        on_bullet_right_click( event ) {
 
             if( this.inote.children.length && event.button === 0 ) this.inote.is_collapsed = !this.inote.is_collapsed
+            this.$emit( "on-note-click", { note: this.note, event: event, button: "right" })
+            return
 
             let button
             if( event.button === 0 ) button = "left"
@@ -235,6 +245,18 @@ export default {
             if( event.button === 1 ) button = "middle"
 
             this.$emit( "on-note-click", { note: this.note, event: event, button: button })
+        },
+
+        on_bullet_left_click( event ) {
+            this.$emit( "on-note-click", { note: this.note, event: event, button: "left" })
+        },
+
+        on_bullet_db_click( event ) {
+            printf( "on_bullet_db_click -> event -> ", event )
+        },
+
+        on_bullet_middle_click() {
+            this.$emit( "on-note-click", { note: this.note, event: event, button: "middle" })
         },
 
         get_query( note ) {
@@ -257,8 +279,9 @@ export default {
             let to_return
             tags.map( tag => {
                 if( tag.split('/').length >= 1 && tag.split('/')[1] === "component"  ) {
-                    let instance  = new ilse.classes.Component({ type: tag.split('/')[2], width: 12 })
-                    to_return = instance
+                    // let instance  = new ilse.classes.Component({ type: tag.split('/')[2], width: 12 })
+                    let instance  = ilse.types.get( tag.split('/')[2] )
+                        to_return     = instance
                 }
             })
 
@@ -282,7 +305,7 @@ export default {
             let blob        = buffer
             let name        = file.name || Math.random().toString().replace("0.", "")
 
-            await ilse.filesystem.file.write.async( ilse.path.join("second", name), blob )
+            await ilse.filesystem.file.write.async( name, blob )
 
             this.inote.focus()
 
@@ -347,12 +370,35 @@ export default {
 
         get_html( note ) {
 
+            /*
+            if( this.options.render_as_html ) {
+                let id     = note.id
+                let content= note.content
+                let date   = id.split("-")[0]
+                let uuid   = id.split("-")[1]
+
+                let name   = yyyymmddhhss_to_pretty( date ) + `(${uuid}).html`
+                let has    = ilse.filesystem.file.exists.sync( name )
+                    if( !has ) return `${name} Does not exists`
+
+                let html   = ilse.filesystem.file.read.sync( name )
+
+                setTimeout( () => {
+                    printf( "Resizing ..." )
+                }, 1000 )
+
+                return html
+            }
+            */
+
+
             let content         = this.options.is_tagless ? note.tagless : note.content
 
             // if( content.indexOf("<") !== -1 ) { printf( "note.content -> ", note.content ) printf( "content ->" ) }
 
 
             let normalized = ilse.markdown.render( content )
+            // if( content.indexOf("|") !== -1 ) printf( "normalized -> ", normalized )
             return normalized
 
             // let ref                   = ilse.notes.extract_note_references( content ) // TODO: Make this a notes function
@@ -412,7 +458,7 @@ export default {
 
         on_focus( event, inote ) {
 
-            if( this.options.read_only ) return
+            if( this.options.read_only || this.options.render_as_html ) return
 
             this.listen_to_embed_keys()
 
@@ -490,7 +536,7 @@ export default {
             let is_meta  = event.metaKey
             let key      = event.key
 
-            let selection= ilse.utils.get_selection()
+            let selection= get_clipboard()
             let is_wrap  = key === "[" && selection
 
             if( is_wrap ) {
@@ -584,6 +630,36 @@ export default {
 
         },
 
+        async test() {
+
+            /*
+            if( this.inote.content.indexOf("#embed") !== -1 ) {
+                printf( ">>>> embed this.inote.content -> ", this.inote.content )
+                printf( ">>>> embed this.inote.id -> ", this.inote.id )
+                let inote  = this.inote
+
+                let id     = inote.id
+                let content= inote.content
+                let date   = id.split("-")[0]
+                let uuid   = id.split("-")[1]
+
+                let name   = yyyymmddhhss_to_pretty( date ) + `(${uuid}).html`
+                let has    = await ilse.filesystem.file.exists.async( name )
+                if( !has ) {
+                    printf( "I'm Creating it:" )
+                    let html = ilse.markdown.render( content )
+                    printf( "html -> ", html )
+
+                    await ilse.filesystem.file.write.async( name, HTML_TEMPLATE.replace("@TITLE@", name).replace("@BODY@", html) )
+                    printf( "We now have it !!!!" )
+                }
+                // printf( `${result}(${uuid}).html` )
+            }
+            */
+
+        },
+
+        // ??
         set_note_from_component() {
 
             // TODO Document
@@ -605,6 +681,7 @@ export default {
         },
 
         setup() {
+            // this.test()
             this.set_note_from_component()
             this.listen()
         },
@@ -624,7 +701,8 @@ export default {
     padding: 0 !important;
     min-height: 20px;
     font-size: 1em;
-    /*margin-bottom: 10px !important;*/
+    /*border: 1px solid #000;
+    margin-bottom: 10px !important;*/
 }
 
 .edit:focus {
@@ -664,6 +742,7 @@ input:focus{
     width: fit-content;
     font-size: 1em;
     user-select: text;
+    width: 100%;
 }
 
 .bullet p {

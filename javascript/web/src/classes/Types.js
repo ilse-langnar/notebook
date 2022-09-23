@@ -565,7 +565,7 @@ class componentTypes {
             let already_exists = !!this.get(id)
             if( already_exists) throw new Error( `A component type with id ${id} already exists!!` )
 
-        let component_type = {
+        let struct = {
             id: id,
             name: name,
             type: type,
@@ -575,9 +575,9 @@ class componentTypes {
         }
 
         // Add
-        this.types.push( component_type )
+        this.types.push( struct )
 
-        return component_type
+        return struct
 
     }
 

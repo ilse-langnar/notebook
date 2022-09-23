@@ -52,9 +52,13 @@ export default class Embeds {
         this.list.push({
             id: "word-count",
             fn: function( list ) {
+                printf( "1 - Embeds -> word-count -> list -> ", list )
                 let id   = list[1]
+                printf( "2 - Embeds -> word-count -> list -> ", id )
                 let note = ilse.notes.query( `${id}: ` )[0]
+                printf( "3 - Embeds -> word-count -> list -> ", note )
                 let len  = note.content.length
+                printf( "4 - Embeds -> word-count -> list -> ", len )
                 if( id ) {
                     // let content = ilse.notes.get_recursive(note)
                     // printf( ">>>>> content -> ", content )

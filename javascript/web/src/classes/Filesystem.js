@@ -52,7 +52,7 @@ export default class Filesystem {
     }
 
     async setup() {
-        await this.create_default_dirs()
+        // await this.create_default_dirs()
         setTimeout( () => { this.test() }, 3000 )
         this.loaded()
     }
@@ -66,6 +66,7 @@ export default class Filesystem {
 
     }
 
+    /*
     async create_default_dirs() {
 
         // let is_demo_or_quine = process.env.VUE_APP_TARGET === "QUINE"
@@ -102,6 +103,7 @@ export default class Filesystem {
         this.has_checked_default_files = true
         // Messager.emit( "~filesystem", "zir-files-check" )
     }
+    */
 
     loaded() {
         Messager.emit( "~filesystem", "loaded", this )

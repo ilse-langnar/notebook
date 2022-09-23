@@ -29,18 +29,10 @@ export default class DOMFilesystem {
                 "statistics": "",
                 "priorities": "",
                 "config.json": JSON.stringify(CONFIG_TEMPLATE),
-                "second/": {
-
-                },
-                "first/": {
-
-                },
-                ".trash/": {
-
-                },
-                "plugins/": {
-
-                },
+                "second/": { },
+                "first/": { },
+                ".trash/": { },
+                "plugins/": { },
             }
         }
 
@@ -383,7 +375,7 @@ export default class DOMFilesystem {
 
     get_all_files_sync() {
 
-        let files   = fs.readdirSync( path.join(target_directory , "second") )
+        let files   = fs.readdirSync( target_directory )
             if( !files ) files = []
 
         return files

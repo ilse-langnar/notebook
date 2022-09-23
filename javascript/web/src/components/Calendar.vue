@@ -3,7 +3,7 @@
 
     .wrapper
         .calendar-dates( style="width: 50%; margin: 0 auto; " )
-            h1.centered {{ilse.utils.convert_from_date_unique_id_to_daily_note_format(ilse.utils.get_unique_date_id())}}({{(new Date().getMonth() + 1)}}/12)
+            h1.centered {{yyyymmddhhss_to_pretty(ilse.utils.get_unique_date_id())}}({{(new Date().getMonth() + 1)}}/12)
             table.centered( style="width: 100px;" )
                 th
                     td( v-for="( column, index ) in get_items()" :key="index" )
@@ -23,7 +23,7 @@
     .flex
         .first( style="width: 50%; height: 44vh; border: 1px solid #000; " )
             .calendar-dates
-                h1.centered {{ilse.utils.convert_from_date_unique_id_to_daily_note_format(ilse.utils.get_unique_date_id())}}({{(new Date().getMonth() + 1)}}/12)
+                h1.centered {{yyyymmddhhss_to_pretty(ilse.utils.get_unique_date_id())}}({{(new Date().getMonth() + 1)}}/12)
                 table.centered( style="width: 50%; " )
                     th
                         td( v-for="( column, index ) in get_items()" :key="index" )
@@ -90,10 +90,16 @@ const printf                        = console.log;
 // Components 
     import Note                         from "@/components/Note.vue"
 
+// Functions
+    import yyyymmddhhss_to_pretty       from "@/classes/yyyymmddhhss_to_pretty.js"
+
 // import '@fullcalendar/core/vdom' // solves problem with Vite
 // import FullCalendar from '@fullcalendar/vue'
 // import dayGridPlugin from '@fullcalendar/daygrid'
 // import interactionPlugin from '@fullcalendar/interaction'
+
+// functions
+    import split_array_into_nth_chunks  from "@/classes/split_array_into_nth_chunks.js"
 
 export default {
 
@@ -262,7 +268,7 @@ export default {
                 list.push(i)
             }
 
-            let chunks = ilse.utils.split_array_into_nth_legnth( list, 7 )
+            let chunks = split_array_into_nth_chunks( list, 7 )
 
             return chunks
         },

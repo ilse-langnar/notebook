@@ -24,6 +24,9 @@ const printf                        = console.log;
     import Note                         from "@/components/Note.vue"
     import Notes                        from "@/components/Notes.vue"
 
+// functions
+    import shuffle_array                from "@/classes/shuffle_array.js"
+
 export default {
 
     name: "RandomNote",
@@ -49,7 +52,7 @@ export default {
 
         get_random_note( query ) {
             let result   = ilse.notes.query( query )
-            let shuffled = ilse.utils.shuffle_array( result )
+            let shuffled = shuffle_array( result )
             let sized    = shuffled.slice( 0, this.num )
             return sized
             // let random   = shuffled[0]
