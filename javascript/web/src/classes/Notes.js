@@ -6,6 +6,10 @@ const printf                        = console.log
 // Messager
     import Messager                         from "@/classes/Messager.js"
 
+// functions
+    import get_note_id                      from "@/classes/get_note_id.js"
+    import get_unique_date_id               from "@/classes/get_unique_date_id.js"
+
 export default class Notes {
 
     constructor( filesystem, ilse ) {
@@ -281,7 +285,7 @@ export default class Notes {
 
         let name = "query-" + q
 
-        // FEATURE: O(n)
+        // FEATURE: O(n) instant
             if( q === "" ) return this.list
 
         // FEATURE: Check name Queries( O(n) )
@@ -292,17 +296,23 @@ export default class Notes {
         let list      = this.list
         let reg_exp
 
-        for( const note of list ) {
+        list.map( note => {
+            has_match = note.$raw.match( q )
+                if( !has_match ) return
 
+            result.push( note )
+        })
+
+        // for( const note of list ) {
             // reg_exp   = new RegExp( `(${q})`, "ig" )
             // has_match = reg_exp.match( note.content )
             // has_match = q.match( note.content )
-            has_match = note.content.match( q )
+            // has_match = note.content.match( q )
             // note.content = note.content.replace( new RegExp(`(${file})`, 'ig'), `[[${file}]]` )
-                if( !has_match ) continue
-
-            result.push( note )
-        }
+            // has_match = note.$raw.match( q )
+                // if( !has_match ) continue
+            // result.push( note )
+        // }
 
         // FEATURE: Setname
             ilse.cache.set(name, result)
@@ -330,13 +340,17 @@ export default class Notes {
         let result    = []
         let list      = this.list
 
-        for( const note of list ) {
-
+        list.map( note => {
             has_match = note.$raw.toLowerCase().indexOf( q ) !== -1
-                if( !has_match ) continue
-
+                if( !has_match ) return
             result.push( note )
-        }
+        })
+
+        // for( const note of list ) {
+            // has_match = note.$raw.toLowerCase().indexOf( q ) !== -1
+                // if( !has_match ) continue
+            // result.push( note )
+        // }
 
         // FEATURE: Setname
             ilse.cache.set(name, result)
@@ -397,43 +411,6 @@ export default class Notes {
         return this.add( content, ++index, depth )
     }
 
-    /*
-    add( content, index = null, depth = 0 ) {
-        if( index === null ) index = Number(this.list.length)
-        printf( "index -> ", index )
-        index = index - 1
-        printf( "this.list.length -> ", this.list.length )
-        printf( "this.list -> ", this.list )
-        printf( "index -> ", index )
-        printf( "\b" )
-
-        let time_id          = ilse.utils.get_unique_date_id() // 20220120155758
-        let spaces           = ilse.utils.get_depth_spaces( depth )
-        let note             = `${spaces}${time_id}: ${content}` // 20220120155758: Hello, World
-
-        let instance         = new ilse.classes.Note( note )
-            if( instance.depth >= 1 ) this.recursively_add_children( instance, index )
-
-            this.list.splice( index, 0, instance )
-
-        let after
-        index = Number(index)
-        if( index === 0  ) {
-            after = this.list[0]
-        } else {
-            after = this.list[index - 1]
-        }
-
-        Messager.emit( "~notes", "added", {
-            note: instance,
-            // after: this.list[ Number( index - 1 ) ]
-            after: after,
-        })
-
-        return instance
-    }
-    */
-
     add( content, index = null, depth = 0, options = {} ) {
 
         let location         = 0
@@ -450,7 +427,7 @@ export default class Notes {
             location = index
         }
 
-        let time_id          = this.ilse.utils.get_unique_date_id() // 20220120155758
+        let time_id          = get_unique_date_id() // 20220120155758
         let spaces           = this.ilse.utils.get_depth_spaces( depth )
         let note             = `${spaces}${time_id}: ${content}` // 20220120155758: Hello, World
 
@@ -495,17 +472,15 @@ export default class Notes {
 
     add_list( list ) {
 
-        let number = this.ilse.utils.get_unique_date_id()
         let instance
 
         list.map( (item, index) => {
-            // instance = new this.ilse.classes.Note( `${this.ilse.utils.get_depth_spaces(item.depth)}${number++}: ${item.content}` )
             if( index === 0 ) {
-                item = `${ilse.utils.get_unique_date_id()}: ${item}`
+                item = `${get_note_id()}: ${item}`
                 instance = new this.ilse.classes.Note( item )
                 this.list.push( instance )
             } else {
-                item = `    ${ilse.utils.get_unique_date_id()}: ${item}`
+                item = `    ${get_note_id()}: ${item}`
                 instance = new this.ilse.classes.Note( item )
                 this.list.push( instance )
             }

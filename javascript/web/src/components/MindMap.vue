@@ -3,7 +3,7 @@
     svg#svg( :style="get_svg_style(component.props.is_child)" )
         foreignObject( requiredExtensions="http://www.w3.org/1999/xhtml" style="width: 100%; height: 100%; overflow: visible; background: var( --background-color );" )
             body(xmlns="http://www.w3.org/1999/xhtml" )
-                RecursiveNoteMindMap( :note="get_note(component.props.id)" )
+                // RecursiveNoteMindMap( :note="get_note(component.props.id)" )
     br
 </template>
 <script>
@@ -18,10 +18,10 @@ const printf                        = console.log;
 
 // Components 
     import Note                         from "@/components/Note.vue"
-    import RecursiveNoteMindMap                from "@/components/RecursiveNoteMindMap.vue"
+    // import RecursiveNoteMindMap                from "@/components/RecursiveNoteMindMap.vue"
 
 // Libraries
-    import svgPanZoom from "svg-pan-zoom"
+    // import svgPanZoom from "svg-pan-zoom"
 
 
 export default {
@@ -37,7 +37,7 @@ export default {
 
     components: {
         Note,
-        RecursiveNoteMindMap,
+        // RecursiveNoteMindMap,
     },
 
     props: {
@@ -152,7 +152,7 @@ export default {
 
         setup() {
             this.listen()
-            this.create_svg()
+            // this.create_svg()
         },
 
     },

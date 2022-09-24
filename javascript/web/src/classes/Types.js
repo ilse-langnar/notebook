@@ -252,6 +252,7 @@ class componentTypes {
         })
         */
 
+        /*
         this.add({
             id: "mind-map",
             name: "Mind Map",
@@ -277,18 +278,6 @@ class componentTypes {
         })
 
         this.add({
-            id: "org-chart",
-            name: "Org Chart",
-            description: "Org Chart",
-            img: this.ilse.irequire.img("tree.svg"),
-            type: "vue",
-            component: require("@/components/OrgChart.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
             id: "table-pan",
             name: "Table Pan",
             description: "It's like a mind map bot downwards",
@@ -299,6 +288,7 @@ class componentTypes {
                 is_internal: true,
             }
         })
+        */
 
         this.add({
             id: "text-file",
@@ -349,6 +339,7 @@ class componentTypes {
             }
         })
 
+        /*
         this.add({
             id: "calendar",
             name: "Calendar",
@@ -360,6 +351,7 @@ class componentTypes {
                 is_internal: true,
             }
         })
+        */
 
         this.add({
             id: "favorites",
@@ -404,18 +396,6 @@ class componentTypes {
             img: this.ilse.irequire.img("writing.svg"),
             type: "vue",
             component: require("@/components/Write.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
-            id: "draw",
-            name: "Draw",
-            description: "Draw",
-            img: this.ilse.irequire.img("photo.svg"),
-            type: "vue",
-            component: require("@/components/Draw.vue"),
             props: {
                 is_internal: true,
             }

@@ -9,19 +9,28 @@
     // .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded" :key="ilse.key" :data-theme="get_data_theme()" :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded" :key="ilse.key" :data-theme="ilse.config.dark ? 'dark' : 'light' " :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
 
-        .rendered
-            // Component( v-if="get_main()"  :component="get_main()"       :options="{ hide_bullet: true }" style="width: 100%; ")
-            .flex
-                .l( style="border: 1px solid #000; width: 40px; left: 0px; height: 100vh;" )
-                    img( :src="irequire.img('logo.svg')" style="cursor: pointer; width: 40px;" )
+        .flex
+            .flexi( style="flex-basis: 2%; border: 1px solid #000; height: 100vh;" @drop.prevent="on_app_drop" )
 
-                .l
-                    embed(     v-if="get_main()" :src="get_embed_src(get_main().component)" style="width: 100% !important; height: 100vh !important; overflow: hidden !important; border: 1px solid #000; " )
-                    Renderer(  v-if="!get_main()" :components="ilse.components" unique-key="home" )
+                // img( :src="irequire.img('logo.svg')" style="cursor: inline-block; width: 40px;" )
+                img( src="@/assets/logo.svg" style="cursor: inline-block; width: 40px; border: 1px dashed #000; border-radius: 5px; " )
 
-    Modals
-    Dialogs
-    Notifications( v-if="ilse.has_loaded" )
+            .flex( style="flex-basis: 100%; " )
+                embed(     v-if="get_main()" :src="get_embed_src(get_main().component)" style="width: 100% !important; height: 100vh !important; overflow: hidden !important; border: 1px solid #000; " )
+                Renderer(  v-if="!get_main()" :components="ilse.components" unique-key="home" )
+
+        // .rendered
+            .is-pulled-left( style="border: 1px solid #000; width: 3%; height: 100vh;" )
+                img( :src="irequire.img('logo.svg')" style="cursor: pointer; width: 40px;" )
+
+            .is-pulled-right( style="width: 97%; " )
+                embed(     v-if="get_main()" :src="get_embed_src(get_main().component)" style="width: 100% !important; height: 100vh !important; overflow: hidden !important; border: 1px solid #000; " )
+                Renderer(  v-if="!get_main()" :components="ilse.components" unique-key="home" )
+
+
+        Modals
+        Dialogs
+        Notifications( v-if="ilse.has_loaded" )
 </template>
 <script>
 // eslint-disable-next-line
@@ -78,6 +87,10 @@ export default {
     },
 
     methods: {
+
+        on_app_drop( event ) {
+            printf( "Home.vue -> on_app_drop -> event -> ", event )
+        },
 
         get_embed_src( id ) {
             let target_dir  = ilse.target_directories[0]

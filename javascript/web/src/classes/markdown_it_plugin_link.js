@@ -1,5 +1,10 @@
 const printf = console.log
 
+// Messager
+    import Messager                     from "@/classes/Messager.js"
+
+window.Messager = Messager
+
 /*/\[\[.*\]\]/gi,*/
 export default {
     regexp: /\[\[([^|\]\n]+)(\|([^\]\n]+))?\]\]/,
@@ -20,6 +25,4 @@ export default {
 
     }
 
-
 }
-

@@ -15,6 +15,7 @@ export default class Filesystem {
         this.has_checked_default_files = false
 
         if( process.env.VUE_APP_TARGET === "ELECTRON" ) {
+            printf( "electron" )
 
             const FSFilesystem = require("@/classes/FSFilesystem.js").default
             let new_filesystem  = new FSFilesystem( dir )
@@ -24,6 +25,7 @@ export default class Filesystem {
         }
 
         if( process.env.VUE_APP_TARGET === "WEB" ) {
+            printf( "web" )
 
             const RESTFilesystem = require("@/classes/RESTFilesystem.js").default
             let new_filesystem  = new RESTFilesystem( dir )
@@ -32,6 +34,7 @@ export default class Filesystem {
         }
 
         if( process.env.VUE_APP_TARGET === "DEMO" ) {
+            printf( "demo" )
 
             const LocalStorageFilesystem = require("@/classes/LocalStorageFilesystem.js").default
             this.filesystem  = new LocalStorageFilesystem( dir )
@@ -41,6 +44,7 @@ export default class Filesystem {
         }
 
         if( process.env.VUE_APP_TARGET === "QUINE" ) {
+            printf( "quine" )
 
             const DOMFilesystem = require("@/classes/DOMFilesystem.js").default
             this.filesystem  = new DOMFilesystem( dir )
@@ -74,7 +78,7 @@ export default class Filesystem {
 
         let has_notes       = await this.file.exists.async( "notes" )
             if( !has_notes ) {
-                let time_id         = this.ilse.utils.get_unique_date_id()
+                let time_id         = get_unique_date_id()
                 let note            = `${time_id}: "Hello, World"` // 20220120155758: Hello, World
                 await this.file.write.async( "notes", note )
             }

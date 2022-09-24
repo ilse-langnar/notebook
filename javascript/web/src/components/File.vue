@@ -1,5 +1,5 @@
 <template lang="pug" >
-.wrapper 
+.wrapper( style="overflow: hidden; " )
     .flex
         .loopl.flexi( v-for="( item, index ) in file.split('/').filter(e=>e)" :key="index" )
 

@@ -9,12 +9,13 @@
 
         // edit
         // .edit( contentEditable v-if="inote.is_editable" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent ) {{options.is_tagless ? inote.tagless : inote.content}}
-        .edit( contentEditable v-if="inote.is_editable" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" ) {{options.is_tagless ? inote.tagless : inote.content}}
+
+        .edit( contentEditable v-if="inote.is_editable" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" :style="get_fit_content_style(inote)" ) {{options.is_tagless ? inote.tagless : inote.content}}
 
         // show
         // .html( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent :data-unique-id="inote.id" draggable @dragover="is_dragging_over = true" @dragleave="is_dragging_over = false" @dragend="is_dragging_over = false" @drop="on_drop" @drag="ilse.dragging = inote.id" )
 
-        .html( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" :data-unique-id="inote.id" )
+        .html( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" :data-unique-id="inote.id" :style="get_fit_content_style(inote)" )
 
     .file-reference( v-for="( item, index ) in ilse.notes.get_file_references(inote.content)" )
         details
@@ -81,6 +82,7 @@ const printf                        = console.log;
 // functions
     import yyyymmddhhss_to_pretty       from "@/classes/yyyymmddhhss_to_pretty.js"
     import get_clipboard                from "@/classes/get_clipboard.js"
+    import extract_embeds_from_string   from "@/classes/extract_embeds_from_string.js"
 
 export default {
 
@@ -123,6 +125,15 @@ export default {
     },
 
     methods: {
+
+        get_fit_content_style( note ) {
+
+            let style  = ``
+            let embeds = extract_embeds_from_string( note.content )
+            if( embeds.length ) style += `width: 100%;`
+
+            return style
+        },
 
         get_dom() {
             let dom = event.srcElement.parentNode
@@ -535,6 +546,7 @@ export default {
             let is_alt   = event.altKey
             let is_meta  = event.metaKey
             let key      = event.key
+            let is_space = key === " "
 
             let selection= get_clipboard()
             let is_wrap  = key === "[" && selection
@@ -742,7 +754,7 @@ input:focus{
     width: fit-content;
     font-size: 1em;
     user-select: text;
-    width: 100%;
+    /*width: -webkit-fill-available;*/
 }
 
 .bullet p {

@@ -29,10 +29,7 @@ export default class DOMFilesystem {
                 "statistics": "",
                 "priorities": "",
                 "config.json": JSON.stringify(CONFIG_TEMPLATE),
-                "second/": { },
-                "first/": { },
-                ".trash/": { },
-                "plugins/": { },
+                "flashcards/": { },
             }
         }
 
@@ -46,7 +43,6 @@ export default class DOMFilesystem {
                 db.innerText = JSON.stringify( db.innerText )
 
         }
-
 
         this.file = {
 
@@ -187,6 +183,39 @@ export default class DOMFilesystem {
                 return content
             },
 
+            async exists( full_path ) {
+
+                let chunks = full_path.split("/").filter( e=>e )
+                let obj    = filesystem["/"]
+
+                chunks.map( chunk => {
+                    if( obj[chunk + "/"] ) {
+                        obj = obj[chunk + "/"]
+                    } else {
+                        obj = obj[chunk]
+                    }
+                })
+
+            },
+
+            existsSync( full_path ) {
+
+                printf( "DOMFilesystem -> has_path_sync -> full_path -> ", full_path )
+                let chunks = full_path.split("/").filter( e=>e )
+                printf( "DOMFilesystem -> has_path_sync -> chunks -> ", chunks )
+                let obj    = filesystem["/"]
+                printf( "DOMFilesystem -> has_path_sync -> obj -> ", obj )
+
+                chunks.map( chunk => {
+                    if( obj[chunk + "/"] ) {
+                        obj = obj[chunk + "/"]
+                    } else {
+                        obj = obj[chunk]
+                    }
+                })
+
+            },
+
         }
 
     }
@@ -283,7 +312,12 @@ export default class DOMFilesystem {
     }
 
     has_path_sync( full_path ) {
+        printf( "has_path_sync -> full_path -> ", full_path )
+        printf( "target_directory -> ", target_directory )
+        printf( "full_path -> ", full_path )
+        printf( "fs -> ", fs )
         let exists = fs.existsSync( path.join(target_directory , full_path) )
+        printf( "exists -> ", exists )
             return !!exists
     }
 
@@ -295,7 +329,9 @@ export default class DOMFilesystem {
 
     async get_all_files() {
 
-        let files   = await fs.readDir("/second" )
+        printf( "DOMFilesystem get_all_files " )
+        let files   = await fs.readDir("/" )
+        printf( "DOMFilesystem -> get_all_files -> files -> ", files )
             if( !files ) files = []
 
         return files

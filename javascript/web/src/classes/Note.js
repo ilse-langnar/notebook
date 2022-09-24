@@ -69,7 +69,7 @@ export default class note {
             id          = id.substr( 0, 23 ) // 20220124102749: This is the [[Writing]] -> 20220124102749
             id          = id.replace( ":", "" )
 
-        if( id.length < 23 ) printf( `ERROR: Wrong ID: id -> ${id}, ${JSON.stringify(this)}` )
+        if( id.length < 23 ) console.error( `ERROR: Wrong ID: id -> ${id}, ${JSON.stringify(this)}` )
 
         return id
     }
@@ -111,24 +111,9 @@ export default class note {
 
         })
 
-        // let regexp      = /^\!\[\[([^|\]\n]+)(\|([^\]\n]+))?\]\]/
-        // let chunks      = this.content.split(" ")
-        // let arr         = regexp.exec(this.content)
-        // printf( "arr -> ", arr )
-        // return arr[1]
-        // let list        = []
-        // let regexp      = /^\!\[\[([^|\]\n]+)(\|([^\]\n]+))?\]\]/
-        let match
-
-        printf( "chunks -> ", chunks )
         chunks.map( chunk => {
-            // printf( "chunk[0] -> ", chunk[] )
             if( chunk[0] === "!" && chunk[1] === "[" && chunk[2] === "[") list.push( chunk )
-            // match = chunk.match( regexp )
-            // if( match ) list.push( chunk )
         })
-
-        printf( "list -> ", list )
 
         return list
     }

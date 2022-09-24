@@ -19,6 +19,9 @@ const printf                        = console.log;
     import EditNote                     from "@/components/EditNote.vue"
     import Notes                        from "@/components/Notes.vue"
 
+// functions
+    import get_unique_date_id           from "@/classes/get_unique_date_id.js"
+
 export default {
 
     name: "EditNote",
@@ -92,7 +95,7 @@ export default {
             let has_text        = !!content
                 if( !has_text ) return
 
-            let time_id         = ilse.utils.get_unique_date_id() // 20220120155758
+            let time_id         = get_unique_date_id() // 20220120155758
             let note          = new ilse.classes.Note( `${time_id}: ${content}`)
                 this.notes.push( note )
         },
@@ -103,7 +106,7 @@ export default {
             let has_text        = !!content
                 if( !has_text ) return
 
-            let time_id         = ilse.utils.get_unique_date_id() // 20220120155758
+            let time_id         = get_unique_date_id() // 20220120155758
             let note          = new ilse.classes.Note( `${time_id}: ${content}`)
                 this.notes.push( note )
         },

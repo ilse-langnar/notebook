@@ -133,6 +133,7 @@ export default {
     color:        #a3a3a3;
     color:        var(--text-color);
     font-size:    24px;
+    margin-left:  1px;
 }
 
 .ghost-note {
@@ -144,6 +145,10 @@ export default {
     background: var( --background-color );
     filter: opacity(1) !important;
     color: #fff;
+}
+
+.ghost-note.flex input.editable {
+    padding: 3px !important;
 }
 
 </style>

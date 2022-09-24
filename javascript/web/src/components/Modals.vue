@@ -1,6 +1,6 @@
 <template lang="pug" >
 .modals
-    .loop( v-for=" (modal, index) in ilse.modals.modals" )
+    .loop( v-for=" (modal, index) in ilse.modals.list" )
         .shadow( v-if="active_modal === modal.id" @click="on_shadow_click" )
             .modal-wrapper( :style="get_style(modal)"  )
                 .modal

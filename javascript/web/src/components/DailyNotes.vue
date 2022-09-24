@@ -54,6 +54,7 @@ const printf                        = console.log;
 
 // functions
     import yyyymmddhhss_to_pretty       from "@/classes/yyyymmddhhss_to_pretty.js"
+    import get_unique_date_id           from "@/classes/get_unique_date_id.js"
 
 export default {
 
@@ -220,7 +221,7 @@ export default {
 
             for( const [index, day] of this.days.entries() ) {
                 if( day.id === day_id ) {
-                    time_id         = ilse.utils.get_unique_date_id() // 20220120155758
+                    time_id         = get_unique_date_id() // 20220120155758
                     instance        = new ilse.classes.Note( `${time_id}: ${content}`)
 
                     // ilse.notes.add( content, ilse.notes.list.length+1 ,0 )
@@ -254,32 +255,29 @@ export default {
 
         on_note_link_click( payload ) {
 
+            printf( "DailyNotes -> on_note_link_click -> payload -> ", payload )
+
             let note             = payload.note
             let file             = payload.link
             let event            = payload.event
             let is_shift         = event.shiftKey
             let is_ctrl          = event.ctrlKey
-            let is_relative      = payload.link.indexOf( "@" ) !== -1 
-
-            if( is_relative ) {
-                let component = new ilse.classes.Component({ type: "text-file", width: 12, props: { name: payload.link.replace("@", "") }})
-                    ilse.components.push( component )
-                    return
-            }
 
             let is_file_markdown = !(file.indexOf(".png") !== -1 || file.indexOf(".jpg") !== -1 || file.indexOf(".jpeg") !== -1 || file.indexOf(".gif") !== -1 || file.indexOf(".svg") !== -1 || file.indexOf(".mp4") !== -1 || file.indexOf(".webm") !== -1 || file.indexOf(".mp3") !== -1 || file.indexOf(".ogg") !== -1 || file.indexOf(".wav") !== -1 || file.indexOf(".md") !== -1) 
                 // if( is_file_markdown ) file += ".md"
 
             // <=======> Shift <=======> //
             if( is_shift ) {
-                let component = new ilse.classes.Component({ type: "file", width: 8, props: { file }})
+                let component   = ilse.types.get( "file" )
+                    component.props = { file }
                     ilse.components.push( component )
             }
             // <=======> Shift <=======> //
 
             // <=======> Ctrl <=======> //
             if( is_ctrl ) {
-                let component = new ilse.classes.Component({ type: "graph", width: 8, props: { file }})
+                let component   = ilse.types.get( "graph" )
+                    component.props = { file }
                     ilse.components.push( component )
             }
             // <=======> Ctrl <=======> //
@@ -400,7 +398,7 @@ export default {
 
             let has_days = this.days.length
                 if( !has_days ) {
-                    let today_id     = ilse.utils.get_unique_date_id() // 20200125
+                    let today_id     = get_unique_date_id() // 20200125
                     this.add_day( today_id ) 
                     return
                 }
@@ -451,7 +449,7 @@ export default {
             this.scroll_listener() 
 
             // Add today's data and its notes
-            let today_id     = ilse.utils.get_unique_date_id() // 20200125
+            let today_id     = get_unique_date_id() // 20200125
                 setTimeout( () => { this.add_day( today_id ) }, 2000 )
 
             this.listen()

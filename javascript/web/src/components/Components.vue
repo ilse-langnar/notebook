@@ -1,5 +1,5 @@
 <template lang="pug" >
-.components-wrapper
+.components-wrapper( style="width: 100%;" )
 
     Component.top-menu( :component="get_menu()" :options="{ hide_bullet: true }" )
 

@@ -3,7 +3,7 @@
     svg#svg( :style="get_svg_style(component.props.is_child)" )
         foreignObject( requiredExtensions="http://www.w3.org/1999/xhtml" style="width: 100%; height: 100%; overflow: visible; background: var( --background-color );" )
             body(xmlns="http://www.w3.org/1999/xhtml" )
-                RecursiveNote( :note="get_note(component.props.id)" )
+                // RecursiveNote( :note="get_note(component.props.id)" )
     br
 </template>
 <script>
@@ -18,7 +18,7 @@ const printf                        = console.log;
 
 // Components 
     import Note                         from "@/components/Note.vue"
-    import RecursiveNote                from "@/components/RecursiveNoteTemp.vue"
+    // import RecursiveNote                from "@/components/RecursiveNoteTemp.vue"
 
 // Libraries
     import svgPanZoom from "svg-pan-zoom"
@@ -37,7 +37,7 @@ export default {
 
     components: {
         Note,
-        RecursiveNote,
+        // RecursiveNote,
     },
 
     props: {

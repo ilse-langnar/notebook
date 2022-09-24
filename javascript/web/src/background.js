@@ -76,8 +76,6 @@ contextMenu({
     // const globalShortcut= electron.globalShortcut
     // const remote        = electron.remote
 
-// import find from "electron-find"
-
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 // const createProtocol = require('vue-cli-plugin-electron-builder/lib').createProtocol
 

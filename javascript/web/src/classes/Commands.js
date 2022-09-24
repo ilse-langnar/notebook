@@ -95,6 +95,8 @@ class Commands {
             command.fn( args )
         }
 
+        Messager.emit( "~commands", "exec", id )
+
     }
 
     // get_command_shortcuts("read-first-brain") -> [ "command+space v k" ]
@@ -796,6 +798,18 @@ class Commands {
                 id: "print-keys",
                 fn: async function() {
                     printf( "ilse.keyboard -> ", ilse.keyboard )
+                },
+                description: "Printf Keys",
+                name: "Printf Keys",
+                props: {},
+            },
+
+            {
+                id: "insert-random-text",
+                fn: async function() {
+                    const dom       = document.activeElement
+                    dom.innerText  += `<button onclick="alert('Hello, World')" > Hello, World </button>`
+                    // dom.onkeypress = function(){ return false }
                 },
                 description: "Printf Keys",
                 name: "Printf Keys",

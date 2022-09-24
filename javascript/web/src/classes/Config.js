@@ -49,16 +49,31 @@ export default class Config {
         // ==== Load Components ==== //
         let instance
 
-        for( const component of config.components ) {
-            instance    = new ilse.classes.Component( component )
-                ilse.components.push( instance )
-        }
+        // for( const component of config.components ) {
+            // instance    = new ilse.classes.Component( component )
+                // ilse.components.push( instance )
+        // }
+
+        config.components = config.components.filter(e=>e)
+        printf( "config -> ", config )
+        let type
+        config.components.map( component => {
+            printf( ">> config -> component -> ", component )
+
+            if( component && component.id ) {
+                type = ilse.types.get( component.id )
+                if( type ) ilse.components.push( instance )
+            }
+        })
 
         let has_components = ilse.components.length
 
         if( !has_components ) {
-            let daily_notes    = new ilse.classes.Component({ type: "daily-notes", width: 12 })
+
+            let daily_notes    = ilse.types.get( "daily-notes" )
                 ilse.components.push( daily_notes )
+            // let daily_notes    = new ilse.classes.Component({ type: "daily-notes", width: 12 })
+                // ilse.components.push( daily_notes )
         }
         // ==== Load Components ==== //
 
@@ -108,7 +123,10 @@ export default class Config {
 
         // let object_to_save  = {}
         let object_to_save  = this
-            object_to_save.components = components
+            object_to_save.components = components.map( component =>
+                {
+                    printf( ">>>@>@@>@>@>@>@>@>@>@ component -> ", component )
+                })
             object_to_save.dark       = this.dark
             object_to_save.keys       = ilse.keyboard.keys
 

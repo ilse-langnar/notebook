@@ -24,7 +24,6 @@ const printf                        = console.log;
 // Libs
     // import createGraph                  from 'ngraph.graph'
     // import fcose                        from "cytoscape-fcose"
-    // import Viva                         from  "vivagraphjs"
     import cytoscape                    from "cytoscape/dist/cytoscape.min.js"
     // import qtip                         from "cytoscape-qtip";
     // import dagre                        from "cytoscape-dagre";

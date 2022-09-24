@@ -14,6 +14,10 @@ const printf                        = console.log
     import "@/assets/js/mousetrap-global-bind.min.js"
     import "@/assets/js/mousetrap-record.min.js"
 
+// functions
+import set_caret_to_end_on_content_editable_element from "@/classes/set_caret_to_end_on_content_editable_element.js"
+
+let dom_write_target
 class KeyboardShortcut  {
 
     constructor( ilse ) {
@@ -21,10 +25,7 @@ class KeyboardShortcut  {
         this.Mousetrap = Mousetrap
 
         Mousetrap.bindGlobal( "ctrl+f", (event, combo ) => { event.preventDefault(); ilse.electron.ipc.send( "ctrl+f" ) }, 'keydown' )
-        // Mousetrap.bindGlobal( "ctrl+space", (event, combo ) => {
-            // let note = ilse.notes.add( "", ilse.notes.list.length - 1, 0 )
-                // note.focus()
-        // }, 'keydown' )
+        // Mousetrap.bindGlobal( "ctrl+space", (event, combo ) => { let dom = document.activeElement printf( "dom -> ", dom ) }, 'keydown' )
 
         this.setup()
     }
@@ -34,6 +35,36 @@ class KeyboardShortcut  {
         this.add_default_key_codes()
         this.set_default_keys()
         this.bind_keys()
+        this.bind_ctrl_space_to_stop_textbox()
+    }
+
+    // When writing, C-SPC should stop inputting into the textbox and capture them to be a command!
+    bind_ctrl_space_to_stop_textbox() {
+
+        Messager.on( "~commands", (action, payload) => {
+            if( action === "exec" && dom_write_target ) this.turn_writing_on()
+        })
+
+        document.addEventListener( "keydown", event => {
+
+            let is_ctrl_space = event.ctrlKey && event.key === " "
+
+            if( is_ctrl_space ) this.turn_writing_off()
+
+            // BUGFIX: You'll have 2 seconds to write the commands, otherwise, things will go normal again
+                setTimeout( () => { this.turn_writing_on() }, 2000 )
+        })
+
+    }
+
+    turn_writing_off() {
+        dom_write_target            = document.activeElement
+        dom_write_target.onkeypress = function(){ return false }
+    }
+
+    turn_writing_on() {
+        dom_write_target.onkeypress = function() { return true }
+        set_caret_to_end_on_content_editable_element( dom_write_target )
     }
 
     set_key_codes() {
@@ -100,6 +131,7 @@ class KeyboardShortcut  {
 
             { combo: "ctrl+space b t a", command: "first-brain-tag-add" },
             { combo: "ctrl+space b t r", command: "first-brain-tag-remove" },
+            { combo: "ctrl+space c c c", command: "insert-random-text" },
 
             // { combo: "ctrl+space ", command: "first-brain-tag-remove" },
         ]
@@ -300,9 +332,11 @@ class KeyboardShortcut  {
         let _this   = this
         let keys    = this.keys || []
 
-        for( let key of keys ) {
+        keys.map( key => {
             this.bind_key( key )
-        }
+        })
+
+        // for( let key of keys ) { this.bind_key( key ) }
 
     }
 

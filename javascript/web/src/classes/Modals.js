@@ -10,7 +10,7 @@ class Modals {
 
     constructor() {
 
-        this.modals         = []
+        this.list         = []
 
         this.setup()
     }
@@ -20,7 +20,7 @@ class Modals {
     }
 
     has() {
-        return !!this.modals.length
+        return !!this.list.length
     }
 
     add({ id, name, component, props }) {
@@ -32,7 +32,7 @@ class Modals {
             props: props,
         }
 
-        this.modals.push( modal )
+        this.list.push( modal )
 
         return modal
 

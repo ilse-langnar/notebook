@@ -23,7 +23,7 @@ const printf                        = console.log
     import todo                         from "@/classes/markdown_it_plugin_todo.js" // - [ ]
     import inline_code                  from "@/classes/markdown_it_plugin_inline_code.js" // `console.log("Hello, World")`
     import link                         from "@/classes/markdown_it_plugin_link.js" // [[Hello]]
-    import inline_embed                 from "@/classes/markdown_it_plugin_link.js" // {{word-count}}
+    // import inline_embed                 from "@/classes/markdown_it_plugin_link.js" // {{word-count}}
     import embed                        from "@/classes/markdown_it_plugin_embed.js" // ![[img.png]] ![[UFOs.mp4]] ![[book.pdf]] ![[table.html]] ![[song.ogg]]
 
 export default class Markdown {
@@ -39,7 +39,7 @@ export default class Markdown {
             MarkdownPlugin( todo.regexp, todo.fn ),
             MarkdownPlugin( inline_code.regexp, inline_code.fn ),
             MarkdownPlugin( link.regexp, link.fn ),
-            MarkdownPlugin( inline_embed.regexp, inline_embed.fn ),
+            // MarkdownPlugin( inline_embed.regexp, inline_embed.fn ),
             MarkdownPlugin( embed.regexp, embed.fn ),
         ]
         this.setup()
@@ -47,7 +47,7 @@ export default class Markdown {
 
     setup() {
 
-        window.Messager = Messager
+        // window.Messager = Messager
 
           /*/\[\[.*\]\]/gi,*/
         /*

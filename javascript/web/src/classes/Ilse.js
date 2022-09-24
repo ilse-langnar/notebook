@@ -38,11 +38,12 @@ const printf                        = console.log
     // import PluginMenu                   from "@/classes/PluginMenu.js"
 
     // Component
-        import Component                from "@/classes/Component.js"
         import Note                     from "@/classes/Note.js"
 
     // Node.js
         const path                       = require("path")
+
+    import "@/assets/js/uHTMl.js"
 
 // Utilities
     import Messager                     from "@/classes/Messager.js"
@@ -60,6 +61,14 @@ export default class Ilse {
         this.SUPPORTED_LANGUAGES    = SUPPORTED_LANGUAGES
         this.DEMO_NOTES             = DEMO_NOTES
 
+
+        this.u                      = new window.DNA( window )
+        // printf( "this.u -> ", this.u )
+        // printf( "window.DNA() -> ", window.DNA )
+        // printf( "new window.DNA() -> ", new window.DNA() )
+        // printf( "new window.DNA(window) -> ", new window.DNA(window) )
+
+        // this.u_html                 = uHTML
         this.components             = []
 
         this.name                   = "Ilse Langnar's Notebook"
