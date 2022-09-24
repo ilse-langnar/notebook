@@ -43,7 +43,7 @@ const printf                        = console.log
     // Node.js
         const path                       = require("path")
 
-    import "@/assets/js/uHTMl.js"
+    // import "@/assets/js/uHTMl.js"
 
 // Utilities
     import Messager                     from "@/classes/Messager.js"
