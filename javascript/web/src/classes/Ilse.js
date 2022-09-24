@@ -61,13 +61,6 @@ export default class Ilse {
         this.SUPPORTED_LANGUAGES    = SUPPORTED_LANGUAGES
         this.DEMO_NOTES             = DEMO_NOTES
 
-
-        this.u                      = new window.DNA( window )
-        // printf( "this.u -> ", this.u )
-        // printf( "window.DNA() -> ", window.DNA )
-        // printf( "new window.DNA() -> ", new window.DNA() )
-        // printf( "new window.DNA(window) -> ", new window.DNA(window) )
-
         // this.u_html                 = uHTML
         this.components             = []
 

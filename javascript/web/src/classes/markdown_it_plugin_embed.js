@@ -73,7 +73,6 @@ export default {
                     // window.addEventListener( "storage", storage => { printf( "markdown_it_plugin_embed -> storage -> ", storage ) })
                     // return `<embed src="${base64}" style="height: ${size ? size : 30}vh; width: 100%; overflow: hidden;" /> `
                     // printf( "LLL>>>>>>>> ilse.u_html -> ", ilse.u_html )
-                    // printf( "window.DNA -> ", window.DNA )
                     let id = Math.random().toString().replace( "0.", "" )
                     // setTimeout( () =>{ let dom = document.getElementById(id) ilse.u.scan( dom ) }, 1000 )
                     return `<embed src="app://${target_dir}/${url}" data-event-click="on_click" data-prop-label="Exampleeee" style="height: ${size ? size : 30}vh; width: 100%; overflow: hidden;" /> `
