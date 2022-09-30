@@ -30,7 +30,7 @@ So as long you have a program that can interpret text and HTML, you data will st
 This program defines a couple of base "features" that be combined with each other to form generative tools for thought, so Ilse is the base, and then you "evolve" the system as you wish to use it.
 
 
-## How
+<h2 style="display: block; margin: 0 auto; "> How </h2>
 | Platform         | How     | Gif |
 |--------------|-----------|------------|
 | Web Demo | [Try it!](https://ilse-langnar.github.io/notebook/demo/index.html) | Learn More | 
@@ -53,7 +53,7 @@ This program defines a couple of base "features" that be combined with each othe
 | Telegram Bot                      | Comming Soon| 
 
 
-## Improves on:
+<h2 style="display: block; margin: 0 auto; "> Improves On </h2>
 | Program         | Feature     | Explanation | Explanation |
 |--------------|-----------|------------|------------|
 | SpaceMacs       | SPC (key) | You can start listening to "brown noise" from ilse with `C-SPC t s b` the "C-SPC" means "control+space" then t s b, in complete it would be: ctrl+space t s b |
@@ -66,7 +66,7 @@ This program defines a couple of base "features" that be combined with each othe
 
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"  />
 
-## Features
+<h2 style="display: block; margin: 0 auto; "> Features </h2>
 | Feature         | Explanation     | Visual |
 |--------------|-----------|------------|
 | Dark Mode              | You can have different styles and they can have a light and a dark mode, if you download a theme, you can toggle dark mode with `C-SPC d d` or executing the "toggle-dark-mode" command | ![Dark Mode](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-dark-mode.gif) | 
