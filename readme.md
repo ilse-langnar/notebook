@@ -1,14 +1,4 @@
 
-<style>
-readme-toc {
-    background: red;
-}
-
-#readme {
-    background: red;
-}
-</style>
-
 <h1 align="center" > Ilse Langnar's Notebook </h1>
 <h2 align="center" > Memoirs of a Recon Corps Member </h2>
 
@@ -38,7 +28,7 @@ So as long you have a program that can interpret text and HTML, you data will st
 
 This program defines a couple of base "features" that be combined with each other to form generative tools for thought, so Ilse is the base, and then you "evolve" the system as you wish to use it.
 
-<h2 align="center" > Try it: </h2>
+<h2 align="center" > Try it </h2>
 
 <div style="width: 50%; display: block; margin: 0 auto;" >
     <div style="display: flex;">
@@ -76,26 +66,19 @@ This program defines a couple of base "features" that be combined with each othe
 
 </details>
 
-
-
 <details>
     <summary>
-        <h2 align="center" > Improves On </h2>
+        <h2 align="center" > Screenshots </h2>
     </summary>
 
-    <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"  />
-
-    | Program         | Feature     | Explanation | Explanation |
-    |--------------|-----------|------------|------------|
-    | SpaceMacs       | SPC (key) | You can start listening to "brown noise" from ilse with `C-SPC t s b` the "C-SPC" means "control+space" then t s b, in complete it would be: ctrl+space t s b |
-    | Roam Research   | Outline | We have an outline similar to that of [Roam Research](https://roamresearch.com/)  So you can nest bullets down with no problems|
-    | Anki            | Spaced Repetition | |
-    | Supermemo       | Incremental Reading | |
-    | Supermemo       | Incremental Learning | |
-    | Obsidian        | Plugins | |
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-15.png" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-16.png" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-17.png" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-2.png" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-13.png" />
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-14.png" />
 
 </details>
-
 
 <details>
     <summary>
@@ -134,17 +117,23 @@ This program defines a couple of base "features" that be combined with each othe
 </details>
 
 
+
+
 <details>
     <summary>
-        <h2 align="center" > Screenshots </h2>
+        <h2 align="center" > Improves On </h2>
     </summary>
 
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-15.png" />
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-16.png" />
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-17.png" />
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-2.png" />
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-13.png" />
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-14.png" />
+    <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"  />
+
+    | Program         | Feature     | Explanation | Explanation |
+    |--------------|-----------|------------|------------|
+    | SpaceMacs       | SPC (key) | You can start listening to "brown noise" from ilse with `C-SPC t s b` the "C-SPC" means "control+space" then t s b, in complete it would be: ctrl+space t s b |
+    | Roam Research   | Outline | We have an outline similar to that of [Roam Research](https://roamresearch.com/)  So you can nest bullets down with no problems|
+    | Anki            | Spaced Repetition | |
+    | Supermemo       | Incremental Reading | |
+    | Supermemo       | Incremental Learning | |
+    | Obsidian        | Plugins | |
 
 </details>
 
