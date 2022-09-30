@@ -39,7 +39,7 @@ This program defines a couple of base "features" that be combined with each othe
 </div>
 
 <details>
-    <summary>
+    <summary align="center" >
         <h2 align="center" > More </h2>
     </summary>
 
@@ -67,7 +67,7 @@ This program defines a couple of base "features" that be combined with each othe
 </details>
 
 <details>
-    <summary>
+    <summary align="center" >
         <h2 align="center" > Screenshots </h2>
     </summary>
 
@@ -120,7 +120,7 @@ This program defines a couple of base "features" that be combined with each othe
 
 
 <details>
-    <summary>
+    <summary align="center" >
         <h2 align="center" > Improves On </h2>
     </summary>
 
@@ -139,7 +139,7 @@ This program defines a couple of base "features" that be combined with each othe
 
 
 <details>
-    <summary>
+    <summary align="center" >
         <h2 align="center" > Use Cases </h2>
     </summary>
 
@@ -151,7 +151,7 @@ As a App Factory tool:
 
 
 <details>
-    <summary>
+    <summary align="center" >
         <h2 align="center" > Studying with Ilse </h2>
     </summary>
 
@@ -168,7 +168,7 @@ As a App Factory tool:
 
 
 <details>
-    <summary>
+    <summary align="center" >
         <h2 align="center" > Example 1 - Chemistry </h2>
     </summary>
 
@@ -184,7 +184,7 @@ As a App Factory tool:
 </details>
 
     <details>
-        <summary>
+        <summary align="center" >
             <h2 align="center" > Example 2 - Biochemistry </h2>
         </summary>
 
@@ -194,7 +194,7 @@ As a App Factory tool:
 </details>
 
 <details>
-    <summary>
+    <summary align="center" >
         <h2 align="center" > One data, many forms </h2>
     </summary>
 
@@ -210,7 +210,7 @@ As a App Factory tool:
 
 
 <details>
-    <summary>
+    <summary align="center" >
         <h2 align="center" > Contribute </h2>
     </summary>
 
