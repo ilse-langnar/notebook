@@ -31,10 +31,11 @@ This program defines a couple of base "features" that be combined with each othe
 
 <h2 align="center" > Try it: </h2>
 
-<img style="display: block; margin: 0 auto;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/367633_linux_tux_icon.svg" />
-<img style="display: block; margin: 0 auto;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-windows.svg" />
-<img style="display: block; margin: 0 auto;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-apple.svg" />
-
+<div style="display: flex;">
+    <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/367633_linux_tux_icon.svg" />
+    <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-windows.svg" />
+    <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-apple.svg" />
+</div>
 
 <details>
     <summary>
@@ -192,7 +193,11 @@ As a App Factory tool:
 
 </details>
 
-## One data, many forms
+<details>
+    <summary>
+        <h2 align="center" > One data, many forms </h2>
+    </summary>
+
 | Data Format         | Explanation     | Visual |
 |--------------|-----------|------------|
 |  Spreadsheet | TODO |  ![Spreadsheet](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/spreadsheet-light-mode.png) ![Spreadhseet](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/spreadsheet-dark-mode.png) |
@@ -200,6 +205,8 @@ As a App Factory tool:
 |  Calendar | TODO  |  ![Calendar](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/calendar.png) |
 |  Kanban | TODO  |  |
 |  Xanadu | Comming Soon ...  | |
+
+</details>
 
 
 <details>
