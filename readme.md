@@ -30,12 +30,10 @@ This program defines a couple of base "features" that be combined with each othe
 
 <h2 align="center" > Try it </h2>
 
-<div style="width: 50%; display: block; margin: 0 auto;" >
-    <div style="display: flex;">
-        <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/367633_linux_tux_icon.svg" />
-        <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-windows.svg" />
-        <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-apple.svg" />
-    </div>
+<div align="center" >
+    <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/367633_linux_tux_icon.svg" />
+    <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-windows.svg" />
+    <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-apple.svg" />
 </div>
 
 <details>
