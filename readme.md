@@ -21,7 +21,7 @@ Try the online [Demo](https://ilse-langnar.github.io/notebook/demo/index.html) o
 
 If anything goes wrong, please open a [Issue](https://github.com/ilse-langnar/notebook/issues/new).
 
-## Why
+<h2 align="center" > Why  </h2>
 To augment human cognition with memory, references and tools.
 
 This software is made with the intent of lasting century, this is because it's based on 2 thing: Plain Text & HTML.
@@ -54,7 +54,13 @@ This program defines a couple of base "features" that be combined with each othe
 | Telegram Bot                      | Comming Soon| 
 
 
-<h2 align="center" > Improves On </h2>
+
+<details>
+    <summary>
+        <h2 align="center" > Improves On </h2>
+    </summary>
+
+<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"  />
 
 | Program         | Feature     | Explanation | Explanation |
 |--------------|-----------|------------|------------|
@@ -65,8 +71,9 @@ This program defines a couple of base "features" that be combined with each othe
 | Supermemo       | Incremental Learning | |
 | Obsidian        | Plugins | |
 
+</details>
 
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"  />
+
 
 <h2 align="center" > Features </h2>
 
