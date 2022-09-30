@@ -25,7 +25,7 @@ export default class Notes {
 
     async _setup() {
         this.get_notes()
-        this.demo()
+        // this.demo()
         this.listen()
         this.watch_file()
     }
@@ -94,6 +94,7 @@ export default class Notes {
         */
     }
 
+    /*
     async demo() {
 
         let is_demo          = this.ilse.platform === "demo"
@@ -115,6 +116,7 @@ export default class Notes {
 
         // this.add( `Click on the help button on top for the tutorial`, this.list.length, 0 )
    }
+   */
 
     async get_notes() {
 

@@ -7,8 +7,6 @@
     "build": "VUE_APP_TARGET=WEB vue-cli-service build",
     "all": "VUE_APP_TARGET=ELECTRON electron-builder -wl",
     "build-electron": "VUE_APP_TARGET=ELECTRON bash scripts/build.sh",
-    "build:demo": "VUE_APP_TARGET=DEMO vue-cli-service build",
-    "serve:demo": "VUE_APP_TARGET=DEMO vue-cli-service serve",
     "build:quine": "VUE_APP_TARGET=QUINE vue-cli-service build",
     "serve:quine": "VUE_APP_TARGET=QUINE vue-cli-service serve",
     "electron:all": "npm run electron:build -- --win nsis",

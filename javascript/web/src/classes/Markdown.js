@@ -170,7 +170,6 @@ export default class Markdown {
 
                 let is_file     = !is_img && !is_video && !is_audio && !is_html && url.indexOf(".") === -1
                 let is_electron = process.env.VUE_APP_TARGET === "ELECTRON"
-                let is_demo     = process.env.VUE_APP_TARGET === "DEMO" // TODO: How do we render <img> while in a demo
                 let target_dir  = ilse.target_directories[0]
 
                 if( is_img ) {

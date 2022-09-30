@@ -12,53 +12,58 @@
 <h4 align="center" > Ilse Langnar's Notebook is a free, knowledge management platform. </h4>
 <br/>
 
+Imagine [Roam Research](https://roamresearch.com/) + [Obsidian](https://obsidian.md/) + [Anki](https://ankiweb.net/) + [Supermemo](https://www.supermemopedia.com/wiki/Main_Page) + [Emacs](https://www.gnu.org/software/emacs/) + [Spacemacs](https://www.spacemacs.org/) but without their downsides such as online-only, lock-in, bad algorithm, complexity etc.
 
-Imagine [Roam Research](https://roamresearch.com/) + [Obsidian](https://obsidian.md/) + [Anki](https://ankiweb.net/) + [Supermemo](https://www.supermemopedia.com/wiki/Main_Page) but without their downsides such as online-only, lock-in, bad algorithm, complexity etc.
 
-Ilse aims to be the ultimate study and note-taking tool by learning from its predecessors and building something that last by implementing a standard instead of building just software which might [rot overtime]( https://en.wikipedia.org/wiki/Software_rot).
+Ilse aims to be the ultimate study and note-taking tool by learning from its predecessors and building something that last by implementing a standard instead of building just software which might [rot overtime]( https://en.wikipedia.org/wiki/Software_rot). And this standard is called [HTML](https://en.wikipedia.org/wiki/HTML).
 
 Try the online [Demo](https://ilse-langnar.github.io/notebook/demo/index.html) or download it form [Linux](https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage) [Windows](https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage) or [OS x]().
 
 If anything goes wrong, please open a [Issue](https://github.com/ilse-langnar/notebook/issues/new).
 
 ## Why
-To augment human cognition with memory, references and more.
-Ilse is based on the Apex Cerebrum Framework: https://ilse-langnar.github.io/notebook/apex-cerebrum.html
-We avoid any type of lock-in due to the fact that a simple set of files and folder is able to reproduce the entire system, which means that with a simple standardized format can be visualized in multiple ways like: __Mind Maps__, __Tree__, __Infinite Canvas__, __Spreadsheet__, and more.
-And given that the format is standardized, if someone finds a new way of reprensenting data, we would simply have to write a plugin that representes those already standardized into the desired new format(presentation).
-This way we avoid anye sort of proprietary binary format for organization and visualization, even if the software rots and dies, the files are still going to be there, the standard is still there, so you can, for example, implement a command line spreadsheet that can be visualized in a cloud client, a Web Browser, a Callphone, a toaster ... you get it.
-This started with frustration not only with lock-in but the lack of extensability and standardazation of previous solutions.
+To augment human cognition with memory, references and tools.
+
+This software is made with the intent of lasting century, this is because it's based on 2 thing: Plain Text & HTML.
+So as long you have a program that can interpret text and HTML, you data will still be ok.
+
+This program defines a couple of base "features" that be combined with each other to form generative tools for thought, so Ilse is the base, and then you "evolve" the system as you wish to use it.
+
 
 ## How
-
 | Platform         | How     | Gif |
 |--------------|-----------|------------|
-| Web Demo | [Check](https://ilse-langnar.github.io/notebook/demo/index.html) | Learn More | 
+| Web Demo | [Try it!](https://ilse-langnar.github.io/notebook/demo/index.html) | Learn More | 
 | Quine(Single .html) | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.2/index.html) | Learn More | |
-| Web(.html) | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.2/html.1.0.11.tar.gz) | Learn More | |
 | Desktop Linux(AppImage)           | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.2/ilse-langnar-notebook-1.0.11.AppImage) | ![Demo](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/desktop-linux.gif) | 
 | Desktop Windows(.exe)             | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.2/ilse-langnar-notebook.Setup.1.0.11.exe) | 
 | Desktop MacOs(.dmg)               | Comming Soon |
 | Mobile Android(.apk)              | Comming Soon | 
 | Mobile iOS                        | Comming Soon | 
 | Command Line(nodejs)              | `npx ilse` & `npm install ilse -g` & `yarn add global ilse` | 
-| Command Line(lisp, binary)        | Commind Soon | 
-| Command Line(C/C++/Rust, binary)  | Commind Soon? | 
 | Script  Windows(VB)               | Comming Soon | 
 | Script Linux(Rofi)                | Comming Soon | ![Incremental Video](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/rofi.gif) |
 | Script Linux(Zenity)              | Comming Soon| 
 | Script MacOS(Rofi)                | Comming Soon | ![Incremental Video](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/rofi.gif) 
-| Vim Plugin                | Help! | 
-| VSCode Plugin                | Help! | 
-| Emacs Plugin                | Help! | 
-| Sublime Text Plugin                | Help! | 
-| Headless Ilse(Docker)                | Comming Soon| 
-| Telegram Bot           | Comming Soon| 
-
-
+| Vim Plugin                        | Help! | 
+| VSCode Plugin                     | Help! | 
+| Emacs Plugin                      | Help! | 
+| Sublime Text Plugin               | Help! | 
+| Headless Ilse(Docker)             | Comming Soon| 
+| Telegram Bot                      | Comming Soon| 
 
 
 ## Improves on:
+| Program         | Feature     | Explanation | Explanation |
+|--------------|-----------|------------|------------|
+| SpaceMacs       | SPC (key) | You can start listening to "brown noise" from ilse with `C-SPC t s b` the "C-SPC" means "control+space" then t s b, in complete it would be: ctrl+space t s b |
+| Roam Research   | Outline | We have an outline similar to that of [Roam Research](https://roamresearch.com/)  So you can nest bullets down with no problems|
+| Anki            | Spaced Repetition | |
+| Supermemo       | Incremental Reading | |
+| Supermemo       | Incremental Learning | |
+| Obsidian        | Plugins | |
+
+
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"  />
 
 ## Features

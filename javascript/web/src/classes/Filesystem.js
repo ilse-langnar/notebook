@@ -33,6 +33,7 @@ export default class Filesystem {
                 this.dir  = new_filesystem.dir
         }
 
+        /*
         if( process.env.VUE_APP_TARGET === "DEMO" ) {
             printf( "demo" )
 
@@ -42,6 +43,7 @@ export default class Filesystem {
                 this.dir     = this.filesystem.dir
 
         }
+        */
 
         if( process.env.VUE_APP_TARGET === "QUINE" ) {
             printf( "quine" )

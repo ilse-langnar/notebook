@@ -153,7 +153,6 @@ export default {
             if( template_type === "template" ) {
                 printf( "2 template" )
 
-                let use_self_as_template = (ilse.platform === "demo" || ilse.platform === "quine")
                 printf( "3 template" )
 
                 // I want to have digital-garden but only it's electron
@@ -176,7 +175,7 @@ export default {
             printf( "ilse.platform -> ", ilse.platform )
             */
 
-            // TODO: When I compile my quine/demo, they need to use their own source as quine, not an external .html( optionally a URL )
+            // TODO: When I compile my quine, they need to use their own source as quine, not an external .html( optionally a URL )
             // if( use_default_template ) {
                 // result   = require("@/assets/digital-garden.html")
                 // template = result.default

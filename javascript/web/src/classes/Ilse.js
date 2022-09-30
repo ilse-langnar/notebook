@@ -51,6 +51,7 @@ const printf                        = console.log
 // Constants
     import DEMO_NOTES                    from "@/classes/DEMO_NOTES.js"
     import SUPPORTED_LANGUAGES           from "@/classes/SUPPORTED_LANGUAGES.js"
+    import CORE_PLUGINS                  from "@/classes/CORE_PLUGINS.js"
 
 // libs
 // import { JSFrame } from 'jsframe.js';
@@ -67,6 +68,7 @@ export default class Ilse {
         // consts
         this.SUPPORTED_LANGUAGES    = SUPPORTED_LANGUAGES
         this.DEMO_NOTES             = DEMO_NOTES
+        this.CORE_PLUGINS           = CORE_PLUGINS
 
         // this.u_html                 = uHTML
         this.components             = []
@@ -76,6 +78,19 @@ export default class Ilse {
         this.key                    = "ilse-key"
         this.keys                   = { daily_notes: "daily-notes-key" }
         this.languages              = Object.keys(SUPPORTED_LANGUAGES)
+
+        brown-noise.html
+        Added marketplace + template
+        1 hour ago
+        simple-draw.html
+        Added marketplace + template
+        1 hour ago
+        template.html
+
+
+
+        y
+src/components/Digital Garden.vue:179:            // TODO: When I compile my quine/demo, they need to use their own source as quine, not an external .html( optionally a URL )
 
         // booleans
         this.is_zen                 = false
@@ -121,8 +136,7 @@ export default class Ilse {
         let bugfix_list_has_items = list && list.length
             if( bugfix_list_has_items ) this.target_directories     = list
 
-        // === DEMO === //
-        if( this.platform === "demo" || this.platform === "quine" ) this.target_directories = [ "/" ]
+        if( this.platform === "quine" ) this.target_directories = [ "/" ] // quine
 
     }
 

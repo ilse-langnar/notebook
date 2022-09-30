@@ -129,7 +129,7 @@ export default class IlseRequire {
     img( name ) {
 
         let platform      = ilse ? ilse.platform : "electron"
-            let use_base64    = platform === "quine" || platform === "demo"
+            let use_base64    = platform === "quine"
             let use_electron  = platform === "electron"
 
         if( use_base64 ) {
