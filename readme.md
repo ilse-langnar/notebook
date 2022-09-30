@@ -30,7 +30,7 @@ So as long you have a program that can interpret text and HTML, you data will st
 This program defines a couple of base "features" that be combined with each other to form generative tools for thought, so Ilse is the base, and then you "evolve" the system as you wish to use it.
 
 
-<h2 style="display: block; margin: 0 auto; "> How </h2>
+<h2 align="center" > How </h2>
 
 | Platform         | How     | Gif |
 |--------------|-----------|------------|
@@ -54,7 +54,7 @@ This program defines a couple of base "features" that be combined with each othe
 | Telegram Bot                      | Comming Soon| 
 
 
-<h2 style="display: block; margin: 0 auto; "> Improves On </h2>
+<h2 align="center" > Improves On </h2>
 
 | Program         | Feature     | Explanation | Explanation |
 |--------------|-----------|------------|------------|
@@ -68,7 +68,7 @@ This program defines a couple of base "features" that be combined with each othe
 
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"  />
 
-<h2 style="display: block; margin: 0 auto; "> Features </h2>
+<h2 align="center" > Features </h2>
 
 | Feature         | Explanation     | Visual |
 |--------------|-----------|------------|
