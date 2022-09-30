@@ -6,7 +6,6 @@
 // eslint-disable-next-line
 const printf                                        = console.log;
 
-import "@/assets/js/html-dna.js"
 // import "bulma/css/bulma.min.css"
 
 // process.env.NODE_ENV === 'production' ? require("bulma/css/bulma.min.css") : require("@/assets/css/bulma.css")

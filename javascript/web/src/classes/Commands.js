@@ -17,8 +17,9 @@ class Commands {
     // TODO: ask-delete-this-component/tab/container -> this -> focused
     // TODO: Increase component width -> set-component-width -> set-component
     constructor( ilse ) {
-        this.ilse = ilse
-        this.commands = []
+        this.ilse         = ilse
+        this.commands     = []
+        this.last_command = {}
         this.setup()
     }
 
@@ -101,6 +102,7 @@ class Commands {
             command.fn( args )
         }
 
+        this.last_command = { id, args }
         Messager.emit( "~commands", "exec", id )
 
     }
@@ -176,6 +178,8 @@ class Commands {
 
     set_default_commands() {
 
+        let _this    = this
+
         let commands = [
 
             {
@@ -194,6 +198,16 @@ class Commands {
                 },
                 description: "Open Command Pallet Modal",
                 name: "Open Command Pallet Modal",
+                props: {},
+            },
+
+            {
+                id: "repeat-last-command",
+                fn: function() {
+                    _this.run( _this.last_command.id, _this.last_command.args )
+                },
+                description: "Will repeat the last command with all of its arguments",
+                name: "Repeat Last Command",
                 props: {},
             },
 
@@ -834,6 +848,7 @@ class Commands {
                 props: {},
             },
 
+            /*
             {
                 id: "open-drawing-board",
                 fn: async function() {
@@ -863,6 +878,7 @@ class Commands {
                 name: "Open Drawing Board",
                 props: {},
             },
+            */
 
             {
                 id: "open-website-on-window",

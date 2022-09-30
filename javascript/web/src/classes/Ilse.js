@@ -68,9 +68,6 @@ export default class Ilse {
         this.SUPPORTED_LANGUAGES    = SUPPORTED_LANGUAGES
         this.DEMO_NOTES             = DEMO_NOTES
 
-        this.dna                    = new window.DNA( window )
-            window.dna                  = this.dna
-
         // this.u_html                 = uHTML
         this.components             = []
         // this.frames                 = []

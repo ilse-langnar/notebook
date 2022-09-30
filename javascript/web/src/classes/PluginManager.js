@@ -71,7 +71,7 @@ class PluginManager {
         let styles  = [...HTML.querySelectorAll( "style" )]
         // styles.map( style => { printf( "style.innerHTML -> ", style.innerHTML ) })
 
-        let scripts = [...HTML.querySelectorAll( "script.ilse" )]
+        let scripts = [...HTML.querySelectorAll( "script#plugin" )]
 
         scripts.map( script => {
             window.ilse = {

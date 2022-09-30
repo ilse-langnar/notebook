@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <link rel="icon" type="image/svg" sizes="16x16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIGljb24tdGFibGVyIGljb24tdGFibGVyLXBsdWciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZT0iIzQ4NTM2MSIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICA8cGF0aCBzdHJva2U9Im5vbmUiIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KICA8cGF0aCBkPSJNNyA3aDEwdjZhMyAzIDAgMCAxIC0zIDNoLTRhMyAzIDAgMCAxIC0zIC0zdi02IiAvPgogIDxsaW5lIHgxPSI5IiB5MT0iMyIgeDI9IjkiIHkyPSI3IiAvPgogIDxsaW5lIHgxPSIxNSIgeTE9IjMiIHgyPSIxNSIgeTI9IjciIC8+CiAgPHBhdGggZD0iTTEyIDE2djJhMiAyIDAgMCAwIDIgMmgzIiAvPgo8L3N2Zz4KCgo=" >
+
+        <title> Plugin Template </title>
+
+        <style type="text/css" media="all">
+            body, html {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background: #fff;
+            }
+
+            main {
+                display: block;
+                margin: 0 auto;
+                width: 50%;
+            }
+            
+                    
+        </style>
+
+        <style id="theme" type="text/css" media="all" >
+            
+        </style>
+
+    </head>
+
+    <body>
+
+        <main role="main">
+            <h1> Hello, World </h1>
+            <h2> I'm aplugin template. </h2>
+        </main>
+
+        <script id="manifest" type="application/json" >
+            {
+                "id": "template",
+                "name": "Plugin Template",
+                "version": "0.1",
+                "description": "Simple plugin template for people to make their own plugins  from here.",
+                "author": "Anonymous",
+                "website": "",
+                "bugs": ""
+            }
+        </script> 
+
+        <script id="data" type="application/json">{}</script> 
+
+        <script id="plugin">
+
+            if( window.ilse ) {
+
+                // Todo: Show usage of every api method, variable etc.
+                window.ilse.commands.add({
+                    id: "template-command",
+                    name: "Template Command",
+                    description: "This is a template command",
+                    fn: function() {
+                        // window.ilse.components.create_window({ title: "Simple Draw", html: `simple-draw.html` })
+                    },
+                    props: {},
+                })
+
+                // window.ilse.keyboard.add( "ctrl+space t d d", "open-drawing-board" )
+            }
+
+        </script>
+
+</body>

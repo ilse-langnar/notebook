@@ -99,8 +99,8 @@ class KeyboardShortcut  {
                 { combo: "ctrl+p", command: "open-command-pallet-modal", prevent_default: true },
                 { combo: "shift+enter", command: "void:add-new-line" },
                 { combo: "ctrl+(", command: "void" },
-                { combo: "ctrl+space .", command: "void" },
-                { combo: "ctrl+space .", command: "repeat-last-command" },
+                { combo: "ctrl+.", command: "repeat-last-command" },
+                { combo: "ctrl+space shift+/", command: "new-note" },
 
             // a
 
@@ -157,8 +157,6 @@ class KeyboardShortcut  {
                 { combo: "ctrl+space s v", command: "open-vim" },
 
             // t
-                { combo: "ctrl+space t d d", command: "open-drawing-board" },
-                { combo: "ctrl+space t s b", command: "open-brown-noise" },
 
             // u
 

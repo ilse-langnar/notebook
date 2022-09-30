@@ -1,9 +1,9 @@
 <template lang="pug" >
-.top-menu( v-if="!ilse.is_zen" style="width: 100%; display: flex; padding: 0.3em 0.5em; border: 1px solid blue;" @drop="on_app_drop" )
+.top-menu( v-if="!ilse.is_zen" style="width: 100%; display: flex; padding: 0.3em 0.5em; " @drop="on_app_drop" )
 
     // img( :src="irequire.img('arrow-narrow-right.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_left_sidebar')" @click="ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open" )
 
-    .menu-item.apps( style="border: 1px solid red;" @dragover="is_dragging_over = true" @dragleave="is_dragging_over = false" @dragend="is_dragging_over = false" @drop="on_app_drop" @drag="ilse.dragging = inote.id" )
+    .menu-item.apps( @dragover="is_dragging_over = true" @dragleave="is_dragging_over = false" @dragend="is_dragging_over = false" @drop="on_app_drop" @drag="ilse.dragging = inote.id" )
 
         img( src="@/assets/logo.svg" style="cursor: pointer; border: 1px dashed var( --text-color ); border-radius: var( --border-radius ); vertical-align: sub; width: 20px; /*border: 1px solid #000; border-radius: 5px;*/ box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; " )
         img.is-pulled-right( src="@/assets/images/x.svg" style="cursor: pointer; vertical-align: sub; width: 10px; " :title="$t('delete_app')" )

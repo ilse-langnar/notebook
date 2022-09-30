@@ -116,7 +116,7 @@ export default {
                 // { name: "typography", img: "typography.svg" },
                 { name: "plugins", img: "plugin.svg" },
                 { name: "themes", img: "palette.svg" },
-                { name: "permissions", img: "brand-css3.svg" },
+                { name: "permissions", img: "shield-lock.svg" },
                 { name: "css-snippets", img: "brand-css3.svg" },
                 { name: "templates", img: "template.svg" },
                 { name: "marketplace", img: "building-store.svg" },
