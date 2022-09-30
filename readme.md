@@ -115,11 +115,9 @@ This program defines a couple of base "features" that be combined with each othe
 </details>
 
 
-
-
 <details>
     <summary align="center" >
-        <h2 align="center" > Improves On </h2>
+        <h2 align="center" > Standing on the shoulders of giants  </h2>
     </summary>
     <img loading="lazy" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"  />
 
@@ -131,18 +129,6 @@ This program defines a couple of base "features" that be combined with each othe
 | Supermemo       | Incremental Reading | |
 | Supermemo       | Incremental Learning | |
 | Obsidian        | Plugins | |
-
-</details>
-
-
-<details>
-    <summary align="center" >
-        <h2 align="center" > Use Cases </h2>
-    </summary>
-
-As a Note-Taking tool: 
-As a Study(memory) tool:
-As a App Factory tool: 
 
 </details>
 
@@ -189,22 +175,6 @@ As a App Factory tool:
     </details>
 
 </details>
-
-<details>
-    <summary align="center" >
-        <h2 align="center" > One data, many forms </h2>
-    </summary>
-
-| Data Format         | Explanation     | Visual |
-|--------------|-----------|------------|
-|  Spreadsheet | TODO |  ![Spreadsheet](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/spreadsheet-light-mode.png) ![Spreadhseet](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/spreadsheet-dark-mode.png) |
-|  Memex | TODO  |  ![Memex](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/memex.png) |
-|  Calendar | TODO  |  ![Calendar](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/calendar.png) |
-|  Kanban | TODO  |  |
-|  Xanadu | Comming Soon ...  | |
-
-</details>
-
 
 <details>
     <summary align="center" >

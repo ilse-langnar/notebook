@@ -79,19 +79,6 @@ export default class Ilse {
         this.keys                   = { daily_notes: "daily-notes-key" }
         this.languages              = Object.keys(SUPPORTED_LANGUAGES)
 
-        brown-noise.html
-        Added marketplace + template
-        1 hour ago
-        simple-draw.html
-        Added marketplace + template
-        1 hour ago
-        template.html
-
-
-
-        y
-src/components/Digital Garden.vue:179:            // TODO: When I compile my quine/demo, they need to use their own source as quine, not an external .html( optionally a URL )
-
         // booleans
         this.is_zen                 = false
         this.tried_too_fast         = false
