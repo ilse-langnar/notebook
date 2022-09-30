@@ -80,6 +80,7 @@ This program defines a couple of base "features" that be combined with each othe
 
 </details>
 
+<center>
 <details>
     <summary>
         <h2 align="center" > Features </h2>
@@ -116,13 +117,17 @@ This program defines a couple of base "features" that be combined with each othe
 
 </details>
 
+</center>
+
 
 
 
 <details>
-    <summary>
-        <h2 align="center" > Improves On </h2>
-    </summary>
+    <center>
+        <summary>
+            <h2 align="center" > Improves On </h2>
+        </summary>
+    </center>
 
     <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"  />
 
