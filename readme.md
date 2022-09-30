@@ -74,8 +74,11 @@ This program defines a couple of base "features" that be combined with each othe
 </details>
 
 
+<details>
+    <summary>
+        <h2 align="center" > Features </h2>
+    </summary>
 
-<h2 align="center" > Features </h2>
 
 | Feature         | Explanation     | Visual |
 |--------------|-----------|------------|
@@ -105,9 +108,14 @@ This program defines a couple of base "features" that be combined with each othe
 | Inline Embeds | You can use {{}} to embed things such as: Queries, todos, tags, word-count, timer and more! | |
 | Drag & Drop | Drag and Drop either notes, media or other. | |
 
+</details>
 
 
-## Screenshots
+<details>
+    <summary>
+        <h2 align="center" > Screenshots </h2>
+    </summary>
+
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-15.png" />
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-16.png" />
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-17.png" />
@@ -115,13 +123,26 @@ This program defines a couple of base "features" that be combined with each othe
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-13.png" />
 <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-14.png" />
 
-## Use Cases
+</details>
+
+
+<details>
+    <summary>
+        <h2 align="center" > Use Cases </h2>
+    </summary>
+
 As a Note-Taking tool: 
 As a Study(memory) tool:
 As a App Factory tool: 
 
+</details>
 
-## Studying with Ilse
+
+<details>
+    <summary>
+        <h2 align="center" > Studying with Ilse </h2>
+    </summary>
+
 | What         | Explanation     | Visual |
 |--------------|-----------|------------|
 | Incremental Learning | See: Incremental Reading & Incremental Video | | 
@@ -133,7 +154,12 @@ As a App Factory tool:
 | Creation |  TODO | | 
 | Ellaboration | TODO | | 
 
-### Example 1 - Chemistry
+
+<details>
+    <summary>
+        <h2 align="center" > Example 1 - Chemistry </h2>
+    </summary>
+
 | Step         | Explanation     | Visual |
 |--------------|-----------|------------|
 | 1 | You import a wikipedia article on: Alcohol, and you see a table with a bunch of alcohols and how to name them: | ![Alcohols](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/all-alcohols.png) |
@@ -143,8 +169,17 @@ As a App Factory tool:
 | 5 | You take screenshot of the Fourth alcohol | ![Fourth Alcohol](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/alcohol-3.png) |
 | 6 | After taking a screenshot of each item, each one of them will be "queued" differently based on your memory, thus the schedule for each item will be different based on how well you remember the alcohol, allowing you to "chunk" this knowledge about alcohols | |
 
-### Example 2 - TODO
+</details>
 
+    <details>
+        <summary>
+            <h2 align="center" > Example 2 - Biochemistry </h2>
+        </summary>
+
+    TODO
+    </details>
+
+</details>
 
 ## One data, many forms
 | Data Format         | Explanation     | Visual |
