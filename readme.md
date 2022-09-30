@@ -29,29 +29,40 @@ So as long you have a program that can interpret text and HTML, you data will st
 
 This program defines a couple of base "features" that be combined with each other to form generative tools for thought, so Ilse is the base, and then you "evolve" the system as you wish to use it.
 
+<h2 align="center" > Try it: </h2>
 
-<h2 align="center" > How </h2>
+<img style="display: block; margin: 0 auto;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/367633_linux_tux_icon.svg" />
+<img style="display: block; margin: 0 auto;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-windows.svg" />
+<img style="display: block; margin: 0 auto;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-apple.svg" />
 
-| Platform         | How     | Gif |
-|--------------|-----------|------------|
-| Web Demo | [Try it!](https://ilse-langnar.github.io/notebook/demo/index.html) | Learn More | 
-| Quine(Single .html) | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.2/index.html) | Learn More | |
-| Desktop Linux(AppImage)           | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.2/ilse-langnar-notebook-1.0.11.AppImage) | ![Demo](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/desktop-linux.gif) | 
-| Desktop Windows(.exe)             | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.2/ilse-langnar-notebook.Setup.1.0.11.exe) | 
-| Desktop MacOs(.dmg)               | Comming Soon |
-| Mobile Android(.apk)              | Comming Soon | 
-| Mobile iOS                        | Comming Soon | 
-| Command Line(nodejs)              | `npx ilse` & `npm install ilse -g` & `yarn add global ilse` | 
-| Script  Windows(VB)               | Comming Soon | 
-| Script Linux(Rofi)                | Comming Soon | ![Incremental Video](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/rofi.gif) |
-| Script Linux(Zenity)              | Comming Soon| 
-| Script MacOS(Rofi)                | Comming Soon | ![Incremental Video](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/rofi.gif) 
-| Vim Plugin                        | Help! | 
-| VSCode Plugin                     | Help! | 
-| Emacs Plugin                      | Help! | 
-| Sublime Text Plugin               | Help! | 
-| Headless Ilse(Docker)             | Comming Soon| 
-| Telegram Bot                      | Comming Soon| 
+
+<details>
+    <summary>
+        <h2 align="center" > More </h2>
+    </summary>
+
+    | Platform         | How     | Gif |
+    |--------------|-----------|------------|
+    | Web Demo | [Try it!](https://ilse-langnar.github.io/notebook/demo/index.html) | Learn More | 
+    | Quine(Single .html) | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.2/index.html) | Learn More | |
+    | Desktop Linux(AppImage)           | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.2/ilse-langnar-notebook-1.0.11.AppImage) | ![Demo](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/desktop-linux.gif) | 
+    | Desktop Windows(.exe)             | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.2/ilse-langnar-notebook.Setup.1.0.11.exe) | 
+    | Desktop MacOs(.dmg)               | Comming Soon |
+    | Mobile Android(.apk)              | Comming Soon | 
+    | Mobile iOS                        | Comming Soon | 
+    | Command Line(nodejs)              | `npx ilse` & `npm install ilse -g` & `yarn add global ilse` | 
+    | Script  Windows(VB)               | Comming Soon | 
+    | Script Linux(Rofi)                | Comming Soon | ![Incremental Video](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/rofi.gif) |
+    | Script Linux(Zenity)              | Comming Soon| 
+    | Script MacOS(Rofi)                | Comming Soon | ![Incremental Video](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/rofi.gif) 
+    | Vim Plugin                        | Help! | 
+    | VSCode Plugin                     | Help! | 
+    | Emacs Plugin                      | Help! | 
+    | Sublime Text Plugin               | Help! | 
+    | Headless Ilse(Docker)             | Comming Soon| 
+    | Telegram Bot                      | Comming Soon| 
+
+</details>
 
 
 
