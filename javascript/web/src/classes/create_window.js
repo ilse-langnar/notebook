@@ -37,7 +37,7 @@ export default function create_window({
         // html: `<iframe src="${url}" style="width: 100%; height: 100%; overflow: hidden; "> </iframe>`
         // html: `<iframe src="${endpoint}" style="width: 100%; height: 100%; overflow: hidden; "> </iframe>`,
         // html: use_embed ? `<iframe id="${id}" class="floating-window" data-floating-window src="${endpoint}" style="width: 100%; height: 100%; overflow: hidden; " > </iframe> ` : html,
-        html: use_embed ? `<embed id="${id}" class="floating-window" data-floating-window src="${endpoint}" style="width: 100%; height: 100%; overflow: hidden; " /> ` : html,
+        html: use_embed ? `<embed id="${id}" class="floating-window" src="${endpoint}" style="width: 100%; height: 100%; overflow: hidden; background: #fff; " /> ` : html,
         url: url,
     })
 
