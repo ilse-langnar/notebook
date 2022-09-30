@@ -1,4 +1,13 @@
 
+<style>
+readme-toc {
+    background: red;
+}
+
+#readme {
+    background: red;
+}
+</style>
 
 <h1 align="center" > Ilse Langnar's Notebook </h1>
 <h2 align="center" > Memoirs of a Recon Corps Member </h2>
