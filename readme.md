@@ -121,17 +121,16 @@ This program defines a couple of base "features" that be combined with each othe
     <summary align="center" >
         <h2 align="center" > Improves On </h2>
     </summary>
-
     <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"  />
 
-    | Program         | Feature     | Explanation | Explanation |
-    |--------------|-----------|------------|------------|
-    | SpaceMacs       | SPC (key) | You can start listening to "brown noise" from ilse with `C-SPC t s b` the "C-SPC" means "control+space" then t s b, in complete it would be: ctrl+space t s b |
-    | Roam Research   | Outline | We have an outline similar to that of [Roam Research](https://roamresearch.com/)  So you can nest bullets down with no problems|
-    | Anki            | Spaced Repetition | |
-    | Supermemo       | Incremental Reading | |
-    | Supermemo       | Incremental Learning | |
-    | Obsidian        | Plugins | |
+| Program         | Feature     | Explanation | Explanation |
+|--------------|-----------|------------|------------|
+| SpaceMacs       | SPC (key) | You can start listening to "brown noise" from ilse with `C-SPC t s b` the "C-SPC" means "control+space" then t s b, in complete it would be: ctrl+space t s b |
+| Roam Research   | Outline | We have an outline similar to that of [Roam Research](https://roamresearch.com/)  So you can nest bullets down with no problems|
+| Anki            | Spaced Repetition | |
+| Supermemo       | Incremental Reading | |
+| Supermemo       | Incremental Learning | |
+| Obsidian        | Plugins | |
 
 </details>
 
