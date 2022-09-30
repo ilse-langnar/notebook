@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width">
+
+        <title> Brown-ish Noise Generator </title>
+
+        <link rel="icon" type="image/svg" sizes="16x16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIGljb24tdGFibGVyIGljb24tdGFibGVyLXlvZ2EiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZT0iIzQ4NTM2MSIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICA8cGF0aCBzdHJva2U9Im5vbmUiIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KICA8Y2lyY2xlIGN4PSIxMiIgY3k9IjQiIHI9IjEiIC8+CiAgPHBhdGggZD0iTTQgMjBoNGwxLjUgLTMiIC8+CiAgPHBhdGggZD0iTTE3IDIwbC0xIC01aC01bDEgLTciIC8+CiAgPHBhdGggZD0iTTQgMTBsNCAtMWw0IC0xbDQgMS41bDQgMS41IiAvPgo8L3N2Zz4KCgo=" >
+
+        <style type="text/css" media="all">
+
+            .slick-button {
+                flex: 1;
+                margin: 24px;
+                appearance: none;
+                background-color: #FAFBFC;
+                background-color: var( --background-color );
+                /*border: 1px solid rgba(27, 31, 35, 0.15);*/
+                border-radius: 6px;
+                box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+                box-sizing: border-box;
+                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+                color: #24292E;
+                color: var( --text-color );
+                cursor: pointer;
+                display: inline-block;
+                /*font-family: Mary, -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";*/
+                font-family: var( --font-family );
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 20px;
+                list-style: none;
+                padding: 6px 16px;
+                position: relative;
+                transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+                user-select: none;
+                -webkit-user-select: none;
+                touch-action: manipulation;
+                vertical-align: middle;
+                white-space: nowrap;
+                word-wrap: break-word;
+                display: block;
+                margin: 1em auto;
+                /*border: 1px solid var( --text-color ) !important;*/
+                border: 0px !important;
+            }
+            
+        </style>
+
+    </head>
+
+    <body style="margin: 0;padding: 0;font-family: sans-serif;">
+
+        <div id="content" style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;width:100vmin;margin: 0 auto;padding-top:10vmin;">
+            <div id="control-panel">
+                <button id="control" class="slick-button" style="">Pause Noise</button>
+            </div>
+        </div>
+
+        <!-- <div id="content" style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;width:100vmin;margin: 0 auto;padding-top:10vmin;">
+            <div id="control-panel">
+                <button id="control" style="width: 20vmin; height: 10vmin; background-color: red; color: white;">Pause Noise</button>
+            </div>
+        </div> -->
+
+
+    <script id="manifest" type="application/json" >
+        {
+            "id": "brown-noise",
+            "name": "Brown Noise",
+            "version": "0.1",
+            "description": "Play a simple brown-noise-like in a simple window.",
+            "author": "Ilse",
+            "website": "https://github.com/ilse-langnar/notebook/tree/dev/marketplace/brown-noise.html",
+            "bugs": "https://github.com/ilse-langnar/notebook/issues/new"
+        }
+    </script> 
+
+
+    <script id="data" type="application/json">{}</script> 
+
+    <script id="plugin" >
+
+        if( window.ilse ) {
+
+            window.ilse.commands.add({
+                id: "open-brown-noise",
+                name: "Open Brown Noise",
+                description: "Listen to brown noise",
+                fn: function() {
+                printf( "open-brown-noise" )
+                    window.ilse.components.create_window({ title: "Brown Noise", width: 200, height: 200, html: `brown-noise.html` })
+                },
+                props: {},
+            })
+
+            window.ilse.keyboard.add( "ctrl+space t s b", "open-brown-noise" )
+        }
+
+    </script>
+
+    <script>
+      const button = document.getElementById("control");
+
+      function randomPCMFloat() {
+        return Math.random() * 2.0 - 1.0;
+      }
+
+      let channels = 2; //# of audio channels
+      let transitions = [randomPCMFloat(), randomPCMFloat()]; //allow each new noise buffer to start with the final sample of the previous buffer
+      let sampleDuration = 5.0; //duration of each noise buffer in seconds
+
+      // c and v control "color" of the noise - v=1.0 is white, v=0.025 is brown-ish
+      let v = 0.025; //variation i.e. how much of next sample is random
+      let c = 1.0 - v; //color i.e. how much of the next sample is contributed by the last
+
+      //this function creates a buffer containing noise; current settings give brownish noise.
+      function createNoiseBuffer(audioCtx) {
+        let frameCount = audioCtx.sampleRate * sampleDuration;
+        let myArrayBuffer = audioCtx.createBuffer(
+          channels,
+          frameCount,
+          audioCtx.sampleRate
+        );
+
+        //Fill the buffer with brown-ish noise
+        for (let channel = 0; channel < channels; channel++) {
+          let nowBuffering = myArrayBuffer.getChannelData(channel);
+          let prev = transitions[channel];
+          for (let ii = 0; ii < frameCount; ii++) {
+            nowBuffering[ii] = prev * c + randomPCMFloat() * v;
+            prev = nowBuffering[ii];
+          }
+          transitions[channel] = prev;
+        }
+        return myArrayBuffer;
+      }
+
+      //this function creates an audio node that ingests a noise buffer
+      //and has ramp-up applied if a rampTime is provided
+      //this is used to make sure the noise only "ramps" when it's first turned on
+      function soundNodeHandler(audioCtx, maxGain, rampTime) {
+        let g = audioCtx.createGain();
+        g.connect(audioCtx.destination);
+        let source = audioCtx.createBufferSource();
+        source.buffer = createNoiseBuffer(audioCtx);
+        source.connect(g);
+        if (rampTime) {
+          //rampTime is only defined during initiation (see setTimeout callback below)
+          g.gain.setValueAtTime(0, audioCtx.currentTime);
+          g.gain.linearRampToValueAtTime(maxGain, audioCtx.currentTime + rampTime);
+        } else {
+          //we're already playing noise, no need to ramp, just set the gain for the new node and move on
+          g.gain.setValueAtTime(maxGain, audioCtx.currentTime);
+        }
+        source.start();
+
+        //kill old node, start a new one - ensures continuous playback
+        //is it ideal? who knows! but it DOES work
+        source.onended = () => {
+          source.disconnect();
+          g.disconnect();
+          soundNodeHandler(audioCtx, maxGain);
+        };
+      }
+
+      let AudioContext = window.AudioContext || window.webkitAudioContext;
+      let toggle = true; //haven't started yet? i.e. button NEVER clicked?
+      var audioCtx;
+      button.onclick = function () {
+        if (toggle) {
+          //if this is the first time the button was clicked
+          audioCtx = new AudioContext(); //initiate the audio context
+          let noiseTracks = 4; //multiple tracks of noise, to allow drowning of inter-segment clicks
+          for (let ii = 0; ii < noiseTracks; ii++) {
+            //stagger the initiation of the noise tracks, so they overlap each other
+            var rampTime = sampleDuration / noiseTracks;
+            setTimeout(() => {
+              soundNodeHandler(audioCtx, 1.0 / noiseTracks, rampTime);
+            }, ii * rampTime * 1000);
+          }
+          button.innerText = "Pause Noise";
+          button.style.backgroundColor = "red";
+          button.style.color = "white";
+          toggle = false; //we've already started, so we don't want to take the above path again
+        } else {
+          if (audioCtx.state === "suspended") {
+            audioCtx.resume(); //resume playback
+            button.innerText = "Pause noise";
+            button.style.backgroundColor = "red";
+            button.style.color = "white";
+          } else if (audioCtx.state === "running") {
+            audioCtx.suspend(); //pause playback
+            button.innerText = "Continue noise";
+            button.style.backgroundColor = "#02A24D";
+            button.style.color = "black";
+          }
+        }
+      };
+    </script>
+
+  </body></html>
