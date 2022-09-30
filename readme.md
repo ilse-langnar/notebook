@@ -69,12 +69,12 @@ This program defines a couple of base "features" that be combined with each othe
         <h2 align="center" > Screenshots </h2>
     </summary>
 
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-15.png" />
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-16.png" />
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-17.png" />
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-2.png" />
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-13.png" />
-<img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-14.png" />
+<img loading="lazy" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-15.png" />
+<img loading="lazy" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-16.png" />
+<img loading="lazy" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-17.png" />
+<img loading="lazy" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-2.png" />
+<img loading="lazy" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-13.png" />
+<img loading="lazy" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-14.png" />
 
 </details>
 
@@ -121,7 +121,7 @@ This program defines a couple of base "features" that be combined with each othe
     <summary align="center" >
         <h2 align="center" > Improves On </h2>
     </summary>
-    <img src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"  />
+    <img loading="lazy" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"  />
 
 | Program         | Feature     | Explanation | Explanation |
 |--------------|-----------|------------|------------|
