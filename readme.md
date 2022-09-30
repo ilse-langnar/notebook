@@ -41,26 +41,26 @@ This program defines a couple of base "features" that be combined with each othe
         <h2 align="center" > More </h2>
     </summary>
 
-    | Platform         | How     | Gif |
-    |--------------|-----------|------------|
-    | Web Demo | [Try it!](https://ilse-langnar.github.io/notebook/demo/index.html) | Learn More | 
-    | Quine(Single .html) | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.2/index.html) | Learn More | |
-    | Desktop Linux(AppImage)           | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.2/ilse-langnar-notebook-1.0.11.AppImage) | ![Demo](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/desktop-linux.gif) | 
-    | Desktop Windows(.exe)             | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.2/ilse-langnar-notebook.Setup.1.0.11.exe) | 
-    | Desktop MacOs(.dmg)               | Comming Soon |
-    | Mobile Android(.apk)              | Comming Soon | 
-    | Mobile iOS                        | Comming Soon | 
-    | Command Line(nodejs)              | `npx ilse` & `npm install ilse -g` & `yarn add global ilse` | 
-    | Script  Windows(VB)               | Comming Soon | 
-    | Script Linux(Rofi)                | Comming Soon | ![Incremental Video](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/rofi.gif) |
-    | Script Linux(Zenity)              | Comming Soon| 
-    | Script MacOS(Rofi)                | Comming Soon | ![Incremental Video](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/rofi.gif) 
-    | Vim Plugin                        | Help! | 
-    | VSCode Plugin                     | Help! | 
-    | Emacs Plugin                      | Help! | 
-    | Sublime Text Plugin               | Help! | 
-    | Headless Ilse(Docker)             | Comming Soon| 
-    | Telegram Bot                      | Comming Soon| 
+| Platform         | How     | Gif |
+|--------------|-----------|------------|
+| Web Demo | [Try it!](https://ilse-langnar.github.io/notebook/demo/index.html) | Learn More | 
+| Quine(Single .html) | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.2/index.html) | Learn More | |
+| Desktop Linux(AppImage)           | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.2/ilse-langnar-notebook-1.0.11.AppImage) | ![Demo](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/desktop-linux.gif) | 
+| Desktop Windows(.exe)             | [Download](https://github.com/ilse-langnar/notebook/releases/download/1.1.2/ilse-langnar-notebook.Setup.1.0.11.exe) | 
+| Desktop MacOs(.dmg)               | Comming Soon |
+| Mobile Android(.apk)              | Comming Soon | 
+| Mobile iOS                        | Comming Soon | 
+| Command Line(nodejs)              | `npx ilse` & `npm install ilse -g` & `yarn add global ilse` | 
+| Script  Windows(VB)               | Comming Soon | 
+| Script Linux(Rofi)                | Comming Soon | ![Incremental Video](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/rofi.gif) |
+| Script Linux(Zenity)              | Comming Soon| 
+| Script MacOS(Rofi)                | Comming Soon | ![Incremental Video](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/rofi.gif) 
+| Vim Plugin                        | Help! | 
+| VSCode Plugin                     | Help! | 
+| Emacs Plugin                      | Help! | 
+| Sublime Text Plugin               | Help! | 
+| Headless Ilse(Docker)             | Comming Soon| 
+| Telegram Bot                      | Comming Soon| 
 
 </details>
 
