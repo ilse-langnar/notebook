@@ -191,23 +191,28 @@ As a App Factory tool:
 |  Xanadu | Comming Soon ...  | |
 
 
-## Ways of Contributing
-| Way         | Explanation     | Value |
-|--------------|-----------|------------|
-| Opening an issue    | If you have a question or something is wrong, you can [open a issue](https://github.com/ilse-langnar/notebook/issues/new)  so we can figure itt out. | Medium |
-| Help with translation | You can help translate ilse into another language such as: `Chinese Simplified(简体中文) Brazillian Portuguese(Português Brasileiro) Spanish(Español) Korean(한국어) japanese(日本人) Dutch(Nederlands) Hebrew (עברית) French (français) Italian (italiano) Greek (Ελληνικά) Arabic (عربى) Russian (русский) Polish (Polskie) German(Deutsche)` go to [Here](https://github.com/ilse-langnar/notebook/issues/new) edit the file with the ISO code for the language, translate it, then add push so I can add it the `dev` branch and then to a more stable branch. | Medium |
-| Donate Money| I'll work much harder and focused if I don't have to worry about my expenses thus making the project progress at a much faster rate. | High |
-| Become a tester |  If you have a "niche" device please join as a tester to test the stability in different platforms(Blackberry, BDS?, MacOS, Linux Distros, Older Windows ). | High |
-| Make a `command` |  A command is a executable piece of code encapsulated into a name, they're very good for speed! | Low |
-| Make a `CSS Snippet` | CSS snippets fix little style errores where a full theme would be unecessary, use: "#i/css \`\`\`css html, body { background: red; }\`\`\`. | Low |
-| Make a `Theme` |  A theme is like a bunch of css snippets but they relate to each other to form a more "grand" structure, use this template to create themes:  [Theme Template](https://github.com/ilse-langnar/theme-template). | Medium |
-| Make a `Plugin` |  A plugin is where you actually extend ilse with more components, commands and functionality, make plugins using:  [Plugin Template](https://github.com/ilse-langnar/plugin-template). | High |
-| Make a `Blog/Article/Video` | Create something documenting how you use ilse in your life, I'll greatly appreciate it!. | Medium |
-| Make `Flashcards`  | Create a project with the sturcture like: [Flashcards Template](https://github.com/ilse-langnar/flashcards-template). and fill it with your item. | Medium |
-| Make Memes | Help spread the tool with virality and easy-to-consume memes. | High |
-| Join Discord | I'll post updates, ideas, plugins, themes, snippets, commands screenshots and more. https://discord.gg/9BVx8YHr | Medium |
-| Fix a bug yourself | Modify the code and then do a push into the `dev` branch, I'll later move it to more stable branches. | High |
-| Become smarter| That's the final goal here, the final goal is better thinking. | Inifinity |
+<details>
+    <summary>
+        <h2 align="center" > Contribute </h2>
+    </summary>
 
+    | Way         | Explanation     | Value |
+    |--------------|-----------|------------|
+    | Opening an issue    | If you have a question or something is wrong, you can [open a issue](https://github.com/ilse-langnar/notebook/issues/new)  so we can figure itt out. | Medium |
+    | Help with translation | You can help translate ilse into another language such as: `Chinese Simplified(简体中文) Brazillian Portuguese(Português Brasileiro) Spanish(Español) Korean(한국어) japanese(日本人) Dutch(Nederlands) Hebrew (עברית) French (français) Italian (italiano) Greek (Ελληνικά) Arabic (عربى) Russian (русский) Polish (Polskie) German(Deutsche)` go to [Here](https://github.com/ilse-langnar/notebook/issues/new) edit the file with the ISO code for the language, translate it, then add push so I can add it the `dev` branch and then to a more stable branch. | Medium |
+    | Donate Money| I'll work much harder and focused if I don't have to worry about my expenses thus making the project progress at a much faster rate. | High |
+    | Become a tester |  If you have a "niche" device please join as a tester to test the stability in different platforms(Blackberry, BDS?, MacOS, Linux Distros, Older Windows ). | High |
+    | Make a `command` |  A command is a executable piece of code encapsulated into a name, they're very good for speed! | Low |
+    | Make a `CSS Snippet` | CSS snippets fix little style errores where a full theme would be unecessary, use: "#i/css \`\`\`css html, body { background: red; }\`\`\`. | Low |
+    | Make a `Theme` |  A theme is like a bunch of css snippets but they relate to each other to form a more "grand" structure, use this template to create themes:  [Theme Template](https://github.com/ilse-langnar/theme-template). | Medium |
+    | Make a `Plugin` |  A plugin is where you actually extend ilse with more components, commands and functionality, make plugins using:  [Plugin Template](https://github.com/ilse-langnar/plugin-template). | High |
+    | Make a `Blog/Article/Video` | Create something documenting how you use ilse in your life, I'll greatly appreciate it!. | Medium |
+    | Make `Flashcards`  | Create a project with the sturcture like: [Flashcards Template](https://github.com/ilse-langnar/flashcards-template). and fill it with your item. | Medium |
+    | Make Memes | Help spread the tool with virality and easy-to-consume memes. | High |
+    | Join Discord | I'll post updates, ideas, plugins, themes, snippets, commands screenshots and more. https://discord.gg/9BVx8YHr | Medium |
+    | Fix a bug yourself | Modify the code and then do a push into the `dev` branch, I'll later move it to more stable branches. | High |
+    | Become smarter| That's the final goal here, the final goal is better thinking. | Inifinity |
+
+</details>
 
 <br>
