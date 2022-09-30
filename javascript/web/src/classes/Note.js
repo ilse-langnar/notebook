@@ -17,30 +17,20 @@ export default class note {
     constructor( note /*, source*/  ) {
 
         // BUGFIX: Sometimes before the ID there's a single space.
-        // if( note[0] === " " && note[1] !== " " ) note = note.split("").shift().join("")
         if( note[0] === " " && note[1] !== " " ) note = note.replace(/\ /, "")
-            // note = note.trim()
 
-        this.$raw        = note
+        this.raw         = note
+
         this.is_editable = false
         this.is_collapsed= false
+
         this.children    = []
-        // this.source     = source
 
         this.depth       = note.substr( 0, note.indexOf(":") ).split("    ").length - 1 // Extract all "    " before ID
 
         this.id          = this.get_id( note )
-            // this.id          = this.id.trim() // "    20220124102749" -> "20220124102749"
-            // this.id          = this.id.substr( 0, 23 ) // 20220124102749: This is the [[Writing]] -> 20220124102749
-            // this.id          = this.id.replace(":", "")
-            // this.id          = this.id.replace(" ", "0")
-            // if( this.id.length < 23 ) this.id = `${this.id}0` // BUGFIX
-            // if( this.id.length < 23 ) this.id = this.id.replace( /\ /g, "0" )
 
-        this.content     = this.$raw
-            this.content     = this.content.trim() // "    20220124102749: Example [[Writing]]" -> "20220124102749: Example [[Writing]]"
-            // this.content     = this.content.substr( 16, note.length ) // 20220124102749: Example [[Writing]] -> : Example [[Writing]]
-            this.content     = this.content.substr( this.content.indexOf(":") + 2, this.content.length )
+        this.content     = this.get_content( note )
 
         this.tags        = this.get_tags()
         this.tagless     = this.get_tagless(this.content)
@@ -63,13 +53,21 @@ export default class note {
 
     }
 
+    get_content( note ) {
+
+        let content = note
+            content     = content.trim()
+            content     = content.substr( content.indexOf(":") + 2, content.length )
+        return content
+    }
+
     get_id( note ) {
 
         let id      = note.trim()
             id          = id.substr( 0, 23 ) // 20220124102749: This is the [[Writing]] -> 20220124102749
             id          = id.replace( ":", "" )
 
-        if( id.length < 23 ) console.error( `ERROR: Wrong ID: id -> ${id}, ${JSON.stringify(this)}` )
+        if( id.length < 23 ) console.error( `ERROR: Wrong ID: id -> ${id}, len: ${id.lenght} expected: 23: (${id.length - 23}) ${JSON.stringify(this)}` )
 
         return id
     }
@@ -142,7 +140,7 @@ export default class note {
         let id = this.id
         if( id.length !== 23 ) {
             printf( `len: ${id.length} id: ${id} ` )
-            printf( "this.$raw -> ", this.$raw )
+            printf( "this.raw -> ", this.raw )
         }
 
         let spaces = ilse.utils.get_depth_spaces( this.depth )
@@ -170,10 +168,12 @@ export default class note {
         if( is_move_right ) {
 
             let spaces      = ilse.utils.get_depth_spaces( this.depth + number )
+            printf( "is_move_right -> true -> spaces -> ", spaces )
                 note          = `${spaces}${this.id}: ${this.content}`
+            printf( "is_move_right -> true -> note -> ", note )
                 setTimeout( () => { this.focus() }, 100 )
 
-            this.constructor( note  )
+            // this.constructor( note  )
         } else {
 
             let spaces      = ilse.utils.get_depth_spaces( this.depth + number )

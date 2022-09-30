@@ -11,8 +11,10 @@
         .options.centered
             // p.fitem.remove( @click="remove(day)" style="" ) &#88;
 
+        // Outline( :notes="get_daily_notes()" :key="get_daily_notes().length" )
+
         // .note( v-for="(note, note_index) in day.notes" :key="note_index" :style="get_note_style(note)" )
-        .note( v-for="(note, note_index) in day.notes.filter( e=> e.depth === 0 )" :key="note_index" :style="get_note_style(note)" )
+        .note( v-if="day && day.notes" v-for="(note, note_index) in day.notes.filter( e=> e.depth === 0 )" :key="note_index" :style="get_note_style(note)" )
 
             Notes( :note="note" :key="note.id + notes_key" @on-enter="on_enter" @on-note-click="on_note_click" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" :options="options" )
 
@@ -48,6 +50,7 @@ const printf                        = console.log;
     import Notes                        from "@/components/Notes.vue"
     import GhostNote                    from "@/components/GhostNote.vue"
     import References                   from "@/components/References.vue"
+    import Outline                      from "@/components/Outline.vue"
 
 // Constants
     import HTML_TEMPLATE                from "@/classes/HTML_TEMPLATE.js"
@@ -78,9 +81,21 @@ export default {
         Notes,
         GhostNote,
         References,
+        Outline,
     },
 
     methods: {
+
+        get_daily_notes() {
+            let date = get_unique_date_id() // 20200125
+                date = date.split("")
+                date = date.splice( 0, 8 )
+                date = date.join("")
+
+            let list = ilse.notes.query( date )
+
+            return list
+        },
 
         render_note( note ) {
             printf( "note.id -> ", note.id )
@@ -271,6 +286,7 @@ export default {
                 let component   = ilse.types.get( "file" )
                     component.props = { file }
                     ilse.components.push( component )
+                    // component.make_into.window()
             }
             // <=======> Shift <=======> //
 
@@ -346,10 +362,12 @@ export default {
         // TODO: BUG: When we type enter we correctly add the note but it's not rendered corretly, also setting the depth is problematic k
         on_enter( payload ) {
 
-            // printf( "DailyNote -> payload -> ", payload )
+            printf( "DailyNote -> on_enter -> payload -> ", payload )
 
             let note     = payload.note
+            printf( "DailyNote -> on_enter -> note -> ", note )
             let new_note = ilse.notes.add_after( "", note.depth, note )
+            printf( "DailyNote -> on_enter -> new_note -> ", new_note )
                 new_note.focus()
 
             // let day      = this.get_note_day( note )

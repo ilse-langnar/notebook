@@ -214,6 +214,12 @@ protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
+protocol.registerSchemesAsPrivileged([ { scheme: 'atom', privileges: { secure: true, standard: true } } ])
+
+// protocol.registerSchemesAsPrivileged([ { scheme: 'file', privileges: { secure: true, standard: true } } ])
+
+
+
 // protocol.interceptHttpProtocol('file', (request, callback) => {
     // const url = request.url.substr(8)
     // printf( "url -> ", url )
@@ -233,7 +239,13 @@ app.whenReady().then(() => {
 
     protocol.registerFileProtocol('file', (request, callback) => {
         let url = request.url.substr(7)
-        callback({ path: path.normalize(`${url}`) })
+        printf( ">>> file -> url -> -> ", url, requrest.url )
+        // todo,
+        let normalized_url = path.normalize(url)
+        printf( "> file -> normalized_url -> ", normalized_url )
+        // callback()
+        // callback({ path: path.normalize(`${url}`) })
+        callback({ path: normalized_url })
     }, err => {
         if( err ) console.error( "ERROR: Could not register file:// protocol" )
     })
@@ -251,6 +263,7 @@ app.whenReady().then(() => {
     protocol.registerFileProtocol('app', (request, callback) => {
 
         let url = request.url.substr(5)
+        console.log( "app: url -> ", url )
 
         const normalized_url = decodeURIComponent(url)
 
@@ -261,8 +274,12 @@ app.whenReady().then(() => {
     })
 
     protocol.registerFileProtocol('atom', (request, callback) => {
-        const url = request.url.substr(7)
-        callback(decodeURI(path.normalize(url)))
+        const url = request.url.substr(6)
+        console.log( "atom: url -> ", url )
+        let normalized_url = decodeURI(path.normalize(url))
+        console.log( "atom: normalize -> ", normalized_url )
+        // callback( normalized_url )
+        callback({ path: normalized_url })
     })
 
 })
@@ -315,8 +332,6 @@ async function createWindow() {
     if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
     createProtocol('app')
-      printf( "SECOND" )
-      printf( "is_dev() -> ", is_dev() )
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
   }
@@ -355,6 +370,7 @@ app.on('activate', () => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
 
+    // app.commandLine.appendSwitch('disable-site-isolation-trials')
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools
     try {

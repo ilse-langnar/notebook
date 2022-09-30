@@ -115,7 +115,7 @@ export default class FSFilesystem {
 
     async create_dir( full_path ) {
         try {
-            await fs.mkdir( path.join(target_directory , full_path) )
+            fs.mkdirSync( path.join(target_directory , full_path) )
             return true
         } catch( e ) {
             return false

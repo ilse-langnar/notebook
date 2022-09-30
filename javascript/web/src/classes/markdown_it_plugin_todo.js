@@ -9,7 +9,7 @@ export default {
         let id      = Math.random().toString().replace( "0.", "" )
         let checked = content.indexOf( "[x]" ) !== -1
 
-        let html    =  `<input type="checkbox" id="${id}" title="Click to Toggle" onclick="document.getElementById(${id}).checked ?  document.getElementById(${id}).checked = true : document.getElementById(${id}).checked = false " ${checked ? "checked" : ""}/>`
+        let html    =  `<input type="checkbox" id="${id}" title="Click to Toggle" onclick="console.log('you clicked MEMEE'); document.getElementById(${id}).checked ?  document.getElementById(${id}).checked = true : document.getElementById(${id}).checked = false " ${checked ? "checked" : ""}/>`
 
         return html
     }

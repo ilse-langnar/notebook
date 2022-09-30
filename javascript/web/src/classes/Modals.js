@@ -173,6 +173,7 @@ class Modals {
     }
 
     open( id, payload, on_close = null ) {
+        printf( "Modals.js -> open -> id -> ", id )
         setTimeout( () => { Messager.emit( "modals.vue", "open", {target: id, payload: payload, on_close }) }, 100 )
     }
 

@@ -57,6 +57,8 @@ export default class Filesystem {
 
     async setup() {
         // await this.create_default_dirs()
+        // await this.create_default_dirs()
+        // await this.create_default_plugin_dir()
         setTimeout( () => { this.test() }, 3000 )
         this.loaded()
     }
@@ -69,6 +71,14 @@ export default class Filesystem {
         }
 
     }
+
+    /*
+    async create_default_plugin_dir() {
+        let has_plugins       = await this.dir.exists.async("plugins")
+        printf( "has_plugins -> ", has_plugins )
+            if( !has_plugins ) await this.dir.create.async( "plugins" )
+    }
+    */
 
     /*
     async create_default_dirs() {

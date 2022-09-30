@@ -2,7 +2,7 @@
 .search-wrapper
 
     .flex( style="margin: auto;" )
-        input.input.search( ref="input" :id="id + '-search-input'" v-model="search_query" placeholder="🔎" accesskey="f" @keydown="on_key_down" @blur="on_blur" autofocus )
+        input.input.search( ref="input" :id="id + '-search-input'" v-model="search_query" placeholder="🔎" accesskey="f" @keydown="on_key_down" )
 
         .display-mode
 
@@ -336,12 +336,15 @@ export default {
         },
 
         autofocus() {
-            const dom = document.getElementById( `${this.id}-search-input` )
-                dom.focus()
+            if( this.$refs.input )  {
+
+                setTimeout( () => { this.$refs.input.focus() }, 500 )
+            }
+            // const dom = document.getElementById( `${this.id}-search-input` )
+                // dom.focus()
         },
 
         setup() {
-            printf( "this.component -> ", this.component )
             this.autofocus()
         },
 

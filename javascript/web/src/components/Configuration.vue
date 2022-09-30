@@ -39,6 +39,11 @@
                     Notes( :note="note" :options="{ is_collapsed: true }" )
                     .space
 
+            .permissions( v-if="selected === 'permissions' " )
+
+                .loop( v-for="( item, index ) in get_list_of_html_files()" :key="index" )
+                    p {{item}}
+
             .css-snippets( v-if="selected === 'css-snippets' " )
                 .centered
                 .loop( v-for="( note, index ) in ilse.notes.query('#i/css')" :key="index" )
@@ -111,6 +116,7 @@ export default {
                 // { name: "typography", img: "typography.svg" },
                 { name: "plugins", img: "plugin.svg" },
                 { name: "themes", img: "palette.svg" },
+                { name: "permissions", img: "brand-css3.svg" },
                 { name: "css-snippets", img: "brand-css3.svg" },
                 { name: "templates", img: "template.svg" },
                 { name: "marketplace", img: "building-store.svg" },
@@ -128,6 +134,12 @@ export default {
     },
 
     methods: {
+
+        get_list_of_html_files() {
+            let list      = ilse.filesystem.dir.list.sync( "/" )
+            let HTMLs     = list.filter( item => item.indexOf(".html") !== -1 ) // needs to have .html
+            return HTMLs
+        },
 
         export_theme_to_clipboard( note ) {
 

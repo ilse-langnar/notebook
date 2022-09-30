@@ -76,9 +76,8 @@ export default class Notes {
             file += note.get() + "\n"
         })
 
+        await this.filesystem.file.write.async( "notes", file )
         // printf( "file -> ", file )
-
-        // await this.filesystem.file.write.async( "notes", file )
 
         /*
         let index = 0
@@ -297,7 +296,7 @@ export default class Notes {
         let reg_exp
 
         list.map( note => {
-            has_match = note.$raw.match( q )
+            has_match = note.raw.match( q )
                 if( !has_match ) return
 
             result.push( note )
@@ -309,7 +308,7 @@ export default class Notes {
             // has_match = q.match( note.content )
             // has_match = note.content.match( q )
             // note.content = note.content.replace( new RegExp(`(${file})`, 'ig'), `[[${file}]]` )
-            // has_match = note.$raw.match( q )
+            // has_match = note.raw.match( q )
                 // if( !has_match ) continue
             // result.push( note )
         // }
@@ -341,13 +340,13 @@ export default class Notes {
         let list      = this.list
 
         list.map( note => {
-            has_match = note.$raw.toLowerCase().indexOf( q ) !== -1
+            has_match = note.raw.toLowerCase().indexOf( q ) !== -1
                 if( !has_match ) return
             result.push( note )
         })
 
         // for( const note of list ) {
-            // has_match = note.$raw.toLowerCase().indexOf( q ) !== -1
+            // has_match = note.raw.toLowerCase().indexOf( q ) !== -1
                 // if( !has_match ) continue
             // result.push( note )
         // }
@@ -427,9 +426,9 @@ export default class Notes {
             location = index
         }
 
-        let time_id          = get_unique_date_id() // 20220120155758
+        let id               = get_note_id() // 20220120155758
         let spaces           = this.ilse.utils.get_depth_spaces( depth )
-        let note             = `${spaces}${time_id}: ${content}` // 20220120155758: Hello, World
+        let note             = `${spaces}${id}: ${content}` // 20220120155758: Hello, World
 
         let instance         = new this.ilse.classes.Note( note )
             if( instance.depth >= 1 ) this.recursively_add_children( instance, location )

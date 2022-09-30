@@ -6,6 +6,12 @@ const printf                        = console.log
 // Utils
     import Messager                     from "@/classes/Messager.js"
 
+// functions
+    import is_dev                       from "@/classes/is_dev.js"
+    import create_window                from "@/classes/create_window.js"
+    import get_target_directory_url     from "@/classes/get_target_directory_url.js"
+    import html_to_string               from "@/classes/html_to_string.js"
+
 class Commands {
 
     // TODO: ask-delete-this-component/tab/container -> this -> focused
@@ -243,6 +249,18 @@ class Commands {
                 },
                 description: "Will save: bullets, config etc.",
                 name: "Save",
+                props: {},
+            },
+
+            {
+                id: "reload-plugins",
+                icon: "moon-stars.svg",
+                fn: function() {
+                    ilse.plugin_manager.load()
+                    ilse.notification.send( "Reloaded", "Plugins Reloaded" )
+                },
+                description: "Will re-load all plugins",
+                name: "Reload Plugins",
                 props: {},
             },
 
@@ -813,6 +831,162 @@ class Commands {
                 },
                 description: "Printf Keys",
                 name: "Printf Keys",
+                props: {},
+            },
+
+            {
+                id: "open-drawing-board",
+                fn: async function() {
+
+                    // let url
+                    // if( is_dev() ) {
+                        // url = `app://${ilse.target_directories[0]}/signature-pad.html`
+                    // } else {
+                        // url = `atom://${ilse.target_directories[0]}/signature-pad.html`
+                    // }
+
+                    create_window({ title: "Simple Draw", html: "signature-pad.html" })
+
+                    // let frame   = ilse.frame.create({
+                        // title: 'Draw',
+                        // appearanceName: 'yosemite',//Now preset is selectable from  'yosemite','redstone','popup'
+                        // left: 200, top: 200, width: 600, height: 400,
+                        // movable: true,//Enable to be moved by mouse
+                        // resizable: true,//Enable to be resized by mouse
+                        // // html: `<iframe src="${url}" style="width: 100%; height: 100%; overflow: hidden; "> </iframe>`
+                        // url: url,
+                    // })
+
+                    // frame.show()
+                },
+                description: "Will Open a drawing board for you to draw",
+                name: "Open Drawing Board",
+                props: {},
+            },
+
+            {
+                id: "open-website-on-window",
+                fn: async function() {
+
+                    let clip    = await ilse.clipboard.read()
+                    let is_url  = clip && clip.indexOf("http") !== -1 || clip.indexOf("ftp://") !== -1 || clip.indexOf("file://") !== -1
+                    let url
+
+                    if( clip && is_url ) {
+                        url = clip
+                    } else {
+                        let payload = await ilse.dialog.input( "Query", "Type:" )
+                        url         = payload.input
+                    }
+
+                    create_window({ title: "Browse", url: url })
+
+                },
+                description: "Will open a new query windows based on your choice.",
+                name: "Open new Query",
+                props: {},
+            },
+
+            {
+                id: "open-html-on-window",
+                fn: async function() {
+
+                    // let payload = await ilse.dialog.input( "Query", "Type:" )
+                    // printf( "payload -> ", payload )
+                    // let name    = payload.input
+                    // printf( "name -> ", name )
+                    // let file    = ilse.filesystem.file.read.sync( name + ".html" )
+                    // printf( "file -> ", file )
+
+                    // create_window({ title: name + ".html", html: file })
+                    // create_window({ title:  "Vim", url: `app://${ilse.target_directories[0]}/vim/index.html` })
+
+                    // let payload   = await ilse.dialog.input( "Query", "Type:" )
+                    // let full_path = payload.input
+
+                    // let file      = ilse.filesystem.file.read.sync( full_path + ".html" )
+                    // printf( "file -> ", file )
+                    // let html      = file
+                    // window.open( get_target_directory_url() + "iframe.html" )
+                    // let o = window.open(get_target_directory_url(), "lll", "popup");
+                    // printf( "o -> ", o )
+
+                    // const windowFeatures = "left=100,top=100,width=320,height=320";
+                    // const handle         = window.open( get_target_directory_url() + "iframe.html", "mozillaWindow", windowFeatures);
+                    // printf( "handle -> ", handle )
+                    // printf( "html.documentElement -> ", handle.documentElement )
+
+                    // let html             = html_to_string( handle )
+                    // printf( "html -> ", html )
+
+
+                    let payload   = await ilse.dialog.input( "Query", "Type:" )
+                    let full_path = payload.input
+                    create_window({ title: "HTML", id: "ll", html: full_path })
+
+                    /*
+                    setTimeout( () => {
+                        printf( "window.frames -> ", window.frames )
+                        let frame = window.frames['ll']
+                        printf( "frame -> ", frame )
+                        frame.contentWindow.postMessage({ number: "LLL" } )
+                        printf( "frame.contentWindow -> ", frame.contentWindow )
+                        printf( "frame.document -> ", frame.document )
+                        printf( "frame.document.body -> ", frame.document.body )
+                        printf( "frame.document.body.innerHTML -> ", frame.document.body.innerHTML )
+                    }, 1000 )
+                    */
+                    // create_window({ title: "Component", url: `app://${ilse.target_directories[0]}/${full_path}.html` })
+
+                },
+                description: "Will open a new query windows based on your choice.",
+                name: "Open new Query",
+                props: {},
+            },
+
+            {
+                id: "open-vim",
+                fn: async function() {
+                    printf( "open vim" )
+                    create_window({ title: "Vim", id: "ll", html: `vim/index.html` })
+                },
+                description: "Will open vim in a floating window",
+                name: "Open Vim",
+                props: {},
+            },
+
+            {
+                id: "open-random-note",
+                fn: async function() {
+                    let random= notes[Math.floor(Math.random()*notes.length)]
+                },
+                description: "Will open a random note",
+                name: "Open Random Note",
+                props: {},
+            },
+
+            {
+                id: "open-new-query",
+                fn: async function() {
+
+                    // dialog
+                    let payload = await ilse.dialog.input( "Query", "Type:" )
+                    let input   = payload.input
+
+                    let frame   = ilse.frame.create({
+                        title: 'Query',
+                        left: 200, top: 200, width: 320, height: 220,
+                        movable: true,//Enable to be moved by mouse
+                        resizable: true,//Enable to be resized by mouse
+                        url: `app://${ilse.target_directories[0]}/html-table.html`,//URL to display in iframe
+                        // html: '<div id="my_element" style="padding:10px;font-size:12px;color:darkgray;">Contents of window</div>'
+                    })
+
+                    frame.show()
+
+                },
+                description: "Will open a new query windows based on your choice.",
+                name: "Open new Query",
                 props: {},
             },
 

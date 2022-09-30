@@ -1,16 +1,19 @@
 <template lang="pug" >
-.top-menu( v-if="!ilse.is_zen" style="width: 100%; display: flex; padding: 0.3em 0.5em; " )
+.top-menu( v-if="!ilse.is_zen" style="width: 100%; display: flex; padding: 0.3em 0.5em; border: 1px solid blue;" @drop="on_app_drop" )
 
     // img( :src="irequire.img('arrow-narrow-right.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_left_sidebar')" @click="ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open" )
-    .menu-item( style="margin: auto;" )
 
+    .menu-item.apps( style="border: 1px solid red;" @dragover="is_dragging_over = true" @dragleave="is_dragging_over = false" @dragend="is_dragging_over = false" @drop="on_app_drop" @drag="ilse.dragging = inote.id" )
 
-        .vspace
+        img( src="@/assets/logo.svg" style="cursor: pointer; border: 1px dashed var( --text-color ); border-radius: var( --border-radius ); vertical-align: sub; width: 20px; /*border: 1px solid #000; border-radius: 5px;*/ box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; " )
+        img.is-pulled-right( src="@/assets/images/x.svg" style="cursor: pointer; vertical-align: sub; width: 10px; " :title="$t('delete_app')" )
 
+    .vspace
 
-    .menu-item( style="margin: auto; " )
+    .menu-item( style="margin: auto; " @drop="on_app_drop" )
+        img( src="@/assets/images/lupe.svg" style="cursor: pointer; vertical-align: sub; width: 20px; " )
         // SearchButton( :width="50" :should-autofocus="false" @on-result-select="on_note_search_on_result_select" )
-        Gene( component="SearchButton.html" @SearchButton="on_search_button" )
+        // Gene( component="SearchButton.html" @SearchButton="on_search_button" )
 
     .menu-item( style="margin: auto; " )
         img( :src="irequire.img('command.svg')" style="cursor: pointer; width: 20px;" :title="$t('open_command_pallet')" alt="$t('open_command_pallet')" @click="toggle_command_pallet" )
@@ -65,6 +68,12 @@ export default {
     },
 
     methods: {
+
+        on_app_drop( event ) {
+            printf( ">> on_app_drop -> event -> ", event )
+            let file        = event.dataTransfer.files[0] 
+            printf( "files -> ", files )
+        },
 
         on_search_button( payload ) {
 
@@ -245,6 +254,14 @@ export default {
 .vspace {
     display: inline;
     padding-left: 15px;
+}
+
+.apps {
+    min-width: 30%;
+    margin: auto;
+    border: 1px solid var( --text-color );
+    border-radius: var( --border-radius );
+    padding: 3px; 
 }
 
 </style>

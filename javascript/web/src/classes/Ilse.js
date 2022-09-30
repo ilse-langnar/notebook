@@ -52,6 +52,13 @@ const printf                        = console.log
     import DEMO_NOTES                    from "@/classes/DEMO_NOTES.js"
     import SUPPORTED_LANGUAGES           from "@/classes/SUPPORTED_LANGUAGES.js"
 
+// libs
+// import { JSFrame } from 'jsframe.js';
+// import JSFrame from 'jsframe.js';
+
+const JSFrame = require("@/assets/js/jsframe.min.js")
+    let Frame     = JSFrame.JSFrame
+
 // Entry point for our app, there is only one ilse in the entire app, this is the glue for everything else + components
 export default class Ilse {
 
@@ -61,8 +68,12 @@ export default class Ilse {
         this.SUPPORTED_LANGUAGES    = SUPPORTED_LANGUAGES
         this.DEMO_NOTES             = DEMO_NOTES
 
+        this.dna                    = new window.DNA( window )
+            window.dna                  = this.dna
+
         // this.u_html                 = uHTML
         this.components             = []
+        // this.frames                 = []
 
         this.name                   = "Ilse Langnar's Notebook"
         this.key                    = "ilse-key"
@@ -90,6 +101,8 @@ export default class Ilse {
         // utils?
         this.path                   = path
 
+        this.frame                  = new Frame()
+
         // BUGFIX: In my quine I need a time to wait for the DOM to load, otherwise I overwrite since it thinks it does not exists.
         this.before_setup()
 
@@ -102,7 +115,6 @@ export default class Ilse {
 
     before_setup() {
 
-        // === Electron === //
         this.target_directories     = []
         let list        = window.localStorage.getItem( "target-directories" )
 

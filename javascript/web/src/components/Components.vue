@@ -5,15 +5,12 @@
 
     .components( style="display: flex; flex-direction: row;" :key="components_key" )
 
-        // Component.left-sidebar( v-show="ilse.is_left_sidebar_open" :component="get_left_sidebar()" :options="{ hide_bullet: true }" :style="get_component_style(get_left_sidebar())" )
         Component.second-menu( v-show="!ilse.is_left_sidebar_open && !ilse.is_zen" :component="get_menu_component()" :options="{hide_bullet: true }" style="width: 20%; overflow: auto; " )
 
-        // p len: @@ {{components.length}}
-        // p {{components}}
-
+        // .component( v-if="ilse.frames.indexOf(component) === -1" v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
         .component( v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
-            // v-show="components.length && component.is_on" 
-            Component( :component="component" )
+            // Don't render window nor modal.
+            Component( :component="component" :id="component.key" )
 
         Component.right-sidebar( v-show="ilse.is_right_sidebar_open" :component="get_right_sidebar()" :options="{ hide_bullet: true }" :style="get_component_style(get_right_sidebar())" )
 
@@ -36,6 +33,11 @@ const printf                        = console.log;
 
 // Components
    import Component                     from "@/components/Component.vue"
+   import Test                          from "@/components/Test.vue"
+   import Vue                           from "vue"
+
+// functions
+   import vue_sfc_to_html               from "@/classes/vue_sfc_to_html.js"
 
 export default {
 
@@ -48,6 +50,118 @@ export default {
 
     components: {
         Component,
+    },
+
+    watch: {
+        async components( list ) {
+            let added = list[list.length - 1]
+
+            /*
+            setTimeout( () => {
+
+                let main = document.getElementById( added.key )
+                    printf( "main -> ", main )
+                    let html = main.innerHTML
+                    printf( "html -> ", html )
+                    main.style = "display: none;"
+
+                    // added.is_window = true
+                    // this.components[ this.components.indexOf( added ) ].is_window = true
+
+                    // printf( "added.id -> ", added.id )
+                    // printf( "this.uniqueKey -> ", this.uniqueKey )
+                    // let b = document.getElementById( this.uniqueKey + added.id )
+                    // printf( "b -> ", b )
+            }, 1000 )
+            */
+
+            /*
+            if( added.mode === "frame" ) {
+
+                let has_already = ilse.frames.indexOf( added ) !== -1
+                printf( "has_already -> ", has_already )
+
+                if( !has_already ) {
+
+                    const frame = ilse.frame.create({
+                        title: 'Links & Graph',
+                        left: 200, top: 200, width: 320, height: 220,
+                        movable: true,//Enable to be moved by mouse
+                        resizable: true,//Enable to be resized by mouse
+                        appearanceParam: {
+                            border: { shadow: '2px 2px 10px  rgba(0, 0, 0, 0.5)', width: 0, radius: 6, },
+                            titleBar: {
+                                color: 'white',
+                                background: '#4784d4',
+                                leftMargin: 40,
+                                height: 30,
+                                fontSize: 14,
+                                buttonWidth: 36,
+                                buttonHeight: 16,
+                                buttonColor: 'white',
+                            },
+                        },
+                        // url: `app://${ilse.target_directories[0]}/signature-pad.html`,//URL to display in iframe
+                        // url: `app://${ilse.target_directories[0]}/html-table.html`,//URL to display in iframe
+                        // url: `app://${ilse.target_directories[0]}/signature-pad.html`,//URL to display in iframe
+                        
+                        // html: `<embed src="app://${ilse.target_directories[0]}/signature-pad.html" />`
+                        html: `<embed src="app://${ilse.target_directories[0]}/SearchButton.html" data-prop-label="LLLL" />`
+
+                        // html: test.$el.outerHTML
+                        // html: '<div id="my_element" style="padding:10px;font-size:12px;color:darkgray;">Contents of window</div>'
+                    });
+
+                    ilse.frames.push( added )
+
+                    frame.show()
+                }
+                */
+
+                /*
+                var test = new Vue({
+                    ...Test,
+                    parent: this,
+                    propsData: { component: { file: "Mental Models" } }
+                }).$mount()
+
+                printf( "test -> ", test )
+
+                printf( "test.$el -> ", test.$el )
+                printf( "test.$el.outerHTML -> ", test.$el.outerHTML)
+
+                let _test = await vue_sfc_to_html( "File.vue", { component: { file: "Mental Models" } }, this )
+                printf( "test -> ", _test )
+
+                const frame = ilse.frame.create({
+                    title: 'Links & Graph',
+                    left: 200, top: 200, width: 320, height: 220,
+                    movable: true,//Enable to be moved by mouse
+                    resizable: true,//Enable to be resized by mouse
+                    appearanceParam: {
+                        border: { shadow: '2px 2px 10px  rgba(0, 0, 0, 0.5)', width: 0, radius: 6, },
+                        titleBar: {
+                            color: 'white',
+                            background: '#4784d4',
+                            leftMargin: 40,
+                            height: 30,
+                            fontSize: 14,
+                            buttonWidth: 36,
+                            buttonHeight: 16,
+                            buttonColor: 'white',
+                        },
+                    },
+                    // url: `app://${ilse.target_directories[0]}/html-table.html`,//URL to display in iframe
+                    // html: '<div id="my_element" style="padding:10px;font-size:12px;color:darkgray;">Contents of window</div>'
+                    html: test.$el.outerHTML
+                });
+
+                frame.show()
+
+            }
+                */
+
+        }
     },
 
     data() {

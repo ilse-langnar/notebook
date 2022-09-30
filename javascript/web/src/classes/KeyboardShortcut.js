@@ -49,10 +49,16 @@ class KeyboardShortcut  {
 
             let is_ctrl_space = event.ctrlKey && event.key === " "
 
-            if( is_ctrl_space ) this.turn_writing_off()
+            if( is_ctrl_space ) {
+                let dom          = document.activeElement
+                let should_block = dom.tagName === "INPUT" || dom.tagName === "TEXTAREA" || dom.tagName === "DIV" && dom.id.indexOf("-") !== -1
+                if( should_block ) {
+                    this.turn_writing_off()
+                    setTimeout( () => { this.turn_writing_on() }, 2000 ) // BUGFIX: You'll have 2 seconds to write the commands, otherwise, things will go normal again
+                }
 
-            // BUGFIX: You'll have 2 seconds to write the commands, otherwise, things will go normal again
-                setTimeout( () => { this.turn_writing_on() }, 2000 )
+            }
+
         })
 
     }
@@ -60,10 +66,14 @@ class KeyboardShortcut  {
     turn_writing_off() {
         dom_write_target            = document.activeElement
         dom_write_target.onkeypress = function(){ return false }
+        dom_write_target            = null
     }
 
     turn_writing_on() {
+        if( !dom_write_target ) return
+
         dom_write_target.onkeypress = function() { return true }
+        dom_write_target.focus()
         set_caret_to_end_on_content_editable_element( dom_write_target )
     }
 
@@ -82,58 +92,86 @@ class KeyboardShortcut  {
 
     set_default_keys() {
 
-        // if( this.ilse.config.keys ) {
-            // printf( "!!!!!! this.ilse.config.keys -> ", this.ilse.config.keys )
-            // this.keys = this.ilse.config.keys
-            // return
-        // }
-
         this.keys = [
-            // { combo: "ctrl+space", command: "new-note" },
-            { combo: "ctrl+space shift+a", command: "open-command-pallet-modal" },
-            { combo: "ctrl+enter", command: "new-note" },
-            // { combo: "ctrl+.", command: "new-note" },
-            /*{ combo: "ctrl+s", command: "save" },*/
-            { combo: "ctrl+p", command: "open-command-pallet-modal", prevent_default: true },
-            // { combo: "s", command: "note-search" },
-            // { combo: "f", command: "file-search" },
-            // { combo: "A", command: "Add Component" },
-            { combo: "ctrl+v", command: "check-clipboard" },
-            { combo: "ctrl+space s s", command: "open-search-modal" },
-            { combo: "ctrl+space c f", command: "a" },
-            { combo: "shift+enter", command: "void:add-new-line" },
-            { combo: "ctrl+space shift+l", command: "list-projects" },
 
-            { combo: "ctrl+space v m", command: "open-note-on-a-mind-map" },
-            { combo: "ctrl+space i d", command: "toggle-dark-mode" },
-            { combo: "ctrl+space i z", command: "toggle-zen-mode" },
+            // Special
+                { combo: "ctrl+enter", command: "new-note" },
+                { combo: "ctrl+p", command: "open-command-pallet-modal", prevent_default: true },
+                { combo: "shift+enter", command: "void:add-new-line" },
+                { combo: "ctrl+(", command: "void" },
+                { combo: "ctrl+space .", command: "void" },
+                { combo: "ctrl+space .", command: "repeat-last-command" },
 
-            { combo: "ctrl+space i l", command: "toggle-left-sidebar" },
-            { combo: "ctrl+space i e", command: "open-make-extention-modal" },
-            { combo: "ctrl+space i p i", command: "import-plugin-from-url" },
+            // a
 
-            { combo: "ctrl+space v t", command: "open-note-on-a-table-pan" },
-            { combo: "ctrl+space v shift+m", command: "open-note-on-a-memex" },
+            // b
+                { combo: "ctrl+space b t a", command: "first-brain-tag-add" },
+                { combo: "ctrl+space b t r", command: "first-brain-tag-remove" },
 
-            { combo: "ctrl+space tab", command: "toggle-left-sidebar" },
-            { combo: "ctrl+space shift+tab", command: "toggle-right-sidebar" },
+            // c
+                { combo: "ctrl+space c c c", command: "insert-random-text" },
 
-            // { combo: "shift+/", command: "open-help" }, // ctrl-shift-/ = ctrl-?
+            // d
 
-            { combo: "ctrl+(", command: "void" },
-            { combo: "ctrl+space .", command: "void" },
+            // e
 
+            // f
 
-            { combo: "ctrl+space shift+f", command: "open-file" },
+            // g
 
-            /*{ combo: "ctrl+space right-square-bracket", command: "open-search-modal" },*/
-            /*{ combo: "opening-parenthesis", command: "open-search-modal" },*/
+            // h
 
-            { combo: "ctrl+space b t a", command: "first-brain-tag-add" },
-            { combo: "ctrl+space b t r", command: "first-brain-tag-remove" },
-            { combo: "ctrl+space c c c", command: "insert-random-text" },
+            // i
+                { combo: "ctrl+space i d", command: "toggle-dark-mode" },
+                { combo: "ctrl+space i z", command: "toggle-zen-mode" },
+                { combo: "ctrl+space i l", command: "toggle-left-sidebar" },
+                { combo: "ctrl+space i e", command: "open-make-extention-modal" },
+                { combo: "ctrl+space i p i", command: "import-plugin-from-url" },
+                { combo: "ctrl+space i p r r", command: "reload-plugins" },
 
-            // { combo: "ctrl+space ", command: "first-brain-tag-remove" },
+            // j
+
+            // k
+
+            // l
+
+            // m
+
+            // n
+
+            // o
+
+            // p
+
+            // q
+                { combo: "ctrl+space q n", command: "open-new-query" },
+
+            // r
+                { combo: "ctrl+space r r", command: "open-random-note" },
+
+            // s
+                { combo: "ctrl+space s s", command: "open-search-modal" },
+                { combo: "ctrl+space s g", command: "open-glyph-search" },
+                { combo: "ctrl+space s w", command: "open-website-on-window" },
+                { combo: "ctrl+space s h", command: "open-html-on-window" },
+                { combo: "ctrl+space s v", command: "open-vim" },
+
+            // t
+                { combo: "ctrl+space t d d", command: "open-drawing-board" },
+                { combo: "ctrl+space t s b", command: "open-brown-noise" },
+
+            // u
+
+            // v
+                { combo: "ctrl+space v t", command: "open-note-on-a-table-pan" },
+                { combo: "ctrl+space v shift+m", command: "open-note-on-a-memex" },
+                { combo: "ctrl+space v m", command: "open-note-on-a-mind-map" },
+            // x
+
+            // w
+
+            // z
+
         ]
 
         // this.make_child_reveal_bind()

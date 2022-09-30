@@ -10,6 +10,11 @@ const printf                        = console.log
 // Utils
     import Messager                     from "@/classes/Messager.js"
 
+// functions
+    import string_to_html               from "@/classes/string_to_html.js"
+    import create_window                from "@/classes/create_window.js"
+    import html_to_string               from "@/classes/html_to_string.js"
+
 class PluginManager {
 
     constructor( ilse ) {
@@ -38,6 +43,7 @@ class PluginManager {
         // document.getElementsByTagName("head")[0].appendChild(s)
     }
 
+    /*
     load() {
         let result = this.ilse.notes.query(`#i/plugin`)
 
@@ -46,7 +52,85 @@ class PluginManager {
         })
 
     }
+    */
 
+    load() {
+        // let list = ilse.filesystem.dir.list.sync( "plugins" )
+        let list = ilse.filesystem.dir.list.sync( "/" )
+        let HTMLs     = list.filter( item => item.indexOf(".html") !== -1 ) // needs to have .html
+
+        HTMLs.map( plugin => { this.run( plugin ) })
+
+    }
+
+    async run( name ) {
+        printf( "run -> name -> ", name )
+        let file    = await ilse.filesystem.file.read.async( name  )
+        let HTML    = string_to_html( file )
+
+        let styles  = [...HTML.querySelectorAll( "style" )]
+        // styles.map( style => { printf( "style.innerHTML -> ", style.innerHTML ) })
+
+        let scripts = [...HTML.querySelectorAll( "script.ilse" )]
+
+        scripts.map( script => {
+            window.ilse = {
+                Messager: Messager,
+
+                components: {
+                    create_window: create_window,
+                },
+
+                notify: ilse.notification.send.bind( ilse.notification ),
+
+                keyboard: {
+                    add: ilse.keyboard.add.bind( ilse.keyboard )
+                },
+
+                commands: {
+                    add: ilse.commands.add_for_plugin.bind( ilse.commands )
+                },
+
+                load: function() {
+                    let file    = ilse.filesystem.file.read.sync( name )
+                    let HTML    = string_to_html( file )
+                    let data    = HTML.getElementById( "data" ) ? HTML.getElementById( "data" ).innerText : {}
+                    return JSON.parse(data)
+                },
+
+                dialog: {
+                    info:    ilse.dialog.info.bind( ilse.dialog ),
+                    confirm: ilse.dialog.confirm.bind( ilse.dialog ),
+                    input:   ilse.dialog.input.bind( ilse.dialog ),
+                    listing: ilse.dialog.listing.bind( ilse.dialog ),
+                    close:   ilse.dialog.close.bind( ilse.dialog ),
+                },
+
+                save: function( json ) {
+
+                    let string          = JSON.stringify( json )
+                    let file            = ilse.filesystem.file.read.sync( name )
+
+                    let HTML            = string_to_html( file ) // mount DOM from string
+                        HTML.getElementById( "data" ).innerText = string // Change it
+
+                    let updated_html    = html_to_string( HTML ) // return to string(Changed)
+
+                    ilse.filesystem.file.write.sync( name , updated_html ) // Write
+
+                    return json
+                }
+
+            }
+
+            eval( script.innerHTML )
+        })
+
+        // setInterval( () => { Messager.emit( "plugin", { number: Math.random() } ) }, 2000 )
+
+    }
+
+    /*
     run( note ) {
 
         // let result = this.ilse.notes.query(`#i/plugin`)
@@ -78,6 +162,7 @@ class PluginManager {
         eval( js )
 
     }
+    */
 
     /*
     get( plugin_name ) {

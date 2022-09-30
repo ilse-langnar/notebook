@@ -1,6 +1,5 @@
 <template lang="pug" >
 .note
-    // .flex( v-if="is_on" :style="options.style" @click="on_note_root_click" )
     .flex( v-if="is_on" :style="options.style" :class=" is_dragging_over ? 'dragging-over' : '' " )
 
         .bullet( v-if="!options.hide_bullet" )
@@ -17,7 +16,7 @@
 
         .html( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" :data-unique-id="inote.id" :style="get_fit_content_style(inote)" )
 
-    .file-reference( v-for="( item, index ) in ilse.notes.get_file_references(inote.content)" )
+    // .file-reference( v-for="( item, index ) in ilse.notes.get_file_references(inote.content)" )
         details
             // summary {{item}}
             summary 
@@ -29,35 +28,16 @@
                 .loopl( v-for="( note, ref_index ) in ilse.notes.query( item.split('|')[0].replace( '![[', '') )" :key="'search' + ref_index" ) 
                     Notes( v-if="inote.id !== note.id" :note="note" :options="{}" )
 
-    // .file-reference( v-for="( item, index ) in ilse.notes.get_file_references(inote.content)" )
-        component( :is="require('@/components/File.vue').default" :component="{ props: { file: item.replace('![[', '').replace(']]', '') + '.md' } }" )
-
-    .note-references( v-if="inote.get_note_references()" style="" )
+    // .note-references( v-if="inote.get_note_references()" style="" )
         .note-reference( v-for="( item, index ) in ilse.notes.extract_note_references(inote.content)" )
             // Notes( :note="ilse.notes.query(item + ':')[0]" )
             Notes( :note="ilse.notes.query(item + ':')[0]" )
 
 
 
-
-
-    // .query( v-if="inote.get_tags() && get_query(inote)" style="width: 60%; margin-left: 50px; " )
-
-        // p {{ilse.notes.query(get_query(inote))}}
-        .loop( v-for="(item, index) in ilse.notes.query(get_query(inote))" :key="index" )
-            Notes( :note="item" )
-
-    // p :: {{inote.get_file_references()}}
-    // .file-references( v-if="inote.get_file_references()" style="width: 60%; margin-left: 50px; " )
-        .file-reference( v-for="( item, index ) in ilse.notes.get_file_references(inote.content)" )
-            // p LL: {{ilse.utils.is_markdown_file(item)}}
-            // File( :component="{ props: { file: item + '.md' } }" )
-            // p IS: {{ilse.utils.is_markdown(item)}}
-            component( v-if="ilse.utils.is_markdown_file(item)" :is="require('@/components/File.vue').default" :component="{ props: { file: item + '.md' } }" )
-
     .component-part( v-if="get_component()" )
         div( style="font-size: 1.5em; margin-left: 20px; padding: 0px; " ) ⚫
-            Component.component-embed( :component="get_component()" :options="{ hide_bullet: true }" )
+            // Component.component-embed( :component="get_component()" :options="{ hide_bullet: true }" )
 
 </template>
 <script>
@@ -99,7 +79,6 @@ export default {
                     hide_bullet: false,
                     is_tagless: false,
                     read_only: false,
-                    render_as_html: false,
                 }
             }
         },
@@ -170,28 +149,6 @@ export default {
 
             // Remove background Style
             this.reset_drag_n_drop()
-
-            // BUGFIX: recursive add.
-
-            // BUGFIX: we need to have the drop's depth + 1
-            // let drag_index   = ilse.notes.list.indexOf( dragging )
-            // let target_index = ilse.notes.list.indexOf( drop )
-            // Notes.js
-
-            // drop.add_child( drag, { debug: true, ilse: ilse })
-
-            // ilse.notes.list.splice( drag_index, 1 )
-            // ilse.notes.delete( drag )
-            // ilse.notes.list.splice( target_index, 0, drag )
-
-            // Notes.vue
-            // printf( "Pushing" )
-            // drop.children.push( drag )
-            // Messager.emit( "~notes", "deleted", drag )
-            // Messager.emit( "~notes", "added", { drag })
-
-
-            // Messager.emit( "~notes", "deleted", source )
         },
 
         reset_drag_n_drop() {
@@ -199,51 +156,6 @@ export default {
             ilse.dragging           = ""
         },
  
-
-        /*
-        on_drop( event ) {
-
-            let dom 
-            if( event.srcElement.parentNode.getAttribute("data-unique-id") ) {
-
-                dom = event.srcElement.parentNode 
-                    dom = event.srcElement.parentNode.parentNode.parentNode
-            }
-
-            printf( "ilse.dragging -> ", ilse.dragging )
-            let id     =  dom.getAttribute( "data-unique-id" )
-            let target = ilse.notes.query( `${id}: ` )[0]
-            let source = ilse.notes.query( `${ilse.dragging}: ` )[0]
-            target.children.push( source )
-            let drag   = ilse.notes.query( `${ilse.dragging}: ` )[0]
-
-            // BUGFIX: recursive add.
-            if( target.id === drag.id ) {
-                ilse.dragging = ""
-                    return 
-            }
-
-        // BUGFIX: we need to have the target's depth + 1
-        drag.depth = target.depth + 1
-
-            // Notes.js
-            let drag_index   = ilse.notes.list.indexOf( drag )
-            let target_index = ilse.notes.list.indexOf( target )
-            // ilse.notes.list.splice( drag_index, 1 )
-            ilse.notes.delete( drag )
-            ilse.notes.list.splice( target_index, 0, drag )
-
-            // Notes.vue
-            target.children.push( drag )
-            // Messager.emit( "~notes", "deleted", drag )
-            // Messager.emit( "~notes", "added", { drag })
-
-            Messager.emit( "~notes", "deleted", source )
-            this.is_dragging_over = false
-            ilse.dragging = ""
-       },
-       */
-
         on_bullet_right_click( event ) {
 
             if( this.inote.children.length && event.button === 0 ) this.inote.is_collapsed = !this.inote.is_collapsed
@@ -330,9 +242,6 @@ export default {
             let _this   = this
             let note    = this.inote
 
-            // value = note.caret.insert( `((${text}))` )
-            // value = note.caret.insert( `![[${text.replace(".md", "")}]]` )
-
             setTimeout( () => {
 
                 this.inote.focus()
@@ -343,113 +252,26 @@ export default {
                 let is_file_ref = type === "file" && note.content.indexOf( text.replace(".md", "") ) === -1 
                 let value
 
-                // _this.inote.focus() 
                 if( is_note_ref ) _this.inote.content += ` ((${text}))`, dom 
                 if( is_file_ref ) _this.inote.content += ` ![[${text.replace(".md", "")}]]`, dom 
-
-
-                /*
-                note.caret.set( note.caret.pos.start, note.caret.pos.end, dom )
-
-                // TODO: 'insert' receives a dom, remove 'set-element', then find a way of persisting to the note.
-                setTimeout( () => {
-
-                    // BUGFIX: For some reason after inserting "id+))" if we blur we'll lose and go back to "((" This fixes this issue by setting inote.content directly
-                    let is_note_ref = type === "note" && note.content.indexOf(text) === -1 
-                    let is_file_ref = type === "file" && note.content.indexOf( text.replace(".md", "") ) === -1 
-                    let value
-
-                    _this.inote.focus() 
-
-                    if( is_note_ref ) value = note.caret.insert( `((${text}))`, dom )
-                    if( is_file_ref ) value = note.caret.insert( `![[${text.replace(".md", "")}]]`, dom )
-
-                    // setTimeout( () => { _this.inote.focus() }, 1000 )
-
-                    // this.inote.content = value
-                    // this.resize_textarea()
-
-                }, 100 )
-                */
-
             }, 100 )
 
-
-            // this.close_overlay( "search" )
 
         },
 
         get_html( note ) {
 
-            /*
-            if( this.options.render_as_html ) {
-                let id     = note.id
-                let content= note.content
-                let date   = id.split("-")[0]
-                let uuid   = id.split("-")[1]
-
-                let name   = yyyymmddhhss_to_pretty( date ) + `(${uuid}).html`
-                let has    = ilse.filesystem.file.exists.sync( name )
-                    if( !has ) return `${name} Does not exists`
-
-                let html   = ilse.filesystem.file.read.sync( name )
-
-                setTimeout( () => {
-                    printf( "Resizing ..." )
-                }, 1000 )
-
-                return html
-            }
-            */
-
-
             let content         = this.options.is_tagless ? note.tagless : note.content
+                let normalized      = ilse.markdown.render( content )
 
-            // if( content.indexOf("<") !== -1 ) { printf( "note.content -> ", note.content ) printf( "content ->" ) }
-
-
-            let normalized = ilse.markdown.render( content )
-            // if( content.indexOf("|") !== -1 ) printf( "normalized -> ", normalized )
             return normalized
-
-            // let ref                   = ilse.notes.extract_note_references( content ) // TODO: Make this a notes function
-            /*
-            // return ilse.markdown.render( content )
-            // Empty note
-            if( !content ) return "<NOTHING>"
-            // === no Ref === //
-            let ref                   = ilse.notes.extract_note_references( content ) // TODO: Make this a notes function
-                if( !ref ) return ilse.markdown.render( content ) // No note references, normal markdown.
-            // === Refs === //
-            return html
-            */
-
-            /*
-            let chunks = text.split("\n")
-
-            printf( "chunks -> ", chunks )
-            let final  = "<blockquote>"
-            for( const [index, chunk] of chunks.entries() ) {
-                if( index === 0 ) {
-                    final += `<p> ${chunk} </p>`
-                } else {
-                    final += `<blockquote style="margin-left: ${index * 10}px"> ${chunk} </blockquote>`
-                }
-            }
-            final += "</blockquote>"
-            return final
-                return ilse.markdown.render( text )
-            */
         },
 
         listen_to_embed_keys() {
 
             let _this = this
 
-            // ilse.keyboard.Mousetrap.bindGlobal( "ctrl+.", function(event){
-            // ilse.keyboard.Mousetrap.bindGlobal( "ctrl+.", function(event){
             ilse.keyboard.Mousetrap.bindGlobal( "ctrl+space (", function(event){
-                printf( "ok boomer" )
                 event.preventDefault()
                 ilse.modals.open( "search", { mode: "embed", filter: "notes", is_markdown_mode_on: true, id: _this.inote.id })
             })
@@ -469,7 +291,7 @@ export default {
 
         on_focus( event, inote ) {
 
-            if( this.options.read_only || this.options.render_as_html ) return
+            if( this.options.read_only ) return
 
             this.listen_to_embed_keys()
 
@@ -604,13 +426,7 @@ export default {
                 this.$emit( "on-arrow-down", { note: inote, event })
             }
 
-            // let is_file_search = char === "[" && shift
             let char           = event.key
-            // let is_file_search = char === "{" && is_shift
-            // if( is_file_search ) {
-                // this.open_search()
-            // }
-
         },
 
         open_search( filter = "all" ) {
@@ -642,35 +458,6 @@ export default {
 
         },
 
-        async test() {
-
-            /*
-            if( this.inote.content.indexOf("#embed") !== -1 ) {
-                printf( ">>>> embed this.inote.content -> ", this.inote.content )
-                printf( ">>>> embed this.inote.id -> ", this.inote.id )
-                let inote  = this.inote
-
-                let id     = inote.id
-                let content= inote.content
-                let date   = id.split("-")[0]
-                let uuid   = id.split("-")[1]
-
-                let name   = yyyymmddhhss_to_pretty( date ) + `(${uuid}).html`
-                let has    = await ilse.filesystem.file.exists.async( name )
-                if( !has ) {
-                    printf( "I'm Creating it:" )
-                    let html = ilse.markdown.render( content )
-                    printf( "html -> ", html )
-
-                    await ilse.filesystem.file.write.async( name, HTML_TEMPLATE.replace("@TITLE@", name).replace("@BODY@", html) )
-                    printf( "We now have it !!!!" )
-                }
-                // printf( `${result}(${uuid}).html` )
-            }
-            */
-
-        },
-
         // ??
         set_note_from_component() {
 
@@ -693,7 +480,6 @@ export default {
         },
 
         setup() {
-            // this.test()
             this.set_note_from_component()
             this.listen()
         },
@@ -755,6 +541,8 @@ input:focus{
     font-size: 1em;
     user-select: text;
     /*width: -webkit-fill-available;*/
+    /*border: 1px solid #000;*/
+    min-height: 26px;
 }
 
 .bullet p {

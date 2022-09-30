@@ -6,6 +6,7 @@
 // eslint-disable-next-line
 const printf                                        = console.log;
 
+import "@/assets/js/html-dna.js"
 // import "bulma/css/bulma.min.css"
 
 // process.env.NODE_ENV === 'production' ? require("bulma/css/bulma.min.css") : require("@/assets/css/bulma.css")
@@ -92,7 +93,6 @@ export default {
 }
 </script>
 <style>
-
 
 /*
 @font-face {
@@ -771,10 +771,6 @@ textarea {
   margin: 0;
 }
 
-html {
-  box-sizing: border-box;
-}
-
 *, *::before, *::after {
   box-sizing: inherit;
 }
@@ -805,6 +801,7 @@ th:not([align]) {
 }
 
 html {
+  box-sizing: border-box;
   background-color: var(--background-color);
   font-size: 16px;
   -moz-osx-font-smoothing: grayscale;
@@ -817,6 +814,12 @@ html {
   -webkit-text-size-adjust: 100%;
      -moz-text-size-adjust: 100%;
           text-size-adjust: 100%;
+}
+
+/* increase line-height for everything except headings */
+body :not(:is(h1,h2,h3,h4,h5,h6)) {
+    line-height: 1.75;
+    line-height: 1.50;
 }
 
 article,

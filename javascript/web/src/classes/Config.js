@@ -125,7 +125,7 @@ export default class Config {
         let object_to_save  = this
             object_to_save.components = components.map( component =>
                 {
-                    printf( ">>>@>@@>@>@>@>@>@>@>@ component -> ", component )
+                    // printf( ">>>@>@@>@>@>@>@>@>@>@ component -> ", component )
                 })
             object_to_save.dark       = this.dark
             object_to_save.keys       = ilse.keyboard.keys
