@@ -12,7 +12,7 @@
         // button.button( @click="render" ) Render
 
         // button.button( @click="spawn" ) spawn
-        // button.button( @click="spawn" ) spawn
+        button.button( @click="spawn" ) spawn
         // button.button( @click="test" ) Test
 
         Renderer( :components="ilse.components" unique-key="home" )
@@ -70,7 +70,8 @@ const printf                                        = console.log;
     import is_dev                       from "@/classes/is_dev.js"
     import string_to_base64             from "@/classes/string_to_base64.js"
     import get_protocol                 from "@/classes/get_protocol.js"
-    import get_target_directory_url      from "@/classes/get_target_directory_url.js"
+    import get_target_directory_url     from "@/classes/get_target_directory_url.js"
+    import create_window                from "@/classes/create_window.js"
 
 export default {
 
@@ -109,6 +110,13 @@ export default {
     methods: {
 
         spawn() {
+
+
+            const input = prompt("What's your name?");
+            printf( "Home.vue -> input -> ", input )
+            let url     = get_target_directory_url()
+            printf( "Home.vue -> url -> ", url )
+            create_window({ title: "Component", html: input + ".html" })
 
             /*
             let html = ilse.filesystem.file.read.sync( "SearchButton.html" )

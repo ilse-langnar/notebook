@@ -22,6 +22,7 @@ let DEFAULT_THEMES = [
         --link-color: #428bca;
         --link-color: #5ec7b8;
         --secondary-link-color: #70a7a8;
+        --img-hover-invert: invert(100%);
         }`,
         id: "light",
     },
@@ -42,6 +43,7 @@ let DEFAULT_THEMES = [
             --link-color: #428bca;
             --link-color: #5ec7b8;
             --secondary-link-color: #99c6c2;
+            --img-hover-invert: invert(100%);
         }`,
         id: "dark",
 

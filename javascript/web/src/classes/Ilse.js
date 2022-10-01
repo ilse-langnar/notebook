@@ -123,7 +123,19 @@ export default class Ilse {
         let bugfix_list_has_items = list && list.length
             if( bugfix_list_has_items ) this.target_directories     = list
 
-        if( this.platform === "quine" ) this.target_directories = [ "/" ] // quine
+        // if( this.platform === "quine" ) this.target_directories = [ "/" ] // quine
+        if( this.platform === "quine" ) {
+
+            let quine_dir = window.location.pathname
+
+            let normalized_quine_dir = quine_dir.split("/")
+            printf( "1 - normalized_quine_dir -> ", normalized_quine_dir )
+                normalized_quine_dir.pop()
+            printf( "2 - normalized_quine_dir -> ", normalized_quine_dir )
+                normalized_quine_dir = normalized_quine_dir.join("/")
+            printf( "3 - normalized_quine_dir -> ", normalized_quine_dir )
+            this.target_directories = [ normalized_quine_dir ] // quine
+        }
 
     }
 

@@ -24,7 +24,7 @@ export default class DOMFilesystem {
 
         filesystem = {
             "/": {
-                "notes": "20210810100520: [[Ilse Ideas]] How can I integrate bullets + spaced repetition better?",
+                "notes": "20210810100520-1sr7opf3: [[Ilse Ideas]] How can I integrate bullets + spaced repetition better?",
                 "queue": "",
                 "statistics": "",
                 "priorities": "",
@@ -143,7 +143,28 @@ export default class DOMFilesystem {
 
             },
 
-            readDir: function( full_path ) {
+            readdir: async function( full_path ) {
+
+                let chunks = full_path.split("/").filter( e=>e )
+                let obj = filesystem["/"]
+
+                for( let chunk of chunks ) {
+                    if( obj[chunk + "/"] ) {
+                        obj = obj[chunk + "/"]
+                    } else {
+                        obj = obj[chunk]
+                    }
+                }
+
+                if( typeof obj === "object" ) {
+                    return Object.keys(obj)
+                } else {
+                    throw new Error( `DOMFilesystem: You're trying to use fs.readdir on a file!! Use a File Directory instead!! (${full_path})`)
+                }
+
+            },
+
+            readdirSync: function( full_path ) {
 
                 let chunks = full_path.split("/").filter( e=>e )
                 let obj = filesystem["/"]
@@ -163,6 +184,8 @@ export default class DOMFilesystem {
                 }
 
             },
+
+
 
             writeFileSync: function( full_path, content, options ) {
 
@@ -330,7 +353,7 @@ export default class DOMFilesystem {
     async get_all_files() {
 
         printf( "DOMFilesystem get_all_files " )
-        let files   = await fs.readDir("/" )
+        let files   = await fs.readdir("/" )
         printf( "DOMFilesystem -> get_all_files -> files -> ", files )
             if( !files ) files = []
 
@@ -366,7 +389,7 @@ export default class DOMFilesystem {
     }
 
     async list_dir( directory_path ) {
-        let list      = await fs.readDir( "/" + directory_path )
+        let list      = await fs.readdir( "/" + directory_path )
         return list
     }
 

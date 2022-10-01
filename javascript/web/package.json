@@ -19,7 +19,6 @@
   "main": "background.js",
   "dependencies": {
     "browserfs": "^1.4.3",
-    "clipboardy": "^2.3.0",
     "cytoscape": "^3.20.0",
     "dom-filesystem": "^1.0.8",
     "electron-context-menu": "^3.4.0",

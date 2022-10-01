@@ -61,10 +61,63 @@ class PluginManager {
 
         HTMLs.map( plugin => { this.run( plugin ) })
 
+        this.set_global_plugin_api()
+    }
+
+    set_global_plugin_api() {
+
+        window.ilse = {
+            Messager: Messager,
+
+            components: {
+                create_window: create_window,
+            },
+
+            notify: ilse.notification.send.bind( ilse.notification ),
+
+            keyboard: {
+                add: ilse.keyboard.add.bind( ilse.keyboard )
+            },
+
+            commands: {
+                add: ilse.commands.add_for_plugin.bind( ilse.commands )
+            },
+
+            load: function() {
+                let file    = ilse.filesystem.file.read.sync( name )
+                let HTML    = string_to_html( file )
+                let data    = HTML.getElementById( "data" ) ? HTML.getElementById( "data" ).innerText : {}
+                return JSON.parse(data)
+            },
+
+            dialog: {
+                info:    ilse.dialog.info.bind( ilse.dialog ),
+                confirm: ilse.dialog.confirm.bind( ilse.dialog ),
+                input:   ilse.dialog.input.bind( ilse.dialog ),
+                listing: ilse.dialog.listing.bind( ilse.dialog ),
+                close:   ilse.dialog.close.bind( ilse.dialog ),
+            },
+
+            save: function( json ) {
+
+                let string          = JSON.stringify( json )
+                let file            = ilse.filesystem.file.read.sync( name )
+
+                let HTML            = string_to_html( file ) // mount DOM from string
+                HTML.getElementById( "data" ).innerText = string // Change it
+
+                let updated_html    = html_to_string( HTML ) // return to string(Changed)
+
+                ilse.filesystem.file.write.sync( name , updated_html ) // Write
+
+                return json
+            }
+
+        }
+
     }
 
     async run( name ) {
-        printf( "run -> name -> ", name )
         let file    = await ilse.filesystem.file.read.async( name  )
         let HTML    = string_to_html( file )
 

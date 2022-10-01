@@ -6,7 +6,7 @@ const printf                        = console.log
 // Messager
     import Messager                     from "@/classes/Messager.js"
 
-const clipboardy                   = require( 'clipboardy')
+// const clipboardy                   = require( 'clipboardy')
 
 export default class Clipboard {
 
@@ -23,11 +23,13 @@ export default class Clipboard {
     }
 
     async write( content ) {
-        clipboardy.write( content )
+        // clipboardy.write( content )
+        return navigator.clipboard.writeText( content )
     }
 
     async read() {
-        return clipboardy.read()
+        // return clipboardy.read()
+        return navigator.clipboard.readText()
     }
 
 }

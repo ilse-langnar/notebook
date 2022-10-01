@@ -25,6 +25,8 @@ export default function create_window({
     if( !html && !url ) throw new Error( `Error: create_window needs either a "html" or a "url" to work you passed me a object with none!` )
 
     // let endpoint = `${get_protocol()}${ilse.target_directories[0]}/${html}`
+    printf( "create_window -> get_target_directory_url() -> ", get_target_directory_url() )
+    printf( "create_window -> html -> ", html )
     let endpoint = `${get_target_directory_url()}${html}`
     printf( "endpoint -> ", endpoint )
 
