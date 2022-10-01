@@ -39,7 +39,7 @@ export default {
             // if( is_electron && is_dev() ) return `<img class="img" title="${url}" src="atom://${target_dir}/${url}" />`
             // if( is_electron && !is_dev() ) return `<img class="img" title="${url}" src="atom://${target_dir}/${url}" />`
             // return `<img style="${zen_style}" class="img" title="${url}" src="http://localhost:8090/file/${url}"/>`
-            return `<img class="img" title="${url}" src="${get_target_directory_url()}${url}"/>`
+            return `<img class="img" loading="lazy" title="${url}" src="${get_target_directory_url()}${url}"/>`
         } else if( is_video ) {
             // if( is_electron ) return `<video class="video" title="${url}" controls src="atom://${target_dir}/${url}"/>`
             // return `<video class="video" title="${url} "controls title="${url}" src="http://localhost:8090/file/${url}"/>`

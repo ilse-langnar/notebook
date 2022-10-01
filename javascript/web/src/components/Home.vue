@@ -1,42 +1,22 @@
 <template lang="pug">
 .home
-    // TopMenu
-    // Component.top-menu( :component="get_main()" :options="{ hide_bullet: true }" )
 
     .loading( v-if="!ilse.target_directories.length || !ilse.has_loaded " :key="ilse.key" )
         Setup
 
-    // .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded" :key="ilse.key" :data-theme="get_data_theme()" :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded" :key="ilse.key" :data-theme="ilse.config.dark ? 'dark' : 'light' " :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
 
-        // button.button( @click="render" ) Render
+        .status-line( style="position: fixed; bottom: 0%; width: 98%; left: 2%; height: 20px; background: var( --background-color ); " )
+            p qdwpiodwq
 
-        // button.button( @click="spawn" ) spawn
-        button.button( @click="spawn" ) spawn
-        // button.button( @click="test" ) Test
+        .flex( :key="key" )
+            .flexi.apps-bar
+                .loop( v-for="( item, index ) in ilse.config.apps" :key="index" )
+                    img.app-icon( :src="get_icon(item)" @click="select_app(item)" :style="get_app_icon_style(item)" )
 
-        Renderer( :components="ilse.components" unique-key="home" )
-
-
-        // .flex
-            .flexi( style="flex-basis: 2%; border: 1px dashed var( --text-color ); height: 100vh;" @drop.prevent="on_app_drop" )
-
-                // img( :src="irequire.img('logo.svg')" style="cursor: inline-block; width: 40px;" )
-                img( src="@/assets/logo.svg" style="cursor: inline-block; width: 40px; /*border: 1px solid #000; border-radius: 5px;*/ box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; " )
-
-            .flex( style="flex-basis: 100%; " )
-                embed(     v-if="get_main()" :src="get_embed_src(get_main().component)" style="width: 100% !important; height: 100vh !important; overflow: hidden !important; border: 1px solid #000; " )
-                Renderer(  v-if="!get_main()" :components="ilse.components" unique-key="home" )
-
-
-        // .rendered
-            .is-pulled-left( style="border: 1px solid #000; width: 3%; height: 100vh;" )
-                img( :src="irequire.img('logo.svg')" style="cursor: pointer; width: 40px;" )
-
-            .is-pulled-right( style="width: 97%; " )
-                embed(     v-if="get_main()" :src="get_embed_src(get_main().component)" style="width: 100% !important; height: 100vh !important; overflow: hidden !important; border: 1px solid #000; " )
-                Renderer(  v-if="!get_main()" :components="ilse.components" unique-key="home" )
-
+            .flex.app( style="flex-basis: 100%; " )
+                iframe.external-app(   v-if="get_active_html() !== 'ilse.html' " :src="get_active_html()" )
+                Renderer(              v-if="get_active_html() === 'ilse.html' " :components="ilse.components" unique-key="home" )
 
         Modals
         Dialogs
@@ -72,6 +52,9 @@ const printf                                        = console.log;
     import get_protocol                 from "@/classes/get_protocol.js"
     import get_target_directory_url     from "@/classes/get_target_directory_url.js"
     import create_window                from "@/classes/create_window.js"
+    import string_to_html               from "@/classes/string_to_html.js"
+    import get_html_favicon             from "@/classes/get_html_favicon.js"
+    import move_array_item              from "@/classes/move_array_item.js"
 
 export default {
 
@@ -108,6 +91,49 @@ export default {
     },
 
     methods: {
+
+        get_app_icon_style( item ) {
+            let name = ilse.config.apps[0]
+            if( name === item ) return `border-bottom: 1px dashed #000; `
+        },
+
+        update_ilse() {
+            this.key = Math.random()
+        },
+
+        select_app( name ) {
+            let index               = ilse.config.apps.indexOf(name)
+            let is_already_selected = ilse.config.apps[0] === name
+                if( is_already_selected ) return
+
+            let new_apps           = move_array_item( ilse.config.apps, index, 0 )
+                ilse.config.apps       = new_apps
+
+            this.update_ilse()
+        },
+
+        get_icon( name ) {
+            if( name === "ilse.html" ) return require("@/assets/logo.svg")
+
+            let file    = ilse.filesystem.file.read.sync( name )
+            let html    = string_to_html( file )
+            let favicon = get_html_favicon( html )
+            return favicon
+        },
+
+        get_active_html() {
+
+            if( !ilse || !ilse.config || !ilse.config.apps || !ilse.config.apps[0] ) return "ilse.html"
+            let name = ilse.config.apps[0]
+                if( name === "ilse.html" ) return "ilse.html"
+
+            // let file = ilse.filesystem.file.read.sync( apps )
+            let url = get_target_directory_url() + name
+            return url
+
+            // return file
+            // returnapps 
+        },
 
         spawn() {
 
@@ -424,6 +450,30 @@ export default {
     background: var( --background-color ) !important;
     height: 100vh;
     overflow: hidden;
+}
+
+.external-app {
+    width: 100% !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+    border: 1px solid #000; 
+}
+
+.app-icon {
+    cursor: inline-block;
+    width: 40px;
+    cursor: pointer;  
+}
+
+.apps-bar {
+    flex-basis: 2%;
+    border: 1px dashed var( --text-color );
+    height: 100vh;
+    background: var( --background-color );
+}
+
+.app {
+    flex-basis: 100%; 
 }
 
 </style>

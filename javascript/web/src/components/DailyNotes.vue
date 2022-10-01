@@ -6,7 +6,7 @@
         button.slick-button( @click="remove(day)" ) x
         .flex( style="margin: 0 auto; width: 40%; " )
             .centered
-                span.flexi.is-size-3.has-text-weight-bold( :title=" $t('notes') + day.notes.length" ) {{get_file( day )}}
+                span.flexi.is-size-3.has-text-weight-bold( :title=" $t('notes') + ' ' + day.notes.length" ) {{get_file( day )}}
             p.fitem &#128269;
         .options.centered
             // p.fitem.remove( @click="remove(day)" style="" ) &#88;

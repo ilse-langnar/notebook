@@ -47,26 +47,24 @@ export default class Config {
 
 
         // ==== Load Components ==== //
-        let instance
+        // let instance
 
-        // for( const component of config.components ) {
-            // instance    = new ilse.classes.Component( component )
-                // ilse.components.push( instance )
-        // }
+        if( !config.permissions ) config.permissions = {}
+        if( !config.apps || config.apps.indexOf("ilse.html") === -1 ) config.apps = [ "ilse.html" ]
 
         config.components = config.components.filter(e=>e)
-        printf( "config -> ", config )
+
         let type
         config.components.map( component => {
             printf( ">> config -> component -> ", component )
 
             if( component && component.id ) {
                 type = ilse.types.get( component.id )
-                if( type ) ilse.components.push( instance )
+                if( type ) ilse.components.push( type )
             }
         })
 
-        let has_components = ilse.components.length
+        let has_components  = ilse.components.length
 
         if( !has_components ) {
 
@@ -96,7 +94,6 @@ export default class Config {
         // let keys    = Object.keys( config.keys )
         // let values  = Object.values( config.keys )
         // ==== Load Keys ==== //
-
 
 
         // ==== Internal Components ==== //
@@ -129,6 +126,17 @@ export default class Config {
                 })
             object_to_save.dark       = this.dark
             object_to_save.keys       = ilse.keyboard.keys
+
+        printf( "Object.keys(this) -> ", Object.keys(this) )
+
+        let props_to_save = Object.keys(this)
+            props_to_save.can_save = null //
+
+        props_to_save.map( key => {
+            object_to_save[key] = this[key]
+        })
+
+        printf( "object_to_save -> ", object_to_save )
 
         return JSON.stringify(object_to_save, null, 4)
     }

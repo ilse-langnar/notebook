@@ -3,7 +3,7 @@
 
     // img( :src="irequire.img('arrow-narrow-right.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_left_sidebar')" @click="ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open" )
 
-    .menu-item.apps( @dragover="is_dragging_over = true" @dragleave="is_dragging_over = false" @dragend="is_dragging_over = false" @drop="on_app_drop" @drag="ilse.dragging = inote.id" )
+    // .menu-item.apps( @dragover="is_dragging_over = true" @dragleave="is_dragging_over = false" @dragend="is_dragging_over = false" @drop="on_app_drop" @drag="ilse.dragging = inote.id" )
 
         img( :src="irequire.img('lupe.svg')" style="cursor: pointer; border: 1px dashed var( --text-color ); border-radius: var( --border-radius ); vertical-align: sub; width: 20px; /*border: 1px solid #000; border-radius: 5px;*/ box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; " )
 
@@ -12,7 +12,8 @@
     .vspace
 
     .menu-item( style="margin: auto; " @drop="on_app_drop" )
-        img( :src="irequire.img('lupe.svg')" style="cursor: pointer; vertical-align: sub; width: 10px; " :title="$t('delete_app')" )
+        input( placeholder="&#128269;" )
+        img( :src="irequire.img('lupe.svg')" style="cursor: pointer; vertical-align: sub; width: 30px; " :title="$t('delete_app')" )
         // SearchButton( :width="50" :should-autofocus="false" @on-result-select="on_note_search_on_result_select" )
         // Gene( component="SearchButton.html" @SearchButton="on_search_button" )
 

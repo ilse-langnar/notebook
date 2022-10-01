@@ -41,9 +41,40 @@
 
             .permissions( v-if="selected === 'permissions' " )
 
-                .loop( v-for="( item, index ) in get_list_of_html_files()" :key="index" )
-                    p {{item}}
+                p {{ilse.config.apps}}
+                table.permissions
+                    tr
+                        th Name
+                        th Read Permission
+                        th Notes access
+                        th Write Permission
+                        th Is App?
 
+                    tr( v-for="( item, index ) in get_list_of_html_files()" :key="index" ) 
+                        td {{item}}
+                        td( :key="ilse.keys[item+'read']" :style="get_green_red_color_based_on_boolean(has_permission( item, 'read'))" @click="toggle_permission( item, 'read')")
+                            p {{has_permission( item, 'read')}}
+                        td( :key="ilse.keys[item+'notes']" :style="get_green_red_color_based_on_boolean(has_permission( item, 'notes'))" @click="toggle_permission( item, 'notes')")
+                            p {{has_permission( item, 'notes')}}
+                        td( :key="ilse.keys[item+'write']" :style="get_green_red_color_based_on_boolean(has_permission( item, 'write'))" @click="toggle_permission( item, 'write')")
+                            p {{has_permission( item, 'write')}}
+                        td( :key="ilse.keys[item]" :style="get_green_red_color_based_on_boolean(get_is_html_app(item))" @click="toggle_is_app(item)")
+                            p {{get_is_html_app(item)}}
+
+                    // tr
+                        td( v-for="( item, index ) in get_list_of_html_files()" :key="index" ) {{item}}
+
+
+                // .loop( v-for="( item, index ) in get_list_of_html_files()" :key="index" )
+                    .flex
+                        // p {{item}}
+                        // img.img.is-pulled-left( :src="irequire.img('packge-export.svg')" alt="Export to clipboard" )
+                        table
+                            tr
+                                th td {{item}}
+                                th td example 2
+                            tr
+                                img.img.is-pulled-left( :src="irequire.img('packge-export.svg')" alt="Export to clipboard" )
             .css-snippets( v-if="selected === 'css-snippets' " )
                 .centered
                 .loop( v-for="( note, index ) in ilse.notes.query('#i/css')" :key="index" )
@@ -101,6 +132,12 @@ const printf                        = console.log;
 // Components
     import Notes                        from "@/components/Notes.vue"
 
+// functions
+    import get_green_red_color_based_on_boolean from "@/classes/get_green_red_color_based_on_boolean.js"
+    import add_permission                       from "@/classes/add_permission.js"
+    import remove_permission                    from "@/classes/remove_permission.js"
+    import has_permission                       from "@/classes/has_permission.js"
+
 export default {
 
     name: "Configuration",
@@ -134,6 +171,54 @@ export default {
     },
 
     methods: {
+
+        toggle_permission( name, permission ) {
+
+            let has = has_permission( name, permission )
+            printf( `${name}(${has})` )
+
+            if( has ) {
+                remove_permission( name, permission )
+                ilse.notification.send( "Removed Permission(-): ", `${name}(${permission})` )
+            } else {
+                add_permission( name, permission )
+                ilse.notification.send( "Added Permission(+): ", `${name}(${permission})` )
+            }
+
+            printf( "ilse.keys -> name -> ", name )
+            printf( "before -> ilse.keys -> ", ilse.keys )
+            ilse.keys[name+permission] = Math.random()
+            printf( "after -> ilse.keys -> ", ilse.keys )
+        },
+
+        toggle_is_app( name ) {
+            let index    = ilse.config.apps.indexOf(name) 
+            let is_app   = index !== -1
+
+            if( is_app ) {
+                ilse.config.apps.slice( index, 1 )
+                ilse.notification.send( "Removed App(-): ", name )
+            } else {
+                ilse.config.apps.push( name )
+                ilse.notification.send( "Added App(+): ", name )
+            }
+
+            ilse.config.save()
+        },
+
+        get_green_red_color_based_on_boolean( bool ) {
+            return get_green_red_color_based_on_boolean( bool )
+        },
+
+        has_permission( item, permission ) {
+            let has = has_permission( item, permission )
+            return has
+        },
+
+        get_is_html_app( name ) {
+            let is_app = ilse.config.apps.indexOf(name) !== -1
+            return is_app
+        },
 
         get_list_of_html_files() {
             let list      = ilse.filesystem.dir.list.sync( "/" )
@@ -390,6 +475,114 @@ export default {
     background: var( --background-color );
     color: var( --text-color );
     border: 0 !important;
+}
+
+
+table a:link {
+    color: #666;
+    font-weight: bold;
+    text-decoration:none;
+}
+table a:visited {
+    color: #999999;
+    font-weight:bold;
+    text-decoration:none;
+}
+table a:active,
+table a:hover {
+    color: var( --link-color );
+    text-decoration:underline;
+}
+table {
+    font-family:Arial, Helvetica, sans-serif;
+    color: var( --text-color );
+    font-size:12px;
+    /*text-shadow: 1px 1px 0px #fff;*/
+    background: var( --background-color );
+    margin:20px;
+    /*border:#ccc 1px solid;*/
+
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    border-radius:3px;
+
+    /*
+    -moz-box-shadow: 0 1px 2px #d1d1d1;
+    -webkit-box-shadow: 0 1px 2px #d1d1d1;
+    box-shadow: 0 1px 2px #d1d1d1;
+    */
+}
+table th {
+
+    padding: 21px 25px 22px 25px;
+    border-top:1px solid #fafafa;
+    border-bottom:1px solid #e0e0e0;
+
+    background: var( --background-color );
+    color: var( --text-color );
+    /*background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#ebebeb));
+    background: -moz-linear-gradient(top,  #ededed,  #ebebeb);*/
+}
+table th:first-child {
+    text-align: left;
+    padding-left:20px;
+}
+table tr:first-child th:first-child {
+    -moz-border-radius-topleft:3px;
+    -webkit-border-top-left-radius:3px;
+    border-top-left-radius:3px;
+}
+table tr:first-child th:last-child {
+    -moz-border-radius-topright:3px;
+    -webkit-border-top-right-radius:3px;
+    border-top-right-radius:3px;
+}
+table tr {
+    text-align: center;
+    padding-left:20px;
+}
+table td:first-child {
+    text-align: left;
+    padding-left:20px;
+    border-left: 0;
+}
+table td {
+    padding:18px;
+    border-top: 1px solid #ffffff;
+    border-bottom:1px solid #e0e0e0;
+    border-left: 1px solid #e0e0e0;
+
+    background: var( --background-color );
+    /*background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));
+    background: -moz-linear-gradient(top,  #fbfbfb,  #fafafa);*/
+}
+table tr.even td {
+    background: var( --secondary-background-color );
+    /*background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#f6f6f6));
+    background: -moz-linear-gradient(top,  #f8f8f8,  #f6f6f6);*/
+}
+table tr:last-child td {
+    border-bottom:0;
+}
+table tr:last-child td:first-child {
+    -moz-border-radius-bottomleft:3px;
+    -webkit-border-bottom-left-radius:3px;
+    border-bottom-left-radius:3px;
+}
+table tr:last-child td:last-child {
+    -moz-border-radius-bottomright:3px;
+    -webkit-border-bottom-right-radius:3px;
+    border-bottom-right-radius:3px;
+}
+table tr:hover td {
+    background: var( --text-color );
+    color: var( --background-color );
+    /*background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#f0f0f0));
+    background: -moz-linear-gradient(top,  #f2f2f2,  #f0f0f0);	*/
+}
+
+table.permissions tr td p {
+    cursor: pointer;
 }
 
 </style>

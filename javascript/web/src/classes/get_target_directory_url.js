@@ -9,7 +9,5 @@ const printf = console.log
 
 export default function get_target_directory_url() {
     let target_directory = ilse.target_directories[0]
-    printf( "target_directory-> ", target_directory )
-    printf( "get_protocol() -> ", get_protocol() )
     return `${get_protocol()}${ilse.target_directories[0]}/`
 }
