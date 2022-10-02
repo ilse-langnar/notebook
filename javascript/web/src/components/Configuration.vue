@@ -2,12 +2,12 @@
 .configuration( :key="$i18n.locale" )
 
     .all
-        .options( style="width: 20%; float: left;" )
+        .options( style="width: 12%; float: left;" )
             .item.flex( v-for="( option, index ) in options" :key="index" @click="selected = option.name" :style="get_option_style(option)" )
                 img( :src="get_img(option.img)" )
                 p( style="font-size: 0.7em; " ) &nbsp; &nbsp; {{ $t(option.name) }} 
             
-        .options-configuration( style="width: 80%; float: right;" :key="selected" )
+        .options-configuration( style="width: 85%; float: right;" :key="selected" )
             p.is-size-1( style="text-align: center;" ) {{ $t(selected) }}
 
             .general( v-if="selected === 'general' " )
@@ -87,9 +87,16 @@
 
 
 
-            .plugins( v-if="selected === 'marketplace' " )
-                .loop( v-for="( item, index ) in get_marketplace_items()" :key="index" )
-                    p {{item}}
+            .marketplace( v-if="selected === 'marketplace' " )
+                p( style="display: none;" ) {{set_marketplace_items()}}
+
+                .loop( v-for="( item, index ) in marketplace" :key="index" style="width: 30%; height: auto; overflow: hidden; border: 1px dashed var( --text-color ); border-radius: var( --border-radius ); float: left; margin-bottom: 5px; margin-left: 5px; " )
+                    p.is-centered {{item.name}}
+                    button.slick-button( style="position: relative; bottom: 1px;" @click="try_app(item)") demo
+                    details
+                        summary Description
+                        p {{item.description}}
+                    br
 
             .components( v-if="selected === 'components' " )
                 .loop( v-for=" ( type, index ) in ilse.types.types" :key="index" style="border: 1px solid #000; float: left; margin-left: 10px; padding: 14px; margin-bottom: 8px; border-radius: 10px; width: 30%; height: 200px; overflow: hidden;"  )
@@ -138,6 +145,7 @@ const printf                        = console.log;
     import add_permission                       from "@/classes/add_permission.js"
     import remove_permission                    from "@/classes/remove_permission.js"
     import has_permission                       from "@/classes/has_permission.js"
+    import create_window                        from "@/classes/create_window.js"
 
 export default {
 
@@ -149,6 +157,7 @@ export default {
             selected: "general",
             cache: null,
             items_with_tags: 0,
+            marketplace: [],
             options: [
                 { name: "general", img: "settings.svg" },
                 // { name: "typography", img: "typography.svg" },
@@ -173,13 +182,23 @@ export default {
 
     methods: {
 
-        async get_marketplace_items() {
-            let items = await fetch( "https://github.com/ilse-langnar/notebook/blob/dev/marketplace/brown-noise.html" )
-            printf( "items -> ", items )
-            let text  = await tems.text()
-            printf( "text -> ", text )
-            let json = JSON.parse(text)
-            return json
+        async try_app( item ) {
+            // printf( "res -> ", res )
+            // printf( "html -> ", html )
+            // create_window({ title: `${item.name} Demo`, url: item.url })
+
+            let res  = await fetch( item.url)
+            let html = await res.text()
+
+            await ilse.filesystem.file.write.async( "tmp.html", html )
+
+            create_window({ is_internal_and_iframe: true, title: `${item.name} Demo`, url: "tmp.html" })
+        },
+
+        async set_marketplace_items() {
+            let res   = await fetch( "https://raw.githubusercontent.com/ilse-langnar/notebook/dev/marketplace/marketplace.json")
+            let json  = await res.json()
+            this.marketplace = json
         },
 
         toggle_permission( name, permission ) {
@@ -593,6 +612,10 @@ table tr:hover td {
 
 table.permissions tr td p {
     cursor: pointer;
+}
+
+.marketplace .loop p.is-centered  {
+    text-align: center;
 }
 
 </style>
