@@ -62,6 +62,7 @@ class PluginManager {
         HTMLs.map( plugin => { this.run( plugin ) })
 
         this.set_global_plugin_api()
+        Messager.emit( "~plugin-manager", { action: "loaded" })
     }
 
     set_global_plugin_api() {
@@ -121,8 +122,11 @@ class PluginManager {
         let file    = await ilse.filesystem.file.read.async( name  )
         let HTML    = string_to_html( file )
 
-        let styles  = [...HTML.querySelectorAll( "style" )]
-        // styles.map( style => { printf( "style.innerHTML -> ", style.innerHTML ) })
+        let styles  = [...HTML.querySelectorAll( "style#theme" )]
+
+        styles.map( style => {
+            if( style.innerText ) ilse.themes.render( style.innerText, name )
+        })
 
         let scripts = [...HTML.querySelectorAll( "script#plugin" )]
 
@@ -175,8 +179,7 @@ class PluginManager {
                 }
 
             }
-
-            eval( script.innerHTML )
+            if( script.innerText ) eval( script.innerText )
         })
 
         // setInterval( () => { Messager.emit( "plugin", { number: Math.random() } ) }, 2000 )

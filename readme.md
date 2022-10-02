@@ -20,6 +20,8 @@ Try the online [Demo](https://ilse-langnar.github.io/notebook/demo/index.html) o
 
 If anything goes wrong, please open a [Issue](https://github.com/ilse-langnar/notebook/issues/new).
 
+<img style="width: 100%;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/first-screenshot.svg" />
+
 <h2 align="center" > Why  </h2>
 To augment human cognition with memory, references and tools.
 

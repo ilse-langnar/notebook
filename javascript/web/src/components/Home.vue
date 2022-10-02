@@ -6,8 +6,8 @@
 
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded" :key="ilse.key" :data-theme="ilse.config.dark ? 'dark' : 'light' " :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
 
-        .status-line( style="position: fixed; bottom: 0%; width: 98%; left: 2%; height: 20px; background: var( --background-color ); " )
-            p qdwpiodwq
+        .status-line( style="position: fixed; bottom: 0%; width: 98%; left: 2%; height: 20px; background: var( --background-color ); z-index: 1; " )
+            p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
         .flex( :key="key" )
             .flexi.apps-bar

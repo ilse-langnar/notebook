@@ -6,6 +6,10 @@ const printf                        = console.log
 // Messager
     import Messager                     from "@/classes/Messager.js"
 
+// Constants
+    import DEFAULT_THEME                     from "@/classes/DEFAULT_THEME.js"
+
+/*
 let DEFAULT_THEMES = [
     {
         css: `:root, .ilse[data-theme='light'] {
@@ -49,20 +53,21 @@ let DEFAULT_THEMES = [
 
     }
 ]
+*/
+
 export default class Theme {
 
     constructor( ilse ) {
 
         this.themes   = []
-        this.active   = {}
-        this.snippets = []
+        // this.active   = {}
+
 
         this.listen()
-        setTimeout( () => {
-            this.setup( ilse )
-        }, 100 )
+        // setTimeout( () => { this.setup( ilse ) }, 100 )
     }
 
+    /*
     apply_default_theme() {
 
         ilse.config.active_theme = ""
@@ -70,7 +75,9 @@ export default class Theme {
             this.add_style( theme.css, theme.id )
         })
     }
+    */
 
+    /*
     setup( ilse ) {
 
         if( ilse.config.active_theme ) {
@@ -82,6 +89,7 @@ export default class Theme {
         }
 
     }
+    */
 
     add({ id, name, css, files }) {
 
@@ -98,13 +106,15 @@ export default class Theme {
 
     }
 
-    save( note ) {
-        ilse.config.active_theme = note.id
+    save( name ) {
+        ilse.config.active_theme = name
     }
 
+    /*
     clean() {
         document.querySelectorAll('.theme').forEach(e => e.remove());
     }
+    */
 
     apply( note ) {
 
@@ -118,11 +128,12 @@ export default class Theme {
 
         this.save( note )
 
-        this.clean()
+        // this.clean()
 
         this.add_style(css, note.id)
     }
 
+    /*
     add_style( css, id ) {
 
         const style         = document.createElement( 'style' )
@@ -134,6 +145,7 @@ export default class Theme {
 
         ilse.config.save()
     }
+    */
 
     get( id ) {
 
@@ -147,6 +159,7 @@ export default class Theme {
 
     }
 
+    /*
     un_render( note  ) {
 
         // === Remove from style === //
@@ -168,23 +181,27 @@ export default class Theme {
         // == Remove from snippets == //
 
     }
+    */
 
-    render( css, note ) {
+    unrender( name ) {
+
+        let child     = document.getElementById( `css-${name}` )
+        let has_child = child && child.remove
+            if( has_child ) child.remove()
+    }
+
+    render( css, name ) {
 
         // == Add to body == //
         const style         = document.createElement('style')
             style.textContent   = css
-            style.id            = `css-${note.id}`
+            style.id            = `css-${name}`
 
         document.body.appendChild( style )
-        // == Add to body == //
-
-
-        // == Add to snippets == //
-        this.snippets.push({ css, note })
-        // == Add to snippets == //
+        this.themes.push({ css, name })
     }
 
+    /*
     // give note, it'll extract the ```css ```
     get_css_from_note( note ) {
 
@@ -197,7 +214,9 @@ export default class Theme {
 
         return note.tagless
     }
+    */
 
+    /*
     check_has_snippet_changed( note ) {
 
         let has_changed_note_with_rendered_snippet
@@ -226,7 +245,30 @@ export default class Theme {
         }
 
     }
+    */
 
+
+    listen() {
+
+        printf( "Themes.js -> listen -> " )
+        Messager.on( "~plugin-manager", payload => {
+
+            printf( "Themes.js -> listen -> payload -> ", payload  )
+
+            if( payload.action === "loaded" ) {
+                printf( "Themes.js -> listen -> payload -> @@@@!!! ", payload  )
+                let has_loaded_any_style = !!this.themes.length
+                printf( "this.themes.length -> ", this.themes.length )
+                printf( "has_loaded_any_style -> ", has_loaded_any_style )
+                if( !has_loaded_any_style ) {
+                    this.render( DEFAULT_THEME, "default" )
+                }
+            }
+
+        })
+    }
+
+    /*
     listen() {
 
         Messager.on( "~note.vue", ( action, payload ) => {
@@ -250,5 +292,6 @@ export default class Theme {
         })
 
     }
+    */
 
 }
