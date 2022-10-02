@@ -3,7 +3,7 @@
 <h2 align="center" > Memoirs of a Recon Corps Member </h2>
 
 <p align="center">
-  <img src="https://github.com/ilse-langnar/notebook/blob/dev/markdown/ilse.jpeg" alt="Ilse"/>
+  <img src="https://github.com/ilse-langnar/notebook/blob/dev/docs/ilse.jpeg" alt="Ilse"/>
 </p>
 <br/>
 
@@ -20,7 +20,7 @@ Try the online [Demo](https://ilse-langnar.github.io/notebook/demo/index.html) o
 
 If anything goes wrong, please open a [Issue](https://github.com/ilse-langnar/notebook/issues/new).
 
-<img style="width: 100%;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/first-screenshot.svg" />
+<img style="width: 100%;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/first-screenshot.png" />
 
 <h2 align="center" > Why  </h2>
 To augment human cognition with memory, references and tools.
