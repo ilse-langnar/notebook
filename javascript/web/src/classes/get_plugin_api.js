@@ -17,6 +17,11 @@ export default function get_plugin_api( name ) {
 
         notes: has_permission( name, 'notes' )  ? ilse.notes  : null,
 
+        clipboard: {
+            read:   has_permission( name, 'clipboard' )  ? ilse.clipboard.read  : null,
+            write:  has_permission( name, 'clipboard' )  ? ilse.clipboard.write : null,
+        },
+
         fs: {
             existsSync:    has_permission( name, 'read' )  ? ilse.filesystem.file.exists.sync  : null,
             exists:        has_permission( name, 'read' )  ? ilse.filesystem.file.exists.async : null,

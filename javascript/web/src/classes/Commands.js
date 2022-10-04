@@ -404,20 +404,6 @@ class Commands {
             */
 
             {
-                id: "list-projects",
-                fn: async function() {
-                    let list = await ilse.filesystem.dir.list.async( "projects/" )
-                    ilse.dialog.listing( "Files", "/", list, async selected =>{
-                        printf( "selected -> ", selected )
-
-                    })
-                },
-                description: "Will list your projects",
-                name: "List Projects",
-                props: {},
-            },
-
-            {
                 id: "toggle-menu",
                 fn: async function() {
 
@@ -444,44 +430,6 @@ class Commands {
                 },
                 description: "Will add if it's not there, will remove if it's there",
                 name: "Toggle Menu",
-                props: {},
-            },
-
-            {
-                id: "search-files",
-                icon: "lupe.svg",
-                fn: async function() {
-                    let list = await ilse.filesystem.dir.list.async( "/" )
-                    let is_file, file
-
-                    // function show_list( title, description path, list, fn )
-                        // ilse.dialog.listing( title, description, list, fn )
-                    // }
-
-                    ilse.dialog.listing( "Files", "/", list, async selected => {
-
-                        is_file = await ilse.filesystem.file.is.async( selected )
-
-                        if( is_file ) {
-                            file    = await ilse.filesystem.file.read.async( selected )
-                            ilse.dialog.info( `File: ${selected}`, file )
-                        } else {
-
-                            printf( "selected -> ", selected )
-                            list = await ilse.filesystem.dir.list.async( `/${selected}` )
-                            printf( ">>> list -> ", list )
-
-                            ilse.dialog.listing( "Files", `/${selected}`, list, async selected_2 => {
-                                printf( ">>> selected_2 -> ", selected_2 )
-                            })
-
-                        }
-
-                    })
-
-                },
-                description: "Will search the files for the first brain",
-                name: "Search files",
                 props: {},
             },
 

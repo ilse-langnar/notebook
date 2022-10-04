@@ -36,7 +36,7 @@
 
             .themes( v-if="selected === 'themes' " )
                 p 
-                p {{ilse.themes.themes}}
+                p {{ilse.themes.list}}
                 // .centered
                     img( :src="irequire.img('paint.svg')" :title="$t('apply')" alt="Apply" @click="ilse.themes.apply_default_theme()" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --text-color ); border-radius: var( --border-radius ); padding: var( --padding );" )
                 .loop( v-for="( note, index ) in ilse.notes.query('#i/theme/')" :key="index" )
@@ -48,8 +48,14 @@
 
             .permissions( v-if="selected === 'permissions' " )
 
-                p {{ilse.config.apps}}
-                table.permissions
+                .loop( v-for="( item, index ) in get_list_of_html_files()" :key="index" )
+                    br
+                    span.is-pulled-left {{item}} (
+                    span.is-pulled-left( v-for="( _item, _index ) in ilse.PERMISSIONS" :key=" '-' + _index" :style="has_permission( item, _item ) ? 'color: #60963D;' : 'color: #ED7586;' " @click="toggle_permission( item, _item )" ) {{_item}} &nbsp;
+                    span )
+                    br
+
+                // table.permissions
                     tr
                         th Name
                         th Read Permission

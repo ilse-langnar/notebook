@@ -40,7 +40,7 @@ This program defines a couple of base "features" that be combined with each othe
 
 <details>
     <summary align="center" >
-        <h2 align="center" > More </h2>
+        <h2 align="center" > <a href="https://ilse-langnar.github.io/notebook/" > More </a> </h2>
     </summary>
 
 | Platform         | How     | Gif |
@@ -66,27 +66,7 @@ This program defines a couple of base "features" that be combined with each othe
 
 </details>
 
-<details>
-    <summary align="center" >
-        <h2 align="center" > Screenshots </h2>
-    </summary>
-
-<img loading="lazy" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-15.png" />
-<img loading="lazy" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-16.png" />
-<img loading="lazy" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-17.png" />
-<img loading="lazy" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-2.png" />
-<img loading="lazy" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-13.png" />
-<img loading="lazy" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/ilse-screenshot-14.png" />
-
-</details>
-
-<details>
-    <summary align="center" >
-        <h2 align="center" > Features </h2>
-    </summary>
-
-
-| Feature         | Explanation     | Visual |
+<!-- | Feature         | Explanation     | Visual |
 |--------------|-----------|------------|
 | Dark Mode              | You can have different styles and they can have a light and a dark mode, if you download a theme, you can toggle dark mode with `C-SPC d d` or executing the "toggle-dark-mode" command | ![Dark Mode](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-dark-mode.gif) | 
 | Zen Mode                | Allows you to focus on a single component and forget about anything else. | ![Zen Mode](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-zen-mode.gif) | 
@@ -112,33 +92,9 @@ This program defines a couple of base "features" that be combined with each othe
 | Right/Left Sidebar |  You can put anything you want there with quick access | ![Right Sidebar](https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/feature-right-sidebar.gif) | 
 | Zettelkasten | We don't use directories and you have access to links to link a note to a file or to another note. | |
 | Inline Embeds | You can use {{}} to embed things such as: Queries, todos, tags, word-count, timer and more! | |
-| Drag & Drop | Drag and Drop either notes, media or other. | |
+| Drag & Drop | Drag and Drop either notes, media or other. | |-->
 
-</details>
-
-
-<details>
-    <summary align="center" >
-        <h2 align="center" > Standing on the shoulders of giants  </h2>
-    </summary>
-    <img loading="lazy" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/improves-on.png"  />
-
-| Program         | Feature     | Explanation | Explanation |
-|--------------|-----------|------------|------------|
-| SpaceMacs       | SPC (key) | You can start listening to "brown noise" from ilse with `C-SPC t s b` the "C-SPC" means "control+space" then t s b, in complete it would be: ctrl+space t s b |
-| Roam Research   | Outline | We have an outline similar to that of [Roam Research](https://roamresearch.com/)  So you can nest bullets down with no problems|
-| Anki            | Spaced Repetition | |
-| Supermemo       | Incremental Reading | |
-| Supermemo       | Incremental Learning | |
-| Obsidian        | Plugins | |
-
-</details>
-
-<details>
-    <summary align="center" >
-        <h2 align="center" > Contribute </h2>
-    </summary>
-
+<h2 align="center" > Contribute </h2>
 | Way         | Explanation     | Value |
 |--------------|-----------|------------|
 | Opening an issue    | If you have a question or something is wrong, you can [open a issue](https://github.com/ilse-langnar/notebook/issues/new)  so we can figure itt out. | Medium |
@@ -155,7 +111,5 @@ This program defines a couple of base "features" that be combined with each othe
 | Join Discord | I'll post updates, ideas, plugins, themes, snippets, commands screenshots and more. https://discord.gg/9BVx8YHr | Medium |
 | Fix a bug yourself | Modify the code and then do a push into the `dev` branch, I'll later move it to more stable branches. | High |
 | Become smarter| That's the final goal here, the final goal is better thinking. | Inifinity |
-
-</details>
 
 <br>

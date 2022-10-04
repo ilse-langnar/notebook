@@ -13,7 +13,7 @@ export default class Theme {
 
     constructor( ilse ) {
 
-        this.themes   = []
+        this.list     = []
         this.ilse     = ilse
 
         this.setup()
@@ -33,7 +33,7 @@ export default class Theme {
             files,
         }
 
-        this.themes.push( theme )
+        this.list.push( theme )
 
         return theme
 
@@ -60,7 +60,7 @@ export default class Theme {
 
     get( id ) {
 
-        let themes = this.themes
+        let themes = this.list
 
         for( const _theme of themes ) {
             if( id === _theme.id ) return _theme
@@ -84,7 +84,7 @@ export default class Theme {
             style.id            = `css-${name}`
 
         document.body.appendChild( style )
-        this.themes.push({ css, name })
+        this.list.push({ css, name })
     }
 
     apply_default_theme() {

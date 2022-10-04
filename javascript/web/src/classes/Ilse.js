@@ -15,7 +15,6 @@ const printf                        = console.log
     import Files                        from "@/classes/Files.js"
     import Markdown                     from "@/classes/Markdown.js"
     import Electron                     from "@/classes/Electron.js"
-    import PanSVG                       from "@/classes/PanSVG.js"
     import Cache                        from "@/classes/Cache.js"
     import Embeds                       from "@/classes/Embeds.js"
     import IlseRequire                  from "@/classes/IlseRequire.js"
@@ -52,6 +51,7 @@ const printf                        = console.log
     import DEMO_NOTES                    from "@/classes/DEMO_NOTES.js"
     import SUPPORTED_LANGUAGES           from "@/classes/SUPPORTED_LANGUAGES.js"
     import CORE_PLUGINS                  from "@/classes/CORE_PLUGINS.js"
+    import PERMISSIONS                   from "@/classes/PERMISSIONS.js"
 
 // libs
 // import { JSFrame } from 'jsframe.js';
@@ -69,6 +69,7 @@ export default class Ilse {
         this.SUPPORTED_LANGUAGES    = SUPPORTED_LANGUAGES
         this.DEMO_NOTES             = DEMO_NOTES
         this.CORE_PLUGINS           = CORE_PLUGINS
+        this.PERMISSIONS            = PERMISSIONS
 
         // this.u_html                 = uHTML
         this.components             = []
@@ -96,8 +97,8 @@ export default class Ilse {
         this.env                    = process.env
         this.platform               = process.env.VUE_APP_TARGET.toLowerCase()
 
-        // this.classes                = { Component, Note, PanSVG }
-        this.classes                = { Note, PanSVG }
+        // this.classes                = { Component, Note }
+        this.classes                = { Note }
 
         // utils?
         this.path                   = path

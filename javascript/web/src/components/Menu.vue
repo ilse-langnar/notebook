@@ -10,7 +10,6 @@
 
         br
 
-
         // .search-result( v-if="query && query.length >= 5" style="position: relative; top: 10px; " )
             p {{ilse.notes.query(query)}}
     // @ img.img.is-pulled-right( :src="irequire.img('arrow-narrow-left.svg')" @click="toggle_menu()" )
@@ -25,33 +24,7 @@
     br
     br
 
-    // Collapsables
-    // details
-        summary #favorite
-        .favorites( v-for="( item, index ) in ilse.notes.query('#favorite')" ) 
-            Notes( :note="item" @on-link-click="on_note_link_click" :options="{}" )
-
-    // details
-        summary Book
-        .loopl( v-for="( note, ref_index ) in ilse.notes.query( '.html' )" :key="'book' + ref_index" ) 
-            Notes( v-if="note.content.indexOf('![[') !== -1 " :note="note" :options="{}" )
-
-    // details
-        summary Starred
-        .favorites( v-for="( item, index ) in ilse.config.favorites" @click="on_favorite_click(item)" ) 
-            p.link [[{{item}}]]
-
-    // details.filesystem
-        summary Filesystem
-        p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-    // .loopl( v-for="( item, index ) in get_favorites()" ) 
-
-        .file-referencel( v-for="( file, file_reference_index ) in ilse.notes.get_file_references(item.content)" :keu="'file-reference-index' + index" )
-            details
-                summary {{file.split("|")[1].replace("]]", "")}}
-                .loopl( v-if="note.content.indexOf('#favorite') === -1 " v-for="( note, ref_index ) in ilse.notes.query(  file.split('|')[0].replace( '![[', '') )" :key="'search' + ref_index" ) 
-                    Notes( :note="note" :options="{}" )
+    Favorites
 
 </template>
 <script>
@@ -67,9 +40,7 @@ const printf                        = console.log;
 // Components
     import Notes                        from "@/components/Notes.vue"
     import RandomNote                   from "@/components/RandomNote.vue"
-
-    import Dropdown from 'vue-simple-search-dropdown';
-
+    import Favorites                    from "@/components/Favorites.vue"
 
 // Functions
     import add_component                from "@/classes/add_component.js"
@@ -83,7 +54,7 @@ export default {
     components: {
         Notes,
         RandomNote,
-        Dropdown,
+        Favorites,
     },
 
     watch: {

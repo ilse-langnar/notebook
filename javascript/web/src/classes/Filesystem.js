@@ -61,10 +61,11 @@ export default class Filesystem {
         // await this.create_default_dirs()
         // await this.create_default_dirs()
         // await this.create_default_plugin_dir()
-        setTimeout( () => { this.test() }, 3000 )
+        // setTimeout( () => { this.test() }, 3000 )
         this.loaded()
     }
 
+    /*
     async test() {
 
         if( process.env.VUE_APP_TARGET === "QUINE" ) {
@@ -73,6 +74,7 @@ export default class Filesystem {
         }
 
     }
+    */
 
     /*
     async create_default_plugin_dir() {

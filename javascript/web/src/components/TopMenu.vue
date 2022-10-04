@@ -26,11 +26,6 @@
     .menu-item( @drop="on_app_drop" :key="ilse.keys['home']")
         img.app( v-for="( item, index ) in ilse.config.apps" :key="index" :src="get_icon(item)" @click="select_app($event, item)" :style="get_app_icon_style(item)" :title="item" )
 
-        // input( placeholder="&#128269;" )
-        // img( :src="irequire.img('lupe.svg')" style="cursor: pointer; vertical-align: sub; width: 30px; " :title="$t('delete_app')" )
-        // SearchButton( :width="50" :should-autofocus="false" @on-result-select="on_note_search_on_result_select" )
-        // Gene( component="SearchButton.html" @SearchButton="on_search_button" )
-
     .menu-item
         img( :src="irequire.img('command.svg')" style="cursor: pointer; width: 20px;" :title="$t('open_command_pallet')" alt="$t('open_command_pallet')" @click="toggle_command_pallet" )
         .margin-small
@@ -61,12 +56,6 @@ const printf                        = console.log;
 // Messager
     import Messager                     from "@/classes/Messager.js"
 
-// Components
-    import SearchButton                 from "@/components/SearchButton.vue"
-
-// Components
-    import Gene                         from "@/components/Gene.vue"
-
 // functions
     import string_to_html               from "@/classes/string_to_html.js"
     import get_html_favicon             from "@/classes/get_html_favicon.js"
@@ -82,11 +71,6 @@ export default {
             ilse: ilse,
             has_first_brain_tools: false,
         }
-    },
-
-    components: {
-        SearchButton,
-        Gene,
     },
 
     methods: {
