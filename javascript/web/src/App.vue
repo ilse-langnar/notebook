@@ -251,11 +251,12 @@ input[type=range]::-webkit-slider-runnable-track  {
 
 
 /* ![[Ilse]] */
-.file-embed {
+.html-embed {
     margin-left: 10px;
     border: 1px solid var( --text-color );
     border-radius: var( --border-radius );
     padding: var( --padding );
+    border: 1px solid #000;
 }
 
 .cloze-deletion {

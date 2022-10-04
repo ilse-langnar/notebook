@@ -52,6 +52,7 @@ const printf                        = console.log
     import SUPPORTED_LANGUAGES           from "@/classes/SUPPORTED_LANGUAGES.js"
     import CORE_PLUGINS                  from "@/classes/CORE_PLUGINS.js"
     import PERMISSIONS                   from "@/classes/PERMISSIONS.js"
+    import HTML_TEMPLATE                 from "@/classes/HTML_TEMPLATE.js"
 
 // libs
 // import { JSFrame } from 'jsframe.js';
@@ -70,6 +71,7 @@ export default class Ilse {
         this.DEMO_NOTES             = DEMO_NOTES
         this.CORE_PLUGINS           = CORE_PLUGINS
         this.PERMISSIONS            = PERMISSIONS
+        this.HTML_TEMPLATE          = HTML_TEMPLATE
 
         // this.u_html                 = uHTML
         this.components             = []

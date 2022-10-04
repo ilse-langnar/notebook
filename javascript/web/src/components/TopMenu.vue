@@ -2,7 +2,7 @@
 .top-menu
     .menu( v-if="!ilse.is_zen" style="width: 100%; display: flex; padding: 0.3em 0.5em; " )
 
-        .menu-item( :key="ilse.keys['home']" )
+        .menu-item( :key="ilse.keys['home'] || 0" )
             img.app-icon( v-for="( item, index ) in ilse.config.apps" :key="index" :src="get_icon(item)" @click="select_app($event, item)" :style="get_app_icon_style(item)" :title="item" )
 
         .menu-item

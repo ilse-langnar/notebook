@@ -3,6 +3,9 @@ const printf = console.log
 // Ilse
     import ilse                         from "@/ilse.js"
 
+// classes
+    import MessagerFactory             from "@/classes/MessagerFactory.js"
+
 // functions
     import string_to_html               from "@/classes/string_to_html.js"
     import create_window                from "@/classes/create_window.js"
@@ -11,11 +14,25 @@ const printf = console.log
 
 export default function get_plugin_api( name ) {
 
+    const Messager = new MessagerFactory()
+
+    Messager.on( "message", payload => {
+        printf( "get_plugin_api -> payload -> ", payload )
+    })
+
     const api = {
 
         // Messager: Messager,
 
-        notes: has_permission( name, 'notes' )  ? ilse.notes  : null,
+        notes: has_permission( name, 'notes' )  ? ilse.notes : null,
+
+        messager: {
+            // on:   has_permission( name, 'communication' ) ? Messager.on   : null,
+            // emit: has_permission( name, 'communication' ) ? Messager.emit : null,
+
+            on:   Messager.on.bind(Messager),
+            emit: Messager.emit.bind(Messager),
+        },
 
         clipboard: {
             read:   has_permission( name, 'clipboard' )  ? ilse.clipboard.read  : null,

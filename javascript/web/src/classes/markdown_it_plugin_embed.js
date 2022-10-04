@@ -53,48 +53,24 @@ export default {
             return `<iframe src="${url}" frameBorder="0" style="width: 100%;" > </iframe>`
         } else if( is_html ) {
 
+            printf( "is_html -> url -> ", url )
             let exists = ilse.filesystem.file.exists.sync( url )
+
             if( exists ) {
-                    return `<embed src="${get_target_directory_url()}${url}" data-event-click="on_click" data-prop-label="Exampleeee" style="height: ${size ? size : 30}vh; width: 100%; overflow: hidden;" /> `
-
-                // let html      = ilse.filesystem.file.read.sync( url )
-                // function string_to_base64( str, type = "text/html" ) {
-                    // let utf8Bytes = encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function (match, p1) {
-                        // return String.fromCharCode('0x' + p1);
-                    // })
-                    // return `data:${type};base64,` + btoa( utf8Bytes )
-                // }
-
-                // in the HTML, I need to recursively go down and transform them into base64?
-                // let base64 = string_to_base64( html )
-                // let dom    = string_to_html( html )
-
-                // let base   = document.createElement( "base" )
-                    // base.href  = target_dir + "/"
-                    // dom.head.appendChild( base )
-                // base64     = string_to_html( dom.documentElement.innerHTML )
-
-                // if( is_electron ) return `<embed src="atom://${target_dir}/${url}" style="height: 100%; width: 100%; position: relative; display: inline-block; " /> `
-
-                // let base64      = recursively_transform_embed_url_src_into_base64( url )
-
-                // if( is_electron ) {
-
-                    // window.addEventListener( "storage", storage => { printf( "markdown_it_plugin_embed -> storage -> ", storage ) })
-                    // return `<embed src="${base64}" style="height: ${size ? size : 30}vh; width: 100%; overflow: hidden;" /> `
-                    // printf( "LLL>>>>>>>> ilse.u_html -> ", ilse.u_html )
-                    // let id = Math.random().toString().replace( "0.", "" )
-                    // setTimeout( () =>{ let dom = document.getElementById(id) ilse.u.scan( dom ) }, 1000 )
-                    // if( is_electron && is_dev() ) return `<embed src="app://${target_dir}/${url}" data-event-click="on_click" data-prop-label="Exampleeee" style="height: ${size ? size : 30}vh; width: 100%; overflow: hidden;" /> `
-                    // if( is_electron && !is_dev() ) return `<embed src="atom://${target_dir}/${url}" data-event-click="on_click" data-prop-label="Exampleeee" style="height: ${size ? size : 30}vh; width: 100%; overflow: hidden;" /> `
-                    // if( !is_electron ) return `<embed src="file://${target_dir}/${url}" data-event-click="on_click" data-prop-label="Exampleeee" style="height: ${size ? size : 30}vh; width: 100%; overflow: hidden;" /> `
-
-                // } else {
-                    // return `<embed src="file:///${ilse.path.join(target_dir, url)}" style="height: 100%; width: 100%; position: relative; display: inline-block; " /> `
-                // }
+                return `<iframe class="html-embed" src="${get_target_directory_url()}${url}" data-event-click="on_click" data-prop-label="Exampleeee" style="height: ${size ? size : 30}vh; width: 100%; overflow: hidden;" > </iframe>`
 
             } else {
-                return `<span> The file: ${url} does not exists ): </span>`
+                let has_html_template = ilse.filesystem.file.exists.sync( "html-template.html" )
+
+                if( has_html_template ) {
+                    let html_template = ilse.filesystem.file.read.sync( "html-template.html" )
+                    ilse.filesystem.file.write.sync( url, html_template.replace( /\$title/gi, url ) )
+                } else {
+                    ilse.filesystem.file.write.sync( url, ilse.HTML_TEMPLATE.replace( "@title@", url ).replace( "@body@", `<h1> ${url} </h1> ` ) )
+                }
+
+                // return `<embed class="html-embed" src="${get_target_directory_url()}${url}" data-event-click="on_click" data-prop-label="Exampleeee" style="height: ${size ? size : 30}vh; width: 100%; overflow: hidden;" /> `
+                return `<iframe class="html-embed" src="${get_target_directory_url()}${url}" data-event-click="on_click" data-prop-label="Exampleeee" style="height: ${size ? size : 30}vh; width: 100%; overflow: hidden;" > </iframe>`
             }
 
         } else if( is_file ) {

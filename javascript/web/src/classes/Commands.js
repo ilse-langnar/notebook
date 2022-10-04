@@ -877,59 +877,28 @@ class Commands {
             },
 
             {
+                id: "open-external-website-on-window",
+                fn: async function() {
+                    let payload   = await ilse.dialog.input( "Query", "Type:" )
+                    let full_path = payload.input
+                    create_window({ title: `${full_path}(Website)`, external: true, url: full_path })
+                },
+                description: "Will open a new query windows based on your choice(External).",
+                name: "Open External Website",
+                props: {},
+            },
+
+            {
                 id: "open-html-on-window",
                 fn: async function() {
-
-                    // let payload = await ilse.dialog.input( "Query", "Type:" )
-                    // printf( "payload -> ", payload )
-                    // let name    = payload.input
-                    // printf( "name -> ", name )
-                    // let file    = ilse.filesystem.file.read.sync( name + ".html" )
-                    // printf( "file -> ", file )
-
-                    // create_window({ title: name + ".html", html: file })
-                    // create_window({ title:  "Vim", url: `app://${ilse.target_directories[0]}/vim/index.html` })
-
-                    // let payload   = await ilse.dialog.input( "Query", "Type:" )
-                    // let full_path = payload.input
-
-                    // let file      = ilse.filesystem.file.read.sync( full_path + ".html" )
-                    // printf( "file -> ", file )
-                    // let html      = file
-                    // window.open( get_target_directory_url() + "iframe.html" )
-                    // let o = window.open(get_target_directory_url(), "lll", "popup");
-                    // printf( "o -> ", o )
-
-                    // const windowFeatures = "left=100,top=100,width=320,height=320";
-                    // const handle         = window.open( get_target_directory_url() + "iframe.html", "mozillaWindow", windowFeatures);
-                    // printf( "handle -> ", handle )
-                    // printf( "html.documentElement -> ", handle.documentElement )
-
-                    // let html             = html_to_string( handle )
-                    // printf( "html -> ", html )
-
 
                     let payload   = await ilse.dialog.input( "Query", "Type:" )
                     let full_path = payload.input
                     create_window({ title: `${full_path}(HTML)`, url: full_path })
 
-                    /*
-                    setTimeout( () => {
-                        printf( "window.frames -> ", window.frames )
-                        let frame = window.frames['ll']
-                        printf( "frame -> ", frame )
-                        frame.contentWindow.postMessage({ number: "LLL" } )
-                        printf( "frame.contentWindow -> ", frame.contentWindow )
-                        printf( "frame.document -> ", frame.document )
-                        printf( "frame.document.body -> ", frame.document.body )
-                        printf( "frame.document.body.innerHTML -> ", frame.document.body.innerHTML )
-                    }, 1000 )
-                    */
-                    // create_window({ title: "Component", url: `app://${ilse.target_directories[0]}/${full_path}.html` })
-
                 },
                 description: "Will open a new query windows based on your choice.",
-                name: "Open new Query",
+                name: "Open HTML",
                 props: {},
             },
 

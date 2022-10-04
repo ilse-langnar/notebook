@@ -12,7 +12,7 @@ export default function create_window({
     id              = Math.random().toString().replace("0.", ""),
     url,
     // is_internal_and_iframe = false,
-    local           = true,
+    external        = false,
     title           = "Title",
     appearanceName  = "yosemite",
     left            = 200,
@@ -27,7 +27,23 @@ export default function create_window({
 
     let frame
 
-    if( local ) {
+    printf( "external -> ", external )
+    if( external ) {
+
+        frame = ilse.frame.create({
+            title: title,
+            appearanceName: appearanceName,
+            left: left, top: top, width: width, height: height,
+            movable: movable, //Enable to be moved by mouse
+            resizable: resizable, //Enable to be resized by mouse
+            // html: html,
+            url: url,
+            // html: `<iframe src="${url}" style="width: 100%; height: 100%; overflow: hidden; background: #fff; " > /<iframe>`,
+            // url: url,
+        })
+
+    } else {
+
         frame = ilse.frame.create({
             title: title,
             appearanceName: appearanceName,
@@ -37,19 +53,7 @@ export default function create_window({
             html: `<iframe src="${get_target_directory_url()}${url}" style="z-index: 15; width: 100%; height: 100%; overflow: hidden; background: #fff; " > /<iframe>`,
             // url: url,
         })
-    } else {
 
-        frame = ilse.frame.create({
-            title: title,
-            appearanceName: appearanceName,
-            left: left, top: top, width: width, height: height,
-            movable: movable, //Enable to be moved by mouse
-            resizable: resizable, //Enable to be resized by mouse
-            html: html,
-            url: url,
-            // html: `<iframe src="${url}" style="width: 100%; height: 100%; overflow: hidden; background: #fff; " > /<iframe>`,
-            // url: url,
-        })
 
     }
 

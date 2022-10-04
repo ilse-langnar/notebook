@@ -156,7 +156,8 @@ class KeyboardShortcut  {
             // s
                 // { combo: "ctrl+space s s", command: "open-search-modal" },
                 { combo: "ctrl+space s g", command: "open-glyph-search" },
-                { combo: "ctrl+space s w", command: "open-website-on-window" },
+                { combo: "ctrl+space s w w", command: "open-website-on-window" },
+                { combo: "ctrl+space s w e", command: "open-external-website-on-window" },
                 { combo: "ctrl+space s h", command: "open-html-on-window" },
                 { combo: "ctrl+space s v", command: "open-vim" },
 

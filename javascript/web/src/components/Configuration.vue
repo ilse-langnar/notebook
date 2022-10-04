@@ -98,8 +98,9 @@
                 p( style="display: none;" ) {{set_marketplace_items()}}
 
                 .loop( v-for="( item, index ) in marketplace" :key="index" style="width: 30%; height: auto; overflow: hidden; border: 1px dashed var( --text-color ); border-radius: var( --border-radius ); float: left; margin-bottom: 5px; margin-left: 5px; " )
-                    p.is-centered {{item.name}}
+                    p.is-centered {{item.name}}({{item.id}})
                     button.slick-button( style="position: relative; bottom: 1px;" @click="try_app(item)") demo
+                    button.slick-button( style="position: relative; bottom: 1px;" @click="download_app(item)") download
                     details
                         summary Description
                         p {{item.description}}
@@ -181,10 +182,16 @@ export default {
 
     methods: {
 
+        async download_app( item ) {
+
+            printf( "it" )
+            // let res  = await fetch( item.url )
+            // let html = await res.text()
+
+            // await ilse.filesystem.file.write.async( item.name, html )
+        },
+
         async try_app( item ) {
-            // printf( "res -> ", res )
-            // printf( "html -> ", html )
-            // create_window({ title: `${item.name} Demo`, url: item.url })
 
             let res  = await fetch( item.url)
             let html = await res.text()

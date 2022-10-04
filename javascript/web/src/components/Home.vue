@@ -4,7 +4,7 @@
     .loading( v-if="!ilse.target_directories.length || !ilse.has_loaded " :key="ilse.key" )
         Setup
 
-    .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded" :key="ilse.key" :data-theme="ilse.config.dark ? 'dark' : 'light' " :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
+    .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded && has_apps()" :key="ilse.key" :data-theme="ilse.config.dark ? 'dark' : 'light' " :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
 
         TopMenu
 
@@ -84,6 +84,12 @@ export default {
     },
 
     methods: {
+
+        has_apps() {
+            if( !ilse || !ilse.config || !ilse.config.apps || !ilse.config.apps[0] ) return false
+            return true
+        },
+
 
         toggle_left_menu() {
             ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open
