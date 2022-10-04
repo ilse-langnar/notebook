@@ -48,6 +48,8 @@ class KeyboardShortcut  {
         document.addEventListener( "keydown", event => {
 
             let is_ctrl_space = event.ctrlKey && event.key === " "
+            let is_esc = event.key === "Escape"
+            if( is_esc ) Messager.emit( "~keyboard", {action: "keydown", key: "esc"} )
 
             if( is_ctrl_space ) {
                 let dom          = document.activeElement
@@ -101,6 +103,7 @@ class KeyboardShortcut  {
                 { combo: "ctrl+(", command: "void" },
                 { combo: "ctrl+.", command: "repeat-last-command" },
                 { combo: "ctrl+space shift+/", command: "new-note" },
+                { combo: "ctrl+space tab", command: "autocomplete" },
 
             // a
 
@@ -116,6 +119,7 @@ class KeyboardShortcut  {
             // e
 
             // f
+                { combo: "ctrl+space f f", command: "focus-quick-search" },
 
             // g
 
@@ -150,7 +154,7 @@ class KeyboardShortcut  {
                 { combo: "ctrl+space r r", command: "open-random-note" },
 
             // s
-                { combo: "ctrl+space s s", command: "open-search-modal" },
+                // { combo: "ctrl+space s s", command: "open-search-modal" },
                 { combo: "ctrl+space s g", command: "open-glyph-search" },
                 { combo: "ctrl+space s w", command: "open-website-on-window" },
                 { combo: "ctrl+space s h", command: "open-html-on-window" },

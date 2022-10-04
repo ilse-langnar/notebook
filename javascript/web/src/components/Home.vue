@@ -6,18 +6,13 @@
 
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded" :key="ilse.key" :data-theme="ilse.config.dark ? 'dark' : 'light' " :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
 
+        TopMenu
 
-        .status-line( style="position: fixed; bottom: 0%; width: 98%; left: 2%; height: 20px; background: var( --background-color ); z-index: 1; " )
-            p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        .app( :key="ilse.keys['home'] ? ilse.keys['home'] : 0" style="flex-basis: 100%; " )
+            iframe.external-app(   v-show="get_active_html() !== 'ilse.html' " :src="get_active_html()" )
+            Renderer(              v-show="get_active_html() === 'ilse.html' " :components="ilse.components" unique-key="home" )
 
-        .flex( :key="key" )
-            .flexi.apps-bar
-                .loop( v-for="( item, index ) in ilse.config.apps" :key="index" )
-                    img.app-icon( :src="get_icon(item)" @click="select_app(item)" :style="get_app_icon_style(item)" )
-
-            .flex.app( style="flex-basis: 100%; " )
-                iframe.external-app(   v-if="get_active_html() !== 'ilse.html' " :src="get_active_html()" )
-                Renderer(              v-if="get_active_html() === 'ilse.html' " :components="ilse.components" unique-key="home" )
+        StatusLine
 
         Modals
         Dialogs
@@ -41,10 +36,7 @@ const printf                                        = console.log;
     import Notifications    from "@/components/Notifications.vue"
     import Renderer         from "@/components/Components.vue"
     import Component        from "@/components/Component.vue"
-
-// libs
-    // import { JSFrame } from 'jsframe.js';
-
+    import StatusLine       from "@/components/StatusLine.vue"
 
 // functions
     import get_unique_date_id           from "@/classes/get_unique_date_id.js"
@@ -72,13 +64,14 @@ export default {
 
         Renderer,
         Component,
+        StatusLine,
     },
 
     data() {
         return {
             is_left_on: false,
             ilse: ilse,
-            key: Math.random(),
+            key: 0,
         }
     },
 
@@ -88,10 +81,13 @@ export default {
             return ilse.config.dark ? 'dark' : 'light'
         },
 
-
     },
 
     methods: {
+
+        toggle_left_menu() {
+            ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open
+        },
 
         get_app_icon_style( item ) {
             let name = ilse.config.apps[0]
@@ -132,8 +128,6 @@ export default {
             let url = get_target_directory_url() + name
             return url
 
-            // return file
-            // returnapps 
         },
 
         spawn() {
@@ -408,48 +402,10 @@ export default {
 </script>
 <style>
 
-/*
-:root,
-.ilse[data-theme='light'] {
-
-    --background-color: #fff;
-    --background-color: #E9E9E9;
-
-    --text-color: #4a4a4a;
-    --text-color: #BABABA;
-    --text-color: #717171;
-
-
-    --border: 1px solid #4a4a4a;
-    --border-radius: 6px;
-    --padding: 4px;
-}
-
-.ilse[data-theme="dark"] {
-
-    --background-color: #000;
-    --background-color: #212121;
-    --background-color: #181C20;
-    --background-color: #0E1011;
-
-    --background-color: #252a2cff;
-
-    --background-color: #131313ff;
-
-    --text-color: #fff;
-    --text-color: #F8F8F8;
-
-    --border: 2px solid #777;
-    --border-radius: 6px;
-    --padding: 4px;
-    --box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-*/
-
 .ilse  {
     color: var( --text-color );
     background: var( --background-color ) !important;
-    height: 100vh;
+    height: 97vh;
     overflow: hidden;
 }
 
@@ -462,12 +418,14 @@ export default {
 
 .app-icon {
     cursor: inline-block;
-    width: 40px;
+    width: 20px;
     cursor: pointer;  
+    margin-left: 5px;
 }
 
 .apps-bar {
     flex-basis: 2%;
+    margin-top: 5px;
     border: 1px dashed var( --text-color );
     height: 100vh;
     background: var( --background-color );
@@ -475,6 +433,9 @@ export default {
 
 .app {
     flex-basis: 100%; 
+    /*border: 1px solid #000;
+    overflow: hidden;
+    height: 90vh;*/
 }
 
 </style>

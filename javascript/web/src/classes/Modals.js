@@ -48,6 +48,13 @@ class Modals {
         })
 
         this.add({
+            id: "create-app",
+            name: "Create App",
+            component: ilse.types.get( "create-app" ),
+            props: {},
+        })
+
+        this.add({
             id: "empty",
             name: "name",
             component: ilse.types.get( "empty" ),

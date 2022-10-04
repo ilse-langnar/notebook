@@ -11,6 +11,7 @@ const printf                        = console.log
     import create_window                from "@/classes/create_window.js"
     import get_target_directory_url     from "@/classes/get_target_directory_url.js"
     import html_to_string               from "@/classes/html_to_string.js"
+    import get_plugin_api               from "@/classes/get_plugin_api.js"
 
 class Commands {
 
@@ -27,8 +28,9 @@ class Commands {
         this.set_default_commands()
     }
 
-    add_for_plugin({  id, name, icon, description, fn, props = {} }) {
+    add_for_plugin({  id, name, icon, source, description, fn, props = {} }) {
         props.is_plugin = true
+        props.source    = source
         this.add({ id, name, icon, description, fn, props })
     }
 
@@ -97,6 +99,7 @@ class Commands {
         if( !id ) throw new Error( "Commands.js -> run(<id>) <id> is not defined, it should be a string with the id of the command " )
 
         let command = this.get( id )
+        if( command.props.is_plugin ) window.ilse = get_plugin_api( command.props.source )
 
         if( command && command.fn ) {
             command.fn( args )
@@ -198,6 +201,28 @@ class Commands {
                 },
                 description: "Open Command Pallet Modal",
                 name: "Open Command Pallet Modal",
+                props: {},
+            },
+
+            {
+                id: "autocomplete",
+                fn: function() {
+                    printf( "autocomplete" )
+                    let dom = document.activeElement
+                        printf( "dom -> ", dom )
+                },
+                description: "Autocomplete for common names.",
+                name: "Autocomplete",
+                props: {},
+            },
+
+            {
+                id: "create-app",
+                fn: function() {
+                    ilse.modals.open( "create-app" )
+                },
+                description: "Create App for ilse",
+                name: "Create App",
                 props: {},
             },
 
@@ -938,7 +963,7 @@ class Commands {
 
                     let payload   = await ilse.dialog.input( "Query", "Type:" )
                     let full_path = payload.input
-                    create_window({ title: "HTML", id: "ll", html: full_path })
+                    create_window({ title: `${full_path}(HTML)`, url: full_path })
 
                     /*
                     setTimeout( () => {
@@ -968,6 +993,20 @@ class Commands {
                 },
                 description: "Will open vim in a floating window",
                 name: "Open Vim",
+                props: {},
+            },
+
+            {
+                id: "focus-quick-search",
+                fn: async function() {
+                    let dom   = document.getElementById( "quick-search" )
+                    if( dom ) {
+                        dom.focus()
+                        setTimeout( () => { dom.value = "" }, 1 )
+                    }
+                },
+                description: "Focus Quick Search",
+                name: "Focus Quick Search",
                 props: {},
             },
 

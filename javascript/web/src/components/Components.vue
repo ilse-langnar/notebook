@@ -1,11 +1,12 @@
 <template lang="pug" >
 .components-wrapper( style="width: 100%;" )
 
-    Component.top-menu( :component="get_menu()" :options="{ hide_bullet: true }" )
+    // Component.top-menu( :component="get_menu()" :options="{ hide_bullet: true }" )
 
     .components( style="display: flex; flex-direction: row;" :key="components_key" )
 
         Component.second-menu( v-show="!ilse.is_left_sidebar_open && !ilse.is_zen" :component="get_menu_component()" :options="{hide_bullet: true }" style="width: 20%; overflow: auto; " )
+        img( v-show="ilse.is_left_sidebar_open" :src="irequire.img('maximize.svg')" style="width: 20px; position: fixed; top: 1%; left: 5px; cursor: pointer; " @click="toggle_left_menu()" )
 
         // .component( v-if="ilse.frames.indexOf(component) === -1" v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
         .component( v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
@@ -172,6 +173,10 @@ export default {
     },
 
     methods: {
+
+        toggle_left_menu() {
+            ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open
+        },
 
         get_menu_component() {
             // let type = ilse.config.menu_component || "menu"

@@ -118,6 +118,7 @@ export default {
     border: 1px solid var( --text-color );
     border-radius: 10px;
     overflow: auto;
+    /*overflow: hidden;*/
     /*opacity: 0.9;*/
 }
 
@@ -129,6 +130,7 @@ export default {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    /*z-index: 1;*/
     /*z-index: 10;*/
 }
 
@@ -150,6 +152,7 @@ export default {
 .modal__content {
     flex-grow: 1;
     padding: 4px;
+    height: 100px;
 }
 
 .modal__footer {

@@ -126,9 +126,14 @@ export default {
     background-color: blue;
     border-radius: 20px;
     /*border: 3px solid orange;*/
-
     background-color: var( --text-color );
     border: 3px solid var( --background-color );
+}
+
+.second-menu {
+    background: var( --secondary-background-color );
+    color: var( --secondary-text-color );
+    border-radius: var( --border-radius );
 
 }
 

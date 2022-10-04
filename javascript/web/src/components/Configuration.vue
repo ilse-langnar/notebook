@@ -18,7 +18,12 @@
 
             .plugins( v-if="selected === 'plugins' " )
 
-                .loop( v-for="( note, index ) in ilse.notes.query('#i/plugin/')" :key="index" )
+                .loop( v-for="( note, index ) in ilse.plugin_manager.list" :key="index" )
+                    details
+                        summary {{note.name}}
+                        code {{note.code}}
+
+                // .loop( v-for="( note, index ) in ilse.notes.query('#i/plugin/')" :key="index" )
                     Notes( :note="note" :options="{ is_collapsed: true }" )
                     .space
 
@@ -30,7 +35,9 @@
                     img( :src="plugin.icon" )
 
             .themes( v-if="selected === 'themes' " )
-                .centered
+                p 
+                p {{ilse.themes.themes}}
+                // .centered
                     img( :src="irequire.img('paint.svg')" :title="$t('apply')" alt="Apply" @click="ilse.themes.apply_default_theme()" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --text-color ); border-radius: var( --border-radius ); padding: var( --padding );" )
                 .loop( v-for="( note, index ) in ilse.notes.query('#i/theme/')" :key="index" )
                     img.img.is-pulled-left( :src="irequire.img('paint.svg')" :title="('apply')" alt="Apply" @click="ilse.themes.apply( note )" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --background-color );" )
@@ -75,12 +82,6 @@
                                 th td example 2
                             tr
                                 img.img.is-pulled-left( :src="irequire.img('packge-export.svg')" alt="Export to clipboard" )
-            .css-snippets( v-if="selected === 'css-snippets' " )
-                .centered
-                .loop( v-for="( note, index ) in ilse.notes.query('#i/css')" :key="index" )
-                    Notes( :note="note" :options="{ hide_bullet: true }" )
-
-
             .templates( v-if="selected === 'templates' " )
                 .loop( v-for="( note, index ) in ilse.notes.query('#i/template/')" :key="index" )
                     Notes( :note="note" :options="{ is_collapsed: true }" )
@@ -97,12 +98,6 @@
                         summary Description
                         p {{item.description}}
                     br
-
-            .components( v-if="selected === 'components' " )
-                .loop( v-for=" ( type, index ) in ilse.types.types" :key="index" style="border: 1px solid #000; float: left; margin-left: 10px; padding: 14px; margin-bottom: 8px; border-radius: 10px; width: 30%; height: 200px; overflow: hidden;"  )
-                    p.is-size-4.centered {{type.name}} 
-                    img.img( :src="type.img" style="display: block; margin: 0 auto; width: 40px;" )
-                    // button.slick-button Select
 
             .languages( v-if="selected === 'languages' " )
                 // p {{$i18n}}
@@ -164,11 +159,9 @@ export default {
                 { name: "plugins", img: "plugin.svg" },
                 { name: "themes", img: "palette.svg" },
                 { name: "permissions", img: "shield-lock.svg" },
-                { name: "css-snippets", img: "brand-css3.svg" },
                 { name: "templates", img: "template.svg" },
                 { name: "marketplace", img: "building-store.svg" },
                 { name: "languages", img: "language.svg" },
-                { name: "components", img: "tech-box.svg" },
                 { name: "graph", img: "network.svg" },
                 { name: "keyboard_shortcut", img: "keyboard.svg" },
             ]
@@ -225,7 +218,7 @@ export default {
             let is_app   = index !== -1
 
             if( is_app ) {
-                ilse.config.apps.slice( index, 1 )
+                ilse.config.apps.splice( index, 1 )
                 ilse.notification.send( "Removed App(-): ", name )
             } else {
                 ilse.config.apps.push( name )
@@ -233,6 +226,7 @@ export default {
             }
 
             ilse.config.save()
+            ilse.keys['home'] = Math.random()
         },
 
         get_green_red_color_based_on_boolean( bool ) {
@@ -373,17 +367,6 @@ export default {
             try {
                 await ilse.dialog.confirm( "Delete this keyboard shortcut?", "Are you sure?" )
                 printf( "yes -> key -> ", key )
-            } catch( e ) {
-
-            }
-
-        },
-
-        async delete_snippet( snippet ) {
-
-            try {
-                await ilse.dialog.confirm( "Delete this CSS snippet?", "Are you sure?" )
-                printf( "yes -> snippet -> ", snippet )
             } catch( e ) {
 
             }

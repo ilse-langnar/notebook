@@ -5,7 +5,7 @@ const printf                        = console.log
     import Config                       from "@/classes/Config.js"
     import Utils                        from "@/classes/Utils.js"
     import Commands                     from "@/classes/Commands.js"
-    import Graph                        from "@/classes/Graph.js"
+    // import Graph                        from "@/classes/Graph.js"
     import Types                        from "@/classes/Types.js"
     import Tags                         from "@/classes/Tags.js"
     import Links                        from "@/classes/Links.js"
@@ -76,7 +76,7 @@ export default class Ilse {
 
         this.name                   = "Ilse Langnar's Notebook"
         this.key                    = "ilse-key"
-        this.keys                   = { daily_notes: "daily-notes-key" }
+        this.keys                   = { daily_notes: "daily-notes-key", home: 0 }
         this.languages              = Object.keys(SUPPORTED_LANGUAGES)
 
         // booleans
@@ -87,6 +87,8 @@ export default class Ilse {
         this.is_left_sidebar_open   = false
         this.is_right_sidebar_open  = false
         this.has_loaded             = false
+
+        this.is_left_menu_on        = true
 
         this.style                  = ""
 
@@ -194,7 +196,7 @@ export default class Ilse {
         this.markdown               = new Markdown()
 
         this.commands               = new Commands(this)
-        this.graph                  = new Graph()
+        // this.graph                  = new Graph()
         this.keyboard               = new KeyboardShortcut(this)
 
         // === Electron.js === //
@@ -236,48 +238,6 @@ export default class Ilse {
 
     }
 
-    set_dna() {
-
-        let dna     = require( "html-dna" ).default
-        printf( "window.dna -> ", window.dna )
-
-        window.dna.on( "ll", d => {
-            printf( "Ilse.js >>> d -> ", d )
-        })
-
-        setTimeout( () => {
-            window.dna.emit( "ll", Math.random() )
-        }, 5000 )
-
-        /*
-        window.dna = { // const dna = require("html-dna"); window.dna = dna
-
-            on: function( label, callback ) {
-                printf( "Ilse.js -> on" )
-                Messager.on( label, callback )
-            },
-
-            emit: function( label, payload ) {
-                printf( "Ilse.js -> emit" )
-                Messager.emit( label, payload )
-            },
-
-            example: function() {
-                printf( "example" )
-            },
-
-            export: function() {
-                printf( "export" )
-            },
-
-            import: function() {
-                printf( "import" )
-            },
-
-        }
-        */
-    }
-
     load_daily_notes() {
 
         let components      = this.components
@@ -298,7 +258,6 @@ export default class Ilse {
         this.loaded()
         this.load_daily_notes()
         this.is_zen                 = this.config.is_zen
-        // this.set_dna()
         // this.auto_save()
     }
 

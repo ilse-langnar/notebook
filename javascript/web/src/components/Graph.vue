@@ -1,5 +1,5 @@
 <template lang="pug" >
-.graph( tabindex="0" :ref="link" :id="link" :title="link" autofocus="autofocus" )
+// .graph( tabindex="0" :ref="link" :id="link" :title="link" autofocus="autofocus" )
     input.input.centered( v-model="component.props.file" style="width: 100%; background: var( --background-color ); color: var( --text-color ); width: fit-content; display: block; " )
     .layout( style="position: relative; top: 25px; right: 25px; z-index: 100; " )
         img.img.is-pulled-right( v-if="layouts[0] === 'cose'" :src="get_layout_image(layouts)" style="width: 30px; cursor: pointer;" :title="$t('cose_layout')" :style="get_layout_style('cose')" @click="select_next_layout()" )
@@ -24,10 +24,10 @@ const printf                        = console.log;
 // Libs
     // import createGraph                  from 'ngraph.graph'
     // import fcose                        from "cytoscape-fcose"
-    import cytoscape                    from "cytoscape/dist/cytoscape.min.js"
     // import qtip                         from "cytoscape-qtip";
     // import dagre                        from "cytoscape-dagre";
 
+    // import cytoscape                    from "cytoscape/dist/cytoscape.min.js"
 
 // Install Libraries
     // cytoscape.use( qtip )
@@ -229,6 +229,7 @@ export default {
 
             }
 
+            /*
             var cy                  = cytoscape({
 
                 container: document.getElementById('cy'), // container to render in
@@ -268,7 +269,6 @@ export default {
                             // 'height' : 'data(size)',
                             'width' : '40px',
                             'height' : '40px',
-                            /*'overflow': 'auto',*/
                             'border-color': 'black',
                             'text-background-opacity': 1,
                             'text-background-color': 'lightgray',
@@ -284,7 +284,6 @@ export default {
                             // 'label': 'data(id)',
                             // 'label': 'data(name)',
                             'label': 'data(label)',
-                            /*'label': 'data(node)',*/
                         }
                     },
 
@@ -304,18 +303,16 @@ export default {
 
 
                 layout: {
-                    /*
-                    name: this.layouts[0], // grid, circle, concentric, breadthfirst, cose, 
+                    // name: this.layouts[0], // grid, circle, concentric, breadthfirst, cose, 
 
-                    padding: 10,
-                    nodeDimensionsIncludeLabels: true,
-                    idealEdgeLength: 100,
-                    edgeElasticity: 0.1,
+                    // padding: 10,
+                    // nodeDimensionsIncludeLabels: true,
+                    // idealEdgeLength: 100,
+                    // edgeElasticity: 0.1,
 
-                    rows: this.rows,
-                    columns: 10,
-                    cols: 10,
-                    */
+                    // rows: this.rows,
+                    // columns: 10,
+                    // cols: 10,
 
                     name: this.layouts[0], // grid, circle, concentric, breadthfirst, cose, 
                     fit: true,
@@ -342,6 +339,7 @@ export default {
                 }
 
             })
+            */
 
             /*
             cy.layout({

@@ -1,44 +1,51 @@
 <template lang="pug" >
 .menu
 
-    // Buttons
+    .flex( style="border-radius: var( --border-radius ); " )
+        img( :src="irequire.img('lupe.svg')"    )
+
+        input.input.search#quick-search( v-model="query" list="list" @keydown.enter="search = query" @keydown.esc="on_input_keydown_esc" )
+        .search-result( v-if="(search && query) && (search === query)" style="position: absolute; top: 90px; left: 0%; width: 80%; border: 1px solid #000; background: #fff; overflow: hidden; height: 80vh; z-index: 5; overflow-y: scroll; resize: right; " )
+            Notes( v-for="( item, index ) in ilse.notes.query( search )" :key="'notes-' + index" :note="item" :options="{}" )
+
+        br
+
+
+        // .search-result( v-if="query && query.length >= 5" style="position: relative; top: 10px; " )
+            p {{ilse.notes.query(query)}}
+    // @ img.img.is-pulled-right( :src="irequire.img('arrow-narrow-left.svg')" @click="toggle_menu()" )
+    br
+    br
+
     .buttons
-        .flex( @click="add_daiyl_notes" )
+        .flex( @click="add_daiyl_notes" style="border-radius: var( --border-radius );" )
             img( :src="irequire.img('calendar.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('daily_notes')" )
             span.item Daily Notes
-
-        // .flex( @click="toggle_first_brain" )
-            img( :src="irequire.img('school.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('study')" )
-            span.item Study
-
-        // .flex( @click="open_dashboard" )
-            img( :src="irequire.img('dashboard.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('open_dashboard')" )
-            span.item Dashboard
 
     br
     br
 
     // Collapsables
-    /// details
+    // details
         summary #favorite
         .favorites( v-for="( item, index ) in ilse.notes.query('#favorite')" ) 
             Notes( :note="item" @on-link-click="on_note_link_click" :options="{}" )
 
-    details
+    // details
         summary Book
-        .loopl( v-for="( note, ref_index ) in ilse.notes.query( '.html' )" :key="'search' + ref_index" ) 
+        .loopl( v-for="( note, ref_index ) in ilse.notes.query( '.html' )" :key="'book' + ref_index" ) 
             Notes( v-if="note.content.indexOf('![[') !== -1 " :note="note" :options="{}" )
 
-    details
+    // details
         summary Starred
         .favorites( v-for="( item, index ) in ilse.config.favorites" @click="on_favorite_click(item)" ) 
             p.link [[{{item}}]]
 
-    details.filesystem
+    // details.filesystem
         summary Filesystem
         p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-    .loopl( v-for="( item, index ) in ilse.notes.query( '#favorite' )" ) 
+    // .loopl( v-for="( item, index ) in get_favorites()" ) 
 
         .file-referencel( v-for="( file, file_reference_index ) in ilse.notes.get_file_references(item.content)" :keu="'file-reference-index' + index" )
             details
@@ -61,9 +68,13 @@ const printf                        = console.log;
     import Notes                        from "@/components/Notes.vue"
     import RandomNote                   from "@/components/RandomNote.vue"
 
+    import Dropdown from 'vue-simple-search-dropdown';
+
+
 // Functions
     import add_component                from "@/classes/add_component.js"
     import update_key                   from "@/classes/update_key.js"
+    import truncate_text                from "@/classes/truncate_text.js"
 
 export default {
 
@@ -72,15 +83,65 @@ export default {
     components: {
         Notes,
         RandomNote,
+        Dropdown,
+    },
+
+    watch: {
+
+        query( query ) {
+
+            let _this = this
+
+            if( query.length === 0 || query.length === 1 ) return // Speed
+            if( query === this.search ) return // Redundant
+
+            clearTimeout( this.timeout )
+
+            this.timeout = setTimeout( () => {
+                _this.search = query
+            }, 2000 )
+        },
+
     },
 
     data() {
         return {
             ilse: ilse,
+            query: "",
+            search: "",
+            is_on: true,
         }
     },
 
     methods: {
+
+        get_favorites() {
+            let list = ilse.notes.query( '#favorite' ) 
+            return list
+        },
+
+        on_input_keydown_esc() {
+            this.search = ""
+            this.query  = ""
+        },
+
+
+        validateSelection( event ) {
+            printf( "Menu.vue -> validateSelection -> event -> ", event )
+        },
+
+        getDropdownValues( event ) {
+            printf( "Menu.vue -> getDropdownValues -> event -> ", event )
+        },
+
+        truncate_text( text, limit ) {
+            return truncate_text( text, limit )
+        },
+
+        toggle_menu() {
+            // ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open
+            ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open
+        },
 
         on_favorite_click( file ) {
             add_component({ type: "file", width: 8, props: { file  }})
@@ -116,6 +177,13 @@ export default {
         },
 
         setup() {
+
+            Messager.on( "~keyboard", payload => {
+                if( payload.action === "keydown" && payload.key === "esc" ) {
+                    this.search = ""
+                    this.query = ""
+                }
+            })
         },
 
     },
@@ -150,7 +218,7 @@ export default {
 .menu {
     /*flex-grow: 0% !important;*/
     padding: var( --padding );
-    height: 93vh !important;
+    height: 100vh !important;
 }
 
 .item img{
@@ -175,6 +243,23 @@ export default {
     margin-bottom: 4px;
     background: var( --background-color );
     color: var( --text-color );
+}
+
+img.img {
+    cursor: pointer;
+}
+
+.search {
+    margin-left: 10px !important;
+    border: 0 !important;
+}
+
+.search input::after{
+    content: '<i>Hello, World</i> ';
+}
+
+datalist {
+    display: inline-block;
 }
 
 </style>

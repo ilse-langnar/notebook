@@ -3,8 +3,9 @@
 
     .day( v-for="( day, day_index ) in days" style="width: 97%; margin: 0 auto;" )
 
-        button.slick-button( @click="remove(day)" ) x
+        // button.slick-button( @click="remove(day)" ) x
         .flex( style="margin: 0 auto; width: 40%; " )
+            img.remove( :src="irequire.img('trash.svg')" @click="remove(day)" :title="$t('delete')")
             .centered
                 span.flexi.is-size-3.has-text-weight-bold( :title=" $t('notes') + ' ' + day.notes.length" ) {{get_file( day )}}
             p.fitem &#128269;
@@ -618,4 +619,8 @@ export default {
     margin: 0 auto;
 }
               
+.day img.remove {
+    cursor: pointer;
+}
+          
 </style>

@@ -7,10 +7,6 @@
                 p {{item}}
                 p( v-if="index !== file.split('/').filter(e=>e).length -1" style="margin-left: 20px;" ) &gt;
 
-            details#graph-details
-                summary Graph
-                Graph.flexi( v-if="is_graph_on" :component="{ props: { file: item + '.md' } }" )
-
             // details
                 summary Media( {{get_links(item) ? get_links(item).filter( e=> e.content.indexOf("![[") !== -1 ).length : 0 }} )
                 .loop( v-for="( item, index ) in get_links(item)" :key="index" )
@@ -34,10 +30,6 @@
 
         .loop( v-for="( item, index ) in file.split('/')" :key="index" )
             p {{item}}
-
-        details#graph-details
-            summary Graph
-            Graph.flexi( v-if="is_graph_on" :component="{ props: { file: file + '.md' } }" )
 
         details
             summary Media( {{get_links(file) ? get_links(file).filter( e=> e.content.indexOf("![[") !== -1 ).length : 0 }} )
@@ -63,7 +55,6 @@ const printf                        = console.log;
 // Components
     import Notes                        from "@/components/Notes.vue"
     import References                   from "@/components/References.vue"
-    import Graph                        from "@/components/Graph.vue"
 
 export default {
 
@@ -87,7 +78,6 @@ export default {
     components: {
         Notes,
         References,
-        Graph,
     },
 
     watch: {

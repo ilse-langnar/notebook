@@ -11,7 +11,8 @@ export default function create_window({
     html,
     id              = Math.random().toString().replace("0.", ""),
     url,
-    is_internal_and_iframe = false,
+    // is_internal_and_iframe = false,
+    local           = true,
     title           = "Title",
     appearanceName  = "yosemite",
     left            = 200,
@@ -26,7 +27,7 @@ export default function create_window({
 
     let frame
 
-    if( is_internal_and_iframe ) {
+    if( local ) {
         frame = ilse.frame.create({
             title: title,
             appearanceName: appearanceName,

@@ -1,23 +1,37 @@
 <template lang="pug" >
-.top-menu( v-if="!ilse.is_zen" style="width: 100%; display: flex; padding: 0.3em 0.5em; " @drop="on_app_drop" )
+.top-menu
+    .menu( v-if="!ilse.is_zen" style="width: 100%; display: flex; padding: 0.3em 0.5em; " )
 
-    // img( :src="irequire.img('arrow-narrow-right.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; color: #fff; fill: #fff;"   :title="$t('toggle_left_sidebar')" @click="ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open" )
+        .menu-item( :key="ilse.keys['home']" )
+            img.app-icon( v-for="( item, index ) in ilse.config.apps" :key="index" :src="get_icon(item)" @click="select_app($event, item)" :style="get_app_icon_style(item)" :title="item" )
 
-    // .menu-item.apps( @dragover="is_dragging_over = true" @dragleave="is_dragging_over = false" @dragend="is_dragging_over = false" @drop="on_app_drop" @drag="ilse.dragging = inote.id" )
+        .menu-item
+            img( :src="irequire.img('command.svg')" style="cursor: pointer; width: 20px;" :title="$t('open_command_pallet')" alt="$t('open_command_pallet')" @click="toggle_command_pallet" )
+            .margin-small
 
-        img( :src="irequire.img('lupe.svg')" style="cursor: pointer; border: 1px dashed var( --text-color ); border-radius: var( --border-radius ); vertical-align: sub; width: 20px; /*border: 1px solid #000; border-radius: 5px;*/ box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; " )
+            img( :src="irequire.img('settings.svg')"     style="cursor: pointer; width: 20px; " :title="$t('configuration')" @click="open_configuration_modal" accesskey="c" )
+            .margin-small
 
-        img.is-pulled-right( :src="irequire.img('x.svg')" style="cursor: pointer; vertical-align: sub; width: 10px; " :title="$t('delete_app')" )
+            img( :src="irequire.img('folders.svg')"    style="cursor: pointer; width: 20px; "   :title="$t('folders')" @click="open_folders_modal" )
+            .margin-small
 
-    .vspace
+            img( :src="irequire.img('lifebuoy.svg')"    style="cursor: pointer; width: 20px; "   :title="$t('help_manual_tutorial_and_apis')" accesskey="h" @click="open_help_modal" )
+            .margin-large
 
-    .menu-item( style="margin: auto; " @drop="on_app_drop" )
-        input( placeholder="&#128269;" )
-        img( :src="irequire.img('lupe.svg')" style="cursor: pointer; vertical-align: sub; width: 30px; " :title="$t('delete_app')" )
+            img.is-pulled-right( :src="irequire.img('moon-stars.svg')"   style="cursor: pointer; width: 20px; " :title="$t('toggle_dark_mode')" @click="toggle_dark_mode()" )
+
+        br
+//; .top-menu( v-if="!ilse.is_zen" style="width: 100%; display: flex; padding: 0.3em 0.5em; " @drop="on_app_drop" )
+
+    .menu-item( @drop="on_app_drop" :key="ilse.keys['home']")
+        img.app( v-for="( item, index ) in ilse.config.apps" :key="index" :src="get_icon(item)" @click="select_app($event, item)" :style="get_app_icon_style(item)" :title="item" )
+
+        // input( placeholder="&#128269;" )
+        // img( :src="irequire.img('lupe.svg')" style="cursor: pointer; vertical-align: sub; width: 30px; " :title="$t('delete_app')" )
         // SearchButton( :width="50" :should-autofocus="false" @on-result-select="on_note_search_on_result_select" )
         // Gene( component="SearchButton.html" @SearchButton="on_search_button" )
 
-    .menu-item( style="margin: auto; " )
+    .menu-item
         img( :src="irequire.img('command.svg')" style="cursor: pointer; width: 20px;" :title="$t('open_command_pallet')" alt="$t('open_command_pallet')" @click="toggle_command_pallet" )
         .margin-small
 
@@ -53,6 +67,12 @@ const printf                        = console.log;
 // Components
     import Gene                         from "@/components/Gene.vue"
 
+// functions
+    import string_to_html               from "@/classes/string_to_html.js"
+    import get_html_favicon             from "@/classes/get_html_favicon.js"
+    import move_array_item              from "@/classes/move_array_item.js"
+    import create_window                from "@/classes/create_window.js"
+
 export default {
 
     name: "TopMenu",
@@ -71,10 +91,40 @@ export default {
 
     methods: {
 
-        on_app_drop( event ) {
-            printf( ">> on_app_drop -> event -> ", event )
-            let file        = event.dataTransfer.files[0] 
-            printf( "files -> ", files )
+        get_icon( name ) {
+            if( name === "ilse.html" ) return require("@/assets/logo.svg")
+
+            let file    = ilse.filesystem.file.read.sync( name )
+            let html    = string_to_html( file )
+            let favicon = get_html_favicon( html )
+            return favicon
+        },
+
+        select_app( event, name ) {
+            let is_shift            = event.shiftKey
+
+            if( is_shift ) {
+                if( name === "ilse.html" ) return // BUGFIX: 'ilse.html' is not an app but the default one.
+                create_window({ title: `${name}(HTML)`, url: name })
+            } else {
+
+                let index               = ilse.config.apps.indexOf(name)
+                let is_already_selected = ilse.config.apps[0] === name
+                    if( is_already_selected ) return
+
+                let new_apps           = move_array_item( ilse.config.apps, index, 0 )
+                    ilse.config.apps       = new_apps
+
+                ilse.keys['home'] = Math.random()
+
+                // this.update_ilse()
+            }
+
+        },
+
+        get_app_icon_style( item ) {
+            let name = ilse.config.apps[0]
+            if( name === item ) return `border-bottom: 1px dashed #000; `
         },
 
         on_search_button( payload ) {
@@ -238,6 +288,10 @@ export default {
 </script>
 <style scoped>
 
+.top-menu {
+    margin-top: 0px;
+}
+
 .margin-small {
     margin-left: 10px;
     display: inline;
@@ -264,6 +318,15 @@ export default {
     border: 1px solid var( --text-color );
     border-radius: var( --border-radius );
     padding: 3px; 
+}
+
+.menu-item {
+    margin: auto; 
+}
+
+.menu-item img.app {
+    margin-left: 10px;
+    cursor: pointer;
 }
 
 </style>

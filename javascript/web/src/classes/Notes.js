@@ -16,6 +16,7 @@ export default class Notes {
 
         this.filesystem     = filesystem
         this.ilse           = ilse
+        this.raw            = []
         this.list           = []
         this.cache          = {}
         this.has_loaded     = false
@@ -130,6 +131,8 @@ export default class Notes {
 
         // Process note
         let notes      = textfile.split("\n")
+            this.raw       = notes
+
         let instance
 
         notes.map( (note, index) => {
@@ -304,18 +307,7 @@ export default class Notes {
             result.push( note )
         })
 
-        // for( const note of list ) {
-            // reg_exp   = new RegExp( `(${q})`, "ig" )
-            // has_match = reg_exp.match( note.content )
-            // has_match = q.match( note.content )
-            // has_match = note.content.match( q )
-            // note.content = note.content.replace( new RegExp(`(${file})`, 'ig'), `[[${file}]]` )
-            // has_match = note.raw.match( q )
-                // if( !has_match ) continue
-            // result.push( note )
-        // }
-
-        // FEATURE: Setname
+        // FEATURE: Set Cache
             ilse.cache.set(name, result)
 
         if( typeof(limit) === "number" ) {
@@ -346,12 +338,6 @@ export default class Notes {
                 if( !has_match ) return
             result.push( note )
         })
-
-        // for( const note of list ) {
-            // has_match = note.raw.toLowerCase().indexOf( q ) !== -1
-                // if( !has_match ) continue
-            // result.push( note )
-        // }
 
         // FEATURE: Setname
             ilse.cache.set(name, result)

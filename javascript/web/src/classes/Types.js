@@ -44,6 +44,19 @@ class componentTypes {
         })
 
         this.add({
+            id: "create-app",
+            name: "Create app",
+            description: "Create HTML Apps for ilse.",
+            img: this.ilse.irequire.img("menu.svg"),
+            type: "vue",
+            mode: "inline",
+            component: require("@/components/CreateApp.vue"),
+            props: {
+                is_internal: true,
+            }
+        })
+
+        this.add({
             id: "daily-notes",
             name: "Daily Notes",
             description: "",
