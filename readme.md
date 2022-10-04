@@ -40,7 +40,7 @@ This program defines a couple of base "features" that be combined with each othe
 
 <details>
     <summary align="center" >
-        <h2 align="center" > <a href="https://ilse-langnar.github.io/notebook/" > More </a> </h2>
+        <a href="https://ilse-langnar.github.io/notebook#more-download-options" > More </a> 
     </summary>
 
 | Platform         | How     | Gif |
