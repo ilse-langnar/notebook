@@ -95,6 +95,7 @@ This program defines a couple of base "features" that be combined with each othe
 | Drag & Drop | Drag and Drop either notes, media or other. | |-->
 
 <h2 align="center" > Contribute </h2>
+
 | Way         | Explanation     | Value |
 |--------------|-----------|------------|
 | Opening an issue    | If you have a question or something is wrong, you can [open a issue](https://github.com/ilse-langnar/notebook/issues/new)  so we can figure itt out. | Medium |
