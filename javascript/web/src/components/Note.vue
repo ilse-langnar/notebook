@@ -7,7 +7,6 @@
             p.expanded( v-if="!inote.is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_bullet_middle_click" @click.right="on_bullet_right_click" @click.left="on_bullet_left_click" @dbclick="on_bullet_db_click" :id=" 'bullet-' + inote.id" ) &bull;
 
         // edit
-        // .edit( contentEditable v-if="inote.is_editable" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" @dragover.prevent ) {{options.is_tagless ? inote.tagless : inote.content}}
 
         .edit( contentEditable v-if="inote.is_editable" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" :style="get_fit_content_style(inote)" ) {{options.is_tagless ? inote.tagless : inote.content}}
 
@@ -15,29 +14,6 @@
         // .html( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent :data-unique-id="inote.id" draggable @dragover="is_dragging_over = true" @dragleave="is_dragging_over = false" @dragend="is_dragging_over = false" @drop="on_drop" @drag="ilse.dragging = inote.id" )
 
         .html( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" :data-unique-id="inote.id" :style="get_fit_content_style(inote)" )
-
-    // .file-reference( v-for="( item, index ) in ilse.notes.get_file_references(inote.content)" )
-        details
-            // summary {{item}}
-            summary 
-            .no-name( v-if="item.indexOf('|') === -1" )
-                .loop( v-for="( i, index_2 ) in ilse.notes.query( item.replace('![[', '').replace( ']]', '' ) ) " :key=" 's' + index_2")
-                    Notes( v-if="inote.id !== i.id" :note="i" )
-            .with-name( v-else )
-                summary {{item.split("|")[1].replace("]]", "")}}
-                .loopl( v-for="( note, ref_index ) in ilse.notes.query( item.split('|')[0].replace( '![[', '') )" :key="'search' + ref_index" ) 
-                    Notes( v-if="inote.id !== note.id" :note="note" :options="{}" )
-
-    // .note-references( v-if="inote.get_note_references()" style="" )
-        .note-reference( v-for="( item, index ) in ilse.notes.extract_note_references(inote.content)" )
-            // Notes( :note="ilse.notes.query(item + ':')[0]" )
-            Notes( :note="ilse.notes.query(item + ':')[0]" )
-
-
-
-    .component-part( v-if="get_component()" )
-        div( style="font-size: 1.5em; margin-left: 20px; padding: 0px; " ) ⚫
-            // Component.component-embed( :component="get_component()" :options="{ hide_bullet: true }" )
 
 </template>
 <script>
@@ -71,6 +47,7 @@ export default {
     props: {
         component: { type: Object, required: false, },
         note: { type: Object, required: false, },
+        // note: { type: String, required: false, },
         options: { type: Object, required: false,
             default: function() {
                 return {
@@ -97,6 +74,10 @@ export default {
             is_dragging_over: false,
 
             inote: this.note,
+            // inote: new ilse.classes.Note(this.note),
+            // inote: new ilse.classes.Note(this.note),
+            // inote: new ilse.classes.Note( ilse.notes.list[this.note] ),
+            // inote: ilse.notes.list[this.note],
 
             // This is for the [note ref] and [file ref]
             is_on: false,
@@ -142,9 +123,7 @@ export default {
 
             // For actual list(of objects)
             let drop_index = ilse.notes.list.indexOf( drop )
-                printf( "drop_index -> ", drop_index )
             let drag_index = ilse.notes.list.indexOf( dragging )
-                printf( "drag -> ", drag_index )
 
 
             // Remove background Style
@@ -189,23 +168,6 @@ export default {
 
             tags.map( tag => {
                 if( tag.indexOf("query") !== -1 ) to_return = tag.split("/")[2]
-            })
-
-            return to_return
-        },
-
-        get_component() {
-
-            let tags = this.inote.get_tags()
-                if( !tags.length ) return null
-
-            let to_return
-            tags.map( tag => {
-                if( tag.split('/').length >= 1 && tag.split('/')[1] === "component"  ) {
-                    // let instance  = new ilse.classes.Component({ type: tag.split('/')[2], width: 12 })
-                    let instance  = ilse.types.get( tag.split('/')[2] )
-                        to_return     = instance
-                }
             })
 
             return to_return
@@ -307,40 +269,42 @@ export default {
             let clicked_on_a_checkbox = event.target.type === "checkbox"
             if( clicked_on_a_checkbox ) {
                 this.inote.content = this.inote.content.replace( "- [ ]", "- [x]" )
-                ilse.notes.save()
+                // ilse.notes.save()
                 return
             }
 
             // Blur all others
-            printf( "on_focus -> blurring everything" )
             Messager.emit( "~note.vue", "blur-all" )
 
             // Correct
             if( this.inote.id === inote.id ) {
-
-                // BUGFIX: don't need to click on note twice to actually focus on it.
-                setTimeout( ( )  => {
-                    let dom = document.getElementById( inote.id )
-                    if( dom ) dom.focus()
-                    // this.resize_textarea()
-                }, 10 )
-
-                this.inote.is_editable = true
-
+                this.focus( inote.id )
             } else {
                 this.inote.is_editable = false
             }
 
+        },
 
+        focus( id ) {
+            this.inote.is_editable = true
+            this.inote.focus()
         },
 
         // BUG: Focusin on a note does not blue others
         on_blur( event, inote ) {
 
-            printf( "Note.vue -> on_blur -> inote -> ", inote.content )
-
             // save(contentEditable)
-            this.inote.content = event.target.innerText
+            this.inote.content        = event.target.innerText // inline save
+            // printf( "changed -> this.inote.raw -> ", this.inote.raw )
+            // printf( "changed -> this.inote.content -> ", this.inote.content )
+            // printf( "changed -> ilse.notes.list[inote.id] -> ", ilse.notes.list[inote.id] )
+
+            let real                  = ilse.notes.list[inote.id]
+            let first_part            = real.split(":")[0]
+            let new_real              = `${ilse.utils.get_depth_spaces(real.depth)}${inote.id}: ${this.inote.content}`
+            ilse.notes.list[inote.id] = new_real
+
+            // setTimeout( () => { ilse.notes.list[inote.id] = event.target.innerText }, 100 ) /*global save*/
 
             this.stop_listening_to_embed_keys()
 
@@ -355,7 +319,7 @@ export default {
                 // Messager.emit( "~note.vue", "blur", {note: this.inote})
 
                 // Save
-                ilse.notes.save()
+                // ilse.notes.save()
             }
 
         },
@@ -447,7 +411,7 @@ export default {
             })
 
             Messager.on( "~note.vue", async ( action, payload ) => {
-                // if( action === "open-search" && payload.target === _this.inote.id ) this.open_search( payload.type ) 
+                if( action === "focus" ) if( this.inote.id === payload.target ) this.focus( payload.target ) 
                 if( action === "link-click" ) if( this.inote.id === payload.target ) _this.$emit( "on-link-click", { link: payload.link, event: payload.event, note: _this.inote } )
                 if( action === "blur-all" ) {
                     this.is_editable = false
@@ -480,6 +444,9 @@ export default {
         },
 
         setup() {
+
+            // this.$watch( ilse.notes.list[this.note], e => { printf( ">>>>> e -> ", e ) })
+
             this.set_note_from_component()
             this.listen()
         },
@@ -505,7 +472,7 @@ export default {
 
 .edit:focus {
     outline: none;
-    border-bottom: 1px solid var( --text-color );
+    /*border-bottom: 1px solid var( --text-color );*/
 }
 
 .editable:focus {

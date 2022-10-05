@@ -1,22 +1,27 @@
 <template lang="pug" >
 .references
+    .has( v-if="query_linked(file) && query_linked(file).length" )
 
-    p.is-size-5 References
+        p.is-size-5 References
 
-    details
-        summary Linked References({{query_linked(file).length}})
+        details
+            summary Linked References({{query_linked(file).length}})
 
-        .linked
-            .loop( v-for="( item, index ) in query_linked(file)" :key="index" )
-                Notes( :note="item" @on-link-click="on_note_link_click" )
-
-    details
-        summary Unlinked References({{query_unlinked(file).length}})
-        .un-linked
-            .loop( v-for="( item, index ) in query_unlinked(file)" :key="index" )
-                .flex
+            .linked
+                .loop( v-for="( item, index ) in query_linked(file)" :key="index" )
                     Notes( :note="item" @on-link-click="on_note_link_click" )
-                    button( @click="link(item)" ) Link
+
+        details( v-if="query_linked(file) && query_linked(file).length" )
+            summary Unlinked References({{query_unlinked(file).length}})
+            .un-linked
+                .loop( v-for="( item, index ) in query_unlinked(file)" :key="index" )
+                    .flex
+                        Notes( :note="item" @on-link-click="on_note_link_click" )
+                        button( @click="link(item)" ) Link
+
+    .not( v-if="!query_linked(file) || !query_linked(file).length" )
+        h1.centered No References
+
 </template>
 <script>
 // eslint-disable-next-line

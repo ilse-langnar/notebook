@@ -3,28 +3,19 @@
 
     .day( v-for="( day, day_index ) in days" style="width: 97%; margin: 0 auto;" )
 
-        // button.slick-button( @click="remove(day)" ) x
         .flex( style="margin: 0 auto; width: 40%; " )
             img.remove( :src="irequire.img('trash.svg')" @click="remove(day)" :title="$t('delete')")
             .centered
                 span.flexi.is-size-3.has-text-weight-bold( :title=" $t('notes') + ' ' + day.notes.length" ) {{get_file( day )}}
             p.fitem &#128269;
         .options.centered
-            // p.fitem.remove( @click="remove(day)" style="" ) &#88;
 
-        // Outline( :notes="get_daily_notes()" :key="get_daily_notes().length" )
+        Outline( :notes="day.notes" )
 
-        // .note( v-for="(note, note_index) in day.notes" :key="note_index" :style="get_note_style(note)" )
-        .note( v-if="day && day.notes" v-for="(note, note_index) in day.notes.filter( e=> e.depth === 0 )" :key="note_index" :style="get_note_style(note)" )
+        // .note( v-if="day && day.notes" v-for="(note, note_index) in day.notes.filter( e=> e )" :key="note_index + ilse.notes.list[note.split(':')[0].trim().replace(':', '')]" )
+            p {{get_note_style(note)}}
 
-            Notes( :note="note" :key="note.id + notes_key" @on-enter="on_enter" @on-note-click="on_note_click" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" :options="options" )
-
-            // Note( :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" )
-
-            // Avoid repetitives?
-            // Notes( v-if="note.depth === 0" :note="note" :key="note.id + day.id" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down"  )
-
-
+            // Notes( v-if="note" :style="get_note_style(note)" :note="get_note(note)" :key="'note-' + note_index + key" @on-enter="on_enter" @on-note-click="on_note_click" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" :options="options" )
         GhostNote( v-if="day.notes.length" @on-enter="on_ghost_note_enter" @on-blur="on_ghost_note_blur" :payload="day" :options="{ placeholder: '' }" )
 
         .no-notes( v-if="!day.notes.length" )
@@ -70,6 +61,7 @@ export default {
             key: 0,
             notes_key: 0,
             days: [], // [ { id: "20220128", notes: [ { text: "20220124102749: This is a [[Writing]] example", index: 15532 } ] } ]
+            outline_key: 0,
             options: {
                 placeholder: '',
                 render_as_html: false,
@@ -87,6 +79,11 @@ export default {
 
     methods: {
 
+        get_note( string ) {
+            printf( "DailyNotes.vue -> get_note -> string -> ", string )
+            return new ilse.classes.Note( string )
+        },
+
         get_daily_notes() {
             let date = get_unique_date_id() // 20200125
                 date = date.split("")
@@ -94,6 +91,7 @@ export default {
                 date = date.join("")
 
             let list = ilse.notes.query( date )
+            printf( "list -> ", list )
 
             return list
         },
@@ -108,14 +106,6 @@ export default {
             let index = this.days.indexOf( day )
             this.days.splice( index, 1 )
         },
-
-        /*
-        open_mindmap( index ) {
-            let day       = this.days[index]
-            let component = new ilse.classes.Component({ type: "mind-map", width: 12, props: { day: day } })
-                ilse.components.push( component )
-        },
-        */
 
         async on_note_click( payload ) {
 
@@ -225,34 +215,6 @@ export default {
 
         },
 
-        /*
-        on_ghost_note_blur( payload ) {
-
-            let content = payload.content
-                if( !content ) return
-
-            let day_id  = payload.payload.id
-            let instance
-            let time_id
-
-            for( const [index, day] of this.days.entries() ) {
-                if( day.id === day_id ) {
-                    time_id         = get_unique_date_id() // 20220120155758
-                    instance        = new ilse.classes.Note( `${time_id}: ${content}`)
-
-                    // ilse.notes.add( content, ilse.notes.list.length+1 ,0 )
-
-                    // printf( "ilse -> ", ilse )
-                    // printf( "ilse.notes -> ", ilse.notes )
-                    // this.days[index].notes.push(instance)
-                    // day.notes.push( instance )
-                }
-
-            }
-
-        },
-        */
-
         on_note_arrow_down( payload ) {
             let index   = ilse.notes.list.indexOf(payload.note)
             let note  = ilse.notes.list[++index]
@@ -303,9 +265,20 @@ export default {
 
         on_tab( payload ) {
 
-            printf( "DailyNotes -> payload -> ", payload )
-
             let note = payload.note
+
+            let id = note.raw.split(':')[0].trim().replace(':', '')
+            printf( "before -> ", ilse.notes.list[id] )
+            ilse.notes.list[id] = `    ${[ilse.notes.list[note.id]]}`
+            printf( "after -> ", ilse.notes.list[id] )
+            printf( "ilse.notes.list -> ", ilse.notes.list )
+
+            this.key = Math.random()
+
+            Messager.emit( "~note.vue", { action: "focus", target: id })
+
+            /*
+            return
 
             // we'll take it from notes: [  ] and put it on parent.children
             if( note.depth === 0 ) {
@@ -338,6 +311,7 @@ export default {
             }
 
             note.focus()
+            */
 
         },
 
@@ -363,12 +337,10 @@ export default {
         // TODO: BUG: When we type enter we correctly add the note but it's not rendered corretly, also setting the depth is problematic k
         on_enter( payload ) {
 
-            printf( "DailyNote -> on_enter -> payload -> ", payload )
-
+            printf( "DailyNotes -> on_enter -> payload -> ", payload )
             let note     = payload.note
-            printf( "DailyNote -> on_enter -> note -> ", note )
+            printf( "DailyNotes -> on_enter -> note -> ", note )
             let new_note = ilse.notes.add_after( "", note.depth, note )
-            printf( "DailyNote -> on_enter -> new_note -> ", new_note )
                 new_note.focus()
 
             // let day      = this.get_note_day( note )
@@ -405,10 +377,13 @@ export default {
 
         // Control the margins
         get_note_style( note ) {
+            // printf( "DailyNote -> get_note_style -> note -> ", note )
 
             // let style = `display: flex;`
             let style = ``
-                if( note.depth ) style += `margin-left: ${18 * note.depth}px !important; `
+            let depth = note.split("    ").length
+            printf( `depth: ${depth} note: ${note}` )
+                if( depth >= 2 ) style += `margin-left: ${18 * depth}px !important; `
 
             return style
         },
@@ -446,6 +421,7 @@ export default {
         add_day( id ) {
 
             let day    = id.substr( 0, 8 ) /*day*/ 
+            // let notes  = ilse.notes.query( day )
             let notes  = ilse.notes.query( day )
                 this.days.push({ id, notes })
             this.$forceUpdate()
@@ -557,6 +533,17 @@ export default {
             Messager.on( "~notes", (action, payload) => {
 
                 if( action === "added" ) {
+                    let index       = payload.index
+                    let new_note    = payload.note
+
+                    this.outline_key= Math.random()
+                    
+                    // let after       = index === 0 ? ilse.notes.list[0] : ilse.notes.list[index - 1]
+                    // let day         =  this.get_note_day( after )
+                }
+
+                /*
+                if( action === "added" ) {
 
                     let index       = payload.index
                     let new_note    = payload.note
@@ -589,6 +576,7 @@ export default {
                     let day_index   = this.days.indexOf( day )
                         this.days[day_index].notes.splice( note_index, 1 )
                 }
+                */
 
             })
         }

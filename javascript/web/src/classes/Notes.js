@@ -16,9 +16,11 @@ export default class Notes {
 
         this.filesystem     = filesystem
         this.ilse           = ilse
-        this.raw            = []
-        this.list           = []
+
+        // this.list           = []
+        this.list           = {}
         this.cache          = {}
+
         this.has_loaded     = false
 
         this._setup()
@@ -27,7 +29,6 @@ export default class Notes {
     async _setup() {
         this.get_notes()
         // this.demo()
-        this.listen()
         this.watch_file()
     }
 
@@ -50,7 +51,7 @@ export default class Notes {
 
                 // added.map( note => this.add( note.split(":")[1] ) )
 
-                added.map( note => this.add( note.slice(note.indexOf(":")+1, note.length ) ) )
+                // added.map( note => this.add( note.slice(note.content.indexOf(":")+1, note.length ) ) )
             };
 
         })
@@ -78,46 +79,7 @@ export default class Notes {
         })
 
         await this.filesystem.file.write.async( "notes", file )
-        // printf( "file -> ", file )
-
-        /*
-        let index = 0
-        for( const note of notes ) {
-            index++
-
-            is_last = index === notes.length -1
-
-            $note =  note.get()
-                if( !$note ) continue
-
-            file += note.get() + "\n"
-        }
-        */
     }
-
-    /*
-    async demo() {
-
-        let is_demo          = this.ilse.platform === "demo"
-        if( is_demo ) {
-            let dom = document.createElement( "div" )
-                dom.id  = "db"
-            let root = this.ilse.filesystem.file.read.async("/")
-            printf( "root -> ", root )
-        }
-
-        // if( has_notes ) await this.filesystem.file.write.async( "notes", "" )
-
-        // let demo_notes  = this.filesystem.filesystem.DEMO_NOTES
-
-        // let demo_notes  = this.ilse.DEMO_NOTES
-        // let len         = demo_notes.length
-
-        // this.add_list( demo_notes )
-
-        // this.add( `Click on the help button on top for the tutorial`, this.list.length, 0 )
-   }
-   */
 
     async get_notes() {
 
@@ -131,7 +93,43 @@ export default class Notes {
 
         // Process note
         let notes      = textfile.split("\n")
-            this.raw       = notes
+        notes.map( note=> {
+
+            if( !note ) return
+
+            this.list[ note.split(":")[0].trim().replace(":", "") ] = note
+        })
+        /*
+        let id
+        let obj
+
+        notes.map( (note, index) => {
+            if( !note ) return
+
+            obj      = { content: note, children: [] }
+            id       = note.split(":")[0].trim().replace(":", "")
+
+            // if( instance.depth >= 1 ) { this.add_parent( note ) }
+            if( note.split("    ").length >= 2 ) {
+                let list   = Object.values( this.list )
+                let parent = list[--index]
+                // printf( "note -> ", note )
+                // printf( "parent -> ", parent )
+                if( parent.content.split("    ").length < note.split("    ").length ) {
+                    obj.children.push( id )
+                }
+            }
+
+            if( this.list ) this.list[id] = obj
+            // if( this.list ) this.list[id] = new this.ilse.classes.Note( note )
+
+        })
+        */
+
+        this._after_we_have_the_notes()
+
+        /*
+        return
 
         let instance
 
@@ -149,31 +147,37 @@ export default class Notes {
         })
 
         this._after_we_have_the_notes()
+        */
 
     }
 
     // splut
     get_note_parent_v2( note ) {
 
-        // let index= list.indexOf( note )
-        // let second_list = list.slice( index, list.length )
-
         let list        = this.list
         let index       = this.get_note_index( note )
         let second_list = list.slice( 0, index )
 
-        // if( log ) second_list.map( item => { printf( "item.content -> ", item.content ) })
-        // if( log ) printf( "second_list -> ", second_list )
-        // if( log ) printf( "index -> ", index )
-
-        // let len   = this.list.length
         let len     = second_list.length
         for (var i = len - 1; i >= 0; i--) {
             if( second_list[i].depth < note.depth ) return this.list[i]
-            // if( this.list[i].depth < note.depth ) return this.list[i]
         }
         return null
     }
+
+    // Get note parent?
+    /*
+    get_note_parent( note ) {
+
+        let list   = this.list
+
+        let len    = this.list.length
+        for (var i = len - 1; i >= 0; i--) {
+            if( note.depth > this.list[i].depth ) return this.list[i]
+        }
+        return null
+    }
+    */
 
     // Get note parent?
     get_note_parent( note ) {
@@ -182,42 +186,50 @@ export default class Notes {
 
         let len    = this.list.length
         for (var i = len - 1; i >= 0; i--) {
-            // if( this.list[i].depth < note.depth ) return this.list[i]
             if( note.depth > this.list[i].depth ) return this.list[i]
-            // if( second_list[i].depth < note.depth ) return this.list[i]
         }
         return null
     }
 
+    /*
     recursively_add_children( instance, index ) {
-        let parent = this.get_note_parent( instance )
+        let parent = this.list[inst]
             if( parent && parent.children ) parent.children.push( instance )
+    }
+    */
+
+    add_parent( note ) {
+        let id     = note.split(":")[0].trim().replace(":", "")
+        let parent = this.list[id]
+        let list   = Object.values(this.list)
+        let index  = list.indexOf(parent)
+            if( parent && parent.children ) parent.children.push( id )
     }
 
     _after_we_have_the_notes() {
         this.has_loaded = true
-        this._scan_tags()
-        this._scan_links()
+        // this._scan_tags()
+        // this._scan_links()
     }
 
     _scan_tags() {
 
         let tags        = []
         let has_no_scan = false
+        let list        = Object.values( this.list )
 
-        for( const note of this.list ) {
+        list.map( note => {
 
-            tags  = this.ilse.utils.extract_tags( note.content )
+            tags  = this.ilse.utils.extract_tags( note )
 
             has_no_scan = tags.indexOf( "#!scan" ) !== -1 || tags.indexOf( "#!" ) !== -1  || tags.indexOf( "#!!!" ) !== -1
-                if( has_no_scan ) continue // Don't scan tags if we have either: #!scan #! or #!!!( #!! only block link scanning, while #!!! blocks both links AND tag scanning )
+            if( has_no_scan ) return
 
-            for( const tag of tags ) {
-                // printf( "tag -> ", tag )
+            tags.map( tag => {
                 Messager.emit( "~notes", "tag", { tag, note })
-            }
-        }
+            })
 
+        })
     }
 
     // Create file for links: I need to write a [[Psycology Paper]] -> does "Psycology Paper.md" exists?
@@ -248,7 +260,6 @@ export default class Notes {
 
                 // if not exists, create
                     try {
-                        // printf( "link -> ", link )
                         exists         = await this.filesystem.file.exists.async( link )// link - > "Psycology Papers.md"
                     } catch( e ) {
                         exists = false
@@ -284,6 +295,31 @@ export default class Notes {
 
     }
 
+    // Like query() but return the index
+    query_index( q, limit = null ) {
+
+        // FEATURE: O(n) instant
+            if( q === "" ) return []
+
+        let result    = []
+        let list      = this.list
+        let has_match = false
+        let index
+
+        list.map( (note, index) => {
+            has_match = note.indexOf(q) !== -1
+                if( !has_match ) return
+            result.push( index )
+        })
+
+        if( typeof(limit) === "number" ) {
+            result.length = limit
+            return result
+        } else {
+            return result
+        }
+    }
+
     // ilse.notes.query_regexp( /<string>s?/ ) = for plurals, I might also use this in = References / .? <term> .?  / = for more iclusive query
     query_regexp( q = / / , limit = null ) {
 
@@ -300,12 +336,21 @@ export default class Notes {
         let list      = this.list
         let reg_exp
 
+        for( const note in list ) {
+            has_match = note.match( q )
+                if( !has_match ) return
+
+            result.push( note )
+        }
+
+        /*
         list.map( note => {
-            has_match = note.raw.match( q )
+            has_match = note.match( q )
                 if( !has_match ) return
 
             result.push( note )
         })
+        */
 
         // FEATURE: Set Cache
             ilse.cache.set(name, result)
@@ -331,10 +376,11 @@ export default class Notes {
 
         let has_match = false
         let result    = []
-        let list      = this.list
+        // let list      = this.list
+        let list      = Object.values(this.list)
 
         list.map( note => {
-            has_match = note.raw.toLowerCase().indexOf( q ) !== -1
+            has_match = note.indexOf( q ) !== -1
                 if( !has_match ) return
             result.push( note )
         })
@@ -350,32 +396,10 @@ export default class Notes {
         }
     }
 
-    /*
-    get_recursive( note, payload = [] ) {
-
-        if( !note ) throw new Error( "Notes.js -> ERROR: note not foundk" )
-
-        payload.push( note.content )
-
-        printf( "note.children.length -> ", note.children.length )
-        if( note.children.length ) {
-
-            for( let child of note.children ) {
-                // printf( "child.content -> ", child.content )
-                payload.push( child.content )
-                return this.get_recursive( child, payload )
-            }
-
-        } else {
-            // printf( "payload -> ", payload )
-            return payload
-        }
-
-    }
-    */
-
     // Get a note's index( probabily for child insertion )
     get_index( id ) {
+
+        /*
         let is_equal
 
         let index = 0
@@ -389,16 +413,45 @@ export default class Notes {
                 // return index
             }
         }
+        */
 
+        // let note = this.list[id]
+
+        let keys  = Object.keys( this.list )
+        let index = keys.indexOf( id )
+
+        return index
     }
 
     // give me a content, a reference note and a depth and I'll add it correctly for you.
     add_after( content, depth, note ) {
         let index   = this.get_index( note.id )
+        // printf( "Notes.js -> add_after -> index -> ", index )
         return this.add( content, ++index, depth )
     }
 
-    add( content, index = null, depth = 0, options = {} ) {
+    add( content, index = null, depth = 0 ) {
+
+        let id               = get_note_id() // 20220120155758
+        let spaces           = this.ilse.utils.get_depth_spaces( depth )
+        let note             = `${spaces}${id}: ${content}` // 20220120155758: Hello, World
+
+        if( index === null ) {
+            this.list[id]  = note
+        } else {
+            let entries = Object.entries( this.list )
+                entries.splice( index, 0, [ id, note ] ) // Add
+
+            this.list = Object.fromEntries( entries ) // Set
+        }
+
+        Messager.emit( "~notes", "added", { note: this.list[id], index: index, })
+
+        return this.list[id]
+    }
+
+    /*
+    add( content, index = null, depth = 0 ) {
 
         let location         = 0
         // if( index === 0 || index === -1 ) location = 0
@@ -429,10 +482,9 @@ export default class Notes {
 
         Messager.emit( "~notes", "added", { note: instance, index: location, })
 
-        if( options.debug ) debugger
-
         return instance
     }
+    */
 
     delete( note ) {
 
@@ -475,34 +527,6 @@ export default class Notes {
 
     }
 
-    /*
-    // Removed resolved, have only last
-    reference( text, last = "" ) {
-
-        let link            = ilse.notes.get_note_reference( text )
-            if( !link ) return `${last} \n\t ${text} `
-        let link_content    = ilse.notes.query( link + ":")[0].content
-
-        if( link ) {
-            if( last ) {
-                // last += `\n ${link_content}`
-            } else {
-                last += `${text} \n ${link_content} `
-            }
-        }
-
-        let ref          = ilse.notes.get_note_reference( link_content )
-
-        if( ref ) {
-            let target_content  = ilse.notes.query( ref + ":")[0].content
-            return this.reference( target_content, last )
-        } else {
-            return last
-        }
-
-    }
-    */
-
     // 20220804160914: - [ ] #ilse Does note embed get its children too??? ![[Ilse]]  ((20220306102411))
     extract_note_references( string ) {
 
@@ -518,23 +542,6 @@ export default class Notes {
         return references
     }
 
-    /*
-    // 20220804160914: - [ ] #ilse Does note embed get its children too??? ![[Ilse]]  ((20220306102411))
-    extract_file_references( string ) {
-
-        let chunks      = string.split(" ")
-        let references  = []
-        let reference
-
-        chunks.map( chunk => {
-            reference = this.get_file_reference( chunk )
-            if( reference ) references.push( reference )
-        })
-
-        return references
-    }
-    */
-
     get_file_references( string ) {
 
 
@@ -547,48 +554,6 @@ export default class Notes {
         })
 
         return to_return
-
-        /*
-        let chunks = string.split(" ")
-        let has_opening_parenthesis
-        let has_closing_parenthesis
-        let has_both
-        let ref
-        let is
-        let list = []
-        printf( "chunks -> ", chunks )
-
-        for( const chunk of chunks ) {
-
-            printf( `chunk: ${chunk} list: ${JSON.stringify(list)}` )
-            if( chunk.indexOf("![[") !== -1 ) {
-                is = true
-            }
-
-            if( is ) list.push( chunk )
-
-            if( chunk.indexOf("]]") !== -1 ) {
-                list.push( chunk )
-                is = false
-            }
-
-        }
-
-        printf( "list.join(' ') -> ", list.join(' ') )
-        printf( "\n\n" )
-
-        let no_dup = list.
-        return list
-
-        // has_both                 = has_opening_parenthesis && has_closing_parenthesis
-        // if( has_both ) ref = chunk.replace( " ", "" ).replace( "![[", "" ).replace( "]]", "" )
-        // printf( "Notes.js -> get_file_reference -> string -> ", string )
-        // if( ilse.files.list.indexOf( ref + ".md") !== -1 ) {
-            // return null
-        // } else {
-            // return ref
-        // }
-        */
     }
 
     get_note_reference( string ) {
@@ -612,15 +577,4 @@ export default class Notes {
         return ref
     }
 
-    listen() {
-
-        Messager.on( "~ilse", async (action, payload) => {
-
-            if( action === "loaded" ) {
-                // this.get_notes( payload )
-            }
-
-        })
-
-    }
 }

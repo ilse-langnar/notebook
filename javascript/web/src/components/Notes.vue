@@ -2,7 +2,8 @@
 .notes( v-if="note" )
     component( :is="require('@/components/Note.vue').default" :note="note" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-click="on_note_click" :options="options" )
     
-    .children( v-show="!note.is_collapsed" :class="(note.children.length && !options.prevent_depth_margin) ? 'left-border' : ''" :key="note.children.length + options.key" )
+    // .children( v-show="is_collapsed" :class="(note.split('    ').length && !options.prevent_depth_margin) ? 'left-border' : ''" :key="options.key" )
+    .children( v-show="is_collapsed" :class="(note.depth && !options.prevent_depth_margin) ? 'left-border' : ''" :key="options.key" )
         .loop( v-for="( item, index ) in note.children" :key="index" :style="get_note_style(item)" )
             Notes( :note="item" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-click="on_note_click" :options="options" )
 
@@ -26,6 +27,7 @@ export default {
     name: "Notes",
 
     props: {
+        // note: { type: String, required: false, },
         note: { type: Object, required: false, },
         options: { type: Object, required: false, default: function() {
             return {
@@ -38,6 +40,7 @@ export default {
     data() {
         return {
             ilse: ilse,
+            is_collapsed: false,
         }
     },
 
@@ -55,17 +58,6 @@ export default {
         on_enter( payload ) {
             this.$emit( "on-enter", payload )
         },
-
-        // TODO: BUG: When we type enter we correctly add the note but it's not rendered corretly, also setting the depth is problematic k
-        /*
-        on_enter( payload ) {
-
-            let note     = payload.note
-            let depth    = note.depth
-            let new_note = ilse.notes.add_after( "", depth, note )
-                new_note.focus()
-        },
-        */
 
         on_tab( payload ) {
             this.$emit( "on-tab", payload )
@@ -253,7 +245,8 @@ export default {
         },
 
         check_for_collapse_tag() {
-            if( this.note && this.note.content.indexOf("#!c") !== -1 )  this.note.is_collapsed = true
+            // if( this.note && this.note.indexOf("#!c") !== -1 )  this.note.is_collapsed = true
+            if( this.note && this.note.content.indexOf("#!c") !== -1 )  this.is_collapsed = true
         },
 
         setup() {

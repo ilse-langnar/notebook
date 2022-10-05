@@ -7,6 +7,7 @@
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded && has_apps()" :key="ilse.key" :data-theme="ilse.config.dark ? 'dark' : 'light' " :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
 
         TopMenu
+        button.button( @click="add" ) Add
 
         .app( :key="ilse.keys['home'] ? ilse.keys['home'] : 0" style="flex-basis: 100%; " )
             iframe.external-app(   v-show="get_active_html() !== 'ilse.html' " :src="get_active_html()" )
@@ -84,6 +85,12 @@ export default {
     },
 
     methods: {
+
+        add() {
+            let added = ilse.notes.add( "Example", 10 )
+            printf( "ilse.notes.list -> ", ilse.notes.list )
+            printf( "added -> ", added )
+        },
 
         has_apps() {
             if( !ilse || !ilse.config || !ilse.config.apps || !ilse.config.apps[0] ) return false

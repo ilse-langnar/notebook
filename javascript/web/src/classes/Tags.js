@@ -16,7 +16,7 @@ export default class Tags {
     }
 
     setup() {
-        this.listen()
+        // this.listen()
     }
 
     parse( payload ) {

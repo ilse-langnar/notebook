@@ -437,13 +437,9 @@ class Commands {
                 id: "new-note",
                 icon: "point.svg",
                 fn: async function() {
-                    printf( "new-note -> " )
                     let payload = await ilse.dialog.input( "New note", "Content:" )
                     let input   = payload.input
-                    printf( "input -> ", input )
                     let index   = ilse.notes.list.length
-                    printf( "index -> ", index )
-                        // ilse.notes.add( input, index, 0 )
                         ilse.notes.add( input )
                 },
                 description: "Will open a prompt for a new note",

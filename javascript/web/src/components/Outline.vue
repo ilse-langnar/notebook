@@ -1,20 +1,7 @@
 <template lang="pug" >
 .outline
-    // .loop( v-for="( item, index ) in notes.filter( e=>e.depth === 0 )" :key="index" )
-        Notes( :note="item" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" )
-
-    ul
-        li( v-for="( item, index ) in notes" :key="index" )
-            // p( contentEditable @keydown="on_keydown($event, item)" ) {{item.content}}
-
-            p.collapsed( v-if="item.is_collapsed" :id=" 'bullet-' + item.id" ) &#8277;
-
-            // textarea.input( v-show="item.is_editable" :id="item.id" v-model="item.content" @blur="on_blur( $event, item )" )
-            .edit( contentEditable v-show="item.is_editable" :id="item.id" @keydown="on_keydown($event, item)" @blur="on_blur($event, item)" :placeholder="$t('note_placeholder')" ) {{item.content}}
-
-            .html( v-show="!item.is_editable" v-html="get_html(item)" @click="on_focus($event, item)" :id="item.id" )
-
-
+    .loop( v-for="( item, index ) in inotes" :key="index" :style="get_note_style(item)" )
+        Notes( :note="get_note(item)" :key="index + key" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" )
 
 </template>
 <script>
@@ -31,6 +18,10 @@ const printf                        = console.log;
     import Notes                        from "@/components/Notes.vue"
     import Note                         from "@/components/Note.vue"
 
+// functions
+    import extract_note_id              from "@/classes/extract_note_id.js"
+    import move_array_item              from "@/classes/move_array_item.js"
+
 export default {
 
     name: "Outline",
@@ -42,6 +33,8 @@ export default {
     data() {
         return {
             ilse: ilse,
+            inotes: this.notes,
+            key: 0,
         }
     },
 
@@ -52,94 +45,98 @@ export default {
 
     methods: {
 
-        on_focus( event, note ) {
-
-            let has_task = note.content.indexOf("- [ ]" ) !== -1 || note.content.indexOf("- [x]" ) !== -1 
-
-            // FEATURE: Checkbox
-            let clicked_on_a_checkbox = event.target.type === "checkbox"
-            if( clicked_on_a_checkbox ) {
-                this.inote.content = this.inote.content.replace( "- [ ]", "- [x]" )
-                ilse.notes.save()
-                return
-            }
-
-            document.activeElement.blur()
-
-            note.is_editable = true
-
-            let dom = document.getElementById( note.id )
-                if( !dom ) return
-            setTimeout( () => { dom.focus() }, 1 )
-
-            if( has_task ) {
-                var clickEvent  = document.createEvent("MouseEvents")
-                clickEvent.initEvent( 'dblclick', true, true )
-                dom.dispatchEvent(clickEvent)
-                setTimeout( () => { dom.focus() }, 1 )
-            }
-
-
+        get_note( string ) {
+            let instance = new ilse.classes.Note( string )
+            return instance
         },
 
-        get_html( note ) {
-            let normalized      = ilse.markdown.render( note.content )
-            return normalized
-        },
+        get_note_style( note ) {
 
-        on_blur( event, note ) {
+            let style = ``
+            let real  = ilse.notes.list[note.split(':')[0].trim().replace(':', '')]
+            let depth = real.split("    ").length
+                if( depth >= 2 ) style += `margin-left: ${18 * depth}px !important; `
 
-            document.activeElement.blur()
-
-            note.content     = event.target.innerText
-            note.is_editable = false
-        },
-
-        on_keydown( event, item ) {
-
-            printf( "Outline -> on_keydown -> event -> ", event  )
-            printf( "Outline -> on_keydown -> item -> ", item  )
-
-            event.preventDefault()
-
-            let is_shift = event.shiftKey
-
-            if( is_shift ) {
-                item.depth -= 1
-            } else {
-                item.depth += 1
-            }
-            printf( "item.depth -> ", item.depth )
-
-            // item.$depth(1)
-            if( event.key === "Tab" && item.depth > -1 ) {
-                // item.style              = `margin-left: ${item.depth * 30}px;`
-                event.srcElement.style  = `margin-left: ${item.depth * 10}px;`
-                // item.key                = Math.random()
-            }
-        },
-
-        on_keydown_tab( event ) {
-            printf( "Outline.vue -> on_keydown_tab -> event -> ", event )
+            return style
         },
 
         on_enter( payload ) {
-            printf( "Outline.vue -> payload -> ", payload )
 
             let note     = payload.note
-            let new_note = ilse.notes.add_after( "", note.depth, note )
-                new_note.focus()
+
+            let original = ilse.notes.list[note.id]
+
+            let depth    = original.split("    ").length
+                if( depth > 0 ) depth -= 1 // bugfix
+            printf( depth )
+
+            let new_note = ilse.notes.add_after( "", depth, note )
+            let id       = extract_note_id( new_note )
+
+            setTimeout( () => {
+                Messager.emit( "~note.vue", "focus", { target: id })
+            }, 100 )
+                // new_note.focus()
         },
 
-        on_tab() {
+        on_tab( payload ) {
+            let note = payload.note
+            let id   = note.raw.split(':')[0].trim().replace(':', '')
+                ilse.notes.list[id] = `    ${[ilse.notes.list[note.id]]}`
 
+            this.key = Math.random()
+            setTimeout( () => {
+                Messager.emit( "~note.vue", "focus", { target: id })
+            }, 0 )
         },
 
-        on_shift_tab() {
+        on_shift_tab( payload ) {
+            let note = payload.note
+            let id   = note.raw.split(':')[0].trim().replace(':', '')
+                ilse.notes.list[id] = ilse.notes.list[id].replace("    ", "")
+
+            this.key = Math.random()
+            setTimeout( () => {
+                Messager.emit( "~note.vue", "focus", { target: id })
+            }, 0 )
+        },
+
+        listen() {
+
+            Messager.on( "~notes", ( action, payload ) => {
+
+                if( action === "added" ) {
+
+                    let note        = payload.note
+                    let index       = payload.index
+
+                    let has_already = this.inotes.indexOf( note ) !== -1
+                        if( has_already ) return
+
+                    if( index === null ) {
+                        this.inotes.push( note )
+                    } else {
+
+                        let list        = Object.keys(ilse.notes.list)
+                        let parent_id   = index === 0 ? list[0] : list[index - 1]
+                        let real_parent = ilse.notes.list[parent_id].replace( /\ \ \ \ /gi, "")
+                        printf( "parentt -> ", real_parent )
+                        let parent_index= this.inotes.indexOf( real_parent )
+                        // I'm having problem with "depth" and erading old ones(with text)
+
+                        // TODO: I'm out of sync with the real, This is when it's has been already added, But when I edit it here, it's not synced to the real
+                        this.inotes.splice( ++parent_index, 0, note )
+                        printf( "this.inotes -> ", this.inotes )
+                        this.key = Math.random()
+                    }
+                }
+
+            })
 
         },
 
         setup() {
+            this.listen()
 
         },
 
@@ -152,6 +149,4 @@ export default {
 }
 </script>
 <style scoped>
-
-
 </style>

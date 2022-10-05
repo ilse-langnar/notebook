@@ -7,12 +7,18 @@ export default function get_unique_date_id() {
     let year    = today.getFullYear()
 
     let month   = Number( today.getMonth() )
-        month += 1
-        month = `0${month}`
-        if( month === "010" ) month = "10" // BUGFIX :
-        if( month === "011" ) month = "11" // BUGFIX :
-        if( month === "012" ) month = "12" // BUGFIX :
-
+        if( month === 0 ) month = "01" // BUGFIX: only "1" will give a bug on the id, 01 is not allowed in strict mode,
+        if( month === 1 ) month = "02" // BUGFIX: only "1" will give a bug on the id, 01 is not allowed in strict mode,
+        if( month === 2 ) month = "03"
+        if( month === 3 ) month = "04"
+        if( month === 4 ) month = "05"
+        if( month === 5 ) month = "06"
+        if( month === 6 ) month = "07"
+        if( month === 7 ) month = "08"
+        if( month === 8 ) month = "09"
+        if( month === 9 ) month = "10"
+        if( month === 10 ) month = "11"
+        if( month === 11 ) monthgT = "12"
 
     let day     = today.getDate()
         if( day === 1 ) day = "01" // BUGFIX: only "1" will give a bug on the id, 01 is not allowed in strict mode,

@@ -53,7 +53,6 @@ export default {
             return `<iframe src="${url}" frameBorder="0" style="width: 100%;" > </iframe>`
         } else if( is_html ) {
 
-            printf( "is_html -> url -> ", url )
             let exists = ilse.filesystem.file.exists.sync( url )
 
             if( exists ) {

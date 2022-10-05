@@ -43,7 +43,6 @@ export default class note {
 
         // Add to notes
             let index = options.ilse.notes.list.indexOf( this )
-            // options.ilse.notes.add( note.content, ++index, ++this.depth, { debug: false } )
 
         // Add to self
             this.children.push( note )
