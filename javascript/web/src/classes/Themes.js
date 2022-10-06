@@ -20,8 +20,8 @@ export default class Theme {
     }
 
     setup() {
-        let has_theme = this.ilse.filesystem.file.is.sync( "theme.html" )
-            if( !has_theme ) this.apply_default_theme()
+        // let has_theme = this.ilse.filesystem.file.exists.sync( "theme.html" )
+            // if( !has_theme ) this.apply_default_theme()
     }
 
     add({ id, name, css, files }) {

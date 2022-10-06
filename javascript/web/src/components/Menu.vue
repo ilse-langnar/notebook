@@ -10,9 +10,6 @@
 
         br
 
-        // .search-result( v-if="query && query.length >= 5" style="position: relative; top: 10px; " )
-            p {{ilse.notes.query(query)}}
-    // @ img.img.is-pulled-right( :src="irequire.img('arrow-narrow-left.svg')" @click="toggle_menu()" )
     br
     br
 
@@ -45,7 +42,10 @@ const printf                        = console.log;
 // Functions
     import add_component                from "@/classes/add_component.js"
     import update_key                   from "@/classes/update_key.js"
-    import truncate_text                from "@/classes/truncate_text.js"
+    import open_modal                   from "@/classes/open_modal.js"
+    import if_else                      from "@/classes/if_else.js"
+    import set                          from "@/classes/set.js"
+    import listen_to_message            from "@/classes/listen_to_message.js"
 
 export default {
 
@@ -80,38 +80,18 @@ export default {
             ilse: ilse,
             query: "",
             search: "",
-            is_on: true,
         }
     },
 
     methods: {
 
-        get_favorites() {
-            let list = ilse.notes.query( '#favorite' ) 
-            return list
-        },
-
         on_input_keydown_esc() {
-            this.search = ""
-            this.query  = ""
-        },
-
-
-        validateSelection( event ) {
-            printf( "Menu.vue -> validateSelection -> event -> ", event )
-        },
-
-        getDropdownValues( event ) {
-            printf( "Menu.vue -> getDropdownValues -> event -> ", event )
-        },
-
-        truncate_text( text, limit ) {
-            return truncate_text( text, limit )
+            set( this, "search", "" )
+            set( this, "query", "" )
         },
 
         toggle_menu() {
-            // ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open
-            ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open
+            set( ilse, "is_left_sidebar_open", !ilse.is_left_sidebar_open )
         },
 
         on_favorite_click( file ) {
@@ -122,39 +102,29 @@ export default {
             add_component({ type: "dashboard", width: 12, props: {}})
         },
 
-        // TODO: make this actually toggle instead of just opening.
-        toggle_first_brain() {
-            ilse.modals.open( "first-brain" )
-        },
-
         add_daiyl_notes() {
-            let component = ilse.types.get( "daily-notes" )
-            ilse.components.push( component )
-
-            return
-            let has_daily_notes_already = !!ilse.components.map( component => {if( component.id === "daily-notes" ) return component }).filter( e=>e )[0]
-            printf( "has_daily_notes_already -> ", has_daily_notes_already )
-            if( !has_daily_notes_already ) {
-                printf( "HAS NOT" )
-                    let component = ilse.types.get( "daily-notes" )
-                    ilse.components.push( component )
-            }
-                // add_component({ type: "daily-notes", width: 12 })
+            add_component({ type: "daily-notes", width: 12, props: {}})
         },
 
         on_note_link_click( payload /*{link, event}*/ ) {
-            let file             = payload.link
-            add_component({ type: "file", width: 8 , props: { file }})
+            add_component({ type: "file", width: 8 , props: { file: payload.link}})
+        },
+
+        listen_to_esc_from_keyboard() {
+
+            listen_to_message( "~keyboard", payload => {
+
+                if_else(
+                    payload.action === "keydown" && payload.key === "esc" ,
+                    yes => { set( this, "search", "" ); set( this, "query", "" ) },
+                    no  => null
+                )
+            })
+
         },
 
         setup() {
-
-            Messager.on( "~keyboard", payload => {
-                if( payload.action === "keydown" && payload.key === "esc" ) {
-                    this.search = ""
-                    this.query = ""
-                }
-            })
+            this.listen_to_esc_from_keyboard()
         },
 
     },

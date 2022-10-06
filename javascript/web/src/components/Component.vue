@@ -208,6 +208,9 @@ export default {
         },
 
         setup() {
+
+            printf( ">>> Component.vue -> this.component -> ", this.component )
+            printf( ">>> Component.vue -> this.$props -> ", this.$props )
             this.listen()
 
         },

@@ -28,9 +28,6 @@ class PluginManager {
         setTimeout( () => { this.load() }, 1000 )
     }
 
-    async import_from_url( url, name = Math.random().toString() ) {
-    }
-
     load() {
         // let list = ilse.filesystem.dir.list.sync( "plugins" )
         let list = ilse.filesystem.dir.list.sync( "/" )
@@ -38,10 +35,6 @@ class PluginManager {
 
         HTMLs.map( plugin => { this.run( plugin ) })
 
-        this.set_global_plugin_api()
-    }
-
-    set_global_plugin_api() {
     }
 
     async run( name ) {

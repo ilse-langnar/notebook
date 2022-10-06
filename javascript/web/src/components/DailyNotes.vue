@@ -227,111 +227,25 @@ export default {
                 if( note ) note.focus()
         },
 
-        on_note_esc() {
-            document.activeElement.blur()
-        },
-
         on_note_link_click( payload ) {
 
-            printf( "DailyNotes -> on_note_link_click -> payload -> ", payload )
-
-            let note             = payload.note
             let file             = payload.link
             let event            = payload.event
             let is_shift         = event.shiftKey
             let is_ctrl          = event.ctrlKey
 
-            let is_file_markdown = !(file.indexOf(".png") !== -1 || file.indexOf(".jpg") !== -1 || file.indexOf(".jpeg") !== -1 || file.indexOf(".gif") !== -1 || file.indexOf(".svg") !== -1 || file.indexOf(".mp4") !== -1 || file.indexOf(".webm") !== -1 || file.indexOf(".mp3") !== -1 || file.indexOf(".ogg") !== -1 || file.indexOf(".wav") !== -1 || file.indexOf(".md") !== -1) 
-                // if( is_file_markdown ) file += ".md"
-
-            // <=======> Shift <=======> //
             if( is_shift ) {
                 let component   = ilse.types.get( "file" )
-                    component.props = { file }
-                    ilse.components.push( component )
-                    // component.make_into.window()
+                component.props = { file }
+                ilse.components.push( component )
             }
-            // <=======> Shift <=======> //
 
-            // <=======> Ctrl <=======> //
             if( is_ctrl ) {
                 let component   = ilse.types.get( "graph" )
-                    component.props = { file }
-                    ilse.components.push( component )
-            }
-            // <=======> Ctrl <=======> //
-
-        },
-
-        on_tab( payload ) {
-
-            let note = payload.note
-
-            let id = note.raw.split(':')[0].trim().replace(':', '')
-            printf( "before -> ", ilse.notes.list[id] )
-            ilse.notes.list[id] = `    ${[ilse.notes.list[note.id]]}`
-            printf( "after -> ", ilse.notes.list[id] )
-            printf( "ilse.notes.list -> ", ilse.notes.list )
-
-            this.key = Math.random()
-
-            Messager.emit( "~note.vue", { action: "focus", target: id })
-
-            /*
-            return
-
-            // we'll take it from notes: [  ] and put it on parent.children
-            if( note.depth === 0 ) {
-
-                let day                     = this.get_note_day( note )
-                let note_index              = day.notes.indexOf( note )
-                let previous_note           = day.notes[--note_index]
-
-                if( previous_note.depth === 0 ) {
-                    payload.note.$depth( 1 )
-                    previous_note.children.push(note)
-                } else {
-                    let previous_note_parent    = ilse.notes.get_note_parent_v2( previous_note )
-                    let day_index               = this.days.indexOf( day )
-                        payload.note.$depth( 1 )
-                        previous_note_parent.children.push( note )
-                }
-
-            } else {
-
-                let day                     = this.get_note_day( note )
-                let note_index              = day.notes.indexOf( note )
-                let previous_note           = day.notes[--note_index]
-                let previous_note_parent    = ilse.notes.get_note_parent_v2( previous_note )
-
-                // BUGFIX: On 1 depth of difference between notes.
-                if( note.depth - previous_note.depth  !== 1) return
-
-                payload.note.$depth( 1 )
+                component.props = { file }
+                ilse.components.push( component )
             }
 
-            note.focus()
-            */
-
-        },
-
-        on_shift_tab( payload ) {
-
-            let note = payload.note
-            // TODO: Remove from parent and put it on our notes
-            if( note.depth === 1 ) {
-
-                let day                     = this.get_note_day( note )
-                let note_index              = day.notes.indexOf( note )
-                let previous_note           = day.notes[--note_index]
-                previous_note.children.splice( ++previous_note, 1 )
-
-            } else {
-
-            }
-
-            // this.options.key = Math.random().toString()
-            payload.note.$depth( -1 )
         },
 
         // TODO: BUG: When we type enter we correctly add the note but it's not rendered corretly, also setting the depth is problematic k
@@ -421,8 +335,8 @@ export default {
         add_day( id ) {
 
             let day    = id.substr( 0, 8 ) /*day*/ 
-            // let notes  = ilse.notes.query( day )
             let notes  = ilse.notes.query( day )
+            printf( "notes -> ", notes )
                 this.days.push({ id, notes })
             this.$forceUpdate()
         },
@@ -447,70 +361,6 @@ export default {
             let today_id     = get_unique_date_id() // 20200125
                 setTimeout( () => { this.add_day( today_id ) }, 2000 )
 
-            this.listen()
-        },
-
-        add( payload ) {
-
-            /*
-            for( let i = 0; i < this.days.length; i++ ) {
-
-                printf( "i -> ", i )
-                for( let j = 0; j < this.days[i].notes.length; j++  ) {
-                    printf( "j -> ", j )
-                    if( this.days[i].notes[j].id === after.id ) {
-                        this.days[i].notes.splice( j, 0, new_note )
-                    }
-
-                }
-            }
-            */
-
-            /*
-            this.days.forEach( ( day, day_index ) => {
-                printf( "day -> ", day )
-                day.notes.forEach( ( note, note_index ) => {
-                    is_equal = note.id === after.id 
-                    printf( `note.id: ${note.id} after: ${after.id}, is_equal: ${is_equal}` )
-                    // printf( "is_equal -> ", is_equal )
-                    if( is_equal ) {
-                        printf( ">>>>" )
-                        // this.days[day_index].notes.splice( next_index, 0, new_note )
-                        day.notes.splice( note_index, 0, new_note )
-                        return
-                    }
-                })
-            })
-            */
-
-            /*
-            return
-            for( const day of this.days ) {
-
-                let index = 0
-
-                for( const note of day.notes ) {
-                    index++
-
-                    if( note.id !== after.id ) continue
-
-                    printf( "this.days -> ", this.days )
-                    printf( "index -> ", index )
-                    printf( "this.days[index] -> ", this.days[index] )
-                    // this.days[index].notes.splice( ++index, 0, new_note )
-                    // this.$forceUpdate()
-                    // day.notes.splice( ++index, 0, new_note )
-
-                    // this.key = Math.random()
-                    // day.notes.splice( index, 0, new_note )
-
-                    return
-
-                }
-
-            }
-            */
-
         },
 
         // Give me a note(object) and I'll tell which day it is on.
@@ -523,63 +373,6 @@ export default {
             }
 
         },
-
-        reload() {
-
-        },
-
-        listen() {
-
-            Messager.on( "~notes", (action, payload) => {
-
-                if( action === "added" ) {
-                    let index       = payload.index
-                    let new_note    = payload.note
-
-                    this.outline_key= Math.random()
-                    
-                    // let after       = index === 0 ? ilse.notes.list[0] : ilse.notes.list[index - 1]
-                    // let day         =  this.get_note_day( after )
-                }
-
-                /*
-                if( action === "added" ) {
-
-                    let index       = payload.index
-                    let new_note    = payload.note
-
-                    if( new_note.depth === 0 ) {
-
-                        let after       = index === 0 ? ilse.notes.list[0] : ilse.notes.list[index - 1]
-                        // if( after.depth !== new_note.depth ) return
-                        let day         =  ilse.notes.list.length === 1 ? this.days[0] : this.get_note_day( after )
-                        let note_index  = day.notes.indexOf( after )
-                        let day_index   = this.days.indexOf( day )
-                            this.days[day_index].notes.splice( ++note_index, 0, new_note )
-
-                    } else {
-
-                        let after       = index === 0 ? ilse.notes.list[0] : ilse.notes.list[index - 1]
-                        let parent      = ilse.notes.get_note_parent_v2(new_note)
-                        let after_index = parent.children.indexOf( after )
-
-                        parent.children.splice( ++after_index, 0, new_note )
-                            new_note.focus()
-                    }
-
-                } else if( action === "deleted" ) {
-
-                    let note        = payload
-                    let day         = this.get_note_day( note )
-                        if( !day ) return
-                    let note_index= day.notes.indexOf( note )
-                    let day_index   = this.days.indexOf( day )
-                        this.days[day_index].notes.splice( note_index, 1 )
-                }
-                */
-
-            })
-        }
 
     },
 

@@ -1,19 +1,14 @@
 <template lang="pug" >
 .note
-    .flex( v-if="is_on" :style="options.style" :class=" is_dragging_over ? 'dragging-over' : '' " )
+    .flex( :style="options.style" :class=" is_dragging_over ? 'dragging-over' : '' " )
 
         .bullet( v-if="!options.hide_bullet" )
-            p.collapsed( v-if="inote.is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_bullet_middle_click" @click.right="on_bullet_right_click" @click.left="on_bullet_left_click" @dbclick="on_bullet_db_click" :id=" 'bullet-' + inote.id" ) &#8277;
-            p.expanded( v-if="!inote.is_collapsed" :title="ilse.utils.get_human_readable_creation_date(inote.id)" @click.middle="on_bullet_middle_click" @click.right="on_bullet_right_click" @click.left="on_bullet_left_click" @dbclick="on_bullet_db_click" :id=" 'bullet-' + inote.id" ) &bull;
+            p.collapsed( v-if="options.is_collapsed" :title="get_human_readable_creation_date(id)" @click="on_bullet_click" @dbclick="on_bullet_db_click" :id=" 'bullet-' + id" ) &#8277;
+            p.expanded( v-if="!options.is_collapsed" :title="get_human_readable_creation_date(id)" @click="on_bullet_click" @dbclick="on_bullet_db_click" :id=" 'bullet-' + id" ) &bull;
 
-        // edit
+        .edit( contentEditable v-if="options.is_editable" :id="id" @keydown="on_key_down($event)" @blur="on_blur($event)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" :style="get_fit_content_style(content)" ) {{content}}
 
-        .edit( contentEditable v-if="inote.is_editable" :id="inote.id" @keydown="on_key_down($event, inote)" @blur="on_blur($event, inote)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" :style="get_fit_content_style(inote)" ) {{options.is_tagless ? inote.tagless : inote.content}}
-
-        // show
-        // .html( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" @dragover.prevent :data-unique-id="inote.id" draggable @dragover="is_dragging_over = true" @dragleave="is_dragging_over = false" @dragend="is_dragging_over = false" @drop="on_drop" @drag="ilse.dragging = inote.id" )
-
-        .html( v-show="!inote.is_editable" v-html="get_html(inote)" @click="on_focus($event, inote)" :id="inote.id" @drop.prevent="add_file" :data-unique-id="inote.id" :style="get_fit_content_style(inote)" )
+        .html( v-show="!options.is_editable" v-html="markdown_to_html(content)" @click="on_focus($event)" :id="id" @drop.prevent="add_file" :style="get_fit_content_style(content)" )
 
 </template>
 <script>
@@ -39,6 +34,17 @@ const printf                        = console.log;
     import yyyymmddhhss_to_pretty       from "@/classes/yyyymmddhhss_to_pretty.js"
     import get_clipboard                from "@/classes/get_clipboard.js"
     import extract_embeds_from_string   from "@/classes/extract_embeds_from_string.js"
+    import extract_note_id              from "@/classes/extract_note_id.js"
+    import extract_note_content         from "@/classes/extract_note_content.js"
+    import get_normalized_note          from "@/classes/get_normalized_note.js"
+    import get_special_normalized_note  from "@/classes/get_special_normalized_note.js"
+    import markdown_to_html             from "@/classes/markdown_to_html.js"
+    import if_else                      from "@/classes/if_else.js"
+    import set                          from "@/classes/set.js"
+
+    import get_human_readable_creation_date from "@/classes/get_human_readable_creation_date.js"
+    import get_note_depth               from "@/classes/get_note_depth.js"
+    import get_spaces_count             from "@/classes/get_spaces_count.js"
 
 export default {
 
@@ -46,16 +52,15 @@ export default {
 
     props: {
         component: { type: Object, required: false, },
-        note: { type: Object, required: false, },
-        // note: { type: String, required: false, },
+        // note: { type: Object, required: false, },
+        note: { type: String, required: false, },
         options: { type: Object, required: false,
             default: function() {
                 return {
-                    style: "",
-                    bullet_1: "&bull;",
                     hide_bullet: false,
                     is_tagless: false,
                     read_only: false,
+                    is_editable: false,
                 }
             }
         },
@@ -73,28 +78,33 @@ export default {
             ilse: ilse,
             is_dragging_over: false,
 
-            inote: this.note,
-            // inote: new ilse.classes.Note(this.note),
-            // inote: new ilse.classes.Note(this.note),
-            // inote: new ilse.classes.Note( ilse.notes.list[this.note] ),
-            // inote: ilse.notes.list[this.note],
+            content: extract_note_content( this.note ),
+            id:      extract_note_id( this.note ),
 
-            // This is for the [note ref] and [file ref]
-            is_on: false,
+            inote: this.note,
+
+            // is_on: false, // This is for the [note ref] and [file ref] TODO: REMOVE THIS
         }
     },
 
     methods: {
 
-        get_fit_content_style( note ) {
-
-            let style  = ``
-            let embeds = extract_embeds_from_string( note.content )
-            if( embeds.length ) style += `width: 100%;`
-
-            return style
+        get_human_readable_creation_date( string ) {
+            return get_human_readable_creation_date( string )
         },
 
+        get_fit_content_style( content ) {
+
+            let embeds = extract_embeds_from_string( content )
+
+            return if_else(
+                embeds.length,
+                is      => `width: 100%; `,
+                is_not  => ''
+            )
+        },
+
+        /*
         get_dom() {
             let dom = event.srcElement.parentNode
             if( !dom.getAttribute("data-unique-id") ) dom = dom.parentNode
@@ -102,10 +112,11 @@ export default {
 
             return dom
         },
+        */
 
         on_drop( event ) {
 
-            let dom          = this.get_dom()
+            // let dom          = this.get_dom()
             let id           = dom.getAttribute( "data-unique-id" )
 
             // For UI
@@ -134,12 +145,10 @@ export default {
             this.is_dragging_over   = false
             ilse.dragging           = ""
         },
- 
-        on_bullet_right_click( event ) {
 
-            if( this.inote.children.length && event.button === 0 ) this.inote.is_collapsed = !this.inote.is_collapsed
-            this.$emit( "on-note-click", { note: this.note, event: event, button: "right" })
-            return
+        on_bullet_click() {
+
+            // if( this.inote.children.length && event.button === 0 ) this.inote.is_collapsed = !this.inote.is_collapsed
 
             let button
             if( event.button === 0 ) button = "left"
@@ -149,34 +158,9 @@ export default {
             this.$emit( "on-note-click", { note: this.note, event: event, button: button })
         },
 
-        on_bullet_left_click( event ) {
-            this.$emit( "on-note-click", { note: this.note, event: event, button: "left" })
+        on_bullet_db_click() {
         },
-
-        on_bullet_db_click( event ) {
-            printf( "on_bullet_db_click -> event -> ", event )
-        },
-
-        on_bullet_middle_click() {
-            this.$emit( "on-note-click", { note: this.note, event: event, button: "middle" })
-        },
-
-        get_query( note ) {
-
-            let tags = note.get_tags()
-            let to_return
-
-            tags.map( tag => {
-                if( tag.indexOf("query") !== -1 ) to_return = tag.split("/")[2]
-            })
-
-            return to_return
-        },
-
-        on_textarea_click( event, note ) {
-            if( !note.content ) note.content += "EMPTY"
-        },
-
+ 
         async add_file( event ) {
 
             if( this.options.read_only ) return
@@ -192,136 +176,69 @@ export default {
 
             await ilse.filesystem.file.write.async( name, blob )
 
-            this.inote.focus()
+            // this.inote.focus()
 
             setTimeout( () => {
                 this.inote.caret.add( ` ![[${name}]]` ) }, 100 )
         },
 
-        // on_note_search_result_select( payload ) {
-        on_note_search_result_select( type, text ) {
-
-            let _this   = this
-            let note    = this.inote
-
-            setTimeout( () => {
-
-                this.inote.focus()
-                let dom         = document.getElementById( note.id )
-
-                // BUGFIX: For some reason after inserting "id+))" if we blur we'll lose and go back to "((" This fixes this issue by setting inote.content directly
-                let is_note_ref = type === "note" && note.content.indexOf(text) === -1 
-                let is_file_ref = type === "file" && note.content.indexOf( text.replace(".md", "") ) === -1 
-                let value
-
-                if( is_note_ref ) _this.inote.content += ` ((${text}))`, dom 
-                if( is_file_ref ) _this.inote.content += ` ![[${text.replace(".md", "")}]]`, dom 
-            }, 100 )
-
-
+        markdown_to_html( content ) {
+            return markdown_to_html( content )
         },
 
-        get_html( note ) {
-
-            let content         = this.options.is_tagless ? note.tagless : note.content
-                let normalized      = ilse.markdown.render( content )
-
-            return normalized
-        },
-
-        listen_to_embed_keys() {
-
-            let _this = this
-
-            ilse.keyboard.Mousetrap.bindGlobal( "ctrl+space (", function(event){
-                event.preventDefault()
-                ilse.modals.open( "search", { mode: "embed", filter: "notes", is_markdown_mode_on: true, id: _this.inote.id })
-            })
-
-
-            ilse.keyboard.Mousetrap.bindGlobal( "ctrl+space right-square-bracket", function(event){
-                event.preventDefault()
-                ilse.modals.open( "search", { mode: "embed", filter: "files", is_markdown_mode_on: true, id: _this.inote.id })
-            })
-
-        },
-
-        stop_listening_to_embed_keys() {
-            ilse.keyboard.Mousetrap.unbind( "ctrl+space right-square-bracket")
-            ilse.keyboard.Mousetrap.unbind( "ctrl+space (")
-        },
-
-        on_focus( event, inote ) {
+        on_focus( event ) {
 
             if( this.options.read_only ) return
-
-            this.listen_to_embed_keys()
-
-            // let shift = event.shiftKey
-                // if( shift ) return
-
-            // BUGFIX: No id nor content
-            // let is_note_malformed = !inote.content || !inote.id
-            let is_note_malformed = !inote.id
-                if( is_note_malformed ) return ""
 
             // FEATURE: Checkbox
             let clicked_on_a_checkbox = event.target.type === "checkbox"
             if( clicked_on_a_checkbox ) {
-                this.inote.content = this.inote.content.replace( "- [ ]", "- [x]" )
+                this.content = this.content.replace( "- [ ]", "- [x]" )
                 // ilse.notes.save()
                 return
             }
 
-            // Blur all others
-            Messager.emit( "~note.vue", "blur-all" )
-
-            // Correct
-            if( this.inote.id === inote.id ) {
-                this.focus( inote.id )
-            } else {
-                this.inote.is_editable = false
-            }
-
+            this.focus( this.id )
         },
 
         focus( id ) {
-            this.inote.is_editable = true
-            this.inote.focus()
+
+            this.options.is_editable = true
+
+            setTimeout( () => {
+                let dom = document.getElementById( id )
+                if( dom ) dom.focus()
+            }, 10 )
+            // this.inote.focus()
         },
 
         // BUG: Focusin on a note does not blue others
         on_blur( event, inote ) {
 
             // save(contentEditable)
-            this.inote.content        = event.target.innerText // inline save
-            // printf( "changed -> this.inote.raw -> ", this.inote.raw )
-            // printf( "changed -> this.inote.content -> ", this.inote.content )
-            // printf( "changed -> ilse.notes.list[inote.id] -> ", ilse.notes.list[inote.id] )
+            this.content             = event.target.innerText // inline save
+            this.options.is_editable = false
 
-            let real                  = ilse.notes.list[inote.id]
-            let first_part            = real.split(":")[0]
-            let new_real              = `${ilse.utils.get_depth_spaces(real.depth)}${inote.id}: ${this.inote.content}`
-            ilse.notes.list[inote.id] = new_real
+            let depth  = get_note_depth( this.id )
+            printf( "depth -> ", depth )
+            let spaces = get_spaces_count( depth )
+            printf( "spaces -> ", spaces  )
 
-            // setTimeout( () => { ilse.notes.list[inote.id] = event.target.innerText }, 100 ) /*global save*/
+            printf( "before(real) -> ", ilse.notes.list[this.id])
+            ilse.notes.list[this.id] = `${spaces}${this.content}`
+            printf( "after(real) -> ", ilse.notes.list[this.id])
 
-            this.stop_listening_to_embed_keys()
+            // printf( "ilse.notes.list[this.id] -> ", ilse.notes.list[this.id] )
 
-            if( inote.id === this.inote.id ) {
-                // Blur
-                this.inote.is_editable = false
+            // printf( "this.content -> ", this.content )
+            // let special       = get_special_normalized_note( this.id )
+            // printf( "special -> ", special )
+            // printf( "before -> ilse.notes.list[this.id] -> ", ilse.notes.list[this.id] )
+            // ilse.notes.list[this.id] = special
+            // printf( "after -> ilse.notes.list[this.id] -> ", ilse.notes.list[this.id] )
 
-                // Says we have blurred
-                this.$emit( "on-blur", { event: event, note: inote })
-
-                // ??
-                // Messager.emit( "~note.vue", "blur", {note: this.inote})
-
-                // Save
-                // ilse.notes.save()
-            }
-
+            // printf( "before -> ", ilse.notes.list[this.id])
+            // printf( "after -> ", ilse.notes.list[this.id])
         },
 
         // TODO: Take selected text, if [ then wrap the text around
@@ -352,7 +269,8 @@ export default {
             // Enter
             if( key  === "Enter" && !is_ctrl && !is_shift ) {
                 event.preventDefault()
-                this.$emit( "on-enter", { note: inote, event })
+                let normalized = get_normalized_note( this.id )
+                this.$emit( "on-enter", { note: normalized, event })
             }
 
             // Ctrl+Enter
@@ -370,49 +288,53 @@ export default {
 
             // Tab
             if( key === "Tab" && !is_shift && !is_ctrl ) {
-                this.$emit( "on-tab", { note: inote, event })
+                let normalized = get_normalized_note( this.id )
+                this.$emit( "on-tab", { note: normalized, event })
                 event.preventDefault()
             }
 
             // Shift-Tab
             if( key === "Tab" && is_shift && !is_ctrl ) {
                 event.preventDefault()
-                this.$emit( "on-shift-tab", { note: inote, event })
+                let normalized = get_normalized_note( this.id )
+                this.$emit( "on-shift-tab", { note: normalized, event })
             }
 
             // Arrow up
             if( key === "ArrowUp" && !is_shift && !is_ctrl && !is_alt ) {
-                this.$emit( "on-arrow-up", { note: inote, event })
+                let normalized = get_normalized_note( this.id )
+                this.$emit( "on-arrow-up", { note: normalized, event })
             }
 
             // Arrow down
             if( key === "ArrowDown"  && !is_shift && !is_ctrl && !is_alt ) {
-                this.$emit( "on-arrow-down", { note: inote, event })
+                let normalized = get_normalized_note( this.id )
+                this.$emit( "on-arrow-down", { note: normalized, event })
             }
 
             let char           = event.key
-        },
-
-        open_search( filter = "all" ) {
-            // this.inote.caret.get() 
-            ilse.modals.open( "search", {mode: "embed", filter, is_markdown_mode_on: true, id: this.inote.id })
         },
 
         listen() {
 
             let _this = this
 
+            /*
             Messager.on( "~search.vue", async ( action, payload ) => {
 
-                if( action === "select" && this.inote.id === payload.target) this.on_note_search_result_select( payload.type, payload.text )
+                // if( action === "select" && this.inote.id === payload.target) this.on_note_search_result_select( payload.type, payload.text )
                 if( action === "cancel" && this.inote.id === payload.target) {
                     setTimeout( () => { this.inote.focus(); _this.listen_to_embed_keys() }, 500 )
                 }
             })
+            */
 
             Messager.on( "~note.vue", async ( action, payload ) => {
-                if( action === "focus" ) if( this.inote.id === payload.target ) this.focus( payload.target ) 
-                if( action === "link-click" ) if( this.inote.id === payload.target ) _this.$emit( "on-link-click", { link: payload.link, event: payload.event, note: _this.inote } )
+                if( action === "focus" ) if( this.id === payload.target ) this.focus( payload.target ) 
+                if( action === "link-click" ) if( this.id === payload.target ) {
+                    printf( "Note.vue -> You clicked on a link " )
+                    _this.$emit( "on-link-click", { link: payload.link, event: payload.event, note: _this.inote } )
+                }
                 if( action === "blur-all" ) {
                     this.is_editable = false
                 }
@@ -446,7 +368,6 @@ export default {
         setup() {
 
             // this.$watch( ilse.notes.list[this.note], e => { printf( ">>>>> e -> ", e ) })
-
             this.set_note_from_component()
             this.listen()
         },

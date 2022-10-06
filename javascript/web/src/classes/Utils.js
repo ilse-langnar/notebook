@@ -410,6 +410,7 @@ export default class Utils {
 
     }
 
+    /*
     // ( "[[example]]", /\[\[*./, /\]\]/ )
     extract_tokens_by_delimiters( text, start, end ) {
 
@@ -444,7 +445,7 @@ export default class Utils {
 
                 // [[ref.png]], [[ This is multiple]] -> add spaced for it(sentence with space).
                 // if( token_count >= 2 && !words[++index].match( end ) ) {
-                if( token_count >= 2 /*multi-token*/ ) {
+                if( token_count >= 2 ) { // multi-token
                     tmp += word + " "
                 } else {
                     tmp += word
@@ -483,7 +484,7 @@ export default class Utils {
 
         return normalized_list
 
-    }
+    } */
 
     // "I'm an example [[here]] nad [[2]]" -> [ [[here]], [[2 ]] ]
     extract_string_by_regexp( pattern, string ) {

@@ -26,6 +26,10 @@ export default function get_plugin_api( name ) {
 
         notes: has_permission( name, 'notes' )  ? ilse.notes : null,
 
+        command: function() {}, // todo
+        autocomplete: function() {}, // todo
+        text_expansion: function() {}, // todo
+
         messager: {
             // on:   has_permission( name, 'communication' ) ? Messager.on   : null,
             // emit: has_permission( name, 'communication' ) ? Messager.emit : null,

@@ -1,10 +1,15 @@
 <template lang="pug" >
-.references
-    .has( v-if="query_linked(file) && query_linked(file).length" )
+.references( :key="key" )
+    .has
+
+        span.loop( v-for="( item, index ) in get_related_links( file )" :key="index" style="margin: 5px; ") {{item}}
+
+        br( style="clear: both;" )
+        br
 
         p.is-size-5 References
 
-        details
+        details( v-if="query_linked(file) && query_linked(file).length" open )
             summary Linked References({{query_linked(file).length}})
 
             .linked
@@ -20,7 +25,7 @@
                         button( @click="link(item)" ) Link
 
     .not( v-if="!query_linked(file) || !query_linked(file).length" )
-        h1.centered No References
+        h1.centered No References({{file}})
 
 </template>
 <script>
@@ -36,6 +41,15 @@ const printf                        = console.log;
 // Components
     import Notes                        from "@/components/Notes.vue"
 
+// functions
+    import query                        from "@/classes/query.js"
+    import extract_note_id              from "@/classes/extract_note_id.js"
+    import set                          from "@/classes/set.js"
+    import if_else                      from "@/classes/if_else.js"
+    import add_component                from "@/classes/add_component.js"
+    import extract_markdown_links_from_string  from "@/classes/extract_markdown_links_from_string.js"
+    import remove_duplicates_from_array from "@/classes/remove_duplicates_from_array.js"
+
 export default {
 
     name: "References",
@@ -48,8 +62,7 @@ export default {
     data() {
         return {
             ilse: ilse,
-            refs: [],
-            is_linked: true,
+            key: 0,
         }
     },
 
@@ -59,48 +72,57 @@ export default {
 
     methods: {
 
+        get_related_links( file ) {
+            return remove_duplicates_from_array(extract_markdown_links_from_string(this.query_linked(file).join(" ") ) )
+        },
+
+        remove_duplicates_from_array( array ) {
+            return remove_duplicates_from_array( array )
+        },
+
+        extract_markdown_links_from_string( string ) {
+            return extract_markdown_links_from_string( string )
+        },
+
         query_linked( file ) {
-            let result     = ilse.notes.query(`[[${file}]]`)
-            return result
+            return query(`[[${file.replace(".md", "")}]]`, null, true )
         },
 
         query_unlinked( file ) {
-            let r = `[^\\[\\[](${file})[^\\]\\]]` // file, but without the [[]]
+            let r          = `[^\\[\\[](${file.replace(".md", "")})[^\\]\\]]` // file, but without the [[]]
             let reg_exp    = new RegExp( r, "ig" )
             let result     = ilse.notes.query_regexp( reg_exp )
+            printf( "query_unlinked -> ", result )
             return result
         },
 
         link( note ) {
-            let file = this.file.replace(".md", "")
-            // note.content = note.content.replace( file, '[[' + file + ']]' )
-            note.content = note.content.replace( new RegExp(`(${file})`, 'ig'), `[[${file}]]` )
+
+            set( ilse.notes.list, extract_note_id( note ), note.replace( new RegExp(`(${this.file.replace(".md", "")})`, 'ig'), `[[${this.file.replace(".md", "")}]]` ) )
+
+            // printf( "ilse.notes.list[extract_note_id(note)] -> ", extract_note_id(note), ilse.notes.list[extract_note_id(note)] )
+            
+            // printf( "before -> ilse.notes.list[extract_note_id(note)] -> ", ilse.notes.list[extract_note_id(note)] )
+            // set( ilse.notes.list, extract_note_id( note ), "Example 222" )
+
+            // set( this, "key", Math.random() )
+
+            // printf( "after -> this.ilse.list[extract_note_id(note)] -> ", this.ilse.list[extract_note_id(note)] )
+
+            // printf( "references.vue -> link -> note -> ", note )
+            // set( note, "content", note.content.replace( new RegExp(`(${file.replace(".md", "")})`, 'ig'), `[[${file.replace(".md", "")}]]` ))
+            // extract_note_id( note )
+            // let file = this.file.replace(".md", "")
+            // note.content = note.content.replace( new RegExp(`(${file})`, 'ig'), `[[${file}]]` )
         },
 
         on_note_link_click( payload ) {
 
-            let note             = payload.note
-            let file             = payload.link
-            let event            = payload.event
-            let is_shift         = event.shiftKey
-            let is_ctrl          = event.ctrlKey
-
-            let is_file_markdown = !(file.indexOf(".mp4") !== -1 || file.indexOf(".png") !== -1 || file.indexOf(".jpg") !== -1 || file.indexOf(".jpeg") !== -1 || file.indexOf(".gif") !== -1 || file.indexOf(".svg") !== -1 || file.indexOf(".mp4") !== -1 || file.indexOf(".webm") !== -1 || file.indexOf(".mp3") !== -1 || file.indexOf(".ogg") !== -1 || file.indexOf(".wav") !== -1)
-                if( is_file_markdown ) file += ".md"
-
-            // <=======> Shift <=======> //
-            if( is_shift ) {
-                let component = new ilse.classes.Component({ type: "file", width: 8, props: { file }})
-                    ilse.components.push( component )
-            }
-            // <=======> Shift <=======> //
-
-            // <=======> Ctrl <=======> //
-            if( is_ctrl ) {
-                let component = new ilse.classes.Component({ type: "graph", width: 8, props: { file }})
-                    ilse.components.push( component )
-            }
-            // <=======> Ctrl <=======> //
+            if_else(
+                payload.event.shiftKey,
+                yes => add_component({ type: "file", props: { file: payload.link }, width: 12 }),
+                no  => null
+            )
 
         },
 

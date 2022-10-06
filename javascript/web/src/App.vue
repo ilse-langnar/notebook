@@ -6,29 +6,10 @@
 // eslint-disable-next-line
 const printf                                        = console.log;
 
-// import "bulma/css/bulma.min.css"
-
-// process.env.NODE_ENV === 'production' ? require("bulma/css/bulma.min.css") : require("@/assets/css/bulma.css")
-// require("@/assets/css/bulma.css")
-
-// <----------> Title <----------> //
-// import title                                        from "@/utils/title.js";
-// <----------> Title <----------> //
-
-    // window.Mousetrap = Mousetrap
-    // printf( "Mousetrap -> ", Mousetrap )
-
-// directives: {
-    // title,
-// },
-// title: "Ilse Langna's Noreboko",
-
-// metaInfo: {
-    // title: "Ilse Langnar's Notebook"
-// },
-
-// require("@/assets/domarrow.css")
-// require("@/assets/js/domarrow.js")
+// functions
+    import set                                      from "@/classes/set.js"
+    import if_else                                  from "@/classes/if_else.js"
+    import is_platform                              from "@/classes/is_platform.js"
 
 export default {
 
@@ -40,7 +21,11 @@ export default {
 
     methods: {
 
-        setFavicon() {
+        set_title() {
+            document.head.title = "Ilse Langnar's Notebook"
+        },
+
+        set_favicon() {
             // let favicon = require( "@/assets/images/logo-white-background.png" )
             let favicon = require( "@/assets/images/logo.svg" )
 
@@ -80,7 +65,12 @@ export default {
         },
 
         setup() {
-            if( process.env.VUE_APP_TARGET === "ELECTRON" ) this.set_font_face()
+
+            if_else( is_platform( 'electron' ),
+                yes => this.set_font_face(),
+                no => null
+            )
+            this.set_title()
         },
 
     },
@@ -134,7 +124,6 @@ export default {
     background: var( --secondary-background-color );
     color: var( --secondary-text-color );
     border-radius: var( --border-radius );
-
 }
 
 .shortcut {

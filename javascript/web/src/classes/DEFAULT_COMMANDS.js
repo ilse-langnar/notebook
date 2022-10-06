@@ -1,0 +1,844 @@
+
+export default [
+
+    {
+        id: "void",
+        icon: "mood-empty.svg",
+        fn: function() { },
+        description: "Void",
+        name: "Void",
+        props: {},
+    },
+
+    {
+        id: "open-command-pallet-modal",
+        fn: function() {
+            ilse.modals.open( "command-pallet" )
+        },
+        description: "Open Command Pallet Modal",
+        name: "Open Command Pallet Modal",
+        props: {},
+    },
+
+    {
+        id: "autocomplete",
+        fn: function() {
+            printf( "autocomplete" )
+            let dom = document.activeElement
+                printf( "dom -> ", dom )
+        },
+        description: "Autocomplete for common names.",
+        name: "Autocomplete",
+        props: {},
+    },
+
+    {
+        id: "create-app",
+        fn: function() {
+            ilse.modals.open( "create-app" )
+        },
+        description: "Create App for ilse",
+        name: "Create App",
+        props: {},
+    },
+
+    {
+        id: "repeat-last-command",
+        fn: function() {
+            _this.run( _this.last_command.id, _this.last_command.args )
+        },
+        description: "Will repeat the last command with all of its arguments",
+        name: "Repeat Last Command",
+        props: {},
+    },
+
+    {
+        id: "open-modal-of-bad-notes",
+        fn: function() {
+            // TODO
+        },
+        description: "Open Command Pallet Modal",
+        name: "Open Command Pallet Modal",
+        props: {},
+    },
+
+    {
+        id: "toggle-dark-mode",
+        icon: "moon-stars.svg",
+        fn: function() {
+            ilse.config.dark = !ilse.config.dark
+            ilse.config.save()
+        },
+        description: "Will turn on if it's off, and off if it's on",
+        name: "Toggle Dark Mode",
+        props: {},
+    },
+
+    {
+        id: "open-keyboard-shortcuts-modal",
+        icon: "keyboard.svg",
+        fn: function() {
+            ilse.modals.open( "keyboard-shortcut" )
+        },
+        description: "Will open modal with the list of shortcuts",
+        name: "Open Keyboard Shortcuts Modal",
+        props: {},
+    },
+
+    {
+        id: "open-types-selection",
+        icon: "letter-t.svg",
+        fn: function() {
+            ilse.modals.open( "type-selection" )
+        },
+        description: "Will open a modal with a list of <Types>",
+        name: "Open Type Selection",
+        props: {},
+    },
+
+    {
+        id: "save",
+        icon: "save.svg",
+        fn: function() {
+            ilse.save()
+        },
+        description: "Will save: bullets, config etc.",
+        name: "Save",
+        props: {},
+    },
+
+    {
+        id: "reload-plugins",
+        icon: "moon-stars.svg",
+        fn: function() {
+            ilse.plugin_manager.load()
+            ilse.notification.send( "Reloaded", "Plugins Reloaded" )
+        },
+        description: "Will re-load all plugins",
+        name: "Reload Plugins",
+        props: {},
+    },
+
+    /*
+    {
+        id: "first-brain-read",
+        fn: function() {
+            ilse.brains.first.read_first()
+        },
+        description: "Will read an item from first brain",
+        name: "First Brain: Read",
+        props: {},
+    },
+
+    {
+        id: "first-brain-shuffle",
+        fn: function() {
+            ilse.brains.first.shuffle()
+        },
+        description: "Will shuffle your queu",
+        name: "First Brain: Shuffle",
+        props: {},
+    },
+
+    {
+        id: "first-brain-open-last",
+        fn: function() {
+            ilse.brains.first.last()
+        },
+        description: "Will open the last time",
+        name: "First Brain: Open Last",
+        props: {},
+    },
+
+    {
+        id: "first-brain-increase",
+        fn: function() {
+            ilse.brains.first.increase()
+        },
+        description: "Will increase interest interet on last item",
+        name: "First Brain: Increase",
+        props: {},
+    },
+
+    {
+        id: "first-brain-decrease",
+        fn: function() {
+            ilse.brains.first.decrease()
+        },
+        description: "Will decrease interest interet on last item",
+        name: "First Brain: Decrease",
+        props: {},
+    },
+    */
+
+    /*
+    {
+        id: "open-file",
+        fn: function() {
+            let component = new ilse.classes.Component({ type: "file", width: 12, props: { file: "Ilse.md" } })
+                ilse.components.push( component )
+            ilse.modals.close()
+        },
+        description: "Will open a new file",
+        name: "Open File",
+        props: {},
+    },
+    */
+
+    {
+        id: "open-help-modal",
+        icon: "lifebuoy.svg",
+        fn: function() {
+            ilse.modals.open( "help" )
+        },
+        description: "Will open the help modal",
+        name: "Open Help Modal",
+        props: {},
+    },
+
+    {
+        id: "open-configuration-modal",
+        icon: "settings.svg",
+        fn: function() {
+            ilse.modals.open( "configuration" )
+        },
+        description: "Will open the configuration modal",
+        name: "Open Configuration Modal",
+        props: {},
+    },
+
+    /*
+    {
+        id: "open-first-brain-modal",
+        fn: function() {
+            ilse.modals.open( "first-brain" )
+        },
+        description: "Will open the all-in-one first-brain modal",
+        name: "Open First Brain Modal",
+        props: {},
+    },
+    */
+
+    {
+        id: "toggle-menu",
+        fn: async function() {
+
+            let has_menu_already = false
+            let menu_index       = null
+            let found
+
+            ilse.components.map( (component, index)  => {
+                found = component.type === "menu"
+                if( found ) {
+                    has_menu_already = true
+                    menu_index       = index
+                }
+            })
+
+            if( has_menu_already ) {
+                ilse.components.splice( menu_index, 1 )
+                // ilse.notification.send( "Already there", "The menu is already on!" )
+            } else {
+                let component = new ilse.classes.Component({ type: "menu", width: 0 })
+                    ilse.components.unshift( component )
+            }
+
+        },
+        description: "Will add if it's not there, will remove if it's there",
+        name: "Toggle Menu",
+        props: {},
+    },
+
+    {
+        id: "new-note",
+        icon: "point.svg",
+        fn: async function() {
+            let payload = await ilse.dialog.input( "New note", "Content:" )
+            let input   = payload.input
+            let index   = ilse.notes.list.length
+                ilse.notes.add( input )
+        },
+        description: "Will open a prompt for a new note",
+        name: "New Note",
+        props: {},
+    },
+
+    /*
+    {
+        id: "search",
+        fn: async function() {
+            let component = new ilse.classes.Component({ type: "search-component", width: 12, props: {} })
+                ilse.components.push( component )
+        },
+        description: "Search Notes, Files and more",
+        name: "Search",
+        props: {},
+    },
+    */
+
+    {
+        id: "add-new-line",
+        fn: async function() {
+            printf( "Command.js -> void:add-new-line" )
+        },
+        description: "Add new line",
+        name: "Add New Line",
+        props: {},
+    },
+
+    /*
+    {
+        id: "open-text-file",
+        fn: async function() {
+            // let payload = await ilse.dialog.input( "File Name", "Description" )
+            // let name    = payload.input
+            // let name    = `projects/lazy-scheduler/Lazy Scheduler.html`
+            let name    = ``
+            let component = new ilse.classes.Component({ type: "text-file", width: 8, props: { name }})
+                ilse.components.push( component )
+
+        },
+        description: "Will open a new text file",
+        name: "Open Text File",
+        props: {},
+    },
+    */
+
+    {
+        id: "open-note-on-a-mind-map",
+        icon: "hand-move.svg",
+        fn: async function() {
+            document.body.style.cursor = "crosshair";
+            let event_listener
+            function on_click( event ) {
+                document.removeEventListener( "click", on_click )
+                let id        = event.target.id.split("-")[1]
+                if( id ) {
+                    let component = new ilse.classes.Component({ type: "mind-map", width: 12, props: { id: id } })
+                        ilse.components.push( component )
+                }
+                document.body.style.cursor = "auto";
+
+            }
+            event_listener = document.addEventListener( "click", on_click )
+
+        },
+        description: "Will listen to your click and open the note on a mind map",
+        name: "Open Note on a Mind Map",
+        props: {},
+    },
+
+    {
+        id: "open-note-on-a-table-pan",
+        fn: async function() {
+            printf( "1" )
+            document.body.style.cursor = "crosshair";
+            printf( "2" )
+            let event_listener
+            printf( "3" )
+            function on_click( event ) {
+                printf( "4" )
+                document.removeEventListener( "click", on_click )
+                printf( "5" )
+                let id        = event.target.id.split("-")[1]
+                printf( "id -> ", id )
+                printf( "6" )
+                if( id ) {
+                    printf( "7" )
+                    let component = new ilse.classes.Component({ type: "table-pan", width: 12, props: { id: id } })
+                        printf( "8" )
+                        ilse.components.push( component )
+                        printf( "9" )
+                }
+                        printf( "10" )
+                document.body.style.cursor = "auto";
+                printf( "11" )
+
+            }
+            printf( "12" )
+            event_listener = document.addEventListener( "click", on_click )
+            printf( "13" )
+
+        },
+        description: "Will listen to your click and open the note on a table pan",
+        name: "Open Note on a Table Pan",
+        props: {},
+    },
+
+    {
+        id: "open-note-on-a-memex",
+        fn: async function() {
+            document.body.style.cursor = "crosshair";
+            let event_listener
+            function on_click( event ) {
+                document.removeEventListener( "click", on_click )
+                let id        = event.target.id.split("-")[1]
+                printf( ">>>>>>> id -> ", id )
+                if( id ) {
+                    let component = new ilse.classes.Component({ type: "memex", width: 12, props: { id: id } })
+                        ilse.components.push( component )
+                }
+                document.body.style.cursor = "auto";
+
+            }
+            event_listener = document.addEventListener( "click", on_click )
+
+        },
+        description: "Will listen to your click and open the note on a memex",
+        name: "Open Note on a Memex",
+        props: {},
+    },
+
+    {
+        id: "open-textarea-search",
+        fn: async function() {
+
+            let dom = document.activeElement
+                if( !dom ) return
+
+            let id = dom.id
+                if( !id ) return
+            let note = ilse.notes.query( `${id}: ` )[0]
+            Messager.emit( "~note.vue", "open-search", { target: note.id, type: "files" } )
+
+        },
+        description: "",
+        name: "Open Textarea Search",
+        props: {},
+    },
+
+    {
+        id: "open-note-search",
+        fn: async function() {
+
+            let dom = document.activeElement
+                if( !dom ) return
+
+            let id = dom.id
+                if( !id ) return
+
+            let note = ilse.notes.query( `${id}: ` )[0]
+
+            Messager.emit( "~note.vue", "open-search", { target: note.id, type: "notes" } )
+
+        },
+        description: "",
+        name: "Open Textarea Search",
+        props: {},
+    },
+
+
+    /*
+    {
+        id: "first-brain-tag-add",
+        fn: async function() {
+            ilse.brains.first.tag()
+        },
+        description: "Add a tag to the last item on your first brain",
+        name: "First Brain: Add Tag",
+        props: {},
+    },
+
+    {
+        id: "first-brain-tag-remove",
+        fn: async function() {
+            ilse.brains.first.tag()
+        },
+        description: "Remove a tag to the last item on your first brain",
+        name: "First Brain: Remove Tag",
+        props: {},
+    },
+    */
+
+    /*
+    {
+        id: "open-query-blocks",
+        fn: async function() {
+            let component = new ilse.classes.Component({ type: "query-blocks", width: 12, props: {} })
+                ilse.components.push( component )
+        },
+        description: "Will open a new 'query blocks' component",
+        name: "Open Query Blocks",
+        props: {},
+    },
+    */
+
+    /*
+    {
+        id: "open-spreadsheet",
+        fn: async function() {
+            let component = new ilse.classes.Component({ type: "spreadsheet", width: 12, props: {} })
+                ilse.components.push( component )
+        },
+        description: "Will open a new component for Spreadsheets",
+        name: "Open Spreadsheets",
+        props: {},
+    },
+    */
+
+    /*
+    {
+        id: "open-calendar",
+        fn: async function() {
+            let component = new ilse.classes.Component({ type: "calendar", width: 12, props: {} })
+                ilse.components.push( component )
+        },
+        description: "Will open a new component for the Calendar",
+        name: "Open Calendar",
+        props: {},
+    },
+    */
+
+    /*
+    {
+        id: "open-kanban",
+        fn: async function() {
+            let component = new ilse.classes.Component({ type: "kanban", width: 12, props: {} })
+                ilse.components.push( component )
+        },
+        description: "Will open a new component for a Kanban",
+        name: "Open Kanban",
+        props: {},
+    },
+    */
+
+    {
+        id: "toggle-resize-mode",
+        fn: async function() {
+            ilse.config.is_resize_mode_on = !ilse.config.is_resize_mode_on
+            ilse.config.save()
+            setTimeout( () => { window.location.reload() }, 1000 )
+        },
+        description: "Toggle Resize Mode",
+        name: "Toggle Resize Mode",
+        props: {},
+    },
+
+    {
+        id: "open-search-modal",
+        icon: "lupe.svg",
+        fn: async function() {
+            ilse.modals.open( "search", { mode: "global", filter: "all", is_markdown_mode_on: true, id: null  })
+        },
+        description: "Open Search Modal",
+        name: "Open Search Modal",
+        props: {},
+    },
+
+    {
+        id: "open-modal-list",
+        fn: async function() {
+            ilse.modals.open( "modals-modals" )
+        },
+        description: "List of all modals",
+        name: "Open Modal List",
+        props: {},
+    },
+
+    {
+        id: "toggle-zen-mode",
+        icon: "yin-yang.svg",
+        fn: async function() {
+            ilse.config.is_zen  = !ilse.config.is_zen
+            ilse.is_zen         = !ilse.config.is_zen
+            ilse.config.save()
+        },
+        description: "Will toggle zen mode",
+        name: "Toggle Zen Mode",
+        props: {},
+    },
+
+    {
+        id: "rotate-theme",
+        fn: async function() {
+            // let themes =ilse.notes.query('#i/theme/')
+        },
+        description: "Go to the next theme available",
+        name: "Rotate theme",
+        props: {},
+    },
+
+    {
+        id: "reset-theme",
+        fn: async function() {
+            ilse.themes.apply_default_theme()
+        },
+        description: "Will reset the theme to the default theme",
+        name: "Reset Theme",
+        props: {},
+    },
+
+    {
+        id: "open-make-extention-modal",
+        fn: async function() {
+            ilse.modals.open("make-extention")
+        },
+        description: "Open make extention modal",
+        name: "Open Make Extention Modal",
+        props: {},
+    },
+
+    {
+        id: "import-plugin-from-url",
+        icon: "packge-import.svg",
+        fn: async function() {
+            let payload = await ilse.dialog.input( "Import Plugin", "url:" )
+            let url     = payload.input
+            ilse.plugin_manager.import_from_url( url )
+        },
+        description: "Import Plugin from URL",
+        name: "Import Plugin from URL",
+        props: {},
+    },
+
+    {
+        id: "toggle-left-sidebar",
+        fn: async function() {
+            ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open
+        },
+        description: "Toggle Left Sidebar",
+        name: "Toggle Left Sidebar",
+        props: {},
+    },
+
+    {
+        id: "toggle-right-sidebar",
+        fn: async function() {
+            ilse.is_right_sidebar_open = !ilse.is_right_sidebar_open
+        },
+        description: "Toggle Right Sidebar",
+        name: "Toggle Right Sidebar",
+        props: {},
+    },
+
+    {
+        id: "print-keys",
+        fn: async function() {
+            printf( "ilse.keyboard -> ", ilse.keyboard )
+        },
+        description: "Printf Keys",
+        name: "Printf Keys",
+        props: {},
+    },
+
+    {
+        id: "insert-random-text",
+        fn: async function() {
+            const dom       = document.activeElement
+            dom.innerText  += `<button onclick="alert('Hello, World')" > Hello, World </button>`
+            // dom.onkeypress = function(){ return false }
+        },
+        description: "Printf Keys",
+        name: "Printf Keys",
+        props: {},
+    },
+
+    /*
+    {
+        id: "open-drawing-board",
+        fn: async function() {
+
+            // let url
+            // if( is_dev() ) {
+                // url = `app://${ilse.target_directories[0]}/signature-pad.html`
+            // } else {
+                // url = `atom://${ilse.target_directories[0]}/signature-pad.html`
+            // }
+
+            create_window({ title: "Simple Draw", html: "signature-pad.html" })
+
+            // let frame   = ilse.frame.create({
+                // title: 'Draw',
+                // appearanceName: 'yosemite',//Now preset is selectable from  'yosemite','redstone','popup'
+                // left: 200, top: 200, width: 600, height: 400,
+                // movable: true,//Enable to be moved by mouse
+                // resizable: true,//Enable to be resized by mouse
+                // // html: `<iframe src="${url}" style="width: 100%; height: 100%; overflow: hidden; "> </iframe>`
+                // url: url,
+            // })
+
+            // frame.show()
+        },
+        description: "Will Open a drawing board for you to draw",
+        name: "Open Drawing Board",
+        props: {},
+    },
+    */
+
+    {
+        id: "open-website-on-window",
+        fn: async function() {
+
+            let clip    = await ilse.clipboard.read()
+            let is_url  = clip && clip.indexOf("http") !== -1 || clip.indexOf("ftp://") !== -1 || clip.indexOf("file://") !== -1
+            let url
+
+            if( clip && is_url ) {
+                url = clip
+            } else {
+                let payload = await ilse.dialog.input( "Query", "Type:" )
+                url         = payload.input
+            }
+
+            create_window({ title: "Browse", url: url })
+
+        },
+        description: "Will open a new query windows based on your choice.",
+        name: "Open new Query",
+        props: {},
+    },
+
+    {
+        id: "open-external-website-on-window",
+        fn: async function() {
+            let payload   = await ilse.dialog.input( "Query", "Type:" )
+            let full_path = payload.input
+            create_window({ title: `${full_path}(Website)`, external: true, url: full_path })
+        },
+        description: "Will open a new query windows based on your choice(External).",
+        name: "Open External Website",
+        props: {},
+    },
+
+    {
+        id: "open-html-on-window",
+        fn: async function() {
+
+            let payload   = await ilse.dialog.input( "Query", "Type:" )
+            let full_path = payload.input
+            create_window({ title: `${full_path}(HTML)`, url: full_path })
+
+        },
+        description: "Will open a new query windows based on your choice.",
+        name: "Open HTML",
+        props: {},
+    },
+
+    {
+        id: "open-vim",
+        fn: async function() {
+            printf( "open vim" )
+            create_window({ title: "Vim", id: "ll", html: `vim/index.html` })
+        },
+        description: "Will open vim in a floating window",
+        name: "Open Vim",
+        props: {},
+    },
+
+    {
+        id: "focus-quick-search",
+        fn: async function() {
+            let dom   = document.getElementById( "quick-search" )
+            if( dom ) {
+                dom.focus()
+                setTimeout( () => { dom.value = "" }, 1 )
+            }
+        },
+        description: "Focus Quick Search",
+        name: "Focus Quick Search",
+        props: {},
+    },
+
+    {
+        id: "open-random-note",
+        fn: async function() {
+            let random= notes[Math.floor(Math.random()*notes.length)]
+        },
+        description: "Will open a random note",
+        name: "Open Random Note",
+        props: {},
+    },
+
+    {
+        id: "open-new-query",
+        fn: async function() {
+
+            // dialog
+            let payload = await ilse.dialog.input( "Query", "Type:" )
+            let input   = payload.input
+
+            let frame   = ilse.frame.create({
+                title: 'Query',
+                left: 200, top: 200, width: 320, height: 220,
+                movable: true,//Enable to be moved by mouse
+                resizable: true,//Enable to be resized by mouse
+                url: `app://${ilse.target_directories[0]}/html-table.html`,//URL to display in iframe
+                // html: '<div id="my_element" style="padding:10px;font-size:12px;color:darkgray;">Contents of window</div>'
+            })
+
+            frame.show()
+
+        },
+        description: "Will open a new query windows based on your choice.",
+        name: "Open new Query",
+        props: {},
+    },
+
+    {
+        id: "check-clipboard",
+        fn: async function() {
+
+            let string
+            try {
+                string         = await ilse.clipboard.read()
+            } catch( e ) {}
+
+            if( !string ) {
+                this.is_on = false
+                return
+            }
+
+            let is_importing   = string.indexOf("#i/theme/") !== -1 || string.indexOf("#i/plugin/") !== -1 || string.indexOf("#i/template/") !== -1
+            if( !is_importing ) {
+                this.is_on = false;
+                return
+            }
+
+            ilse.modals.open( "importer" )
+        },
+        description: "Check Clipboard",
+        name: "Check Clipboard",
+        props: {},
+    },
+
+    {
+        id: "export-quine",
+        icon: "plant.svg",
+        fn: async function() {
+            printf( "export-quine: TODO" )
+            /*
+            let o = await fetch("https://raw.githubusercontent.com/ilse-langnar/notebook/dev/javascript/quine/index.html")
+            printf( "o -> ", o )
+            let text = await o.text()
+            printf( "text -> ", text )
+
+            let filesystem = {
+                "/": {
+                    "notes": "",
+                    "queue": "",
+                    "statistics": "",
+                    "priorities": "",
+                    "config.json": JSON.stringify( ilse.config.get_normalized_config() ),
+                    "second/": { },
+                    "first/": { },
+                    ".trash/": { },
+                    "plugins/": { },
+                }
+            }
+            printf( "filesystem -> ", filesystem )
+
+            text = text.replace( "<div id=\"app\"> </div>", `<div id="app"> </div>
+            <div id="db">
+                ${JSON.stringify(filesystem)}
+            </div>
+            `)
+            printf( "text -> ", text )
+
+            ilse.utils.download_text( text, "index.html" )
+            */
+        },
+        description: "Export Quine",
+        name: "Export Quine",
+        props: {},
+    },
+]

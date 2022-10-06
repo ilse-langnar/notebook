@@ -1,6 +1,7 @@
 {
   "name": "ilse-langnar-notebook",
-  "version": "1.1.0",
+  "productName": "Ilse Langnar's Notebook",
+  "version": "1.2.0",
   "private": true,
   "author": "ilse",
   "scripts": {

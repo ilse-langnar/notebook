@@ -14,11 +14,11 @@ export default function add_component({
     is_on       = true,
 }) {
 
-    printf( "add_component -> type -> ", type )
     let component = ilse.types.get( type )
-    printf( "add_component -> component -> ", component )
+
 
     if( !component ) {
+
         component = ilse.types.add({
             id: id,
             name: name,
@@ -30,9 +30,9 @@ export default function add_component({
             type: type,
             props: props,
         })
-    }
 
-    printf( "before -> ilse.component -> ", ilse.components.length )
-    ilse.components.push( component )
-    printf( "before -> ilse.component -> ", ilse.components.length )
+    } else {
+        component.props = props
+        ilse.components.push( component )
+    }
 }

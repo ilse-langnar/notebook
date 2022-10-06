@@ -56,6 +56,10 @@ const printf                        = console.log;
     import Notes                        from "@/components/Notes.vue"
     import References                   from "@/components/References.vue"
 
+// functions
+    import extract_tokens_by_regexp_delimiters       from "@/classes/extract_tokens_by_regexp_delimiters.js"
+
+
 export default {
 
     name: "File",
@@ -94,7 +98,8 @@ export default {
         },
 
         get_embed( content, file ) {
-            let list = ilse.utils.extract_tokens_by_delimiters( content, /\!?\[\[/, /\]\]/ ).filter( e => e.indexOf(file) === -1)
+            // let list = ilse.utils.extract_tokens_by_delimiters( content, /\!?\[\[/, /\]\]/ ).filter( e => e.indexOf(file) === -1)
+            let list = extract_tokens_by_delimiters( content, /\!?\[\[/, /\]\]/ ).filter( e => e.indexOf(file) === -1)
             return list
         },
 
@@ -164,6 +169,7 @@ export default {
         },
 
         setup() {
+            printf( ">>>>> this.$props -> ", this.$props )
             this.listen_to_details()
         },
 

@@ -9,6 +9,9 @@ const printf                        = console.log
 // functions
     import get_note_id                      from "@/classes/get_note_id.js"
     import get_unique_date_id               from "@/classes/get_unique_date_id.js"
+    import extract_note_id                  from "@/classes/extract_note_id.js"
+    import extract_note_content             from "@/classes/extract_note_content.js"
+    import extract_tokens_by_regexp_delimiters   from "@/classes/extract_tokens_by_regexp_delimiters.js"
 
 export default class Notes {
 
@@ -97,8 +100,10 @@ export default class Notes {
 
             if( !note ) return
 
-            this.list[ note.split(":")[0].trim().replace(":", "") ] = note
+            // this.list[ note.split(":")[0].trim().replace(":", "") ] = note
+            this.list[extract_note_id(note)] = extract_note_content(note)
         })
+
         /*
         let id
         let obj
@@ -244,7 +249,8 @@ export default class Notes {
         // [ "20220122113043: Top [[Psycology Papers]]", "20220122113043: I have a new [[Idea]]" ]
         for( const note of notes ) {
 
-            links              = this.ilse.utils.extract_tokens_by_delimiters( note.content,  /^\[\[.*/, /\]\]$/ ) // "Something to [[Write]]" -> [ "Write" ]
+            // links              = this.ilse.utils.extract_tokens_by_delimiters( note.content,  /^\[\[.*/, /\]\]$/ ) // "Something to [[Write]]" -> [ "Write" ]
+            links              = extract_tokens_by_regexp_delimiters( note.content,  /^\[\[.*/, /\]\]$/ ) // "Something to [[Write]]" -> [ "Write" ]
 
             // [ [ "[[Javascript]]", "[[Psycology Papers]]" ] ]
             for( let link of links ) {
@@ -321,7 +327,7 @@ export default class Notes {
     }
 
     // ilse.notes.query_regexp( /<string>s?/ ) = for plurals, I might also use this in = References / .? <term> .?  / = for more iclusive query
-    query_regexp( q = / / , limit = null ) {
+    query_regexp( q = / / , limit = null, log ) {
 
         let name = "query-" + q
 
@@ -333,24 +339,16 @@ export default class Notes {
 
         let has_match = false
         let result    = []
-        let list      = this.list
+        // let list      = this.list
         let reg_exp
+        let list      = Object.entries( this.list )
 
-        for( const note in list ) {
-            has_match = note.match( q )
-                if( !has_match ) return
-
-            result.push( note )
-        }
-
-        /*
         list.map( note => {
-            has_match = note.match( q )
+            // has_match = note.join(": ").toLowerCase().indexOf( q ) !== -1
+            has_match = note.join(": ").match( q )
                 if( !has_match ) return
-
-            result.push( note )
+            result.push( note.join(": ") )
         })
-        */
 
         // FEATURE: Set Cache
             ilse.cache.set(name, result)
@@ -363,30 +361,26 @@ export default class Notes {
         }
     }
 
-    query( q = "", limit = null ) {
+    query( q = "", limit = null, log ) {
 
         q = q.toLowerCase()
         let name = "query-" + q
 
-        // FEATURE: O(n)
-            if( q === "" ) return this.list
+        if( q === "" ) return this.list // FEATURE: O(n)
 
-        // FEATURE: Check name Queries( O(n) )
-            if( ilse.cache.get(name) ) return ilse.cache.get(name)
+        if( ilse.cache.get(name) ) return ilse.cache.get(name) // FEATURE: Check name Queries( O(n) )
 
         let has_match = false
         let result    = []
-        // let list      = this.list
-        let list      = Object.values(this.list)
+        let list      = Object.entries( this.list )
 
         list.map( note => {
-            has_match = note.indexOf( q ) !== -1
+            has_match = note.join(": ").toLowerCase().indexOf( q ) !== -1
                 if( !has_match ) return
-            result.push( note )
+            result.push( note.join(": ") )
         })
 
-        // FEATURE: Setname
-            ilse.cache.set(name, result)
+        ilse.cache.set(name, result) // FEATURE: Setname
 
         if( typeof(limit) === "number" ) {
             result.length = limit
@@ -424,9 +418,11 @@ export default class Notes {
     }
 
     // give me a content, a reference note and a depth and I'll add it correctly for you.
-    add_after( content, depth, note ) {
-        let index   = this.get_index( note.id )
-        // printf( "Notes.js -> add_after -> index -> ", index )
+    add_after( content, depth, note_id ) {
+        let index   = this.get_index( note_id )
+        printf( "Notes.js -> add_after -> index ", index )
+        printf( "Notes.js -> add_after -> depth ", depth )
+        printf( "Notes.js -> add_after -> note_id ", note_id )
         return this.add( content, ++index, depth )
     }
 
@@ -437,8 +433,10 @@ export default class Notes {
         let note             = `${spaces}${id}: ${content}` // 20220120155758: Hello, World
 
         if( index === null ) {
+            printf( "null" )
             this.list[id]  = note
         } else {
+            printf( "fromEntries" )
             let entries = Object.entries( this.list )
                 entries.splice( index, 0, [ id, note ] ) // Add
 
@@ -447,7 +445,7 @@ export default class Notes {
 
         Messager.emit( "~notes", "added", { note: this.list[id], index: index, })
 
-        return this.list[id]
+        return id
     }
 
     /*
@@ -545,7 +543,8 @@ export default class Notes {
     get_file_references( string ) {
 
 
-        let list       = ilse.utils.extract_tokens_by_delimiters( string, /\[\[*./, /\]\]/ )
+        // let list       = ilse.utils.extract_tokens_by_delimiters( string, /\[\[*./, /\]\]/ )
+        let list       = extract_tokens_by_regexp_delimiters( string, /\[\[*./, /\]\]/ )
         let to_return  = []
         let extention
 
