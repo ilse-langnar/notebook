@@ -22,11 +22,10 @@ export default function extract_note_content( string, log = false ) {
     if( log ) printf( "normalized -> ", normalized )
 */
 
+    /*
     let has_depth = string.indexOf("    ") !== -1
-    // if( log ) printf( "extract_note_content -> has_depth -> ", has_depth )
 
     if( has_depth ) {
-        // if( log ) printf( "extract_note_content -> 1 -> " )
         let chunks = string.split("    ")
         let depth  = string.split("    ").length - 1
         let spaces = get_spaces_count( depth )
@@ -38,12 +37,18 @@ export default function extract_note_content( string, log = false ) {
         return `${spaces}${normalized}`
     } else {
 
-        // if( log ) printf( "extract_note_content -> 2 -> " )
         let content    = string.split(": ")
             content.shift() // remove id
 
         let normalized = content.join(": ")
         return normalized
     }
+    */
 
+
+    let content    = string.split(": ")
+        content.shift() // remove id
+
+    let normalized = content.join(": ")
+    return normalized
 }

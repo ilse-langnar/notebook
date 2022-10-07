@@ -10,7 +10,7 @@
             p.fitem &#128269;
         .options.centered
 
-        Outline( :notes="day.notes" )
+        Outline( :notes="get_note_days(day.notes)" )
 
         GhostNote( v-if="day.notes.length" @on-enter="on_ghost_note_enter" @on-blur="on_ghost_note_blur" :payload="day" :options="{ placeholder: '' }" )
 
@@ -48,6 +48,7 @@ const printf                        = console.log;
     import get_unique_date_id           from "@/classes/get_unique_date_id.js"
     import remove_array_item            from "@/classes/remove_array_item.js"
     import delay                        from "@/classes/delay.js"
+    import extract_note_id              from "@/classes/extract_note_id.js"
 
 export default {
 
@@ -70,6 +71,17 @@ export default {
 
     methods: {
 
+        get_note_days( list ) {
+            let normalized = list.map( e=> {return e.id })
+            printf( "get_note_days -> normalized -> ", normalized )
+            return normalized
+        },
+
+        extract_note_id( string ) {
+            return extract_note_id( string )
+
+        },
+
         get_daily_notes() {
             let date = get_unique_date_id() // 20200125
                 date = date.split("")
@@ -77,6 +89,7 @@ export default {
                 date = date.join("")
 
             let list = ilse.notes.query( date )
+            printf( "list -> ", list )
 
             return list
         },
@@ -198,6 +211,7 @@ export default {
 
             let day    = id.substr( 0, 8 ) /*day*/ 
             let notes  = ilse.notes.query( day )
+            printf( "notes -> ", notes )
                 this.days.push({ id, notes })
             this.$forceUpdate()
         },

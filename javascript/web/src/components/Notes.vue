@@ -2,7 +2,8 @@
 .notes( v-if="note" )
     component( :is="require('@/components/Note.vue').default" :note="note" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-click="on_note_click" :options="options" )
     
-    .children( v-show="options.is_collapsed" :class="(note.split('    ').length && !options.prevent_depth_margin) ? 'left-border' : ''" :key="options.key" )
+    // .children( v-show="options.is_collapsed" :class="(note.split('    ').length && !options.prevent_depth_margin) ? 'left-border' : ''" :key="options.key" )
+    .children( v-show="options.is_collapsed" :class="(note.depth && !options.prevent_depth_margin) ? 'left-border' : ''" :key="options.key" )
         .loop( v-for="( item, index ) in note.children" :key="index" :style="get_note_style(item)" )
             Notes( :note="item" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-click="on_note_click" :options="options" )
 
@@ -28,16 +29,17 @@ export default {
         // note: { type: Object, required: false, },
         note: { type: String, required: false, },
         options: { type: Object, required: false, default: function() {
-            return {
-                prevent_depth_margin: false,
-                key: 0,
-                hide_bullet: false,
-                is_tagless: false,
-                read_only: false,
-                is_editable: false,
-                is_collapsed: false,
+                return {
+                    prevent_depth_margin: false,
+                    key: 0,
+                    hide_bullet: false,
+                    is_tagless: false,
+                    read_only: false,
+                    is_editable: false,
+                    is_collapsed: false,
+                }
             }
-        } },
+        },
     },
 
     data() {
@@ -102,7 +104,7 @@ export default {
         },
 
         check_for_collapse_tag() {
-            if( this.note && this.note.indexOf("#!c") !== -1 )  this.options.is_collapsed = true
+            // if( this.note && this.note.content.indexOf("#!c") !== -1 )  this.options.is_collapsed = true
         },
 
         setup() {

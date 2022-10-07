@@ -3,12 +3,12 @@
     .flex( :style="options.style" :class=" is_dragging_over ? 'dragging-over' : '' " )
 
         .bullet( v-if="!options.hide_bullet" )
-            p.collapsed( v-if="options.is_collapsed" :title="get_human_readable_creation_date(id)" @click="on_bullet_click" @dbclick="on_bullet_db_click" :id=" 'bullet-' + id" ) &#8277;
-            p.expanded( v-if="!options.is_collapsed" :title="get_human_readable_creation_date(id)" @click="on_bullet_click" @dbclick="on_bullet_db_click" :id=" 'bullet-' + id" ) &bull;
+            p.collapsed( v-if="options.is_collapsed" :title="get_human_readable_creation_date(note)" @click="on_bullet_click" @dbclick="on_bullet_db_click" :id=" 'bullet-' + note" ) &#8277;
+            p.expanded( v-if="!options.is_collapsed" :title="get_human_readable_creation_date(note)" @click="on_bullet_click" @dbclick="on_bullet_db_click" :id=" 'bullet-' + note" ) &bull;
 
-        .edit( contentEditable v-if="options.is_editable" :id="id" @keydown="on_key_down($event)" @blur="on_blur($event)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" :style="get_fit_content_style(content)" ) {{content}}
+        .edit( contentEditable v-if="options.is_editable" :id="note" @keydown="on_key_down($event)" @blur="on_blur($event)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" :style="get_fit_content_style(note)" ) {{ilse.notes.list[note].content}}
 
-        .html( v-show="!options.is_editable" v-html="markdown_to_html(content)" @click="on_focus($event)" :id="id" @drop.prevent="add_file" :style="get_fit_content_style(content)" )
+        .html( v-show="!options.is_editable" v-html="markdown_to_html(note)" @click="on_focus($event)" :id="note" @drop.prevent="add_file" :style="get_fit_content_style(note)" )
 
 </template>
 <script>
@@ -76,11 +76,18 @@ export default {
             ilse: ilse,
             is_dragging_over: false,
 
-            content: extract_note_content( this.note, true ),
-            id:      extract_note_id( this.note ),
-            depth:   get_note_depth( extract_note_id( this.note ) ),
+            // content: extract_note_content( this.note, true ),
+            // depth:   get_note_depth( extract_note_id( this.note ) ),
+            // id:      extract_note_id( this.note ),
+            // content: this.note.content,
+            // depth:   this.notes.depth,
+            // id:      extract_note_id( this.note ),
+            // content: "",
+            // depth:   0,
+            // content: ilse.notes.list[this.id].content,
+            // depth:   ilse.notes.list[this.id].depth,
 
-            inote: this.note,
+            // inote: this.note,
 
             // is_on: false, // This is for the [note ref] and [file ref] TODO: REMOVE THIS
         }
@@ -181,8 +188,8 @@ export default {
                 this.inote.caret.add( ` ![[${name}]]` ) }, 100 )
         },
 
-        markdown_to_html( content ) {
-            return markdown_to_html( content )
+        markdown_to_html( id ) {
+            return markdown_to_html( ilse.notes.list[id].content )
         },
 
         on_focus( event ) {
@@ -197,16 +204,17 @@ export default {
                 return
             }
 
-            this.focus( this.id )
+            this.focus( this.note )
         },
 
         focus( id ) {
+
             // printf( "focus(id)" )
             // ilse.notes.list[this.id] = `${get_spaces_count(get_note_depth(this.id))}${this.content}`
 
             // printf( "before -> this.content -> ", this.content )
 
-            this.content = ilse.notes.list[this.id].replace( /\ \ \ \ /gi, "" )
+            // this.content = ilse.notes.list[this.id].replace( /\ \ \ \ /gi, "" )
 
             // printf( "after -> this.content -> ", this.content )
 
@@ -228,13 +236,20 @@ export default {
             // printf( "blur()" )
 
             // save(contentEditable)
-            this.content             = event.target.innerText // inline save
+            // this.content             = event.target.innerText // inline save
+            // this.content             = event.target.innerText // inline save
             this.options.is_editable = false
+
+            // printf( "before -> ", ilse.notes.list[this.note.id].content )
+            ilse.notes.list[this.note].content = event.target.innerText // inline save
+            // this.note.content                     = ilse.notes.list[this.note.id].content 
+            // printf( "this.note.content -> ", this.note.content )
+            // printf( "after -> ", ilse.notes.list[this.note.id].content )
 
             // let depth  = get_note_depth( this.id )
             // let spaces = get_spaces_count( get_note_depth( this.id ) )
 
-            ilse.notes.list[this.id] = `${get_spaces_count(get_note_depth(this.id))}${this.content}`
+            // ilse.notes.list[this.id] = `${get_spaces_count(get_note_depth(this.id))}${this.content}`
 
             // ilse.notes.list[this.id] = `{this.content}`
 
@@ -274,24 +289,23 @@ export default {
             // ESC
             if( key  === "Escape" && !is_ctrl && !is_shift ) {
                 event.preventDefault()
-                this.$emit( "on-esc", { note: inote, event })
+                this.$emit( "on-esc", { note: ilse.notes.list[this.note], event })
             }
 
             // Enter
             if( key  === "Enter" && !is_ctrl && !is_shift ) {
                 event.preventDefault()
-                let normalized = get_normalized_note( this.id )
-                this.$emit( "on-enter", { note: normalized, event })
+                this.$emit( "on-enter", { note: ilse.notes.list[this.note], event })
             }
 
             // Ctrl+Enter
             if( key === "Enter" && !is_shift && is_ctrl ) { // Ctrl+Shift+Enter
                 event.preventDefault()
-                this.$emit( "on-ctrl-enter", { note: inote, event })
+                this.$emit( "on-ctrl-enter", { note: ilse.notes.list[this.note], event })
             }
 
             if( key === "Delete" && !is_ctrl && is_shift ) {
-                this.$emit( "on-ctrl-shift-delete", { note: inote, event })
+                this.$emit( "on-ctrl-shift-delete", { note: ilse.notes.list[this.note], event })
             }
 
             // Multiple lines
@@ -299,28 +313,24 @@ export default {
 
             // Tab
             if( key === "Tab" && !is_shift && !is_ctrl ) {
-                let normalized = get_normalized_note( this.id )
-                this.$emit( "on-tab", { note: normalized, event })
+                this.$emit( "on-tab", { note: ilse.notes.list[this.note], event })
                 event.preventDefault()
             }
 
             // Shift-Tab
             if( key === "Tab" && is_shift && !is_ctrl ) {
                 event.preventDefault()
-                let normalized = get_normalized_note( this.id )
-                this.$emit( "on-shift-tab", { note: normalized, event })
+                this.$emit( "on-shift-tab", { note: ilse.notes.list[this.note], event })
             }
 
             // Arrow up
             if( key === "ArrowUp" && !is_shift && !is_ctrl && !is_alt ) {
-                let normalized = get_normalized_note( this.id )
-                this.$emit( "on-arrow-up", { note: normalized, event })
+                this.$emit( "on-arrow-up", { note: ilse.notes.list[this.note], event })
             }
 
             // Arrow down
             if( key === "ArrowDown"  && !is_shift && !is_ctrl && !is_alt ) {
-                let normalized = get_normalized_note( this.id )
-                this.$emit( "on-arrow-down", { note: normalized, event })
+                this.$emit( "on-arrow-down", { note: ilse.notes.list[this.note], event })
             }
 
             let char           = event.key
@@ -341,10 +351,10 @@ export default {
             */
 
             Messager.on( "~note.vue", async ( action, payload ) => {
-                if( action === "focus" ) if( this.id === payload.target ) this.focus( payload.target ) 
-                if( action === "link-click" ) if( this.id === payload.target ) {
+                if( action === "focus" ) if( this.note === payload.target ) this.focus( payload.target ) 
+                if( action === "link-click" ) if( this.note.id === payload.target ) {
                     // printf( "Note.vue -> You clicked on a link " )
-                    _this.$emit( "on-link-click", { link: payload.link, event: payload.event, note: _this.inote } )
+                    _this.$emit( "on-link-click", { link: payload.link, event: payload.event, note: ilse.notes.list[_this.note] } )
                 }
                 if( action === "blur-all" ) {
                     this.is_editable = false
@@ -370,7 +380,7 @@ export default {
             let props       = this.$props.component.props
 
             let note      = props.note
-                this.inote    = note
+                // this.inote    = note
 
             this.is_on      = true
 
@@ -378,15 +388,18 @@ export default {
 
         setup() {
 
+            // printf( "this.note -> ", this.note )
+            // printf( "typeof this.note -> ", typeof this.note )
+
             // printf( "setup -> before -> this.content -> ", this.content )
 
-            printf( "before -> this.content -> ", this.content )
+            // printf( "before -> this.content -> ", this.content )
             // this.content = extract_note_content(ilse.notes.list[this.id])
             // this.content = ilse.notes.list[this.id]
 
             // this.content = extract_note_content( this.note, true ),
-            this.content = ilse.notes.list[this.id].replace( /\ \ \ \ /gi, "" ) 
-            printf( "after -> this.content -> ", this.content )
+            // this.content = ilse.notes.list[this.id].replace( /\ \ \ \ /gi, "" ) 
+            // printf( "after -> this.content -> ", this.content )
 
             // if( ilse.notes.list[this.id].indexOf("   ") !== -1 )  { this.content = ilse.notes.list[this.id].replace( /\ \ \ \ /gi, "" ) }
         

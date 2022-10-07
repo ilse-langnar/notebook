@@ -1,9 +1,9 @@
 <template lang="pug" >
 .outline
     .loop( v-for="( item, index ) in inotes" :key="index" :style="get_note_style(item)" )
-        p {{ilse.notes.list[extract_note_id(item)]}}
         Notes( :note="item" :key="index + key" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-link-click="on_note_link_click" )
-
+        // Notes( :note="extract_note_id(item)" :key="index + key" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-link-click="on_note_link_click" )
+        // p style: {{get_note_style(item)}}
 </template>
 <script>
 // eslint-disable-next-line
@@ -35,6 +35,7 @@ const printf                        = console.log;
     import set                          from "@/classes/set.js"
     import loop                         from "@/classes/loop.js"
     import add_component                from "@/classes/add_component.js"
+    import add_array_item               from "@/classes/add_array_item.js"
 
 export default {
 
@@ -73,14 +74,16 @@ export default {
 
         },
 
-        get_note_style( note ) {
+        get_note_style( id ) {
 
-            let depth  = get_note_depth( extract_note_id( note ) ) 
+            let depth  = ilse.notes.list[id].depth
             if( depth === 0 ) return ""
             if( depth === 1 ) return `margin-left: 18px !important; `
 
+            // let depth = ilse.notes.list[id]
+
             return if_else(
-                depth >= 2,
+                depth >= 1,
                 is      => `margin-left: ${18 * depth}px !important; `,
                 is_not  => ''
             )
@@ -89,55 +92,37 @@ export default {
 
         // extract id -> get index of said id, next(-1) -> get id again -> use this id to focus
         on_note_arrow_up( payload ) {
-
-            delay( focus_on_note, 
-                get_note_id_from_index( 
-                    get_note_index( 
-                        extract_note_id( payload.note ) 
-                    ) - 1 // previous
-                )
-            , 0 )
-
+            delay( focus_on_note, get_note_id_from_index( get_note_index( payload.note.id ) - 1 ) , 0 )
         },
 
         // extract id -> get index of said id, next(+1) -> get id again -> use this id to focus
         on_note_arrow_down( payload ) {
-
-            delay( focus_on_note, 
-                get_note_id_from_index( 
-                    get_note_index( 
-                        extract_note_id( payload.note ) 
-                    ) + 1 // next 
-                )
-            , 0 )
-
+            delay( focus_on_note, get_note_id_from_index( get_note_index( payload.note.id ) + 1 ) , 0 )
         },
 
         on_enter( payload ) {
 
-
-            let depth = get_note_depth(extract_note_id(payload.note))
             delay(
                 focus_on_note, 
-                ilse.notes.add_after( "Random",
-                    get_note_depth(extract_note_id(payload.note)),
-                    extract_note_id(payload.note)
+                ilse.notes.add_after( "",
+                    payload.note.depth,
+                    payload.note.id,
                 ),
             10 )
 
         },
 
         on_tab( payload ) {
-            set( ilse.notes.list, extract_note_id(payload.note), `    ${ilse.notes.list[extract_note_id(payload.note)]}` )
-            set( this, "key", Math.random() )
-            delay( focus_on_note, extract_note_id(payload.note), 10)
+            set( ilse.notes.list, payload.note.id, { content: payload.note.content, id: payload.note.id, depth: ++payload.note.depth })
+            this.key = Math.random()
+            delay( focus_on_note, payload.note.id, 100 )
         },
 
         on_shift_tab( payload ) {
+            set( ilse.notes.list, payload.note.id, { content: payload.note.content, id: payload.note.id, depth: --payload.note.depth })
+            this.key = Math.random()
+            delay( focus_on_note, payload.note.id, 100 )
 
-            set( ilse.notes.list, extract_note_id(payload.note), ilse.notes.list[extract_note_id(payload.note)].replace("    ", "") )
-            set( this, "key", Math.random() )
-            delay( focus_on_note, extract_note_id(payload.note), 10)
         },
 
         listen() {
@@ -153,22 +138,18 @@ export default {
                         yes => null,
                         no  => {
                             if_else( index === null,
-                                yes => push( note, this.inotes ), // push( note, this.inotes ) appear not to be in sync. while The ones I receive are!
+                                yes => {
+                                    push( note, this.inotes ), // push( note, this.inotes ) appear not to be in sync. while The ones I receive are!
+                                    delay( focus_on_note, note.id, 10 )
+                                },
                                 no  => {
-                                    printf( "No" )
-                                    printf( "index -> ", index )
                                     let list         = Object.keys(ilse.notes.list)
                                     let parent_id    = index === 0 ? list[0] : list[index - 1]
-                                    let new_note_id  = extract_note_id( note )
-                                    let complete = `${get_spaces_count(get_note_depth(parent_id))}${parent_id}: ${ilse.notes.list[parent_id]}` 
-                                    printf( "complete -> ", complete )
-
-                                    // let index = this.inotes.indexOf( `${get_spaces_count(get_note_depth(parent_id))}${parent_id}: ${ilse.notes.list[parent_id]}` )
-
+                                    let parent_index = this.inotes.indexOf( parent_id )
                                     this.inotes.splice( ++parent_index, 0, note )
-                                    this.key         = Math.random()
-                                    // let parent_index = this.inotes.indexOf(  )
-                                    // push( note, this.inotes )
+                                    set( this, "key", Math.random() )
+                                    delay( focus_on_note, note, 0 )
+                                    return
 
                                 }
                             )

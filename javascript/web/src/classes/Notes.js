@@ -11,7 +11,9 @@ const printf                        = console.log
     import get_unique_date_id               from "@/classes/get_unique_date_id.js"
     import extract_note_id                  from "@/classes/extract_note_id.js"
     import extract_note_content             from "@/classes/extract_note_content.js"
+    import get_note_depth                   from "@/classes/get_note_depth.js"
     import extract_tokens_by_regexp_delimiters   from "@/classes/extract_tokens_by_regexp_delimiters.js"
+    import get_spaces_count                 from "@/classes/get_spaces_count.js"
 
 export default class Notes {
 
@@ -97,12 +99,19 @@ export default class Notes {
         // Process note
         let notes      = textfile.split("\n")
 
-        notes.map( note=> {
+        notes.map( (note, index) => {
 
             if( !note ) return
 
             // this.list[ note.split(":")[0].trim().replace(":", "") ] = note
-            this.list[extract_note_id(note)] = extract_note_content(note, true )
+            this.list[extract_note_id(note)] = {
+                content: extract_note_content( note ),
+                id:      extract_note_id( note ),
+                depth:   note.split("    ").length -1,
+            }
+
+            if( index === 1 ) printf( "this.list[extract_note_id(note)] -> ", this.list[extract_note_id(note)] )
+
         })
 
         this._after_we_have_the_notes()
@@ -276,9 +285,12 @@ export default class Notes {
 
         list.map( note => {
             // has_match = note.join(": ").toLowerCase().indexOf( q ) !== -1
-            has_match = note.join(": ").match( q )
+            // has_match = note.join(": ").match( q )
+            // has_match = (note.id + note.content).toLowerCase().indexOf( q ) !== -1
+            has_match = (note.id + note.content).match( q )
                 if( !has_match ) return
-            result.push( note.join(": ") )
+            // result.push( note.join(": ") )
+            result.push( `${note.id}: ${note.content}` )
         })
 
         // FEATURE: Set Cache
@@ -303,12 +315,20 @@ export default class Notes {
 
         let has_match = false
         let result    = []
-        let list      = Object.entries( this.list )
+        // let list      = Object.entries( this.list ) // TODO: make us of values
+        let list      = Object.values( this.list ) // TODO: make us of values
+        let n
 
         list.map( note => {
-            has_match = note.join(": ").toLowerCase().indexOf( q ) !== -1
+
+            // has_match = note.join(": ").toLowerCase().indexOf( q ) !== -1
+            // has_match = (note.id + note.content).toLowerCase().indexOf( q ) !== -1
+            n = `${note.id}: ${note.content}`
+            has_match = n.toLowerCase().indexOf( q ) !== -1
                 if( !has_match ) return
-            result.push( note.join(": ") )
+            // result.push( note.join(": ") )
+            // result.push( `${note.id}: ${note.content}` )
+            result.push( note )
         })
 
         ilse.cache.set(name, result) // FEATURE: Setname
@@ -333,12 +353,46 @@ export default class Notes {
     // give me a content, a reference note and a depth and I'll add it correctly for you.
     add_after( content, depth, note_id ) {
         let index   = this.get_index( note_id )
-        printf( "Notes.js -> add_after -> index ", index )
-        printf( "Notes.js -> add_after -> depth ", depth )
-        printf( "Notes.js -> add_after -> note_id ", note_id )
+        // printf( "@Notes.js -> add_after -> index ", index )
+        // printf( "@Notes.js -> add_after -> depth ", depth )
+        // printf( "@Notes.js -> add_after -> note_id ", note_id )
         return this.add( content, ++index, depth )
     }
 
+    add( content, index = null, depth = 0 ) {
+
+        // let id               = get_note_id() // 20220120155758
+        // let spaces           = this.ilse.utils.get_depth_spaces( depth )
+        // let note             = `${spaces}${id}: ${content}` // 20220120155758: Hello, World
+        let id      = get_note_id()
+        let note             = {
+            content: content,
+            id:      id,
+            depth:   depth,
+        }
+
+
+        if( index === null ) {
+            // printf( "Notes.js -> add -> id -> ", id )
+            // printf( "Notes.js -> add -> note -> ", note )
+            this.list[id]  = note
+        } else {
+            let entries = Object.entries( this.list )
+                entries.splice( index, 0, [ id, note ] ) // Add
+
+            // printf( "entires before -> id ", id )
+            // printf( "entires before -> this.list[id]- ", this.list[id] )
+            this.list = Object.fromEntries( entries ) // Set
+            // printf( "entires after -> this.list[id]- ", this.list[id] )
+        }
+
+        Messager.emit( "~notes", "added", { note: id, index: index, })
+
+        return id
+    }
+
+
+    /*
     add( content, index = null, depth = 0 ) {
 
         let id               = get_note_id() // 20220120155758
@@ -358,8 +412,10 @@ export default class Notes {
 
         Messager.emit( "~notes", "added", { note: this.list[id], index: index, })
 
-        return id
+        // return id
+        // return id
     }
+    */
 
     delete( note ) {
 
