@@ -37,7 +37,6 @@ const printf                                        = console.log;
     import Dialogs          from "@/components/Dialogs.vue"
     import Notifications    from "@/components/Notifications.vue"
     import Renderer         from "@/components/Components.vue"
-    import Component        from "@/components/Component.vue"
     import StatusLine       from "@/components/StatusLine.vue"
 
 // functions
@@ -65,7 +64,6 @@ export default {
         Notifications,
 
         Renderer,
-        Component,
         StatusLine,
     },
 

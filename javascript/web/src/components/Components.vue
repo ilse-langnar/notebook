@@ -5,15 +5,15 @@
 
     .components( style="display: flex; flex-direction: row;" :key="components_key" )
 
-        Component.second-menu( v-show="!ilse.is_left_sidebar_open && !ilse.is_zen" :component="get_menu_component()" :options="{hide_bullet: true }" style="width: 20%; overflow: auto; " )
+        iComponent.second-menu( v-show="!ilse.is_left_sidebar_open && !ilse.is_zen" :component="get_menu_component()" :options="{hide_bullet: true }" style="width: 20%; overflow: auto; " )
         img( v-show="ilse.is_left_sidebar_open" :src="irequire.img('maximize.svg')" style="width: 20px; position: fixed; top: 1%; left: 5px; cursor: pointer; " @click="toggle_left_menu()" )
 
         // .component( v-if="ilse.frames.indexOf(component) === -1" v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
         .component( v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
             // Don't render window nor modal.
-            Component( :component="component" :id="component.key" )
+            iComponent( :component="component" :id="component.key" )
 
-        Component.right-sidebar( v-show="ilse.is_right_sidebar_open" :component="get_right_sidebar()" :options="{ hide_bullet: true }" :style="get_component_style(get_right_sidebar())" )
+        iComponent.right-sidebar( v-show="ilse.is_right_sidebar_open" :component="get_right_sidebar()" :options="{ hide_bullet: true }" :style="get_component_style(get_right_sidebar())" )
 
     .no-components( v-if="!components.length" style="flex-direction: column; height: 89vh; overflow: hidden !important; " )
         .centered( style="" )
@@ -33,7 +33,7 @@ const printf                        = console.log;
     import Messager                     from "@/classes/Messager.js"
 
 // Components
-   import Component                     from "@/components/Component.vue"
+   import iComponent                    from "@/components/iComponent.vue"
    import Test                          from "@/components/Test.vue"
    import Vue                           from "vue"
 
@@ -42,7 +42,7 @@ const printf                        = console.log;
 
 export default {
 
-    name: "IlseComponents",
+    name: "Components",
 
     props: {
         components: { type: Array, required: false },
@@ -50,7 +50,7 @@ export default {
     },
 
     components: {
-        Component,
+        iComponent,
     },
 
     watch: {

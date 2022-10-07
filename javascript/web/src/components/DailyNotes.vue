@@ -12,10 +12,6 @@
 
         Outline( :notes="day.notes" )
 
-        // .note( v-if="day && day.notes" v-for="(note, note_index) in day.notes.filter( e=> e )" :key="note_index + ilse.notes.list[note.split(':')[0].trim().replace(':', '')]" )
-            p {{get_note_style(note)}}
-
-            // Notes( v-if="note" :style="get_note_style(note)" :note="get_note(note)" :key="'note-' + note_index + key" @on-enter="on_enter" @on-note-click="on_note_click" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" :options="options" )
         GhostNote( v-if="day.notes.length" @on-enter="on_ghost_note_enter" @on-blur="on_ghost_note_blur" :payload="day" :options="{ placeholder: '' }" )
 
         .no-notes( v-if="!day.notes.length" )
@@ -50,6 +46,8 @@ const printf                        = console.log;
 // functions
     import yyyymmddhhss_to_pretty       from "@/classes/yyyymmddhhss_to_pretty.js"
     import get_unique_date_id           from "@/classes/get_unique_date_id.js"
+    import remove_array_item            from "@/classes/remove_array_item.js"
+    import delay                        from "@/classes/delay.js"
 
 export default {
 
@@ -58,14 +56,8 @@ export default {
     data() {
         return {
             ilse: ilse,
-            key: 0,
-            notes_key: 0,
             days: [], // [ { id: "20220128", notes: [ { text: "20220124102749: This is a [[Writing]] example", index: 15532 } ] } ]
-            outline_key: 0,
-            options: {
-                placeholder: '',
-                render_as_html: false,
-            },
+            // options: { placeholder: '', render_as_html: false, },
         }
     },
 
@@ -79,11 +71,6 @@ export default {
 
     methods: {
 
-        get_note( string ) {
-            printf( "DailyNotes.vue -> get_note -> string -> ", string )
-            return new ilse.classes.Note( string )
-        },
-
         get_daily_notes() {
             let date = get_unique_date_id() // 20200125
                 date = date.split("")
@@ -91,20 +78,14 @@ export default {
                 date = date.join("")
 
             let list = ilse.notes.query( date )
-            printf( "list -> ", list )
 
             return list
         },
 
-        render_note( note ) {
-            printf( "note.id -> ", note.id )
-            printf( "document.getElementById(note) -> ", document.getElementById(note.id) )
-            return !document.getElementById(note.id)
-        },
-
         remove( day ) {
-            let index = this.days.indexOf( day )
-            this.days.splice( index, 1 )
+            remove_array_item( this.days, day )
+            // let index = this.days.indexOf( day )
+            // this.days.splice( index, 1 )
         },
 
         async on_note_click( payload ) {
@@ -113,10 +94,8 @@ export default {
             let event       = payload.event
             let button      = payload.button
 
-            printf( "button -> ", button )
 
             if( button === "middle" ) {
-                printf( "note -> ", note )
 
                 let id     = note.id
                 let content= note.content
@@ -127,14 +106,8 @@ export default {
                 let has    = await ilse.filesystem.file.exists.async( name )
 
                 if( !has ) {
-
-                    printf( "!has -> ", !has )
-                    printf( "I'm Creating it:" )
                     let html = ilse.markdown.render( content )
-                    printf( "html -> ", html )
-
                     await ilse.filesystem.file.write.async( name, HTML_TEMPLATE.replace("@TITLE@", name).replace("@BODY@", html) )
-                    printf( "We now have it !!!!" )
                 }
 
                 this.options.render_as_html = !this.options.render_as_html
@@ -193,19 +166,14 @@ export default {
             let day
 
             this.days.map( _day => {
-                printf( "_day -> ", _day )
                 if( _day.id === id ) day = _day
             })
 
             let content = payload.content
-            printf( "DailyNotes -> content -> ", content )
             let note    = day.notes[ day.notes.length - 1 ]
-            printf( "DailyNotes -> note -> ", note )
             let depth   = 0 // BUGFIX: don't do note.depth, otherwise it'll be weird.
-            printf( "DailyNotes -> depth -> ", depth )
 
             let new_note = ilse.notes.add_after( content, depth, note )
-            printf( "new_note -> ", new_note )
                 new_note.focus()
         },
 
@@ -251,9 +219,7 @@ export default {
         // TODO: BUG: When we type enter we correctly add the note but it's not rendered corretly, also setting the depth is problematic k
         on_enter( payload ) {
 
-            printf( "DailyNotes -> on_enter -> payload -> ", payload )
             let note     = payload.note
-            printf( "DailyNotes -> on_enter -> note -> ", note )
             let new_note = ilse.notes.add_after( "", note.depth, note )
                 new_note.focus()
 
@@ -287,19 +253,6 @@ export default {
             // 20220123180536 -> Febuary 20th, 2020
             let date = yyyymmddhhss_to_pretty( day.id )
             return date
-        },
-
-        // Control the margins
-        get_note_style( note ) {
-            // printf( "DailyNote -> get_note_style -> note -> ", note )
-
-            // let style = `display: flex;`
-            let style = ``
-            let depth = note.split("    ").length
-            printf( `depth: ${depth} note: ${note}` )
-                if( depth >= 2 ) style += `margin-left: ${18 * depth}px !important; `
-
-            return style
         },
 
         load_day_before() {
@@ -336,7 +289,6 @@ export default {
 
             let day    = id.substr( 0, 8 ) /*day*/ 
             let notes  = ilse.notes.query( day )
-            printf( "notes -> ", notes )
                 this.days.push({ id, notes })
             this.$forceUpdate()
         },
@@ -358,8 +310,9 @@ export default {
             this.scroll_listener() 
 
             // Add today's data and its notes
-            let today_id     = get_unique_date_id() // 20200125
-                setTimeout( () => { this.add_day( today_id ) }, 2000 )
+            // let today_id     = get_unique_date_id() // 20200125
+                // setTimeout( () => { this.add_day( today_id ) }, 2000 )
+            delay( this.add_day, get_unique_date_id(), 1000 )
 
         },
 

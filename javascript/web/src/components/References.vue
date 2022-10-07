@@ -7,7 +7,7 @@
         br( style="clear: both;" )
         br
 
-        p.is-size-5 References
+        p.is-size-5( v-if="query_linked(file).length" ) References
 
         details( v-if="query_linked(file) && query_linked(file).length" open )
             summary Linked References({{query_linked(file).length}})
@@ -25,7 +25,7 @@
                         button( @click="link(item)" ) Link
 
     .not( v-if="!query_linked(file) || !query_linked(file).length" )
-        h1.centered No References({{file}})
+        h2.centered No References for: {{file.replace(".md", "")}}
 
 </template>
 <script>

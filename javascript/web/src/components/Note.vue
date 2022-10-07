@@ -22,7 +22,6 @@ const printf                        = console.log;
     import Messager                     from "@/classes/Messager.js"
 
 // Components
-    import Component                    from "@/components/Component.vue"
     import Notes                        from "@/components/Notes.vue"
     import Note                         from "@/components/Note.vue"
     import File                         from "@/components/Note.vue"
@@ -67,7 +66,6 @@ export default {
     },
 
     components: {
-        Component,
         Notes,
         Note,
         File,

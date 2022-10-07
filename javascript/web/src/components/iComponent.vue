@@ -43,7 +43,7 @@ const printf                        = console.log;
 
 export default {
 
-    name: "IlseComponent",
+    name: "iComponent",
 
     props: {
         component: { type: Object, required: false },
@@ -68,10 +68,8 @@ export default {
 
         get_embed_src( id ) {
             let target_dir  = ilse.target_directories[0]
-                printf( "@@target_dir -> ", target_dir )
 
             let final       = `app://${target_dir}/${id}`
-                printf( "@@final -> ", final )
 
             return final
         },
@@ -145,7 +143,6 @@ export default {
         },
 
         on_db_click( component ) {
-            printf( "on_db_click -> component -> ", component )
         },
 
         toggle_is_component_maximized( component_index ) {
@@ -208,9 +205,6 @@ export default {
         },
 
         setup() {
-
-            printf( ">>> Component.vue -> this.component -> ", this.component )
-            printf( ">>> Component.vue -> this.$props -> ", this.$props )
             this.listen()
 
         },
