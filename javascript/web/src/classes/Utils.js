@@ -7,7 +7,7 @@ const printf                        = console.log
     // import Messager                     from "@/classes/Messager.js"
 
     // Functions
-        import fuzzy_sort                   from "@/assets/js/fuzzysort.js"
+        import fuzzy_sort                   from "@/assets/fuzzysort.js"
 
 // functions
     import yyyymmddhhss_to_pretty       from "@/classes/yyyymmddhhss_to_pretty.js"
@@ -170,24 +170,6 @@ export default class Utils {
         return unique
     }
 
-    get_default_container() {
-
-        let format = this.get_daily_note_format()
-
-        let container  = new ilse.classes.Container(
-            {
-                name: format,
-                components: [ new ilse.classes.Component() ],
-                offset: 3,
-                width: 7,
-            }
-        )
-
-        return container
-
-    }
-
-    // javascript.md -> false, a_beautiful_song.mp4 -> true
     has_media_extention( file_name ) {
 
         let is_mp4  = file_name.indexOf(".mp4")   !== -1

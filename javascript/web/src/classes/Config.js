@@ -70,8 +70,6 @@ export default class Config {
 
             let daily_notes    = ilse.types.get( "daily-notes" )
                 ilse.components.push( daily_notes )
-            // let daily_notes    = new ilse.classes.Component({ type: "daily-notes", width: 12 })
-                // ilse.components.push( daily_notes )
         }
         // ==== Load Components ==== //
 

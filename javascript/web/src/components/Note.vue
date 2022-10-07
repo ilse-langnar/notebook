@@ -76,8 +76,9 @@ export default {
             ilse: ilse,
             is_dragging_over: false,
 
-            content: extract_note_content( this.note ),
+            content: extract_note_content( this.note, true ),
             id:      extract_note_id( this.note ),
+            depth:   get_note_depth( extract_note_id( this.note ) ),
 
             inote: this.note,
 
@@ -200,6 +201,18 @@ export default {
         },
 
         focus( id ) {
+            // printf( "focus(id)" )
+            // ilse.notes.list[this.id] = `${get_spaces_count(get_note_depth(this.id))}${this.content}`
+
+            // printf( "before -> this.content -> ", this.content )
+
+            this.content = ilse.notes.list[this.id].replace( /\ \ \ \ /gi, "" )
+
+            // printf( "after -> this.content -> ", this.content )
+
+            // TODO: Make a 2<@>content, split on <@> then edit the content, when blurring/etc.
+            // printf( "ilse.notes.list[this.id] -> ",  ilse.notes.list[this.id] )
+            // printf( "this.depth -> ", this.depth )
 
             this.options.is_editable = true
 
@@ -212,19 +225,19 @@ export default {
 
         // BUG: Focusin on a note does not blue others
         on_blur( event, inote ) {
+            // printf( "blur()" )
 
             // save(contentEditable)
             this.content             = event.target.innerText // inline save
             this.options.is_editable = false
 
-            let depth  = get_note_depth( this.id )
-            printf( "depth -> ", depth )
-            let spaces = get_spaces_count( depth )
-            printf( "spaces -> ", spaces  )
+            // let depth  = get_note_depth( this.id )
+            // let spaces = get_spaces_count( get_note_depth( this.id ) )
 
-            printf( "before(real) -> ", ilse.notes.list[this.id])
-            ilse.notes.list[this.id] = `${spaces}${this.content}`
-            printf( "after(real) -> ", ilse.notes.list[this.id])
+            ilse.notes.list[this.id] = `${get_spaces_count(get_note_depth(this.id))}${this.content}`
+
+            // ilse.notes.list[this.id] = `{this.content}`
+
 
             // printf( "ilse.notes.list[this.id] -> ", ilse.notes.list[this.id] )
 
@@ -330,7 +343,7 @@ export default {
             Messager.on( "~note.vue", async ( action, payload ) => {
                 if( action === "focus" ) if( this.id === payload.target ) this.focus( payload.target ) 
                 if( action === "link-click" ) if( this.id === payload.target ) {
-                    printf( "Note.vue -> You clicked on a link " )
+                    // printf( "Note.vue -> You clicked on a link " )
                     _this.$emit( "on-link-click", { link: payload.link, event: payload.event, note: _this.inote } )
                 }
                 if( action === "blur-all" ) {
@@ -364,6 +377,20 @@ export default {
         },
 
         setup() {
+
+            // printf( "setup -> before -> this.content -> ", this.content )
+
+            printf( "before -> this.content -> ", this.content )
+            // this.content = extract_note_content(ilse.notes.list[this.id])
+            // this.content = ilse.notes.list[this.id]
+
+            // this.content = extract_note_content( this.note, true ),
+            this.content = ilse.notes.list[this.id].replace( /\ \ \ \ /gi, "" ) 
+            printf( "after -> this.content -> ", this.content )
+
+            // if( ilse.notes.list[this.id].indexOf("   ") !== -1 )  { this.content = ilse.notes.list[this.id].replace( /\ \ \ \ /gi, "" ) }
+        
+            // printf( "setup -> after -> this.content -> ", this.content )
 
             // this.$watch( ilse.notes.list[this.note], e => { printf( ">>>>> e -> ", e ) })
             this.set_note_from_component()

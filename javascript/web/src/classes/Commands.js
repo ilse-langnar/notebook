@@ -123,37 +123,6 @@ class Commands {
         return found
     }
 
-    /*
-    add_components_commands() {
-
-        let _this = this
-        let components = this.ilse.types.types
-        let icon
-
-        components.map( component => {
-
-            // BUGFIX: hide things like TopMenu(nonusable)
-            if( component.props.is_hidden ) return
-
-            icon = component.props.is_plugin ?  "plugin.svg" : "package.svg"
-
-            this.add({
-                id: `open-${component.id}`,
-                name: `Open: ${component.name}`,
-                icon: icon,
-                description: `Will open: ${component.name}`,
-                fn: function() {
-                    // let _component = new ilse.classes.Component({ type: component.id, width: 12, props: {} })
-                    let _component = new ilse.types.get( component.id )
-                        ilse.components.push( _component )
-                },
-                props: {},
-            })
-
-        })
-    }
-    */
-
     add_components_commands() {
 
         let _this = this
@@ -166,7 +135,6 @@ class Commands {
                 id: `open-${component.name}`,
                 icon: "tech-box.svg",
                 fn: function() {
-                    // let _component = new ilse.classes.Component({ type: component.id, width: 12, props: {} })
                     let _component = _this.ilse.types.get( component.id )
                         ilse.components.push( _component )
                 },
@@ -355,20 +323,6 @@ class Commands {
             },
             */
 
-            /*
-            {
-                id: "open-file",
-                fn: function() {
-                    let component = new ilse.classes.Component({ type: "file", width: 12, props: { file: "Ilse.md" } })
-                        ilse.components.push( component )
-                    ilse.modals.close()
-                },
-                description: "Will open a new file",
-                name: "Open File",
-                props: {},
-            },
-            */
-
             {
                 id: "open-help-modal",
                 icon: "lifebuoy.svg",
@@ -404,36 +358,6 @@ class Commands {
             */
 
             {
-                id: "toggle-menu",
-                fn: async function() {
-
-                    let has_menu_already = false
-                    let menu_index       = null
-                    let found
-
-                    ilse.components.map( (component, index)  => {
-                        found = component.type === "menu"
-                        if( found ) {
-                            has_menu_already = true
-                            menu_index       = index
-                        }
-                    })
-
-                    if( has_menu_already ) {
-                        ilse.components.splice( menu_index, 1 )
-                        // ilse.notification.send( "Already there", "The menu is already on!" )
-                    } else {
-                        let component = new ilse.classes.Component({ type: "menu", width: 0 })
-                            ilse.components.unshift( component )
-                    }
-
-                },
-                description: "Will add if it's not there, will remove if it's there",
-                name: "Toggle Menu",
-                props: {},
-            },
-
-            {
                 id: "new-note",
                 icon: "point.svg",
                 fn: async function() {
@@ -447,19 +371,6 @@ class Commands {
                 props: {},
             },
 
-            /*
-            {
-                id: "search",
-                fn: async function() {
-                    let component = new ilse.classes.Component({ type: "search-component", width: 12, props: {} })
-                        ilse.components.push( component )
-                },
-                description: "Search Notes, Files and more",
-                name: "Search",
-                props: {},
-            },
-            */
-
             {
                 id: "add-new-line",
                 fn: async function() {
@@ -467,109 +378,6 @@ class Commands {
                 },
                 description: "Add new line",
                 name: "Add New Line",
-                props: {},
-            },
-
-            /*
-            {
-                id: "open-text-file",
-                fn: async function() {
-                    // let payload = await ilse.dialog.input( "File Name", "Description" )
-                    // let name    = payload.input
-                    // let name    = `projects/lazy-scheduler/Lazy Scheduler.html`
-                    let name    = ``
-                    let component = new ilse.classes.Component({ type: "text-file", width: 8, props: { name }})
-                        ilse.components.push( component )
-
-                },
-                description: "Will open a new text file",
-                name: "Open Text File",
-                props: {},
-            },
-            */
-
-            {
-                id: "open-note-on-a-mind-map",
-                icon: "hand-move.svg",
-                fn: async function() {
-                    document.body.style.cursor = "crosshair";
-                    let event_listener
-                    function on_click( event ) {
-                        document.removeEventListener( "click", on_click )
-                        let id        = event.target.id.split("-")[1]
-                        if( id ) {
-                            let component = new ilse.classes.Component({ type: "mind-map", width: 12, props: { id: id } })
-                                ilse.components.push( component )
-                        }
-                        document.body.style.cursor = "auto";
-
-                    }
-                    event_listener = document.addEventListener( "click", on_click )
-
-                },
-                description: "Will listen to your click and open the note on a mind map",
-                name: "Open Note on a Mind Map",
-                props: {},
-            },
-
-            {
-                id: "open-note-on-a-table-pan",
-                fn: async function() {
-                    printf( "1" )
-                    document.body.style.cursor = "crosshair";
-                    printf( "2" )
-                    let event_listener
-                    printf( "3" )
-                    function on_click( event ) {
-                        printf( "4" )
-                        document.removeEventListener( "click", on_click )
-                        printf( "5" )
-                        let id        = event.target.id.split("-")[1]
-                        printf( "id -> ", id )
-                        printf( "6" )
-                        if( id ) {
-                            printf( "7" )
-                            let component = new ilse.classes.Component({ type: "table-pan", width: 12, props: { id: id } })
-                                printf( "8" )
-                                ilse.components.push( component )
-                                printf( "9" )
-                        }
-                                printf( "10" )
-                        document.body.style.cursor = "auto";
-                        printf( "11" )
-
-                    }
-                    printf( "12" )
-                    event_listener = document.addEventListener( "click", on_click )
-                    printf( "13" )
-
-                },
-                description: "Will listen to your click and open the note on a table pan",
-                name: "Open Note on a Table Pan",
-                props: {},
-            },
-
-            {
-                id: "open-note-on-a-memex",
-                fn: async function() {
-                    document.body.style.cursor = "crosshair";
-                    let event_listener
-                    function on_click( event ) {
-                        document.removeEventListener( "click", on_click )
-                        let id        = event.target.id.split("-")[1]
-                        printf( ">>>>>>> id -> ", id )
-                        if( id ) {
-                            let component = new ilse.classes.Component({ type: "memex", width: 12, props: { id: id } })
-                                ilse.components.push( component )
-                        }
-                        document.body.style.cursor = "auto";
-
-                    }
-                    event_listener = document.addEventListener( "click", on_click )
-
-                },
-                description: "Will listen to your click and open the note on a memex",
-                name: "Open Note on a Memex",
                 props: {},
             },
 
@@ -630,58 +438,6 @@ class Commands {
                 },
                 description: "Remove a tag to the last item on your first brain",
                 name: "First Brain: Remove Tag",
-                props: {},
-            },
-            */
-
-            /*
-            {
-                id: "open-query-blocks",
-                fn: async function() {
-                    let component = new ilse.classes.Component({ type: "query-blocks", width: 12, props: {} })
-                        ilse.components.push( component )
-                },
-                description: "Will open a new 'query blocks' component",
-                name: "Open Query Blocks",
-                props: {},
-            },
-            */
-
-            /*
-            {
-                id: "open-spreadsheet",
-                fn: async function() {
-                    let component = new ilse.classes.Component({ type: "spreadsheet", width: 12, props: {} })
-                        ilse.components.push( component )
-                },
-                description: "Will open a new component for Spreadsheets",
-                name: "Open Spreadsheets",
-                props: {},
-            },
-            */
-
-            /*
-            {
-                id: "open-calendar",
-                fn: async function() {
-                    let component = new ilse.classes.Component({ type: "calendar", width: 12, props: {} })
-                        ilse.components.push( component )
-                },
-                description: "Will open a new component for the Calendar",
-                name: "Open Calendar",
-                props: {},
-            },
-            */
-
-            /*
-            {
-                id: "open-kanban",
-                fn: async function() {
-                    let component = new ilse.classes.Component({ type: "kanban", width: 12, props: {} })
-                        ilse.components.push( component )
-                },
-                description: "Will open a new component for a Kanban",
-                name: "Open Kanban",
                 props: {},
             },
             */

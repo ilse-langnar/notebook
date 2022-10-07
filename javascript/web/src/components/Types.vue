@@ -47,7 +47,7 @@ export default {
         },
 
         get_img( img ) {
-            let url = require( `@/assets/images/${img}` )
+            let url = require( `@/assets/${img}` )
             return url
         },
 

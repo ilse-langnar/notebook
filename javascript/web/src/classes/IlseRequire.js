@@ -135,7 +135,7 @@ export default class IlseRequire {
         if( use_base64 ) {
             return `data:image/svg+xml;base64,${this.table[name]}`
         } else if( use_electron ) {
-            return require( `@/assets/images/${name}` )
+            return require( `@/assets/${name}` )
         }
 
     }

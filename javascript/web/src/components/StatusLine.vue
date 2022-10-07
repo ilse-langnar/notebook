@@ -11,7 +11,7 @@
     // p.flexi {{is_typing_a_command}}
     // p.flexi( :key="ilse.commands.is_typing_a_command" ) {{ilse.commands.is_typing_a_command}}
     // .flexi( :key="ilse.commands.is_typing_a_command" )
-        // img( v-if="ilse.commands.is_typing_a_command" src="@/assets/images/tag.svg" style="width: 30px;" )
+        // img( v-if="ilse.commands.is_typing_a_command" :src="irequire.img('tag.svg')" style="width: 30px;" )
     // .flexi {{is_typing_a_command}}
 
 </template>

@@ -11,8 +11,8 @@ const printf                        = console.log
     import Mousetrap                    from "mousetrap"
 
     import 'mousetrap'
-    import "@/assets/js/mousetrap-global-bind.min.js"
-    import "@/assets/js/mousetrap-record.min.js"
+    import "@/assets/mousetrap-global-bind.min.js"
+    import "@/assets/mousetrap-record.min.js"
 
 // functions
 import set_caret_to_end_on_content_editable_element from "@/classes/set_caret_to_end_on_content_editable_element.js"

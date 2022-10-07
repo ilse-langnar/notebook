@@ -29,6 +29,9 @@ class componentTypes {
 
     add_default_component_types() {
 
+        printf( "Types.js -> add_default_component_types -> ilse.irequire -> ", this.ilse.irequire )
+        printf( "Types.js -> add_default_component_types -> ilse.irequire.img -> ", this.ilse.irequire.img )
+
         this.add({
             id: "top-menu",
             name: "Top Menu",
@@ -129,20 +132,6 @@ class componentTypes {
             type: "vue",
             mode: "inline",
             component: require("@/components/Note.vue"),
-            props: {
-                is_internal: true,
-                note: {},
-            }
-        })
-
-        this.add({
-            id: "edit-note",
-            name: "Edit Note",
-            description: "Edit a single note",
-            img: this.ilse.irequire.img("edit.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/EditNote.vue"),
             props: {
                 is_internal: true,
                 note: {},

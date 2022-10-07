@@ -26,8 +26,8 @@ export default {
         },
 
         set_favicon() {
-            // let favicon = require( "@/assets/images/logo-white-background.png" )
-            let favicon = require( "@/assets/images/logo.svg" )
+            // let favicon = require( "@/assets/logo-white-background.png" )
+            let favicon = require( "@/assets/logo.svg" )
 
             (function() {
                 var link = document.querySelector("link[rel*='icon']") || document.createElement("link")

@@ -137,6 +137,7 @@ export default {
             let is_note             = item.type === "note"
             let is_file             = item.type === "file"
 
+            /*
             if( this.component.payload.mode === "embed" ) {
                 if( is_note ) Messager.emit( "~search.vue", "select", { type: item.type, target: target, shift: is_shift_pressed, ctrl: is_ctrl_pressed, text: item.id })
                 if( is_file ) Messager.emit( "~search.vue", "select", { type: item.type, target: target, shift: is_shift_pressed, ctrl: is_ctrl_pressed, text: item.content })
@@ -154,6 +155,7 @@ export default {
             }
 
             ilse.modals.close()
+            */
         },
 
         on_blur() {

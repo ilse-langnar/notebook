@@ -36,9 +36,6 @@ const printf                        = console.log
     import PluginManager                from "@/classes/PluginManager.js"
     // import PluginMenu                   from "@/classes/PluginMenu.js"
 
-    // Component
-        import Note                     from "@/classes/Note.js"
-
     // Node.js
         const path                       = require("path")
 
@@ -58,7 +55,7 @@ const printf                        = console.log
 // import { JSFrame } from 'jsframe.js';
 // import JSFrame from 'jsframe.js';
 
-const JSFrame = require("@/assets/js/jsframe.min.js")
+const JSFrame = require("@/assets/jsframe.min.js")
     let Frame     = JSFrame.JSFrame
 
 // Entry point for our app, there is only one ilse in the entire app, this is the glue for everything else + components
@@ -100,7 +97,7 @@ export default class Ilse {
         this.platform               = process.env.VUE_APP_TARGET.toLowerCase()
 
         // this.classes                = { Component, Note }
-        this.classes                = { Note }
+        // this.classes                = { Note }
 
         // utils?
         this.path                   = path

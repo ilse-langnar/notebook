@@ -96,64 +96,16 @@ export default class Notes {
 
         // Process note
         let notes      = textfile.split("\n")
+
         notes.map( note=> {
 
             if( !note ) return
 
             // this.list[ note.split(":")[0].trim().replace(":", "") ] = note
-            this.list[extract_note_id(note)] = extract_note_content(note)
-        })
-
-        /*
-        let id
-        let obj
-
-        notes.map( (note, index) => {
-            if( !note ) return
-
-            obj      = { content: note, children: [] }
-            id       = note.split(":")[0].trim().replace(":", "")
-
-            // if( instance.depth >= 1 ) { this.add_parent( note ) }
-            if( note.split("    ").length >= 2 ) {
-                let list   = Object.values( this.list )
-                let parent = list[--index]
-                // printf( "note -> ", note )
-                // printf( "parent -> ", parent )
-                if( parent.content.split("    ").length < note.split("    ").length ) {
-                    obj.children.push( id )
-                }
-            }
-
-            if( this.list ) this.list[id] = obj
-            // if( this.list ) this.list[id] = new this.ilse.classes.Note( note )
-
-        })
-        */
-
-        this._after_we_have_the_notes()
-
-        /*
-        return
-
-        let instance
-
-        notes.map( (note, index) => {
-
-            // BUGFIX: avoid empty
-            if( !note ) return
-
-            instance = new this.ilse.classes.Note( note )
-
-            if( instance.depth >= 1 ) {
-                this.recursively_add_children( instance, index )
-            }
-            this.list.push( instance )
+            this.list[extract_note_id(note)] = extract_note_content(note, true )
         })
 
         this._after_we_have_the_notes()
-        */
-
     }
 
     // splut
@@ -171,7 +123,6 @@ export default class Notes {
     }
 
     // Get note parent?
-    /*
     get_note_parent( note ) {
 
         let list   = this.list
@@ -182,26 +133,6 @@ export default class Notes {
         }
         return null
     }
-    */
-
-    // Get note parent?
-    get_note_parent( note ) {
-
-        let list   = this.list
-
-        let len    = this.list.length
-        for (var i = len - 1; i >= 0; i--) {
-            if( note.depth > this.list[i].depth ) return this.list[i]
-        }
-        return null
-    }
-
-    /*
-    recursively_add_children( instance, index ) {
-        let parent = this.list[inst]
-            if( parent && parent.children ) parent.children.push( instance )
-    }
-    */
 
     add_parent( note ) {
         let id     = note.split(":")[0].trim().replace(":", "")
@@ -393,24 +324,6 @@ export default class Notes {
     // Get a note's index( probabily for child insertion )
     get_index( id ) {
 
-        /*
-        let is_equal
-
-        let index = 0
-        for( const item of this.list ) {
-            index++
-
-            is_equal = item.id === id
-            // if( is_equal ) return index
-            if( is_equal )  {
-                return this.list.indexOf(item)
-                // return index
-            }
-        }
-        */
-
-        // let note = this.list[id]
-
         let keys  = Object.keys( this.list )
         let index = keys.indexOf( id )
 
@@ -447,42 +360,6 @@ export default class Notes {
 
         return id
     }
-
-    /*
-    add( content, index = null, depth = 0 ) {
-
-        let location         = 0
-        // if( index === 0 || index === -1 ) location = 0
-        if( index === null ) {
-            if( this.list.length >= 1 ) {
-                location = this.list.length - 1
-            } else {
-                location = 0
-            }
-        } else if( index === 0 ) {
-             location = this.list.length
-        } else {
-            location = index
-        }
-
-        let id               = get_note_id() // 20220120155758
-        let spaces           = this.ilse.utils.get_depth_spaces( depth )
-        let note             = `${spaces}${id}: ${content}` // 20220120155758: Hello, World
-
-        let instance         = new this.ilse.classes.Note( note )
-            if( instance.depth >= 1 ) this.recursively_add_children( instance, location )
-
-        if( location === 0 || location === -1 ) {
-            this.list.push( instance )
-        } else {
-            this.list.splice( location, 0, instance )
-        }
-
-        Messager.emit( "~notes", "added", { note: instance, index: location, })
-
-        return instance
-    }
-    */
 
     delete( note ) {
 

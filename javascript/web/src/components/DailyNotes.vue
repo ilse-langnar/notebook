@@ -57,7 +57,6 @@ export default {
         return {
             ilse: ilse,
             days: [], // [ { id: "20220128", notes: [ { text: "20220124102749: This is a [[Writing]] example", index: 15532 } ] } ]
-            // options: { placeholder: '', render_as_html: false, },
         }
     },
 
@@ -86,63 +85,6 @@ export default {
             remove_array_item( this.days, day )
             // let index = this.days.indexOf( day )
             // this.days.splice( index, 1 )
-        },
-
-        async on_note_click( payload ) {
-
-            let note        = payload.note
-            let event       = payload.event
-            let button      = payload.button
-
-
-            if( button === "middle" ) {
-
-                let id     = note.id
-                let content= note.content
-                let date   = id.split("-")[0]
-                let uuid   = id.split("-")[1]
-
-                let name   = yyyymmddhhss_to_pretty( date ) + `(${uuid}).html`
-                let has    = await ilse.filesystem.file.exists.async( name )
-
-                if( !has ) {
-                    let html = ilse.markdown.render( content )
-                    await ilse.filesystem.file.write.async( name, HTML_TEMPLATE.replace("@TITLE@", name).replace("@BODY@", html) )
-                }
-
-                this.options.render_as_html = !this.options.render_as_html
-
-            }
-
-
-            return
-            if( button === 1 ) {
-
-            }
-
-            // Right click
-            ilse.notes.delete( note )
-
-            // middle
-            ilse.clipboard.write( note.id )
-
-            // left_click
-
-            let is_shift    = event.shiftKey
-            let is_ctrl     = event.ctrlKey
-
-            if( is_shift ) {
-                // let component = new ilse.classes.Component({ type: "mind-map", width: 12, props: { note: note } })
-                // let component = new ilse.classes.Component({ type: "org-chart", width: 12, props: { note: note } })
-                let component = new ilse.classes.Component({ type: "mind-map", width: 12, props: { id: note.id } })
-                    ilse.components.push( component )
-            }
-
-            if( is_ctrl ) {
-                // let component = new ilse.classes.Component({ type: "memex", width: 12, props: { note: note } })
-                let component = new ilse.classes.Component({ type: "table-pan", width: 12, props: { id: note.id } })
-                    ilse.components.push( component )
-            }
         },
 
         // TODO: I'm for some reason cropping the ID, this should not be happening.
@@ -180,39 +122,6 @@ export default {
         on_ghost_note_blur( payload ) {
             let content = payload.content
                 if( !content ) return
-
-        },
-
-        on_note_arrow_down( payload ) {
-            let index   = ilse.notes.list.indexOf(payload.note)
-            let note  = ilse.notes.list[++index]
-                if( note ) note.focus()
-        },
-
-        on_note_arrow_up( payload ) {
-            let index   = ilse.notes.list.indexOf(payload.note)
-            let note  = ilse.notes.list[--index]
-                if( note ) note.focus()
-        },
-
-        on_note_link_click( payload ) {
-
-            let file             = payload.link
-            let event            = payload.event
-            let is_shift         = event.shiftKey
-            let is_ctrl          = event.ctrlKey
-
-            if( is_shift ) {
-                let component   = ilse.types.get( "file" )
-                component.props = { file }
-                ilse.components.push( component )
-            }
-
-            if( is_ctrl ) {
-                let component   = ilse.types.get( "graph" )
-                component.props = { file }
-                ilse.components.push( component )
-            }
 
         },
 
@@ -293,6 +202,7 @@ export default {
             this.$forceUpdate()
         },
 
+        /*
         // When bottom scrolling, load the previous day.
         scroll_listener() {
 
@@ -304,27 +214,15 @@ export default {
             }, false )
 
         },
+        */
 
-        setup() {
-            // setTimeout( () => { this.scroll_listener() }, 1000 )
-            this.scroll_listener() 
-
-            // Add today's data and its notes
-            // let today_id     = get_unique_date_id() // 20200125
-                // setTimeout( () => { this.add_day( today_id ) }, 2000 )
+        add_today() {
             delay( this.add_day, get_unique_date_id(), 1000 )
-
         },
 
-        // Give me a note(object) and I'll tell which day it is on.
-        get_note_day( note ) {
-
-            for( const day of this.days ) {
-                for( const day_note of day.notes ) {
-                    if( day_note.id === note.id ) return day
-                }
-            }
-
+        setup() {
+            // this.scroll_listener() 
+            this.add_today()
         },
 
     },

@@ -105,7 +105,6 @@ export default {
     methods: {
 
         get_img( img ) {
-            // let result = require(`@/assets/images/${img}`)
             let result = ilse.irequire.img( img )
             return result
         },

@@ -14,9 +14,11 @@ export default function get_human_readable_creation_date( id ) {
     let day         = id.substr( 6, 2 )
     let hour        = id.substr( 8, 2 )
     let seconds     = id.substr( 10, 2 )
+    let uuid        = id.substr( 12, 20 ).replace("-", "")
 
-    let date_string = yyyymmddhhss_to_pretty( id)
-    date_string     += `(${hour}:${seconds})`
+    let date_string = yyyymmddhhss_to_pretty( id )
+        date_string     += `${hour}:${seconds}`
+        date_string     += `(${uuid})`
 
     return date_string
 }

@@ -398,7 +398,7 @@ export default {
         },
 
         get_img( img ) {
-            // let result = require(`@/assets/images/${img}`)
+            // let result = require(`@/assets/${img}`)
             let result = ilse.irequire.img( img )
             return result
         },

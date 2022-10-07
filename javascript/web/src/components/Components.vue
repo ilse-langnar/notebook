@@ -179,23 +179,12 @@ export default {
         },
 
         get_menu_component() {
-            // let type = ilse.config.menu_component || "menu"
-            // let c         = { 'id': 'menu', 'width': 1, 'is_on': true, 'type': type, 'props': {} }
-            // let component = new ilse.classes.Component( c )
             let component = ilse.types.get( "menu" )
-            return component
-        },
-
-        get_left_sidebar() {
-            let c         = { 'id': 'left-sidebar', 'width': 12, 'is_on': true, 'type': 'left-sidebar', 'props': {} }
-            let component = new ilse.classes.Component( c )
             return component
         },
 
         get_right_sidebar() {
             let component = ilse.types.get( "right-sidebar" )
-            // let c         = { 'id': 'right-sidebar', 'width': 12, 'is_on': true, 'type': 'right-sidebar', 'props': {} }
-            // let component = new ilse.classes.Component( c )
             return component
         },
 
