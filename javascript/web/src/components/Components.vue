@@ -1,14 +1,11 @@
 <template lang="pug" >
 .components-wrapper( style="width: 100%;" )
 
-    // Component.top-menu( :component="get_menu()" :options="{ hide_bullet: true }" )
-
     .components( style="display: flex; flex-direction: row;" :key="components_key" )
 
-        iComponent.second-menu( v-show="!ilse.is_left_sidebar_open && !ilse.is_zen" :component="get_menu_component()" :options="{hide_bullet: true }" style="width: 20%; overflow: auto; " )
+        iComponent( v-show="!ilse.is_left_sidebar_open && !ilse.is_zen" :component="get_menu_component()" :options="{hide_bullet: true }" style="width: 20%; overflow: auto; background: var( --secondary-background-color ); color: var( --secondary-text-color ); border-radius: var( --border-radius ); " )
         img( v-show="ilse.is_left_sidebar_open" :src="irequire.img('maximize.svg')" style="width: 20px; position: fixed; top: 1%; left: 5px; cursor: pointer; " @click="toggle_left_menu()" )
 
-        // .component( v-if="ilse.frames.indexOf(component) === -1" v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
         .component( v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
             // Don't render window nor modal.
             iComponent( :component="component" :id="component.key" )
@@ -39,6 +36,7 @@ const printf                        = console.log;
 
 // functions
    import vue_sfc_to_html               from "@/classes/vue_sfc_to_html.js"
+   import set                           from "@/classes/set.js"
 
 export default {
 
@@ -56,112 +54,6 @@ export default {
     watch: {
         async components( list ) {
             let added = list[list.length - 1]
-
-            /*
-            setTimeout( () => {
-
-                let main = document.getElementById( added.key )
-                    printf( "main -> ", main )
-                    let html = main.innerHTML
-                    printf( "html -> ", html )
-                    main.style = "display: none;"
-
-                    // added.is_window = true
-                    // this.components[ this.components.indexOf( added ) ].is_window = true
-
-                    // printf( "added.id -> ", added.id )
-                    // printf( "this.uniqueKey -> ", this.uniqueKey )
-                    // let b = document.getElementById( this.uniqueKey + added.id )
-                    // printf( "b -> ", b )
-            }, 1000 )
-            */
-
-            /*
-            if( added.mode === "frame" ) {
-
-                let has_already = ilse.frames.indexOf( added ) !== -1
-                printf( "has_already -> ", has_already )
-
-                if( !has_already ) {
-
-                    const frame = ilse.frame.create({
-                        title: 'Links & Graph',
-                        left: 200, top: 200, width: 320, height: 220,
-                        movable: true,//Enable to be moved by mouse
-                        resizable: true,//Enable to be resized by mouse
-                        appearanceParam: {
-                            border: { shadow: '2px 2px 10px  rgba(0, 0, 0, 0.5)', width: 0, radius: 6, },
-                            titleBar: {
-                                color: 'white',
-                                background: '#4784d4',
-                                leftMargin: 40,
-                                height: 30,
-                                fontSize: 14,
-                                buttonWidth: 36,
-                                buttonHeight: 16,
-                                buttonColor: 'white',
-                            },
-                        },
-                        // url: `app://${ilse.target_directories[0]}/signature-pad.html`,//URL to display in iframe
-                        // url: `app://${ilse.target_directories[0]}/html-table.html`,//URL to display in iframe
-                        // url: `app://${ilse.target_directories[0]}/signature-pad.html`,//URL to display in iframe
-                        
-                        // html: `<embed src="app://${ilse.target_directories[0]}/signature-pad.html" />`
-                        html: `<embed src="app://${ilse.target_directories[0]}/SearchButton.html" data-prop-label="LLLL" />`
-
-                        // html: test.$el.outerHTML
-                        // html: '<div id="my_element" style="padding:10px;font-size:12px;color:darkgray;">Contents of window</div>'
-                    });
-
-                    ilse.frames.push( added )
-
-                    frame.show()
-                }
-                */
-
-                /*
-                var test = new Vue({
-                    ...Test,
-                    parent: this,
-                    propsData: { component: { file: "Mental Models" } }
-                }).$mount()
-
-                printf( "test -> ", test )
-
-                printf( "test.$el -> ", test.$el )
-                printf( "test.$el.outerHTML -> ", test.$el.outerHTML)
-
-                let _test = await vue_sfc_to_html( "File.vue", { component: { file: "Mental Models" } }, this )
-                printf( "test -> ", _test )
-
-                const frame = ilse.frame.create({
-                    title: 'Links & Graph',
-                    left: 200, top: 200, width: 320, height: 220,
-                    movable: true,//Enable to be moved by mouse
-                    resizable: true,//Enable to be resized by mouse
-                    appearanceParam: {
-                        border: { shadow: '2px 2px 10px  rgba(0, 0, 0, 0.5)', width: 0, radius: 6, },
-                        titleBar: {
-                            color: 'white',
-                            background: '#4784d4',
-                            leftMargin: 40,
-                            height: 30,
-                            fontSize: 14,
-                            buttonWidth: 36,
-                            buttonHeight: 16,
-                            buttonColor: 'white',
-                        },
-                    },
-                    // url: `app://${ilse.target_directories[0]}/html-table.html`,//URL to display in iframe
-                    // html: '<div id="my_element" style="padding:10px;font-size:12px;color:darkgray;">Contents of window</div>'
-                    html: test.$el.outerHTML
-                });
-
-                frame.show()
-
-            }
-                */
-
         }
     },
 
@@ -175,36 +67,22 @@ export default {
     methods: {
 
         toggle_left_menu() {
-            ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open
+            set( ilse, "is_left_sidebar_open", !ilse.is_left_sidebar_open )
         },
 
         get_menu_component() {
-            let component = ilse.types.get( "menu" )
-            return component
+            return ilse.types.get( "menu" )
         },
 
         get_right_sidebar() {
-            let component = ilse.types.get( "right-sidebar" )
-            return component
+            return ilse.types.get( "right-sidebar" )
         },
 
         get_component_style( component ) {
 
-            let normal_style = `flex: 1; flex-basis: ${component.width * 10}%; overflow: auto; max-height: 93vh; background: var( --background-color ); border-radius: var( --border-radius ); `; 
-            let zen_mode     = `width: 50%; margin: 0 auto; overflow: auto; max-height: 93vh;  `
-            if( ilse.is_zen ) return zen_mode;
+            let normal_style = `flex: 1; flex-basis: ${component.width * 10}%; overflow: auto; max-height: 99vh; background: var( --background-color ); border-radius: var( --border-radius ); `; 
 
             return normal_style
-
-            // let style = `flex: 1; margin-left: 10px; height: 100%; flex-basis: ${component.width * 10}%; `
-            // let resize_style = `height: 100%; width: 100%; resize: horizontal; overflow: auto; `
-
-            // if( ilse.config.is_resize_mode_on ) {
-                // return resize_style
-            // } else {
-                // return normal_style
-            // }
-
         },
 
         get_menu() {

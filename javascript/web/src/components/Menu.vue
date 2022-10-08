@@ -12,6 +12,7 @@
 
     br
     br
+    img( v-show="!ilse.is_left_sidebar_open" :src="irequire.img('arrow-narrow-left.svg')" style="width: 20px; position: fixed; top: 1%; left: 5px; cursor: pointer; " @click="toggle_left_menu()" )
 
     .buttons
         .flex( @click="add_daiyl_notes" style="border-radius: var( --border-radius );" )
@@ -84,6 +85,10 @@ export default {
     },
 
     methods: {
+
+        toggle_left_menu() {
+            ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open
+        },
 
         on_input_keydown_esc() {
             set( this, "search", "" )
@@ -159,7 +164,8 @@ export default {
 .menu {
     /*flex-grow: 0% !important;*/
     padding: var( --padding );
-    height: 100vh !important;
+    height: 70vh !important;
+    margin: 10px; 
 }
 
 .item img{

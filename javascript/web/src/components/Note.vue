@@ -3,8 +3,8 @@
     .flex( :style="options.style" :class=" is_dragging_over ? 'dragging-over' : '' " )
 
         .bullet( v-if="!options.hide_bullet" )
-            p.collapsed( v-if="options.is_collapsed" :title="get_human_readable_creation_date(note)" @click="on_bullet_click" @dbclick="on_bullet_db_click" :id=" 'bullet-' + note" ) &#8277;
-            p.expanded( v-if="!options.is_collapsed" :title="get_human_readable_creation_date(note)" @click="on_bullet_click" @dbclick="on_bullet_db_click" :id=" 'bullet-' + note" ) &bull;
+            p.collapsed( v-if="options.is_collapsed" :title="get_human_readable_creation_date(note)" @click="on_bullet_click" @click.middle="on_bullet_click" @dbclick="on_bullet_db_click" :id=" 'bullet-' + note" ) &#8277;
+            p.expanded( v-if="!options.is_collapsed" :title="get_human_readable_creation_date(note)" @click="on_bullet_click" @click.middle="on_bullet_click" @dbclick="on_bullet_db_click" :id=" 'bullet-' + note" ) &bull;
 
         .edit( contentEditable v-if="options.is_editable" :id="note" @keydown="on_key_down($event)" @blur="on_blur($event)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" :style="get_fit_content_style(note)" ) {{ilse.notes.list[note].content}}
 
@@ -30,6 +30,7 @@ const printf                        = console.log;
     import HTML_TEMPLATE                from "@/classes/HTML_TEMPLATE.js"
 
 // functions
+    import get_human_readable_creation_date from "@/classes/get_human_readable_creation_date.js"
     import yyyymmddhhss_to_pretty       from "@/classes/yyyymmddhhss_to_pretty.js"
     import get_clipboard                from "@/classes/get_clipboard.js"
     import extract_embeds_from_string   from "@/classes/extract_embeds_from_string.js"
@@ -40,8 +41,6 @@ const printf                        = console.log;
     import markdown_to_html             from "@/classes/markdown_to_html.js"
     import if_else                      from "@/classes/if_else.js"
     import set                          from "@/classes/set.js"
-
-    import get_human_readable_creation_date from "@/classes/get_human_readable_creation_date.js"
     import get_note_depth               from "@/classes/get_note_depth.js"
     import get_spaces_count             from "@/classes/get_spaces_count.js"
 
@@ -75,21 +74,6 @@ export default {
         return {
             ilse: ilse,
             is_dragging_over: false,
-
-            // content: extract_note_content( this.note, true ),
-            // depth:   get_note_depth( extract_note_id( this.note ) ),
-            // id:      extract_note_id( this.note ),
-            // content: this.note.content,
-            // depth:   this.notes.depth,
-            // id:      extract_note_id( this.note ),
-            // content: "",
-            // depth:   0,
-            // content: ilse.notes.list[this.id].content,
-            // depth:   ilse.notes.list[this.id].depth,
-
-            // inote: this.note,
-
-            // is_on: false, // This is for the [note ref] and [file ref] TODO: REMOVE THIS
         }
     },
 
@@ -153,14 +137,19 @@ export default {
         },
 
         on_bullet_click() {
+            printf( "Note.vue -> on_bullet_click -> " )
 
             // if( this.inote.children.length && event.button === 0 ) this.inote.is_collapsed = !this.inote.is_collapsed
 
+                printf( "1" )
             let button
             if( event.button === 0 ) button = "left"
+                printf( "2" )
             if( event.button === 2 ) button = "right"
+                printf( "3" )
             if( event.button === 1 ) button = "middle"
 
+                printf( "4" )
             this.$emit( "on-note-click", { note: this.note, event: event, button: button })
         },
 
@@ -208,63 +197,19 @@ export default {
         },
 
         focus( id ) {
-
-            // printf( "focus(id)" )
-            // ilse.notes.list[this.id] = `${get_spaces_count(get_note_depth(this.id))}${this.content}`
-
-            // printf( "before -> this.content -> ", this.content )
-
-            // this.content = ilse.notes.list[this.id].replace( /\ \ \ \ /gi, "" )
-
-            // printf( "after -> this.content -> ", this.content )
-
-            // TODO: Make a 2<@>content, split on <@> then edit the content, when blurring/etc.
-            // printf( "ilse.notes.list[this.id] -> ",  ilse.notes.list[this.id] )
-            // printf( "this.depth -> ", this.depth )
-
             this.options.is_editable = true
 
             setTimeout( () => {
                 let dom = document.getElementById( id )
                 if( dom ) dom.focus()
             }, 10 )
-            // this.inote.focus()
+
         },
 
         // BUG: Focusin on a note does not blue others
         on_blur( event, inote ) {
-            // printf( "blur()" )
-
-            // save(contentEditable)
-            // this.content             = event.target.innerText // inline save
-            // this.content             = event.target.innerText // inline save
             this.options.is_editable = false
-
-            // printf( "before -> ", ilse.notes.list[this.note.id].content )
             ilse.notes.list[this.note].content = event.target.innerText // inline save
-            // this.note.content                     = ilse.notes.list[this.note.id].content 
-            // printf( "this.note.content -> ", this.note.content )
-            // printf( "after -> ", ilse.notes.list[this.note.id].content )
-
-            // let depth  = get_note_depth( this.id )
-            // let spaces = get_spaces_count( get_note_depth( this.id ) )
-
-            // ilse.notes.list[this.id] = `${get_spaces_count(get_note_depth(this.id))}${this.content}`
-
-            // ilse.notes.list[this.id] = `{this.content}`
-
-
-            // printf( "ilse.notes.list[this.id] -> ", ilse.notes.list[this.id] )
-
-            // printf( "this.content -> ", this.content )
-            // let special       = get_special_normalized_note( this.id )
-            // printf( "special -> ", special )
-            // printf( "before -> ilse.notes.list[this.id] -> ", ilse.notes.list[this.id] )
-            // ilse.notes.list[this.id] = special
-            // printf( "after -> ilse.notes.list[this.id] -> ", ilse.notes.list[this.id] )
-
-            // printf( "before -> ", ilse.notes.list[this.id])
-            // printf( "after -> ", ilse.notes.list[this.id])
         },
 
         // TODO: Take selected text, if [ then wrap the text around
@@ -340,28 +285,13 @@ export default {
 
             let _this = this
 
-            /*
-            Messager.on( "~search.vue", async ( action, payload ) => {
-
-                // if( action === "select" && this.inote.id === payload.target) this.on_note_search_result_select( payload.type, payload.text )
-                if( action === "cancel" && this.inote.id === payload.target) {
-                    setTimeout( () => { this.inote.focus(); _this.listen_to_embed_keys() }, 500 )
-                }
-            })
-            */
-
             Messager.on( "~note.vue", async ( action, payload ) => {
                 if( action === "focus" ) if( this.note === payload.target ) this.focus( payload.target ) 
-                if( action === "link-click" ) if( this.note.id === payload.target ) {
-                    // printf( "Note.vue -> You clicked on a link " )
+                if( action === "link-click" ) if( this.note === payload.target ) {
                     _this.$emit( "on-link-click", { link: payload.link, event: payload.event, note: ilse.notes.list[_this.note] } )
                 }
-                if( action === "blur-all" ) {
-                    this.is_editable = false
-                }
+                if( action === "blur-all" ) { this.is_editable = false }
             })
-
-            Messager.on( "~carret", async ( action, payload ) => { })
 
         },
 
@@ -387,25 +317,6 @@ export default {
         },
 
         setup() {
-
-            // printf( "this.note -> ", this.note )
-            // printf( "typeof this.note -> ", typeof this.note )
-
-            // printf( "setup -> before -> this.content -> ", this.content )
-
-            // printf( "before -> this.content -> ", this.content )
-            // this.content = extract_note_content(ilse.notes.list[this.id])
-            // this.content = ilse.notes.list[this.id]
-
-            // this.content = extract_note_content( this.note, true ),
-            // this.content = ilse.notes.list[this.id].replace( /\ \ \ \ /gi, "" ) 
-            // printf( "after -> this.content -> ", this.content )
-
-            // if( ilse.notes.list[this.id].indexOf("   ") !== -1 )  { this.content = ilse.notes.list[this.id].replace( /\ \ \ \ /gi, "" ) }
-        
-            // printf( "setup -> after -> this.content -> ", this.content )
-
-            // this.$watch( ilse.notes.list[this.note], e => { printf( ">>>>> e -> ", e ) })
             this.set_note_from_component()
             this.listen()
         },
@@ -434,27 +345,9 @@ export default {
     /*border-bottom: 1px solid var( --text-color );*/
 }
 
-.editable:focus {
-    outline: none;
-}
-
 input:focus{
     outline: none;
 }
-
-.editable {
-    /*background: var( --background-color );*/
-    background: transparent;
-    color: var( --text-color );
-    width: 100%;
-    margin: 0 !important;
-    padding: 0px !important;
-    font-size: 1em;
-    border: 1px solid transparent;
-    height: fit-content; 
-    width: fit-content;
-}
-
 
 .note .textarea {
     border-bottom: 1px solid var( --text-color );

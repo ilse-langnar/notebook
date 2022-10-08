@@ -120,12 +120,6 @@ export default {
     border: 3px solid var( --background-color );
 }
 
-.second-menu {
-    background: var( --secondary-background-color );
-    color: var( --secondary-text-color );
-    border-radius: var( --border-radius );
-}
-
 .shortcut {
     display: inline-flex;
     -webkit-box-align: center;

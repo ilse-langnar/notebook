@@ -1,12 +1,12 @@
 <template lang="pug" >
-.daily-notes#daily-notes( :key="ilse.keys.daily_notes" )
+.daily-notes#daily-notes( :key="key" )
 
     .day( v-for="( day, day_index ) in days" style="width: 97%; margin: 0 auto;" )
 
         .flex( style="margin: 0 auto; width: 40%; " )
             img.remove( :src="irequire.img('trash.svg')" @click="remove(day)" :title="$t('delete')")
             .centered
-                span.flexi.is-size-3.has-text-weight-bold( :title=" $t('notes') + ' ' + day.notes.length" ) {{get_file( day )}}
+                span.flexi.is-size-3.has-text-weight-bold( :title=" $t('notes') + ' ' + day.notes.length" ) {{get_pretty_date( day )}}
             p.fitem &#128269;
         .options.centered
 
@@ -15,9 +15,9 @@
         GhostNote( v-if="day.notes.length" @on-enter="on_ghost_note_enter" @on-blur="on_ghost_note_blur" :payload="day" :options="{ placeholder: '' }" )
 
         .no-notes( v-if="!day.notes.length" )
-            GhostNote( @on-enter="on_no_note_ghost_enter" @on-blur="on_no_note_ghost_blur" :payload="day" )
+            GhostNote(                     @on-enter="on_ghost_note_enter" @on-blur="on_ghost_note_blur" :payload="day" :options="{ placeholder: '' }")
 
-        References( :file="get_file(day) + '.md'" ref="daily-notes-references" )
+        References( :file="get_pretty_date(day) + '.md'" ref="daily-notes-references" )
         .space
 
     button.slick-button( @click="load_day_before" :title="$t('load_day_before')" ) Load More
@@ -40,15 +40,15 @@ const printf                        = console.log;
     import References                   from "@/components/References.vue"
     import Outline                      from "@/components/Outline.vue"
 
-// Constants
-    import HTML_TEMPLATE                from "@/classes/HTML_TEMPLATE.js"
-
 // functions
     import yyyymmddhhss_to_pretty       from "@/classes/yyyymmddhhss_to_pretty.js"
     import get_unique_date_id           from "@/classes/get_unique_date_id.js"
     import remove_array_item            from "@/classes/remove_array_item.js"
     import delay                        from "@/classes/delay.js"
     import extract_note_id              from "@/classes/extract_note_id.js"
+    import cut_string                   from "@/classes/cut_string.js"
+    import set                          from "@/classes/set.js"
+    import push                         from "@/classes/push.js"
 
 export default {
 
@@ -58,6 +58,7 @@ export default {
         return {
             ilse: ilse,
             days: [], // [ { id: "20220128", notes: [ { text: "20220124102749: This is a [[Writing]] example", index: 15532 } ] } ]
+            key: 0,
         }
     },
 
@@ -72,109 +73,32 @@ export default {
     methods: {
 
         get_note_days( list ) {
-            let normalized = list.map( e=> {return e.id })
-            printf( "get_note_days -> normalized -> ", normalized )
-            return normalized
+            return list.map( e=> { return e.id }) // I only want an array with [ <id>, <id> ]
         },
 
         extract_note_id( string ) {
             return extract_note_id( string )
-
         },
 
         get_daily_notes() {
-            let date = get_unique_date_id() // 20200125
-                date = date.split("")
-                date = date.splice( 0, 8 )
-                date = date.join("")
-
-            let list = ilse.notes.query( date )
-            printf( "list -> ", list )
-
-            return list
+            return ilse.notes.query( cut_string( get_unique_date_id(), 0, 8 ) )
         },
 
         remove( day ) {
-            remove_array_item( this.days, day )
-            // let index = this.days.indexOf( day )
-            // this.days.splice( index, 1 )
+            return remove_array_item( this.days, day )
         },
 
-        // TODO: I'm for some reason cropping the ID, this should not be happening.
-        on_no_note_ghost_enter( payload ) {
-
-            let content     = payload.content
-            let depth       = 0
-            let index       = ilse.notes.list.length 
-
-            let new_note  = ilse.notes.add( content, index, depth )
-                new_note.focus()
-        },
-
-        on_no_note_ghost_blur( payload ) {
-        },
-
-        // This does not work because we don't have the note.id inside of notes in the first place.
         on_ghost_note_enter( payload ) {
-
-            let id      = payload.payload.id
-            let day
-
-            this.days.map( _day => {
-                if( _day.id === id ) day = _day
-            })
-
-            let content = payload.content
-            let note    = day.notes[ day.notes.length - 1 ]
-            let depth   = 0 // BUGFIX: don't do note.depth, otherwise it'll be weird.
-
-            let new_note = ilse.notes.add_after( content, depth, note )
-                new_note.focus()
+            return ilse.notes.add( payload.content, null, 0 )
         },
 
         on_ghost_note_blur( payload ) {
-            let content = payload.content
-                if( !content ) return
-
+            if( payload.content ) ilse.notes.add( payload.content, null, 0 )
         },
 
-        // TODO: BUG: When we type enter we correctly add the note but it's not rendered corretly, also setting the depth is problematic k
-        on_enter( payload ) {
-
-            let note     = payload.note
-            let new_note = ilse.notes.add_after( "", note.depth, note )
-                new_note.focus()
-
-            // let day      = this.get_note_day( note )
-            // let index    = day.notes.indexOf( note )
-            // day.notes.slice( ++index, 0, new_note )
-            // day.notes.push( new_note )
-            // printf( "after -> day.notes.length -> ", day.notes.length )
-
-            // setTimeout( () => { new_note.focus() }, 1000 )
-
-            // setTimeout( () => { ilse.save() }, 1000 )
-
-            // let day_index   = this.days.indexOf( day )
-                // this.days[day_index].notes.splice( ++index, 0, new_note )
-
-            // day.notes.splice( index, 0, new_note )
-            // day.notes.push( new_note )
-
-
-            // note.children.push( new_note )
-            // let day      = this.get_note_day( note )
-            // printf( "day -> ", day )
-            // printf( "index -> ", index )
-            // day.notes.splice( index, 0, new_note )
-            // day.notes.splice( ++index, 0, note )
-
-        },
-
-        get_file( day ) {
-            // 20220123180536 -> Febuary 20th, 2020
-            let date = yyyymmddhhss_to_pretty( day.id )
-            return date
+        // 20220123180536 -> Febuary 20th, 2020
+        get_pretty_date( day ) {
+            return yyyymmddhhss_to_pretty( day.id )
         },
 
         load_day_before() {
@@ -208,12 +132,8 @@ export default {
         },
 
         add_day( id ) {
-
-            let day    = id.substr( 0, 8 ) /*day*/ 
-            let notes  = ilse.notes.query( day )
-            printf( "notes -> ", notes )
-                this.days.push({ id, notes })
-            this.$forceUpdate()
+            push( { id: id, notes: ilse.notes.query( cut_string( id, 0, 8 ) ) }, this.days )
+            set( this, "key", Math.random() )
         },
 
         /*

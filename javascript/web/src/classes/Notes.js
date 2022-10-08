@@ -271,30 +271,24 @@ export default class Notes {
 
         let name = "query-" + q
 
-        // FEATURE: O(n) instant
-            if( q === "" ) return this.list
+        if( q === "" ) return this.list // FEATURE: O(n) instant
 
-        // FEATURE: Check name Queries( O(n) )
-            if( ilse.cache.get(name) ) return ilse.cache.get(name)
+        if( ilse.cache.get(name) ) return ilse.cache.get(name) // FEATURE: Check name Queries( O(n) )
 
         let has_match = false
         let result    = []
-        // let list      = this.list
         let reg_exp
-        let list      = Object.entries( this.list )
+        let list      = Object.values( this.list ) // TODO: make us of values
+        let n
 
         list.map( note => {
-            // has_match = note.join(": ").toLowerCase().indexOf( q ) !== -1
-            // has_match = note.join(": ").match( q )
-            // has_match = (note.id + note.content).toLowerCase().indexOf( q ) !== -1
-            has_match = (note.id + note.content).match( q )
+            n = `${note.id}: ${note.content}`
+            has_match = n.match( q )
                 if( !has_match ) return
-            // result.push( note.join(": ") )
-            result.push( `${note.id}: ${note.content}` )
+            result.push( note )
         })
 
-        // FEATURE: Set Cache
-            ilse.cache.set(name, result)
+        ilse.cache.set(name, result) // FEATURE: Set Cache
 
         if( typeof(limit) === "number" ) {
             result.length = limit
@@ -315,19 +309,13 @@ export default class Notes {
 
         let has_match = false
         let result    = []
-        // let list      = Object.entries( this.list ) // TODO: make us of values
         let list      = Object.values( this.list ) // TODO: make us of values
         let n
 
         list.map( note => {
-
-            // has_match = note.join(": ").toLowerCase().indexOf( q ) !== -1
-            // has_match = (note.id + note.content).toLowerCase().indexOf( q ) !== -1
             n = `${note.id}: ${note.content}`
             has_match = n.toLowerCase().indexOf( q ) !== -1
                 if( !has_match ) return
-            // result.push( note.join(": ") )
-            // result.push( `${note.id}: ${note.content}` )
             result.push( note )
         })
 
@@ -373,49 +361,18 @@ export default class Notes {
 
 
         if( index === null ) {
-            // printf( "Notes.js -> add -> id -> ", id )
-            // printf( "Notes.js -> add -> note -> ", note )
             this.list[id]  = note
         } else {
             let entries = Object.entries( this.list )
                 entries.splice( index, 0, [ id, note ] ) // Add
 
-            // printf( "entires before -> id ", id )
-            // printf( "entires before -> this.list[id]- ", this.list[id] )
             this.list = Object.fromEntries( entries ) // Set
-            // printf( "entires after -> this.list[id]- ", this.list[id] )
         }
 
         Messager.emit( "~notes", "added", { note: id, index: index, })
 
         return id
     }
-
-
-    /*
-    add( content, index = null, depth = 0 ) {
-
-        let id               = get_note_id() // 20220120155758
-        let spaces           = this.ilse.utils.get_depth_spaces( depth )
-        let note             = `${spaces}${id}: ${content}` // 20220120155758: Hello, World
-
-        if( index === null ) {
-            printf( "null" )
-            this.list[id]  = note
-        } else {
-            printf( "fromEntries" )
-            let entries = Object.entries( this.list )
-                entries.splice( index, 0, [ id, note ] ) // Add
-
-            this.list = Object.fromEntries( entries ) // Set
-        }
-
-        Messager.emit( "~notes", "added", { note: this.list[id], index: index, })
-
-        // return id
-        // return id
-    }
-    */
 
     delete( note ) {
 
@@ -456,57 +413,6 @@ export default class Notes {
             }
         })
 
-    }
-
-    // 20220804160914: - [ ] #ilse Does note embed get its children too??? ![[Ilse]]  ((20220306102411))
-    extract_note_references( string ) {
-
-        let chunks      = string.split(" ")
-        let references  = []
-        let reference
-
-        chunks.map( chunk => {
-            reference = this.get_note_reference( chunk )
-            if( reference ) references.push( reference )
-        })
-
-        return references
-    }
-
-    get_file_references( string ) {
-
-
-        // let list       = ilse.utils.extract_tokens_by_delimiters( string, /\[\[*./, /\]\]/ )
-        let list       = extract_tokens_by_regexp_delimiters( string, /\[\[*./, /\]\]/ )
-        let to_return  = []
-        let extention
-
-        list.map( file => {
-            if( file.indexOf(".") === -1 && file.indexOf("!") !== -1 ) to_return.push( file )
-        })
-
-        return to_return
-    }
-
-    get_note_reference( string ) {
-
-        let chunks = string.split(" ")
-        let has_opening_parenthesis
-        let has_closing_parenthesis
-        let has_both
-        let ref
-
-        for( const chunk of chunks ) {
-
-          has_opening_parenthesis  = chunk.indexOf( "((" ) !== -1
-          has_closing_parenthesis  = chunk.indexOf( "))" ) !== -1
-
-          has_both                 = has_opening_parenthesis && has_closing_parenthesis
-          if( has_both ) ref = chunk.replace( " ", "" ).replace( "((", "" ).replace( "))", "" )
-
-        }
-
-        return ref
     }
 
 }

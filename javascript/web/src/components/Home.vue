@@ -1,20 +1,23 @@
 <template lang="pug">
 .home
 
-    .loading( v-if="!ilse.target_directories.length || !ilse.has_loaded " :key="ilse.key" )
+    .loading( v-if="!ilse.target_directories.length || !ilse.has_loaded " :key="key" )
         Setup
 
-    // .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded && has_apps()" :key="ilse.key" :data-theme="ilse.config.dark ? 'dark' : 'light' " :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
-    .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded && has_apps()" :key="ilse.key" :data-theme="get_data_theme" :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
+    // .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded && has_apps()" :key="key" :data-theme="get_data_theme" :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
 
-        TopMenu
-        // button.button( @click="add" ) Add
+    .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded && has_apps()" :key="key" :data-theme="get_data_theme" )
 
-        .app( :key="ilse.keys['home'] ? ilse.keys['home'] : 0" style="flex-basis: 100%; " )
-            iframe.external-app(   v-show="get_active_html() !== 'ilse.html' " :src="get_active_html()" )
-            Renderer(              v-show="get_active_html() === 'ilse.html' " :components="ilse.components" unique-key="home" )
+        // So Dark mode works with zen
+        .wrapper( :style="get_home_style()" ) 
+            TopMenu
+            // button.button( @click="add" ) Add
 
-        StatusLine
+            .app( :key="ilse.keys['home'] ? ilse.keys['home'] : 0" style="flex-basis: 100%; " )
+                iframe.external-app(   v-show="get_active_html() !== 'ilse.html' " :src="get_active_html()" )
+                Renderer(              v-show="get_active_html() === 'ilse.html' " :components="ilse.components" unique-key="home" )
+
+            StatusLine
 
         Modals
         Dialogs
@@ -49,6 +52,8 @@ const printf                                        = console.log;
     import string_to_html               from "@/classes/string_to_html.js"
     import get_html_favicon             from "@/classes/get_html_favicon.js"
     import move_array_item              from "@/classes/move_array_item.js"
+    import set                          from "@/classes/set.js"
+    import if_else                      from "@/classes/if_else.js"
 
 export default {
 
@@ -84,6 +89,16 @@ export default {
     },
 
     methods: {
+
+        get_home_style() {
+
+            return if_else(
+                ilse.is_zen, 
+                yes => `width: 80%; margin: 0 auto; overflow: hidden; height: 100vh;` ,
+                no  => null ,
+            )
+
+        },
 
         add() {
             printf( "ilse.notes.list ", ilse.notes.list )
@@ -223,6 +238,7 @@ export default {
         },
 
         setup() {
+            set( this, "key", Math.random() )
         },
 
     },

@@ -2,7 +2,13 @@
 .references( :key="key" )
     .has
 
-        span.loop( v-for="( item, index ) in get_related_links( file )" :key="index" style="margin: 5px; ") {{item}}
+        details
+            summary Links
+            span.loop( v-for="( item, index ) in get_related_links( file )" :key="index" style="margin: 5px; ") {{item}}
+
+        details
+            summary Children
+            span.loop( v-for="( item, index ) in get_children( file )" :key="index" style="margin: 5px; ") {{item}}
 
         br( style="clear: both;" )
         br
@@ -49,6 +55,7 @@ const printf                        = console.log;
     import add_component                from "@/classes/add_component.js"
     import extract_markdown_links_from_string  from "@/classes/extract_markdown_links_from_string.js"
     import remove_duplicates_from_array from "@/classes/remove_duplicates_from_array.js"
+    import map                          from "@/classes/map.js"
 
 export default {
 
@@ -72,8 +79,30 @@ export default {
 
     methods: {
 
+        get_children( file ) {
+
+            let list = []
+
+            map( ilse.notes.query(file), item => {
+
+                if_else(
+                    item.content.indexOf(file) !== -1 && item.content.indexOf("/") !== -1,
+                    yes => { printf( "has child -> item -> ", item.content ) },
+                    no  => null,
+                ) 
+
+            })
+
+        },
+
         get_related_links( file ) {
-            return remove_duplicates_from_array(extract_markdown_links_from_string(this.query_linked(file).join(" ") ) )
+
+            let list = []
+            map( ilse.notes.query(file), item => {
+                map( extract_markdown_links_from_string(item.content), item => list.push(item) )
+            })
+
+            return remove_duplicates_from_array( list )
         },
 
         remove_duplicates_from_array( array ) {
@@ -85,27 +114,25 @@ export default {
         },
 
         query_linked( file ) {
-            return query(`[[${file.replace(".md", "")}]]`, null, true )
+            return query(`[[${file.replace(".md", "")}]]`, null, true ).map( e => e.id )
         },
 
         query_unlinked( file ) {
             let r          = `[^\\[\\[](${file.replace(".md", "")})[^\\]\\]]` // file, but without the [[]]
             let reg_exp    = new RegExp( r, "ig" )
             let result     = ilse.notes.query_regexp( reg_exp )
-            printf( "query_unlinked -> ", result )
-            return result
+            return result.map( e => e.id  )
         },
 
-        link( note ) {
+        link( id ) {
 
-            set( ilse.notes.list, extract_note_id( note ), note.replace( new RegExp(`(${this.file.replace(".md", "")})`, 'ig'), `[[${this.file.replace(".md", "")}]]` ) )
+            set( ilse.notes.list, id, ilse.notes.list[id].content.replace( new RegExp(`(${this.file.replace(".md", "")})`, 'ig'), `[[${this.file.replace(".md", "")}]]` ) )
+            set( this, "key", Math.random() )
 
             // printf( "ilse.notes.list[extract_note_id(note)] -> ", extract_note_id(note), ilse.notes.list[extract_note_id(note)] )
             
             // printf( "before -> ilse.notes.list[extract_note_id(note)] -> ", ilse.notes.list[extract_note_id(note)] )
             // set( ilse.notes.list, extract_note_id( note ), "Example 222" )
-
-            // set( this, "key", Math.random() )
 
             // printf( "after -> this.ilse.list[extract_note_id(note)] -> ", this.ilse.list[extract_note_id(note)] )
 

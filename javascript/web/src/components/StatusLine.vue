@@ -1,5 +1,5 @@
 <template lang="pug" >
-.status-line.flex
+.status-line.flex( v-if="!ilse.is_zen" )
     p.flexi {{ilse.target_directories[0]}}
     p.flexi {{ilse.commands.last_command.id}}
     p.flexi {{ilse.notes.list.length}}(notes)

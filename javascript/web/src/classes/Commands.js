@@ -479,8 +479,13 @@ class Commands {
                 id: "toggle-zen-mode",
                 icon: "yin-yang.svg",
                 fn: async function() {
-                    ilse.config.is_zen  = !ilse.config.is_zen
-                    ilse.is_zen         = !ilse.config.is_zen
+                    // ilse.config.is_zen  = !ilse.config.is_zen
+                    // ilse.is_zen         = !ilse.config.is_zen
+
+                    printf( "before -> ilse.zen -> ", ilse.zen )
+                    ilse.is_zen = ilse.config.is_zen = !ilse.config.is_zen
+                    printf( "after -> ilse.zen -> ", ilse.zen )
+
                     ilse.config.save()
                 },
                 description: "Will toggle zen mode",

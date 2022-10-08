@@ -55,6 +55,7 @@ export default {
     methods: {
 
         on_note_click( payload ) {
+            printf( "Notes.vue -> payload -> ", payload )
             this.$emit( "on-note-click", payload )
         },
 

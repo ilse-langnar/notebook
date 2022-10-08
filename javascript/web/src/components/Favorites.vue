@@ -6,9 +6,20 @@
         p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 
-    // .loop( v-for="( item, index ) in get_favorites()" ) 
+    .loop( v-for="( item, index ) in get_favorites()" ) 
 
-        .file-referencel( v-for="( file, file_reference_index ) in ilse.notes.get_file_references(item.content)" :keu="'file-reference-index' + index" )
+        // .loop2( v-for="( _item, _index ) in extract_html_embeds(item.content)" )
+            embed( :src="get_embed_url(_item)" )
+
+        details( v-if="item.content.indexOf('#open') === -1")
+            embed( v-if="get_embed_url(item.content)" :src="get_embed_url(item.content)" scale="tofit" )
+
+        .closed( v-else )
+            embed( v-if="get_embed_url(item.content)" :src="get_embed_url(item.content)" scale="tofit" )
+
+        // Notes( v-else :note="item.id" :options="{}" )
+
+        // .file-referencel( v-for="( file, file_reference_index ) in ilse.notes.get_file_references(item.content)" :keu="'file-reference-index' + index" )
             details
                 summary {{file.split("|")[1].replace("]]", "")}}
                 .loopl( v-if="note.content.indexOf('#favorite') === -1 " v-for="( note, ref_index ) in ilse.notes.query(  file.split('|')[0].replace( '![[', '') )" :key="'search' + ref_index" ) 
@@ -29,6 +40,10 @@ const printf                        = console.log;
 // Component
     import Notes                        from "@/components/Notes.vue"
 
+// functions
+    import extract_html_embeds          from "@/classes/extract_html_embeds.js"
+    import get_target_directory_url     from "@/classes/get_target_directory_url.js"
+
 export default {
 
     name: "Favorites",
@@ -45,9 +60,20 @@ export default {
 
     methods: {
 
+        get_embed_url( content ) {
+
+            let url = extract_html_embeds( content )
+                if( !url.length ) return ""
+
+            return `${get_target_directory_url()}${url[0].replace("![[", "").replace("]]", "")}`
+        },
+
+        extract_html_embeds( string ) {
+            return extract_html_embeds( string )
+        },
+
         get_favorites() {
-            let list = ilse.notes.query( '#favorite' ) 
-            return list
+            return ilse.notes.query( '#favorite' ) 
         },
 
         setup() {
@@ -62,5 +88,16 @@ export default {
 }
 </script>
 <style scoped>
+
+.favorites {
+    overflow: auto;
+    padding: 2px; 
+}
+
+.favorites embed {
+    width: 100%;
+    height: 100%;
+    resize: all;
+}
 
 </style>

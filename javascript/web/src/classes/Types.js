@@ -204,19 +204,6 @@ class componentTypes {
         })
 
         this.add({
-            id: "importer",
-            name: "Importer",
-            description: "Importers themes, documents, flashcards, css snippets, components plugins and more.",
-            img: this.ilse.irequire.img("urgent.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/Importer.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
             id: "search",
             name: "Search",
             description: "Search notes and files",

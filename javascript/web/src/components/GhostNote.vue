@@ -151,4 +151,21 @@ export default {
     padding: 3px !important;
 }
 
+.editable:focus {
+    outline: none;
+}
+.editable {
+    /*background: var( --background-color );*/
+    background: transparent;
+    color: var( --text-color );
+    width: 100%;
+    margin: 0 !important;
+    padding: 0px !important;
+    font-size: 1em;
+    border: 1px solid transparent;
+    height: fit-content; 
+    width: fit-content;
+}
+
+
 </style>

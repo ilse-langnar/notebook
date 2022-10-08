@@ -1,9 +1,14 @@
 <template lang="pug" >
 .outline
-    .loop( v-for="( item, index ) in inotes" :key="index" :style="get_note_style(item)" )
-        Notes( :note="item" :key="index + key" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-link-click="on_note_link_click" )
-        // Notes( :note="extract_note_id(item)" :key="index + key" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-link-click="on_note_link_click" )
-        // p style: {{get_note_style(item)}}
+
+    .path( v-if="!path.length" )
+        .loop( v-for="( item, index ) in inotes" :key="index" :style="get_note_style(item)" )
+            Notes( :note="item" :key="index + key" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-link-click="on_note_link_click" @on-note-click="on_note_click" )
+
+    .single-note( v-else )
+        img.img( :src="irequire.img('arrow-narrow-left.svg')" style="width: 30px; cursor: pointer;" @click="on_left_arrow_click" )
+        Outline( :notes="path" )
+
 </template>
 <script>
 // eslint-disable-next-line
@@ -18,6 +23,7 @@ const printf                        = console.log;
 // Components
     import Notes                        from "@/components/Notes.vue"
     import Note                         from "@/components/Note.vue"
+    import Outline                      from "@/components/Outline.vue"
 
 // functions
     import move_array_item              from "@/classes/move_array_item.js"
@@ -36,6 +42,7 @@ const printf                        = console.log;
     import loop                         from "@/classes/loop.js"
     import add_component                from "@/classes/add_component.js"
     import add_array_item               from "@/classes/add_array_item.js"
+    import get_index_of                 from "@/classes/get_index_of.js"
 
 export default {
 
@@ -50,15 +57,37 @@ export default {
             ilse: ilse,
             inotes: this.notes,
             key: 0,
+            path: [],
         }
     },
 
     components: {
         Notes,
         Note,
+        Outline,
     },
 
     methods: {
+
+        on_left_arrow_click() {
+            this.path.shift()
+        },
+
+        on_note_click( payload ) {
+
+            if_else(
+                payload.event.shiftKey,
+                yes => { this.path.push( payload.note ) },
+                no  => null,
+            )
+
+            if_else(
+                payload.button === "middle",
+                yes => { delete ilse.notes.list[payload.note] },
+                no  => null,
+            )
+
+        },
 
         extract_note_id( string ) {
             return extract_note_id( string )
@@ -71,6 +100,14 @@ export default {
                 yes => add_component({ type: "file", props: { file: payload.link }, width: 12 }),
                 no  => null
             )
+
+            /*
+            if_else(
+                payload.event.ctrlKey,
+                yes => { this.path += payload.link },
+                no  => null,
+            )
+            */
 
         },
 
@@ -90,37 +127,27 @@ export default {
 
         },
 
-        // extract id -> get index of said id, next(-1) -> get id again -> use this id to focus
         on_note_arrow_up( payload ) {
             delay( focus_on_note, get_note_id_from_index( get_note_index( payload.note.id ) - 1 ) , 0 )
         },
 
-        // extract id -> get index of said id, next(+1) -> get id again -> use this id to focus
         on_note_arrow_down( payload ) {
             delay( focus_on_note, get_note_id_from_index( get_note_index( payload.note.id ) + 1 ) , 0 )
         },
 
         on_enter( payload ) {
-
-            delay(
-                focus_on_note, 
-                ilse.notes.add_after( "",
-                    payload.note.depth,
-                    payload.note.id,
-                ),
-            10 )
-
+            delay( focus_on_note, ilse.notes.add_after( "", payload.note.depth, payload.note.id,), 10 )
         },
 
         on_tab( payload ) {
             set( ilse.notes.list, payload.note.id, { content: payload.note.content, id: payload.note.id, depth: ++payload.note.depth })
-            this.key = Math.random()
+            set( this, "key", Math.random() )
             delay( focus_on_note, payload.note.id, 100 )
         },
 
         on_shift_tab( payload ) {
             set( ilse.notes.list, payload.note.id, { content: payload.note.content, id: payload.note.id, depth: --payload.note.depth })
-            this.key = Math.random()
+            set( this, "key", Math.random() )
             delay( focus_on_note, payload.note.id, 100 )
 
         },
@@ -134,19 +161,18 @@ export default {
                     let note        = payload.note
                     let index       = payload.index
 
-                    if_else( is_inside( note, this.inotes ),
+                    if_else( is_inside( note, this.inotes ), // has already
                         yes => null,
                         no  => {
                             if_else( index === null,
-                                yes => {
-                                    push( note, this.inotes ), // push( note, this.inotes ) appear not to be in sync. while The ones I receive are!
-                                    delay( focus_on_note, note.id, 10 )
+                                yes => { // added to the end, just push
+                                    push( note, this.inotes ), 
+                                    delay( focus_on_note, note, 10 )
                                 },
-                                no  => {
+                                no  => { // This will: find the newly added note's parent, then will check if said parent is rendered in the outline, will then add a child.
                                     let list         = Object.keys(ilse.notes.list)
                                     let parent_id    = index === 0 ? list[0] : list[index - 1]
-                                    let parent_index = this.inotes.indexOf( parent_id )
-                                    this.inotes.splice( ++parent_index, 0, note )
+                                    add_array_item( this.inotes, note,  get_index_of( this.inotes, parent_id ) + 1)
                                     set( this, "key", Math.random() )
                                     delay( focus_on_note, note, 0 )
                                     return
@@ -156,30 +182,6 @@ export default {
 
                         }
                     )
-
-                    // let has_already = is_inside( note, this.inotes )
-                        // if( has_already ) return
-
-                    /*
-                    if( index === null ) {
-                        push( note, this.inotes )
-                    } else {
-
-                        let list         = Object.keys(ilse.notes.list)
-
-                        let id           = index === 0 ? list[0] : list[index - 1]
-                        let parent       = ilse.notes.list[id]
-                        printf( "parent -> ", parent )
-
-                        let complete     = `${id}: ${parent}`
-                        let parent_index = this.inotes.indexOf( complete )
-
-                        this.inotes.splice( ++parent_index, 0, note )
-                        this.key         = Math.random()
-                        // I'm having problem with "depth" and erading old ones(with text)
-                        // TODO: I'm out of sync with the real, This is when it's has been already added, But when I edit it here, it's not synced to the real
-                    }
-                    */
                 }
 
 
