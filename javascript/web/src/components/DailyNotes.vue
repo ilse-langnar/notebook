@@ -21,6 +21,8 @@
         .space
 
     button.slick-button( @click="load_day_before" :title="$t('load_day_before')" ) Load More
+    br
+    br
 
 </template>
 <script>

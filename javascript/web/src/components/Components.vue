@@ -79,42 +79,7 @@ export default {
         },
 
         get_component_style( component ) {
-
-            let normal_style = `flex: 1; flex-basis: ${component.width * 10}%; overflow: auto; max-height: 99vh; background: var( --background-color ); border-radius: var( --border-radius ); `; 
-
-            return normal_style
-        },
-
-        get_menu() {
-
-            let menu         = null
-            let component
-
-            if( !menu ) {
-
-                component = ilse.types.get( "top-menu" )
-
-            } else {
-                component = ilse.types.get( "top-menu-embed" )
-
-                if( !component ) {
-
-                    component = ilse.types.add({
-                        id: "top-menu-embed",
-                        name: "Top Menu Embed",
-                        description: "Top menu from the user",
-                        img: ilse.irequire.img( "menu.svg" ),
-                        component: "piano.html",
-                        width: 12,
-                        is_on: true,
-                        type: "embed",
-                        props: {},
-                    })
-                }
-
-            }
-            return component
-
+            return `flex: 1; flex-basis: ${component.width * 10}%; overflow: auto; max-height: 99vh; background: var( --background-color ); border-radius: var( --border-radius ); `; 
         },
 
         setup() {

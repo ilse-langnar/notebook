@@ -1,12 +1,12 @@
 <template lang="pug">
-.home
+.home( :key="key" )
 
-    .loading( v-if="!ilse.target_directories.length || !ilse.has_loaded " :key="key" )
+    .loading( v-if="!ilse.target_directories.length || !ilse.has_loaded " )
         Setup
 
-    // .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded && has_apps()" :key="key" :data-theme="get_data_theme" :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
+    // .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded && has_apps()" :data-theme="get_data_theme" :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
 
-    .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded && has_apps()" :key="key" :data-theme="get_data_theme" )
+    .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded && has_apps()" :data-theme="get_data_theme" )
 
         // So Dark mode works with zen
         .wrapper( :style="get_home_style()" ) 
@@ -53,7 +53,9 @@ const printf                                        = console.log;
     import get_html_favicon             from "@/classes/get_html_favicon.js"
     import move_array_item              from "@/classes/move_array_item.js"
     import set                          from "@/classes/set.js"
+    import delay                        from "@/classes/delay.js"
     import if_else                      from "@/classes/if_else.js"
+    import update_key                   from "@/classes/update_key.js"
 
 export default {
 
@@ -238,7 +240,12 @@ export default {
         },
 
         setup() {
-            set( this, "key", Math.random() )
+
+            setTimeout( () => {
+                this.key= Math.random()
+            }, 4000 )
+
+            // delay( update_key, this, 1000 )
         },
 
     },

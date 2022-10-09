@@ -43,6 +43,12 @@ const printf                        = console.log;
     import set                          from "@/classes/set.js"
     import get_note_depth               from "@/classes/get_note_depth.js"
     import get_spaces_count             from "@/classes/get_spaces_count.js"
+    import and                          from "@/classes/and.js"
+    import same                         from "@/classes/same.js"
+    import not                          from "@/classes/not.js"
+    import is                           from "@/classes/is.js"
+    import has                          from "@/classes/has.js"
+    import prevent_default              from "@/classes/prevent_default.js"
 
 export default {
 
@@ -210,6 +216,7 @@ export default {
         on_blur( event, inote ) {
             this.options.is_editable = false
             ilse.notes.list[this.note].content = event.target.innerText // inline save
+            ilse.notes.save()
         },
 
         // TODO: Take selected text, if [ then wrap the text around
@@ -217,68 +224,96 @@ export default {
 
             let is_ctrl  = event.ctrlKey
             let is_shift = event.shiftKey
-            let is_alt   = event.altKey
-            let is_meta  = event.metaKey
             let key      = event.key
-            let is_space = key === " "
 
-            let selection= get_clipboard()
-            let is_wrap  = key === "[" && selection
+            // Wrap: Writing = [[Writing]]
+            if_else( 
+                and( same( key, "["), has( get_clipboard() ) ),
+                yes => {
+                    prevent_default( event )
+                    set( ilse.notes.list[this.note], "content", ilse.notes.list[this.note].content.replace( get_clipboard(), `[[${get_clipboard()}]]` ) )
+                },
+            )
 
-            if( is_wrap ) {
-                event.preventDefault()
-                this.inote.content =  this.inote.content.replace( selection, `[[${selection}]]` )
-                return
-            }
+            // esc(Escape)
+            if_else( 
+                and( same( key, "Escape" ), not(is_ctrl), not(is_shift) ),
+                yes => {
+                    prevent_default( event )
+                    this.$emit( "on-esc", { note: ilse.notes.list[this.note], event })
+                },
+            )
 
-            // ESC
-            if( key  === "Escape" && !is_ctrl && !is_shift ) {
-                event.preventDefault()
-                this.$emit( "on-esc", { note: ilse.notes.list[this.note], event })
-            }
+            // enter
+            if_else( 
+                and( same( key, "Enter" ), not(is_ctrl), not(is_shift) ),
+                yes => {
+                    prevent_default( event )
+                    this.$emit( "on-enter", { note: ilse.notes.list[this.note], event })
+                },
+            )
 
-            // Enter
-            if( key  === "Enter" && !is_ctrl && !is_shift ) {
-                event.preventDefault()
-                this.$emit( "on-enter", { note: ilse.notes.list[this.note], event })
-            }
+            // ctrl+enter
+            if_else( 
+                and( same( key, "Enter" ), is(is_ctrl), not(is_shift) ),
+                yes => {
+                    prevent_default( event )
+                    this.$emit( "on-ctrl-enter", { note: ilse.notes.list[this.note], event })
+                },
+            )
 
-            // Ctrl+Enter
-            if( key === "Enter" && !is_shift && is_ctrl ) { // Ctrl+Shift+Enter
-                event.preventDefault()
-                this.$emit( "on-ctrl-enter", { note: ilse.notes.list[this.note], event })
-            }
+            // ctrl+shift-delete
+            if_else( 
+                and( same( key, "Delete" ), is(is_ctrl), is(is_shift) ),
+                yes => {
+                    prevent_default( event )
+                    this.$emit( "on-ctrl-shift-delete", { note: ilse.notes.list[this.note], event })
+                },
+            )
 
-            if( key === "Delete" && !is_ctrl && is_shift ) {
-                this.$emit( "on-ctrl-shift-delete", { note: ilse.notes.list[this.note], event })
-            }
+            // shift+enter: Add artificial newline
+            if_else( 
+                and( same( key, "Enter" ), not(is_ctrl), is(is_shift) ),
+                yes => {
+                    prevent_default( event )
+                },
+            )
 
-            // Multiple lines
-            if( key === "Enter" && is_shift && !is_ctrl ) { }
+            // tab
+            if_else( 
+                and( same( key, "Tab" ), not(is_ctrl), not(is_shift) ),
+                yes => {
+                    prevent_default( event )
+                    this.$emit( "on-tab", { note: ilse.notes.list[this.note], event })
+                },
+            )
 
-            // Tab
-            if( key === "Tab" && !is_shift && !is_ctrl ) {
-                this.$emit( "on-tab", { note: ilse.notes.list[this.note], event })
-                event.preventDefault()
-            }
+            // shift-tab
+            if_else( 
+                and( same( key, "Tab" ), not(is_ctrl), is(is_shift) ),
+                yes => {
+                    prevent_default( event )
+                    this.$emit( "on-shift-tab", { note: ilse.notes.list[this.note], event })
+                },
+            )
 
-            // Shift-Tab
-            if( key === "Tab" && is_shift && !is_ctrl ) {
-                event.preventDefault()
-                this.$emit( "on-shift-tab", { note: ilse.notes.list[this.note], event })
-            }
-
-            // Arrow up
-            if( key === "ArrowUp" && !is_shift && !is_ctrl && !is_alt ) {
+            // up/down
+            if_else( 
+                and( same( key, "ArrowUp" ), not(is_ctrl), not(is_shift) ),
+                yes => {
+                    prevent_default( event )
                 this.$emit( "on-arrow-up", { note: ilse.notes.list[this.note], event })
-            }
+                },
+            )
 
-            // Arrow down
-            if( key === "ArrowDown"  && !is_shift && !is_ctrl && !is_alt ) {
+            if_else( 
+                and( same( key, "ArrowDown" ), not(is_ctrl), not(is_shift) ),
+                yes => {
+                    prevent_default( event )
                 this.$emit( "on-arrow-down", { note: ilse.notes.list[this.note], event })
-            }
+                },
+            )
 
-            let char           = event.key
         },
 
         listen() {
@@ -394,6 +429,10 @@ input:focus{
 .dragging-over {
     background: var( --secondary-background-color );
 
+}
+
+.html ul {
+    padding: 0;
 }
 
 </style>

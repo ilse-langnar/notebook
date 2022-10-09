@@ -1,10 +1,10 @@
 const printf = console.log
 
-import get_note_string_id               from "@/classes/get_note_string_id.js"
-import get_unique_date_id               from "@/classes/get_unique_date_id.js"
+const get_note_string_id               = require("@/classes/get_note_string_id.js")
+const get_unique_date_id               = require("@/classes/get_unique_date_id.js")
 
 
-export default function get_note_id() {
+module.exports = function get_note_id() {
     let id   = get_note_string_id(2)
     let date = get_unique_date_id()
 

@@ -6,5 +6,4 @@ export default function delay( fn, args, delay = 10 ) {
         fn( args )
     }, 10 )
 
-
 }

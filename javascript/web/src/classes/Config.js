@@ -56,7 +56,6 @@ export default class Config {
 
         let type
         config.components.map( component => {
-            printf( ">> config -> component -> ", component )
 
             if( component && component.id ) {
                 type = ilse.types.get( component.id )
@@ -125,16 +124,12 @@ export default class Config {
             object_to_save.dark       = this.dark
             object_to_save.keys       = ilse.keyboard.keys
 
-        printf( "Object.keys(this) -> ", Object.keys(this) )
-
         let props_to_save = Object.keys(this)
             props_to_save.can_save = null //
 
         props_to_save.map( key => {
             object_to_save[key] = this[key]
         })
-
-        printf( "object_to_save -> ", object_to_save )
 
         return JSON.stringify(object_to_save, null, 4)
     }

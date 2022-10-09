@@ -5,7 +5,6 @@ const printf                        = console.log
     import Config                       from "@/classes/Config.js"
     import Utils                        from "@/classes/Utils.js"
     import Commands                     from "@/classes/Commands.js"
-    // import Graph                        from "@/classes/Graph.js"
     import Types                        from "@/classes/Types.js"
     import Tags                         from "@/classes/Tags.js"
     import Links                        from "@/classes/Links.js"
@@ -25,21 +24,11 @@ const printf                        = console.log
         import Notification                 from "@/classes/Notification.js"
         import Dialog                       from "@/classes/Dialog.js"
 
-    // Brains
-        // import FirstBrain                   from "@/classes/FirstBrain.js"
-            // import Priorities                   from "@/classes/Priorities.js"
-            // import Statistics                   from "@/classes/Statistics.js"
-        // import SecondBrain                   from "@/classes/SecondBrain.js"
-
     import Clipboard                    from "@/classes/Clipboard.js"
-    // import CommandPrompt                from "@/classes/CommandPrompt.js"
     import PluginManager                from "@/classes/PluginManager.js"
-    // import PluginMenu                   from "@/classes/PluginMenu.js"
 
     // Node.js
         const path                       = require("path")
-
-    // import "@/assets/js/uHTMl.js"
 
 // Utilities
     import Messager                     from "@/classes/Messager.js"
@@ -50,10 +39,6 @@ const printf                        = console.log
     import CORE_PLUGINS                  from "@/classes/CORE_PLUGINS.js"
     import PERMISSIONS                   from "@/classes/PERMISSIONS.js"
     import HTML_TEMPLATE                 from "@/classes/HTML_TEMPLATE.js"
-
-// libs
-// import { JSFrame } from 'jsframe.js';
-// import JSFrame from 'jsframe.js';
 
 const JSFrame = require("@/assets/jsframe.min.js")
     let Frame     = JSFrame.JSFrame
@@ -96,9 +81,6 @@ export default class Ilse {
         this.env                    = process.env
         this.platform               = process.env.VUE_APP_TARGET.toLowerCase()
 
-        // this.classes                = { Component, Note }
-        // this.classes                = { Note }
-
         // utils?
         this.path                   = path
 
@@ -131,22 +113,14 @@ export default class Ilse {
             let quine_dir = window.location.pathname
 
             let normalized_quine_dir = quine_dir.split("/")
-            printf( "1 - normalized_quine_dir -> ", normalized_quine_dir )
                 normalized_quine_dir.pop()
-            printf( "2 - normalized_quine_dir -> ", normalized_quine_dir )
                 normalized_quine_dir = normalized_quine_dir.join("/")
-            printf( "3 - normalized_quine_dir -> ", normalized_quine_dir )
             this.target_directories = [ normalized_quine_dir ] // quine
         }
 
     }
 
     setup() {
-
-        // window.irequire = new IlseRequire()
-        // printf( "window.irequire -> ", window.irequire )
-        // printf( "irequire -> ", irequire )
-        // printf( "irequire.img -> ", irequire.img )
 
         this.last_save_attempt      = 0
 
@@ -185,31 +159,19 @@ export default class Ilse {
             this.notes                  = new Notes( this.filesystem, this )
             this.files                  = new Files( this.filesystem, this )
 
-        // Brains
-            // this.brains                 = {}
-            // this.brains.first           = new FirstBrain( this )
-                // this.brains.first.statistics= new Statistics( this )
-                // this.brains.first.priorities= new Priorities( this )
-                // this.brains.first.queue     = new Queue( this )
-            // this.brains.second          = new SecondBrain( this )
-
         this.markdown               = new Markdown()
 
         this.commands               = new Commands(this)
-        // this.graph                  = new Graph()
         this.keyboard               = new KeyboardShortcut(this)
 
-        // === Electron.js === //
-        if( this.env.VUE_APP_TARGET === "ELECTRON" ) this.electron               = new Electron( this )
-
-        // this.command_prompt         = new CommandPrompt()
-        // this.plugin_menu            = new PluginMenu()
+        if( this.env.VUE_APP_TARGET === "ELECTRON" ) this.electron               = new Electron( this ) // Electron only
 
         this.plugin_manager         = new PluginManager( this )
 
         this.after_setup()
     }
 
+    /*
     auto_save() {
 
         let _this       = this
@@ -237,6 +199,7 @@ export default class Ilse {
         }, 10 * 1000  )
 
     }
+    */
 
     load_daily_notes() {
 
@@ -258,7 +221,6 @@ export default class Ilse {
         this.loaded()
         this.load_daily_notes()
         this.is_zen                 = this.config.is_zen
-        // this.auto_save()
     }
 
     loaded() {

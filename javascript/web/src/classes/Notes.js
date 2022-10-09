@@ -14,6 +14,8 @@ const printf                        = console.log
     import get_note_depth                   from "@/classes/get_note_depth.js"
     import extract_tokens_by_regexp_delimiters   from "@/classes/extract_tokens_by_regexp_delimiters.js"
     import get_spaces_count                 from "@/classes/get_spaces_count.js"
+    import map                              from "@/classes/map.js"
+    import keys                             from "@/classes/keys.js"
 
 export default class Notes {
 
@@ -63,6 +65,38 @@ export default class Notes {
 
     }
 
+    async save() {
+
+        let text_file = ""
+
+        map( keys(this.list), key => {
+            text_file += `${get_spaces_count(this.list[key].depth)}${this.list[key].id}: ${this.list[key].content}\n` // <spaces><id>: <content>
+        })
+
+        await this.filesystem.file.write.async( "notes", text_file )
+
+        /*
+        let normalized = this.list.join("\n")
+        let file       = ""
+        let notes      = this.list
+        let is_last    = false
+        let $note
+
+        notes.map( ( note, index ) => {
+
+            is_last = index === notes.length -1
+
+            $note =  note.get()
+                if( !$note ) return
+
+            file += note.get() + "\n"
+        })
+
+        await this.filesystem.file.write.async( "notes", file )
+        */
+    }
+
+    /*
     async save( avoid_saving = false ) {
 
         if( avoid_saving ) return
@@ -85,6 +119,7 @@ export default class Notes {
 
         await this.filesystem.file.write.async( "notes", file )
     }
+    */
 
     async get_notes() {
 

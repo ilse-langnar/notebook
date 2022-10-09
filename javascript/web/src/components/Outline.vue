@@ -1,4 +1,18 @@
 <template lang="pug" >
+// .outline
+    .single-note( v-if="!path.length" )
+        img.img( :src="irequire.img('arrow-narrow-left.svg')" style="width: 30px; cursor: pointer;" @click="on_left_arrow_click" )
+        Outline( :notes="path" )
+
+    .normal( v-if="path.length && path.join('').indexOf('[[') === -1 " )
+        .loop( v-for="( item, index ) in inotes" :key="index" :style="get_note_style(item)" )
+            Notes( :note="item" :key="index + key" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-link-click="on_note_link_click" @on-note-click="on_note_click" )
+
+    p {{path}}
+    .link( v-if="path.length && path.join('').indexOf('[[') !== -1 " )
+         p FILE: 
+
+
 .outline
 
     .path( v-if="!path.length" )
@@ -24,6 +38,7 @@ const printf                        = console.log;
     import Notes                        from "@/components/Notes.vue"
     import Note                         from "@/components/Note.vue"
     import Outline                      from "@/components/Outline.vue"
+    import File                         from "@/components/File.vue"
 
 // functions
     import move_array_item              from "@/classes/move_array_item.js"
@@ -65,6 +80,7 @@ export default {
         Notes,
         Note,
         Outline,
+        File,
     },
 
     methods: {
@@ -97,6 +113,12 @@ export default {
 
             if_else(
                 payload.event.shiftKey,
+                yes => { this.path.push( payload.link ) },
+                no  => null,
+            )
+
+            if_else(
+                payload.event.ctrlKey,
                 yes => add_component({ type: "file", props: { file: payload.link }, width: 12 }),
                 no  => null
             )

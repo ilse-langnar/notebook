@@ -1,6 +1,7 @@
 const printf        = console.log
 
-export default function get_note_depth( conditional, _if, _else ) {
+export default function get_note_depth( conditional, _if, _else = () => {} )  {
+    if( !_if ) throw new Error( "if_else.js: The if clauses are mandatory!!!" )
 
     if( conditional ) {
         return _if()

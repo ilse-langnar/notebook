@@ -1,11 +1,12 @@
 
 // 20220123180536
 function get_unique_date_id() {
+    "use strict"
 
-    const today = new Date()
-    let year    = today.getFullYear()
+    var today = new Date()
+    var year    = today.getFullYear()
 
-    let month   = Number( today.getMonth() )
+    var month   = Number( today.getMonth() )
         month += 1
         month = `0${month}`
         if( month === "010" ) month = "10" // BUGFIX :
@@ -13,7 +14,7 @@ function get_unique_date_id() {
         if( month === "012" ) month = "12" // BUGFIX :
 
 
-    let day     = today.getDate()
+    var day     = today.getDate()
         if( day === 1 ) day = "01" // BUGFIX: only "1" will give a bug on the id, 01 is not allowed in strict mode,
         if( day === 2 ) day = "02"
         if( day === 3 ) day = "03"
@@ -25,16 +26,14 @@ function get_unique_date_id() {
         if( day === 9 ) day = "09"
         if( day === 10 ) day = "10"
 
-    let hour    = today.getHours()
-    let minutes = today.getMinutes()
-    let seconds = today.getSeconds()
+    var hour    = today.getHours()
+    var minutes = today.getMinutes()
+    var seconds = today.getSeconds()
 
-    let id      = `${year}${month}${day}${hour}${minutes}${seconds}`
+    var id      = `${year}${month}${day}${hour}${minutes}${seconds}`
 
     return id
 }
-
-
 
 module.exports = get_unique_date_id
 // exports.module = get_unique_date_id
