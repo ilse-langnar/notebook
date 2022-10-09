@@ -36,9 +36,7 @@ This program defines a couple of base "features" that be combined with each othe
     <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/367633_linux_tux_icon.svg" />
     <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-windows.svg" />
     <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-apple.svg" />
-    <span> npm install -g ilse </span>
-    <span> ilse add "Note here" </span>
-    <span> ilse search "Hello" </span>
+    <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/npm-install-ilse.png" />
 </div>
 
 <details>
