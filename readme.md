@@ -30,13 +30,18 @@ So as long you have a program that can interpret text and HTML, you data will st
 
 This program defines a couple of base "features" that be combined with each other to form generative tools for thought, so Ilse is the base, and then you "evolve" the system as you wish to use it.
 
-<h2 align="center" > Try it </h2>
+<h2 align="center" > Download: </h2>
 
 <div align="center" >
     <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/367633_linux_tux_icon.svg" />
     <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-windows.svg" />
     <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-apple.svg" />
-    <img style="flex: 1; width: 500px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/npm-install-ilse.png" />
+</div>
+
+<h2 align="center" > Command Line: </h2>
+
+<div align="center" >
+    <img style="width: 100%;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/npm-install-ilse.png" />
 </div>
 
 <details>
