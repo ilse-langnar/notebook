@@ -7,5 +7,4 @@ export default function map( list, fn ) {
     })
 
     return list
-
 }

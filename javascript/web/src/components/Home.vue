@@ -261,8 +261,11 @@ export default {
 .ilse  {
     color: var( --text-color );
     background: var( --background-color ) !important;
+    /*height: 97vh;*/
     height: 97vh;
-    overflow: hidden;
+    /*width: 98vw;*/
+    width: 100vw;
+    overflow: hidden !important;
 }
 
 .external-app {

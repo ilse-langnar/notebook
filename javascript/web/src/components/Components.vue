@@ -3,7 +3,9 @@
 
     .components( style="display: flex; flex-direction: row;" :key="components_key" )
 
-        iComponent( v-show="!ilse.is_left_sidebar_open && !ilse.is_zen" :component="get_menu_component()" :options="{hide_bullet: true }" style="width: 20%; overflow: auto; background: var( --secondary-background-color ); color: var( --secondary-text-color ); border-radius: var( --border-radius ); " )
+        iComponent#left-sidebar( v-resize="onResize" v-show="!ilse.is_left_sidebar_open && !ilse.is_zen" :component="get_menu_component()" :options="{hide_bullet: true }" style="min-height: 20vh !important; height: 20vh; max-height: 50vh;" )
+        img( v-show="!ilse.is_left_sidebar_open" :src="irequire.img('arrow-narrow-left.svg')" style="width: 20px; position: fixed; top: 1%; left: 5px; cursor: pointer; " @click="toggle_left_menu()" )
+
         img( v-show="ilse.is_left_sidebar_open" :src="irequire.img('maximize.svg')" style="width: 20px; position: fixed; top: 1%; left: 5px; cursor: pointer; " @click="toggle_left_menu()" )
 
         .component( v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
@@ -38,6 +40,10 @@ const printf                        = console.log;
    import vue_sfc_to_html               from "@/classes/vue_sfc_to_html.js"
    import set                           from "@/classes/set.js"
 
+// libs
+    import Resizable                    from "resizable"
+   import resize                        from "vue-resize-directive"
+
 export default {
 
     name: "Components",
@@ -45,6 +51,10 @@ export default {
     props: {
         components: { type: Array, required: false },
         uniqueKey: { type: String, required: false }, // Avoid same :key to avoid DOM update errors in vue.js
+    },
+
+    directives: {
+        resize,
     },
 
     components: {
@@ -66,6 +76,12 @@ export default {
 
     methods: {
 
+        onResize( event ) {
+            printf( "Components -> event -> ", event )
+
+
+        },
+
         toggle_left_menu() {
             set( ilse, "is_left_sidebar_open", !ilse.is_left_sidebar_open )
         },
@@ -83,12 +99,107 @@ export default {
         },
 
         setup() {
+
+            var el = document.querySelector("#left-sidebar")
+
+            var resizable = new Resizable( el, {
+                within: 'parent',
+                handles: 's, se, e',
+                threshold: 1,
+                draggable: false
+            })
+
+            printf( "resizable -> ", resizable )
+
+            resizable.on( 'resize', function( event ) {
+                printf( "event -> ", event )
+            });
+
+            /*
+            var p = document.getElementById('left-sidebar');
+            printf( "p -> ", p )
+
+            p.addEventListener('click', function init() {
+                printf( "click -" )
+                p.removeEventListener('click', init, false);
+                p.className = p.className + ' resizable';
+                var resizer = document.createElement('div');
+                resizer.className = 'resizer';
+                p.appendChild(resizer);
+                resizer.addEventListener('mousedown', initDrag, false);
+            }, false);
+
+            var startX, startY, startWidth, startHeight;
+
+            function initDrag(e) {
+               startX = e.clientX;
+               startY = e.clientY;
+               startWidth = parseInt(document.defaultView.getComputedStyle(p).width, 10);
+               startHeight = parseInt(document.defaultView.getComputedStyle(p).height, 10);
+               document.documentElement.addEventListener('mousemove', doDrag, false);
+               document.documentElement.addEventListener('mouseup', stopDrag, false);
+            }
+
+            function doDrag(e) {
+               p.style.width = (startWidth + e.clientX - startX) + 'px';
+               p.style.height = (startHeight + e.clientY - startY) + 'px';
+            }
+
+            function stopDrag(e) {
+                document.documentElement.removeEventListener('mousemove', doDrag, false);    document.documentElement.removeEventListener('mouseup', stopDrag, false);
+            }
+            */
+
+
+
+
+            /*
+            let resize = document.getElementById( "left-sidebar" )
+
+            resize.addEventListener("mousedown", function (e) {
+                drag = true;
+                moveX = e.x;
+            });
+
+            container.addEventListener("mousemove", function (e) {
+                moveX = e.x;
+                if (drag) left.style.width = moveX;
+            });
+            */
+
+            /*
+            const BORDER_SIZE = 4;
+            const panel = document.getElementById("left-sidebar");
+            printf( "panel -> ", panel )
+
+            let m_pos;
+            function resize(e){
+                printf( "resize -> e -> ", e )
+                const dx = m_pos - e.x;
+                m_pos = e.x;
+                panel.style.width = (parseInt(getComputedStyle(panel, '').width) + dx) + "px";
+
+            }
+
+            panel.addEventListener("mousedown", function(e){
+                printf( "mousedown -> e -> ", e )
+                if (e.offsetX < BORDER_SIZE) {
+                    m_pos = e.x;
+                    document.addEventListener("mousemove", resize, false);
+                }
+            }, false);
+
+            document.addEventListener("mouseup", function(){
+                document.removeEventListener("mousemove", resize, false);
+            }, false);
+            */
+
         },
 
     },
 
     mounted() {
-        this.setup();
+        setTimeout( () => { this.setup(); }, 4000 )
     }
 
 }

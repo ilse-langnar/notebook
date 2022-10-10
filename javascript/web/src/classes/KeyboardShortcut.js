@@ -15,7 +15,15 @@ const printf                        = console.log
     import "@/assets/mousetrap-record.min.js"
 
 // functions
-import set_caret_to_end_on_content_editable_element from "@/classes/set_caret_to_end_on_content_editable_element.js"
+    import set_caret_to_end_on_content_editable_element from "@/classes/set_caret_to_end_on_content_editable_element.js"
+    import map                          from "@/classes/map.js"
+    import if_else                      from "@/classes/if_else.js"
+    import same                         from "@/classes/same.js"
+    import trim                         from "@/classes/trim.js"
+    import remove_text                  from "@/classes/remove_text.js"
+    import first_letter                 from "@/classes/first_letter.js"
+    import clean_list                   from "@/classes/clean_list.js"
+    import push                         from "@/classes/push.js"
 
 let dom_write_target
 class KeyboardShortcut  {
@@ -23,14 +31,13 @@ class KeyboardShortcut  {
     constructor( ilse ) {
         this.ilse      = ilse
         this.Mousetrap = Mousetrap
-
-        Mousetrap.bindGlobal( "ctrl+f", (event, combo ) => { event.preventDefault(); ilse.electron.ipc.send( "ctrl+f" ) }, 'keydown' )
-        // Mousetrap.bindGlobal( "ctrl+space", (event, combo ) => { let dom = document.activeElement printf( "dom -> ", dom ) }, 'keydown' )
-
+        this.last_key  = ""
+        this.history   = []
         this.setup()
     }
 
     setup() {
+        this.bind_electron_ctrl_f()
         this.set_key_codes()
         this.add_default_key_codes()
         this.set_default_keys()
@@ -38,8 +45,11 @@ class KeyboardShortcut  {
         this.bind_ctrl_space_to_stop_textbox()
     }
 
-    // When writing, C-SPC should stop inputting into the textbox and capture them to be a command!
-    bind_ctrl_space_to_stop_textbox() {
+    bind_electron_ctrl_f() {
+        Mousetrap.bindGlobal( "ctrl+f", (event, combo ) => { event.preventDefault(); ilse.electron.ipc.send( "ctrl+f" ) }, 'keydown' )
+    }
+
+    bind_ctrl_space_to_stop_textbox() { // When writing, C-SPC should stop inputting into the textbox and capture them to be a command!
 
         Messager.on( "~commands", (action, payload) => {
             if( action === "exec" && dom_write_target ) this.turn_writing_on()
@@ -48,7 +58,13 @@ class KeyboardShortcut  {
         document.addEventListener( "keydown", event => {
 
             let is_ctrl_space = event.ctrlKey && event.key === " "
-            let is_esc = event.key === "Escape"
+                if( is_ctrl_space ) Messager.emit( "~keyboard", { action: "keydown", key: "C-SPC" } )
+
+            // History
+            this.history.push( event.key )
+            this.last_key     = event.key
+
+            let is_esc        = event.key === "Escape"
             if( is_esc ) Messager.emit( "~keyboard", {action: "keydown", key: "esc"} )
 
             if( is_ctrl_space ) {
@@ -97,41 +113,41 @@ class KeyboardShortcut  {
         this.keys = [
 
             // Special
-                { combo: "ctrl+enter", command: "new-note" },
-                { combo: "ctrl+p", command: "open-command-pallet-modal", prevent_default: true },
-                { combo: "shift+enter", command: "void:add-new-line" },
-                { combo: "ctrl+(", command: "void" },
-                { combo: "ctrl+.", command: "repeat-last-command" },
-                { combo: "ctrl+space shift+/", command: "new-note" },
-                { combo: "ctrl+space tab", command: "autocomplete" },
+                { combo: "ctrl+enter", command: "new-note",                 category: "Special" },
+                { combo: "ctrl+p", command: "open-command-pallet-modal",    category: "Special", prevent_default: true },
+                { combo: "shift+enter", command: "void:add-new-line",       category: "Special" },
+                { combo: "ctrl+(", command: "void",                         category: "Special" },
+                { combo: "ctrl+.", command: "repeat-last-command",          category: "Special" },
+                { combo: "ctrl+space shift+/", command: "new-note",         category: "Special" },
+                { combo: "ctrl+space tab", command: "autocomplete",         category: "Special" },
 
             // a
 
             // b
-                { combo: "ctrl+space b t a", command: "first-brain-tag-add" },
-                { combo: "ctrl+space b t r", command: "first-brain-tag-remove" },
+                { combo: "ctrl+space b t a", command: "first-brain-tag-add",    category: "Internal" }, // delete
+                { combo: "ctrl+space b t r", command: "first-brain-tag-remove", category: "Internal" }, // delete
 
             // c
-                { combo: "ctrl+space c c c", command: "insert-random-text" },
+                { combo: "ctrl+space c c c", command: "insert-random-text", category: "Internal"  }, // delete
 
             // d
 
             // e
 
             // f
-                { combo: "ctrl+space f f", command: "focus-quick-search" },
+                { combo: "ctrl+space f f", command: "focus-quick-search", category: "Internal" },
 
             // g
 
             // h
 
             // i
-                { combo: "ctrl+space i d", command: "toggle-dark-mode" },
-                { combo: "ctrl+space i z", command: "toggle-zen-mode" },
-                { combo: "ctrl+space i l", command: "toggle-left-sidebar" },
-                { combo: "ctrl+space i e", command: "open-make-extention-modal" },
-                { combo: "ctrl+space i p i", command: "import-plugin-from-url" },
-                { combo: "ctrl+space i p r r", command: "reload-plugins" },
+                { combo: "ctrl+space i d",     command: "toggle-dark-mode",          category: "Internal" },
+                { combo: "ctrl+space i z",     command: "toggle-zen-mode",           category: "Internal" },
+                { combo: "ctrl+space i l",     command: "toggle-left-sidebar",       category: "Internal" },
+                { combo: "ctrl+space i e",     command: "open-make-extention-modal", category: "Internal" },
+                { combo: "ctrl+space i p i",   command: "import-plugin-from-url",    category: "Internal" },
+                { combo: "ctrl+space i p r r", command: "reload-plugins",            category: "Internal" },
 
             // j
 
@@ -140,6 +156,7 @@ class KeyboardShortcut  {
             // l
 
             // m
+                { combo: "ctrl+space m d", command: "set-default-mode", category: "Modes" },
 
             // n
 
@@ -148,27 +165,27 @@ class KeyboardShortcut  {
             // p
 
             // q
-                { combo: "ctrl+space q n", command: "open-new-query" },
+                { combo: "ctrl+space q n", command: "open-new-query", category: "Query" },
 
             // r
-                { combo: "ctrl+space r r", command: "open-random-note" },
+                { combo: "ctrl+space r r", command: "open-random-note", category: "Random" },
 
             // s
-                // { combo: "ctrl+space s s", command: "open-search-modal" },
-                { combo: "ctrl+space s g", command: "open-glyph-search" },
-                { combo: "ctrl+space s w w", command: "open-website-on-window" },
-                { combo: "ctrl+space s w e", command: "open-external-website-on-window" },
-                { combo: "ctrl+space s h", command: "open-html-on-window" },
-                { combo: "ctrl+space s v", command: "open-vim" },
+                { combo: "ctrl+space s s",   command: "open-search-modal",               category: "Search" },
+                { combo: "ctrl+space s g",   command: "open-glyph-search",               category: "Search" },
+                { combo: "ctrl+space s w w", command: "open-website-on-window",          category: "Search" },
+                { combo: "ctrl+space s w e", command: "open-external-website-on-window", category: "Search" },
+                { combo: "ctrl+space s h",   command: "open-html-on-window",             category: "Search" },
+                { combo: "ctrl+space s v",   command: "open-vim",                        category: "Search"},
 
             // t
 
             // u
 
             // v
-                { combo: "ctrl+space v t", command: "open-note-on-a-table-pan" },
-                { combo: "ctrl+space v shift+m", command: "open-note-on-a-memex" },
-                { combo: "ctrl+space v m", command: "open-note-on-a-mind-map" },
+                { combo: "ctrl+space v t", command: "open-note-on-a-table-pan",     category: "Visualization" },
+                { combo: "ctrl+space v shift+m", command: "open-note-on-a-memex",   category: "Visualization" },
+                { combo: "ctrl+space v m", command: "open-note-on-a-mind-map",      category: "Visualization" },
             // x
 
             // w
@@ -177,20 +194,14 @@ class KeyboardShortcut  {
 
         ]
 
-        // this.make_child_reveal_bind()
-
     }
 
-    // recursive_add( tree, list ) {
-
-        // if( !list[0] ) return
-
-        // if( tree[list[0]] )
-
-        // list.shift()
-        // tree[list[0]] = { "list": Array.from(list) }
-        // this.recursive_add( tree, list )
-    // }
+    get_command_by_combo( keys, combo ) {
+        // let l
+        // keys.map( item => {
+            // if( item.combo.replace( "ctrl", "Control" ) === combo )
+        // })
+    }
 
     //  [ { combo: "ctrl+space b t a", command: "ll" } ] = [ "ctrlspacev", "ctrlspacevae" ]
     get_flattened_keys( list ) {
@@ -227,22 +238,11 @@ class KeyboardShortcut  {
     make_child_reveal_bind() {
         let parent_keys = this.get_parent_keys()
 
-        this.Mousetrap.handleKey = function( one, two ) {
-        }
+        this.Mousetrap.handleKey = function( one, two ) { }
 
         parent_keys.map( key => {
-
-            document.addEventListener( "keydown", event => {
-
-            })
-
-            // Mousetrap.bind( key, (event, combo ) => {
-                // printf( ">> KeyboardShortcut -> combo -> ", combo )
-                // printf( ">> KeyboardShortcut -> event -> ", event )
-            // })
-
+            document.addEventListener( "keydown", event => { })
         })
-
     }
 
     get_parent_keys() {

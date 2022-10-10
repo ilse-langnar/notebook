@@ -57,6 +57,7 @@ export default class Ilse {
 
         // this.u_html                 = uHTML
         this.components             = []
+
         // this.frames                 = []
 
         this.name                   = "Ilse Langnar's Notebook"
@@ -218,6 +219,11 @@ export default class Ilse {
     }
 
     after_setup() {
+
+        //
+        this.modes                  = this.config.modes || [ "ilse" ]
+        this.input                  = this.config.input || "latin"
+
         this.loaded()
         this.load_daily_notes()
         this.is_zen                 = this.config.is_zen

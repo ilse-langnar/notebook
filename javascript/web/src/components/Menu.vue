@@ -12,7 +12,6 @@
 
     br
     br
-    img( v-show="!ilse.is_left_sidebar_open" :src="irequire.img('arrow-narrow-left.svg')" style="width: 20px; position: fixed; top: 1%; left: 5px; cursor: pointer; " @click="toggle_left_menu()" )
 
     .buttons
         .flex( @click="add_daiyl_notes" style="border-radius: var( --border-radius );" )
@@ -47,6 +46,8 @@ const printf                        = console.log;
     import if_else                      from "@/classes/if_else.js"
     import set                          from "@/classes/set.js"
     import listen_to_message            from "@/classes/listen_to_message.js"
+    import Resizable                    from "resizable"
+
 
 export default {
 
@@ -129,6 +130,24 @@ export default {
         },
 
         setup() {
+
+            /*
+            var el = document.querySelector("#left-sidebar")
+
+            var resizable = new Resizable( el, {
+                within: 'parent',
+                handles: 's, se, e',
+                threshold: 10,
+                draggable: true
+            })
+
+            printf( "resizable -> ", resizable )
+
+            resizable.on( 'resize', function( event ) {
+                printf( "event -> ", event )
+            });
+            */
+
             this.listen_to_esc_from_keyboard()
         },
 
@@ -164,7 +183,7 @@ export default {
 .menu {
     /*flex-grow: 0% !important;*/
     padding: var( --padding );
-    height: 70vh !important;
+    /*height: 60vh !important;*/
     margin: 10px; 
 }
 
@@ -208,5 +227,30 @@ img.img {
 datalist {
     display: inline-block;
 }
+
+
+#left-sidebar, .menu {
+    height: 100px;
+    /*resize: both;/*/
+    overflow: auto;
+
+    overflow: auto;
+    background: var( --secondary-background-color );
+    color: var( --secondary-text-color );
+    border-radius: var( --border-radius ); 
+}
+
+    /*
+#left-sidebar::after, .menu::after {
+    content: '';
+    border: 1px solid #000;
+    background-color: #ccc;
+    position: absolute;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    cursor: ew-resize;
+}
+*/
 
 </style>

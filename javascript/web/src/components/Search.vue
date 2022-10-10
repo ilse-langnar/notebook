@@ -361,6 +361,11 @@ export default {
 <style scoped>
 
 .search-wrapper {
+
+    width: 55%;
+    height: 8%;
+    position: fixed;
+    top: 10%;
     /*filter: opacity( 0.7 );*/
 }
 

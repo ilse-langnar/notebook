@@ -138,7 +138,7 @@ class Modals {
             name: "Search",
             component: ilse.types.get( "search" ),
             props: {
-                style: "width: 55%; height: 50%; "
+                // style: "width: 55%; height: 8%; position: fixed; top: 10%;"
             },
         })
 

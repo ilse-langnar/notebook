@@ -12,6 +12,8 @@ const printf                        = console.log
     import get_target_directory_url     from "@/classes/get_target_directory_url.js"
     import html_to_string               from "@/classes/html_to_string.js"
     import get_plugin_api               from "@/classes/get_plugin_api.js"
+    import has                          from "@/classes/has.js"
+    import if_else                      from "@/classes/if_else.js"
 
 class Commands {
 
@@ -453,6 +455,30 @@ class Commands {
                 name: "Toggle Resize Mode",
                 props: {},
             },
+
+            {
+                id: "set-default-mode",
+                icon: "logo.svg",
+                fn: async function() {
+
+                    if_else(
+                        not(
+                            has( ilse.modes, "ilse" )
+                        ),
+                        yes => {
+                            ilse.modes.push( "ilse" )
+                            ilse.config.modes = [ "ilse" ]
+                            ilse.config.save()
+                        }
+                    )
+
+                },
+                description: "Set Default Mode",
+                name: "Set Default Mode",
+                props: {},
+            },
+
+
 
             {
                 id: "open-search-modal",

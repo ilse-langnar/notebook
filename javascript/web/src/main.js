@@ -13,6 +13,7 @@ Vue.prototype.irequire = new IlseRequire()
 // -----------------------> Config <-------------------------- //
 
 import i18n from './i18n'
+
 // -----------------------> Init <-------------------------- //
 new Vue({
     router,

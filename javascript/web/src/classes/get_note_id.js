@@ -4,7 +4,7 @@ const get_note_string_id               = require("@/classes/get_note_string_id.j
 const get_unique_date_id               = require("@/classes/get_unique_date_id.js")
 
 
-module.exports = function get_note_id() {
+export default function get_note_id() {
     let id   = get_note_string_id(2)
     let date = get_unique_date_id()
 

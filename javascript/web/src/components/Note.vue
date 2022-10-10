@@ -47,7 +47,6 @@ const printf                        = console.log;
     import same                         from "@/classes/same.js"
     import not                          from "@/classes/not.js"
     import is                           from "@/classes/is.js"
-    import has                          from "@/classes/has.js"
     import prevent_default              from "@/classes/prevent_default.js"
 
 export default {
@@ -228,7 +227,7 @@ export default {
 
             // Wrap: Writing = [[Writing]]
             if_else( 
-                and( same( key, "["), has( get_clipboard() ) ),
+                and( same( key, "["), is( get_clipboard() ) ),
                 yes => {
                     prevent_default( event )
                     set( ilse.notes.list[this.note], "content", ilse.notes.list[this.note].content.replace( get_clipboard(), `[[${get_clipboard()}]]` ) )
