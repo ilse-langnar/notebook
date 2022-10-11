@@ -16,6 +16,7 @@ const printf                        = console.log
     import get_spaces_count                 from "@/classes/get_spaces_count.js"
     import map                              from "@/classes/map.js"
     import keys                             from "@/classes/keys.js"
+    import get_note_index                   from "@/classes/get_note_index.js"
 
 export default class Notes {
 
@@ -24,7 +25,6 @@ export default class Notes {
         this.filesystem     = filesystem
         this.ilse           = ilse
 
-        // this.list           = []
         this.list           = {}
         this.cache          = {}
 
@@ -75,52 +75,7 @@ export default class Notes {
         })
 
         await this.filesystem.file.write.async( "notes", text_file )
-
-        /*
-        let normalized = this.list.join("\n")
-        let file       = ""
-        let notes      = this.list
-        let is_last    = false
-        let $note
-
-        notes.map( ( note, index ) => {
-
-            is_last = index === notes.length -1
-
-            $note =  note.get()
-                if( !$note ) return
-
-            file += note.get() + "\n"
-        })
-
-        await this.filesystem.file.write.async( "notes", file )
-        */
     }
-
-    /*
-    async save( avoid_saving = false ) {
-
-        if( avoid_saving ) return
-
-        let normalized = this.list.join("\n")
-        let file       = ""
-        let notes      = this.list
-        let is_last    = false
-        let $note
-
-        notes.map( ( note, index ) => {
-
-            is_last = index === notes.length -1
-
-            $note =  note.get()
-                if( !$note ) return
-
-            file += note.get() + "\n"
-        })
-
-        await this.filesystem.file.write.async( "notes", file )
-    }
-    */
 
     async get_notes() {
 
@@ -157,7 +112,7 @@ export default class Notes {
     get_note_parent_v2( note ) {
 
         let list        = this.list
-        let index       = this.get_note_index( note )
+        let index       = get_note_index( note )
         let second_list = list.slice( 0, index )
 
         let len     = second_list.length
@@ -266,17 +221,7 @@ export default class Notes {
 
     }
 
-    get_note_index( note  )  {
-
-        let result = null
-        this.list.map( ( _note, index ) => {
-            if( note.id === _note.id ) result = index
-        })
-
-        return result
-
-    }
-
+    /*
     // Like query() but return the index
     query_index( q, limit = null ) {
 
@@ -301,6 +246,7 @@ export default class Notes {
             return result
         }
     }
+    */
 
     // ilse.notes.query_regexp( /<string>s?/ ) = for plurals, I might also use this in = References / .? <term> .?  / = for more iclusive query
     query_regexp( q = / / , limit = null, log ) {
@@ -365,21 +311,9 @@ export default class Notes {
         }
     }
 
-    // Get a note's index( probabily for child insertion )
-    get_index( id ) {
-
-        let keys  = Object.keys( this.list )
-        let index = keys.indexOf( id )
-
-        return index
-    }
-
     // give me a content, a reference note and a depth and I'll add it correctly for you.
     add_after( content, depth, note_id ) {
-        let index   = this.get_index( note_id )
-        // printf( "@Notes.js -> add_after -> index ", index )
-        // printf( "@Notes.js -> add_after -> depth ", depth )
-        // printf( "@Notes.js -> add_after -> note_id ", note_id )
+        let index   = get_note_index( note_id )
         return this.add( content, ++index, depth )
     }
 
@@ -410,31 +344,13 @@ export default class Notes {
         return id
     }
 
-    delete( note ) {
-
-        let has_match   = false
-        let id          = note.id
-        let has_deleted = false
-        let deleted_notes
-        let has_found
-
-        this.list.map(( item, index ) => {
-            has_found = id === item.id
-                if( has_found ) deleted_notes = this.list.splice( index, 1 )
-        })
-
-        has_deleted = deleted_notes
-
-        if( has_deleted ) {
-            Messager.emit( "~notes", "deleted", deleted_notes[0] )
-            return deleted_notes
-        } else {
-            throw new Error( `ERROR: notes.js: could not deleted note: ${note} maybe it's not there already? maybe a sync problem?` )
-        }
+    delete( id ) {
+        delete this.list[id]
     }
 
     add_list( list ) {
 
+        /*
         let instance
 
         list.map( (item, index) => {
@@ -448,6 +364,7 @@ export default class Notes {
                 this.list.push( instance )
             }
         })
+        */
 
     }
 
