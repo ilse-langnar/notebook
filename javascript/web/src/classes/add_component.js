@@ -33,6 +33,7 @@ export default function add_component({
 
     } else {
         component.props = props
+        printf( "component -> ", component )
         ilse.components.push( component )
     }
 }

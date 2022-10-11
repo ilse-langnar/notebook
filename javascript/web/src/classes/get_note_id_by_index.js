@@ -2,9 +2,7 @@ const printf                    = console.log
 
 import ilse                     from "@/ilse.js"
 
-export default function get_note_index( id ) {
-
+export default function get_note_id_by_index( index ) {
     let keys    = Object.keys( ilse.notes.list )
-    let index   = keys.indexOf( id )
-    return index
+    return keys[index]
 }

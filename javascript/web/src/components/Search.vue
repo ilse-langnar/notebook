@@ -1,7 +1,8 @@
 <template lang="pug" >
-.search-wrapper
+.search-wrapper( :style="get_search_style()" :key="this.search_result.length" )
 
-    .flex( style="margin: auto;" )
+
+    .flex( style="margin: auto; margin: 10px;" )
         input.input.search( ref="input" :id="id + '-search-input'" v-model="search_query" placeholder="🔎" accesskey="f" @keydown="on_key_down" )
 
         .display-mode
@@ -16,9 +17,12 @@
             img( v-show="filter === 'all' " :src="irequire.img('filter.svg')" @click="toggle_filter_mode"  :title="$t('search_filter_mode_all')" aria-role="text" alt="$t('search_filter_mode_all')" )
 
     .search-result( v-if="search_query" )
-        .nothing.item.flex( v-if="!search_result.length" )
+
+        .nothing.item.flex( style="text-align: center; " v-if="!search_result.length" )
             p.is-size-6 {{ $t( "search_nothing_found_for" ) }} {{search_query}}
-        p.is-size-6.is-pulled-left( v-if="search_result.length" ) {{search_result.length}} {{ $t('search_results') }}
+
+        p.is-size-6.statistics( v-if="search_result.length" ) {{search_result.length}} {{ $t('search_results') }}
+
         br
         .item.flex( v-if="search_result.length" v-for="( result, index ) in search_result" :key="index" :style="get_search_result_item_style( index )" :id="'search-item'+ index" )
 
@@ -36,6 +40,16 @@ const printf                        = console.log;
 
 // Messager
     import Messager                     from "@/classes/Messager.js"
+
+// functions
+    import map                          from "@/classes/map.js"
+    import same                         from "@/classes/same.js"
+    import and                          from "@/classes/and.js"
+    import is                           from "@/classes/is.js"
+    import if_else                      from "@/classes/if_else.js"
+    import set                          from "@/classes/set.js"
+    import add_component                from "@/classes/add_component.js"
+    import listen_to_message            from "@/classes/listen_to_message.js"
 
 export default {
 
@@ -86,6 +100,22 @@ export default {
 
     methods: {
 
+        get_search_style() {
+
+            let style = ``
+
+            if( this.search_result.length ) {
+                style += `height: 80%; overflow: auto; `
+            } else {
+                style += `height: 10%;`
+            }
+
+            printf( "style -> ", style )
+
+            return style
+
+        },
+
         toggle_filter_mode() {
 
             if( this.filter === "all" ) {
@@ -129,6 +159,12 @@ export default {
         },
 
         on_search_result_click( event, item ) {
+
+printf( "item.id -> ", item.id )
+            add_component({ type: "outline", props: { notes: [item.id] }, width: 12 })
+            ilse.is_search_on       = false
+
+            return
 
             let is_shift_pressed    = event.shiftKey
             let is_ctrl_pressed     = event.ctrlKey
@@ -191,6 +227,8 @@ export default {
         },
 
         on_key_down_esc() {
+            ilse.is_search_on = false
+            return
             this.$emit( "on-esc" )
             let target              = this.component.payload.id
             Messager.emit( "~search.vue", "cancel", { target: target })
@@ -207,21 +245,6 @@ export default {
                 }
 
             this.search_result_selected_index--
-
-            /*
-            setTimeout( () => {
-
-                let dom = document.getElementById( 'search-item' + this.search_result_selected_index )
-
-                let is_attempting_too_fast  = this.last_attempt >= ( Date.now() - 4000 )
-                    if( is_attempting_too_fast ) return
-
-                if( dom ) dom.scrollIntoView()
-                // window.location.href = "search-item" + this.search_result_selected_index
-
-            }, 1000 )
-            */
-
         },
 
         on_key_down_arrow_down() {
@@ -234,20 +257,6 @@ export default {
                 }
 
             this.search_result_selected_index++
-
-            /*
-            setTimeout( () => {
-
-                let dom = document.getElementById( 'search-item' + this.search_result_selected_index )
-
-                let is_attempting_too_fast  = this.last_attempt >= ( Date.now() - 4000 )
-                    if( is_attempting_too_fast ) return
-
-                if( dom ) dom.scrollIntoView()
-                // window.location.href = "search-item" + this.search_result_selected_index
-
-            }, 1000 )
-            */
 
         },
 
@@ -284,11 +293,23 @@ export default {
 
         search() {
 
-            // BUGFIX: Avoid Duplicated Search
-                if( !this.can_search ) return
+            this.search_result = []
+
+            // if( !this.can_search ) return // BUGFIX: Avoid Duplicated Search
 
             let query               = this.search_query
                 if( !query ) return
+
+            map( ilse.notes.query( query ), item => {
+                this.search_result.push( item )
+            })
+
+            return
+
+            // this.search_result.push( item )
+            // this.can_search = false
+
+            return
 
             // === Files === //
                 let file_list           = ilse.files.list.map( file => {
@@ -307,8 +328,6 @@ export default {
                     has_file_match = item.content.indexOf( query ) !== -1
                     if( has_file_match && (/*Filter*/ this.filter === "files" || this.filter === "all") ) this.search_result.push( item )
                 }
-            printf( " 1 this.search_result -> this.search_result.length -> ", this.search_result.length )
-
             // === Files === //
 
 
@@ -338,16 +357,33 @@ export default {
         },
 
         autofocus() {
-            if( this.$refs.input )  {
+            if( this.$refs.input )  setTimeout( () => { this.$refs.input.focus() }, 30 )
+        },
 
-                setTimeout( () => { this.$refs.input.focus() }, 500 )
-            }
-            // const dom = document.getElementById( `${this.id}-search-input` )
-                // dom.focus()
+        listen_to_esc_from_keyboard() {
+
+            listen_to_message( "~keyboard", payload => {
+
+                if_else(
+
+                    and(
+                        same(payload.action, "keydown"),
+                        same(payload.key, "esc"),
+                    ),
+
+                    yes => {
+                        set( this, "search_result", [] );
+                        set( ilse, "is_search_on", false );
+                    },
+                    no  => null
+                )
+            })
+
         },
 
         setup() {
             this.autofocus()
+            this.listen_to_esc_from_keyboard()
         },
 
     },
@@ -361,31 +397,35 @@ export default {
 <style scoped>
 
 .search-wrapper {
-
     width: 55%;
-    height: 8%;
     position: fixed;
-    top: 10%;
-    /*filter: opacity( 0.7 );*/
+    top: 8%;
+    left: 50%;
+    transform: translate( -50% );
+    background: var( --text-color );
+    background: #fff;
+    background: #E8E8E8;
+    color: var( --text-color );
+    border-radius: var( --border-radius );
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+.search-wrapper .statistics {
+    text-align: center;
 }
 
 .note-search .search {
     padding: 10px;
 
 }
-
-.note-search {
-    color: var( --text-color );
-    background: var( ---background-color );
-}
-
 .search {
     appearance: none;
     background-color: #FAFBFC;
-    border: 1px solid rgba(27, 31, 35, 0.15);
+    /*border: 1px solid rgba(27, 31, 35, 0.15);*/
+    border: 0px !important;
     border-radius: 7px;
-    box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0,
-    rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+    box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0;
+    box-shadow: none;
     box-sizing: border-box;
     color: rgb(118 118 118);
     cursor: pointer;
@@ -405,9 +445,9 @@ export default {
     word-wrap: break-word;
     font-weight: 0;
     background-color: #f1f1f1;
-    background-color: var( --background-color );
+    /*background-color: var( --background-color );
     color: var( --text-color );
-    border: 1px solid var( --background-color );
+    border: 1px solid var( --background-color );*/
     width: 80%;
     display: block;
     margin: 0 auto;
@@ -416,20 +456,14 @@ export default {
 }
 
 .search-result {
-    /*position: absolute;*/
-    /*min-width: 50%;*/
-    /*min-width: 10%;
-    overflow: auto;
-    height: 50vh;
-    background-color: #f1f1f1;
-    background-color: var( --background-color );
-    color: var( --text-color );
-    padding: 5px;*/
-    /*filter: opacity(0.9);*/
-    /*box-shadow: 2px 3px 5px rgba(0,0,0,.2);*/
     border-radius: 4px;
-    /*font-weight: 300;*/
     z-index: 10;
+}
+
+.search-result .nothing {
+    background: #E8E8E8;
+    color: var( --text-color );
+    text-align: center;
 }
 
 

@@ -36,7 +36,7 @@ export default class Notes {
     async _setup() {
         this.get_notes()
         // this.demo()
-        this.watch_file()
+        // this.watch_file()
     }
 
     watch_file() {
@@ -70,6 +70,7 @@ export default class Notes {
         let text_file = ""
 
         map( keys(this.list), key => {
+            if( !this.list[key] ) printf( "WRONG -> this.list[key] -> ", this.list[key] )
             text_file += `${get_spaces_count(this.list[key].depth)}${this.list[key].id}: ${this.list[key].content}\n` // <spaces><id>: <content>
         })
 

@@ -16,7 +16,7 @@
 .outline
 
     .path( v-if="!path.length" )
-        .loop( v-for="( item, index ) in inotes" :key="index" :style="get_note_style(item)" )
+        .loop( v-for="( item, index ) in inotes.filter( id => ilse.notes.list[id].depth === 0 )" :key="index" :style="get_note_style(item)" )
             Notes( :note="item" :key="index + key" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-link-click="on_note_link_click" @on-note-click="on_note_click" )
 
     .single-note( v-else )
@@ -55,6 +55,8 @@ const printf                        = console.log;
     import push                         from "@/classes/push.js"
     import set                          from "@/classes/set.js"
     import loop                         from "@/classes/loop.js"
+    import and                          from "@/classes/and.js"
+    import is                           from "@/classes/is.js"
     import add_component                from "@/classes/add_component.js"
     import add_array_item               from "@/classes/add_array_item.js"
     import get_index_of                 from "@/classes/get_index_of.js"
@@ -65,6 +67,7 @@ export default {
 
     props: {
         notes: { type: Array, required: false },
+        component: { type: Object, required: false },
     },
 
     data() {
@@ -211,7 +214,27 @@ export default {
 
         },
 
+        is_embedded() {
+
+            printf( "this.component -> ", this.component )
+            if( this.component && this.component.props && this.component.notes ) {
+                this.inotes = this.component.props.notes
+            }
+            /*
+            if_else(
+                and(
+                    is( this.component ), // BUGFIX: TODO: This does not short-circuit, it's evaluating this.component.props after this.component being undefiend 
+                    is( this.component.props ),
+                    is( this.component.props.notes ),
+                ),
+                yes => this.inotes = this.component.props.notes
+            )
+            */
+
+        },
+
         setup() {
+            this.is_embedded()
             this.listen()
 
         },

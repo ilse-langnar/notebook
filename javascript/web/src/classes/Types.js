@@ -47,6 +47,20 @@ class componentTypes {
         })
 
         this.add({
+            id: "outline",
+            name: "Outline",
+            description: "Outline",
+            img: this.ilse.irequire.img("menu.svg"),
+            type: "vue",
+            mode: "inline",
+            component: require("@/components/Outline.vue"),
+            props: {
+                is_internal: true,
+                is_hidden: true,
+            }
+        })
+
+        this.add({
             id: "create-app",
             name: "Create app",
             description: "Create HTML Apps for ilse.",

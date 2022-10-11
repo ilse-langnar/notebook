@@ -5,6 +5,7 @@ import string_to_base64             from "@/classes/string_to_base64.js"
 import string_to_html               from "@/classes/string_to_html.js"
 import is_dev                       from "@/classes/is_dev.js"
 import get_target_directory_url     from "@/classes/get_target_directory_url.js"
+import REGULAR_EXPRESSIONS          from "@/classes/REGULAR_EXPRESSIONS.js"
 
 // import recursively_transform_embed_url_src_into_base64 from "@/classes/recursively_transform_embed_url_src_into_base64.js"
 
@@ -30,7 +31,9 @@ export default {
         let is_audio    = !is_link && extention === ".mp3" || extention === ".ogg" || extention === ".wav"
         let is_html     = !is_link && extention === ".html" || extention === ".htm"
 
-        let is_file     = !is_img && !is_video && !is_audio && !is_html && url.indexOf(".") === -1
+        // let is_note     = url.match( REGULAR_EXPRESSIONS.note )
+        let is_note     = url.indexOf("-") !== -1 && url.length === 23
+        let is_file     = !is_img && !is_video && !is_audio && !is_html && !is_note && url.indexOf(".") === -1
         let is_electron = process.env.VUE_APP_TARGET === "ELECTRON"
         let target_dir  = ilse.target_directories[0]
 
@@ -63,7 +66,12 @@ export default {
             }
 
         } else if( is_file ) {
-            return `<span> ![[${url}]] </span>`
+            return `<span> fILE ![[${url}]] </span>`
+        } else if( is_note ){
+            let note = ilse.notes.list[url]
+            // return `<div class="file-reference"> ${note.content} </div> `
+            // return `<div class="component-embed"> ${note.content} </div> `
+            return `<div class="note-reference"> ${note.content} </div> `
         }
 
     }

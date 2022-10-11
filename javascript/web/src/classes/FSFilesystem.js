@@ -218,6 +218,8 @@ export default class FSFilesystem {
 
     async write_file( file_path, content, options )  {
 
+        printf( "write_file -> file_path -> ", file_path )
+
         if( file_path.indexOf("..")  !== -1 ) throw new Error( `FSFilesystem.Error: You don't have access to write: ${file_path}` ) // BUGFIX: antihack
 
         await promisified_write_file( path.join(target_directory , file_path), content, options )
@@ -267,6 +269,7 @@ export default class FSFilesystem {
     }
 
     write_file_sync( file_path, content, options )  {
+        printf( "write_file_sync -> file_path -> ", file_path )
 
         if( file_path.indexOf("..")  !== -1 ) throw new Error( `FSFilesystem.Error: You don't have access to write: ${file_path}` ) // BUGFIX: antihack
 

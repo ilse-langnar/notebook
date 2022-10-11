@@ -133,6 +133,7 @@ class Modals {
             props: {},
         })
 
+        /*
         this.add({
             id: "search",
             name: "Search",
@@ -141,6 +142,7 @@ class Modals {
                 // style: "width: 55%; height: 8%; position: fixed; top: 10%;"
             },
         })
+        */
 
         this.add({
             id: "modals-modals",

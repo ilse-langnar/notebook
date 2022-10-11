@@ -6,7 +6,10 @@
             img.app-icon( v-for="( item, index ) in ilse.config.apps" :key="index" :src="get_icon(item)" @click="select_app($event, item)" :style="get_app_icon_style(item)" :title="item" )
 
         .menu-item
-            img( :src="irequire.img('command.svg')" style="cursor: pointer; width: 20px;" :title="$t('open_command_pallet')" alt="$t('open_command_pallet')" @click="toggle_command_pallet" )
+            img( :src="irequire.img('command.svg')" style="cursor: pointer; width: 20px;" :title="$t('open_command_pallet')" :alt="$t('open_command_pallet')" @click="toggle_command_pallet" )
+            .margin-small
+
+            img( :src="irequire.img('address-book.svg')" style="cursor: pointer; width: 20px;" :title="$t('study')" :alt="$t('open_command_pallet')" @click="toggle_command_pallet" )
             .margin-small
 
             img( :src="irequire.img('settings.svg')"     style="cursor: pointer; width: 20px; " :title="$t('configuration')" @click="open_configuration_modal" accesskey="c" )

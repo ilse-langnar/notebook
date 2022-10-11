@@ -19,6 +19,7 @@
 
             StatusLine
 
+        Search( v-if="ilse.is_search_on" )
         Modals
         Dialogs
         Notifications( v-if="ilse.has_loaded" )
@@ -41,6 +42,7 @@ const printf                                        = console.log;
     import Notifications    from "@/components/Notifications.vue"
     import Renderer         from "@/components/Components.vue"
     import StatusLine       from "@/components/StatusLine.vue"
+    import Search           from "@/components/Search.vue"
 
 // functions
     import get_unique_date_id           from "@/classes/get_unique_date_id.js"
@@ -72,6 +74,8 @@ export default {
 
         Renderer,
         StatusLine,
+
+        Search,
     },
 
     data() {

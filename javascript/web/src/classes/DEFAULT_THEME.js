@@ -4,7 +4,7 @@ export default `
 
     --background-color: #EFEFEF;
     --secondary-background-color: #CED8E0;
-    --terciary-background-color: #CED8E0;
+    --terciary-background-color: #E8E8E8;
 
     --text-color: #717171;
     --secondary-text-color: #3c3b3b;
@@ -29,7 +29,7 @@ export default `
     --terciary-background-color: #5a6269;
 
     --text-color: #F8F8F8;
-    --secondary-text-color: #000;
+    --secondary-text-color: #E8E8E8;
     --terciary-text-color: #8D9EAC;
 
     --border: 2px solid #777;

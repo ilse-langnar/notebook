@@ -119,7 +119,7 @@ class KeyboardShortcut  {
                 { combo: "ctrl+(", command: "void",                         category: "Special" },
                 { combo: "ctrl+.", command: "repeat-last-command",          category: "Special" },
                 { combo: "ctrl+space shift+/", command: "new-note",         category: "Special" },
-                { combo: "ctrl+space tab", command: "autocomplete",         category: "Special" },
+                // { combo: "ctrl+space tab", command: "autocomplete",         category: "Special" },
 
             // a
 
@@ -196,7 +196,15 @@ class KeyboardShortcut  {
 
     }
 
-    get_command_by_combo( keys, combo ) {
+    get_command_by_combo( combo ) {
+
+        let to_return
+
+        this.keys.map( item => {
+            if( item.combo === combo ) to_return = item
+        })
+
+        return to_return
         // let l
         // keys.map( item => {
             // if( item.combo.replace( "ctrl", "Control" ) === combo )
@@ -279,7 +287,7 @@ class KeyboardShortcut  {
         this.Mousetrap.addKeycodes( this.key_codes )
     }
 
-    add( combo, command, options = { prevent_default: true } ) {
+    add( combo, command, category, options = { prevent_default: true } ) {
 
         let has_missing_options = !combo || !command
             if( has_missing_options ) throw new Error( "ERROR: KeyboardShortcut.js -> add() -> add(combo, command, options?) -> add('ctrl+shift+d', 'add-new-note', { prevent_default: false })" )
@@ -287,10 +295,12 @@ class KeyboardShortcut  {
         let key = {
             combo,
             command,
+            category,
             options,
         }
 
         this.keys.push( key )
+
         this.bind_key( key )
     }
 

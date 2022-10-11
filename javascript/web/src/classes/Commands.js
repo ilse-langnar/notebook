@@ -484,7 +484,8 @@ class Commands {
                 id: "open-search-modal",
                 icon: "lupe.svg",
                 fn: async function() {
-                    ilse.modals.open( "search", { mode: "global", filter: "all", is_markdown_mode_on: true, id: null  })
+                    ilse.is_search_on = !ilse.is_search_on
+                    printf( "ilse.is_search_on -> ", ilse.is_search_on )
                 },
                 description: "Open Search Modal",
                 name: "Open Search Modal",
@@ -703,6 +704,36 @@ class Commands {
                 },
                 description: "Focus Quick Search",
                 name: "Focus Quick Search",
+                props: {},
+            },
+
+            {
+                id: "copy-image-path",
+                fn: async function() {
+
+                    // document.body.style.cursor = "crosshair !important"
+                    document.body.style.cursor = "crosshair";
+
+
+                    document.body.addEventListener( "click", on_click )
+                    async function on_click( event ) {
+
+
+                        printf( "event.target -> ", event.target )
+                        printf( "event.target -> ", event.target.tagName)
+                        if( event.target.tagName === "IMG" ) {
+                            printf( "tagname -> ", event.target )
+                            printf( "tagname -> ", event.target.src )
+                            await ilse.clipboard.write( event.target.src )
+                            ilse.notification.send( "Copied", event.target.src )
+                        }
+                        document.body.style.cursor = "auto"
+                        document.body.removeEventListener( "click", on_click )
+                    }
+
+                },
+                description: "Click on a image to get it's full path",
+                name: "Copy Image Path",
                 props: {},
             },
 

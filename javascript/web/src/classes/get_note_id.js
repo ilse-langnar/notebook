@@ -1,7 +1,7 @@
 const printf = console.log
 
-const get_note_string_id               = require("@/classes/get_note_string_id.js")
-const get_unique_date_id               = require("@/classes/get_unique_date_id.js")
+import get_note_string_id               from "@/classes/get_note_string_id.js"
+import get_unique_date_id               from "@/classes/get_unique_date_id.js"
 
 
 export default function get_note_id() {

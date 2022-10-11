@@ -45,6 +45,8 @@ const printf                        = console.log;
     import open_modal                   from "@/classes/open_modal.js"
     import if_else                      from "@/classes/if_else.js"
     import set                          from "@/classes/set.js"
+    import same                         from "@/classes/same.js"
+    import and                          from "@/classes/and.js"
     import listen_to_message            from "@/classes/listen_to_message.js"
     import Resizable                    from "resizable"
 
@@ -121,7 +123,11 @@ export default {
             listen_to_message( "~keyboard", payload => {
 
                 if_else(
-                    payload.action === "keydown" && payload.key === "esc" ,
+
+                    and(
+                        same(payload.action, "keydown"),
+                        same(payload.key, "esc"),
+                    ),
                     yes => { set( this, "search", "" ); set( this, "query", "" ) },
                     no  => null
                 )
@@ -185,6 +191,11 @@ export default {
     padding: var( --padding );
     /*height: 60vh !important;*/
     margin: 10px; 
+
+    color: var( --secondary-background-color );
+    background-color: var( --secondary-text-color );
+    padding: var( --padding );
+    border-radius: var( --border-radius );
 }
 
 .item img{

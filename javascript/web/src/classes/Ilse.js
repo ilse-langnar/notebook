@@ -70,6 +70,7 @@ export default class Ilse {
         this.tried_too_fast         = false
         this.is_vitruvian_expanded  = false
         this.is_home_page_on        = false
+        this.is_search_on           = false
         this.is_left_sidebar_open   = false
         this.is_right_sidebar_open  = false
         this.has_loaded             = false
@@ -236,6 +237,7 @@ export default class Ilse {
 
     async save() {
 
+        printf( "Save()" )
         let is_attempting_too_fast  = this.last_attempt >= ( Date.now() - 4000 )
             if( is_attempting_too_fast ) return
 

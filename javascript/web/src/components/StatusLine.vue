@@ -3,27 +3,48 @@
 
     .flex
         // p.flexi {{ilse.target_directories[0]}}
+        p.flexi( v-if="height > 25 && ilse.keyboard.last_key" ) {{get_last_command_target_key() === " " ?  "&#9251;" : get_last_command_target_key() }}
+        
+
         p.flexi {{ilse.commands.last_command.id}}
-        p.flexi {{ilse.notes.list.length}}(notes)
+        // p.flexi {{ilse.notes.list.length}}(notes)
         p.flexi.italic {{ilse.modes[0]}}
         p.flexi {{ilse.input}}
-        img( v-if=" height > 25 && ilse.keyboard.last_key" :src="irequire.img('x.svg')" style="width: 20px; cursor: pointer;" @click="height = 25" )
-
     br
 
-    p.centered C-SPC {{get_last_key_combo_target_key()}}
-    p {{get_last_key_combo()}}
 
-    // .which-key( v-if="height > 25 && ilse.keyboard.last_key && (get_last_key_suggestions().length ? true : height = 25)" style="margin: 10px; " )
+
     .which-key( v-if="height > 25 && ilse.keyboard.last_key" style="margin: 10px; " )
-        .key.is-pulled-left( v-for="( item, index ) in get_last_key_suggestions()" :key="index" @click="run_command(item)" :title="item.combo" )
-            // span.combo {{prettify_combo(item.combo, item)}}
+        // p {{get_last_command_target_key()}}
+        // p.centered {{get_last_command()}}
+        // p {{get_last_command_target_key() === " " ? 'SHOW EVERYTHING' : 'SHOW Nothing' }}
+                // span.command {{item.command}} 
+                // span.combo {{prettify_combo(item.combo, item)}} 
+        // span.combo {{item.combo, item}} 
+        // span.combo {{prettify_combo(item.combo, item)}} 
+        // span.combo {{first_letter( trim(prettify_combo(item.combo, item) ) )}}
+        // span.command {{shift_nth_times(ilse.keyboard.get_command_by_combo(item.combo).category, 2)}}
+        // span.command {{ilse.keyboard.get_command_by_combo(item.combo).category.slice( get_last_command )}}
+        // span.command {{ilse.keyboard.get_command_by_combo(item.combo).category}}
+        // p {{get_last_command()}}
+        // p.command {{get_last_command().length}} {{get_last_command()}}
+        // p {{get_last_key_suggestions()}}
+        // p {{last_combo_next_key(item)}}
+        // p {{get_last_command_target_key()}}
+        // span.command {{item.command}} 
+        // span.command {{ilse.keyboard.get_command_by_combo(item.combo).category}}
 
-            // span.combo {{first_letter( trim(prettify_combo(item.combo, item) ) )}}({{prettify_combo(item.combo, item)}})
-            span.combo {{first_letter( trim(prettify_combo(item.combo, item) ) )}}
+        .show-everything( v-if="is_ctrl_space_only()" )
+            .key.is-pulled-left( v-for="( item, index ) in ilse.keyboard.keys" :key="index" @click="run_command(item)" :title="JSON.stringify(item)" )
+                span.combo {{get_key_combo(item)}} 
+                span.arrow &rarr;
+                span.command {{get_key_name(item)}}
 
-            span.arrow &rarr;
-            span.command {{item.command}}
+        .last-key( v-if="!is_ctrl_space_only()" )
+            .key.is-pulled-left( v-for="( item, index ) in get_last_key_suggestions()" :key="index" @click="run_command(item)" :title="JSON.stringify(item)" )
+                span.combo {{get_key_combo(item)}} 
+                span.arrow &rarr;
+                span.command {{get_key_name(item)}}
 
 </template>
 <script>
@@ -44,12 +65,13 @@ const printf                                                    = console.log;
     import same                                 from "@/classes/same.js"
     import and                                  from "@/classes/and.js"
     import if_else                              from "@/classes/if_else.js"
-    import get_last_key_combo                   from "@/classes/get_last_key_combo.js"
+    import get_last_command                     from "@/classes/get_last_command.js"
     import last_item                            from "@/classes/last_item.js"
     import remove_text                          from "@/classes/remove_text.js"
     import first_letter                         from "@/classes/first_letter.js"
     import trim                                 from "@/classes/trim.js"
     import map                                  from "@/classes/map.js"
+    import shift_nth_times                      from "@/classes/shift_nth_times.js"
 
 export default {
 
@@ -64,9 +86,57 @@ export default {
 
     methods: {
 
+        get_key_combo( item ) {
+
+            let copy = item.combo
+                copy = copy.split(" ")
+
+            printf( "copy.length -> ", copy.length )
+
+            if( copy.length === 1 ) {
+                return item.combo
+            } else {
+                copy.shift()
+                return copy.join(" ")
+            }
+
+
+            /*
+            let last_key     = this.get_last_command_target_key()
+                printf( "last_key -> ", last_key )
+
+            let copy         = item.combo
+                printf( "copy -> ", copy )
+
+            let tmp       = copy.combo.split(" ")
+                tmp.combo.shift()
+
+            let normalized   = tmp.combo.join(" ")
+            printf( "normalized -> ", normalized )
+
+            return normalized
+            // return item.combo.join(" ")
+            */
+        },
+
+        get_key_name( item ) {
+
+            let last_key     = this.get_last_command_target_key()
+                printf( "@ last_key -> ", last_key )
+
+            let last_command = this.get_last_command()
+                printf( "@ last_command -> ", last_command )
+
+                printf( "item.command -> ", item.command )
+            return item.command
+        },
+
+        is_ctrl_space_only() {
+            return this.get_last_command_target_key() === " " 
+        },
+
         trim( string ) {
             return trim(string)
-
         },
 
         run_command( item ) {
@@ -75,10 +145,13 @@ export default {
 
         get_last_key_suggestions() {
 
-            let final = []
+            let final        = []
 
             ilse.keyboard.keys.map( item => {
-                if( ilse.keyboard.last_key === this.last_combo_next_key(item) ) final.push( item )
+                printf( "get_last_key_suggestions -> ilse.keys.keys.map.item -> ", item )
+                if( ilse.keyboard.last_key === this.last_combo_next_key(item) ) {
+                    final.push( item )
+                }
             })
 
             return final
@@ -86,10 +159,13 @@ export default {
         },
 
         prettify_combo( combo, key ) {
-            return this.remove_text(this.remove_text(combo, "ctrl+space"), this.last_combo_next_key(key))
+            return remove_text(remove_text(combo, "ctrl+space"), this.last_combo_next_key(key))
         },
 
+        // [ "ctrl+space b s" ] = s
         last_combo_next_key( item ) {
+
+            // if( item && item.combo && typeof item.combo === "string" && item.combo.split(" ") === 1 ) return item.combo.split("+")[0]
 
             return first_letter(
                 trim(
@@ -99,26 +175,33 @@ export default {
                 ) 
             )
 
+
+            /*
+            return first_letter(
+                trim(
+                    remove_text(
+                        remove_text(item.combo, "ctrl+space"),
+                    ilse.keyboard.last_item )
+                ) 
+            )
+            */
+
         },
 
         first_letter( string ) {
             return first_letter( string )
         },
 
-        remove_text( text, to_remove ) {
-            return remove_text( text, to_remove )
-        },
-
-        get_last_key_combo_target_key() {
-            return this.last_item( this.get_last_key_combo() )
+        get_last_command_target_key() { //
+            return this.last_item( this.get_last_command() )
         },
 
         last_item( array ) {
             return last_item( array )
         },
 
-        get_last_key_combo() {
-            return get_last_key_combo( ilse.keyboard.history )
+        get_last_command() {
+            return get_last_command( ilse.keyboard.history )
 
         },
         get_key_children( key ) {

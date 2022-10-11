@@ -159,6 +159,7 @@ export default {
         },
 
         on_bullet_db_click() {
+            this.$emit( "on-bullet-db-click", { note: this.note, event: event, button: button })
         },
  
         async add_file( event ) {
@@ -183,6 +184,8 @@ export default {
         },
 
         markdown_to_html( id ) {
+            printf( "Note.vue -> markdown_to_html -> id -> ", id )
+            printf( "ilse.notes.list[id] -> ", ilse.notes.list[id] )
             return markdown_to_html( ilse.notes.list[id].content )
         },
 
@@ -351,6 +354,7 @@ export default {
         },
 
         setup() {
+            printf( "this.$props -> ", this.$props )
             this.set_note_from_component()
             this.listen()
         },
