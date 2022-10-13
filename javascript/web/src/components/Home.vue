@@ -119,11 +119,6 @@ export default {
             return true
         },
 
-
-        toggle_left_menu() {
-            ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open
-        },
-
         get_app_icon_style( item ) {
             let name = ilse.config.apps[0]
             if( name === item ) return `border-bottom: 1px dashed #000; `

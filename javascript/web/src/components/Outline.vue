@@ -16,7 +16,7 @@
 .outline
 
     .path( v-if="!path.length" )
-        .loop( v-for="( item, index ) in inotes.filter( id => ilse.notes.list[id].depth === 0 )" :key="index" :style="get_note_style(item)" )
+        .loop( v-for="( item, index ) in inotes" :key="index" :style="get_note_style(item)" )
             Notes( :note="item" :key="index + key" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-link-click="on_note_link_click" @on-note-click="on_note_click" )
 
     .single-note( v-else )

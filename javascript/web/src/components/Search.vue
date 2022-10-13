@@ -21,6 +21,9 @@
         .nothing.item.flex( style="text-align: center; " v-if="!search_result.length" )
             p.is-size-6 {{ $t( "search_nothing_found_for" ) }} {{search_query}}
 
+        .nothing.item.flex( style="text-align: center; " v-if="!search_result.length" )
+            p.is-size-6 ctrl
+
         p.is-size-6.statistics( v-if="search_result.length" ) {{search_result.length}} {{ $t('search_results') }}
 
         br

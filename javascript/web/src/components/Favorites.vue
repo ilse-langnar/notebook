@@ -1,20 +1,14 @@
 <template lang="pug" >
 .favorites
 
-    details
-        summary Files
-        p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-
     .loop( v-for="( item, index ) in get_favorites()" ) 
+        // Notes( :note="item.id" :options="{}" )
+        Outline( :notes="[item.id]" )
 
-        // .loop2( v-for="( _item, _index ) in extract_html_embeds(item.content)" )
-            embed( :src="get_embed_url(_item)" )
-
-        details( v-if="item.content.indexOf('#open') === -1")
+        // details( v-if="item.content.indexOf('#open') === -1")
             embed( v-if="get_embed_url(item.content)" :src="get_embed_url(item.content)" scale="tofit" )
 
-        .closed( v-else )
+        // .closed( v-else )
             embed( v-if="get_embed_url(item.content)" :src="get_embed_url(item.content)" scale="tofit" )
 
         // Notes( v-else :note="item.id" :options="{}" )
@@ -39,6 +33,7 @@ const printf                        = console.log;
 
 // Component
     import Notes                        from "@/components/Notes.vue"
+    import Outline                      from "@/components/Outline.vue"
 
 // functions
     import extract_html_embeds          from "@/classes/extract_html_embeds.js"
@@ -56,6 +51,7 @@ export default {
 
     components: {
         Notes,
+        Outline,
     },
 
     methods: {

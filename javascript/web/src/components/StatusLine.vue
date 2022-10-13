@@ -275,6 +275,10 @@ export default {
 </script>
 <style scoped>
 
+.status-line {
+    z-index: 2;
+
+}
 .status-line .flexi {
     margin: auto;
     display: block;

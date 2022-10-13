@@ -2,6 +2,7 @@
 .notes( v-if="note" )
     component( :is="require('@/components/Note.vue').default" :note="note" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-click="on_note_click" )
 
+    // button.button( @click="show_children" )
     .children( v-if="options.is_collapsed" :key="options.key" )
         .loop( v-for="( item, index ) in get_note_children( note )" :key="index" :style="get_note_style(item)" )
             Notes( :note="item" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-click="on_note_click" :options="options" )
@@ -56,11 +57,9 @@ export default {
 
     methods: {
 
-        show_children() {
-
-            printf( "get_note_children( this.note ) -> ", get_note_children( this.note ) )
-
-        },
+        // show_children() {
+            // printf( "get_note_children( this.note ) -> ", get_note_children( this.note ) )
+        // },
 
         get_note_children( id ) {
             return get_note_children( id )

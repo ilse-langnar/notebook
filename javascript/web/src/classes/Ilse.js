@@ -72,6 +72,7 @@ export default class Ilse {
         this.is_home_page_on        = false
         this.is_search_on           = false
         this.is_left_sidebar_open   = false
+        this.left_sidebar           = ""
         this.is_right_sidebar_open  = false
         this.has_loaded             = false
 

@@ -1,14 +1,15 @@
 <template lang="pug" >
 .references( :key="key" )
-    .has
 
-        details
+    .has( v-if="query_linked(file) || query_linked(file).length" )
+
+        details( v-if="query_linked(file).length"  )
             summary Links
             span.loop( v-for="( item, index ) in get_related_links( file )" :key="index" style="margin: 5px; ") {{item}}
 
-        details
+        details( v-if="query_linked(file).length"  )
             summary Children
-            span.loop( v-for="( item, index ) in get_children( file )" :key="index" style="margin: 5px; ") {{item}}
+            // span.loop( v-for="( item, index ) in get_children( file )" :key="index" style="margin: 5px; ") {{item}}
 
         br( style="clear: both;" )
         br

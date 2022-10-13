@@ -126,13 +126,13 @@ class componentTypes {
         })
 
         this.add({
-            id: "menu",
-            name: "Menu",
+            id: "left-sidebar",
+            name: "Left Sidebar",
             description: "",
             img: this.ilse.irequire.img("menu.svg"),
             type: "vue",
             mode: "inline",
-            component: require("@/components/Menu.vue"),
+            component: require("@/components/LeftSidebar.vue"),
             props: {
                 is_internal: true,
             }

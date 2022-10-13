@@ -1,27 +1,57 @@
 <template lang="pug" >
-.menu
+.left-sidebar( @drop="on_drop" style="margin-left: 10px; padding: 10px;" )
 
-    .flex( style="border-radius: var( --border-radius ); " )
-        img( :src="irequire.img('lupe.svg')"    )
+    .default( v-if="ilse.left_sidebar === 'default' " )
 
-        input.input.search#quick-search( v-model="query" list="list" @keydown.enter="search = query" @keydown.esc="on_input_keydown_esc" )
+        // .flex( style="border-radius: var( --border-radius ); " )
+            // img( :src="irequire.img('lupe.svg')"    )
+
+        input.input.search#quick-search( v-model="query" list="list" @keydown.enter="search = query" @keydown.esc="on_input_keydown_esc" style="width: 90%; ")
         .search-result( v-if="(search && query) && (search === query)" style="position: absolute; top: 90px; left: 0%; width: 80%; border: 1px solid #000; background: #fff; overflow: hidden; height: 80vh; z-index: 5; overflow-y: scroll; resize: right; " )
             Notes( v-for="( item, index ) in ilse.notes.query( search )" :key="'notes-' + index" :note="item" :options="{}" )
 
+            br
+
+        br
         br
 
-    br
-    br
+        .buttons
+            .flex( @click="add_daiyl_notes" style="border-radius: var( --border-radius );" )
+                img( :src="irequire.img('calendar.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('daily_notes')" )
+                span.item Daily Notes
 
-    .buttons
-        .flex( @click="add_daiyl_notes" style="border-radius: var( --border-radius );" )
-            img( :src="irequire.img('calendar.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('daily_notes')" )
-            span.item Daily Notes
+        br
+        br
 
-    br
-    br
+        Favorites
 
-    Favorites
+    .else( v-else )
+        Outline( :notes="[ilse.left_sidebar]" )
+
+    // .default( v-if="ilse.left_sidebar === 'study' " style="border: 1px solid #000;" )
+        .flex( style="border-radius: var( --border-radius ); " )
+            img( :src="irequire.img('lupe.svg')"    )
+
+            input.input.search#quick-search( v-model="query" list="list" @keydown.enter="search = query" @keydown.esc="on_input_keydown_esc" )
+            .search-result( v-if="(search && query) && (search === query)" style="position: absolute; top: 90px; left: 0%; width: 80%; border: 1px solid #000; background: #fff; overflow: hidden; height: 80vh; z-index: 5; overflow-y: scroll; resize: right; " )
+                Notes( v-for="( item, index ) in ilse.notes.query( search )" :key="'notes-' + index" :note="item" :options="{}" )
+
+            br
+
+        br
+        br
+
+        .buttons
+            .flex( @click="add_daiyl_notes" style="border-radius: var( --border-radius );" )
+                img( :src="irequire.img('calendar.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('daily_notes')" )
+                span.item Daily Notes
+
+        br
+        br
+
+        Favorites
+
+
 
 </template>
 <script>
@@ -38,6 +68,7 @@ const printf                        = console.log;
     import Notes                        from "@/components/Notes.vue"
     import RandomNote                   from "@/components/RandomNote.vue"
     import Favorites                    from "@/components/Favorites.vue"
+    import Outline                      from "@/components/Outline.vue"
 
 // Functions
     import add_component                from "@/classes/add_component.js"
@@ -50,15 +81,15 @@ const printf                        = console.log;
     import listen_to_message            from "@/classes/listen_to_message.js"
     import Resizable                    from "resizable"
 
-
 export default {
 
-    name: "Menu",
+    name: "LeftSidebar",
 
     components: {
         Notes,
         RandomNote,
         Favorites,
+        Outline,
     },
 
     watch: {
@@ -89,17 +120,18 @@ export default {
 
     methods: {
 
-        toggle_left_menu() {
-            ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open
+        get_list() {
+            if( ilse.config.left_sidebar ) return ilse.config.left_sidebar
+            return []
+        },
+
+        on_drop( event ) {
+            printf( "Menu.vue -> on_drop -> event -> ", event )
         },
 
         on_input_keydown_esc() {
             set( this, "search", "" )
             set( this, "query", "" )
-        },
-
-        toggle_menu() {
-            set( ilse, "is_left_sidebar_open", !ilse.is_left_sidebar_open )
         },
 
         on_favorite_click( file ) {
@@ -190,12 +222,14 @@ export default {
     /*flex-grow: 0% !important;*/
     padding: var( --padding );
     /*height: 60vh !important;*/
-    margin: 10px; 
+    height: 100vh !important;
 
     color: var( --secondary-background-color );
     background-color: var( --secondary-text-color );
     padding: var( --padding );
     border-radius: var( --border-radius );
+    margin-left: 30px;
+    margin-top: 10px;
 }
 
 .item img{

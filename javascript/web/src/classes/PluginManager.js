@@ -10,8 +10,10 @@ const printf                        = console.log
     import string_to_html               from "@/classes/string_to_html.js"
     import create_window                from "@/classes/create_window.js"
     import html_to_string               from "@/classes/html_to_string.js"
+    import get_global_api               from "@/classes/get_global_api.js"
     import has_permission               from "@/classes/has_permission.js"
     import get_plugin_api               from "@/classes/get_plugin_api.js"
+    import delay                        from "@/classes/delay.js"
 
 class PluginManager {
 
@@ -26,6 +28,12 @@ class PluginManager {
 
     setup() {
         setTimeout( () => { this.load() }, 1000 )
+        setTimeout( () => { this.set_global_api() }, 1000 )
+        // delay( this.load, null )
+    }
+
+    set_global_api() {
+        window.ilse = get_global_api()
     }
 
     load() {
@@ -34,7 +42,6 @@ class PluginManager {
         let HTMLs     = list.filter( item => item.indexOf(".html") !== -1 ) // needs to have .html
 
         HTMLs.map( plugin => { this.run( plugin ) })
-
     }
 
     async run( name ) {

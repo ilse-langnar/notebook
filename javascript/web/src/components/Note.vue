@@ -3,8 +3,8 @@
     .flex( :style="options.style" :class=" is_dragging_over ? 'dragging-over' : '' " )
 
         .bullet( v-if="!options.hide_bullet" )
-            p.collapsed( v-if="options.is_collapsed" :title="get_human_readable_creation_date(note)" @click="on_bullet_click" @click.middle="on_bullet_click" @dbclick="on_bullet_db_click" :id=" 'bullet-' + note" ) &#8277;
-            p.expanded( v-if="!options.is_collapsed" :title="get_human_readable_creation_date(note)" @click="on_bullet_click" @click.middle="on_bullet_click" @dbclick="on_bullet_db_click" :id=" 'bullet-' + note" ) &bull;
+            p.collapsed( v-if="options.is_collapsed" @drag="on_drag" draggable :title="get_human_readable_creation_date(note)" @click="on_bullet_click" @click.middle="on_bullet_click" @dbclick="on_bullet_db_click" :id=" 'bullet-' + note" ) &#8277;
+            p.expanded( v-if="!options.is_collapsed" @drag="on_drag" draggable :title="get_human_readable_creation_date(note)" @click="on_bullet_click" @click.middle="on_bullet_click" @dbclick="on_bullet_db_click" :id=" 'bullet-' + note" ) &bull;
 
         .edit( contentEditable v-if="options.is_editable" :id="note" @keydown="on_key_down($event)" @blur="on_blur($event)" :placeholder="$t('note_placeholder')" @drop.prevent="add_file" :style="get_fit_content_style(note)" ) {{ilse.notes.list[note].content}}
 
@@ -48,6 +48,7 @@ const printf                        = console.log;
     import not                          from "@/classes/not.js"
     import is                           from "@/classes/is.js"
     import prevent_default              from "@/classes/prevent_default.js"
+    import has_string                   from "@/classes/has_string.js"
 
 export default {
 
@@ -83,6 +84,10 @@ export default {
     },
 
     methods: {
+
+        on_drag( event ) {
+            ilse.drag = this.note
+        },
 
         get_human_readable_creation_date( string ) {
             return get_human_readable_creation_date( string )
@@ -142,19 +147,13 @@ export default {
         },
 
         on_bullet_click() {
-            printf( "Note.vue -> on_bullet_click -> " )
-
             // if( this.inote.children.length && event.button === 0 ) this.inote.is_collapsed = !this.inote.is_collapsed
 
-                printf( "1" )
             let button
             if( event.button === 0 ) button = "left"
-                printf( "2" )
             if( event.button === 2 ) button = "right"
-                printf( "3" )
             if( event.button === 1 ) button = "middle"
 
-                printf( "4" )
             this.$emit( "on-note-click", { note: this.note, event: event, button: button })
         },
 
@@ -184,12 +183,15 @@ export default {
         },
 
         markdown_to_html( id ) {
-            printf( "Note.vue -> markdown_to_html -> id -> ", id )
-            printf( "ilse.notes.list[id] -> ", ilse.notes.list[id] )
             return markdown_to_html( ilse.notes.list[id].content )
         },
 
-        on_focus( event ) {
+        on_focus( event) {
+
+            if( has_string( ilse.notes.list[this.note].content, "#i/html" ) ) {
+                if( event.altKey ) this.focus( this.note )
+                return
+            }
 
             if( this.options.read_only ) return
 
@@ -354,7 +356,6 @@ export default {
         },
 
         setup() {
-            printf( "this.$props -> ", this.$props )
             this.set_note_from_component()
             this.listen()
         },

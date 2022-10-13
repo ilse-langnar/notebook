@@ -562,7 +562,8 @@ class Commands {
             {
                 id: "toggle-left-sidebar",
                 fn: async function() {
-                    ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open
+                    // ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open
+                    ilse.left_sidebar = "default"
                 },
                 description: "Toggle Left Sidebar",
                 name: "Toggle Left Sidebar",

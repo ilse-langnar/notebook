@@ -175,6 +175,7 @@ export default {
     height: 100%;
     /*width: 100vw;*/
     overflow: hidden;
+    margin-left: 15px;
 }
 
 .flex p.fitem  {
