@@ -11,14 +11,15 @@
             br
             br
 
-            img.extended( v-for="( item, index ) in get_list()" :key="index" :src="irequire.img('point.svg')" style="cursor: pointer; width: 20px; margin-left: 3px;  "   :title="$t('daily_notes')" @click="toggle_left_menu( $event, item, true )" )
+            Favorites
+            // img.extended( v-for="( item, index ) in get_list()" :key="index" :src="irequire.img('point.svg')" style="cursor: pointer; width: 20px; margin-left: 3px;  "   :title="$t('daily_notes')" @click="toggle_left_menu( $event, item, true )" )
 
         // 
         iComponent( v-resize="onResize" v-show="ilse.is_left_sidebar_open && !ilse.is_zen" :component="get_menu_component()" :options="{hide_bullet: true }" style="min-height: 20vh !important; height: 20vh; max-height: 50vh; margin-left: 20px; width: 20%; " )
 
         .menu-arrows( v-if="!ilse.is_zen" )
-            img( v-show="!ilse.is_left_sidebar_open" :src="irequire.img('arrow-narrow-left.svg')" style="width: 20px; position: fixed; top: 1%; left: 5px; cursor: pointer; z-index: 1; " @click="toggle_left_menu( $event, 'default', true )" )
-            img( v-show="ilse.is_left_sidebar_open" :src="irequire.img('arrow-narrow-right.svg')" style="width: 20px; position: fixed; top: 1%; left: 5px; cursor: pointer; z-index: 1; " @click="toggle_left_menu( $event, 'default', true )" )
+            img( v-show="ilse.is_left_sidebar_open" :src="irequire.img('arrow-narrow-left.svg')" style="width: 20px; position: fixed; top: 1%; left: 5px; cursor: pointer; z-index: 1; " @click="toggle_left_menu( $event, 'default', true )" )
+            img( v-show="!ilse.is_left_sidebar_open" :src="irequire.img('arrow-narrow-right.svg')" style="width: 20px; position: fixed; top: 1%; left: 5px; cursor: pointer; z-index: 1; " @click="toggle_left_menu( $event, 'default', true )" )
 
         .component( v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
             // Don't render window nor modal.
@@ -46,7 +47,7 @@ const printf                        = console.log;
 // Components
    import iComponent                    from "@/components/iComponent.vue"
    import Test                          from "@/components/Test.vue"
-   import Vue                           from "vue"
+   import Favorites                     from "@/components/Favorites.vue"
 
 // functions
    import vue_sfc_to_html               from "@/classes/vue_sfc_to_html.js"
@@ -71,6 +72,7 @@ export default {
 
     components: {
         iComponent,
+        Favorites,
     },
 
     watch: {
@@ -97,10 +99,11 @@ export default {
 
             if( !ilse.config.left_sidebar ) ilse.config.left_sidebar = []
 
-            let id = ilse.drag
-            printf( "id -> ", id )
-            if( id ) {
+            let id          = ilse.drag
+            let has_already = ilse.config.left_sidebar.indexOf( index ) !== -1
+            if( id && !has_already ) {
                 ilse.config.left_sidebar.push( id )
+                ilse.notification.send( "Added", `Added: ${id}` )
                 ilse.config.save()
             }
 
@@ -113,9 +116,22 @@ export default {
         },
 
         toggle_left_menu( event, name, is_on ) {
-            set( ilse, "is_left_sidebar_open", !ilse.is_left_sidebar_open )
-            ilse.left_sidebar = name
+            // set( ilse, "is_left_sidebar_open", !ilse.is_left_sidebar_open )
+            // ilse.left_sidebar = name
             // set( ilse, "is_left_sidebar_open", is_on )
+
+            if( name === ilse.left_sidebar ) {
+                set( ilse, "is_left_sidebar_open", false )
+                return
+            }
+
+            if( ilse.left_sidebar && ilse.is_left_sidebar_open ) {
+                ilse.left_sidebar = name
+            } else {
+                set( ilse, "is_left_sidebar_open", !ilse.is_left_sidebar_open )
+                ilse.left_sidebar = name
+            }
+
         },
 
         get_menu_component() {

@@ -55,6 +55,10 @@ export default class Notes {
 
                 let added = lines.slice( this.list.length-1, lines.length ).filter( e=>e )
                     if( !added.length ) return
+                printf( "added -> ", added )
+
+                let o = note.split(":")[1]
+                printf( "o -> ", o )
 
                 // added.map( note => this.add( note.split(":")[1] ) )
 

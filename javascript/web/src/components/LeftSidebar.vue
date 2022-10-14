@@ -1,5 +1,5 @@
 <template lang="pug" >
-.left-sidebar( @drop="on_drop" style="margin-left: 10px; padding: 10px;" )
+.left-sidebar( :key="ilse.left_sidebar" style="margin-left: 10px; padding: 10px;" )
 
     .default( v-if="ilse.left_sidebar === 'default' " )
 
@@ -23,35 +23,10 @@
         br
         br
 
-        Favorites
+        // Favorites
 
     .else( v-else )
         Outline( :notes="[ilse.left_sidebar]" )
-
-    // .default( v-if="ilse.left_sidebar === 'study' " style="border: 1px solid #000;" )
-        .flex( style="border-radius: var( --border-radius ); " )
-            img( :src="irequire.img('lupe.svg')"    )
-
-            input.input.search#quick-search( v-model="query" list="list" @keydown.enter="search = query" @keydown.esc="on_input_keydown_esc" )
-            .search-result( v-if="(search && query) && (search === query)" style="position: absolute; top: 90px; left: 0%; width: 80%; border: 1px solid #000; background: #fff; overflow: hidden; height: 80vh; z-index: 5; overflow-y: scroll; resize: right; " )
-                Notes( v-for="( item, index ) in ilse.notes.query( search )" :key="'notes-' + index" :note="item" :options="{}" )
-
-            br
-
-        br
-        br
-
-        .buttons
-            .flex( @click="add_daiyl_notes" style="border-radius: var( --border-radius );" )
-                img( :src="irequire.img('calendar.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('daily_notes')" )
-                span.item Daily Notes
-
-        br
-        br
-
-        Favorites
-
-
 
 </template>
 <script>
@@ -123,10 +98,6 @@ export default {
         get_list() {
             if( ilse.config.left_sidebar ) return ilse.config.left_sidebar
             return []
-        },
-
-        on_drop( event ) {
-            printf( "Menu.vue -> on_drop -> event -> ", event )
         },
 
         on_input_keydown_esc() {

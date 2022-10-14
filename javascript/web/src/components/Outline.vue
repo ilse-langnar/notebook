@@ -138,17 +138,26 @@ export default {
 
         get_note_style( id ) {
 
-            let depth  = ilse.notes.list[id].depth
-            if( depth === 0 ) return ""
-            if( depth === 1 ) return `margin-left: 18px !important; `
+            if( !id ) return ""
 
-            // let depth = ilse.notes.list[id]
+            try {
 
-            return if_else(
-                depth >= 1,
-                is      => `margin-left: ${18 * depth}px !important; `,
-                is_not  => ''
-            )
+                let depth  = ilse.notes.list[id].depth
+                if( depth === 0 ) return ""
+                if( depth === 1 ) return `margin-left: 18px !important; `
+
+                // let depth = ilse.notes.list[id]
+
+                return if_else(
+                    depth >= 1,
+                    is      => `margin-left: ${18 * depth}px !important; `,
+                    is_not  => ''
+                )
+            } catch( e ) {
+                printf( "Outline.vue -> get_note_style -> id -> ", id )
+                throw e
+
+            }
 
         },
 

@@ -336,6 +336,11 @@ code {
     text-decoration: italic;
 }
 
+.inline-embed {
+    color: var( --text-color );
+    background-color: var( --background-color );
+}
+
 .note-reference {
     background-color: #D5DADF;
     color: var( --secondary-background-color );

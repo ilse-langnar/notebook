@@ -27,7 +27,6 @@ export default function create_window({
 
     let frame
 
-    printf( "external -> ", external )
     if( external ) {
 
         frame = ilse.frame.create({

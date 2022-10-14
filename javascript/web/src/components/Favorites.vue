@@ -1,9 +1,12 @@
 <template lang="pug" >
 .favorites
 
-    .loop( v-for="( item, index ) in get_favorites()" ) 
+
+    img.extended( v-for="( item, index ) in get_favorites()" :key="index" :src="irequire.img('point.svg')" style="cursor: pointer; width: 20px; margin-left: 3px; " @click="toggle_left_menu( $event, item.id, true )" )
+
+    // .loop( v-for="( item, index ) in get_favorites()" ) 
         // Notes( :note="item.id" :options="{}" )
-        Outline( :notes="[item.id]" )
+        // Outline( :notes="[item.id]" )
 
         // details( v-if="item.content.indexOf('#open') === -1")
             embed( v-if="get_embed_url(item.content)" :src="get_embed_url(item.content)" scale="tofit" )
@@ -38,6 +41,7 @@ const printf                        = console.log;
 // functions
     import extract_html_embeds          from "@/classes/extract_html_embeds.js"
     import get_target_directory_url     from "@/classes/get_target_directory_url.js"
+    import set                          from "@/classes/set.js"
 
 export default {
 
@@ -56,6 +60,23 @@ export default {
 
     methods: {
 
+        toggle_left_menu( event, name, is_on ) {
+
+            if( name === ilse.left_sidebar ) {
+                set( ilse, "is_left_sidebar_open", false )
+                return
+            }
+
+
+            if( ilse.left_sidebar && ilse.is_left_sidebar_open ) {
+                ilse.left_sidebar = name
+            } else {
+                set( ilse, "is_left_sidebar_open", !ilse.is_left_sidebar_open )
+                ilse.left_sidebar = name
+            }
+
+        },
+
         get_embed_url( content ) {
 
             let url = extract_html_embeds( content )
@@ -69,7 +90,9 @@ export default {
         },
 
         get_favorites() {
-            return ilse.notes.query( '#favorite' ) 
+            let result = ilse.notes.query( '#favorite' ) 
+            printf( "result -> ", result )
+            return result
         },
 
         setup() {

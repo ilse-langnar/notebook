@@ -66,7 +66,8 @@ export default function get_plugin_api( name ) {
                 args.props.source    = name
 
                 ilse.commands.add( args )
-            }.bind( ilse.commands )
+            }.bind( ilse.commands ),
+            run: ilse.commands.run.bind( ilse.commands ),
         },
 
         dialog: {
@@ -78,6 +79,8 @@ export default function get_plugin_api( name ) {
         },
 
     }
+
+    printf( "get_global_api -> api -> ", api )
 
     return api
 

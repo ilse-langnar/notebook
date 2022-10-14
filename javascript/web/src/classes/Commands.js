@@ -562,7 +562,7 @@ class Commands {
             {
                 id: "toggle-left-sidebar",
                 fn: async function() {
-                    // ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open
+                    ilse.is_left_sidebar_open = !ilse.is_left_sidebar_open
                     ilse.left_sidebar = "default"
                 },
                 description: "Toggle Left Sidebar",
@@ -649,7 +649,7 @@ class Commands {
                         url         = payload.input
                     }
 
-                    create_window({ title: "Browse", url: url })
+                    create_window({ title: "Browse", external: true, url: url })
 
                 },
                 description: "Will open a new query windows based on your choice.",
