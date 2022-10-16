@@ -29,23 +29,6 @@ class componentTypes {
 
     add_default_component_types() {
 
-        printf( "Types.js -> add_default_component_types -> ilse.irequire -> ", this.ilse.irequire )
-        printf( "Types.js -> add_default_component_types -> ilse.irequire.img -> ", this.ilse.irequire.img )
-
-        this.add({
-            id: "top-menu",
-            name: "Top Menu",
-            description: "Top Menu",
-            img: this.ilse.irequire.img("menu.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/TopMenu.vue"),
-            props: {
-                is_internal: true,
-                is_hidden: true,
-            }
-        })
-
         this.add({
             id: "outline",
             name: "Outline",
@@ -94,19 +77,6 @@ class componentTypes {
             type: "vue",
             mode: "inline",
             component: require("@/components/CommandPallet.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
-            id: "test",
-            name: "Test",
-            description: "",
-            img: this.ilse.irequire.img("test-pipe.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/Test.vue"),
             props: {
                 is_internal: true,
             }
@@ -166,19 +136,6 @@ class componentTypes {
         })
 
         this.add({
-            id: "types",
-            name: "Types",
-            description: "See and set types",
-            img: this.ilse.irequire.img("letter-t.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/Types.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
             id: "help",
             name: "Help",
             description: "Help",
@@ -186,32 +143,6 @@ class componentTypes {
             type: "vue",
             mode: "inline",
             component: require("@/components/Help.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
-            id: "type-selection",
-            name: "Type Selection",
-            description: "List of all of your types",
-            img: this.ilse.irequire.img("hand-click.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/Types.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
-            id: "text-file",
-            name: "Text File",
-            description: "Text File",
-            img: this.ilse.irequire.img("file.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/TextFile.vue"),
             props: {
                 is_internal: true,
             }
@@ -244,19 +175,6 @@ class componentTypes {
         })
 
         this.add({
-            id: "random-note",
-            name: "RandomNote",
-            description: "Get a random note, a random note from query or a random note from a file",
-            img: this.ilse.irequire.img("dice-3.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/RandomNote.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
             id: "right-sidebar",
             name: "RightSidebar",
             description: "Right Sidebar is the component thatt embeds inside the right sidebar",
@@ -267,20 +185,6 @@ class componentTypes {
             props: {
                 is_internal: true,
             }
-        })
-
-        this.add({
-            id: "digital-garden",
-            name: "Digital Garden",
-            description: "Host your own Digital Garden",
-            img: this.ilse.irequire.img("square.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/Digital Garden.vue"),
-            props: {
-                is_internal: true,
-            }
-
         })
 
     }

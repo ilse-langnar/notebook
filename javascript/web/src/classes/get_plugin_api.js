@@ -1,7 +1,7 @@
 const printf = console.log
 
 // Ilse
-    import ilse                         from "@/ilse.js"
+    // import ilse                         from "@/ilse.js"
 
 // classes
     import MessagerFactory             from "@/classes/MessagerFactory.js"
@@ -12,7 +12,19 @@ const printf = console.log
     import html_to_string               from "@/classes/html_to_string.js"
     import has_permission               from "@/classes/has_permission.js"
 
-export default function get_plugin_api( name ) {
+export default function get_plugin_api( name, ilse ) {
+
+    /*
+    printf( "get_plugin_api -> name -> ", name )
+    printf( "get_plugin_api -> context -> ", context )
+    printf( "\n" )
+
+    let ilse = context ? context : require("@/ilse.js").default
+    printf( ">>>>>>>>>>>>>>>>>>>> ilse -> ", ilse )
+    */
+
+    printf( "get_plugin_api -> name -> ", name )
+    printf( "get_plugin_api -> ilse -> ", ilse )
 
     const Messager = new MessagerFactory()
 
@@ -29,6 +41,8 @@ export default function get_plugin_api( name ) {
         command: function() {}, // todo
         autocomplete: function() {}, // todo
         text_expansion: function() {}, // todo
+
+        require: ilse.irequire.img,
 
         messager: {
             // on:   has_permission( name, 'communication' ) ? Messager.on   : null,
@@ -66,6 +80,10 @@ export default function get_plugin_api( name ) {
 
         keyboard: {
             add: ilse.keyboard.add.bind( ilse.keyboard )
+        },
+
+        modals: {
+            open: ilse.modals.open.bind( ilse.modals ),
         },
 
         commands: {

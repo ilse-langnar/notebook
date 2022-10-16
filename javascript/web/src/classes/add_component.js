@@ -4,7 +4,7 @@ import ilse                     from "@/ilse.js"
 
 export default function add_component({
     id          = Math.random(),
-    name        = "random-name",
+    name        = "random-name-" + Math.random(),
     description = "",
     img         = ilse.irequire.img("menu.svg"),
     _component  = {},

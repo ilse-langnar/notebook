@@ -1,22 +1,9 @@
 <template lang="pug" >
-// .outline
-    .single-note( v-if="!path.length" )
-        img.img( :src="irequire.img('arrow-narrow-left.svg')" style="width: 30px; cursor: pointer;" @click="on_left_arrow_click" )
-        Outline( :notes="path" )
-
-    .normal( v-if="path.length && path.join('').indexOf('[[') === -1 " )
-        .loop( v-for="( item, index ) in inotes" :key="index" :style="get_note_style(item)" )
-            Notes( :note="item" :key="index + key" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-link-click="on_note_link_click" @on-note-click="on_note_click" )
-
-    p {{path}}
-    .link( v-if="path.length && path.join('').indexOf('[[') !== -1 " )
-         p FILE: 
-
-
 .outline
 
     .path( v-if="!path.length" )
-        .loop( v-for="( item, index ) in inotes" :key="index" :style="get_note_style(item)" )
+        // .loop( v-for="( item, index ) in inotes" :key="index" :style="get_note_style(item)" )
+        .loop( v-for="( item, index ) in inotes" :key="index" )
             Notes( :note="item" :key="index + key" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-link-click="on_note_link_click" @on-note-click="on_note_click" )
 
     .single-note( v-else )
@@ -36,7 +23,6 @@ const printf                        = console.log;
 
 // Components
     import Notes                        from "@/components/Notes.vue"
-    import Note                         from "@/components/Note.vue"
     import Outline                      from "@/components/Outline.vue"
     import File                         from "@/components/File.vue"
 
@@ -73,6 +59,8 @@ export default {
     data() {
         return {
             ilse: ilse,
+            // inotes: this.notes,
+            // inotes: this.notes.filter( e=> { if( ilse.notes.list[e].depth === 0 ) return e } ),
             inotes: this.notes,
             key: 0,
             path: [],
@@ -81,7 +69,6 @@ export default {
 
     components: {
         Notes,
-        Note,
         Outline,
         File,
     },
@@ -225,7 +212,6 @@ export default {
 
         is_embedded() {
 
-            printf( "this.component -> ", this.component )
             if( this.component && this.component.props && this.component.notes ) {
                 this.inotes = this.component.props.notes
             }

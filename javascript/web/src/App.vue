@@ -146,6 +146,21 @@ export default {
     margin-left: 20px; 
 }
 
+.url {
+    width: 70vw !important;
+    height: 70vh;
+    resize: both;
+    box-shadow:0 4px 6px rgba(0,0,0,0.1);
+}
+
+.pdf {
+
+}
+
+.bold  {
+    text-weight: bold;
+}
+
 .shorctu span {
     padding: 8px 12px;
     border-radius: var( --border-radius );

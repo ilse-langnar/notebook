@@ -25,8 +25,12 @@
 
         // Favorites
 
+    .filesystem( v-if="ilse.left_sidebar === 'filesystem' " )
+        p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
     .else( v-else )
-        Outline( :notes="[ilse.left_sidebar]" )
+        // Notes( :note="ilse.left_sidebar" )
+        Outline( v-if="get_left_sidebar().length" :notes="get_left_sidebar()" )
 
 </template>
 <script>
@@ -41,7 +45,6 @@ const printf                        = console.log;
 
 // Components
     import Notes                        from "@/components/Notes.vue"
-    import RandomNote                   from "@/components/RandomNote.vue"
     import Favorites                    from "@/components/Favorites.vue"
     import Outline                      from "@/components/Outline.vue"
 
@@ -62,7 +65,6 @@ export default {
 
     components: {
         Notes,
-        RandomNote,
         Favorites,
         Outline,
     },
@@ -94,6 +96,15 @@ export default {
     },
 
     methods: {
+
+        get_left_sidebar() {
+
+            let array = []
+
+            array.push( ilse.left_sidebar )
+
+            return array
+        },
 
         get_list() {
             if( ilse.config.left_sidebar ) return ilse.config.left_sidebar
@@ -189,10 +200,9 @@ export default {
     color: var( --text-color );
 }
 
+/*
 .menu {
-    /*flex-grow: 0% !important;*/
     padding: var( --padding );
-    /*height: 60vh !important;*/
     height: 100vh !important;
 
     color: var( --secondary-background-color );
@@ -202,6 +212,7 @@ export default {
     margin-left: 30px;
     margin-top: 10px;
 }
+*/
 
 .item img{
     margin-right: 2px;

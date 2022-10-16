@@ -3,23 +3,29 @@
 
     .components( style="display: flex; flex-direction: row;" :key="components_key" )
 
-        // Bar
+        // Left Sidebar HERE
         .div( v-if="!ilse.is_zen" style="position: fixed; left: 0px; top: 0px; width: 30px; height: 100vh; z-index: 0; " @drop.prevent="on_drop" @dragover.prevent )
-            img( :src="irequire.img('folders.svg')" style="width: 20px; cursor: pointer; margin-top: 50px; margin-left: 3px; " @click="toggle_left_menu( $event, 'default', true )" )
+            // Default Icons
+            img( :src="irequire.img('folders.svg')" style="width: 20px; cursor: pointer; margin-top: 50px; margin-left: 3px; " @click="toggle_left_menu( $event, 'filesystem', true )" )
             img( :src="irequire.img('letter-i.svg')" style="width: 20px; cursor: pointer; margin-left: 3px; " @click="toggle_left_menu( $event, 'default', true )" )
 
             br
             br
 
+            // User Defined Icons
             Favorites
-            // img.extended( v-for="( item, index ) in get_list()" :key="index" :src="irequire.img('point.svg')" style="cursor: pointer; width: 20px; margin-left: 3px;  "   :title="$t('daily_notes')" @click="toggle_left_menu( $event, item, true )" )
 
         // 
-        iComponent( v-resize="onResize" v-show="ilse.is_left_sidebar_open && !ilse.is_zen" :component="get_menu_component()" :options="{hide_bullet: true }" style="min-height: 20vh !important; height: 20vh; max-height: 50vh; margin-left: 20px; width: 20%; " )
+        iComponent( v-resize="onResize" v-show="ilse.is_left_sidebar_open && !ilse.is_zen" :component="get_menu_component()" :options="{hide_bullet: true }" style="height: 91vh; margin-left: 20px; width: 20%; overflow-x: hidden;  " )
 
         .menu-arrows( v-if="!ilse.is_zen" )
             img( v-show="ilse.is_left_sidebar_open" :src="irequire.img('arrow-narrow-left.svg')" style="width: 20px; position: fixed; top: 1%; left: 5px; cursor: pointer; z-index: 1; " @click="toggle_left_menu( $event, 'default', true )" )
             img( v-show="!ilse.is_left_sidebar_open" :src="irequire.img('arrow-narrow-right.svg')" style="width: 20px; position: fixed; top: 1%; left: 5px; cursor: pointer; z-index: 1; " @click="toggle_left_menu( $event, 'default', true )" )
+
+
+
+
+
 
         .component( v-for="(component, component_index) in components" :key="uniqueKey + component.id"  :style="get_component_style(component)" :component="component" )
             // Don't render window nor modal.
@@ -46,7 +52,6 @@ const printf                        = console.log;
 
 // Components
    import iComponent                    from "@/components/iComponent.vue"
-   import Test                          from "@/components/Test.vue"
    import Favorites                     from "@/components/Favorites.vue"
 
 // functions
@@ -116,10 +121,15 @@ export default {
         },
 
         toggle_left_menu( event, name, is_on ) {
+
+            set( ilse, "is_left_sidebar_open", !ilse.is_left_sidebar_open )
+            set( ilse, "left_sidebar", name )
+
             // set( ilse, "is_left_sidebar_open", !ilse.is_left_sidebar_open )
             // ilse.left_sidebar = name
             // set( ilse, "is_left_sidebar_open", is_on )
 
+            /*
             if( name === ilse.left_sidebar ) {
                 set( ilse, "is_left_sidebar_open", false )
                 return
@@ -131,7 +141,7 @@ export default {
                 set( ilse, "is_left_sidebar_open", !ilse.is_left_sidebar_open )
                 ilse.left_sidebar = name
             }
-
+            */
         },
 
         get_menu_component() {

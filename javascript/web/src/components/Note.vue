@@ -27,7 +27,7 @@ const printf                        = console.log;
     import File                         from "@/components/Note.vue"
 
 // Constants
-    import HTML_TEMPLATE                from "@/classes/HTML_TEMPLATE.js"
+    import LOGIC_TAGS                   from "@/classes/LOGIC_TAGS.js"
 
 // functions
     import get_human_readable_creation_date from "@/classes/get_human_readable_creation_date.js"
@@ -188,7 +188,8 @@ export default {
 
         on_focus( event) {
 
-            if( has_string( ilse.notes.list[this.note].content, "#i/html" ) ) {
+            if( has_string( ilse.notes.list[this.note].content, LOGIC_TAGS.prevent_editing_on_click ) ) {
+
                 if( event.altKey ) this.focus( this.note )
                 return
             }

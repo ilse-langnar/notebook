@@ -20,7 +20,7 @@ export default class Theme {
     }
 
     setup() {
-        // let has_theme = this.ilse.filesystem.file.exists.sync( "theme.html" )
+        // let has_theme = this.ilse.filesystem.file.exists.sync( "style.html" )
             // if( !has_theme ) this.apply_default_theme()
     }
 

@@ -18,14 +18,19 @@ const printf                        = console.log
     import Embeds                       from "@/classes/Embeds.js"
     import IlseRequire                  from "@/classes/IlseRequire.js"
 
+    import Clipboard                    from "@/classes/Clipboard.js"
+    import PluginManager                from "@/classes/PluginManager.js"
+
     // UI Elements
         import Menu                         from "@/classes/Menu.js"
         import Modals                       from "@/classes/Modals.js"
         import Notification                 from "@/classes/Notification.js"
         import Dialog                       from "@/classes/Dialog.js"
 
-    import Clipboard                    from "@/classes/Clipboard.js"
-    import PluginManager                from "@/classes/PluginManager.js"
+
+    // functions
+        import i18n                              from "@/classes/i18n.js"
+        import get_plugin_api                    from "@/classes/get_plugin_api.js"
 
     // Node.js
         const path                       = require("path")
@@ -34,14 +39,23 @@ const printf                        = console.log
     import Messager                     from "@/classes/Messager.js"
 
 // Constants
-    import DEMO_NOTES                    from "@/classes/DEMO_NOTES.js"
-    import SUPPORTED_LANGUAGES           from "@/classes/SUPPORTED_LANGUAGES.js"
-    import CORE_PLUGINS                  from "@/classes/CORE_PLUGINS.js"
-    import PERMISSIONS                   from "@/classes/PERMISSIONS.js"
-    import HTML_TEMPLATE                 from "@/classes/HTML_TEMPLATE.js"
+    import APP_TEMPLATE                 from "@/classes/APP_TEMPLATE.js"
+    import CONFIG_TEMPLATE              from "@/classes/CONFIG_TEMPLATE.js"
+    import CORE_PLUGINS                 from "@/classes/CORE_PLUGINS.js"
+    import DEFAULT_COMMANDS             from "@/classes/DEFAULT_COMMANDS.js"
+    import DEFAULT_THEME                from "@/classes/DEFAULT_THEME.js"
+    import DEMO_NOTES                   from "@/classes/DEMO_NOTES.js"
+    import HTML_COMPONENT_NOT_FOUND     from "@/classes/HTML_COMPONENT_NOT_FOUND.js"
+    import HTML_TEMPLATE                from "@/classes/HTML_TEMPLATE.js"
+    import HTML_TOP_MENU                from "@/classes/HTML_TOP_MENU.js"
+    import PERMISSIONS                  from "@/classes/PERMISSIONS.js"
+    import REGULAR_EXPRESSIONS          from "@/classes/REGULAR_EXPRESSIONS.js"
+    import SUPPORTED_LANGUAGES          from "@/classes/SUPPORTED_LANGUAGES.js"
 
+// Frame
 const JSFrame = require("@/assets/jsframe.min.js")
     let Frame     = JSFrame.JSFrame
+
 
 // Entry point for our app, there is only one ilse in the entire app, this is the glue for everything else + components
 export default class Ilse {
@@ -49,19 +63,45 @@ export default class Ilse {
     constructor() {
 
         // consts
-        this.SUPPORTED_LANGUAGES    = SUPPORTED_LANGUAGES
-        this.DEMO_NOTES             = DEMO_NOTES
-        this.CORE_PLUGINS           = CORE_PLUGINS
-        this.PERMISSIONS            = PERMISSIONS
-        this.HTML_TEMPLATE          = HTML_TEMPLATE
+        this.constants    = {
+            APP_TEMPLATE,               // <!DOCTYPE <html> </html> ...
+
+            CONFIG_TEMPLATE,            // { "favorites": [], "dark": false, "active_theme": "", "components": [], "keys": [ <key1>, <key2> ... ]
+
+            CORE_PLUGINS,               // [ "https://raw.githubusercontent.com/ilse-langnar/notebook/dev/marketplace/simple-draw.html" ... ]
+
+            DEFAULT_COMMANDS,           // [ <command1>, <command2> ... ]
+
+            DEFAULT_THEME,              // :root, .ilse[data-theme='light'] { --background-color: ... }
+
+            DEMO_NOTES,                 // [ { content: "# Hello, World", depth: 0, }, { content: "This is ilse Langnar's Notebook", depth: 0, }, ... ]
+
+            HTML_COMPONENT_NOT_FOUND,   // <div id="not-found"> <p> Component Not Found</p> </div> ...
+
+            HTML_TEMPLATE,              // <!DOCTYPE <html> </html> ...
+
+            HTML_TOP_MENU,              // <div id="top-menu" style="" > </div> ...
+
+            PERMISSIONS,                // [ "read", "write", "clipboard",  "communication" ]
+
+            REGULAR_EXPRESSIONS,        // { "embed": "/^\!\[\[([^|\]\n]+)(\|([^\]\n]+))?\]\]/", "link": "/\[\[([^|\]\n]+)(\|([^\]\n]+))?\]\]/" }
+
+            SUPPORTED_LANGUAGES,        // { "en": "English(English)", "zh": "Chinese Simplified(简体中文)", "pt": "Brazillian Portuguese(Português Brasileiro)", "hb": "Hebrew (עברית)" }
+        }
 
         // this.u_html                 = uHTML
+        this.HTMLs                  = [ HTML_TOP_MENU ]
+        printf( "this.HTMLs -> ", this.HTMLs )
+
+        // this.list                   = [ "@top-menu.html", "@body.html", "@footer.html" ] // can be added/removed
+        this.list                   = [ "<ilse-top-menu style='display: block;' >", "<ilse-body>", "<ilse src='tabs.html'>", "<ilse-footer>" ] // can be added/removed
         this.components             = []
 
         // this.frames                 = []
 
         this.name                   = "Ilse Langnar's Notebook"
         this.key                    = "ilse-key"
+        this.cursor                 = null
         this.keys                   = { daily_notes: "daily-notes-key", home: 0 }
         this.languages              = Object.keys(SUPPORTED_LANGUAGES)
 
@@ -84,6 +124,8 @@ export default class Ilse {
         this.env                    = process.env
         this.platform               = process.env.VUE_APP_TARGET.toLowerCase()
 
+        this.i18n                   = i18n
+
         // utils?
         this.path                   = path
 
@@ -97,6 +139,10 @@ export default class Ilse {
         } else {
             this.setup();
         }
+    }
+
+    get_html( name ) {
+        if( name === "top-menu" ) return HTML_TOP_MENU
     }
 
     before_setup() {
@@ -126,6 +172,7 @@ export default class Ilse {
     setup() {
 
         this.last_save_attempt      = 0
+
 
         // Utils
             this.utils                  = new Utils()
@@ -229,6 +276,11 @@ export default class Ilse {
         this.loaded()
         this.load_daily_notes()
         this.is_zen                 = this.config.is_zen
+        // window.ilse                     = get_plugin_api( "global", this )
+
+        // window.ilse                     = get_global_api(this) // Set global API
+        // setTimeout( () => { printf( "before -> window.ilse -> ", window.ilse ) printf( "after -> window.ilse -> ", window.ilse ) }, 2000 )
+
     }
 
     loaded() {

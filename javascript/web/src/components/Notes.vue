@@ -1,11 +1,14 @@
 <template lang="pug" >
 .notes( v-if="note" )
-    component( :is="require('@/components/Note.vue').default" :note="note" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-click="on_note_click" )
+    // component( :is="require('@/components/Note.vue').default" :note="note" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-click="on_note_click" )
+
+    Note( :note="note" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-click="on_note_click" :options="options" :style="get_note_style(note)" )
 
     // button.button( @click="show_children" )
-    .children( v-if="options.is_collapsed" :key="options.key" )
+    .children( v-if="!options.is_collapsed" :key="options.key" )
         .loop( v-for="( item, index ) in get_note_children( note )" :key="index" :style="get_note_style(item)" )
             Notes( :note="item" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-click="on_note_click" :options="options" )
+            // Note( :note="item" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-link-click="on_note_link_click" @on-esc="on_note_esc" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-note-click="on_note_click" :options="options" )
 
 </template>
 <script>
@@ -20,9 +23,11 @@ const printf                        = console.log;
 
 // Components
     import Notes                        from "@/components/Notes.vue"
+    import Note                         from "@/components/Note.vue"
 
 // functions
     import get_note_children            from "@/classes/get_note_children.js"
+    import if_else                      from "@/classes/if_else.js"
 
 export default {
 
@@ -53,13 +58,14 @@ export default {
 
     components: {
         Notes,
+        Note,
     },
 
     methods: {
 
-        // show_children() {
-            // printf( "get_note_children( this.note ) -> ", get_note_children( this.note ) )
-        // },
+        show_children() {
+            printf( "get_note_children( this.note ) -> ", get_note_children( this.note ) )
+        },
 
         get_note_children( id ) {
             return get_note_children( id )
@@ -104,6 +110,23 @@ export default {
             this.$emit( "on-arrow-down", payload )
         },
 
+        get_note_style( id ) {
+
+            if( !id || !ilse.notes.list[id] ) return ""
+
+            let depth  = ilse.notes.list[id].depth
+            if( depth === 0 ) return ""
+            if( depth === 1 ) return `margin-left: 18px !important; `
+
+            return if_else(
+                depth >= 1,
+                is      => `margin-left: ${18 * depth}px !important; `,
+                is_not  => ''
+            )
+
+        },
+
+        /*
         // Control the margins
         get_note_style( note ) {
 
@@ -120,6 +143,7 @@ export default {
 
             return style
         },
+        */
 
         check_for_collapse_tag() {
             // if( this.note && this.note.content.indexOf("#!c") !== -1 )  this.options.is_collapsed = true

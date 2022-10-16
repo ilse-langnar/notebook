@@ -51,7 +51,7 @@
                 .loop( v-for="( item, index ) in get_list_of_html_files()" :key="index" )
                     br
                     span.is-pulled-left {{item}} (
-                    span.is-pulled-left( v-for="( _item, _index ) in ilse.PERMISSIONS" :key=" '-' + _index" :style="has_permission( item, _item ) ? 'color: #60963D;' : 'color: #ED7586;' " @click="toggle_permission( item, _item )" ) {{_item}} &nbsp;
+                    span.is-pulled-left( v-for="( _item, _index ) in ilse.constants.PERMISSIONS" :key=" '-' + _index" :style="has_permission( item, _item ) ? 'color: #60963D;' : 'color: #ED7586;' " @click="toggle_permission( item, _item )" ) {{_item}} &nbsp;
                     span )
                     br
 
@@ -109,7 +109,7 @@
             .languages( v-if="selected === 'languages' " )
                 // p {{$i18n}}
                 select( v-model="$i18n.locale" )
-                    option( v-for="( lang, index ) in ilse.languages" :key="index" :value="lang" @select="ilse.modals.close()" ) {{ilse.SUPPORTED_LANGUAGES[lang]}}
+                    option( v-for="( lang, index ) in ilse.languages" :key="index" :value="lang" @select="ilse.modals.close()" ) {{ilse.constants.SUPPORTED_LANGUAGES[lang]}}
 
             .graph( v-if="selected === 'graph' " )
                 p Layout: 

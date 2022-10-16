@@ -7,7 +7,6 @@ Vue.use( Router )
 
 
 // Components
-    import Test         from "@/components/Test.vue"
     import Home         from "@/components/Home.vue"
 
 const router = new Router({
@@ -22,7 +21,6 @@ const router = new Router({
         { path: "*",                            component: Home },
         { path: "/",                            component: Home },
         { path: "/home",                        component: Home } ,
-        { path: "/test",                        component: Test },
 
     ]
 

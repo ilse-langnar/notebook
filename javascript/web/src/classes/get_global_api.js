@@ -9,8 +9,7 @@ const printf = console.log
 // functions
     import create_window                from "@/classes/create_window.js"
 
-export default function get_plugin_api( name ) {
-    printf( "ilse -> ", ilse )
+export default function get_global_api( ilse ) {
 
     const Messager = new MessagerFactory()
 
@@ -22,6 +21,8 @@ export default function get_plugin_api( name ) {
         command: function() {}, // todo
         autocomplete: function() {}, // todo
         text_expansion: function() {}, // todo
+
+        require: ilse.irequire.img,
 
         messager: {
             on:   Messager.on.bind(Messager),
@@ -56,6 +57,10 @@ export default function get_plugin_api( name ) {
 
         keyboard: {
             add: ilse.keyboard.add.bind( ilse.keyboard )
+        },
+
+        modals: {
+            open: ilse.modals.open.bind( ilse.modals ),
         },
 
         commands: {

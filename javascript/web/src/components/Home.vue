@@ -9,8 +9,8 @@
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded && has_apps()" :data-theme="get_data_theme" )
 
         // So Dark mode works with zen
-        .wrapper( :style="get_home_style()" ) 
-            TopMenu
+        .wrapper( :style="get_home_style()" )
+            .top-menu( v-html="ilse.get_html('top-menu')" )
             // button.button( @click="add" ) Add
 
             .app( :key="ilse.keys['home'] ? ilse.keys['home'] : 0" style="flex-basis: 100%; " )
@@ -29,20 +29,19 @@
 const printf                                        = console.log;
 
 // Ilse
-    import ilse             from "@/ilse.js"
+    import ilse                         from "@/ilse.js"
 
 // Messager
     import Messager                     from "@/classes/Messager.js"
 
 // Components
-    import TopMenu          from "@/components/TopMenu.vue"
-    import Setup            from "@/components/Setup.vue"
-    import Modals           from "@/components/Modals.vue"
-    import Dialogs          from "@/components/Dialogs.vue"
-    import Notifications    from "@/components/Notifications.vue"
-    import Renderer         from "@/components/Components.vue"
-    import StatusLine       from "@/components/StatusLine.vue"
-    import Search           from "@/components/Search.vue"
+    import Setup                        from "@/components/Setup.vue"
+    import Modals                       from "@/components/Modals.vue"
+    import Dialogs                      from "@/components/Dialogs.vue"
+    import Notifications                from "@/components/Notifications.vue"
+    import Renderer                     from "@/components/Components.vue"
+    import StatusLine                   from "@/components/StatusLine.vue"
+    import Search                       from "@/components/Search.vue"
 
 // functions
     import get_unique_date_id           from "@/classes/get_unique_date_id.js"
@@ -64,7 +63,6 @@ export default {
     name: "Home",
 
     components: {
-        TopMenu,
 
         Modals,
         Dialogs,

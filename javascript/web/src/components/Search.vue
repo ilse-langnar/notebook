@@ -16,13 +16,31 @@
 
             img( v-show="filter === 'all' " :src="irequire.img('filter.svg')" @click="toggle_filter_mode"  :title="$t('search_filter_mode_all')" aria-role="text" alt="$t('search_filter_mode_all')" )
 
+        br
+
+    .keys( style="text-align: center; display: block; margin: 0 auto; border: 1px solid #000; width: 50%; " v-if="!search_result.length" )
+
+        .flex
+            .div
+                img( :src="irequire.img('arrow-narrow-down.svg')" aria-role="markdown" style="width: 20px; " )
+                p.is-size-6 To navigate
+
+            .div
+                img( :src="irequire.img('arrow-narrow-down.svg')" aria-role="markdown" style="width: 20px; " )
+                p.is-size-6 To Open
+
+            .div
+                p.is-size-6.bold esc
+                p.is-size-6 Dismiss
+            
+
+
+            
+
     .search-result( v-if="search_query" )
 
         .nothing.item.flex( style="text-align: center; " v-if="!search_result.length" )
             p.is-size-6 {{ $t( "search_nothing_found_for" ) }} {{search_query}}
-
-        .nothing.item.flex( style="text-align: center; " v-if="!search_result.length" )
-            p.is-size-6 ctrl
 
         p.is-size-6.statistics( v-if="search_result.length" ) {{search_result.length}} {{ $t('search_results') }}
 
@@ -110,7 +128,8 @@ export default {
             if( this.search_result.length ) {
                 style += `height: 80%; overflow: auto; `
             } else {
-                style += `height: 10%;`
+                // style += `height: 12%;`
+                style += `height: auto;`
             }
 
             printf( "style -> ", style )

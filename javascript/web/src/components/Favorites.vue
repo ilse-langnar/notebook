@@ -2,7 +2,7 @@
 .favorites
 
 
-    img.extended( v-for="( item, index ) in get_favorites()" :key="index" :src="irequire.img('point.svg')" style="cursor: pointer; width: 20px; margin-left: 3px; " @click="toggle_left_menu( $event, item.id, true )" )
+    img.extended( v-for="( item, index ) in get_favorites()" :key="index" :src="get_item_img(item)" style="cursor: pointer; width: 20px; margin-left: 3px; " @click="toggle_left_menu( $event, item.id, true )" )
 
     // .loop( v-for="( item, index ) in get_favorites()" ) 
         // Notes( :note="item.id" :options="{}" )
@@ -42,6 +42,11 @@ const printf                        = console.log;
     import extract_html_embeds          from "@/classes/extract_html_embeds.js"
     import get_target_directory_url     from "@/classes/get_target_directory_url.js"
     import set                          from "@/classes/set.js"
+    import has_string                   from "@/classes/has_string.js"
+    import if_else                      from "@/classes/if_else.js"
+    import get_index_of                 from "@/classes/get_index_of.js"
+    import get_array_item_from_string   from "@/classes/get_array_item_from_string.js"
+    import string_to_html               from "@/classes/string_to_html.js"
 
 export default {
 
@@ -60,8 +65,43 @@ export default {
 
     methods: {
 
+        get_item_img( item ) {
+
+            let list           = item.content.split(" ")
+            let html           = string_to_html( item.content )
+
+            let icon           = html.querySelector("link[rel*='icon']") 
+                if( icon ) return icon.getAttribute("href")
+            return ilse.irequire.img( "point.svg" ) 
+
+            /*
+            if( img ) {
+                printf( ">>>> img -> ", img )
+                return img
+            } else {
+            }
+
+            return if_else(
+                has_custom_svg,
+                yes => {
+                    let chunks = item.content.split(" ")
+                    let index  = get_index_of( chunks, "#i/svg/base64/" )
+
+                    let base64 = chunks[++index]
+                    return `data:image/svg+xml;base64,${base64}`
+                },
+                no  => { return ilse.irequire.img( "point.svg" ) },
+            )
+            */
+
+        },
+
         toggle_left_menu( event, name, is_on ) {
 
+            set( ilse, "is_left_sidebar_open", !ilse.is_left_sidebar_open )
+            set( ilse, "left_sidebar", name )
+
+            /*
             if( name === ilse.left_sidebar ) {
                 set( ilse, "is_left_sidebar_open", false )
                 return
@@ -74,6 +114,7 @@ export default {
                 set( ilse, "is_left_sidebar_open", !ilse.is_left_sidebar_open )
                 ilse.left_sidebar = name
             }
+            */
 
         },
 

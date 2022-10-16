@@ -30,6 +30,7 @@ export default {
         let is_img      = !is_link && extention === ".png" || extention === ".jpg" || extention === ".gif" || extention === ".jpeg" || extention === ".svg"
         let is_audio    = !is_link && extention === ".mp3" || extention === ".ogg" || extention === ".wav"
         let is_html     = !is_link && extention === ".html" || extention === ".htm"
+        let is_pdf      = !is_link && extention === ".pdf"
 
         // let is_note     = url.match( REGULAR_EXPRESSIONS.note )
         let is_note     = url.indexOf("-") !== -1 && url.length === 23
@@ -44,7 +45,14 @@ export default {
         } else if( is_audio ) {
             return `<audio class="audio" title="${url}" controls title="${url}" src="${get_target_directory_url()}${url}"/>`
         } else if( is_link ) {
-            return `<iframe src="${url}" frameBorder="0" style="width: 100%;" > </iframe>`
+
+            return ` <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIGljb24tdGFibGVyIGljb24tdGFibGVyLWxpbmsiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZT0iIzQ4NTM2MSIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICA8cGF0aCBzdHJva2U9Im5vbmUiIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KICA8cGF0aCBkPSJNMTAgMTRhMy41IDMuNSAwIDAgMCA1IDBsNCAtNGEzLjUgMy41IDAgMCAwIC01IC01bC0uNSAuNSIgLz4KICA8cGF0aCBkPSJNMTQgMTBhMy41IDMuNSAwIDAgMCAtNSAwbC00IDRhMy41IDMuNSAwIDAgMCA1IDVsLjUgLS41IiAvPgo8L3N2Zz4KCgo="/> <iframe class="url" src="${url}" frameBorder="0" style="width: 100%;" > </iframe> `
+
+        } else if( is_pdf ) {
+            return `
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIGljb24tdGFibGVyIGljb24tdGFibGVyLWJvb2siIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZT0iIzQ4NTM2MSIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICA8cGF0aCBzdHJva2U9Im5vbmUiIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KICA8cGF0aCBkPSJNMyAxOWE5IDkgMCAwIDEgOSAwYTkgOSAwIDAgMSA5IDAiIC8+CiAgPHBhdGggZD0iTTMgNmE5IDkgMCAwIDEgOSAwYTkgOSAwIDAgMSA5IDAiIC8+CiAgPGxpbmUgeDE9IjMiIHkxPSI2IiB4Mj0iMyIgeTI9IjE5IiAvPgogIDxsaW5lIHgxPSIxMiIgeTE9IjYiIHgyPSIxMiIgeTI9IjE5IiAvPgogIDxsaW5lIHgxPSIyMSIgeTE9IjYiIHgyPSIyMSIgeTI9IjE5IiAvPgo8L3N2Zz4KCgo=" />
+                <span class="pdf" > ${url} </span>`
+
         } else if( is_html ) {
 
             let exists = ilse.filesystem.file.exists.sync( url )
@@ -59,7 +67,7 @@ export default {
                     let html_template = ilse.filesystem.file.read.sync( "html-template.html" )
                     ilse.filesystem.file.write.sync( url, html_template.replace( /\$title/gi, url ) )
                 } else {
-                    ilse.filesystem.file.write.sync( url, ilse.HTML_TEMPLATE.replace( "@title@", url ).replace( "@body@", `<h1> ${url} </h1> ` ) )
+                    ilse.filesystem.file.write.sync( url, ilse.constants.HTML_TEMPLATE.replace( "@title@", url ).replace( "@body@", `<h1> ${url} </h1> ` ) )
                 }
 
                 return `<iframe class="html-embed" src="${get_target_directory_url()}${url}" data-event-click="on_click" data-prop-label="Exampleeee" style="height: ${size ? size : 30}vh; width: 100%; overflow: hidden;" > </iframe>`

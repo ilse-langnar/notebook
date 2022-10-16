@@ -6,7 +6,6 @@ const printf = console.log
     import ilse                         from "@/ilse.js"
 
     import i18n                         from "@/i18n.js"
-printf( "t('month_december') -> ", i18n.t('month_december') )
 
 export default function get_number_name( number ) {
 

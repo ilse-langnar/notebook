@@ -1,7 +1,7 @@
 <template lang="pug" >
 .references( :key="key" )
 
-    .has( v-if="query_linked(file) || query_linked(file).length" )
+    .has( v-if="query_linked(file) || query_linked(file).length" :style=" query_linked(file).length ? '' : 'display: none;' " )
 
         details( v-if="query_linked(file).length"  )
             summary Links
