@@ -1,4 +1,4 @@
-const printf = console.log
+import printf                   from "@/classes/printf.js"
 
 // 20220123180536
 export default function get_unique_date_id() {

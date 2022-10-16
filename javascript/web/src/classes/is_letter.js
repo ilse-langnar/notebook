@@ -1,4 +1,4 @@
-const printf = console.log
+import printf                                from "@/classes/printf.js"
 
 // matches a-z
 export default function is_letter(str) {

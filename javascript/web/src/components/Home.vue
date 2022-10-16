@@ -26,7 +26,7 @@
 </template>
 <script>
 // eslint-disable-next-line
-const printf                                        = console.log;
+import printf                           from "@/classes/printf.js"
 
 // Ilse
     import ilse                         from "@/ilse.js"
@@ -189,7 +189,7 @@ export default {
                     id: "main",
                     name: "Main",
                     description: "Main(Total View)",
-                    img: ilse.irequire.img( "menu.svg" ),
+                    img: ilse.require( "menu.svg" ),
                     component: "main.html",
                     width: 12,
                     is_on: true,
@@ -222,7 +222,7 @@ export default {
                         id: "top-menu-embed",
                         name: "Top Menu Embed",
                         description: "Top menu from the user",
-                        img: ilse.irequire.img( "menu.svg" ),
+                        img: ilse.require( "menu.svg" ),
                         component: "piano.html",
                         width: 12,
                         is_on: true,

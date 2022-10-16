@@ -1,4 +1,4 @@
-const printf = console.log
+import printf                   from "@/classes/printf.js"
 
 export default function string_to_base64( str, type = "text/html" ) {
     let utf8Bytes = encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function (match, p1) {

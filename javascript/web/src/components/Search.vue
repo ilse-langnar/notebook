@@ -7,14 +7,14 @@
 
         .display-mode
 
-            img( v-show="is_markdown_mode_on" :src="irequire.img('markdown.svg')" @click="toggle_markdown_mode"  :title="$t('search_markdown_mode')" aria-role="markdown" :alt="$t('search_markdown_mode')" )
-            img( v-show="!is_markdown_mode_on" :src="irequire.img('letter-case.svg')" @click="toggle_markdown_mode"  :title="$t('search_text_mode')" aria-role="text" :alt="$t('search_text_mode')" )
+            img( v-show="is_markdown_mode_on" :src="ilse.require('markdown.svg')" @click="toggle_markdown_mode"  :title="$t('search_markdown_mode')" aria-role="markdown" :alt="$t('search_markdown_mode')" )
+            img( v-show="!is_markdown_mode_on" :src="ilse.require('letter-case.svg')" @click="toggle_markdown_mode"  :title="$t('search_text_mode')" aria-role="text" :alt="$t('search_text_mode')" )
 
-            img( v-show="filter === 'notes' " :src="irequire.img('point.svg')" @click="toggle_filter_mode" :title="$t('search_filter_mode_notes')" aria-role="markdown" :alt="$t('search_filter_mode_notes')" )
+            img( v-show="filter === 'notes' " :src="ilse.require('point.svg')" @click="toggle_filter_mode" :title="$t('search_filter_mode_notes')" aria-role="markdown" :alt="$t('search_filter_mode_notes')" )
 
-            img( v-show="filter === 'files' " :src="irequire.img('file.svg')" @click="toggle_filter_mode"  :title="$t('search_filter_mode_files')" aria-role="text" :alt="$t('search_filter_mode_files')" )
+            img( v-show="filter === 'files' " :src="ilse.require('file.svg')" @click="toggle_filter_mode"  :title="$t('search_filter_mode_files')" aria-role="text" :alt="$t('search_filter_mode_files')" )
 
-            img( v-show="filter === 'all' " :src="irequire.img('filter.svg')" @click="toggle_filter_mode"  :title="$t('search_filter_mode_all')" aria-role="text" alt="$t('search_filter_mode_all')" )
+            img( v-show="filter === 'all' " :src="ilse.require('filter.svg')" @click="toggle_filter_mode"  :title="$t('search_filter_mode_all')" aria-role="text" alt="$t('search_filter_mode_all')" )
 
         br
 
@@ -22,11 +22,11 @@
 
         .flex
             .div
-                img( :src="irequire.img('arrow-narrow-down.svg')" aria-role="markdown" style="width: 20px; " )
+                img( :src="ilse.require('arrow-narrow-down.svg')" aria-role="markdown" style="width: 20px; " )
                 p.is-size-6 To navigate
 
             .div
-                img( :src="irequire.img('arrow-narrow-down.svg')" aria-role="markdown" style="width: 20px; " )
+                img( :src="ilse.require('arrow-narrow-down.svg')" aria-role="markdown" style="width: 20px; " )
                 p.is-size-6 To Open
 
             .div
@@ -54,7 +54,7 @@
 </template>
 <script>
 // eslint-disable-next-line
-const printf                        = console.log;
+import printf                           from "@/classes/printf.js"
 
 // Ilse
     import ilse                         from "@/ilse.js"

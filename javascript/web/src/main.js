@@ -8,11 +8,11 @@ Vue.config.productionTip = false
 Vue.config.performance = true;
 Vue.prototype.$log = console.log.bind( console ); // log from html
 
-import IlseRequire                  from "@/classes/IlseRequire.js"
-Vue.prototype.irequire = new IlseRequire()
+// import IlseRequire                  from "@/classes/IlseRequire.js"
+// Vue.prototype.irequire = new IlseRequire()
 
-// import ilse                  from "@/ilse.js"
-// Vue.prototype.ilse           = ilse
+import ilse                  from "@/ilse.js"
+Vue.prototype.ilse           = ilse
 // -----------------------> Config <-------------------------- //
 
 import i18n from './i18n'

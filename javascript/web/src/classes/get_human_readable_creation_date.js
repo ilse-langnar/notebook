@@ -1,4 +1,4 @@
-const printf = console.log
+import printf                       from "@/classes/printf.js"
 
 import yyyymmddhhss_to_pretty       from "@/classes/yyyymmddhhss_to_pretty.js"
 

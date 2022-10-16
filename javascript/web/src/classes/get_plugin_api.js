@@ -1,4 +1,4 @@
-const printf = console.log
+import printf                           from "@/classes/printf.js"
 
 // Ilse
     // import ilse                         from "@/ilse.js"
@@ -10,21 +10,22 @@ const printf = console.log
     import string_to_html               from "@/classes/string_to_html.js"
     import create_window                from "@/classes/create_window.js"
     import html_to_string               from "@/classes/html_to_string.js"
-    import has_permission               from "@/classes/has_permission.js"
+    // import has_permission               from "@/classes/has_permission.js"
+
+function has_permission( name, permission, ilse ) {
+
+    if( !ilse.config.permissions ) ilse.config.permissions = {} // Make sure it exists
+
+    let has_name = ilse.config.permissions[name]
+        if( !has_name ) return false // Does not have name
+
+    let has_permission = ilse.config.permissions[name].indexOf( permission ) !== -1
+        if( !has_permission ) return false
+
+    return true
+}
 
 export default function get_plugin_api( name, ilse ) {
-
-    /*
-    printf( "get_plugin_api -> name -> ", name )
-    printf( "get_plugin_api -> context -> ", context )
-    printf( "\n" )
-
-    let ilse = context ? context : require("@/ilse.js").default
-    printf( ">>>>>>>>>>>>>>>>>>>> ilse -> ", ilse )
-    */
-
-    printf( "get_plugin_api -> name -> ", name )
-    printf( "get_plugin_api -> ilse -> ", ilse )
 
     const Messager = new MessagerFactory()
 
@@ -34,41 +35,36 @@ export default function get_plugin_api( name, ilse ) {
 
     const api = {
 
-        // Messager: Messager,
-
-        notes: has_permission( name, 'notes' )  ? ilse.notes : null,
+        notes: has_permission( name, 'notes', ilse )  ? ilse.notes : null,
 
         command: function() {}, // todo
         autocomplete: function() {}, // todo
         text_expansion: function() {}, // todo
 
-        require: ilse.irequire.img,
+        require: ilse.require,
 
-        messager: {
-            // on:   has_permission( name, 'communication' ) ? Messager.on   : null,
-            // emit: has_permission( name, 'communication' ) ? Messager.emit : null,
-
-            on:   Messager.on.bind(Messager),
-            emit: Messager.emit.bind(Messager),
+        io: {
+            in:   Messager.on.bind( Messager ),
+            out:  Messager.emit.bind( Messager ),
         },
 
         clipboard: {
-            read:   has_permission( name, 'clipboard' )  ? ilse.clipboard.read  : null,
-            write:  has_permission( name, 'clipboard' )  ? ilse.clipboard.write : null,
+            read:   has_permission( name, 'clipboard', ilse )  ? ilse.clipboard.read  : null,
+            write:  has_permission( name, 'clipboard', ilse )  ? ilse.clipboard.write : null,
         },
 
         fs: {
-            existsSync:    has_permission( name, 'read' )  ? ilse.filesystem.file.exists.sync  : null,
-            exists:        has_permission( name, 'read' )  ? ilse.filesystem.file.exists.async : null,
-            readdir:       has_permission( name, 'read' )  ? ilse.filesystem.dir.list.async    : null,
-            readdirSync:   has_permission( name, 'read' )  ? ilse.filesystem.dir.list.sync     : null,
-            readFile:      has_permission( name, 'read' )  ? ilse.filesystem.file.read.async   : null,
-            readFileSync:  has_permission( name, 'read' )  ? ilse.filesystem.file.read.sync    : null,
-            writeFile:     has_permission( name, 'write' ) ? ilse.filesystem.file.read.sync    : null,
-            writeFileSync: has_permission( name, 'write' ) ? ilse.filesystem.file.read.sync    : null,
+            existsSync:    has_permission( name, 'read', ilse )  ? ilse.filesystem.file.exists.sync  : null,
+            exists:        has_permission( name, 'read', ilse )  ? ilse.filesystem.file.exists.async : null,
+            readdir:       has_permission( name, 'read', ilse )  ? ilse.filesystem.dir.list.async    : null,
+            readdirSync:   has_permission( name, 'read', ilse )  ? ilse.filesystem.dir.list.sync     : null,
+            readFile:      has_permission( name, 'read', ilse )  ? ilse.filesystem.file.read.async   : null,
+            readFileSync:  has_permission( name, 'read', ilse )  ? ilse.filesystem.file.read.sync    : null,
+            writeFile:     has_permission( name, 'write', ilse ) ? ilse.filesystem.file.read.sync    : null,
+            writeFileSync: has_permission( name, 'write', ilse ) ? ilse.filesystem.file.read.sync    : null,
         },
 
-        dom: function(HTML) { // We have limited what the plugin can do to the DOM. But here's the function you want to do your DOM transformations
+        dom: name === "global" ? null : function(HTML) { // We have limited what the plugin can do to the DOM. But here's the function you want to do your DOM transformations
             // TODO:
         },
 
@@ -87,7 +83,6 @@ export default function get_plugin_api( name, ilse ) {
         },
 
         commands: {
-            // add: ilse.commands.add_for_plugin.bind( ilse.commands )
             add: function( args ) {
 
                 args.props.is_plugin = true
@@ -99,13 +94,6 @@ export default function get_plugin_api( name, ilse ) {
             run: ilse.commands.run.bind( ilse.commands ),
         },
 
-        load: function() {
-            let file    = ilse.filesystem.file.read.sync( name )
-            let HTML    = string_to_html( file )
-            let data    = HTML.getElementById( "data" ) ? HTML.getElementById( "data" ).innerText : {}
-            return JSON.parse(data)
-        },
-
         dialog: {
             info:    ilse.dialog.info.bind( ilse.dialog ),
             confirm: ilse.dialog.confirm.bind( ilse.dialog ),
@@ -114,7 +102,14 @@ export default function get_plugin_api( name, ilse ) {
             close:   ilse.dialog.close.bind( ilse.dialog ),
         },
 
-        save: function( json ) {
+        load:  name === "global" ? null : function() {
+            let file    = ilse.filesystem.file.read.sync( name )
+            let HTML    = string_to_html( file )
+            let data    = HTML.getElementById( "data" ) ? HTML.getElementById( "data" ).innerText : {}
+            return JSON.parse(data)
+        },
+
+        save: name === "global" ? null  : function( json ) {
 
             let string          = JSON.stringify( json )
             let file            = ilse.filesystem.file.read.sync( name )

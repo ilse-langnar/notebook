@@ -1,6 +1,6 @@
-const printf = console.log
+import printf                           from "@/classes/printf.js"
 
-import get_month_name from "@/classes/get_month_name.js"
+import get_month_name                   from "@/classes/get_month_name.js"
 
 // 20220123180536 -> Febuary 20th, 2020
 export default function yyyymmddhhss_to_pretty( unique_id ) {

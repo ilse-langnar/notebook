@@ -1,4 +1,4 @@
-const printf = console.log
+import printf                     from "@/classes/printf.js"
 
 import get_small_unique_string_id from "@/classes/get_small_unique_string_id.js"
 

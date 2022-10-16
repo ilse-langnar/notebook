@@ -4,7 +4,7 @@
     .default( v-if="ilse.left_sidebar === 'default' " )
 
         // .flex( style="border-radius: var( --border-radius ); " )
-            // img( :src="irequire.img('lupe.svg')"    )
+            // img( :src="ilse.require('lupe.svg')"    )
 
         input.input.search#quick-search( v-model="query" list="list" @keydown.enter="search = query" @keydown.esc="on_input_keydown_esc" style="width: 90%; ")
         .search-result( v-if="(search && query) && (search === query)" style="position: absolute; top: 90px; left: 0%; width: 80%; border: 1px solid #000; background: #fff; overflow: hidden; height: 80vh; z-index: 5; overflow-y: scroll; resize: right; " )
@@ -17,7 +17,7 @@
 
         .buttons
             .flex( @click="add_daiyl_notes" style="border-radius: var( --border-radius );" )
-                img( :src="irequire.img('calendar.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('daily_notes')" )
+                img( :src="ilse.require('calendar.svg')"      style="cursor: pointer; width: 20px; margin-left: 15px; "   :title="$t('daily_notes')" )
                 span.item Daily Notes
 
         br
@@ -35,7 +35,7 @@
 </template>
 <script>
 // eslint-disable-next-line
-const printf                        = console.log;
+import printf                           from "@/classes/printf.js"
 
 // Ilse
     import ilse                         from "@/ilse.js"

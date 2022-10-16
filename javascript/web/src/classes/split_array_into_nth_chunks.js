@@ -1,4 +1,4 @@
-const printf = console.log
+import printf                           from "@/classes/printf.js"
 
 export default function split_array_into_nth_chunks( source, size = 1 ) {
 

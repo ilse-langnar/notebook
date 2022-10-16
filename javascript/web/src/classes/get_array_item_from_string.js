@@ -1,4 +1,4 @@
-const printf = console.log
+import printf                           from "@/classes/printf.js"
 
 export default function get_array_item_from_string( array, string ) {
 

@@ -1,4 +1,4 @@
-const printf                        = console.log
+import printf                           from "@/classes/printf.js"
 
 // Ilse
     import ilse                         from "@/ilse.js"
@@ -12,7 +12,8 @@ const printf                        = console.log
     import get_target_directory_url     from "@/classes/get_target_directory_url.js"
     import html_to_string               from "@/classes/html_to_string.js"
     import get_plugin_api               from "@/classes/get_plugin_api.js"
-    import has                          from "@/classes/has.js"
+    // import has                          from "@/classes/has.js"
+    import is_inside                    from "@/classes/is_inside.js"
     import if_else                      from "@/classes/if_else.js"
 
 class Commands {
@@ -332,7 +333,8 @@ class Commands {
 
                     if_else(
                         not(
-                            has( ilse.modes, "ilse" )
+                            // is_inside( ilse.modes, "ilse" )
+                            is_inside( "ilse", ilse.modes )
                         ),
                         yes => {
                             ilse.modes.push( "ilse" )

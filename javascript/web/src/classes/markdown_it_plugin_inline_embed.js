@@ -1,6 +1,6 @@
-const printf = console.log
+import printf                          from "@/classes/printf.js"
 
-import ilse from "@/ilse.js"
+import ilse                            from "@/ilse.js"
 
 export default {
     regexp: /{{.*}}/,

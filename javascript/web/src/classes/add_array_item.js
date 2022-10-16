@@ -1,4 +1,4 @@
-const printf = console.log
+import printf                                       from "@/classes/printf.js"
 
 export default function add_array_item( array, item, index ) {
 

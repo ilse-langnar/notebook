@@ -1,13 +1,10 @@
-const printf                        = console.log
+import printf                           from "@/classes/printf.js"
 
 // Ilse
     import ilse                         from "@/ilse.js"
 
 // Messager
     import Messager                     from "@/classes/Messager.js"
-
-// Classes
-    import IlseRequire                  from "@/classes/IlseRequire.js"
 
 class componentTypes {
 
@@ -33,7 +30,7 @@ class componentTypes {
             id: "outline",
             name: "Outline",
             description: "Outline",
-            img: this.ilse.irequire.img("menu.svg"),
+            img: this.ilse.require("menu.svg"),
             type: "vue",
             mode: "inline",
             component: require("@/components/Outline.vue"),
@@ -47,7 +44,7 @@ class componentTypes {
             id: "create-app",
             name: "Create app",
             description: "Create HTML Apps for ilse.",
-            img: this.ilse.irequire.img("menu.svg"),
+            img: this.ilse.require("menu.svg"),
             type: "vue",
             mode: "inline",
             component: require("@/components/CreateApp.vue"),
@@ -60,7 +57,7 @@ class componentTypes {
             id: "daily-notes",
             name: "Daily Notes",
             description: "",
-            img: this.ilse.irequire.img("calendar.svg"),
+            img: this.ilse.require("calendar.svg"),
             type: "vue",
             mode: "inline",
             component: require("@/components/DailyNotes.vue"),
@@ -73,7 +70,7 @@ class componentTypes {
             id: "command-pallet",
             name: "Command Pallet",
             description: "",
-            img: this.ilse.irequire.img("command.svg"),
+            img: this.ilse.require("command.svg"),
             type: "vue",
             mode: "inline",
             component: require("@/components/CommandPallet.vue"),
@@ -86,7 +83,7 @@ class componentTypes {
             id: "file",
             name: "File",
             description: "",
-            img: this.ilse.irequire.img("file.svg"),
+            img: this.ilse.require("file.svg"),
             type: "vue",
             mode: "inline",
             component: require("@/components/File.vue"),
@@ -99,7 +96,7 @@ class componentTypes {
             id: "left-sidebar",
             name: "Left Sidebar",
             description: "",
-            img: this.ilse.irequire.img("menu.svg"),
+            img: this.ilse.require("menu.svg"),
             type: "vue",
             mode: "inline",
             component: require("@/components/LeftSidebar.vue"),
@@ -112,7 +109,7 @@ class componentTypes {
             id: "note",
             name: "Note",
             description: "A note editor for a note and its children",
-            img: this.ilse.irequire.img("point.svg"),
+            img: this.ilse.require("point.svg"),
             type: "vue",
             mode: "inline",
             component: require("@/components/Note.vue"),
@@ -126,7 +123,7 @@ class componentTypes {
             id: "configuration",
             name: "Configuration",
             description: "Change Configurations",
-            img: this.ilse.irequire.img("settings.svg"),
+            img: this.ilse.require("settings.svg"),
             type: "vue",
             mode: "inline",
             component: require("@/components/Configuration.vue"),
@@ -139,7 +136,7 @@ class componentTypes {
             id: "help",
             name: "Help",
             description: "Help",
-            img: this.ilse.irequire.img("question-mark.svg"),
+            img: this.ilse.require("question-mark.svg"),
             type: "vue",
             mode: "inline",
             component: require("@/components/Help.vue"),
@@ -152,7 +149,7 @@ class componentTypes {
             id: "search",
             name: "Search",
             description: "Search notes and files",
-            img: this.ilse.irequire.img("lupe.svg"),
+            img: this.ilse.require("lupe.svg"),
             type: "vue",
             mode: "inline",
             component: require("@/components/Search.vue"),
@@ -162,23 +159,10 @@ class componentTypes {
         })
 
         this.add({
-            id: "modals-modals",
-            name: "ModalsModal",
-            description: "A list of all the modals available",
-            img: this.ilse.irequire.img("square.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/ModalsModals.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
             id: "right-sidebar",
             name: "RightSidebar",
             description: "Right Sidebar is the component thatt embeds inside the right sidebar",
-            img: this.ilse.irequire.img("arrow-narrow-right.svg"),
+            img: this.ilse.require("arrow-narrow-right.svg"),
             type: "vue",
             mode: "inline",
             component: require("@/components/RightSidebar.vue"),

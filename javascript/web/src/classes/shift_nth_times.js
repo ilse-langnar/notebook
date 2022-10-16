@@ -1,5 +1,4 @@
-
-const printf                    = console.log
+import printf                                       from "@/classes/printf.js"
 
 export default function shift_nth_times( array, times ) {
 

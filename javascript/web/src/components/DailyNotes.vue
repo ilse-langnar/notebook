@@ -4,7 +4,7 @@
     .day( v-for="( day, day_index ) in days" style="width: 97%; margin: 0 auto;" )
 
         .flex( style="margin: 0 auto; width: 40%; " )
-            img.remove( :src="irequire.img('trash.svg')" @click="remove(day)" :title="$t('delete')")
+            img.remove( :src="ilse.require('trash.svg')" @click="remove(day)" :title="$t('delete')")
             .centered
                 span.flexi.is-size-3.has-text-weight-bold( :title=" $t('notes') + ' ' + day.notes.length" ) {{get_pretty_date( day )}}
             p.fitem &#128269;
@@ -27,7 +27,7 @@
 </template>
 <script>
 // eslint-disable-next-line
-const printf                        = console.log;
+import printf                           from "@/classes/printf.js"
 
 // Ilse
     import ilse                         from "@/ilse.js"

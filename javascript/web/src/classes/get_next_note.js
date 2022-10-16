@@ -1,4 +1,4 @@
-const printf                    = console.log
+import printf                   from "@/classes/printf.js"
 
 import get_note_index           from "@/classes/get_note_index.js"
 import get_note_id_by_index     from "@/classes/get_note_id_by_index.js"

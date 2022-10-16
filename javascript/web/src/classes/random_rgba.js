@@ -1,4 +1,4 @@
-const printf            = console.log
+import printf               from "@/classes/printf.js"
 
 export default function random_rgba() {
     var o = Math.round, r = Math.random, s = 255;

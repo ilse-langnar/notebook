@@ -1,4 +1,4 @@
-const printf = console.log
+import printf                           from "@/classes/printf.js"
 
 export default function cut_string( string, beg, end ) {
     string = string.split("")

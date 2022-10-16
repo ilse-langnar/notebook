@@ -1,5 +1,6 @@
 'use strict'
-const printf    = console.log
+
+import printf                                       from "@/classes/printf.js"
 
 // import { app, protocol, BrowserWindow, ipcMain, dialog, globalShortcut, remote } from 'electron'
 import { app, protocol, BrowserWindow, ipcMain, dialog, globalShortcut, remote } from 'electron'

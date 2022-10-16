@@ -1,4 +1,4 @@
-const printf = console.log
+import printf                   from "@/classes/printf.js"
 
 // Impure?
 export default function set_caret_to_end_on_content_editable_element( contentEditableElement ) {

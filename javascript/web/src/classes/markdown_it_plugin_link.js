@@ -1,4 +1,4 @@
-const printf = console.log
+import printf                   from "@/classes/printf.js"
 
 // Messager
     import Messager                     from "@/classes/Messager.js"

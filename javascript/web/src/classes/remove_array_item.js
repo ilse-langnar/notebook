@@ -1,4 +1,4 @@
-const printf                    = console.log
+import printf                           from "@/classes/printf.js"
 
 export default function remove_array_item( array, item ) {
     let index = array.indexOf( item )

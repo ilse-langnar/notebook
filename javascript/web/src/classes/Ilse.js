@@ -1,4 +1,4 @@
-const printf                        = console.log
+import printf                   from "@/classes/printf.js"
 
 // Classes
     import KeyboardShortcut             from "@/classes/KeyboardShortcut.js"
@@ -15,8 +15,8 @@ const printf                        = console.log
     import Markdown                     from "@/classes/Markdown.js"
     import Electron                     from "@/classes/Electron.js"
     import Cache                        from "@/classes/Cache.js"
-    import Embeds                       from "@/classes/Embeds.js"
-    import IlseRequire                  from "@/classes/IlseRequire.js"
+    // import IlseRequire                  from "@/classes/IlseRequire.js"
+    import irequire                     from "@/classes/require.js"
 
     import Clipboard                    from "@/classes/Clipboard.js"
     import PluginManager                from "@/classes/PluginManager.js"
@@ -51,6 +51,7 @@ const printf                        = console.log
     import PERMISSIONS                  from "@/classes/PERMISSIONS.js"
     import REGULAR_EXPRESSIONS          from "@/classes/REGULAR_EXPRESSIONS.js"
     import SUPPORTED_LANGUAGES          from "@/classes/SUPPORTED_LANGUAGES.js"
+    import SVG_TABLE                    from "@/classes/SVG_TABLE.js"
 
 // Frame
 const JSFrame = require("@/assets/jsframe.min.js")
@@ -84,20 +85,30 @@ export default class Ilse {
 
             PERMISSIONS,                // [ "read", "write", "clipboard",  "communication" ]
 
-            REGULAR_EXPRESSIONS,        // { "embed": "/^\!\[\[([^|\]\n]+)(\|([^\]\n]+))?\]\]/", "link": "/\[\[([^|\]\n]+)(\|([^\]\n]+))?\]\]/" }
+            REGULAR_EXPRESSIONS,        // { "embed": "/^\!\[\[([^|\]\n]+)(\|([^\]\n]+))?\]\]/", "link": "/\[\[([^|\]\n]+)(\|([^\]\n]+))?\]\]/", ... }
 
             SUPPORTED_LANGUAGES,        // { "en": "English(English)", "zh": "Chinese Simplified(简体中文)", "pt": "Brazillian Portuguese(Português Brasileiro)", "hb": "Hebrew (עברית)" }
+
+            SVG_TABLE,                  // {"address-book.svg": "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNs ... "
         }
 
         // this.u_html                 = uHTML
         this.HTMLs                  = [ HTML_TOP_MENU ]
-        printf( "this.HTMLs -> ", this.HTMLs )
 
-        // this.list                   = [ "@top-menu.html", "@body.html", "@footer.html" ] // can be added/removed
+        // this.self                   = `
+            // <top-menu.native />
+            // <body.native />
+            // <status-line.native />
+        // `
+
+        // this.componentssss          = {
+            // "top-menu.native": HTML_TOP_MENU,
+            // "body.native": HTML_BODY,
+            // "status-line.native": HTML_STATUS_LINE,
+        // }
+
         this.list                   = [ "<ilse-top-menu style='display: block;' >", "<ilse-body>", "<ilse src='tabs.html'>", "<ilse-footer>" ] // can be added/removed
         this.components             = []
-
-        // this.frames                 = []
 
         this.name                   = "Ilse Langnar's Notebook"
         this.key                    = "ilse-key"
@@ -180,7 +191,8 @@ export default class Ilse {
 
         // Filesystem
             this.filesystem             = new Filesystem( this, this.target_directories[0] )
-            this.irequire               = new IlseRequire()
+            // this.require                = new IlseRequire(this).require
+            this.require                = irequire
 
         // Config
             this.config                 = new Config()
@@ -196,7 +208,6 @@ export default class Ilse {
             this.links                  = new Links()
 
         // UI Elements
-            this.embeds                 = new Embeds()
             this.modals                 = new Modals()
             this.notification           = new Notification()
             this.dialog                 = new Dialog()
@@ -276,10 +287,10 @@ export default class Ilse {
         this.loaded()
         this.load_daily_notes()
         this.is_zen                 = this.config.is_zen
-        // window.ilse                     = get_plugin_api( "global", this )
-
         // window.ilse                     = get_global_api(this) // Set global API
         // setTimeout( () => { printf( "before -> window.ilse -> ", window.ilse ) printf( "after -> window.ilse -> ", window.ilse ) }, 2000 )
+
+        window.ilse                     = get_plugin_api( "global", this )
 
     }
 

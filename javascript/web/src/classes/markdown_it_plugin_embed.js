@@ -1,4 +1,4 @@
-const printf = console.log
+import printf                       from "@/classes/printf.js"
 
 import ilse                         from "@/ilse.js"
 import string_to_base64             from "@/classes/string_to_base64.js"

@@ -1,14 +1,25 @@
-const printf                        = console.log
+import printf                           from "@/classes/printf.js"
 
 // Ilse
     import ilse                         from "@/ilse.js"
 
+// constants
+    import SVG_TABLE                     from "@/classes/SVG_TABLE.js"
 
-export default class IlseRequire {
+export default function require( name ) {
+    return `data:image/svg+xml;base64,${SVG_TABLE[name]}`
+}
 
-    constructor( ilse ) {
+/*
+IlseRequire {
 
-        this.ilse = ilse
+    constructor( context ) {
+
+        // this.ilse     = ilse
+        // this.platform = ilse.platform
+        printf( "ilse -> ", ilse )
+        printf( "context -> ", context )
+        this.context = context
 
         this.table = {
             "address-book.svg": "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIGljb24tdGFibGVyIGljb24tdGFibGVyLWFkZHJlc3MtYm9vayIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlPSIjNDg1MzYxIiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgogIDxwYXRoIHN0cm9rZT0ibm9uZSIgZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPgogIDxwYXRoIGQ9Ik0yMCA2djEyYTIgMiAwIDAgMSAtMiAyaC0xMGEyIDIgMCAwIDEgLTIgLTJ2LTEyYTIgMiAwIDAgMSAyIC0yaDEwYTIgMiAwIDAgMSAyIDJ6IiAvPgogIDxwYXRoIGQ9Ik0xMCAxNmg2IiAvPgogIDxjaXJjbGUgY3g9IjEzIiBjeT0iMTEiIHI9IjIiIC8+CiAgPHBhdGggZD0iTTQgOGgzIiAvPgogIDxwYXRoIGQ9Ik00IDEyaDMiIC8+CiAgPHBhdGggZD0iTTQgMTZoMyIgLz4KPC9zdmc+CgoK",
@@ -126,6 +137,24 @@ export default class IlseRequire {
 
     }
 
+    require( name ) {
+
+        return `data:image/svg+xml;base64,${this.table[name]}`
+        printf( "@require -> name ", name )
+        printf( "@require -> ilse ", ilse )
+        printf( "@require -> this.context ", this.context )
+        let platform      = this.ilse.platform
+            let use_base64    = platform === "quine"
+            let use_electron  = platform === "electron"
+
+        if( use_base64 ) {
+            return `data:image/svg+xml;base64,${this.table[name]}`
+        } else if( use_electron ) {
+            return require( `@/assets/${name}` )
+        }
+
+    }
+
     // I require this while ilse is not defined
     img( name ) {
 
@@ -142,3 +171,4 @@ export default class IlseRequire {
     }
 
 }
+*/

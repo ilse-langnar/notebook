@@ -1,4 +1,4 @@
-const printf = console.log
+import printf                              from "@/classes/printf.js"
 
 import extract_tokens_by_regexp_delimiters from "@/classes/extract_tokens_by_regexp_delimiters.js"
 

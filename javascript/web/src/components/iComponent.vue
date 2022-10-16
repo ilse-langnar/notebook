@@ -2,7 +2,7 @@
 .component
     img.is-pulled-right(
         v-if="!options.hide_bullet"
-        :src="irequire.img('point.svg')"
+        :src="ilse.require('point.svg')"
 
         @click.shift="on_shift_click(component_index)"
         @click.left="on_left_click($event, component)"
@@ -33,7 +33,7 @@
 </template>
 <script>
 // eslint-disable-next-line
-const printf                        = console.log;
+import printf                           from "@/classes/printf.js"
 
 // Ilse
     import ilse                         from "@/ilse.js"

@@ -3,7 +3,7 @@
     .notification( v-for="( notification, index ) in ilse.notification.items" :key="index" )
         .message( v-if="notification.type === 'normal'" :style="get_notification_css(index)" :class="get_notification_class(notification)" :id="'notification' + index" )
             .message-header
-                img.img.is-pulled-right( :src="irequire.img('x.svg')" style="width: 20px; cursor: pointer; margin: 0px; " @click="remove(notification)" :title="$t('delete')" alt="$t('delete')" )
+                img.img.is-pulled-right( :src="ilse.require('x.svg')" style="width: 20px; cursor: pointer; margin: 0px; " @click="remove(notification)" :title="$t('delete')" alt="$t('delete')" )
                 p.is-size-5.centered {{notification.title}} ({{notification.time / 1000}})
             .message-body
                 br
@@ -12,7 +12,7 @@
 </template>
 <script>
 // eslint-disable-next-line
-const printf                        = console.log;
+import printf                   from "@/classes/printf.js"
 
 // Ilse
     import ilse             from "@/ilse.js"

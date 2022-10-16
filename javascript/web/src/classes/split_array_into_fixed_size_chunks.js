@@ -1,4 +1,4 @@
-const printf = console.log
+import printf                           from "@/classes/printf.js"
 
 export default function split_array_into_fixed_size_chunks( source, number_of_items = 2 ) {
 

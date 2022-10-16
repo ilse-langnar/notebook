@@ -1,4 +1,4 @@
-const printf                        = console.log
+import printf                   from "@/classes/printf.js"
 
 // Ilse
     import ilse             from "@/ilse.js"

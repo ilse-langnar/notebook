@@ -7,13 +7,13 @@
             Notes( :note="item" :key="index + key" @on-enter="on_enter" @on-tab="on_tab" @on-shift-tab="on_shift_tab" @on-arrow-up="on_note_arrow_up" @on-arrow-down="on_note_arrow_down" @on-link-click="on_note_link_click" @on-note-click="on_note_click" )
 
     .single-note( v-else )
-        img.img( :src="irequire.img('arrow-narrow-left.svg')" style="width: 30px; cursor: pointer;" @click="on_left_arrow_click" )
+        img.img( :src="ilse.require('arrow-narrow-left.svg')" style="width: 30px; cursor: pointer;" @click="on_left_arrow_click" )
         Outline( :notes="path" )
 
 </template>
 <script>
 // eslint-disable-next-line
-const printf                        = console.log;
+import printf                           from "@/classes/printf.js"
 
 // Ilse
     import ilse                         from "@/ilse.js"
@@ -64,6 +64,8 @@ export default {
             inotes: this.notes,
             key: 0,
             path: [],
+            cache: [],
+
         }
     },
 
@@ -149,10 +151,18 @@ export default {
         },
 
         on_note_arrow_up( payload ) {
+            // printf( "on_note_arrow_up -> payload -> ", payload )
+            // printf( "on_note_arrow_down -> this.inotes.indexOf(payload.note.id) -> ", this.inotes.indexOf(payload.note.id) )
+            // delay( focus_on_note, this.inotes[this.inotes.indexOf(payload.note.id) - 1], 10 )
+
             delay( focus_on_note, get_note_id_from_index( get_note_index( payload.note.id ) - 1 ) , 0 )
         },
 
         on_note_arrow_down( payload ) {
+            // printf( "on_note_arrow_down -> payload -> ", payload )
+            // printf( "on_note_arrow_down -> this.inotes.indexOf(payload.note.id) -> ", this.inotes.indexOf(payload.note.id) )
+            // delay( focus_on_note, this.inotes[this.inotes.indexOf(payload.note.id) + 1], 10 )
+
             delay( focus_on_note, get_note_id_from_index( get_note_index( payload.note.id ) + 1 ) , 0 )
         },
 
@@ -215,6 +225,7 @@ export default {
             if( this.component && this.component.props && this.component.notes ) {
                 this.inotes = this.component.props.notes
             }
+
             /*
             if_else(
                 and(

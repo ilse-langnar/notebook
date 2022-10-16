@@ -6,8 +6,8 @@
         // Left Sidebar HERE
         .div( v-if="!ilse.is_zen" style="position: fixed; left: 0px; top: 0px; width: 30px; height: 100vh; z-index: 0; " @drop.prevent="on_drop" @dragover.prevent )
             // Default Icons
-            img( :src="irequire.img('folders.svg')" style="width: 20px; cursor: pointer; margin-top: 50px; margin-left: 3px; " @click="toggle_left_menu( $event, 'filesystem', true )" )
-            img( :src="irequire.img('letter-i.svg')" style="width: 20px; cursor: pointer; margin-left: 3px; " @click="toggle_left_menu( $event, 'default', true )" )
+            img( :src="ilse.require('folders.svg')" style="width: 20px; cursor: pointer; margin-top: 50px; margin-left: 3px; " @click="toggle_left_menu( $event, 'filesystem', true )" )
+            img( :src="ilse.require('letter-i.svg')" style="width: 20px; cursor: pointer; margin-left: 3px; " @click="toggle_left_menu( $event, 'default', true )" )
 
             br
             br
@@ -19,8 +19,8 @@
         iComponent( v-resize="onResize" v-show="ilse.is_left_sidebar_open && !ilse.is_zen" :component="get_menu_component()" :options="{hide_bullet: true }" style="height: 91vh; margin-left: 20px; width: 20%; overflow-x: hidden;  " )
 
         .menu-arrows( v-if="!ilse.is_zen" )
-            img( v-show="ilse.is_left_sidebar_open" :src="irequire.img('arrow-narrow-left.svg')" style="width: 20px; position: fixed; top: 1%; left: 5px; cursor: pointer; z-index: 1; " @click="toggle_left_menu( $event, 'default', true )" )
-            img( v-show="!ilse.is_left_sidebar_open" :src="irequire.img('arrow-narrow-right.svg')" style="width: 20px; position: fixed; top: 1%; left: 5px; cursor: pointer; z-index: 1; " @click="toggle_left_menu( $event, 'default', true )" )
+            img( v-show="ilse.is_left_sidebar_open" :src="ilse.require('arrow-narrow-left.svg')" style="width: 20px; position: fixed; top: 1%; left: 5px; cursor: pointer; z-index: 1; " @click="toggle_left_menu( $event, 'default', true )" )
+            img( v-show="!ilse.is_left_sidebar_open" :src="ilse.require('arrow-narrow-right.svg')" style="width: 20px; position: fixed; top: 1%; left: 5px; cursor: pointer; z-index: 1; " @click="toggle_left_menu( $event, 'default', true )" )
 
 
 
@@ -36,13 +36,13 @@
     .no-components( v-if="!components.length" style="flex-direction: column; height: 89vh; overflow: hidden !important; " )
         .centered( style="" )
             h1.is-size-1 {{ $t('no_components') }}
-            img( :src="irequire.img('logo.svg')" style="width: 20%;" )
+            img( :src="ilse.require('logo.svg')" style="width: 20%;" )
 
     br
 </template>
 <script>
 // eslint-disable-next-line
-const printf                        = console.log;
+import printf                           from "@/classes/printf.js"
 
 // Ilse
     import ilse                         from "@/ilse.js"

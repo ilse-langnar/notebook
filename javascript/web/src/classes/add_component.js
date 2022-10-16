@@ -1,4 +1,4 @@
-const printf                    = console.log
+import printf                   from "@/classes/printf.js"
 
 import ilse                     from "@/ilse.js"
 
@@ -6,7 +6,7 @@ export default function add_component({
     id          = Math.random(),
     name        = "random-name-" + Math.random(),
     description = "",
-    img         = ilse.irequire.img("menu.svg"),
+    img         = ilse.require("menu.svg"),
     _component  = {},
     type        = "help",
     width       = 9,

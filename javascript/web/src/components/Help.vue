@@ -47,7 +47,7 @@
                 .question
                     h3 Q: How to import an item?
                     p A: Just drag and drop the item into the 
-                    img( :src="irequire.img('school.svg')" )
+                    img( :src="ilse.require('school.svg')" )
                     p or
                     br
                     p And I'll be imported automatically
@@ -55,7 +55,7 @@
                 .question
                     h3 Q: How do I review my queue
                     p A: Open the "first" brain panel by clicking on
-                    img( :src="irequire.img('school.svg')" )
+                    img( :src="ilse.require('school.svg')" )
                     p Then it should look like this: 
                     p Then click on the "play" button or double click on it.
 
@@ -69,7 +69,7 @@
 </template>
 <script>
 // eslint-disable-next-line
-const printf                        = console.log;
+import printf                           from "@/classes/printf.js"
 
 // Ilse
     import ilse                         from "@/ilse.js"
@@ -105,7 +105,7 @@ export default {
     methods: {
 
         get_img( img ) {
-            let result = ilse.irequire.img( img )
+            let result = ilse.require( img )
             return result
         },
 

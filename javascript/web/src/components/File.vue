@@ -23,8 +23,8 @@
             input.input( v-model="file" @keydown.enter="on_input_keydown_enter" )
 
         .centered
-            img( v-if="!ilse.config.favorites || !(ilse.config.favorites.indexOf(file) !== -1)" :src="irequire.img('star.svg')" style="width: 20px; cursor: pointer; " @click="toggle_favorite(file)" :title="$t('favorite')" )
-            img( v-if="ilse.config.favorites && ilse.config.favorites.indexOf(file) !== -1" :src="irequire.img('star-off.svg')" style="width: 20px; cursor: pointer; " @click="toggle_favorite(file)" :title="$t('unfavorite')" )
+            img( v-if="!ilse.config.favorites || !(ilse.config.favorites.indexOf(file) !== -1)" :src="ilse.require('star.svg')" style="width: 20px; cursor: pointer; " @click="toggle_favorite(file)" :title="$t('favorite')" )
+            img( v-if="ilse.config.favorites && ilse.config.favorites.indexOf(file) !== -1" :src="ilse.require('star-off.svg')" style="width: 20px; cursor: pointer; " @click="toggle_favorite(file)" :title="$t('unfavorite')" )
 
         br
 
@@ -44,7 +44,7 @@
 </template>
 <script>
 // eslint-disable-next-line
-const printf                        = console.log;
+import printf                           from "@/classes/printf.js"
 
 // Ilse
     import ilse                         from "@/ilse.js"

@@ -1,4 +1,4 @@
-const printf = console.log
+import printf                   from "@/classes/printf.js"
 
 export default function move_array_item( arr, old_index, new_index ) {
 

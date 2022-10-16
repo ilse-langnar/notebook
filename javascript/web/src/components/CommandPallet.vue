@@ -2,9 +2,9 @@
 .command-pallet
 
     .flex
-        img( :src="irequire.img('command.svg')" style="width: 23px; margin-bottom: 6px; " )
+        img( :src="ilse.require('command.svg')" style="width: 23px; margin-bottom: 6px; " )
         input.input( v-model="input" autofocus ref="command_pallet" @keydown.escape="turn_off" @keydown.enter="on_keydown_enter" @blur="on_blur" @input="on_input" @focus="on_focus" )
-        img( :src="irequire.img('question-mark.svg')" style="width: 20px; margin-bottom: 6px; " )
+        img( :src="ilse.require('question-mark.svg')" style="width: 20px; margin-bottom: 6px; " )
 
     .flex
         .mitem
@@ -23,7 +23,7 @@
     .flex( v-for="( command, index ) in search_result.length ? search_result : ilse.commands.commands" @click="ilse.commands.run(command.id); ilse.modals.close()" )
          .item
              .is-pulled-left
-                img( v-if="command.icon" :src="irequire.img(command.icon)" style="width: 17px; position: relative; top: 5px;  margin-right: 5px; " :title="command.icon" )
+                img( v-if="command.icon" :src="ilse.require(command.icon)" style="width: 17px; position: relative; top: 5px;  margin-right: 5px; " :title="command.icon" )
                 span {{command.name}}
                 span.description.is-size-7 &nbsp; &nbsp; &nbsp; {{command.description}} 
              .shortcut.is-pulled-right( v-if="get_shortcut_by_name(command.name)" )
@@ -33,7 +33,7 @@
 </template>
 <script>
 // eslint-disable-next-line
-const printf                        = console.log;
+import printf                       from "@/classes/printf.js"
 
 // Ilse
     import ilse                     from "@/ilse.js"

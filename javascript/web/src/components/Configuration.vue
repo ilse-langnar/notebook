@@ -29,7 +29,7 @@
 
 
                 // .plugin( v-for="( plugin, index ) in ilse.plugin_manager.plugins" :key="index" )
-                    img.is-pulled-right( :src="irequire.img('x.svg')" style="width: 20px; cursor: pointer;" @click="delete_plugin(plugin)" )
+                    img.is-pulled-right( :src="ilse.require('x.svg')" style="width: 20px; cursor: pointer;" @click="delete_plugin(plugin)" )
                     h3 {{plugin.name}} by {{plugin.manifest.autor || "Anonymous" }}({{plugin.manifest.version}})
                     p {{plugin.manifest.description}}
                     img( :src="plugin.icon" )
@@ -38,10 +38,10 @@
                 p 
                 p {{ilse.themes.list}}
                 // .centered
-                    img( :src="irequire.img('paint.svg')" :title="$t('apply')" alt="Apply" @click="ilse.themes.apply_default_theme()" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --text-color ); border-radius: var( --border-radius ); padding: var( --padding );" )
+                    img( :src="ilse.require('paint.svg')" :title="$t('apply')" alt="Apply" @click="ilse.themes.apply_default_theme()" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --text-color ); border-radius: var( --border-radius ); padding: var( --padding );" )
                 .loop( v-for="( note, index ) in ilse.notes.query('#i/theme/')" :key="index" )
-                    img.img.is-pulled-left( :src="irequire.img('paint.svg')" :title="('apply')" alt="Apply" @click="ilse.themes.apply( note )" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --background-color );" )
-                    img.img.is-pulled-left( :src="irequire.img('packge-export.svg')" :title="$t('export_to_clipboard')" alt="Export to clipboard" @click="export_theme_to_clipboard(note)" )
+                    img.img.is-pulled-left( :src="ilse.require('paint.svg')" :title="('apply')" alt="Apply" @click="ilse.themes.apply( note )" style="border-shadow: var( --border-shadow ); cursor: pointer; border: 1px solid var( --background-color );" )
+                    img.img.is-pulled-left( :src="ilse.require('packge-export.svg')" :title="$t('export_to_clipboard')" alt="Export to clipboard" @click="export_theme_to_clipboard(note)" )
                     .s-clear
                     Notes( :note="note" :options="{ is_collapsed: true }" )
                     .space
@@ -81,13 +81,13 @@
                 // .loop( v-for="( item, index ) in get_list_of_html_files()" :key="index" )
                     .flex
                         // p {{item}}
-                        // img.img.is-pulled-left( :src="irequire.img('packge-export.svg')" alt="Export to clipboard" )
+                        // img.img.is-pulled-left( :src="ilse.require('packge-export.svg')" alt="Export to clipboard" )
                         table
                             tr
                                 th td {{item}}
                                 th td example 2
                             tr
-                                img.img.is-pulled-left( :src="irequire.img('packge-export.svg')" alt="Export to clipboard" )
+                                img.img.is-pulled-left( :src="ilse.require('packge-export.svg')" alt="Export to clipboard" )
             .templates( v-if="selected === 'templates' " )
                 .loop( v-for="( note, index ) in ilse.notes.query('#i/template/')" :key="index" )
                     Notes( :note="note" :options="{ is_collapsed: true }" )
@@ -123,7 +123,7 @@
             .keyboard-shortcut( v-if="selected === 'keyboard_shortcut' " )
 
                 .loop( v-for="( key, index ) in ilse.keyboard.keys" :key="index" )
-                    img.is-pulled-right( :src="irequire.img('x.svg')" style="width: 20px; cursor: pointer;" @click="delete_key(key)" :title="$t('remove_snippet')" )
+                    img.is-pulled-right( :src="ilse.require('x.svg')" style="width: 20px; cursor: pointer;" @click="delete_key(key)" :title="$t('remove_snippet')" )
                     input( v-model="key.combo" style="margin-right: 3px;" )
                     input( v-model="key.command" :title="Object.values(ilse.commands.commands).map( item => ` ${item.name}` )" )
                 button.button.slick-button.centered( @click="add_keyboard_shortcut()" ) Add
@@ -131,7 +131,7 @@
 </template>
 <script>
 // eslint-disable-next-line
-const printf                        = console.log;
+import printf                           from "@/classes/printf.js"
 
 // Ilse
     import ilse                         from "@/ilse.js"
@@ -399,7 +399,7 @@ export default {
 
         get_img( img ) {
             // let result = require(`@/assets/${img}`)
-            let result = ilse.irequire.img( img )
+            let result = ilse.require( img )
             return result
         },
 

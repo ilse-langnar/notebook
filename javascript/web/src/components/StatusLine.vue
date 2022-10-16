@@ -49,10 +49,10 @@
 </template>
 <script>
 // eslint-disable-next-line
-const printf                                                    = console.log;
+import printf                                   from "@/classes/printf.js"
 
 // Ilse
-    import ilse             from "@/ilse.js"
+    import ilse                                 from "@/ilse.js"
 
 // functions
     import clean_list                           from "@/classes/clean_list.js"

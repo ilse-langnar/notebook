@@ -1,4 +1,4 @@
-const printf = console.log
+import printf                           from "@/classes/printf.js"
 
 // /(^(\d+\.)(\s)(.*)(?:$)?)+/gi, // /[0-9]+\\.(.*)/gi,
 export default {

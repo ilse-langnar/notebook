@@ -26,7 +26,7 @@
 </template>
 <script>
 // eslint-disable-next-line
-const printf                        = console.log;
+import printf                           from "@/classes/printf.js"
 
 // Ilse
     import ilse                         from "@/ilse.js"
@@ -72,7 +72,7 @@ export default {
 
             let icon           = html.querySelector("link[rel*='icon']") 
                 if( icon ) return icon.getAttribute("href")
-            return ilse.irequire.img( "point.svg" ) 
+            return ilse.require( "point.svg" ) 
 
             /*
             if( img ) {
@@ -90,7 +90,7 @@ export default {
                     let base64 = chunks[++index]
                     return `data:image/svg+xml;base64,${base64}`
                 },
-                no  => { return ilse.irequire.img( "point.svg" ) },
+                no  => { return ilse.require( "point.svg" ) },
             )
             */
 

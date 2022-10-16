@@ -1,4 +1,4 @@
-const printf        = console.log
+import printf               from "@/classes/printf.js"
 
 import get_note_depth       from "@/classes/get_note_depth.js"
 import get_spaces_count     from "@/classes/get_spaces_count.js"
