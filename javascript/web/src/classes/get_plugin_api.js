@@ -32,8 +32,12 @@ export default function get_plugin_api( name, ilse ) {
     Messager.on( "message", payload => {
         printf( "get_plugin_api -> payload -> ", payload )
     })
+    printf( "@@@@@@@@@@ ilse.store- > ", ilse.store )
+    printf( "@@@@@@@@@@ ilse- > ", ilse )
 
     const api = {
+
+        store: ilse.store,
 
         notes: has_permission( name, 'notes', ilse )  ? ilse.notes : null,
 

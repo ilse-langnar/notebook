@@ -11,6 +11,7 @@
         // So Dark mode works with zen
         .wrapper( :style="get_home_style()" )
             .top-menu( v-html="ilse.get_html('top-menu')" )
+            button.button( @click="show_info" ) Show Info
             // button.button( @click="add" ) Add
 
             .app( :key="ilse.keys['home'] ? ilse.keys['home'] : 0" style="flex-basis: 100%; " )
@@ -57,6 +58,7 @@ import printf                           from "@/classes/printf.js"
     import delay                        from "@/classes/delay.js"
     import if_else                      from "@/classes/if_else.js"
     import update_key                   from "@/classes/update_key.js"
+    import pipe                         from "@/classes/pipe.js"
 
 export default {
 
@@ -93,6 +95,10 @@ export default {
     },
 
     methods: {
+
+        show_info() {
+            ilse.dialog.info( "Hello, World", "This is a test for the 'show_info' " )
+        },
 
         get_home_style() {
 
@@ -238,9 +244,26 @@ export default {
 
         setup() {
 
+
+            // var result = pipe( Math.min, Math.abs, Math.sqrt )(3, -9, 0, 2, 5)
+
+            // printf( "result -> ", result )
+
+            var result2 = pipe(
+                [ Math.min, 16 ], 
+                [ Math.abs, -9 ],
+                [ Math.sqrt, 0 ],
+                [ Math.sqrt ],
+                [ Math.sqrt ],
+                // [ function(e){ return e +1 } ],
+                [ console.log ],
+            )
+            printf( "result2 -> ", result2 )
+
+
             setTimeout( () => {
                 this.key= Math.random()
-            }, 4000 )
+            }, 1000 )
 
             // delay( update_key, this, 1000 )
         },

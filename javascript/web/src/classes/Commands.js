@@ -108,7 +108,8 @@ class Commands {
             command.fn( args )
         }
 
-        this.last_command = { id, args }
+        if( id !== "repeat-last-command" ) this.last_command = { id, args }
+
         Messager.emit( "~commands", "exec", id )
 
     }
@@ -349,6 +350,20 @@ class Commands {
                 },
                 description: "Set Default Mode",
                 name: "Set Default Mode",
+                props: {},
+            },
+
+            {
+                id: "spawn",
+                icon: "lupe.svg",
+                fn: async function( args ) {
+                    let html = ilse.hash["help"]
+                    printf( ">>> Commands.js -> html -> ", html )
+                    create_window({ title: "Browse", pure: true, html: html })
+                },
+                undo: arg => {},
+                description: "Spawn",
+                name: "Spawn",
                 props: {},
             },
 

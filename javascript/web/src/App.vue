@@ -275,8 +275,15 @@ input[type=range]::-webkit-slider-runnable-track  {
     border-radius: var( --border-radius );
 }
 
-.strike-through {
-    text-decoration: line-through;
+.cloze-deletion {
+    color: var( --text-color );
+    background: var( --text-color );
+    border-radius: var( --border-radius );
+}
+
+.cloze-deletion:hover {
+    color: var( --text-color );
+    background: var( --background-color );
 }
 
 .img {

@@ -31,6 +31,7 @@ import printf                   from "@/classes/printf.js"
     // functions
         import i18n                              from "@/classes/i18n.js"
         import get_plugin_api                    from "@/classes/get_plugin_api.js"
+        import string_to_html                    from "@/classes/string_to_html.js"
 
     // Node.js
         const path                       = require("path")
@@ -47,11 +48,13 @@ import printf                   from "@/classes/printf.js"
     import DEMO_NOTES                   from "@/classes/DEMO_NOTES.js"
     import HTML_COMPONENT_NOT_FOUND     from "@/classes/HTML_COMPONENT_NOT_FOUND.js"
     import HTML_TEMPLATE                from "@/classes/HTML_TEMPLATE.js"
-    import HTML_TOP_MENU                from "@/classes/HTML_TOP_MENU.js"
     import PERMISSIONS                  from "@/classes/PERMISSIONS.js"
     import REGULAR_EXPRESSIONS          from "@/classes/REGULAR_EXPRESSIONS.js"
     import SUPPORTED_LANGUAGES          from "@/classes/SUPPORTED_LANGUAGES.js"
     import SVG_TABLE                    from "@/classes/SVG_TABLE.js"
+
+    import HTML_TOP_MENU                from "@/classes/HTML_TOP_MENU.js"
+    import HTML_HELP                    from "@/classes/HTML_HELP.js"
 
 // Frame
 const JSFrame = require("@/assets/jsframe.min.js")
@@ -95,20 +98,101 @@ export default class Ilse {
         // this.u_html                 = uHTML
         this.HTMLs                  = [ HTML_TOP_MENU ]
 
-        // this.self                   = `
-            // <top-menu.native />
-            // <body.native />
-            // <status-line.native />
-        // `
+        this.self                   = `
+            <top-menu.native> </top-menu.native>
+            <body.native> </body.native>
+            <status-line.native> </status-line.native>
+         `
 
-        // this.componentssss          = {
-            // "top-menu.native": HTML_TOP_MENU,
-            // "body.native": HTML_BODY,
-            // "status-line.native": HTML_STATUS_LINE,
-        // }
+        // printf( "this.self -> ", this.self )
+        // let html = string_to_html( `<!DOCTYPE html> <html> ${this.self} </html>` )
+        // printf( "@before -> html - >", html )
+        // printf( "@before -> html.getElementsByTagName('top-menu.native')[0] -> ", html.getElementsByTagName('top-menu.native')[0] )
+        // html.getElementsByTagName('top-menu.native')[0].innerHTML = HTML_TOP_MENU
+        // printf( "after -> html.getElementsByTagName('top-menu.native')[0] -> ", html.getElementsByTagName('top-menu.native')[0] )
+        // printf( "after -> html - >", html )
+        // <div data-reactive="" > </div> // I can have: loops, one-way, two-way binding etc.
 
-        this.list                   = [ "<ilse-top-menu style='display: block;' >", "<ilse-body>", "<ilse src='tabs.html'>", "<ilse-footer>" ] // can be added/removed
+        this.hash          = {
+            "top-menu.native":      HTML_TOP_MENU,
+            "help":                 `<style>
+.help {
+}
+
+.item {
+    margin-bottom: 20px;
+}
+
+.help .question {
+    border: 1px solid var( --text-color );
+    border-radius: var( --border-radius );
+    padding: var( --padding );
+    margin-bottom: 10px;
+}
+</style>
+
+<div id="help" x-data="{ ilse: ilse }" >
+    <div style="width: 20%; border: 1px solid #000; " >
+
+        <div @click="window.ilse.store.ui.selected = 'Introduction' " > <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('settings.svg')" /> <p> &nbsp; &nbsp; Introduction </p> <div>
+
+        <div @click="window.ilse.store.ui.selected = 'Plugin' " > <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('address-book.svg')" /> <p> &nbsp; &nbsp; Plugin </p> <div>
+
+        <div @click="window.ilse.store.ui.selected = 'Components' " > <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('tech-box.svg')" /> <p> &nbsp; &nbsp; Components </p> <div>
+
+        <div @click="window.ilse.store.ui.selected = 'Themes' " > <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('palette.svg')" /> <p> &nbsp; &nbsp; Themes </p> <div>
+
+        <div @click="window.ilse.store.ui.selected = 'Keyboard' " > <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('keyboard.svg')" /> <p> &nbsp; &nbsp; Keyboard </p> <div>
+
+        <div @click="window.ilse.store.ui.selected = 'Lore' " > <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('address-book.svg')" /> <div>
+
+        <div @click="window.ilse.store.ui.selected = 'Others' " > <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('letter-i.svg')" /> <p> &nbsp; &nbsp; Others </p> <div>
+
+    </div>
+
+    <!-- <div class="options" style="width: 80%; float: left;">
+
+        <div x-if="window.ilse.store.ui.selected === 'General' " class="general" >
+            <p> Welcome to Ilse Langnart's Notebook, this tool is intended to augment human cognition, by being a reference system, spaced repetition system and thinkin system in itself.  </p>
+        </div>
+
+        <div x-if="window.ilse.store.ui.selected === 'Plugin' " class="general" >
+            <p> Plugin <p>
+        </div>
+
+        <div x-if="window.ilse.store.ui.selected === 'Components' " class="general" >
+            <p> Components <p>
+        </div>
+
+        <div x-if="window.ilse.store.ui.selected === 'Themes' " class="general" >
+            <p> Themes <p>
+        </div>
+
+        <div x-if="window.ilse.store.ui.selected === 'Keyboard' " class="general" >
+            <p> Keyboard <p>
+        </div>
+
+        <div x-if="window.ilse.store.ui.selected === 'Lore' " class="general" >
+            <p> Lore lll <p>
+        </div>
+
+        <div x-if="window.ilse.store.ui.selected === 'Others' " class="general" >
+            <p> Others <p>
+        </div>
+
+    </div> -->
+
+</div> `
+            // "body.native":          HTML_BODY,
+            // "status-line.native":   HTML_STATUS_LINE,
+        }
+        // document.getElementsByTagName( "top-menu.native" ).
+        // this.list                   = [ "<ilse-top-menu style='display: block;' >", "<ilse-body>", "<ilse src='tabs.html'>", "<ilse-footer>" ] // can be added/removed
+
         this.components             = []
+        this.store                  = {
+            ui: { }
+        }
 
         this.name                   = "Ilse Langnar's Notebook"
         this.key                    = "ilse-key"

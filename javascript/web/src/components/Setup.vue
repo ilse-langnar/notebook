@@ -1,9 +1,6 @@
 <template lang="pug">
 .setup( v-if="ilse" )
-
     .space
-
-
     .electron-setup( v-if="ilse.platform === 'electron' " )
         p.is-size-3.has-text-centered Select the folder with your notes
         button.centered( @click="open_file_dialog" style="display: block !important; margin: 0 auto; ") Select
@@ -66,23 +63,16 @@ export default {
 
         },
 
+        /*
         look( event ) {
-            printf( "event -> ", event )
-            printf( "event.target.files -> ", event.target.files )
             let o = event.target.files[0].mozFullPath
-            printf( "o -> ", o )
-
             var files = event.target.files;
             var path = files[0].webkitRelativePath;
             var Folder = path.split("/");
-            printf( "Folder -> ", Folder )
-
-            
         },
+        */
 
         set() {
-            printf( "set()" )
-
             Messager.emit( "ilse", "set-target-directory", this.target_directories )
         },
 

@@ -13,6 +13,7 @@ export default function create_window({
     url,
     // is_internal_and_iframe = false,
     external        = false,
+    pure            = false,
     title           = "Title",
     appearanceName  = "yosemite",
     left            = 200,
@@ -26,6 +27,20 @@ export default function create_window({
     if( !html && !url ) throw new Error( `Error: create_window needs either a "html" or a "url" to work you passed me a object with none!` )
 
     let frame
+
+    if( pure ) {
+        frame = ilse.frame.create({
+            title: title,
+            appearanceName: appearanceName,
+            left: left, top: top, width: width, height: height,
+            movable: movable, //Enable to be moved by mouse
+            resizable: resizable, //Enable to be resized by mouse
+            html: html,
+        })
+
+        frame.show()
+        return frame
+    }
 
     if( external ) {
 

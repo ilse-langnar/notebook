@@ -1,3 +1,5 @@
+// import ilse from "@/ilse.js"
+let ilse = { number: null }
 
 export default `
 <style>
@@ -37,6 +39,13 @@ export default `
     <div class="menu-item" > </div>
 
     <div class="menu-item" >
+
+        <!-- <span x-data="{ message: 'I love you', aaa: 'llll' }" >
+            <button x-on:click="message = 'lll'" > Increase </button>
+            <span x-text="message" > </span>
+            <button x-on:click="console.log('aaa -> ', aaa )" > Increase </button>
+        </span> -->
+
         <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('command.svg')" onclick="window.ilse.commands.run('open-modal','command-pallet')" >
 
         <div class="margin-small"> </div>
@@ -50,7 +59,7 @@ export default `
         <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('folders.svg')" onclick="window.ilse.commands.run('open-modal','folders')" >
         <div class="margin-small"> </div>
 
-        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('lifebuoy.svg')" onclick="window.ilse.commands.run('open-modal','help')" >
+        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('lifebuoy.svg')" onclick="window.ilse.commands.run('spawn','help')" >
         <div class="margin-large"> </div>
 
         <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src=window.ilse.require('moon-stars.svg')" onclick="window.ilse.commands.run('toggle-dark-mode')" >

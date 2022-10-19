@@ -132,7 +132,6 @@ export default {
 
         get_favorites() {
             let result = ilse.notes.query( '#favorite' ) 
-            printf( "result -> ", result )
             return result
         },
 

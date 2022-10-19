@@ -19,6 +19,7 @@
   },
   "main": "background.js",
   "dependencies": {
+    "alpinejs": "^3.10.4",
     "dom-filesystem": "^1.0.8",
     "electron-context-menu": "^3.4.0",
     "electron-find": "^1.0.7",
