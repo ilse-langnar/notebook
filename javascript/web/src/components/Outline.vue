@@ -222,7 +222,7 @@ export default {
 
         is_embedded() {
 
-            if( this.component && this.component.props && this.component.notes ) {
+            if( this.component && this.component.props && this.component.props.notes ) {
                 this.inotes = this.component.props.notes
             }
 

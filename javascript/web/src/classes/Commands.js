@@ -159,7 +159,7 @@ class Commands {
 
             {
                 id: "void",
-                icon: "mood-empty.svg",
+                icon: "question-mark.svg",
                 fn: function() { },
                 description: "Void",
                 name: "Void",
@@ -167,25 +167,12 @@ class Commands {
             },
 
             {
-                id: "open-modal",
-                fn: function( args ) {
-                    ilse.modals.open( args[0])
-                },
-                undo: args => {
-                    ilse.modals.close()
-                },
-                description: "Will open a modal for you",
-                name: "Open Modal",
-                props: {},
-            },
-
-            {
                 id: "open-command-pallet-modal",
                 fn: function() {
-                    ilse.modals.open( "command-pallet" )
+                    ilse.htmls.add( "command-pallet", ilse.hash["command-pallet"] )
                 },
                 undo: args => {
-                    ilse.modals.close()
+                    ilse.htmls.list.shift()
                 },
                 description: "Open Command Pallet Modal",
                 name: "Open Command Pallet Modal",
@@ -201,17 +188,6 @@ class Commands {
                 },
                 description: "Autocomplete for common names.",
                 name: "Autocomplete",
-                props: {},
-            },
-
-            {
-                id: "create-app",
-                fn: function() {
-                    ilse.modals.open( "create-app" )
-                },
-                undo: args => { ilse.modals.close() },
-                description: "Create App for ilse",
-                name: "Create App",
                 props: {},
             },
 
@@ -234,30 +210,6 @@ class Commands {
                 },
                 description: "Will turn on if it's off, and off if it's on",
                 name: "Toggle Dark Mode",
-                props: {},
-            },
-
-            {
-                id: "open-keyboard-shortcuts-modal",
-                icon: "keyboard.svg",
-                fn: function() {
-                    ilse.modals.open( "keyboard-shortcut" )
-                },
-                undo: args => { ilse.modals.close() },
-                description: "Will open modal with the list of shortcuts",
-                name: "Open Keyboard Shortcuts Modal",
-                props: {},
-            },
-
-            {
-                id: "open-types-selection",
-                icon: "letter-t.svg",
-                fn: function() {
-                    ilse.modals.open( "type-selection" )
-                },
-                undo: args => { ilse.modals.close() },
-                description: "Will open a modal with a list of <Types>",
-                name: "Open Type Selection",
                 props: {},
             },
 
@@ -290,9 +242,9 @@ class Commands {
                 id: "open-help-modal",
                 icon: "lifebuoy.svg",
                 fn: function() {
-                    ilse.modals.open( "help" )
+                    ilse.htmls.add( "help", ilse.hash.help )
                 },
-                undo: args => { ilse.modals.close() },
+                undo: args => { ilse.htmls.list.shift()},
                 description: "Will open the help modal",
                 name: "Open Help Modal",
                 props: {},
@@ -302,9 +254,9 @@ class Commands {
                 id: "open-configuration-modal",
                 icon: "settings.svg",
                 fn: function() {
-                    ilse.modals.open( "configuration" )
+                    ilse.htmls.add( "configuration", ilse.hash.configuration )
                 },
-                undo: args => { ilse.modals.close() },
+                undo: args => { ilse.htmls.list.shift()},
                 description: "Will open the configuration modal",
                 name: "Open Configuration Modal",
                 props: {},
@@ -314,8 +266,7 @@ class Commands {
                 id: "new-note",
                 icon: "point.svg",
                 fn: async function() {
-                    let payload = await ilse.dialog.input( "New note", "Content:" )
-                    let input   = payload.input
+                    let input   = await ilse.dialog.input( "New note", "Content:" )
                     let index   = ilse.notes.list.length
                         ilse.notes.add( input )
                 },
@@ -357,9 +308,10 @@ class Commands {
                 id: "spawn",
                 icon: "lupe.svg",
                 fn: async function( args ) {
-                    let html = ilse.hash["help"]
-                    printf( ">>> Commands.js -> html -> ", html )
-                    create_window({ title: "Browse", pure: true, html: html })
+                    // ilse.dialog.info( "Hello World", "This is my message to the world" )
+                    // let o = await ilse.dialog.input( "Hello World", "This is my message to the world" )
+                    let o = await ilse.dialog.confirm( "Hello World", "This is my message to the world" )
+                    printf( 'o -> ', o )
                 },
                 undo: arg => {},
                 description: "Spawn",
@@ -371,21 +323,11 @@ class Commands {
                 id: "open-search-modal",
                 icon: "lupe.svg",
                 fn: async function() {
-                    ilse.is_search_on = !ilse.is_search_on
+                    // ilse.is_search_on = !ilse.is_search_on
+                    ilse.htmls.add( "search", ilse.hash.search )
                 },
                 description: "Open Search Modal",
                 name: "Open Search Modal",
-                props: {},
-            },
-
-            {
-                id: "open-modal-list",
-                fn: async function() {
-                    ilse.modals.open( "modals-modals" )
-                },
-                undo: args => { ilse.modals.close() },
-                description: "List of all modals",
-                name: "Open Modal List",
                 props: {},
             },
 
@@ -411,31 +353,6 @@ class Commands {
                 },
                 description: "Will reset the theme to the default theme",
                 name: "Reset Theme",
-                props: {},
-            },
-
-            {
-                id: "open-make-extention-modal",
-                fn: async function() {
-                    ilse.modals.open("make-extention")
-                },
-                undo: args => { ilse.modals.close() },
-                description: "Open make extention modal",
-                name: "Open Make Extention Modal",
-                props: {},
-            },
-
-            {
-                id: "import-plugin-from-url",
-                icon: "packge-import.svg",
-                fn: async function() {
-                    let payload = await ilse.dialog.input( "Import Plugin", "url:" )
-                    let url     = payload.input
-                    ilse.plugin_manager.import_from_url( url )
-                },
-                undo: args => { ilse.modals.close() },
-                description: "Import Plugin from URL",
-                name: "Import Plugin from URL",
                 props: {},
             },
 
@@ -484,8 +401,7 @@ class Commands {
                     if( clip && is_url ) {
                         url = clip
                     } else {
-                        let payload = await ilse.dialog.input( "Query", "Type:" )
-                        url         = payload.input
+                        url = await ilse.dialog.input( "Query", "Type:" )
                     }
 
                     // TODO: I can't reference to this after.
@@ -504,8 +420,7 @@ class Commands {
             {
                 id: "open-external-website-on-window",
                 fn: async function() {
-                    let payload   = await ilse.dialog.input( "Query", "Type:" )
-                    let full_path = payload.input
+                    let full_path   = await ilse.dialog.input( "Query", "Type:" )
                     create_window({ title: `${full_path}(Website)`, external: true, url: full_path })
                 },
                 undo: args => {
@@ -520,9 +435,8 @@ class Commands {
             {
                 id: "open-html-on-window",
                 fn: async function() {
-
-                    let payload   = await ilse.dialog.input( "Query", "Type:" )
-                    let full_path = payload.input
+                    let full_path   = await ilse.dialog.input( "Query", "Type:" )
+                    printf( "full_path -> ", full_path )
                     create_window({ title: `${full_path}(HTML)`, url: full_path })
                 },
                 undo: args => {

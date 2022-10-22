@@ -41,19 +41,6 @@ class componentTypes {
         })
 
         this.add({
-            id: "create-app",
-            name: "Create app",
-            description: "Create HTML Apps for ilse.",
-            img: this.ilse.require("menu.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/CreateApp.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
             id: "daily-notes",
             name: "Daily Notes",
             description: "",
@@ -116,58 +103,6 @@ class componentTypes {
             props: {
                 is_internal: true,
                 note: {},
-            }
-        })
-
-        this.add({
-            id: "configuration",
-            name: "Configuration",
-            description: "Change Configurations",
-            img: this.ilse.require("settings.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/Configuration.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
-            id: "help",
-            name: "Help",
-            description: "Help",
-            img: this.ilse.require("question-mark.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/Help.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
-            id: "search",
-            name: "Search",
-            description: "Search notes and files",
-            img: this.ilse.require("lupe.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/Search.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
-            id: "right-sidebar",
-            name: "RightSidebar",
-            description: "Right Sidebar is the component thatt embeds inside the right sidebar",
-            img: this.ilse.require("arrow-narrow-right.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/RightSidebar.vue"),
-            props: {
-                is_internal: true,
             }
         })
 

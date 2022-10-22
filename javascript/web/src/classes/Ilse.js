@@ -19,11 +19,11 @@ import printf                   from "@/classes/printf.js"
     import irequire                     from "@/classes/require.js"
 
     import Clipboard                    from "@/classes/Clipboard.js"
+    import HTMLs                        from "@/classes/HTMLs.js"
     import PluginManager                from "@/classes/PluginManager.js"
 
     // UI Elements
         import Menu                         from "@/classes/Menu.js"
-        import Modals                       from "@/classes/Modals.js"
         import Notification                 from "@/classes/Notification.js"
         import Dialog                       from "@/classes/Dialog.js"
 
@@ -54,7 +54,12 @@ import printf                   from "@/classes/printf.js"
     import SVG_TABLE                    from "@/classes/SVG_TABLE.js"
 
     import HTML_TOP_MENU                from "@/classes/HTML_TOP_MENU.js"
+    import HTML_DIALOG_INFO             from "@/classes/HTML_DIALOG_INFO.js"
     import HTML_HELP                    from "@/classes/HTML_HELP.js"
+    import HTML_SEARCH                  from "@/classes/HTML_SEARCH.js"
+    import HTML_MARKETPLACE             from "@/classes/HTML_MARKETPLACE.js"
+    import HTML_CONFIGURATION           from "@/classes/HTML_CONFIGURATION.js"
+    import HTML_COMMAND_PALLET          from "@/classes/HTML_COMMAND_PALLET.js"
 
 // Frame
 const JSFrame = require("@/assets/jsframe.min.js")
@@ -95,94 +100,16 @@ export default class Ilse {
             SVG_TABLE,                  // {"address-book.svg": "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNs ... "
         }
 
-        // this.u_html                 = uHTML
-        this.HTMLs                  = [ HTML_TOP_MENU ]
-
-        this.self                   = `
-            <top-menu.native> </top-menu.native>
-            <body.native> </body.native>
-            <status-line.native> </status-line.native>
-         `
-
-        // printf( "this.self -> ", this.self )
-        // let html = string_to_html( `<!DOCTYPE html> <html> ${this.self} </html>` )
-        // printf( "@before -> html - >", html )
-        // printf( "@before -> html.getElementsByTagName('top-menu.native')[0] -> ", html.getElementsByTagName('top-menu.native')[0] )
-        // html.getElementsByTagName('top-menu.native')[0].innerHTML = HTML_TOP_MENU
-        // printf( "after -> html.getElementsByTagName('top-menu.native')[0] -> ", html.getElementsByTagName('top-menu.native')[0] )
-        // printf( "after -> html - >", html )
-        // <div data-reactive="" > </div> // I can have: loops, one-way, two-way binding etc.
+        // this.htmls                  = []
 
         this.hash          = {
             "top-menu.native":      HTML_TOP_MENU,
-            "help":                 `<style>
-.help {
-}
-
-.item {
-    margin-bottom: 20px;
-}
-
-.help .question {
-    border: 1px solid var( --text-color );
-    border-radius: var( --border-radius );
-    padding: var( --padding );
-    margin-bottom: 10px;
-}
-</style>
-
-<div id="help" x-data="{ ilse: ilse }" >
-    <div style="width: 20%; border: 1px solid #000; " >
-
-        <div @click="window.ilse.store.ui.selected = 'Introduction' " > <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('settings.svg')" /> <p> &nbsp; &nbsp; Introduction </p> <div>
-
-        <div @click="window.ilse.store.ui.selected = 'Plugin' " > <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('address-book.svg')" /> <p> &nbsp; &nbsp; Plugin </p> <div>
-
-        <div @click="window.ilse.store.ui.selected = 'Components' " > <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('tech-box.svg')" /> <p> &nbsp; &nbsp; Components </p> <div>
-
-        <div @click="window.ilse.store.ui.selected = 'Themes' " > <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('palette.svg')" /> <p> &nbsp; &nbsp; Themes </p> <div>
-
-        <div @click="window.ilse.store.ui.selected = 'Keyboard' " > <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('keyboard.svg')" /> <p> &nbsp; &nbsp; Keyboard </p> <div>
-
-        <div @click="window.ilse.store.ui.selected = 'Lore' " > <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('address-book.svg')" /> <div>
-
-        <div @click="window.ilse.store.ui.selected = 'Others' " > <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('letter-i.svg')" /> <p> &nbsp; &nbsp; Others </p> <div>
-
-    </div>
-
-    <!-- <div class="options" style="width: 80%; float: left;">
-
-        <div x-if="window.ilse.store.ui.selected === 'General' " class="general" >
-            <p> Welcome to Ilse Langnart's Notebook, this tool is intended to augment human cognition, by being a reference system, spaced repetition system and thinkin system in itself.  </p>
-        </div>
-
-        <div x-if="window.ilse.store.ui.selected === 'Plugin' " class="general" >
-            <p> Plugin <p>
-        </div>
-
-        <div x-if="window.ilse.store.ui.selected === 'Components' " class="general" >
-            <p> Components <p>
-        </div>
-
-        <div x-if="window.ilse.store.ui.selected === 'Themes' " class="general" >
-            <p> Themes <p>
-        </div>
-
-        <div x-if="window.ilse.store.ui.selected === 'Keyboard' " class="general" >
-            <p> Keyboard <p>
-        </div>
-
-        <div x-if="window.ilse.store.ui.selected === 'Lore' " class="general" >
-            <p> Lore lll <p>
-        </div>
-
-        <div x-if="window.ilse.store.ui.selected === 'Others' " class="general" >
-            <p> Others <p>
-        </div>
-
-    </div> -->
-
-</div> `
+            "dialog-info.native":   HTML_DIALOG_INFO,
+            "help":                 HTML_HELP,
+            "search":               HTML_SEARCH,
+            "marketplace":          HTML_MARKETPLACE,
+            "configuration":        HTML_CONFIGURATION,
+            "command-pallet":       HTML_COMMAND_PALLET,
             // "body.native":          HTML_BODY,
             // "status-line.native":   HTML_STATUS_LINE,
         }
@@ -190,9 +117,7 @@ export default class Ilse {
         // this.list                   = [ "<ilse-top-menu style='display: block;' >", "<ilse-body>", "<ilse src='tabs.html'>", "<ilse-footer>" ] // can be added/removed
 
         this.components             = []
-        this.store                  = {
-            ui: { }
-        }
+        this.store                  = { ui: { } }
 
         this.name                   = "Ilse Langnar's Notebook"
         this.key                    = "ilse-key"
@@ -210,9 +135,7 @@ export default class Ilse {
         this.left_sidebar           = ""
         this.is_right_sidebar_open  = false
         this.has_loaded             = false
-
         this.is_left_menu_on        = true
-
         this.style                  = ""
 
         // platform/env
@@ -237,7 +160,14 @@ export default class Ilse {
     }
 
     get_html( name ) {
-        if( name === "top-menu" ) return HTML_TOP_MENU
+
+        let to_return = null
+
+        this.htmls.map( item => {
+            if( item.id === id ) to_return
+        })
+
+        return to_return
     }
 
     before_setup() {
@@ -273,6 +203,9 @@ export default class Ilse {
             this.utils                  = new Utils()
             this.cache                  = new Cache(this)
 
+        // Components
+            this.htmls                  = new HTMLs()
+
         // Filesystem
             this.filesystem             = new Filesystem( this, this.target_directories[0] )
             // this.require                = new IlseRequire(this).require
@@ -292,7 +225,6 @@ export default class Ilse {
             this.links                  = new Links()
 
         // UI Elements
-            this.modals                 = new Modals()
             this.notification           = new Notification()
             this.dialog                 = new Dialog()
             this.menu                   = new Menu()

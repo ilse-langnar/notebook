@@ -5,6 +5,9 @@ import printf                           from "@/classes/printf.js"
 
 // Messager
     import Messager                     from "@/classes/Messager.js"
+    import info                         from "@/classes/HTML_DIALOG_INFO.js"
+    import input                        from "@/classes/HTML_DIALOG_INPUT.js"
+    import confirm                      from "@/classes/HTML_DIALOG_CONFIRM.js"
 
 export default class Dialog {
 
@@ -28,81 +31,77 @@ export default class Dialog {
     // Show the "info" dialog. returns a promised that is resolved when the user cliks on "cancel", "ok" or "cancel"(background-click)
     info( title = "Title", description = "Description" ) {
 
-        let info = {
-            title,
-            type: "info",
-            description,
-            id: Math.random().toString().replace( ".", "" ),
-        }
+        let normalized = info
+            .replace( "$title", title )
+            .replace( "$description", description )
 
-        this.list.push( info )
+        ilse.htmls.add( "dialog-info-" + Math.random(), normalized )
 
-        return new Promise((resolve, reject) => {
-
-            Messager.on( "~dialog.vue", ( action, payload ) => {
-
-                let is_done = action === "done"
-                let is_id_ok= payload.id === info.id
-
-                if( is_done && is_id_ok ) {
-                    this._done( payload, resolve, reject )
-                }
-
-            })
-        })
     }
 
     // Show the "confirm" dialog. returns a promised that is resolved when the user cliks on "cancel", "confirm" or "cancel"(background-click)
     async confirm( title = "Title", description = "Description" ) {
 
-        let confirm = {
-            title,
-            type: "confirm",
-            description,
-            id: Math.random().toString().replace( ".", "" ),
-        }
+        let html = confirm
+            .replace( "$title", title )
+            .replace( "$description", description )
 
-        this.list.push( confirm )
+        let id   = "dialog-confirm-" + Math.random()
+
+        ilse.htmls.add( id, html )
 
         return new Promise((resolve, reject) => {
 
             Messager.on( "~dialog.vue", ( action, payload ) => {
 
-                let is_done = action === "done"
-                let is_id_ok= payload.id === confirm.id
+                printf( "Dialog.js -> confirm -> action -> ", action )
+                printf( "Dialog.js -> confirm -> payload -> ", payload )
+                printf( "id -> ", id )
 
-                if( is_done && is_id_ok ) {
-                    this._done( payload, resolve, reject )
+                if( action === "done" && id === payload.id ) {
+                    printf( "before -> ilse.htmls.list -> ", ilse.htmls.list )
+                    ilse.htmls.remove( id )
+                    printf( "after -> ilse.htmls.list -> ", ilse.htmls.list )
+                    resolve( true )
+                } else if ( action === "rejected" && id === payload.id){
+                    ilse.htmls.remove( id )
+                    reject( false )
+                } else {
+                    reject( false )
                 }
 
             })
         })
+
     }
 
     async input( title = "Title", description = "Description" ) {
 
-        let input = {
-            title,
-            type: "input",
-            description,
-            id: Math.random().toString().replace( ".", "" ),
-        }
+        let html = input
+            .replace( "$title", title )
+            .replace( "$description", description )
+        let id   = "dialog-input-" + Math.random()
 
-        this.list.push( input )
+        ilse.htmls.add( id, html )
 
         return new Promise((resolve, reject) => {
 
             Messager.on( "~dialog.vue", ( action, payload ) => {
 
-                let is_done   = action     === "done"
-                let is_id_ok  = payload.id === input.id
 
-                if( is_done && is_id_ok ) {
-                    this._done( payload, resolve, reject )
+                if( action === "done" && id === payload.id ) {
+                    ilse.htmls.remove( id )
+                    resolve( payload.input)
+                } else if ( action === "rejected" && id === payload.id){
+                    ilse.htmls.remove( id )
+                    reject( id )
+                } else {
+                    reject( id )
                 }
 
             })
         })
+
     }
 
     listing( title = "Title", description = "Description", list = [ ], fn ) {

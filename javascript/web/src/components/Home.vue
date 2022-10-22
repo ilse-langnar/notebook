@@ -8,22 +8,27 @@
 
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded && has_apps()" :data-theme="get_data_theme" )
 
+        // button.button( @click="info" ) Info
+        .html-render( v-for="( item, index ) in ilse.htmls.list" :key="index" )
+            .div( v-html="item.html" :id="item.id" )
+
+        button.button( @click="show_info" ) Show Info
         // So Dark mode works with zen
         .wrapper( :style="get_home_style()" )
-            .top-menu( v-html="ilse.get_html('top-menu')" )
-            button.button( @click="show_info" ) Show Info
+            // .top-menu( v-html="ilse.get_html('top-menu')" )
+            .top-menu( v-html="HTML_TOP_MENU" )
             // button.button( @click="add" ) Add
 
-            .app( :key="ilse.keys['home'] ? ilse.keys['home'] : 0" style="flex-basis: 100%; " )
+            Renderer( :components="ilse.components" )
+
+            // .app( :key="ilse.keys['home'] ? ilse.keys['home'] : 0" style="flex-basis: 100%; " )
                 iframe.external-app(   v-show="get_active_html() !== 'ilse.html' " :src="get_active_html()" )
                 Renderer(              v-show="get_active_html() === 'ilse.html' " :components="ilse.components" unique-key="home" )
 
             StatusLine
 
-        Search( v-if="ilse.is_search_on" )
-        Modals
-        Dialogs
-        Notifications( v-if="ilse.has_loaded" )
+        // Search( v-if="ilse.is_search_on" )
+
 </template>
 <script>
 // eslint-disable-next-line
@@ -37,12 +42,12 @@ import printf                           from "@/classes/printf.js"
 
 // Components
     import Setup                        from "@/components/Setup.vue"
-    import Modals                       from "@/components/Modals.vue"
-    import Dialogs                      from "@/components/Dialogs.vue"
-    import Notifications                from "@/components/Notifications.vue"
     import Renderer                     from "@/components/Components.vue"
     import StatusLine                   from "@/components/StatusLine.vue"
-    import Search                       from "@/components/Search.vue"
+    // import Search                       from "@/components/Search.vue"
+
+// functions
+    import HTML_TOP_MENU                from "@/classes/HTML_TOP_MENU.js"
 
 // functions
     import get_unique_date_id           from "@/classes/get_unique_date_id.js"
@@ -66,21 +71,18 @@ export default {
 
     components: {
 
-        Modals,
-        Dialogs,
-
         Setup,
-        Notifications,
 
         Renderer,
         StatusLine,
 
-        Search,
+        // Search,
     },
 
     data() {
         return {
             is_left_on: false,
+            HTML_TOP_MENU,
             ilse: ilse,
             key: 0,
         }
@@ -97,7 +99,10 @@ export default {
     methods: {
 
         show_info() {
-            ilse.dialog.info( "Hello, World", "This is a test for the 'show_info' " )
+            ilse.htmls.test()
+            // ilse.dialog.info( "Hello, World", "This is a test for the 'show_info' " )
+            // ilse.notification.send( "Hello, World", "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." )
+            
         },
 
         get_home_style() {

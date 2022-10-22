@@ -23,7 +23,6 @@
         br
         br
 
-        // Favorites
 
     .filesystem( v-if="ilse.left_sidebar === 'filesystem' " )
         p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -45,13 +44,11 @@ import printf                           from "@/classes/printf.js"
 
 // Components
     import Notes                        from "@/components/Notes.vue"
-    import Favorites                    from "@/components/Favorites.vue"
     import Outline                      from "@/components/Outline.vue"
 
 // Functions
     import add_component                from "@/classes/add_component.js"
     import update_key                   from "@/classes/update_key.js"
-    import open_modal                   from "@/classes/open_modal.js"
     import if_else                      from "@/classes/if_else.js"
     import set                          from "@/classes/set.js"
     import same                         from "@/classes/same.js"
@@ -65,7 +62,6 @@ export default {
 
     components: {
         Notes,
-        Favorites,
         Outline,
     },
 

@@ -3,7 +3,7 @@
 
     .flex
         img( :src="ilse.require('command.svg')" style="width: 23px; margin-bottom: 6px; " )
-        input.input( v-model="input" autofocus ref="command_pallet" @keydown.escape="turn_off" @keydown.enter="on_keydown_enter" @blur="on_blur" @input="on_input" @focus="on_focus" )
+        input.input( v-model="input" autofocus ref="command_pallet" @keydown.escape="turn_off" @keydown.enter="on_keydown_enter" )
         img( :src="ilse.require('question-mark.svg')" style="width: 20px; margin-bottom: 6px; " )
 
     .flex
@@ -122,10 +122,6 @@ export default {
             return shortcut
         },
 
-        on_focus() {
-            // ilse.keyboard.set_mode("Normal")
-        },
-
         turn_off() {
 
         },
@@ -145,10 +141,6 @@ export default {
 
         },
 
-        on_blur() {
-
-        },
-
         search() {
 
             let input           = this.input.toLowerCase()
@@ -163,9 +155,6 @@ export default {
             this.search_result = result
  
             return
-        },
-
-        on_input() {
         },
 
         setup() {

@@ -12,9 +12,6 @@
             br
             br
 
-            // User Defined Icons
-            Favorites
-
         // 
         iComponent( v-resize="onResize" v-show="ilse.is_left_sidebar_open && !ilse.is_zen" :component="get_menu_component()" :options="{hide_bullet: true }" style="height: 91vh; margin-left: 20px; width: 20%; overflow-x: hidden;  " )
 
@@ -52,7 +49,6 @@ import printf                           from "@/classes/printf.js"
 
 // Components
    import iComponent                    from "@/components/iComponent.vue"
-   import Favorites                     from "@/components/Favorites.vue"
 
 // functions
    import vue_sfc_to_html               from "@/classes/vue_sfc_to_html.js"
@@ -77,7 +73,6 @@ export default {
 
     components: {
         iComponent,
-        Favorites,
     },
 
     watch: {
@@ -152,7 +147,8 @@ export default {
             return ilse.types.get( "right-sidebar" )
         },
 
-        get_component_style( component ) {
+        get_component_style( component = { width: 100 }) {
+            if( !component ) return `flex: 1; flex-basis: 100%; overflow: auto; max-height: 99vh; background: var( --background-color ); border-radius: var( --border-radius ); `; 
             return `flex: 1; flex-basis: ${component.width * 10}%; overflow: auto; max-height: 99vh; background: var( --background-color ); border-radius: var( --border-radius ); `; 
         },
 

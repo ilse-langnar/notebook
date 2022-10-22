@@ -11,5 +11,5 @@ export default {
     inline_code: /(\\`{1})(\\`{1})/,
     highlight: /^==(.*)==/,
     code_block: /(\\`{3}\\n+)(.*)(\\n+\\`{3})/,
-    // note: /\d{14}-[A-Za-z]{8}/,
+    note: /\d{14}-\w{8}:/,
 }

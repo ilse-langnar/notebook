@@ -46,14 +46,16 @@ export default `
             <button x-on:click="console.log('aaa -> ', aaa )" > Increase </button>
         </span> -->
 
-        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('command.svg')" onclick="window.ilse.commands.run('open-modal','command-pallet')" >
+        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('command.svg')" onclick="window.ilse.htmls.add( 'command-pallet', ilse.core['command-pallet'] )" >
 
         <div class="margin-small"> </div>
 
         <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('address-book.svg')" onclick="window.ilse.commands.run('open-modal','configuration')" >
         <div class="margin-small"> </div>
 
-        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('settings.svg')" onclick="window.ilse.commands.run('open-modal','configuration')" >
+        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('settings.svg')" onclick="window.ilse.htmls.add( 'configuration', ilse.core.configuration )" >
+
+        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('building-store.svg')" onclick="window.ilse.htmls.add( 'marketplace', ilse.core.marketplace )" >
         <div class="margin-small"> </div>
 
         <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="this.src = window.ilse.require('folders.svg')" onclick="window.ilse.commands.run('open-modal','folders')" >

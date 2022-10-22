@@ -35,6 +35,9 @@ import printf                           from "@/classes/printf.js"
 // Messager
     import Messager                     from "@/classes/Messager.js"
 
+// Constants
+    import REGULAR_EXPRESSIONS          from "@/classes/REGULAR_EXPRESSIONS.js"
+
 // Components 
     import Note                         from "@/components/Note.vue"
     import Notes                        from "@/components/Notes.vue"
@@ -82,9 +85,23 @@ export default {
             return extract_note_id( string )
         },
 
+        /*
         get_daily_notes() {
-            return ilse.notes.query( cut_string( get_unique_date_id(), 0, 8 ) )
+
+            // return ilse.notes.query( cut_string( get_unique_date_id(), 0, 8 ) )
+
+            // 2022 10 21
+            // 171544-39bwp5nv:
+
+            let today       = cut_string( get_unique_date_id(), 0, 8 )
+            printf( "today -> ", today )
+            let regexp      =  new RegExp( `\n${today}`, "ig" )
+            printf( "regexp -> ", regexp )
+            let result      = ilse.notes.query_regexp( regexp )
+            printf( "result -> ", result )
+
         },
+        */
 
         remove( day ) {
             return remove_array_item( this.days, day )
@@ -134,7 +151,14 @@ export default {
         },
 
         add_day( id ) {
-            push( { id: id, notes: ilse.notes.query( cut_string( id, 0, 8 ) ) }, this.days )
+
+            // push( { id: id, notes: ilse.notes.query( cut_string( id, 0, 8 ) ) }, this.days )
+            // { id: id, notes: ilse.notes.query( cut_string( id, 0, 8 ) ) },
+
+            let today       = cut_string( get_unique_date_id(), 0, 8 )
+            let regexp      =  new RegExp( "^" + today, "ig" ) // #sr/r/2022 10 21 142423
+            let result      = ilse.notes.query_regexp( regexp )
+            push( { id: id, notes: result }, this.days)
             set( this, "key", Math.random() )
         },
 
@@ -153,6 +177,7 @@ export default {
         */
 
         add_today() {
+            // delay( this.add_day, get_unique_date_id(), 1000 )
             delay( this.add_day, get_unique_date_id(), 1000 )
         },
 

@@ -92,7 +92,7 @@ export default {
         },
 
         on_middle_click( event, component ) {
-            ilse.modals.open( "types", { component } )
+            // TODO
         },
 
         on_right_click( event, component ) {

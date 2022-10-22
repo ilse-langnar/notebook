@@ -4,12 +4,14 @@ import printf                           from "@/classes/printf.js"
     // import ilse                         from "@/ilse.js"
 
 // classes
-    import MessagerFactory             from "@/classes/MessagerFactory.js"
+    // import MessagerFactory             from "@/classes/MessagerFactory.js"
+    import Messager                     from "@/classes/Messager.js"
 
 // functions
     import string_to_html               from "@/classes/string_to_html.js"
     import create_window                from "@/classes/create_window.js"
     import html_to_string               from "@/classes/html_to_string.js"
+    import add_component                from "@/classes/add_component.js"
     // import has_permission               from "@/classes/has_permission.js"
 
 function has_permission( name, permission, ilse ) {
@@ -27,19 +29,41 @@ function has_permission( name, permission, ilse ) {
 
 export default function get_plugin_api( name, ilse ) {
 
-    const Messager = new MessagerFactory()
+    // const Messager = new MessagerFactory()
 
-    Messager.on( "message", payload => {
-        printf( "get_plugin_api -> payload -> ", payload )
-    })
-    printf( "@@@@@@@@@@ ilse.store- > ", ilse.store )
-    printf( "@@@@@@@@@@ ilse- > ", ilse )
+    // Messager.on( "message", payload => {
+        // printf( "get_plugin_api -> payload -> ", payload )
+    // })
+
+    // printf( "htmls -> ilse.htmls -> ", ilse.htmls)
+    // printf( "ilse.notes -> ", ilse.notes )
+    // printf( " name === 'global' -> ", name === 'global' )
 
     const api = {
 
+        htmls: ilse.htmls,
+
         store: ilse.store,
 
-        notes: has_permission( name, 'notes', ilse )  ? ilse.notes : null,
+        core: ilse.hash,
+
+        info: {
+            platform: ilse.platform,
+            version:  ilse.env.VUE_APP_VERSION,
+            env:      ilse.env,
+        },
+
+        languages: ilse.constants.SUPPORTED_LANGUAGES,
+
+        keys: ilse.keyboard.keys,
+
+        plugins: ilse.plugin_manager.list,
+
+        markdown: ilse.markdown,
+        add_component: add_component,
+
+        // notes: name === "global" ? ilse.notes.list : (has_permission( name, 'notes', ilse )  ? ilse.notes : null),
+        query: ilse.notes.query.bind( ilse.notes ),
 
         command: function() {}, // todo
         autocomplete: function() {}, // todo
@@ -47,10 +71,25 @@ export default function get_plugin_api( name, ilse ) {
 
         require: ilse.require,
 
-        io: {
-            in:   Messager.on.bind( Messager ),
-            out:  Messager.emit.bind( Messager ),
+        fetch: {
+            json: async function( url ) {
+                let res     = await fetch( url )
+                let json    = await res.json()
+                return json
+            },
+            text: async function( url ) {
+                let res     = await fetch( url )
+                let text    = await res.text()
+                return text
+            },
         },
+
+        Messager: Messager,
+
+        // io: {
+            // in:   Messager.on.bind( Messager ),
+            // out:  Messager.emit.bind( Messager ),
+        // },
 
         clipboard: {
             read:   has_permission( name, 'clipboard', ilse )  ? ilse.clipboard.read  : null,
@@ -79,11 +118,7 @@ export default function get_plugin_api( name, ilse ) {
         notify: ilse.notification.send.bind( ilse.notification ),
 
         keyboard: {
-            add: ilse.keyboard.add.bind( ilse.keyboard )
-        },
-
-        modals: {
-            open: ilse.modals.open.bind( ilse.modals ),
+            add: ilse.keyboard.add.bind( ilse.keyboard ),
         },
 
         commands: {
@@ -95,6 +130,7 @@ export default function get_plugin_api( name, ilse ) {
                 ilse.commands.add( args )
             }.bind( ilse.commands ),
 
+            list: ilse.commands.commands,
             run: ilse.commands.run.bind( ilse.commands ),
         },
 

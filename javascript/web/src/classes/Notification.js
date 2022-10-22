@@ -6,6 +6,9 @@ import printf                   from "@/classes/printf.js"
 // Messager
     import Messager                     from "@/classes/Messager.js"
 
+// Constants
+    import notification                 from "@/classes/HTML_NOTIFICATION.js"
+
 
 class Notification {
 
@@ -14,30 +17,29 @@ class Notification {
         // this.send({ title: "Title", text: "Description" })
     }
 
-    send( title, text,
-        options = {
-            theme:     "is-dark",
-            type:      "normal",
-            time:      3000,
-            on_close:  null,
-            on_cancel: null
-        }
-    ) {
+        // this.items.push( item )
+    send( title, text, options = { theme: "is-dark", type: "normal", time: 3000, on_close: null, on_cancel: null }) {
 
+        /*
         let item = {
             title,
             text,
-
             type:       options.type,
             theme:      options.theme,
             time:       options.time,
             on_close:   options.on_close  || function(){},
             on_cancel:  options.on_cancel || function(){},
         }
+        */
 
-        this.items.push( item )
-        this.delete_after_time( item )
-        return item
+        let id   = "notification-" + Math.random()
+        let html = notification
+            .replace( "$title", title )
+            .replace( "$description", text )
+
+        ilse.htmls.add( id, html )
+        setTimeout( () => { ilse.htmls.remove( id ) }, options.time )
+        return id
     }
 
     delete_after_time( item ) {
