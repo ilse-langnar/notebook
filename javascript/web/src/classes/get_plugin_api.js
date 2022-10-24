@@ -45,6 +45,8 @@ export default function get_plugin_api( name, ilse ) {
 
         store: ilse.store,
 
+        electron: ilse.electron,
+
         core: ilse.hash,
 
         info: {
@@ -60,10 +62,13 @@ export default function get_plugin_api( name, ilse ) {
         plugins: ilse.plugin_manager.list,
 
         markdown: ilse.markdown,
+
         add_component: add_component,
 
         // notes: name === "global" ? ilse.notes.list : (has_permission( name, 'notes', ilse )  ? ilse.notes : null),
+        add_note: ilse.notes.add.bind( ilse.notes ),
         query: ilse.notes.query.bind( ilse.notes ),
+        query_regexp: ilse.notes.query_regexp.bind( ilse.notes ),
 
         command: function() {}, // todo
         autocomplete: function() {}, // todo
@@ -122,6 +127,7 @@ export default function get_plugin_api( name, ilse ) {
         },
 
         commands: {
+            history: ilse.history,
             add: function( args ) {
 
                 args.props.is_plugin = true

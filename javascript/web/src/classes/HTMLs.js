@@ -9,6 +9,7 @@ const printf                        = console.log
     import HTML_CONFIGURATION           from "@/classes/HTML_CONFIGURATION.js"
     import HTML_MARKETPLACE             from "@/classes/HTML_MARKETPLACE.js"
     import HTML_COMMAND_PALLET          from "@/classes/HTML_COMMAND_PALLET.js"
+    import HTML_REFERENCES              from "@/classes/HTML_REFERENCES.js"
 
 export default class HTMLs {
 
@@ -32,7 +33,9 @@ export default class HTMLs {
         // printf( "HTML_SEARCH -> ", HTML_SEARCH )
         // this.add( "configuration", HTML_CONFIGURATION )
         // this.add( "marketplace",  HTML_MARKETPLACE )
-        this.add( "command-pallet", HTML_COMMAND_PALLET )
+        // this.add( "command-pallet", HTML_COMMAND_PALLET )
+        printf( "Adding ..." )
+        this.add( "references", HTML_REFERENCES )
     }
 
     add( id, html ) {

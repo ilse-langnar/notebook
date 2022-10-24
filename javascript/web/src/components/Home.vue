@@ -1,12 +1,14 @@
 <template lang="pug">
-.home( :key="key" )
+.home( :key="ilse.keys.home" )
 
-    .loading( v-if="!ilse.target_directories.length || !ilse.has_loaded " )
-        Setup
+    // p has_loaded {{ilse.has_loaded}}
+    // p has_loaded {{ilse.target_directories.length}}
+
+    #setup( v-show="!ilse.target_directories.length || !ilse.has_loaded " v-html="HTML_SETUP" )
 
     // .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded && has_apps()" :data-theme="get_data_theme" :style="ilse.config.is_resize_mode_on ? 'overflow: hidden;' : '' " )
 
-    .ilse( v-if="ilse.target_directories.length && ilse.has_loaded && ilse.notes.has_loaded && has_apps()" :data-theme="get_data_theme" )
+    .ilse( v-show="ilse.target_directories.length && ilse.has_loaded" :data-theme="get_data_theme" )
 
         // button.button( @click="info" ) Info
         .html-render( v-for="( item, index ) in ilse.htmls.list" :key="index" )
@@ -25,7 +27,8 @@
                 iframe.external-app(   v-show="get_active_html() !== 'ilse.html' " :src="get_active_html()" )
                 Renderer(              v-show="get_active_html() === 'ilse.html' " :components="ilse.components" unique-key="home" )
 
-            StatusLine
+            .status-line( v-html="HTML_STATUS_LINE" )
+            // StatusLine
 
         // Search( v-if="ilse.is_search_on" )
 
@@ -41,13 +44,14 @@ import printf                           from "@/classes/printf.js"
     import Messager                     from "@/classes/Messager.js"
 
 // Components
-    import Setup                        from "@/components/Setup.vue"
     import Renderer                     from "@/components/Components.vue"
-    import StatusLine                   from "@/components/StatusLine.vue"
-    // import Search                       from "@/components/Search.vue"
+    // import StatusLine                   from "@/components/StatusLine.vue"
 
 // functions
     import HTML_TOP_MENU                from "@/classes/HTML_TOP_MENU.js"
+    import HTML_SETUP                   from "@/classes/HTML_SETUP.js"
+    import HTML_STATUS_LINE             from "@/classes/HTML_STATUS_LINE.js"
+    printf( "HTML_STATUS_LINE -> ", HTML_STATUS_LINE )
 
 // functions
     import get_unique_date_id           from "@/classes/get_unique_date_id.js"
@@ -70,21 +74,17 @@ export default {
     name: "Home",
 
     components: {
-
-        Setup,
-
         Renderer,
-        StatusLine,
-
-        // Search,
+        // StatusLine,
     },
 
     data() {
         return {
             is_left_on: false,
             HTML_TOP_MENU,
+            HTML_SETUP,
+            HTML_STATUS_LINE,
             ilse: ilse,
-            key: 0,
         }
     },
 
@@ -99,10 +99,18 @@ export default {
     methods: {
 
         show_info() {
+
+            window.Alpine.data('ref',
+                function() {
+                    return {
+                        value:11111111111
+                    }
+                }
+            )
+            printf( "window.Alpine -> ", window.Alpine.data('ref') )
+
             ilse.htmls.test()
-            // ilse.dialog.info( "Hello, World", "This is a test for the 'show_info' " )
-            // ilse.notification.send( "Hello, World", "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." )
-            
+
         },
 
         get_home_style() {
@@ -131,21 +139,6 @@ export default {
         get_app_icon_style( item ) {
             let name = ilse.config.apps[0]
             if( name === item ) return `border-bottom: 1px dashed #000; `
-        },
-
-        update_ilse() {
-            this.key = Math.random()
-        },
-
-        select_app( name ) {
-            let index               = ilse.config.apps.indexOf(name)
-            let is_already_selected = ilse.config.apps[0] === name
-                if( is_already_selected ) return
-
-            let new_apps           = move_array_item( ilse.config.apps, index, 0 )
-                ilse.config.apps       = new_apps
-
-            this.update_ilse()
         },
 
         get_icon( name ) {
@@ -249,6 +242,20 @@ export default {
 
         setup() {
 
+            printf( "Math.random() -> ", Math.random() )
+            printf( "Math.random() -> ", Math.random() )
+            printf( "Math.random() -> ", Math.random() )
+
+            document.addEventListener('alpine:init', () => {
+                printf( "!!!! Home.vue -> alpine:init" )
+                Alpine.data('dropdown', () => ({
+                    open: false,
+                    toggle() {
+                        this.open = ! this.open
+                    }
+                }))
+            })
+
 
             // var result = pipe( Math.min, Math.abs, Math.sqrt )(3, -9, 0, 2, 5)
 
@@ -266,9 +273,7 @@ export default {
             printf( "result2 -> ", result2 )
 
 
-            setTimeout( () => {
-                this.key= Math.random()
-            }, 1000 )
+            // setTimeout( () => { this.key= Math.random() }, 1000 )
 
             // delay( update_key, this, 1000 )
         },

@@ -31,6 +31,55 @@ export default class Electron {
         this.setup()
     }
 
+    setup_target_folder() {
+
+        this.ipc.send( "open-file-dialog" )
+
+        ilse.electron.ipc.on( "selected-file", ( event , payload ) => {
+
+            // BUGFIX: We should not do anything if it's already defined
+            let has_directory     = !!ilse.target_directories.length
+                if( has_directory ) return
+
+            // BUGFIX: something wrong with the files
+            let path              = payload[0]
+                printf( "path -> ", path )
+                if( !path ) return
+
+            let list              = []
+                list.push( path )
+            printf( "list -> ", list )
+            let stringified_list  = JSON.stringify( list )
+
+            window.localStorage.setItem( "target-directories", stringified_list )
+
+            ilse.target_directories       = window.localStorage.getItem( "target-directories" )
+            setTimeout( () => { window.location.reload() }, 1000 )
+        })
+
+    }
+
+    async open_file_dialog() {
+
+        printf( "open_file_dialog 1" )
+        this.ipc.send( "open-file-dialog" )
+        printf( "open_file_dialog 2" )
+
+        return new Promise((resolve, reject) => {
+            printf( "open_file_dialog 3" )
+
+            ilse.electron.ipc.on( "selected-file", ( event , payload ) => {
+                try {
+                    resolve( event, payload )
+                } catch( e ) {
+                    reject( e )
+                }
+            })
+
+        })
+
+    }
+
     setup() {
         // this.enable_context_menu()
         this.enable_cors()
@@ -71,24 +120,18 @@ export default class Electron {
         };
         const session = electron.remote.session
         session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback) => {
-            printf( "details -> ", details )
-            printf( "details.requestHeaders -> ", details.requestHeaders )
-            printf( "1" )
-            printf( "details.requestHeaders -> ", details.requestHeaders )
-            printf( "details.requestHeaders -> ", details.requestHeaders.Origin )
             details.requestHeaders.Origin = null;
             // details.requestHeaders['Origin'] = null;
-            printf( "2" )
-            printf( "details.headers -> ", details.headers )
             details.requestHeaders['Access-Control-Allow-Origin'] = [ 'https://github.com'  ];
             // details.responseHeaders['Access-Control-Allow-Origin'] = [ 'http://localhost:3000'  ];
-
             // details.headers['Origin'] = null; printf( "2" )
-            printf( "3" )
             callback({ requestHeaders: details.requestHeaders  })
-            printf( "4" )
-
         });
+
+    }
+
+    select_file( fn ) {
+
 
     }
 

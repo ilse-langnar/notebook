@@ -13,21 +13,20 @@
         @contextmenu="function(){}" 
 
         style="width: 20px; cursor: pointer; margin: 0.5em; "
-        :title="get_title(component)"
-        )
+        :title="get_title(component)" )
 
+    component( v-if="component && component.component" :is="component.component.default" :component="component" :style="get_component_margin(component)" )
 
-    .embed( v-if="component.type === 'embed' " )
+    // .embed( v-if="component.type === 'embed' " )
         embed( :src="get_embed_src(component.component)" )
 
     // .vue( v-if="component.get_component() && ilse.types.get(component.type).type === 'vue' " )
 
     // p {{ component.type === 'vue' ? 'AAAA' : "NOO" }}
-    .vue( v-if="component.type === 'vue' " )
-        component( :is="component.component.default" :component="component" :style="get_component_margin(component)" )
+    // .vue( v-if="component.type === 'vue' " )
 
     // .html-css-and-javascript( v-if="ilse.types.get(component.type).type === 'html' " )
-    .html-css-and-javascript( v-if="component.type === 'html' " )
+    // .html-css-and-javascript( v-if="component.type === 'html' " )
         div( :id="component.id" ) {{embed_into_html(component)}}
 
 </template>

@@ -60,6 +60,8 @@ import printf                   from "@/classes/printf.js"
     import HTML_MARKETPLACE             from "@/classes/HTML_MARKETPLACE.js"
     import HTML_CONFIGURATION           from "@/classes/HTML_CONFIGURATION.js"
     import HTML_COMMAND_PALLET          from "@/classes/HTML_COMMAND_PALLET.js"
+    import HTML_REFERENCES              from "@/classes/HTML_REFERENCES.js"
+    import HTML_GHOST_NOTE              from "@/classes/HTML_GHOST_NOTE.js"
 
 // Frame
 const JSFrame = require("@/assets/jsframe.min.js")
@@ -110,6 +112,8 @@ export default class Ilse {
             "marketplace":          HTML_MARKETPLACE,
             "configuration":        HTML_CONFIGURATION,
             "command-pallet":       HTML_COMMAND_PALLET,
+            "reference":            HTML_REFERENCES,
+            "ghost-note":           HTML_GHOST_NOTE,
             // "body.native":          HTML_BODY,
             // "status-line.native":   HTML_STATUS_LINE,
         }
@@ -117,7 +121,7 @@ export default class Ilse {
         // this.list                   = [ "<ilse-top-menu style='display: block;' >", "<ilse-body>", "<ilse src='tabs.html'>", "<ilse-footer>" ] // can be added/removed
 
         this.components             = []
-        this.store                  = { ui: { } }
+        this.store                  = { ui: {}, status_line: {} }
 
         this.name                   = "Ilse Langnar's Notebook"
         this.key                    = "ilse-key"
@@ -313,6 +317,7 @@ export default class Ilse {
     loaded() {
         this.has_loaded             = true
         Messager.emit( "~ilse", "loaded", this )
+        // setTimeout( () => { this.keys.home              = Math.random() }, 1000 )
     }
 
     async save() {

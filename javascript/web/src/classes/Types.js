@@ -54,32 +54,6 @@ class componentTypes {
         })
 
         this.add({
-            id: "command-pallet",
-            name: "Command Pallet",
-            description: "",
-            img: this.ilse.require("command.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/CommandPallet.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
-            id: "file",
-            name: "File",
-            description: "",
-            img: this.ilse.require("file.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/File.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
             id: "left-sidebar",
             name: "Left Sidebar",
             description: "",

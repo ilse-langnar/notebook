@@ -73,7 +73,7 @@ export default `
     x-data="{ ilse: window.ilse }"
     >
 
-    <img class="is-pulled-right" style="width: 20px; cursor: pointer;" onclick="ilse.htmls.list.shift()" src="${NULL_IMG}" onload="this.src = window.ilse.require('x.svg')" />
+    <img class="is-pulled-right" style="width: 20px; cursor: pointer;" onclick="ilse.htmls.list.shift()" :src="window.ilse.require('x.svg')" />
 
     <h1> Configuration</h1>
 
@@ -117,7 +117,7 @@ export default `
             <li style="display: flex; float: left; margin: 3px; " >
                 <input style="flex: 1; flex-basis: 40%; " x-model="color.combo" />
                 <input style="flex: 1; flex-basis: 40%; " x-model="color.command" />
-                <img   style="" style="width: 10px; cursor: pointer;" src="${NULL_IMG}" onload="this.src = window.ilse.require('x.svg')" />
+                <img   style="" style="width: 10px; cursor: pointer;" :src="window.ilse.require('x.svg')" />
             </li>
 
         </template>

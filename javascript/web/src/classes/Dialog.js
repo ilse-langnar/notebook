@@ -54,14 +54,8 @@ export default class Dialog {
 
             Messager.on( "~dialog.vue", ( action, payload ) => {
 
-                printf( "Dialog.js -> confirm -> action -> ", action )
-                printf( "Dialog.js -> confirm -> payload -> ", payload )
-                printf( "id -> ", id )
-
                 if( action === "done" && id === payload.id ) {
-                    printf( "before -> ilse.htmls.list -> ", ilse.htmls.list )
                     ilse.htmls.remove( id )
-                    printf( "after -> ilse.htmls.list -> ", ilse.htmls.list )
                     resolve( true )
                 } else if ( action === "rejected" && id === payload.id){
                     ilse.htmls.remove( id )

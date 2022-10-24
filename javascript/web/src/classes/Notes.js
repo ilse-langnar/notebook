@@ -16,6 +16,7 @@ import printf                               from "@/classes/printf.js"
     import get_spaces_count                 from "@/classes/get_spaces_count.js"
     import map                              from "@/classes/map.js"
     import keys                             from "@/classes/keys.js"
+    import values                           from "@/classes/values.js"
     import get_note_index                   from "@/classes/get_note_index.js"
 
 export default class Notes {
@@ -82,18 +83,24 @@ export default class Notes {
     }
 
     async get_notes() {
+        printf( "@@@@ get_notes " )
 
+        printf( "@@@@ get_notes 1" )
         let textfile         = await this.filesystem.file.read.async( "notes" )
 
+            printf( "@@@@ get_notes 2" )
             if( !textfile ) {
+                printf( "@@@@ get_notes 3" )
                 this.list           = []
-                this._after_we_have_the_notes()
+                ilse.loaded()
                 return
             }
 
+        printf( "@@@@ get_notes 4" )
         // Process note
         let notes      = textfile.split("\n")
 
+        printf( "@@@@ get_notes 5" )
         notes.map( (note, index) => {
 
             if( !note ) return
@@ -109,151 +116,28 @@ export default class Notes {
 
         })
 
-        this._after_we_have_the_notes()
+        printf( "@@@@ get_notes 7" )
+
+        ilse.loaded()
     }
 
-    // splut
-    get_note_parent_v2( note ) {
-
-        let list        = this.list
-        let index       = get_note_index( note )
-        let second_list = list.slice( 0, index )
-
-        let len     = second_list.length
-        for (var i = len - 1; i >= 0; i--) {
-            if( second_list[i].depth < note.depth ) return this.list[i]
-        }
-        return null
-    }
-
-    // Get note parent?
-    get_note_parent( note ) {
-
-        let list   = this.list
-
-        let len    = this.list.length
-        for (var i = len - 1; i >= 0; i--) {
-            if( note.depth > this.list[i].depth ) return this.list[i]
-        }
-        return null
-    }
-
-    add_parent( note ) {
-        let id     = note.split(":")[0].trim().replace(":", "")
-        let parent = this.list[id]
-        let list   = Object.values(this.list)
-        let index  = list.indexOf(parent)
-            if( parent && parent.children ) parent.children.push( id )
-    }
-
-    _after_we_have_the_notes() {
-        this.has_loaded = true
+    // _after_we_have_the_notes() {
+        // this._after_we_have_the_notes()
+        // printf( ">>> Notes.js -> _after_we_have_the_notes -" )
+        // this.has_loaded = true
+        // ilse.loaded()
+        // ilse.has_loaded = true
+        // printf( "ilse.has_loaded -> ", ilse.has_loaded )
+        // Messager.emit( "~ilse", "loaded", this )
+        // ilse.has_loaded = true
         // this._scan_tags()
         // this._scan_links()
-    }
-
-    _scan_tags() {
-
-        let tags        = []
-        let has_no_scan = false
-        let list        = Object.values( this.list )
-
-        list.map( note => {
-
-            tags  = this.ilse.utils.extract_tags( note )
-
-            has_no_scan = tags.indexOf( "#!scan" ) !== -1 || tags.indexOf( "#!" ) !== -1  || tags.indexOf( "#!!!" ) !== -1
-            if( has_no_scan ) return
-
-            tags.map( tag => {
-                Messager.emit( "~notes", "tag", { tag, note })
-            })
-
-        })
-    }
-
-    // Create file for links: I need to write a [[Psycology Paper]] -> does "Psycology Paper.md" exists?
-    async _scan_links() {
-
-        let notes            = this.list
-        let links
-        let exists
-        let is_media
-        let has_nickname
-
-        // [ "20220122113043: Top [[Psycology Papers]]", "20220122113043: I have a new [[Idea]]" ]
-        for( const note of notes ) {
-
-            // links              = this.ilse.utils.extract_tokens_by_delimiters( note.content,  /^\[\[.*/, /\]\]$/ ) // "Something to [[Write]]" -> [ "Write" ]
-            links              = extract_tokens_by_regexp_delimiters( note.content,  /^\[\[.*/, /\]\]$/ ) // "Something to [[Write]]" -> [ "Write" ]
-
-            // [ [ "[[Javascript]]", "[[Psycology Papers]]" ] ]
-            for( let link of links ) {
-
-                // BUGFIX: Don't process : ![[img.png]] ![[music.mp4]] as a link
-                    is_media = this.ilse.utils.has_media_extention( link )
-                    if( is_media ) continue //skip
-
-                // Nroamlize [[Psycology Papers]] -> Psycology\ Papers.md
-                    link = link.replace( "[[", "" ).replace( "]]", "" ) // "[[Psycology Papers]]" -> "Psycology Papers"
-                    link = link + ".md" // "Psycology Papers" -> "Psycology Papers.md"
-                    link = link.trim() // " Psycology Papers .md" -> "Psycology Papers.md"
-
-                // if not exists, create
-                    try {
-                        exists         = await this.filesystem.file.exists.async( link )// link - > "Psycology Papers.md"
-                    } catch( e ) {
-                        exists = false
-                    }
-
-                // For [[ Example | Another Name ]]
-                    has_nickname =  link.indexOf("|") !== -1
-                        if( has_nickname ) return
-
-                // Is an actual file, then create
-                    // if( !exists ) {
-                        // await this.filesystem.file.write.async( link, link )
-                    // }
-
-                Messager.emit( "~notes", "link", { link, note } )
-            }
-        }
-
-        this.ilse.links.is_loading = false
-
-        Messager.emit( "~notes", "loaded", this )
-
-    }
-
-    /*
-    // Like query() but return the index
-    query_index( q, limit = null ) {
-
-        // FEATURE: O(n) instant
-            if( q === "" ) return []
-
-        let result    = []
-        let list      = this.list
-        let has_match = false
-        let index
-
-        list.map( (note, index) => {
-            has_match = note.indexOf(q) !== -1
-                if( !has_match ) return
-            result.push( index )
-        })
-
-        if( typeof(limit) === "number" ) {
-            result.length = limit
-            return result
-        } else {
-            return result
-        }
-    }
-    */
+    // }
 
     // ilse.notes.query_regexp( /<string>s?/ ) = for plurals, I might also use this in = References / .? <term> .?  / = for more iclusive query
     query_regexp( q = / / , limit = null, log ) {
+
+        printf( "Notes.js -> query_regexp" )
 
         let name = "query-" + q
 
@@ -264,8 +148,11 @@ export default class Notes {
         let has_match = false
         let result    = []
         let reg_exp
-        let list      = Object.values( this.list ) // TODO: make us of values
+        let list      = values( this.list ) // TODO: make us of values
         let n
+        printf( "Object.values(this.list) -> ", Object.values(this.list) )
+        printf( "Notes.js -> query_regexp -> this.list -> ", this.list )
+        printf( "Notes.js -> query_regexp -> list -> ", list )
 
         list.map( note => {
             n = `${note.id}: ${note.content}`
@@ -295,7 +182,7 @@ export default class Notes {
 
         let has_match = false
         let result    = []
-        let list      = Object.values( this.list ) // TODO: make us of values
+        let list      = values( this.list ) // TODO: make us of values
         let n
 
         list.map( note => {
@@ -351,25 +238,4 @@ export default class Notes {
     delete( id ) {
         delete this.list[id]
     }
-
-    add_list( list ) {
-
-        /*
-        let instance
-
-        list.map( (item, index) => {
-            if( index === 0 ) {
-                item = `${get_note_id()}: ${item}`
-                instance = new this.ilse.classes.Note( item )
-                this.list.push( instance )
-            } else {
-                item = `    ${get_note_id()}: ${item}`
-                instance = new this.ilse.classes.Note( item )
-                this.list.push( instance )
-            }
-        })
-        */
-
-    }
-
 }

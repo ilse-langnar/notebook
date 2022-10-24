@@ -24,7 +24,6 @@ import printf                           from "@/classes/printf.js"
 // Components
     import Notes                        from "@/components/Notes.vue"
     import Outline                      from "@/components/Outline.vue"
-    import File                         from "@/components/File.vue"
 
 // functions
     import move_array_item              from "@/classes/move_array_item.js"
@@ -46,6 +45,7 @@ import printf                           from "@/classes/printf.js"
     import add_component                from "@/classes/add_component.js"
     import add_array_item               from "@/classes/add_array_item.js"
     import get_index_of                 from "@/classes/get_index_of.js"
+    import create_window                from "@/classes/create_window.js"
 
 export default {
 
@@ -72,7 +72,6 @@ export default {
     components: {
         Notes,
         Outline,
-        File,
     },
 
     methods: {
@@ -103,15 +102,26 @@ export default {
 
         on_note_link_click( payload ) {
 
+
             if_else(
                 payload.event.shiftKey,
-                yes => { this.path.push( payload.link ) },
+                yes => {
+                    this.path.push( payload.link )
+                    },
                 no  => null,
             )
 
             if_else(
                 payload.event.ctrlKey,
-                yes => add_component({ type: "file", props: { file: payload.link }, width: 12 }),
+                yes => {
+                    let HTML = ilse.hash.reference.replace( /\$file/gi, payload.link )
+                    printf( "HTML -> ", HTML )
+                    create_window({ title: "References", pure: true, html: HTML })
+                    // ilse.htmls.add( "reference", HTML )
+                    // create_window
+                    // add_component({ type: "file", props: { file: payload.link }, width: 12 }),
+                    // ilse.htmls.add( "reference", ilse.hash.reference.replace( "$file", payload.link ))
+                },
                 no  => null
             )
 

@@ -10,14 +10,18 @@
             p.fitem &#128269;
         .options.centered
 
-        Outline( :notes="get_note_days(day.notes)" )
+        Outline( :notes="get_note_days(day.notes)" :key="Math.random()" )
 
-        GhostNote( v-if="day.notes.length" @on-enter="on_ghost_note_enter" @on-blur="on_ghost_note_blur" :payload="day" :options="{ placeholder: '' }" )
+        .ghost-note( v-html="ilse.hash['ghost-note']" )
+        // GhostNote( v-if="day.notes.length" @on-enter="on_ghost_note_enter" @on-blur="on_ghost_note_blur" :payload="day" :options="{ placeholder: '' }" )
 
-        .no-notes( v-if="!day.notes.length" )
+        // .no-notes( v-if="!day.notes.length" )
             GhostNote(                     @on-enter="on_ghost_note_enter" @on-blur="on_ghost_note_blur" :payload="day" :options="{ placeholder: '' }")
 
-        References( :file="get_pretty_date(day) + '.md'" ref="daily-notes-references" )
+        .htmll( v-html="ilse.hash.reference.replace( '$file', get_pretty_date(day) )" )
+
+        // References( :file="get_pretty_date(day)'" )
+        // References( :file="get_pretty_date(day) + '.md'" )
         .space
 
     button.slick-button( @click="load_day_before" :title="$t('load_day_before')" ) Load More
@@ -37,12 +41,13 @@ import printf                           from "@/classes/printf.js"
 
 // Constants
     import REGULAR_EXPRESSIONS          from "@/classes/REGULAR_EXPRESSIONS.js"
+    import HTML_REFERENCES              from "@/classes/HTML_REFERENCES.js"
 
 // Components 
     import Note                         from "@/components/Note.vue"
     import Notes                        from "@/components/Notes.vue"
-    import GhostNote                    from "@/components/GhostNote.vue"
-    import References                   from "@/components/References.vue"
+    // import GhostNote                    from "@/components/GhostNote.vue"
+    // import References                   from "@/components/References.vue"
     import Outline                      from "@/components/Outline.vue"
 
 // functions
@@ -70,8 +75,8 @@ export default {
     components: {
         Note,
         Notes,
-        GhostNote,
-        References,
+        // GhostNote,
+        // References,
         Outline,
     },
 
@@ -151,6 +156,7 @@ export default {
         },
 
         add_day( id ) {
+            printf( "DailyNotes.vue -> add_day -> id -> ", id )
 
             // push( { id: id, notes: ilse.notes.query( cut_string( id, 0, 8 ) ) }, this.days )
             // { id: id, notes: ilse.notes.query( cut_string( id, 0, 8 ) ) },
@@ -158,32 +164,36 @@ export default {
             let today       = cut_string( get_unique_date_id(), 0, 8 )
             let regexp      =  new RegExp( "^" + today, "ig" ) // #sr/r/2022 10 21 142423
             let result      = ilse.notes.query_regexp( regexp )
-            push( { id: id, notes: result }, this.days)
+                printf( "result -> ", result )
+
+            push({ id: id, notes: result }, this.days )
             set( this, "key", Math.random() )
         },
 
-        /*
-        // When bottom scrolling, load the previous day.
-        scroll_listener() {
-
-            let _this = this
-            window.addEventListener('scroll', function(e) {
-                if( (window.innerHeight + window.scrollY) >= document.body.offsetHeight ) {
-                    _this.load_day_before()
-                }
-            }, false )
-
-        },
-        */
-
         add_today() {
+            printf( "add_today ------------------ " )
             // delay( this.add_day, get_unique_date_id(), 1000 )
-            delay( this.add_day, get_unique_date_id(), 1000 )
+            delay( this.add_day, get_unique_date_id(), 2000 )
+        },
+
+        listen() {
+
+            Messager.on( "~ilse", (action, payload) => {
+
+                printf( "~ilse -> action -> ", action )
+                printf( "~ilse -> payload -> ", payload )
+
+                if( action === "loaded" ) {
+                    this.add_today()
+                }
+            })
+
         },
 
         setup() {
             // this.scroll_listener() 
-            this.add_today()
+            this.listen()
+            // this.add_today()
         },
 
     },
