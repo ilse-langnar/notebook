@@ -47,6 +47,11 @@ export default function get_plugin_api( name, ilse ) {
 
         electron: ilse.electron,
 
+        configutation: {
+            save: ilse.config.save.bind( ilse.config ),
+            load: ilse.config.load.bind( ilse.config ),
+        },
+
         core: ilse.hash,
 
         info: {
@@ -65,6 +70,7 @@ export default function get_plugin_api( name, ilse ) {
 
         add_component: add_component,
 
+        notes: ilse.notes,
         // notes: name === "global" ? ilse.notes.list : (has_permission( name, 'notes', ilse )  ? ilse.notes : null),
         add_note: ilse.notes.add.bind( ilse.notes ),
         query: ilse.notes.query.bind( ilse.notes ),

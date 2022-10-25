@@ -29,7 +29,6 @@ Messager.on( "~commands", (action, payload) => {
         same(action, "exec"),
         yes => {
             debounce( () => { send_message( "~status-line", "shrink" ) }, {}, ilse.keys, 10 )
-            // setTimeout( () => { Messager.emit( "~status-line", 'shrink' ) }, 801 )
         },
     )
 

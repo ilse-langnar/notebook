@@ -14,14 +14,16 @@
         .html-render( v-for="( item, index ) in ilse.htmls.list" :key="index" )
             .div( v-html="item.html" :id="item.id" )
 
-        button.button( @click="show_info" ) Show Info
+        .top-menu( v-html="HTML_TOP_MENU" )
+        DailyNotes
+
+        // button.button( @click="show_info" ) Show Info
         // So Dark mode works with zen
-        .wrapper( :style="get_home_style()" )
+        // .wrapper( :style="get_home_style()" )
             // .top-menu( v-html="ilse.get_html('top-menu')" )
-            .top-menu( v-html="HTML_TOP_MENU" )
             // button.button( @click="add" ) Add
 
-            Renderer( :components="ilse.components" )
+            // Renderer( :components="ilse.components" )
 
             // .app( :key="ilse.keys['home'] ? ilse.keys['home'] : 0" style="flex-basis: 100%; " )
                 iframe.external-app(   v-show="get_active_html() !== 'ilse.html' " :src="get_active_html()" )
@@ -44,7 +46,8 @@ import printf                           from "@/classes/printf.js"
     import Messager                     from "@/classes/Messager.js"
 
 // Components
-    import Renderer                     from "@/components/Components.vue"
+    // import Renderer                     from "@/components/Components.vue"
+    import DailyNotes                   from "@/components/DailyNotes.vue"
     // import StatusLine                   from "@/components/StatusLine.vue"
 
 // functions
@@ -74,7 +77,7 @@ export default {
     name: "Home",
 
     components: {
-        Renderer,
+        DailyNotes,
         // StatusLine,
     },
 

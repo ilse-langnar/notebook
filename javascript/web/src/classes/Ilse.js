@@ -62,6 +62,7 @@ import printf                   from "@/classes/printf.js"
     import HTML_COMMAND_PALLET          from "@/classes/HTML_COMMAND_PALLET.js"
     import HTML_REFERENCES              from "@/classes/HTML_REFERENCES.js"
     import HTML_GHOST_NOTE              from "@/classes/HTML_GHOST_NOTE.js"
+    import HTML_OUTLINE                 from "@/classes/HTML_OUTLINE.js"
 
 // Frame
 const JSFrame = require("@/assets/jsframe.min.js")
@@ -114,6 +115,7 @@ export default class Ilse {
             "command-pallet":       HTML_COMMAND_PALLET,
             "reference":            HTML_REFERENCES,
             "ghost-note":           HTML_GHOST_NOTE,
+            "outline":              HTML_OUTLINE,
             // "body.native":          HTML_BODY,
             // "status-line.native":   HTML_STATUS_LINE,
         }

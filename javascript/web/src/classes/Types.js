@@ -26,60 +26,6 @@ class componentTypes {
 
     add_default_component_types() {
 
-        this.add({
-            id: "outline",
-            name: "Outline",
-            description: "Outline",
-            img: this.ilse.require("menu.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/Outline.vue"),
-            props: {
-                is_internal: true,
-                is_hidden: true,
-            }
-        })
-
-        this.add({
-            id: "daily-notes",
-            name: "Daily Notes",
-            description: "",
-            img: this.ilse.require("calendar.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/DailyNotes.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
-            id: "left-sidebar",
-            name: "Left Sidebar",
-            description: "",
-            img: this.ilse.require("menu.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/LeftSidebar.vue"),
-            props: {
-                is_internal: true,
-            }
-        })
-
-        this.add({
-            id: "note",
-            name: "Note",
-            description: "A note editor for a note and its children",
-            img: this.ilse.require("point.svg"),
-            type: "vue",
-            mode: "inline",
-            component: require("@/components/Note.vue"),
-            props: {
-                is_internal: true,
-                note: {},
-            }
-        })
-
     }
 
     get( id ) {

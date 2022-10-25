@@ -10,13 +10,10 @@
             p.fitem &#128269;
         .options.centered
 
-        Outline( :notes="get_note_days(day.notes)" :key="Math.random()" )
+        .outline( v-html="ilse.hash.outline.replace('$json', JSON.stringify({ notes: get_note_days(day.notes)  }) )" )
+        // Outline( :notes="get_note_days(day.notes)" :key="Math.random()" )
 
         .ghost-note( v-html="ilse.hash['ghost-note']" )
-        // GhostNote( v-if="day.notes.length" @on-enter="on_ghost_note_enter" @on-blur="on_ghost_note_blur" :payload="day" :options="{ placeholder: '' }" )
-
-        // .no-notes( v-if="!day.notes.length" )
-            GhostNote(                     @on-enter="on_ghost_note_enter" @on-blur="on_ghost_note_blur" :payload="day" :options="{ placeholder: '' }")
 
         .htmll( v-html="ilse.hash.reference.replace( '$file', get_pretty_date(day) )" )
 
@@ -42,13 +39,11 @@ import printf                           from "@/classes/printf.js"
 // Constants
     import REGULAR_EXPRESSIONS          from "@/classes/REGULAR_EXPRESSIONS.js"
     import HTML_REFERENCES              from "@/classes/HTML_REFERENCES.js"
+    import HTML_OUTLINE                 from "@/classes/HTML_OUTLINE.js"
 
 // Components 
-    import Note                         from "@/components/Note.vue"
-    import Notes                        from "@/components/Notes.vue"
-    // import GhostNote                    from "@/components/GhostNote.vue"
     // import References                   from "@/components/References.vue"
-    import Outline                      from "@/components/Outline.vue"
+    // import Outline                      from "@/components/Outline.vue"
 
 // functions
     import yyyymmddhhss_to_pretty       from "@/classes/yyyymmddhhss_to_pretty.js"
@@ -73,11 +68,8 @@ export default {
     },
 
     components: {
-        Note,
-        Notes,
-        // GhostNote,
         // References,
-        Outline,
+        // Outline,
     },
 
     methods: {
@@ -209,7 +201,7 @@ export default {
 .daily-notes {
     height: 100%;
     /*width: 100vw;*/
-    overflow: hidden;
+    overflow: auto;
     margin-left: 15px;
 }
 
