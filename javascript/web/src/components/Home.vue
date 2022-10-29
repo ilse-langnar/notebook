@@ -15,7 +15,10 @@
             .div( v-html="item.html" :id="item.id" )
 
         .top-menu( v-html="HTML_TOP_MENU" )
-        DailyNotes
+        button.button( @click="show_info()" ) Show
+        .daily-notes( v-show="ilse.has_loaded" v-html="HTML_DAILY_NOTES" )
+        .status-line( v-html="HTML_STATUS_LINE" )
+        // DailyNotes
 
         // button.button( @click="show_info" ) Show Info
         // So Dark mode works with zen
@@ -47,14 +50,14 @@ import printf                           from "@/classes/printf.js"
 
 // Components
     // import Renderer                     from "@/components/Components.vue"
-    import DailyNotes                   from "@/components/DailyNotes.vue"
+    // import DailyNotes                   from "@/components/DailyNotes.vue"
     // import StatusLine                   from "@/components/StatusLine.vue"
 
 // functions
     import HTML_TOP_MENU                from "@/classes/HTML_TOP_MENU.js"
     import HTML_SETUP                   from "@/classes/HTML_SETUP.js"
     import HTML_STATUS_LINE             from "@/classes/HTML_STATUS_LINE.js"
-    printf( "HTML_STATUS_LINE -> ", HTML_STATUS_LINE )
+    import HTML_DAILY_NOTES             from "@/classes/HTML_DAILY_NOTES.js"
 
 // functions
     import get_unique_date_id           from "@/classes/get_unique_date_id.js"
@@ -77,16 +80,17 @@ export default {
     name: "Home",
 
     components: {
-        DailyNotes,
-        // StatusLine,
+        // DailyNotes,
     },
 
     data() {
         return {
-            is_left_on: false,
+
             HTML_TOP_MENU,
             HTML_SETUP,
             HTML_STATUS_LINE,
+            HTML_DAILY_NOTES,
+
             ilse: ilse,
         }
     },
@@ -101,19 +105,8 @@ export default {
 
     methods: {
 
-        show_info() {
-
-            window.Alpine.data('ref',
-                function() {
-                    return {
-                        value:11111111111
-                    }
-                }
-            )
-            printf( "window.Alpine -> ", window.Alpine.data('ref') )
-
-            ilse.htmls.test()
-
+        async show_info() {
+            await ilse.dialog.confirm( "Are you sure?", "you want to delete this file? " )
         },
 
         get_home_style() {
@@ -127,7 +120,6 @@ export default {
         },
 
         add() {
-            printf( "ilse.notes.list ", ilse.notes.list )
 
             // let added = ilse.notes.add( "Example", 10 )
             // printf( "ilse.notes.list -> ", ilse.notes.list )
@@ -166,17 +158,12 @@ export default {
         },
 
         spawn() {
-
-
             const input = prompt("What's your name?");
-            printf( "Home.vue -> input -> ", input )
             let url     = get_target_directory_url()
-            printf( "Home.vue -> url -> ", url )
             create_window({ title: "Component", html: input + ".html" })
         },
 
         on_app_drop( event ) {
-            printf( "Home.vue -> on_app_drop -> event -> ", event )
         },
 
         get_embed_src( id ) {
@@ -204,7 +191,6 @@ export default {
                     props: {},
                 })
 
-            printf( "component -> ", component )
 
             return component
         },
@@ -245,24 +231,18 @@ export default {
 
         setup() {
 
-            printf( "Math.random() -> ", Math.random() )
-            printf( "Math.random() -> ", Math.random() )
-            printf( "Math.random() -> ", Math.random() )
-
             document.addEventListener('alpine:init', () => {
-                printf( "!!!! Home.vue -> alpine:init" )
+
                 Alpine.data('dropdown', () => ({
                     open: false,
                     toggle() {
                         this.open = ! this.open
                     }
                 }))
+
             })
 
-
             // var result = pipe( Math.min, Math.abs, Math.sqrt )(3, -9, 0, 2, 5)
-
-            // printf( "result -> ", result )
 
             var result2 = pipe(
                 [ Math.min, 16 ], 
@@ -273,8 +253,6 @@ export default {
                 // [ function(e){ return e +1 } ],
                 [ console.log ],
             )
-            printf( "result2 -> ", result2 )
-
 
             // setTimeout( () => { this.key= Math.random() }, 1000 )
 
@@ -284,7 +262,7 @@ export default {
     },
 
     mounted() {
-        this.setup();
+        // this.setup();
     },
 
 }

@@ -91,15 +91,13 @@ input.input {
             <div class="item" >
 
                 <div class="is-pulled-left" >
-                    <img :src="window.ilse.require(command.icon)" style="width: 17px; position: relative; top: 5px;  margin-right: 5px; " )
-                    <!-- <span class="is-size-7" x-text=" ' &nbsp; &nbsp; &nbsp;' command.description" > </span> -->
+                    <img :src="window.ilse.require(command.icon)" style="width: 17px; position: relative; top: 5px;  margin-right: 5px; " >
                     <span x-text="command.name" > </span>
+                    <!-- <span class="is-size-7" x-text=" ' &nbsp; &nbsp; &nbsp;' command.description" > </span> -->
                 </div>
 
                 <div class="shortcut is-pulled-right" >
-                    <!-- <span x-text="Object.keys(window.ilse.keys.map( e => { if( e.command === command.id ) return command.combo }).filter( e=>e ) )" x-bind:title="JSON.stringify(command)" > </span> -->
                     <span > Ctrl+Space </span>
-                    <!-- <span x-text="get_command_key(command)"> Ctrl+Space </span> -->
                 </div>
 
             </div>

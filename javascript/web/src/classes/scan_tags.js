@@ -1,6 +1,6 @@
 import printf                   from "@/classes/printf.js"
 
-export default function scan_links() {
+export default async function scan_links() {
 
     let tags        = []
     let has_no_scan = false

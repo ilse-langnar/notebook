@@ -127,6 +127,7 @@ class Commands {
         return found
     }
 
+    /*
     add_components_commands() {
 
         let _this = this
@@ -150,6 +151,7 @@ class Commands {
         })
 
     }
+    */
 
     set_default_commands() {
 
@@ -512,7 +514,7 @@ class Commands {
             })
         })
 
-        this.add_components_commands()
+        // this.add_components_commands()
     }
 
 }

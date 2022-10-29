@@ -29,13 +29,31 @@ export default class Dialog {
     }
 
     // Show the "info" dialog. returns a promised that is resolved when the user cliks on "cancel", "ok" or "cancel"(background-click)
-    info( title = "Title", description = "Description" ) {
+    async info( title = "Title", description = "Description" ) {
 
         let normalized = info
             .replace( "$title", title )
             .replace( "$description", description )
 
-        ilse.htmls.add( "dialog-info-" + Math.random(), normalized )
+        let id         = "dialog-info-" + Math.random()
+            ilse.htmls.modal( id, html )
+
+        return new Promise((resolve, reject) => {
+
+            Messager.on( "~dialog.vue", ( action, payload ) => {
+
+                if( action === "done" && id === payload.id ) {
+                    ilse.htmls.remove( id )
+                    resolve( true )
+                } else if ( action === "rejected" && id === payload.id){
+                    ilse.htmls.remove( id )
+                    reject( false )
+                } else {
+                    reject( false )
+                }
+
+            })
+        })
 
     }
 
@@ -47,8 +65,7 @@ export default class Dialog {
             .replace( "$description", description )
 
         let id   = "dialog-confirm-" + Math.random()
-
-        ilse.htmls.add( id, html )
+            ilse.htmls.modal( id, html, { width: "30%", height: "30%" })
 
         return new Promise((resolve, reject) => {
 
@@ -74,9 +91,9 @@ export default class Dialog {
         let html = input
             .replace( "$title", title )
             .replace( "$description", description )
-        let id   = "dialog-input-" + Math.random()
 
-        ilse.htmls.add( id, html )
+        let id   = "dialog-input-" + Math.random()
+            ilse.htmls.modal( id, html, { width: "30%", height: "30%" })
 
         return new Promise((resolve, reject) => {
 
@@ -98,37 +115,6 @@ export default class Dialog {
 
     }
 
-    listing( title = "Title", description = "Description", list = [ ], fn ) {
-
-        if( !fn ) throw new Error( "ERROR: Dialog.js -> listeing -> fn is not defined ilse.dialog.listing('title', 'description', [], function(){} )" )
-
-        let input = {
-            title,
-            type: "list",
-            description,
-            id: Math.random().toString().replace( ".", "" ),
-            list,
-        }
-
-        this.list.push( input )
-
-        // Magic
-        return new Promise((resolve, reject) => {
-
-            Messager.on( "~dialog.vue", ( action, payload ) => {
-
-                let is_done   = action     === "done"
-                let is_id_ok  = payload.id === input.id
-
-                if( is_done && is_id_ok ) {
-                    fn( payload.item )
-                    this._done( payload, resolve, reject )
-                }
-
-            })
-        })
-    }
-
     close( id ) {
 
         let list = this.list
@@ -140,18 +126,6 @@ export default class Dialog {
                 if( !match ) return
             this.list.splice( index, 1 )
         })
-
-        /*
-        let index
-        for( const [index, item] of list ) {
-            index++
-
-            match = id === item.id
-                if( !match ) continue
-            this.list.splice( index, 1 )
-
-        }
-        */
 
     }
 

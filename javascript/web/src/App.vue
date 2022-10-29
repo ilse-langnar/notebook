@@ -227,16 +227,17 @@ input[type=range]::-webkit-slider-runnable-track  {
     color: var(--terciary-text-color);
 }
 
+/*
 .left-sidebar {
     min-height: 91vh;
     border-radius: var( --border-radius );
-    /*width: 50%;*/
     flex-basis: 100%;
     min-width: 50%;
     width: 100%;
     background-color: var( --secondary-background-color );
     padding: var( --padding );
 }
+*/
 
 .right-sidebar {
     min-height: 80vh;

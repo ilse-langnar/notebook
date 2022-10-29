@@ -56,10 +56,8 @@ export default class Notes {
 
                 let added = lines.slice( this.list.length-1, lines.length ).filter( e=>e )
                     if( !added.length ) return
-                printf( "added -> ", added )
 
                 let o = note.split(":")[1]
-                printf( "o -> ", o )
 
                 // added.map( note => this.add( note.split(":")[1] ) )
 
@@ -75,7 +73,6 @@ export default class Notes {
         let text_file = ""
 
         map( keys(this.list), key => {
-            if( !this.list[key] ) printf( "WRONG -> this.list[key] -> ", this.list[key] )
             text_file += `${get_spaces_count(this.list[key].depth)}${this.list[key].id}: ${this.list[key].content}\n` // <spaces><id>: <content>
         })
 
@@ -83,24 +80,18 @@ export default class Notes {
     }
 
     async get_notes() {
-        printf( "@@@@ get_notes " )
 
-        printf( "@@@@ get_notes 1" )
         let textfile         = await this.filesystem.file.read.async( "notes" )
 
-            printf( "@@@@ get_notes 2" )
             if( !textfile ) {
-                printf( "@@@@ get_notes 3" )
                 this.list           = []
                 ilse.loaded()
                 return
             }
 
-        printf( "@@@@ get_notes 4" )
         // Process note
         let notes      = textfile.split("\n")
 
-        printf( "@@@@ get_notes 5" )
         notes.map( (note, index) => {
 
             if( !note ) return
@@ -112,32 +103,13 @@ export default class Notes {
                 depth:   note.split("    ").length -1,
             }
 
-            if( index === 1 ) printf( "this.list[extract_note_id(note)] -> ", this.list[extract_note_id(note)] )
-
         })
-
-        printf( "@@@@ get_notes 7" )
 
         ilse.loaded()
     }
 
-    // _after_we_have_the_notes() {
-        // this._after_we_have_the_notes()
-        // printf( ">>> Notes.js -> _after_we_have_the_notes -" )
-        // this.has_loaded = true
-        // ilse.loaded()
-        // ilse.has_loaded = true
-        // printf( "ilse.has_loaded -> ", ilse.has_loaded )
-        // Messager.emit( "~ilse", "loaded", this )
-        // ilse.has_loaded = true
-        // this._scan_tags()
-        // this._scan_links()
-    // }
-
     // ilse.notes.query_regexp( /<string>s?/ ) = for plurals, I might also use this in = References / .? <term> .?  / = for more iclusive query
     query_regexp( q = / / , limit = null, log ) {
-
-        printf( "Notes.js -> query_regexp" )
 
         let name = "query-" + q
 
@@ -150,9 +122,6 @@ export default class Notes {
         let reg_exp
         let list      = values( this.list ) // TODO: make us of values
         let n
-        printf( "Object.values(this.list) -> ", Object.values(this.list) )
-        printf( "Notes.js -> query_regexp -> this.list -> ", this.list )
-        printf( "Notes.js -> query_regexp -> list -> ", list )
 
         list.map( note => {
             n = `${note.id}: ${note.content}`

@@ -28,6 +28,27 @@ export default class HTMLs {
         return to_return
     }
 
+    modal( id, content, options = { left: "50%", top: "%50%", width: "30%", height: "25%", overflow: "hidden" }) {
+        printf( "1" )
+
+        let item = {
+            id: id,
+            html: `
+            <div id="${id}" style="z-index: 2; position: fixed; left: 50%; top: 50%; transform: translate( -50%, -50% ); width: 50%; height: 50%; overflow: hidden; color: var( --text-color ); background: var( --background-color ); padding: 5px; text-align: center; box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; " >
+                <img class="is-pulled-right" style="width: 20px; cursor: pointer;" onclick="ilse.htmls.list.shift(); let id = this.parentNode.parentNode.id; window.ilse.Messager.emit('~dialog.vue', 'rejected', { id: id })" :src="window.ilse.require('x.svg');" />
+                ${content}
+            </div>
+            `
+        }
+        printf( "2" )
+
+        this.list.push( item )
+
+        printf( "3" )
+
+        return item
+    }
+
     test() {
         // this.add( "help", HTML_HELP )
         // printf( "HTML_SEARCH -> ", HTML_SEARCH )

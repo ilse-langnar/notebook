@@ -1,6 +1,6 @@
 import printf                   from "@/classes/printf.js"
 
-export default function scan_links( html ) {
+export default async function scan_links( html ) {
 
     let notes            = this.list
     let links

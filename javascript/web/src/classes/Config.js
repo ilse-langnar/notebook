@@ -33,7 +33,7 @@ export default class Config {
         this.listen()
     }
 
-    async load( ilse ) {
+    async load() {
 
         let config = await ilse.filesystem.file.read.async( "config.json" )
 
@@ -54,22 +54,6 @@ export default class Config {
 
         config.components = config.components.filter(e=>e)
 
-        let type
-        config.components.map( component => {
-
-            if( component && component.id ) {
-                type = ilse.types.get( component.id )
-                if( type ) ilse.components.push( type )
-            }
-        })
-
-        let has_components  = ilse.components.length
-
-        if( !has_components ) {
-
-            let daily_notes    = ilse.types.get( "daily-notes" )
-                ilse.components.push( daily_notes )
-        }
         // ==== Load Components ==== //
 
         // ==== Load Favorites ==== //
@@ -161,7 +145,7 @@ export default class Config {
         Messager.on( "~ilse", (action , payload) => {
 
             if( action === "loaded" ) {
-                this.load( payload )
+                this.load()
             }
 
         })

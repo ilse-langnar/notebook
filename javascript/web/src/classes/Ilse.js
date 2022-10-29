@@ -224,7 +224,7 @@ export default class Ilse {
             this.clipboard              = new Clipboard()
 
         // Components
-            this.types                  = new Types( this )
+            // this.types                  = new Types( this )
 
         // links/tags
             this.tags                   = new Tags()
@@ -284,6 +284,7 @@ export default class Ilse {
     }
     */
 
+    /*
     load_daily_notes() {
 
         let components      = this.components
@@ -299,6 +300,7 @@ export default class Ilse {
 
         }
     }
+    */
 
     after_setup() {
 
@@ -306,8 +308,7 @@ export default class Ilse {
         this.modes                  = this.config.modes || [ "ilse" ]
         this.input                  = this.config.input || "latin"
 
-        this.loaded()
-        this.load_daily_notes()
+        // this.load_daily_notes()
         this.is_zen                 = this.config.is_zen
         // window.ilse                     = get_global_api(this) // Set global API
         // setTimeout( () => { printf( "before -> window.ilse -> ", window.ilse ) printf( "after -> window.ilse -> ", window.ilse ) }, 2000 )
@@ -318,13 +319,12 @@ export default class Ilse {
 
     loaded() {
         this.has_loaded             = true
-        Messager.emit( "~ilse", "loaded", this )
+        Messager.emit( "~ilse", "loaded" )
+        window.ilse.Messager.emit( "~ilse", "loaded", this )
         // setTimeout( () => { this.keys.home              = Math.random() }, 1000 )
     }
 
     async save() {
-
-        printf( "Save()" )
         let is_attempting_too_fast  = this.last_attempt >= ( Date.now() - 4000 )
             if( is_attempting_too_fast ) return
 

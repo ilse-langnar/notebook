@@ -15,8 +15,6 @@ export default class Filesystem {
         this.has_checked_default_files = false
 
         if( process.env.VUE_APP_TARGET === "ELECTRON" ) {
-            printf( "electron" )
-
             const FSFilesystem = require("@/classes/FSFilesystem.js").default
             let new_filesystem  = new FSFilesystem( dir )
                 this.file = new_filesystem.file
@@ -25,8 +23,6 @@ export default class Filesystem {
         }
 
         if( process.env.VUE_APP_TARGET === "WEB" ) {
-            printf( "web" )
-
             const RESTFilesystem = require("@/classes/RESTFilesystem.js").default
             let new_filesystem  = new RESTFilesystem( dir )
                 this.file = new_filesystem.file
@@ -35,8 +31,6 @@ export default class Filesystem {
 
         /*
         if( process.env.VUE_APP_TARGET === "DEMO" ) {
-            printf( "demo" )
-
             const LocalStorageFilesystem = require("@/classes/LocalStorageFilesystem.js").default
             this.filesystem  = new LocalStorageFilesystem( dir )
                 this.file    = this.filesystem.file
@@ -46,8 +40,6 @@ export default class Filesystem {
         */
 
         if( process.env.VUE_APP_TARGET === "QUINE" ) {
-            printf( "quine" )
-
             const DOMFilesystem = require("@/classes/DOMFilesystem.js").default
             this.filesystem  = new DOMFilesystem( dir )
                 this.file    = this.filesystem.file
