@@ -1,10 +1,42 @@
 <template lang="pug">
 #app( v-cloak )
-    router-view // our stuff
+    #setup( v-show="!ilse.target_directories.length || !ilse.has_loaded " v-html="ilse.components.setup" )
+
+    .ilse( v-show="ilse.target_directories.length && ilse.has_loaded" :data-theme="get_data_theme" )
+
+        .html-render( v-for="( item, index ) in ilse.htmls.list" :key="index" )
+            .div( v-html="item.html" :id="item.id" )
+
+        .app( v-show="ilse.has_loaded" )
+
+            .wrapper( v-for="( tab, tab_index ) in ilse.tabs" :key="tab_index" )
+                .div( v-show="tab.id === ilse.active" v-for="( component, component_index ) in tab.components" :key="'component-' + component_index" )
+                    // p {{tab.components}}
+                    .htmll( v-html="ilse.components[component]" style="border: 1px solid #000; overflow: auto; " )
+
+
+            // .wrapper( v-for="( component, index ) in get_active()" :key="index" )
+                .div( v-html="ilse.components[component]" )
+
+            // .wrapper( v-for="( tab, tab_index ) in get_tabs()" :key=" 'tab-' + tab_index" )
+                p {{tab}}
+                .components( v-for="( component, component_index ) in tab" :key="component_index" )
+                    span {{tab_index}} / {{component_index}}
+                    .div( v-if="component_index !== 0" v-html="ilse.components[component]" )
+
+            // .top-menu(    v-html="ilse.components['top-menu']" )
+            // .daily-notes( v-html="ilse.components['daily-notes']" )
+            // .status-line( v-html="ilse.components['status-line']" )
+
 </template>
 <script>
 // eslint-disable-next-line
 import printf                                       from "@/classes/printf.js"
+
+import "@/assets/tailwind.js"
+
+// Ilse
+    import ilse                         from "@/ilse.js"
 
 // functions
     import set                                      from "@/classes/set.js"
@@ -16,10 +48,40 @@ export default {
     name: "App",
 
     data() {
-        return {}
+        return {
+            ilse: ilse
+
+        }
+    },
+
+    computed: {
+
+        get_data_theme() {
+            return ilse.config.dark ? 'dark' : 'light'
+        },
+
     },
 
     methods: {
+
+        get_active() {
+            let to_return
+            printf( "ilse.active -> ", ilse.active )
+            printf( "ilse.tabs -> ", ilse.tabs )
+
+            ilse.tabs.map( tab => {
+                if( tab.id === ilse.active ) to_return = tab.components
+            })
+
+            printf( "to_return -> ", to_return )
+
+            return to_return
+        },
+
+        get_tabs() {
+            printf( "App.vue -> get_tabs -> window.ilse.tabs -> ", window.ilse.tabs )
+            return window.ilse.tabs
+        },
 
         set_title() {
             document.head.title = "Ilse Langnar's Notebook"
@@ -82,6 +144,16 @@ export default {
 }
 </script>
 <style>
+
+.ilse  {
+    color: var( --text-color );
+    background: var( --background-color ) !important;
+    height: 96vh;
+    width: 100vw;
+    overflow: hidden !important;
+}
+
+
 
 /*
 @font-face {

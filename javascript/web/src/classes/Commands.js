@@ -99,6 +99,9 @@ class Commands {
     // USE: let payload = args[0]
     run( id, ...args ) {
 
+        printf( "RRRRR run -> id -> ", id )
+        printf( "args -> ", args )
+
         if( !id ) throw new Error( "Commands.js -> run(<id>) <id> is not defined, it should be a string with the id of the command " )
 
         let command = this.get( id )
@@ -171,7 +174,9 @@ class Commands {
             {
                 id: "open-command-pallet-modal",
                 fn: function() {
-                    ilse.htmls.add( "command-pallet", ilse.hash["command-pallet"] )
+                    // ilse.htmls.add( "command-pallet", ilse.components["command-pallet"] )
+                    // ilse.htmls.modal( ilse.components["command-pallet"] )
+                    ilse.htmls.modal( ilse.htmls.render('command-pallet', { search: '' }) )
                 },
                 undo: args => {
                     ilse.htmls.list.shift()
@@ -207,7 +212,9 @@ class Commands {
                 id: "toggle-dark-mode",
                 icon: "moon-stars.svg",
                 fn: function() {
+                    printf( "@before -> ilse.config.dark -> ", ilse.config.dark )
                     ilse.config.dark = !ilse.config.dark
+                    printf( "@after -> ilse.config.dark -> ", ilse.config.dark )
                     ilse.config.save()
                 },
                 description: "Will turn on if it's off, and off if it's on",
@@ -244,7 +251,7 @@ class Commands {
                 id: "open-help-modal",
                 icon: "lifebuoy.svg",
                 fn: function() {
-                    ilse.htmls.add( "help", ilse.hash.help )
+                    ilse.htmls.modal( ilse.components.help, { overflow: 'auto' } )
                 },
                 undo: args => { ilse.htmls.list.shift()},
                 description: "Will open the help modal",
@@ -256,7 +263,7 @@ class Commands {
                 id: "open-configuration-modal",
                 icon: "settings.svg",
                 fn: function() {
-                    ilse.htmls.add( "configuration", ilse.hash.configuration )
+                    ilse.htmls.add( "configuration", ilse.components.configuration )
                 },
                 undo: args => { ilse.htmls.list.shift()},
                 description: "Will open the configuration modal",
@@ -326,7 +333,14 @@ class Commands {
                 icon: "lupe.svg",
                 fn: async function() {
                     // ilse.is_search_on = !ilse.is_search_on
-                    ilse.htmls.add( "search", ilse.hash.search )
+                    // ilse.htmls.add( "search", ilse.components.search )
+
+                    ilse.htmls.modal(
+                        ilse.htmls.render('search',
+                            { search: '', list: [] }
+                        ),
+                        { width: '70%', height: '70%' }
+                    )
                 },
                 description: "Open Search Modal",
                 name: "Open Search Modal",
@@ -437,7 +451,16 @@ class Commands {
             {
                 id: "open-html-on-window",
                 fn: async function() {
-                    let full_path   = await ilse.dialog.input( "Query", "Type:" )
+
+                    let full_path
+
+                    try {
+                        full_path   = await ilse.dialog.input( "Query", "Type:" )
+                        printf( "full_path -> ", full_path )
+                    } catch( e ) {
+                        printf( "e -> ", e )
+                    }
+
                     printf( "full_path -> ", full_path )
                     create_window({ title: `${full_path}(HTML)`, url: full_path })
                 },

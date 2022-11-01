@@ -1,0 +1,14 @@
+<div style="with: 100%; height: 100%; overflow: auto; font-size: 2em; " x-transition x-data="{ file: '' }" >
+
+    <h1 x-text="file" style="font-size: 30px; text-align: center; "> </h1>
+
+    <template x-if="file" x-data="{ show_length: true, list: window.ilse.query( file ) || [] }" x-for="color in list" >
+
+        <div :id="color.id" style="display: flex; font-size: 15px !important;" >
+            <h2 x-init="show_length = false" x-show="show_length" x-text="list.length" > </h2>
+            <span style="flex: 1; flex-basis: 1%;" > &bull; </span>
+            <div x-show="color" x-html="window.ilse.markdown.render(color.content)" style="cursor: pointer; margin-bottom: 5px; flex: 1; flex-basis: 98%; text-align: left; " > </div>
+        </div>
+    </template>
+
+</div>

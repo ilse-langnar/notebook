@@ -1,0 +1,72 @@
+<style>
+
+#top-menu .margin-small {
+    display: inline;
+    margin-left: 10px !important;
+}
+
+#top-menu .margin-large {
+    margin-left: 30px;
+    display: inline;
+}
+
+#top-menu .menu-item {
+    width: 50%;
+    margin: auto;
+    display: inline;
+    margin-left: 10px;
+}
+
+#top-menu .menu-item img {
+    cursor: pointer;
+    width: 20px;
+    display: inline-block;
+}
+
+</style>
+
+<div id="top-menu" class="h-2/5 my-0 w-full flex py-1" >
+
+    <div class="menu-item" >
+        <template x-data="{ tabs: ilse.tabs.list }" x-for=" (tab, index) in tabs" style="display: flex;" >
+            <div style="flex: 1;" >
+
+                <div style="border: 1px solid #454545; width: 90px; float: left; overflow: hidden; margin-top: 1px; cursor: pointer;" @click="window.ilse.tabs.select(tab) " >
+                    <!-- <img style="width: 10px; cursor: pointer; display: inline; margin-left: 70px; margin-top: 1px;" @click="tabs.slice( index, 1 )" :src="window.ilse.require('x.svg')" /> -->
+                    <span style="margin-top: 15px;" x-text="tab.name" > </span>
+                </div>
+
+                <img x-show="index === tabs.length -1" style="flex: 1; margin-top: 20px; width: 20px; cursor: pointer; display: block; " @click="tabs.push({ name: 'New', id: Math.random().toString(), components: [ 'top-menu', 'status-bar', 'help' ] })" :src="window.ilse.require('plus.svg')" />
+
+            </div>
+        </template>
+    </div>
+
+    <div class="menu-item" >
+
+        <!-- <span x-data="{ message: 'I love you', aaa: 'llll' }" >
+            <button x-on:click="message = 'lll'" > Increase </button>
+            <span x-text="message" > </span>
+            <button x-on:click="console.log('aaa -> ', aaa )" > Increase </button>
+        </span> -->
+        <img :src="window.ilse.require('command.svg')"        @click="ilse.htmls.modal( window.ilse.components['command-pallet'] )" >
+        <div class="margin-small"> </div>
+
+        <img :src="window.ilse.require('address-book.svg')"   @click="" >
+        <div class="margin-small"> </div>
+
+        <img :src="window.ilse.require('settings.svg')"       @click="ilse.htmls.modal( window.ilse.components.configuration )" >
+
+        <img :src="window.ilse.require('building-store.svg')" @click="ilse.htmls.modal( window.ilse.components.marketplace )" >
+        <div class="margin-small"> </div>
+
+        <img :src="window.ilse.require('folders.svg')"        @click="ilse.htmls.modal( window.ilse.components.marketplace )" >
+        <div class="margin-small"> </div>
+
+        <img :src="window.ilse.require('lifebuoy.svg')"       @click="ilse.htmls.modal( window.ilse.components.help, { overflow: 'auto' })" >
+        <div class="margin-large"> </div>
+
+        <img :src="window.ilse.require('moon-stars.svg')"     @click="window.ilse.commands.run('toggle-dark-mode')" >
+
+    </div>
+</div>

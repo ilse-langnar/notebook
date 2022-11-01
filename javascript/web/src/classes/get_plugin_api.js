@@ -118,7 +118,6 @@ import printf                           from "@/classes/printf.js"
     import truncate_text                          from "@/classes/truncate_text.js"
     import update_key                             from "@/classes/update_key.js"
     import values                                 from "@/classes/values.js"
-    import vue_sfc_to_html                        from "@/classes/vue_sfc_to_html.js"
     import yyyymmddhhss_to_pretty                 from "@/classes/yyyymmddhhss_to_pretty.js"
 
 
@@ -156,13 +155,21 @@ export default function get_plugin_api( name, ilse ) {
         store: ilse.store,
 
         electron: ilse.electron,
+        active: ilse.active,
+
+        tabs: {
+            select: function select( tab ) {
+                ilse.active = tab.id
+            },
+            list: ilse.tabs,
+        },
 
         configutation: {
             save: ilse.config.save.bind( ilse.config ),
             load: ilse.config.load.bind( ilse.config ),
         },
 
-        core: ilse.hash,
+        components: ilse.components,
 
         info: {
             platform: ilse.platform,
@@ -292,6 +299,11 @@ export default function get_plugin_api( name, ilse ) {
                 return favicon
             },
             get_unique_date_id,
+            move_array_item,
+            yyyymmddhhss_to_pretty,
+            debounce: debounce,
+            send_message: send_message,
+            get_human_readable_creation_date,
         }
 
     }

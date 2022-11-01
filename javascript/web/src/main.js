@@ -1,7 +1,7 @@
 
 import Vue                      from "vue"
 import App                      from "./App.vue"
-import router                   from "./router.js"
+// import router                   from "./router.js"
 
 // -----------------------> Config <-------------------------- //
 Vue.config.productionTip = false
@@ -29,7 +29,7 @@ Alpine.start();
 
 // -----------------------> Init <-------------------------- //
 new Vue({
-    router,
+    // router,
     i18n,
 
     // store,

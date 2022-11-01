@@ -7,7 +7,7 @@ import printf                   from "@/classes/printf.js"
     import Messager                     from "@/classes/Messager.js"
 
 // Constants
-    import notification                 from "@/classes/HTML_NOTIFICATION.js"
+    import notification                 from "@/html/notification.html"
 
 
 class Notification {

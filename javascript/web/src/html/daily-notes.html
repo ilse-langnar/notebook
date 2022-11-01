@@ -1,0 +1,114 @@
+<div id="daily-notes" x-transition x-data="{ days: [] }" x-init="days.push( ilse.utils.get_unique_date_id().slice(0, 8) )" class="flex" >
+
+    <div class="left-sidebar" x-data="{ is_open: false, tab: '', html: '' }" :style=" is_open ? 'flex-basis: 20%;' : '' " >
+
+        <div class="float-left" >
+
+            <div style="float: right; width: 200px; height: 200px; border: 1px solid green; overflow: hidden;" x-show="is_open" x-html="ilse.markdown.render(html)" > </div>
+
+            <img :src=" is_open ? window.ilse.require('arrow-narrow-left.svg') : window.ilse.require('arrow-narrow-right.svg')" style="width: 20px; cursor: pointer;" @click="is_open = !is_open; tab = '' "/>
+
+            <br/>
+            <br/>
+
+            <img :src="window.ilse.require('folders.svg')"  style="width: 20px; cursor: pointer; display: block; " @click="tab = 'filesystem'; is_open = !is_open " />
+            <img :src="window.ilse.require('settings.svg')" style="width: 20px; cursor: pointer; display: block; " @click="tab = 'settings'; is_open = !is_open " />
+
+            <br/>
+            <br/>
+
+            <template x-for="( note, index ) in favorites" :key=" 'note' + index" x-data="{favorites:window.ilse.query('#public')}" x-init="window.ilse.Messager.on('~ilse',(action)=> { if( action === 'loaded' ) { console.log('@@ -> ', ilse, window.ilse.query('#public') ); console.log('favorites -> ', favorites ); favorites = window.ilse.query_regexp( /#public/ ); console.log('favorites -> ', favorites) } })" >
+
+                <div >
+
+                    <img class="cursor-pointer" @click="is_open = !is_open; html = note.content; if( $event.shiftKey ) { is_open = false; ilse.components.create_window({ title: 'Component', pure: true, html: ilse.markdown.render(note.content)}) }; if( $event.ctrlKey ) { is_open = false; ilse.htmls.modal(note.id, ilse.markdown.render(note.content) ) }" :src="window.ilse.utils.get_string_favicon(note.content)" />
+
+                </div>
+            </template>
+        </div> <!-- Hidden -->
+
+    </div>
+
+    <div id="daily-notes" style="overflow: auto !important; height: 91vh; width: 100%; margin: 0 auto; flex: 1; flex-basis: 96%;" >
+
+        <template x-for="( day, index ) in days" :key="index" >
+
+            <div x-data="{ list: window.ilse.query_regexp( new RegExp( '^' + day, 'ig') ) || [] }" x-init="window.ilse.Messager.on('~ilse', (action) => { if( action === 'loaded' ) { console.log('lllllll', list ); console.log('>>>>>', window.ilse.query('#public') ); console.log('<<<<< -> ', window.ilse.query_regexp( /#public/ ) ); list = window.ilse.query_regexp( '^' + day, 'ig' ) } })" >
+
+                <div class="flex w-2/6 m-auto" x-init="setTimeout( () => { console.log( window.ilse.query_regexp( new RegExp( '^' + day, 'ig' ) )) }, 4000)" >
+                    <img class="w-1 cursor-pointer" style="width: 30px;" :src="ilse.require('trash.svg')" @click="days.splice( index, 1 )" />
+                    <span class="text-3x1 text-center font-bold" style="font-size: 30px;" x-text=" 'Day' + window.ilse.utils.yyyymmddhhss_to_pretty(day)" > </span>
+                    <img class="w-1 cursor-pointer" style="width: 30px;" :src="ilse.require('lupe.svg')" />
+                </div>
+
+                <template x-for="(note, index) in list" style="border-left: 1px solid #000;" >
+
+                    <div :id="note.id" x-data="{ is_editing: false }" class="flex my-1" :style=" 'margin-left:' + (ilse.notes.list[note.id].depth * 20) + 'px;' " >
+                        <div class="bullet" :title="ilse.utils.get_human_readable_creation_date(note.id)" > &bull; </div>
+
+                        <div x-show="is_editing" class="edit leading-4" :id=" note.id + '-edit' " @blur="is_editing = false; ilse.notes.list[note.id].content = $event.target.innerText; ilse.notes.save()" contentEditable x-text="ilse.notes.list[note.id].content" > </div>
+
+                        <div x-show="!is_editing" class="render leading-4" :id=" note.id + 'render'" :data-note-id="note.id" x-html="ilse.markdown.render(ilse.notes.list[note.id].content)" @link-click="console.log('note.id -> ', note.id); console.log('$event.detail -> ', $event.detail); if( $event.detail.id === note.id ) console.log('$event.detail.link -> ', $event.detail.link); ilse.htmls.modal( ilse.htmls.render( 'references', { file: $event.detail.link } ), { width: '70%', height: '70%' })" @click="is_editing = true; setTimeout( () => {let dom = document.getElementById( note.id + '-edit' ); dom.focus() }, 10 ) " > </div>
+
+                    </div>
+
+
+                </template>
+
+
+                <button x-show="index === days.length - 1" class="m-auto py-1 px-1 rounded text-center block my-10" @click="let DAY = day;
+                    let year = DAY.substr( 0, 4 );
+                    let month = DAY.substr( 4, 2 );
+                    let _day = Number(DAY.substr( 6, 2 ) );
+                    let copy = _day;
+                    copy -= 1;
+                    console.log('copy -> ', copy );
+                    if( copy === 0 || copy < 0 ) {
+                        console.log( 'before -> ', days )
+                        days.push( year + --month + '31' )
+                        console.log( 'after -> ', days )
+                    } else {
+                        days.push( year + month + --_day )
+                    }
+                    "> Load More </button>
+                <br>
+
+            </div>
+
+
+        </template>
+
+        <br/>
+    </div>
+
+</div>
+<style>
+
+.left-sidebar {
+    height: 100vh;
+    width: 20px !important;
+    flex: 1;
+    flex-basis: 1%;
+    padding: 5px;
+    overflow: ;
+}
+
+.bullet {
+    margin-top:   -5px;
+    text-align:   center;
+    cursor:       pointer;
+    color:        #a3a3a3;
+    color:        var( --text-color );
+    font-size: 1.5em;
+    cursor:       pointer;
+
+    margin-right: 7px;
+    width: 10px;
+    height: 10px;
+}
+
+#daily-notes .edit:focus {
+    outline: none;
+}
+
+</style>

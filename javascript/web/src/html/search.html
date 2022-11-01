@@ -1,0 +1,45 @@
+<style>
+
+#search input:focus {
+    /*box-shadow: 0 0 0 3px hsla(var(--input-focus-h), var(--input-focus-s), calc(var(--input-focus-l) + 40%), 0.8);*/
+    outline: 3px solid transparent;
+    border-color: hsl(var(--input-focus-h), var(--input-focus-s), var(--input-focus-l));
+    border: 2px solid rgb(124, 138, 255);
+}
+
+#search input:not([type="checkbox"]) {
+    transition: 180ms box-shadow ease-in-out;
+    width: 100%;
+    color: rgb(36, 35, 42);
+    font-size: 16px;
+    line-height: 20px;
+    min-height: 28px;
+    border-radius: 4px;
+    padding: 8px 16px;
+    border: 2px solid transparent;
+    box-shadow: rgb(0 0 0 / 12%) 0px 1px 3px, rgb(0 0 0 / 24%) 0px 1px 2px;
+    background: rgb(251, 251, 251);
+    transition: all 0.1s ease 0s;
+}
+
+</style>
+<div id="search" style="overflow: auto; height: 100%; " x-data="{ search: '', list: [] }" x-transition >
+
+    <input id="search-input" x-model="search" @keydown.enter="list = window.ilse.query(search)" placeholder="Search ..." x-init="document.getElementById('search-input') ? document.getElementById('search-input').focus() : null; " x-init="setTimeout( () => { alert('ll'); search = '' }, 100 )" style="color: var( --text-color ); border-radius: var( --border-radius ); "/>
+
+    <div style="display: flex;" >
+        <span style="flex: 1;" x-show="list.length" x-text="list.length + 'Result[s]'" > </span>
+        <span style="flex: 1;" > <span style="display: inline;"> <strong> ESC </strong> Exit </span> </span>
+        <span style="flex: 1;" > <img :src="ilse.require('arrow-back.svg')" style="display: inline;" > <span style="display: inline;"> <strong> Open </strong>  </span> </span>
+        <span style="flex: 1;" > <img :src="ilse.require('switch-vertical.svg')" style="display: inline;" > <span style="display: inline;"> <strong> Navigate </strong>  </span> </span>
+        <span style="flex: 1;" > <img :src="ilse.require('arrow-back.svg')" style="display: inline;" > <span style="display: inline;"> <strong> Open </strong> in Window  </span> </span>
+    </div>
+
+    <template x-for="item in list" style="border: 1px solid #000;" >
+        <div style="display: flex; " >
+            <span style="flex: 1; flex-basis: 1%;" > &bull; </span>
+            <p x-html="window.ilse.markdown.render(item.content)" style="cursor: pointer; margin-bottom: 5px; flex: 1; flex-basis: 98%; text-align: left; " @click="console.log('item -> ', item, item.id ); window.ilse.add_component({ type: 'outline', props: { notes: [item.id] }, width: 12 });" > </p>
+        </div>
+    </template>
+
+</div>

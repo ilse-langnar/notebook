@@ -5,27 +5,16 @@ import printf                           from "@/classes/printf.js"
 
 // Messager
     import Messager                     from "@/classes/Messager.js"
-    import info                         from "@/classes/HTML_DIALOG_INFO.js"
-    import input                        from "@/classes/HTML_DIALOG_INPUT.js"
-    import confirm                      from "@/classes/HTML_DIALOG_CONFIRM.js"
+
+// HTML
+    import info                         from "@/html/dialog-info.html"
+    import input                        from "@/html/dialog-input.html"
+    import confirm                      from "@/html/dialog-confirm.html"
 
 export default class Dialog {
 
     constructor() {
         this.list = []
-        this.setup()
-    }
-
-    setup() {
-    }
-
-    _done( payload, resolve, reject ) {
-
-        let is_ok       = payload.button === "ok"
-            if( is_ok ) resolve( payload )
-
-        let is_cancel   = payload.button === "cancel"
-            if( is_cancel ) reject( payload )
     }
 
     // Show the "info" dialog. returns a promised that is resolved when the user cliks on "cancel", "ok" or "cancel"(background-click)
@@ -35,8 +24,7 @@ export default class Dialog {
             .replace( "$title", title )
             .replace( "$description", description )
 
-        let id         = "dialog-info-" + Math.random()
-            ilse.htmls.modal( id, html )
+        ilse.htmls.add( "dialog-info-" + Math.random(), normalized )
 
         return new Promise((resolve, reject) => {
 
@@ -65,7 +53,7 @@ export default class Dialog {
             .replace( "$description", description )
 
         let id   = "dialog-confirm-" + Math.random()
-            ilse.htmls.modal( id, html, { width: "30%", height: "30%" })
+            ilse.htmls.add( id, html )
 
         return new Promise((resolve, reject) => {
 
@@ -93,7 +81,7 @@ export default class Dialog {
             .replace( "$description", description )
 
         let id   = "dialog-input-" + Math.random()
-            ilse.htmls.modal( id, html, { width: "30%", height: "30%" })
+            ilse.htmls.add( id, html )
 
         return new Promise((resolve, reject) => {
 
@@ -128,6 +116,5 @@ export default class Dialog {
         })
 
     }
-
 
 }

@@ -5,7 +5,6 @@ import printf                   from "@/classes/printf.js"
     import Config                       from "@/classes/Config.js"
     import Utils                        from "@/classes/Utils.js"
     import Commands                     from "@/classes/Commands.js"
-    import Types                        from "@/classes/Types.js"
     import Tags                         from "@/classes/Tags.js"
     import Links                        from "@/classes/Links.js"
     import Themes                       from "@/classes/Themes.js"
@@ -31,7 +30,6 @@ import printf                   from "@/classes/printf.js"
     // functions
         import i18n                              from "@/classes/i18n.js"
         import get_plugin_api                    from "@/classes/get_plugin_api.js"
-        import string_to_html                    from "@/classes/string_to_html.js"
 
     // Node.js
         const path                       = require("path")
@@ -46,23 +44,26 @@ import printf                   from "@/classes/printf.js"
     import DEFAULT_COMMANDS             from "@/classes/DEFAULT_COMMANDS.js"
     import DEFAULT_THEME                from "@/classes/DEFAULT_THEME.js"
     import DEMO_NOTES                   from "@/classes/DEMO_NOTES.js"
-    import HTML_COMPONENT_NOT_FOUND     from "@/classes/HTML_COMPONENT_NOT_FOUND.js"
-    import HTML_TEMPLATE                from "@/classes/HTML_TEMPLATE.js"
     import PERMISSIONS                  from "@/classes/PERMISSIONS.js"
     import REGULAR_EXPRESSIONS          from "@/classes/REGULAR_EXPRESSIONS.js"
     import SUPPORTED_LANGUAGES          from "@/classes/SUPPORTED_LANGUAGES.js"
     import SVG_TABLE                    from "@/classes/SVG_TABLE.js"
 
-    import HTML_TOP_MENU                from "@/classes/HTML_TOP_MENU.js"
-    import HTML_DIALOG_INFO             from "@/classes/HTML_DIALOG_INFO.js"
-    import HTML_HELP                    from "@/classes/HTML_HELP.js"
-    import HTML_SEARCH                  from "@/classes/HTML_SEARCH.js"
-    import HTML_MARKETPLACE             from "@/classes/HTML_MARKETPLACE.js"
-    import HTML_CONFIGURATION           from "@/classes/HTML_CONFIGURATION.js"
-    import HTML_COMMAND_PALLET          from "@/classes/HTML_COMMAND_PALLET.js"
-    import HTML_REFERENCES              from "@/classes/HTML_REFERENCES.js"
-    import HTML_GHOST_NOTE              from "@/classes/HTML_GHOST_NOTE.js"
-    import HTML_OUTLINE                 from "@/classes/HTML_OUTLINE.js"
+// html
+    import component_not_found          from "@/html/component-not-found.html"
+    import template                     from "@/html/template.html"
+    import top_menu                     from "@/html/top-menu.html"
+    import dialog_info                  from "@/html/dialog-info.html"
+    import help                         from "@/html/help.html"
+    import search                       from "@/html/search.html"
+    import marketplace                  from "@/html/marketplace.html"
+    import configuration                from "@/html/configuration.html"
+    import command_pallet               from "@/html/command-pallet.html"
+    import references                   from "@/html/references.html"
+    import ghost_note                   from "@/html/ghost-note.html"
+    import outline                      from "@/html/outline.html"
+    import daily_notes                  from "@/html/daily-notes.html"
+    import status_line                  from "@/html/status-line.html"
 
 // Frame
 const JSFrame = require("@/assets/jsframe.min.js")
@@ -88,11 +89,7 @@ export default class Ilse {
 
             DEMO_NOTES,                 // [ { content: "# Hello, World", depth: 0, }, { content: "This is ilse Langnar's Notebook", depth: 0, }, ... ]
 
-            HTML_COMPONENT_NOT_FOUND,   // <div id="not-found"> <p> Component Not Found</p> </div> ...
-
-            HTML_TEMPLATE,              // <!DOCTYPE <html> </html> ...
-
-            HTML_TOP_MENU,              // <div id="top-menu" style="" > </div> ...
+            template,              // <!DOCTYPE <html> </html> ...
 
             PERMISSIONS,                // [ "read", "write", "clipboard",  "communication" ]
 
@@ -103,26 +100,24 @@ export default class Ilse {
             SVG_TABLE,                  // {"address-book.svg": "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNs ... "
         }
 
-        // this.htmls                  = []
-
-        this.hash          = {
-            "top-menu.native":      HTML_TOP_MENU,
-            "dialog-info.native":   HTML_DIALOG_INFO,
-            "help":                 HTML_HELP,
-            "search":               HTML_SEARCH,
-            "marketplace":          HTML_MARKETPLACE,
-            "configuration":        HTML_CONFIGURATION,
-            "command-pallet":       HTML_COMMAND_PALLET,
-            "reference":            HTML_REFERENCES,
-            "ghost-note":           HTML_GHOST_NOTE,
-            "outline":              HTML_OUTLINE,
-            // "body.native":          HTML_BODY,
-            // "status-line.native":   HTML_STATUS_LINE,
+        this.components             = {
+            "top-menu":             top_menu,
+            "dialog-info":          dialog_info,
+            "help":                 help,
+            "search":               search,
+            "marketplace":          marketplace,
+            "configuration":        configuration,
+            "command-pallet":       command_pallet,
+            "references":           references,
+            "ghost-note":           ghost_note,
+            "outline":              outline,
+            "daily-notes":          daily_notes,
+            "status-line":          status_line,
         }
-        // document.getElementsByTagName( "top-menu.native" ).
-        // this.list                   = [ "<ilse-top-menu style='display: block;' >", "<ilse-body>", "<ilse src='tabs.html'>", "<ilse-footer>" ] // can be added/removed
 
-        this.components             = []
+        this.tabs                   = [ { id: "default", name: "default", components: [ "top-menu", "daily-notes", "status-line" ], } ]
+        this.active                 = "default"
+
         this.store                  = { ui: {}, status_line: {} }
 
         this.name                   = "Ilse Langnar's Notebook"
@@ -222,9 +217,6 @@ export default class Ilse {
 
         // Clipboard
             this.clipboard              = new Clipboard()
-
-        // Components
-            // this.types                  = new Types( this )
 
         // links/tags
             this.tags                   = new Tags()

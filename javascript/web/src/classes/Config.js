@@ -46,16 +46,6 @@ export default class Config {
         }
 
 
-        // ==== Load Components ==== //
-        // let instance
-
-        if( !config.permissions ) config.permissions = {}
-        if( !config.apps || config.apps.indexOf("ilse.html") === -1 ) config.apps = [ "ilse.html" ]
-
-        config.components = config.components.filter(e=>e)
-
-        // ==== Load Components ==== //
-
         // ==== Load Favorites ==== //
         this.favorites = config.favorites
             if( !this.favorites ) this.favorites = []
@@ -77,9 +67,9 @@ export default class Config {
         // ==== Load Keys ==== //
 
 
-        // ==== Internal Components ==== //
+        // ==== Internal ==== //
         if( !this.data ) this.data = {}
-        // ==== Internal Components ==== //
+        // ==== Internal ==== //
 
         this.can_save = true
 
@@ -97,14 +87,8 @@ export default class Config {
 
     get_normalized_config() {
 
-        let components      = ilse.components
-
         // let object_to_save  = {}
         let object_to_save  = this
-            object_to_save.components = components.map( component =>
-                {
-                    // printf( ">>>@>@@>@>@>@>@>@>@>@ component -> ", component )
-                })
             object_to_save.dark       = this.dark
             object_to_save.keys       = ilse.keyboard.keys
 
@@ -122,14 +106,6 @@ export default class Config {
     async save( save_notes = false ) {
 
         if( !this.can_save ) return
-
-        // let components      = ilse.components
-
-        // let object_to_save  = {}
-        // let object_to_save  = this
-            // object_to_save.components = components
-            // object_to_save.dark       = this.dark
-            // object_to_save.keys       = ilse.keyboard.keys
 
         let object_to_save = this.get_normalized_config()
         // let object_to_save = JSON.stringify( this, null, 4 )
