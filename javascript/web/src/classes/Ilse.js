@@ -14,6 +14,7 @@ import printf                   from "@/classes/printf.js"
     import Markdown                     from "@/classes/Markdown.js"
     import Electron                     from "@/classes/Electron.js"
     import Cache                        from "@/classes/Cache.js"
+    import Tabs                         from "@/classes/Tabs.js"
     // import IlseRequire                  from "@/classes/IlseRequire.js"
     import irequire                     from "@/classes/require.js"
 
@@ -64,6 +65,7 @@ import printf                   from "@/classes/printf.js"
     import outline                      from "@/html/outline.html"
     import daily_notes                  from "@/html/daily-notes.html"
     import status_line                  from "@/html/status-line.html"
+    import new_tab                      from "@/html/new-tab.html"
 
 // Frame
 const JSFrame = require("@/assets/jsframe.min.js")
@@ -113,10 +115,10 @@ export default class Ilse {
             "outline":              outline,
             "daily-notes":          daily_notes,
             "status-line":          status_line,
+            "new-tab":              new_tab,
         }
 
-        this.tabs                   = [ { id: "default", name: "default", components: [ "top-menu", "daily-notes", "status-line" ], } ]
-        this.active                 = "default"
+        this.tabs                   = new Tabs()
 
         this.store                  = { ui: {}, status_line: {} }
 

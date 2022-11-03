@@ -29,7 +29,7 @@ input.input {
 }
 
 </style>
-<div id="command-pallet" x-transition x-data="{ search: '', list: }" >
+<div id="command-pallet" x-transition x-data="{ search: '', list: }" style="height: 100%; overflow: auto;" >
 
     <div class="flex" >
         <img :src="window.ilse.require('command.svg')"       style="width: 23px; margin-bottom: 6px;" />
@@ -47,19 +47,19 @@ input.input {
         </div>
 
         <div class="mitem">
-            <span> Run </span>
-            <strong> ↪ </strong>
+            <span style="color: var( --text-color );" > Run </span>
+            <img :src="window.ilse.require('arrow-back.svg')" style="width: 17px; " />
         </div>
 
-        <div class="mitem">
-            <span> Quit </span>
-            <strong> ESC </strong>
+        <div class="mitem" style="" >
+            <span style="color: var( --text-color );  " > Quit </span>
+            <strong style="color: var( --text-color );" > ESC </strong>
         </div>
 
     </div>
 
     <!-- <template x-for="( command, index ) in window.ilse.commands.list.filter( e=> e.name.toLowerCase().indexOf(search.toLowerCase()) !== -1 )"> -->
-    <template x-for="( command, index ) in window.ilse.commands.list.filter( e=> e.name.toLowerCase().indexOf(search.toLowerCase()) !== -1 )">
+    <template x-for="( command, index ) in window.ilse.commands.list.filter( e=> e.name.toLowerCase().indexOf(search.toLowerCase()) !== -1 )" >
         <div class="flex" @click="window.ilse.commands.run(command.id); ilse.htmls.list.shift(); " >
 
             <div class="item" >
@@ -71,7 +71,7 @@ input.input {
                 </div>
 
                 <div class="shortcut is-pulled-right" >
-                    <span > Ctrl+Space </span>
+                    <span class="is-size-7" x-text="window.ilse.keys.get_command_key(command.id)" > </span>
                 </div>
 
             </div>

@@ -88,25 +88,17 @@ export default class HTMLs {
 
     render( name, props = {} ) {
 
-        printf( "render -> ", name )
-
         let id               = Math.random().toString()
-            printf( "id -> ", id )
-
         let string_props     = JSON.stringify( props )
-            printf( "string_props -> ", string_props )
-
         let normalized_props = string_props.replaceAll( "\"", "'" )
-            printf( "normalized_props -> ", normalized_props )
 
         // Idea string to HTML and then I pass  a string as x-data?
         let html             = ilse.components[name]
-
         let HTML             = string_to_html( html )
-            printf( "HTML -> ", HTML )
 
         let dom              = HTML.querySelector('[x-data]')
             if( dom ) dom.setAttribute( "x-data", normalized_props )
+
         return html_to_string( HTML )
     }
 
@@ -117,7 +109,6 @@ export default class HTMLs {
     }
 
     remove( id ) {
-        printf( "remove -> id -> ", id )
 
         let to_return = null
         let component = this.get( id )

@@ -25,7 +25,7 @@
 </style>
 <div id="search" style="overflow: auto; height: 100%; " x-data="{ search: '', list: [] }" x-transition >
 
-    <input id="search-input" x-model="search" @keydown.enter="list = window.ilse.query(search)" placeholder="Search ..." x-init="document.getElementById('search-input') ? document.getElementById('search-input').focus() : null; " x-init="setTimeout( () => { alert('ll'); search = '' }, 100 )" style="color: var( --text-color ); border-radius: var( --border-radius ); "/>
+    <input id="search-input" x-model="search" @keydown.enter="list = window.ilse.query(search)" placeholder="Search ..." x-init="document.getElementById('search-input') ? document.getElementById('search-input').focus() : null; " x-init="setTimeout( () => { alert('ll'); search = '' }, 100 )" style="color: var( --text-color ); background: var( --background-color ); border-radius: var( --border-radius ); "/>
 
     <div style="display: flex;" >
         <span style="flex: 1;" x-show="list.length" x-text="list.length + 'Result[s]'" > </span>

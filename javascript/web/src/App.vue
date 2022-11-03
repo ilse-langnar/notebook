@@ -7,33 +7,19 @@
         .html-render( v-for="( item, index ) in ilse.htmls.list" :key="index" )
             .div( v-html="item.html" :id="item.id" )
 
-        .app( v-show="ilse.has_loaded" )
+        .app( v-show="ilse.has_loaded" :key="ilse.keys.app" )
 
-            .wrapper( v-for="( tab, tab_index ) in ilse.tabs" :key="tab_index" )
-                .div( v-show="tab.id === ilse.active" v-for="( component, component_index ) in tab.components" :key="'component-' + component_index" )
-                    // p {{tab.components}}
-                    .htmll( v-html="ilse.components[component]" style="border: 1px solid #000; overflow: auto; " )
-
-
-            // .wrapper( v-for="( component, index ) in get_active()" :key="index" )
-                .div( v-html="ilse.components[component]" )
-
-            // .wrapper( v-for="( tab, tab_index ) in get_tabs()" :key=" 'tab-' + tab_index" )
-                p {{tab}}
-                .components( v-for="( component, component_index ) in tab" :key="component_index" )
-                    span {{tab_index}} / {{component_index}}
-                    .div( v-if="component_index !== 0" v-html="ilse.components[component]" )
-
-            // .top-menu(    v-html="ilse.components['top-menu']" )
-            // .daily-notes( v-html="ilse.components['daily-notes']" )
-            // .status-line( v-html="ilse.components['status-line']" )
+            .wrapper( v-for="( tab, tab_index ) in ilse.tabs.list" :key="tab_index" )
+                .div( v-show="tab.is_active" v-for="( component, component_index ) in tab.components" :key="'component-' + component_index" )
+                    // p( v-show="false" ) {{show_info(component)}}
+                    .htmll( v-html="ilse.components[component]" style="overflow: auto; " )
 
 </template>
 <script>
 // eslint-disable-next-line
 import printf                                       from "@/classes/printf.js"
 
-import "@/assets/tailwind.js"
+// import "@/assets/tailwind.js"
 
 // Ilse
     import ilse                         from "@/ilse.js"
@@ -64,23 +50,24 @@ export default {
 
     methods: {
 
-        get_active() {
-            let to_return
-            printf( "ilse.active -> ", ilse.active )
-            printf( "ilse.tabs -> ", ilse.tabs )
+        show_info( component ) {
+            printf( "App.vue -> show_info -> component -> ", component )
+            printf( "App.vue -> show_info -> ilse.components[component] -> ", ilse.components[component] )
+        },
 
-            ilse.tabs.map( tab => {
+        get_active() {
+
+            let to_return
+
+            printf( "ilse.tabs.list -> ", ilse.tabs.list )
+
+            ilse.tabs.list.map( tab => {
                 if( tab.id === ilse.active ) to_return = tab.components
             })
 
             printf( "to_return -> ", to_return )
 
             return to_return
-        },
-
-        get_tabs() {
-            printf( "App.vue -> get_tabs -> window.ilse.tabs -> ", window.ilse.tabs )
-            return window.ilse.tabs
         },
 
         set_title() {
@@ -153,7 +140,9 @@ export default {
     overflow: hidden !important;
 }
 
-
+.ilse[data-theme="dark"] img {
+    filter: invert( 100% );
+}
 
 /*
 @font-face {
@@ -394,7 +383,6 @@ blockquote {
     margin: 4px;
     border-left: 4px solid #bdbdbd;
     border-radius: 4px;
-    margin-left: 10px;
     background-color: #ededed;
 
     /*background-color: var( --text-color );
@@ -404,6 +392,7 @@ blockquote {
     color: var( --secondary-text-color );
     background: var( --secondary-background-color );
     margin-left: auto;
+    margin-left: 15px;
 }
 
 code {

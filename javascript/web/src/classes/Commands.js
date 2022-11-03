@@ -23,6 +23,7 @@ class Commands {
     constructor( ilse ) {
         this.ilse         = ilse
         this.commands     = []
+        this.history      = []
         this.last_command = {}
         this.setup()
     }
@@ -99,9 +100,6 @@ class Commands {
     // USE: let payload = args[0]
     run( id, ...args ) {
 
-        printf( "RRRRR run -> id -> ", id )
-        printf( "args -> ", args )
-
         if( !id ) throw new Error( "Commands.js -> run(<id>) <id> is not defined, it should be a string with the id of the command " )
 
         let command = this.get( id )
@@ -111,10 +109,14 @@ class Commands {
             command.fn( args )
         }
 
-        if( id !== "repeat-last-command" ) this.last_command = { id, args }
+        if( id !== "repeat-last-command" ) {
+            this.last_command = { id, args }
+            window.ilse.commands.last = this.last_command
+        }
 
         Messager.emit( "~commands", "exec", id )
 
+        // this.history.push( id, args )
     }
 
     // get_command_shortcuts("read-first-brain") -> [ "command+space v k" ]
@@ -183,6 +185,88 @@ class Commands {
                 },
                 description: "Open Command Pallet Modal",
                 name: "Open Command Pallet Modal",
+                props: {},
+            },
+
+            {
+                id: "close-active-tab",
+                fn: function() {
+                    let current = ilse.tabs.list.map( tab => { if( tab.is_active ) return tab }).filter( e=>e )[0]
+                    ilse.tabs.remove( current )
+                },
+                description: "Open New Tab",
+                name: "Open New Tab",
+                props: {},
+            },
+
+            {
+                id: "open-new-tab",
+                fn: function() {
+
+                    ilse.tabs.list.map( tab => {
+                        tab.is_active = false
+                    })
+
+                    ilse.tabs.list.push({ is_active: true, name: 'New Tab', id: Math.random().toString(), components: [ 'top-menu', 'new-tab', 'status-line' ] });
+                },
+                description: "Open New Tab",
+                name: "Open New Tab",
+                props: {},
+            },
+
+            {
+                id: "go-to-previous-tab",
+                fn: function() {
+                    printf( "Commands.js -> go-to-previous-tab" )
+
+                    let tabs       = ilse.tabs
+                    let index
+                    tabs.list.map( ( tab, tab_index ) => {
+                        printf( "1" )
+                        if( tab && tab.is_active ) index = tab_index
+                    })
+
+                    let previous_index = --index
+                    tabs.list.map( tab => {
+                        if( tab ) tab.is_active = false
+                    })
+
+                    if( ilse.tabs.list[previous_index] ) {
+                        ilse.tabs.list[previous_index].is_active = true
+                    } else {
+                        ilse.tabs.list[0].is_active = true
+                    }
+                },
+                description: "Go To Previous Tab",
+                name: "Previous Tab",
+                props: {},
+            },
+
+            {
+                id: "go-to-next-tab",
+                fn: function() {
+
+                    let tabs       = ilse.tabs
+                    let index
+                    tabs.list.map( ( tab, tab_index ) => {
+                        printf( "1" )
+                        if( tab && tab.is_active ) index = tab_index
+                    })
+
+                    let next_index = ++index
+                    tabs.list.map( tab => {
+                        if( tab ) tab.is_active = false
+                    })
+
+                    if( ilse.tabs.list[next_index] ) {
+                        ilse.tabs.list[next_index].is_active = true
+                    } else {
+                        ilse.tabs.list[0].is_active = true
+                    }
+
+                },
+                description: "Go To Next Tab",
+                name: "Next Tab",
                 props: {},
             },
 

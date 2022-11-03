@@ -55,9 +55,8 @@
 </style>
 <div class="status-line" :style=" 'height:' + height + 'px;' + ( height === 25 ? 'overflow: hidden;' : 'overflow: auto;' )" x-init="window.Messager.on('~status-line', command => { console.log(' command -> ', command); if( command === 'expand' ) { height = 300 }; if( command === 'shrink' ) { height = 25}; }) " x-data="{ height: 25, }" >
 
-    <div class="flex" >
-        <!-- <p class="flexi" x-text="window.ilse.commands.history[window.ilse.commands.history.length - 1]" > </p> -->
-        <p class="flexi" > First </p>
+    <div class="flex" x-data="{ last: '' }" x-init=" window.ilse.Messager.on( '~commands', ( action, payload ) => { if( action === 'exec' ) { last = payload  } } ) ">
+        <p class="flexi" x-text="last" > </p>
         <p class="flexi" > Second </p>
         <p class="flexi" > Third </p>
     </div>
@@ -67,7 +66,7 @@
         if( action === 'exec' ) {
             ilse.utils.debounce( () => {
                 ilse.utils.send_message( '~status-line', 'shrink' ) 
-            }, {}, ilse.keys, 10)
+            }, {}, ilse.keys.list, 10)
         }
 
         })" > </div>
@@ -79,7 +78,7 @@
         } else if( payload.action === 'keydown' && payload.key === 'C-SPC' ) {
             ilse.utils.debounce( () => {
                 Messager.emit( '~status-line', 'expand' )
-            }, {}, ilse.keys, 800 )
+            }, {}, ilse.keys.list, 800 )
         }
 
         })" > </div>
@@ -88,7 +87,7 @@
 
         <template x-if="height === 300" >
 
-            <template x-for="(item, index) in window.ilse.keys" @click="console.log('item -> ', item)" >
+            <template x-for="(item, index) in window.ilse.keys.list" @click="console.log('item -> ', item)" >
                 <div class="key is-pulled-left" style="margin: 5px; " @click="ilse.commands.run(item.command)" >
                     <span class="combo" x-text="item.combo.replace('ctrl+space', '')" > </span>
                     <span class="arrow" > &rarr; </span>

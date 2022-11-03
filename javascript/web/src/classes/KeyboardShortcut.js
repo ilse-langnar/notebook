@@ -113,6 +113,11 @@ class KeyboardShortcut  {
         this.keys = [
 
             // Special
+                { combo: "ctrl+tab", command: "go-to-next-tab",             category: "Special" },
+                { combo: "ctrl+shift+l", command: "go-to-previous-tab",             category: "Special" },
+                { combo: "ctrl+t", command: "open-new-tab",             category: "Special" },
+                { combo: "ctrl+w", command: "close-active-tab",    category: "Special", prevent_default: true },
+
                 { combo: "ctrl+enter", command: "new-note",                 category: "Special" },
                 { combo: "ctrl+p", command: "open-command-pallet-modal",    category: "Special", prevent_default: true },
                 { combo: "shift+enter", command: "void:add-new-line",       category: "Special" },

@@ -7,6 +7,8 @@ import { app, protocol, BrowserWindow, ipcMain, dialog, globalShortcut, remote }
 
 import electron from "electron"
 
+electron.Menu.setApplicationMenu( null )
+
 // import Store from "electron-store"
 
 // FEATURE: in-page-search v1

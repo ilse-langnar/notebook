@@ -157,12 +157,7 @@ export default function get_plugin_api( name, ilse ) {
         electron: ilse.electron,
         active: ilse.active,
 
-        tabs: {
-            select: function select( tab ) {
-                ilse.active = tab.id
-            },
-            list: ilse.tabs,
-        },
+        tabs: ilse.tabs,
 
         configutation: {
             save: ilse.config.save.bind( ilse.config ),
@@ -179,7 +174,23 @@ export default function get_plugin_api( name, ilse ) {
 
         languages: ilse.constants.SUPPORTED_LANGUAGES,
 
-        keys: ilse.keyboard.keys,
+        keys: {
+            list: ilse.keyboard.keys,
+
+            get_command_key: function get_command_key( id ) {
+
+                let command   = ilse.commands.get(id)
+                let keys      = ilse.keys
+                let to_return = ""
+
+                ilse.keyboard.keys.map( key => {
+                    if( key.command === id ) to_return = key.combo
+                })
+
+                return to_return
+
+            },
+        },
 
         plugins: ilse.plugin_manager.list,
 
@@ -251,7 +262,8 @@ export default function get_plugin_api( name, ilse ) {
         },
 
         commands: {
-            history: ilse.history,
+            last: ilse.commands.last_command,
+            history: ilse.commands.history,
             add: function( args ) {
 
                 args.props.is_plugin = true
@@ -304,6 +316,17 @@ export default function get_plugin_api( name, ilse ) {
             debounce: debounce,
             send_message: send_message,
             get_human_readable_creation_date,
+
+            set_dom_x_data: function( id, props ) {
+
+                let string_props     = JSON.stringify( props )
+                let normalized_props = string_props.replaceAll( "\"", "'" )
+
+                let dom              = document.getElementById( id )
+                    if( dom ) dom.setAttribute( "x-data", normalized_props )
+
+                return dom
+            },
         }
 
     }
