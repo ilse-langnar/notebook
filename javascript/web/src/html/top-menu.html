@@ -61,6 +61,7 @@
         let search = ilse.tabs.list[0].url;
         console.log('search -> ', search );
 
+        console.log('ilse.tabs.list[0] -> ', ilse.tabs.list[0] )
         if( ilse.tabs.list[0].url[0] === '@' ) {
             ilse.tabs.list.push({ name: search.replace( '@', '' ), url: ilse.tabs.list[0], id: Math.random().toString(), components: [ 'top-menu', search.replace( '@', '' ), 'status-line' ] });
             ilse.tabs.select(tabs[tabs.length -1])

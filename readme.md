@@ -11,8 +11,7 @@
 <h4 align="center" > Ilse Langnar's Notebook is a free, knowledge management platform. </h4>
 <br/>
 
-Imagine [Roam Research](https://roamresearch.com/) + [Obsidian](https://obsidian.md/) + [Anki](https://ankiweb.net/) + [Supermemo](https://www.supermemopedia.com/wiki/Main_Page) + [Emacs](https://www.gnu.org/software/emacs/) + [Spacemacs](https://www.spacemacs.org/) but without their downsides such as online-only, lock-in, bad algorithm, complexity etc.
-
+Imagine [Roam Research](https://roamresearch.com/) + [Obsidian](https://obsidian.md/) + [Anki](https://ankiweb.net/) + [Supermemo](https://www.supermemopedia.com/wiki/Main_Page) + [Emacs](https://www.gnu.org/software/emacs/) + [Spacemacs](https://www.spacemacs.org/) + [Chrome](https://www.google.com/chrome/) but without their downsides such as online-only, lock-in, bad algorithm, complexity etc.
 
 Ilse aims to be the ultimate study and note-taking tool by learning from its predecessors and building something that last by implementing a standard instead of building just software which might [rot overtime]( https://en.wikipedia.org/wiki/Software_rot). And this standard is called [HTML](https://en.wikipedia.org/wiki/HTML).
 

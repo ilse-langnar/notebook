@@ -63,7 +63,7 @@
             <p> Public </p>
             <template x-data="{ list: window.ilse.query('#public') }" x-for="(item, index) in list" x-init="ilse.Messager.on( '~ilse', (action, payload) => { if( action === 'loaded' ) { list = window.ilse.query('#public') } })" >
                 <div>
-                    <p x-text="item" > </p>
+                    <p x-text="item.content" > </p>
                 </div>
             </template>
         </div>
