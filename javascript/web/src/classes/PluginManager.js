@@ -1,4 +1,4 @@
-import printf                           from "@/classes/printf.js"
+import printf                           from "@/functions/printf.js"
 
 // Ilse
     import ilse                         from "@/ilse.js"
@@ -7,12 +7,12 @@ import printf                           from "@/classes/printf.js"
     import Messager                     from "@/classes/Messager.js"
 
 // functions
-    import string_to_html               from "@/classes/string_to_html.js"
-    import create_window                from "@/classes/create_window.js"
-    import html_to_string               from "@/classes/html_to_string.js"
-    import has_permission               from "@/classes/has_permission.js"
-    import get_plugin_api               from "@/classes/get_plugin_api.js"
-    import delay                        from "@/classes/delay.js"
+    import string_to_html               from "@/functions/string_to_html.js"
+    import create_window                from "@/functions/create_window.js"
+    import html_to_string               from "@/functions/html_to_string.js"
+    import has_permission               from "@/functions/has_permission.js"
+    import get_plugin_api               from "@/functions/get_plugin_api.js"
+    import delay                        from "@/functions/delay.js"
 
 class PluginManager {
 

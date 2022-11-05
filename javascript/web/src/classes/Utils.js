@@ -1,4 +1,4 @@
-import printf                   from "@/classes/printf.js"
+import printf                   from "@/functions/printf.js"
 
 // Ilse
     import ilse                         from "@/ilse.js"
@@ -10,8 +10,8 @@ import printf                   from "@/classes/printf.js"
         import fuzzy_sort                   from "@/assets/fuzzysort.js"
 
 // functions
-    import yyyymmddhhss_to_pretty       from "@/classes/yyyymmddhhss_to_pretty.js"
-    import get_note_string_id           from "@/classes/get_note_string_id.js"
+    import yyyymmddhhss_to_pretty       from "@/functions/yyyymmddhhss_to_pretty.js"
+    import get_note_string_id           from "@/functions/get_note_string_id.js"
 
 export default class Utils {
 

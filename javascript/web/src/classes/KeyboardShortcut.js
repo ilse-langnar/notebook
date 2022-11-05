@@ -1,4 +1,4 @@
-import printf                   from "@/classes/printf.js"
+import printf                   from "@/functions/printf.js"
 
 
 // Ilse
@@ -15,15 +15,15 @@ import printf                   from "@/classes/printf.js"
     import "@/assets/mousetrap-record.min.js"
 
 // functions
-    import set_caret_to_end_on_content_editable_element from "@/classes/set_caret_to_end_on_content_editable_element.js"
-    import map                          from "@/classes/map.js"
-    import if_else                      from "@/classes/if_else.js"
-    import same                         from "@/classes/same.js"
-    import trim                         from "@/classes/trim.js"
-    import remove_text                  from "@/classes/remove_text.js"
-    import first_letter                 from "@/classes/first_letter.js"
-    import clean_list                   from "@/classes/clean_list.js"
-    import push                         from "@/classes/push.js"
+    import set_caret_to_end             from "@/functions/set_caret_to_end_on_content_editable_element.js"
+    import map                          from "@/functions/map.js"
+    import if_else                      from "@/functions/if_else.js"
+    import same                         from "@/functions/same.js"
+    import trim                         from "@/functions/trim.js"
+    import remove_text                  from "@/functions/remove_text.js"
+    import first_letter                 from "@/functions/first_letter.js"
+    import clean_list                   from "@/functions/clean_list.js"
+    import push                         from "@/functions/push.js"
 
 let dom_write_target
 class KeyboardShortcut  {
@@ -92,7 +92,7 @@ class KeyboardShortcut  {
 
         dom_write_target.onkeypress = function() { return true }
         dom_write_target.focus()
-        set_caret_to_end_on_content_editable_element( dom_write_target )
+        set_caret_to_end( dom_write_target )
     }
 
     set_key_codes() {

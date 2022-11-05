@@ -1,4 +1,4 @@
-import printf                           from "@/classes/printf.js"
+import printf                           from "@/functions/printf.js"
 
 // Ilse
     import ilse                         from "@/ilse.js"
@@ -7,14 +7,13 @@ import printf                           from "@/classes/printf.js"
     import Messager                     from "@/classes/Messager.js"
 
 // functions
-    import is_dev                       from "@/classes/is_dev.js"
-    import create_window                from "@/classes/create_window.js"
-    import get_target_directory_url     from "@/classes/get_target_directory_url.js"
-    import html_to_string               from "@/classes/html_to_string.js"
-    import get_plugin_api               from "@/classes/get_plugin_api.js"
-    // import has                          from "@/classes/has.js"
-    import is_inside                    from "@/classes/is_inside.js"
-    import if_else                      from "@/classes/if_else.js"
+    import is_dev                       from "@/functions/is_dev.js"
+    import create_window                from "@/functions/create_window.js"
+    import get_target_directory_url     from "@/functions/get_target_directory_url.js"
+    import html_to_string               from "@/functions/html_to_string.js"
+    import get_plugin_api               from "@/functions/get_plugin_api.js"
+    import is_inside                    from "@/functions/is_inside.js"
+    import if_else                      from "@/functions/if_else.js"
 
 class Commands {
 
@@ -202,12 +201,7 @@ class Commands {
             {
                 id: "open-new-tab",
                 fn: function() {
-
-                    ilse.tabs.list.map( tab => {
-                        tab.is_active = false
-                    })
-
-                    ilse.tabs.list.push({ is_active: true, name: 'New Tab', id: Math.random().toString(), components: [ 'top-menu', 'new-tab', 'status-line' ] });
+                    ilse.tabs.add()
                 },
                 description: "Open New Tab",
                 name: "Open New Tab",
@@ -217,12 +211,16 @@ class Commands {
             {
                 id: "go-to-previous-tab",
                 fn: function() {
-                    printf( "Commands.js -> go-to-previous-tab" )
 
+                    let copy = ilse.selected
+                    if( ilse.tabs.list[--copy] ) {
+                        ilse.select = copy
+                    }
+
+                    /*
                     let tabs       = ilse.tabs
                     let index
                     tabs.list.map( ( tab, tab_index ) => {
-                        printf( "1" )
                         if( tab && tab.is_active ) index = tab_index
                     })
 
@@ -236,6 +234,7 @@ class Commands {
                     } else {
                         ilse.tabs.list[0].is_active = true
                     }
+                    */
                 },
                 description: "Go To Previous Tab",
                 name: "Previous Tab",
@@ -246,6 +245,12 @@ class Commands {
                 id: "go-to-next-tab",
                 fn: function() {
 
+                    let copy = ilse.selected
+                    if( ilse.tabs.list[--copy] ) {
+                        ilse.select = copy
+                    }
+
+                    /*
                     let tabs       = ilse.tabs
                     let index
                     tabs.list.map( ( tab, tab_index ) => {
@@ -263,6 +268,7 @@ class Commands {
                     } else {
                         ilse.tabs.list[0].is_active = true
                     }
+                    */
 
                 },
                 description: "Go To Next Tab",
@@ -540,12 +546,10 @@ class Commands {
 
                     try {
                         full_path   = await ilse.dialog.input( "Query", "Type:" )
-                        printf( "full_path -> ", full_path )
                     } catch( e ) {
                         printf( "e -> ", e )
                     }
 
-                    printf( "full_path -> ", full_path )
                     create_window({ title: `${full_path}(HTML)`, url: full_path })
                 },
                 undo: args => {

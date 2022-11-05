@@ -1,5 +1,5 @@
 
-import printf                                       from "@/classes/printf.js"
+// import printf                                       from "@/functions/printf.js"
 
 /*
 import { ipcRenderer  } from 'electron'

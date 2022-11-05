@@ -57,8 +57,8 @@
 
     <div class="flex" x-data="{ last: '' }" x-init=" window.ilse.Messager.on( '~commands', ( action, payload ) => { if( action === 'exec' ) { last = payload  } } ) ">
         <p class="flexi" x-text="last" > </p>
-        <p class="flexi" > Second </p>
-        <p class="flexi" > Third </p>
+        <p class="flexi" x-text="ilse.mode" > </p>
+        <p class="flexi" x-text="ilse.input" > </p>
     </div>
 
     <div x-init="window.ilse.Messager.on( '~commands', (action, payload) => {

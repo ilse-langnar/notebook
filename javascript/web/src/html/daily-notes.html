@@ -31,7 +31,7 @@
 
     <div id="daily-notes" style="overflow: auto !important; height: 91vh; width: 100%; margin: 0 auto; flex: 1; flex-basis: 96%;" >
 
-        <template x-for="( day, index ) in days" :key="index" >
+        <template x-for="( day, index ) in days" :key="index" x-init="if( !days.length ) { days.push( ilse.utils.get_unique_date_id().slice(0, 8) ) }" >
 
             <div x-data="{ list: window.ilse.query_regexp( new RegExp( '^' + day, 'ig') ) || [] }" x-init="window.ilse.Messager.on('~ilse', (action) => { if( action === 'loaded' ) { console.log('lllllll', list ); console.log('>>>>>', window.ilse.query('#public') ); console.log('<<<<< -> ', window.ilse.query_regexp( /#public/ ) ); list = window.ilse.query_regexp( '^' + day, 'ig' ) } })" >
 

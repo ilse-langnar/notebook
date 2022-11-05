@@ -1,7 +1,6 @@
-import printf                                    from "@/classes/printf.js"
+import printf                                    from "@/functions/printf.js"
 
 import ilse                                      from "@/ilse.js"
-import axios                                     from "axios"
 
 export default class RESTFilesystem {
 

@@ -1,4 +1,4 @@
-import printf                           from "@/classes/printf.js"
+import printf                           from "@/functions/printf.js"
 
 // Ilse
     import ilse                         from "@/ilse.js"
@@ -7,7 +7,7 @@ import printf                           from "@/classes/printf.js"
     import Messager                     from "@/classes/Messager.js"
 
 // Constants
-    import DEFAULT_THEME                     from "@/classes/DEFAULT_THEME.js"
+    import DEFAULT_THEME                from "@/constants/DEFAULT_THEME.js"
 
 export default class Theme {
 

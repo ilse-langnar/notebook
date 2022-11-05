@@ -4,8 +4,8 @@ const printf                        = console.log
     import ilse                         from "@/ilse.js"
 
 // functions
-    import string_to_html               from "@/classes/string_to_html.js"
-    import html_to_string               from "@/classes/html_to_string.js"
+    import string_to_html               from "@/functions/string_to_html.js"
+    import html_to_string               from "@/functions/html_to_string.js"
 
 export default class HTMLs {
 

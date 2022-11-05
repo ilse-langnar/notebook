@@ -1,3 +1,94 @@
+<div id="top-menu" >
+
+    <template x-data="{ tabs: window.ilse.tabs.list }" x-for=" (tab, index) in window.ilse.tabs.list" style="display: flex; float: left; " >
+
+        <div style="flex: 1;" x-init="Messager.on( '~tabs', payload => { tabs = payload } ) " >
+
+            <div> 
+                <div
+                    class="tab" :style="ilse.tabs.selected === index ? 'border: 1px solid var( --text-color ); border-bottom: 0; box-shadow: 0 0 2px 0 #555; ' : '; border-bottom: 0;' " @click="ilse.Messager.emit('~top-menu', 'select', index)" >
+
+
+                    <img :src="ilse.utils.string_to_html(tab).querySelector('link[rel=icon]') ? ilse.utils.string_to_html(tab).querySelector('link[rel=icon]').href : 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIGljb24tdGFibGVyIGljb24tdGFibGVyLXBvaW50IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2U9IiM0ODUzNjEiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CiAgPHBhdGggc3Ryb2tlPSJub25lIiBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+CiAgPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iNCIgLz4KPC9zdmc+CgoK' " style="float: left; width: 20px; margin-top: 2px; " />
+
+                    <img class="delete-tab" :src="ilse.require('x.svg')" style="float: right; width: 10px;" @click="ilse.tabs.remove(tab)" />
+                    <span x-text="ilse.utils.string_to_html(tab).title" > </span>
+                </div>
+
+                <img x-show="index === window.ilse.tabs.list.length -1"
+                    style="flex: 1; margin-top: 6px; width: 20px; cursor: pointer; display: block; "
+                    :src="window.ilse.require('plus.svg')"
+                    @click="ilse.tabs.add()"
+                />
+
+            </div> <!-- single: -->
+
+        </div> <!-- flex: 1-->
+
+    </template>
+
+    <!-- <div class="menu-item" >
+
+        <img :src="window.ilse.require('command.svg')"        @click="ilse.commands.run('open-command-pallet-modal')" >
+        <div class="margin-small"> </div>
+
+        <img :src="window.ilse.require('address-book.svg')"   @click="" >
+        <div class="margin-small"> </div>
+
+        <img :src="window.ilse.require('settings.svg')"       @click="ilse.htmls.modal( window.ilse.components.configuration )" >
+
+        <img :src="window.ilse.require('building-store.svg')" @click="ilse.htmls.modal( window.ilse.components.marketplace )" >
+        <div class="margin-small"> </div>
+
+        <img :src="window.ilse.require('folders.svg')"        @click="ilse.htmls.modal( window.ilse.components.marketplace )" >
+        <div class="margin-small"> </div>
+
+        <img :src="window.ilse.require('lifebuoy.svg')"       @click="ilse.htmls.modal( window.ilse.components.help, { overflow: 'auto' })" >
+        <div class="margin-large"> </div>
+
+        <img :src="window.ilse.require('moon-stars.svg')"     @click="window.ilse.commands.run('toggle-dark-mode')" >
+        <div class="margin-large"> </div>
+
+        <img :src="window.ilse.require('menu.svg')"     @click="" >
+
+    </div> -->
+
+</div>
+
+<div class="flex" style="clear: both;" x-data="{ tabs: ilse.tabs.list }" >
+
+    <input class="main-search" placeholder="https://example.com" style="color: var( --text-color ); background: var( --background-color ); flex: 1; margin: 0 auto; flex-basis: 50%; border: 1px solid #000;; " x-model="ilse.tabs.list[0].url" @keydown.enter="console.log('lll');
+        let search = ilse.tabs.list[0].url;
+        console.log('search -> ', search );
+
+        if( ilse.tabs.list[0].url[0] === '@' ) {
+            ilse.tabs.list.push({ name: search.replace( '@', '' ), url: ilse.tabs.list[0], id: Math.random().toString(), components: [ 'top-menu', search.replace( '@', '' ), 'status-line' ] });
+            ilse.tabs.select(tabs[tabs.length -1])
+            console.log( 'ilse.tabs.list -> ', ilse.tabs.list )
+        }
+
+        if( search.indexOf('http') !== -1 ) {
+            console.log('website')
+        }
+
+        // File
+        if( search.indexOf('http') == -1 && search.indexOf('.html') !== -1 ) {
+            ilse.components.create_window({ title: search + '(HTML)', url: search })
+            // ilse.tabs.list.push({ name: search, url: ilse.tabs.list[0], id: Math.random().toString(), components: [ 'top-menu', 'file', 'status-line' ] });
+            // ilse.tabs.select(tabs[tabs.length -1])
+        }
+
+    " />
+
+        <img :src="window.ilse.require('command.svg')"        @click="ilse.commands.run('open-command-pallet-modal')" >
+        <div class="margin-small"> </div>
+
+        <img :src="window.ilse.require('moon-stars.svg')"     @click="window.ilse.commands.run('toggle-dark-mode')" >
+        <div class="margin-large"> </div>
+
+        <img :src="window.ilse.require('menu.svg')"     @click="" >
+</div>
+
 <style>
 
 #top-menu .margin-small {
@@ -30,105 +121,13 @@
 .main-search:focus {
     outline: none;
 }
+
+#top-menu .tab {
+    width: 140px;
+    float: left;
+    overflow: hidden;
+    cursor: pointer;
+    padding: 3px;
+}
+
 </style>
-
-<div id="top-menu" >
-
-    <template x-data="{ tabs: ilse.tabs.list, selected: '' }" x-for=" (tab, index) in tabs" style="display: flex; float: left; " >
-
-        <div style="flex: 1;" >
-
-            <div> 
-                <div style="width: 90px; float: left; overflow: hidden; margin-top: 1px; cursor: pointer; box-shadow: 0 0 2px 0 var( --text-color ); box-shadow-bottom: 0; border-radius: var( --border-radius ); padding: 3px; margin: 3px;" @click="window.ilse.tabs.select(tab); selected = tab.id" >
-                    <img :src="ilse.require('arrow-back.svg')" style="float: left; width: 10px;" @click="if( tabs.length > 1 ) { ilse.tabs.remove( tab ); ilse.tabs.select( tabs[0] ) }" />
-                    <img class="delete-tab" :src="ilse.require('x.svg')" style="float: right; width: 10px;" @click="if( tabs.length > 1 ) { ilse.tabs.remove( tab ); ilse.tabs.select( tabs[0] ) }" />
-                    <span x-text="tab.name" > </span>
-                </div>
-
-                <img x-show="index === tabs.length -1" style="flex: 1; margin-top: 6px; width: 20px; cursor: pointer; display: block; " @click="tabs.push({ name: 'New', id: Math.random().toString(), components: [ 'top-menu', 'new-tab', 'status-line' ] }); ilse.tabs.select(tabs[tabs.length -1])" :src="window.ilse.require('plus.svg')" />
-            </div>
-
-        </div>
-
-    </template>
-
-    <!-- <div class="menu-item" >
-
-        <img :src="window.ilse.require('command.svg')"        @click="ilse.commands.run('open-command-pallet-modal')" >
-        <div class="margin-small"> </div>
-
-        <img :src="window.ilse.require('address-book.svg')"   @click="" >
-        <div class="margin-small"> </div>
-
-        <img :src="window.ilse.require('settings.svg')"       @click="ilse.htmls.modal( window.ilse.components.configuration )" >
-
-        <img :src="window.ilse.require('building-store.svg')" @click="ilse.htmls.modal( window.ilse.components.marketplace )" >
-        <div class="margin-small"> </div>
-
-        <img :src="window.ilse.require('folders.svg')"        @click="ilse.htmls.modal( window.ilse.components.marketplace )" >
-        <div class="margin-small"> </div>
-
-        <img :src="window.ilse.require('lifebuoy.svg')"       @click="ilse.htmls.modal( window.ilse.components.help, { overflow: 'auto' })" >
-        <div class="margin-large"> </div>
-
-        <img :src="window.ilse.require('moon-stars.svg')"     @click="window.ilse.commands.run('toggle-dark-mode')" >
-        <div class="margin-large"> </div>
-
-        <img :src="window.ilse.require('menu.svg')"     @click="" >
-
-    </div> -->
-
-</div>
-
-<br>
-
-<div class="flex" x-data="{ search: '', tabs: ilse.tabs.list }" >
-
-    <input class="main-search" placeholder="https://example.com" style="color: var( --text-color ); background: var( --background-color ); flex: 1; margin: 0 auto; flex-basis: 50%; border: 1px solid #000;; " x-model="ilse.tabs.list[0].url" @keydown.enter="
-
-        if( ilse.tabs.list[0].url[0] === '@' ) {
-            console.log( 'search -> ', search )
-            ilse.tabs.list.push({ name: search.replace( '@', '' ), url: ilse.tabs.list[0], id: Math.random().toString(), components: [ 'top-menu', search.replace( '@', '' ), 'status-line' ] });
-            ilse.tabs.select(tabs[tabs.length -1])
-            console.log( 'ilse.tabs.list -> ', ilse.tabs.list )
-        }
-
-        // File
-        if( true ) {
-        }
-
-        // Website
-        if( true ) {
-        }
-
-    " />
-
-    <input class="main-search" placeholder="https://example.com" style="margin-right: 10px; color: var( --text-color ); background: var( --background-color ); flex: 1; margin: 0 auto; flex-basis: 20%; border: 1px solid #000;; " x-model="ilse.tabs.list[0].url" @keydown.enter="
-
-        if( ilse.tabs.list[0].url[0] === '@' ) {
-            console.log( 'search -> ', search )
-            ilse.tabs.list.push({ name: search.replace( '@', '' ), url: ilse.tabs.list[0], id: Math.random().toString(), components: [ 'top-menu', search.replace( '@', '' ), 'status-line' ] });
-            ilse.tabs.select(tabs[tabs.length -1])
-            console.log( 'ilse.tabs.list -> ', ilse.tabs.list )
-        }
-
-        // File
-        if( true ) {
-        }
-
-        // Website
-        if( true ) {
-        }
-
-    " />
-
-
-
-        <img :src="window.ilse.require('command.svg')"        @click="ilse.commands.run('open-command-pallet-modal')" >
-        <div class="margin-small"> </div>
-
-        <img :src="window.ilse.require('moon-stars.svg')"     @click="window.ilse.commands.run('toggle-dark-mode')" >
-        <div class="margin-large"> </div>
-
-        <img :src="window.ilse.require('menu.svg')"     @click="" >
-</div>

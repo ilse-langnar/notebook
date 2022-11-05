@@ -1,4 +1,4 @@
-import printf                                        from "@/classes/printf.js"
+import printf                                        from "@/functions/printf.js"
 
 // ilse
     import ilse                                      from "@/ilse.js"
@@ -9,7 +9,7 @@ import printf                                        from "@/classes/printf.js"
 
 
 // JSON
-    import CONFIG_TEMPLATE                           from  "@/classes/CONFIG_TEMPLATE.js"
+    import CONFIG_TEMPLATE                           from  "@/constants/CONFIG_TEMPLATE.js"
 
 // globals
     let filesystem

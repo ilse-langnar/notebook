@@ -1,4 +1,4 @@
-import printf                   from "@/classes/printf.js"
+import printf                   from "@/functions/printf.js"
 
 // Classes
     import KeyboardShortcut             from "@/classes/KeyboardShortcut.js"
@@ -15,22 +15,18 @@ import printf                   from "@/classes/printf.js"
     import Electron                     from "@/classes/Electron.js"
     import Cache                        from "@/classes/Cache.js"
     import Tabs                         from "@/classes/Tabs.js"
-    // import IlseRequire                  from "@/classes/IlseRequire.js"
-    import irequire                     from "@/classes/require.js"
-
     import Clipboard                    from "@/classes/Clipboard.js"
     import HTMLs                        from "@/classes/HTMLs.js"
     import PluginManager                from "@/classes/PluginManager.js"
 
     // UI Elements
-        import Menu                         from "@/classes/Menu.js"
         import Notification                 from "@/classes/Notification.js"
         import Dialog                       from "@/classes/Dialog.js"
 
-
     // functions
-        import i18n                              from "@/classes/i18n.js"
-        import get_plugin_api                    from "@/classes/get_plugin_api.js"
+        import i18n                         from "@/functions/i18n.js"
+        import get_plugin_api               from "@/functions/get_plugin_api.js"
+        import irequire                     from "@/functions/require.js"
 
     // Node.js
         const path                       = require("path")
@@ -39,16 +35,16 @@ import printf                   from "@/classes/printf.js"
     import Messager                     from "@/classes/Messager.js"
 
 // Constants
-    import APP_TEMPLATE                 from "@/classes/APP_TEMPLATE.js"
-    import CONFIG_TEMPLATE              from "@/classes/CONFIG_TEMPLATE.js"
-    import CORE_PLUGINS                 from "@/classes/CORE_PLUGINS.js"
-    import DEFAULT_COMMANDS             from "@/classes/DEFAULT_COMMANDS.js"
-    import DEFAULT_THEME                from "@/classes/DEFAULT_THEME.js"
-    import DEMO_NOTES                   from "@/classes/DEMO_NOTES.js"
-    import PERMISSIONS                  from "@/classes/PERMISSIONS.js"
-    import REGULAR_EXPRESSIONS          from "@/classes/REGULAR_EXPRESSIONS.js"
-    import SUPPORTED_LANGUAGES          from "@/classes/SUPPORTED_LANGUAGES.js"
-    import SVG_TABLE                    from "@/classes/SVG_TABLE.js"
+    import APP_TEMPLATE                 from "@/constants/APP_TEMPLATE.js"
+    import CONFIG_TEMPLATE              from "@/constants/CONFIG_TEMPLATE.js"
+    import CORE_PLUGINS                 from "@/constants/CORE_PLUGINS.js"
+    import DEFAULT_COMMANDS             from "@/constants/DEFAULT_COMMANDS.js"
+    import DEFAULT_THEME                from "@/constants/DEFAULT_THEME.js"
+    import DEMO_NOTES                   from "@/constants/DEMO_NOTES.js"
+    import PERMISSIONS                  from "@/constants/PERMISSIONS.js"
+    import REGULAR_EXPRESSIONS          from "@/constants/REGULAR_EXPRESSIONS.js"
+    import SUPPORTED_LANGUAGES          from "@/constants/SUPPORTED_LANGUAGES.js"
+    import SVG_TABLE                    from "@/constants/SVG_TABLE.js"
 
 // html
     import component_not_found          from "@/html/component-not-found.html"
@@ -66,6 +62,7 @@ import printf                   from "@/classes/printf.js"
     import daily_notes                  from "@/html/daily-notes.html"
     import status_line                  from "@/html/status-line.html"
     import new_tab                      from "@/html/new-tab.html"
+    import filesystem                   from "@/html/filesystem.html"
 
 // Frame
 const JSFrame = require("@/assets/jsframe.min.js")
@@ -116,6 +113,7 @@ export default class Ilse {
             "daily-notes":          daily_notes,
             "status-line":          status_line,
             "new-tab":              new_tab,
+            "filesystem":           filesystem,
         }
 
         this.tabs                   = new Tabs()
@@ -227,7 +225,6 @@ export default class Ilse {
         // UI Elements
             this.notification           = new Notification()
             this.dialog                 = new Dialog()
-            this.menu                   = new Menu()
 
         // Snippets / Themes
             this.themes                 = new Themes( this )
@@ -278,31 +275,12 @@ export default class Ilse {
     }
     */
 
-    /*
-    load_daily_notes() {
-
-        let components      = this.components
-        let has_daily_notes = false
-
-        components.map( component => {
-            if( component.id === "daily-noyes" ) has_daily_notes = true
-        })
-
-        if( !has_daily_notes ) {
-            let daily_notes = this.types.get( "daily-notes" )
-            this.components.push( daily_notes )
-
-        }
-    }
-    */
-
     after_setup() {
 
         //
-        this.modes                  = this.config.modes || [ "ilse" ]
+        this.mode                   = this.config.modes || "default"
         this.input                  = this.config.input || "latin"
 
-        // this.load_daily_notes()
         this.is_zen                 = this.config.is_zen
         // window.ilse                     = get_global_api(this) // Set global API
         // setTimeout( () => { printf( "before -> window.ilse -> ", window.ilse ) printf( "after -> window.ilse -> ", window.ilse ) }, 2000 )

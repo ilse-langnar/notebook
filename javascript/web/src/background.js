@@ -1,13 +1,11 @@
 'use strict'
 
-import printf                                       from "@/classes/printf.js"
+import printf                                       from "@/functions/printf.js"
 
 // import { app, protocol, BrowserWindow, ipcMain, dialog, globalShortcut, remote } from 'electron'
 import { app, protocol, BrowserWindow, ipcMain, dialog, globalShortcut, remote } from 'electron'
 
 import electron from "electron"
-
-electron.Menu.setApplicationMenu( null )
 
 // import Store from "electron-store"
 
@@ -233,6 +231,10 @@ protocol.registerSchemesAsPrivileged([ { scheme: 'atom', privileges: { secure: t
 
 function is_dev() {
     return process.mainModule.filename.indexOf('app.asar') === -1;
+}
+
+if( !is_dev() ) { // disable in prod?
+    electron.Menu.setApplicationMenu( null )
 }
 
 app.whenReady().then(() => {

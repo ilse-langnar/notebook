@@ -7,17 +7,19 @@
         .html-render( v-for="( item, index ) in ilse.htmls.list" :key="index" )
             .div( v-html="item.html" :id="item.id" )
 
+        // template( x-data="{ list: window.ilse.tabs.list }" x-for="tab in list" x-init=" list = window.ilse.tabs.list" )
+            // p( x-text="tab" )
+            // .htmll( x-html="tab" style="overflow: auto;" )
+
         .app( v-show="ilse.has_loaded" :key="ilse.keys.app" )
 
             .wrapper( v-for="( tab, tab_index ) in ilse.tabs.list" :key="tab_index" )
-                .div( v-show="tab.is_active" v-for="( component, component_index ) in tab.components" :key="'component-' + component_index" )
-                    // p( v-show="false" ) {{show_info(component)}}
-                    .htmll( v-html="ilse.components[component]" style="overflow: auto; " )
+                .htmll( v-if="ilse.tabs.selected === tab_index" v-html="tab" style="overflow: auto; " )
 
 </template>
 <script>
 // eslint-disable-next-line
-import printf                                       from "@/classes/printf.js"
+import printf                                       from "@/functions/printf.js"
 
 // import "@/assets/tailwind.js"
 
@@ -25,9 +27,9 @@ import printf                                       from "@/classes/printf.js"
     import ilse                         from "@/ilse.js"
 
 // functions
-    import set                                      from "@/classes/set.js"
-    import if_else                                  from "@/classes/if_else.js"
-    import is_platform                              from "@/classes/is_platform.js"
+    import set                                      from "@/functions/set.js"
+    import if_else                                  from "@/functions/if_else.js"
+    import is_platform                              from "@/functions/is_platform.js"
 
 export default {
 

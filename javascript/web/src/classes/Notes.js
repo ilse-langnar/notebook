@@ -1,4 +1,4 @@
-import printf                               from "@/classes/printf.js"
+import printf                               from "@/functions/printf.js"
 
 // Ilse
     import ilse                             from "@/ilse.js"
@@ -7,17 +7,17 @@ import printf                               from "@/classes/printf.js"
     import Messager                         from "@/classes/Messager.js"
 
 // functions
-    import get_note_id                      from "@/classes/get_note_id.js"
-    import get_unique_date_id               from "@/classes/get_unique_date_id.js"
-    import extract_note_id                  from "@/classes/extract_note_id.js"
-    import extract_note_content             from "@/classes/extract_note_content.js"
-    import get_note_depth                   from "@/classes/get_note_depth.js"
-    import extract_tokens_by_regexp_delimiters   from "@/classes/extract_tokens_by_regexp_delimiters.js"
-    import get_spaces_count                 from "@/classes/get_spaces_count.js"
-    import map                              from "@/classes/map.js"
-    import keys                             from "@/classes/keys.js"
-    import values                           from "@/classes/values.js"
-    import get_note_index                   from "@/classes/get_note_index.js"
+    import get_note_id                      from "@/functions/get_note_id.js"
+    import get_unique_date_id               from "@/functions/get_unique_date_id.js"
+    import extract_note_id                  from "@/functions/extract_note_id.js"
+    import extract_note_content             from "@/functions/extract_note_content.js"
+    import get_note_depth                   from "@/functions/get_note_depth.js"
+    import extract_tokens_by_regexp_delimiters   from "@/functions/extract_tokens_by_regexp_delimiters.js"
+    import get_spaces_count                 from "@/functions/get_spaces_count.js"
+    import map                              from "@/functions/map.js"
+    import keys                             from "@/functions/keys.js"
+    import values                           from "@/functions/values.js"
+    import get_note_index                   from "@/functions/get_note_index.js"
 
 export default class Notes {
 
