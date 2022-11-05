@@ -1,4 +1,4 @@
-<div id="daily-notes" x-transition x-data="{ days: [] }" x-init="days.push( ilse.utils.get_unique_date_id().slice(0, 8) )" class="flex" >
+<div data-component-id="daily-notes" id="daily-notes" x-transition x-data="{ days: [] }" x-init="days.push( ilse.utils.get_unique_date_id().slice(0, 8) )" class="flex" >
 
     <div class="left-sidebar" x-data="{ is_open: false, tab: '', html: '' }" :style=" is_open ? 'flex-basis: 20%;' : '' " >
 
@@ -17,7 +17,7 @@
             <br/>
             <br/>
 
-            <template x-for="( note, index ) in favorites" :key=" 'note' + index" x-data="{favorites:window.ilse.query('#public')}" x-init="window.ilse.Messager.on('~ilse',(action)=> { if( action === 'loaded' ) { console.log('@@ -> ', ilse, window.ilse.query('#public') ); console.log('favorites -> ', favorites ); favorites = window.ilse.query_regexp( /#public/ ); console.log('favorites -> ', favorites) } })" >
+            <template x-for="( note, index ) in favorites" :key=" 'note' + index" x-data="{favorites:window.ilse.query('#public')}" x-init="window.ilse.Messager.on('~ilse',(action)=> { if( action === 'loaded' ) { favorites = window.ilse.query_regexp( /#public/ ); } })" >
 
                 <div >
 
@@ -33,9 +33,9 @@
 
         <template x-for="( day, index ) in days" :key="index" x-init="if( !days.length ) { days.push( ilse.utils.get_unique_date_id().slice(0, 8) ) }" >
 
-            <div x-data="{ list: window.ilse.query_regexp( new RegExp( '^' + day, 'ig') ) || [] }" x-init="window.ilse.Messager.on('~ilse', (action) => { if( action === 'loaded' ) { console.log('lllllll', list ); console.log('>>>>>', window.ilse.query('#public') ); console.log('<<<<< -> ', window.ilse.query_regexp( /#public/ ) ); list = window.ilse.query_regexp( '^' + day, 'ig' ) } })" >
+            <div x-data="{ list: window.ilse.query_regexp( new RegExp( '^' + day, 'ig') ) || [] }" x-init="window.ilse.Messager.on('~ilse', (action) => { if( action === 'loaded' ) { list = window.ilse.query_regexp( '^' + day, 'ig' ) } })" >
 
-                <div style="margin: 0 auto; width: 400px; " x-init="setTimeout( () => { console.log( window.ilse.query_regexp( new RegExp( '^' + day, 'ig' ) )) }, 4000)" >
+                <div style="margin: 0 auto; width: 400px; " >
                     <img style="width: 30px; cursor: pointer;" :src="ilse.require('trash.svg')" @click="days.splice( index, 1 )" />
                     <span style="font-size: 30px;" x-text="window.ilse.utils.yyyymmddhhss_to_pretty(day)" > </span>
                     <img style="width: 30px; cursor: pointer; " :src="ilse.require('lupe.svg')" />
@@ -111,7 +111,7 @@
                             days.push( year + month + --_day )
                         }
                     }
-                    console.log('last -> ', days[days.length -1] )
+
                     "> Load More </button>
                 <br>
 

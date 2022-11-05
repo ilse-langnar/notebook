@@ -292,7 +292,7 @@ export default class Ilse {
     loaded() {
         this.has_loaded             = true
         Messager.emit( "~ilse", "loaded" )
-        window.ilse.Messager.emit( "~ilse", "loaded", this )
+        // window.ilse.Messager.emit( "~ilse", "loaded", this )
         // setTimeout( () => { this.keys.home              = Math.random() }, 1000 )
     }
 

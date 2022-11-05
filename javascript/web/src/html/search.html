@@ -23,7 +23,7 @@
 }
 
 </style>
-<div id="search" style="overflow: auto; height: 100%; " x-data="{ search: '', list: [] }" x-transition >
+<div data-component-id="search" id="search" style="overflow: auto; height: 100%; " x-data="{ search: '', list: [] }" x-transition >
 
     <input id="search-input" x-model="search" @keydown.enter="list = window.ilse.query(search)" placeholder="Search ..." x-init="document.getElementById('search-input') ? document.getElementById('search-input').focus() : null; " x-init="setTimeout( () => { alert('ll'); search = '' }, 100 )" style="color: var( --text-color ); background: var( --background-color ); border-radius: var( --border-radius ); "/>
 

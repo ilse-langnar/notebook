@@ -1,4 +1,4 @@
-<div id="top-menu" >
+<div data-component-id="top-menu" id="top-menu" >
 
     <template x-data="{ tabs: window.ilse.tabs.list }" x-for=" (tab, index) in window.ilse.tabs.list" style="display: flex; float: left; " >
 
@@ -57,7 +57,7 @@
 
 <div class="flex" style="clear: both;" x-data="{ tabs: ilse.tabs.list }" >
 
-    <input class="main-search" placeholder="https://example.com" style="color: var( --text-color ); background: var( --background-color ); flex: 1; margin: 0 auto; flex-basis: 50%; border: 1px solid #000;; " x-model="ilse.tabs.list[0].url" @keydown.enter="console.log('lll');
+    <input class="main-search" placeholder="https://example.com | / | filesystem | daily-notes" style="color: var( --text-color ); background: var( --background-color ); flex: 1; margin: 0 auto; flex-basis: 50%; border: 1px solid #000; " x-model="ilse.tabs.list[0].url" @keydown.enter="console.log('lll');
         let search = ilse.tabs.list[0].url;
         console.log('search -> ', search );
 

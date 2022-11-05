@@ -53,7 +53,7 @@
 }
 
 </style>
-<div class="status-line" :style=" 'height:' + height + 'px;' + ( height === 25 ? 'overflow: hidden;' : 'overflow: auto;' )" x-init="window.Messager.on('~status-line', command => { console.log(' command -> ', command); if( command === 'expand' ) { height = 300 }; if( command === 'shrink' ) { height = 25}; }) " x-data="{ height: 25, }" >
+<div data-component-id="status-line" class="status-line" :style=" 'height:' + height + 'px;' + ( height === 25 ? 'overflow: hidden;' : 'overflow: auto;' )" x-init="window.Messager.on('~status-line', command => { console.log(' command -> ', command); if( command === 'expand' ) { height = 300 }; if( command === 'shrink' ) { height = 25}; }) " x-data="{ height: 25, }" >
 
     <div class="flex" x-data="{ last: '' }" x-init=" window.ilse.Messager.on( '~commands', ( action, payload ) => { if( action === 'exec' ) { last = payload  } } ) ">
         <p class="flexi" x-text="last" > </p>

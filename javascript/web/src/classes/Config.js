@@ -35,22 +35,19 @@ export default class Config {
 
     async load() {
 
-        let config = await ilse.filesystem.file.read.async( "config.json" )
 
-        if( !config ) {
+        let config
+
+        try {
+            config = await ilse.filesystem.file.read.async( "config.json" )
+            config = JSON.parse( config )
+        } catch( e ) {
             await ilse.filesystem.file.write.async( "config.json", JSON.stringify(DEFAULT_CONFIG, null, 4) )
             this.load( ilse )
-            return
-        } else {
-            config = JSON.parse( config )
+            config = DEFAULT_CONFIG
         }
 
-
-        // ==== Load Favorites ==== //
-        this.favorites = config.favorites
-            if( !this.favorites ) this.favorites = []
-        // ==== Load Favorites ==== //
-
+        printf( "config -> ", config )
 
         // ==== Load Favorites ==== //
         for( const key of Object.keys(config) ) {

@@ -1,3 +1,27 @@
-<div style="with: 100%; height: 100%; overflow: auto; font-size: 2em; " x-transition x-data="" >
-    <h1 style="font-size: 30px; text-align: center; "> Filesystem </h1>
+<style>
+
+#filesystem img {
+    display: block;
+    margin: 0 auto;
+}
+
+</style>
+<div data-component-id="filesystem" id="filesystem" data-component-id="filesystem" x-data="{ list: [], hover: '', x: -1, y: -1 }" x-init="let files = window.ilse.fs.readdirSync( '/' ); files.length = 100; list = files" style="with: 100%; height: 87vh;; overflow: auto; font-size: 2em; display: flex; " x-transition >
+
+    <div style="flex: 1; flex-basis: 200px; max-width: 200px; overflow: hidden; " >
+        <img   x-show="hover.indexOf('png') !== -1 || hover.indexOf('jpg') !== -1 || hover.indexOf('gif') !== -1 || hover.indexOf('jpeg') !== -1" :src=" ilse.utils.get_target_directory_url() + '/' + hover" />
+        <video x-show="hover.indexOf('mp4') !== -1 || hover.indexOf('webm') !== -1" :src=" ilse.utils.get_target_directory_url() + '/' + hover" controls />
+    </div>
+
+    <div style="flex: 1; flex-basis: 80%; ">
+        <template x-for="(file, index) in list" >
+            <div style="width: 100px; min-height: 50px; height: auto; float: left; overflow: hidden; border: 1px solid #000; " @mouseover="if( $event.shiftKey ) { x = $event.clientX; y = $event.clientY; hover = file }">
+                <img x-show="file.indexOf('png') !== -1 || file.indexOf('jpg') !== -1 || file.indexOf('gif') !== -1" :src="ilse.require('photo.svg')" /> 
+                <img x-show="file.indexOf('mp4') !== -1 || file.indexOf('webm') !== -1" :src="ilse.require('video.svg')" /> 
+                <img x-show="file.indexOf('pdf') !== -1" :src="ilse.require('notebook.svg')" /> 
+                <p style="font-size: 10px !important;" x-text="file" > </p>
+            </div>
+        </template>
+    </div>
+
 </div>

@@ -15,18 +15,20 @@ export default class Filesystem {
         this.has_checked_default_files = false
 
         if( process.env.VUE_APP_TARGET === "ELECTRON" ) {
-            const FSFilesystem = require("@/classes/FSFilesystem.js").default
-            let new_filesystem  = new FSFilesystem( dir )
-                this.file = new_filesystem.file
-                this.dir  = new_filesystem.dir
+            const FSFilesystem          = require("@/classes/FSFilesystem.js").default
+            let new_filesystem          = new FSFilesystem( dir )
+                this.file               = new_filesystem.file
+                this.dir                = new_filesystem.dir
+                this.target_directory   = dir
 
         }
 
         if( process.env.VUE_APP_TARGET === "WEB" ) {
-            const RESTFilesystem = require("@/classes/RESTFilesystem.js").default
-            let new_filesystem  = new RESTFilesystem( dir )
-                this.file = new_filesystem.file
-                this.dir  = new_filesystem.dir
+            const RESTFilesystem        = require("@/classes/RESTFilesystem.js").default
+            let new_filesystem          = new RESTFilesystem( dir )
+                this.file               = new_filesystem.file
+                this.dir                = new_filesystem.dir
+                this.target_directory   = dir
         }
 
         /*
@@ -40,10 +42,11 @@ export default class Filesystem {
         */
 
         if( process.env.VUE_APP_TARGET === "QUINE" ) {
-            const DOMFilesystem = require("@/classes/DOMFilesystem.js").default
-            this.filesystem  = new DOMFilesystem( dir )
-                this.file    = this.filesystem.file
-                this.dir     = this.filesystem.dir
+            const DOMFilesystem         = require("@/classes/DOMFilesystem.js").default
+            this.filesystem             = new DOMFilesystem( dir )
+                this.file               = this.filesystem.file
+                this.dir                = this.filesystem.dir
+                this.target_directory   = dir
         }
 
         this.setup()
@@ -54,7 +57,6 @@ export default class Filesystem {
         // await this.create_default_dirs()
         // await this.create_default_plugin_dir()
         // setTimeout( () => { this.test() }, 3000 )
-        this.loaded()
     }
 
     /*
@@ -114,10 +116,6 @@ export default class Filesystem {
         // Messager.emit( "~filesystem", "zir-files-check" )
     }
     */
-
-    loaded() {
-        Messager.emit( "~filesystem", "loaded", this )
-    }
 
     listen() {
 

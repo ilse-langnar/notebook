@@ -115,7 +115,7 @@ This program defines a couple of base "features" that be combined with each othe
 | Make a `Blog/Article/Video` | Create something documenting how you use ilse in your life, I'll greatly appreciate it!. | Medium |
 | Make `Flashcards`  | Create a project with the sturcture like: [Flashcards Template](https://github.com/ilse-langnar/flashcards-template). and fill it with your item. | Medium |
 | Make Memes | Help spread the tool with virality and easy-to-consume memes. | High |
-| Join Discord | I'll post updates, ideas, plugins, themes, snippets, commands screenshots and more. https://discord.gg/9BVx8YHr | Medium |
+| Join Discord | I'll post updates, ideas, plugins, themes, snippets, commands screenshots and more.  https://discord.gg/dAKGGTXY | Medium |
 | Fix a bug yourself | Modify the code and then do a push into the `dev` branch, I'll later move it to more stable branches. | High |
 | Become smarter| That's the final goal here, the final goal is better thinking. | Inifinity |
 

@@ -41,9 +41,50 @@ export default class Tabs {
         Messager.emit( "~tabs", this.list )
     }
 
-    add( html = `<html> <head> <title> New Tab </title> </head> <body> ${top_menu} ${new_tab} ${status_line} </body> </html> `, autoselect = true ) {
+    add_with_component( name, options = { title:  "New Title", url: '', autoselect: true }) {
+
+        let component_name = ilse.components[name]
+
+        return this.add(`
+            <html>
+                <head>
+                    <title> ${options.title} </title>
+                <link rel="url" href="${options.url}" >
+                </head>
+                <body>
+                    ${top_menu}
+                    ${status_line}
+                    ${component_name}
+                </body>
+            </html>
+        `, options )
+
+    }
+
+    add( html = `
+        <html>
+            <head>
+                <title> $title </title>
+                <link rel="url" href="$url" >
+            </head>
+            <body>
+                ${top_menu}
+                ${status_line}
+                ${new_tab}
+            </body>
+        </html>
+    `, options = { autoselect: true, title: "New Tab", url: '' } ) {
+
+        // Set Title
+            html = html.replace( "$title", options.title )
+
+        // Set URL
+            html = html.replace( "$url", options.url )
+
         this.list.push( html )
-        if( autoselect ) this.selected = this.list.length -1
+
+        if( options.autoselect ) this.selected = this.list.length -1
+
         return this.list[this.list.length -1]
     }
 

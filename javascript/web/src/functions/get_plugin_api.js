@@ -120,6 +120,8 @@ import printf                           from "@/functions/printf.js"
     import values                                 from "@/functions/values.js"
     import yyyymmddhhss_to_pretty                 from "@/functions/yyyymmddhhss_to_pretty.js"
 
+// classes
+    import FSFilesystem                           from "@/classes/FSFilesystem.js"
 
     // import has_permission               from "@/classes/has_permission.js"
 
@@ -148,9 +150,40 @@ export default function get_plugin_api( name, ilse ) {
     // printf( "ilse.notes -> ", ilse.notes )
     // printf( " name === 'global' -> ", name === 'global' )
 
+    // let target = ilse.target_directories[0]
+    // printf( "1 ilse.target_directories[0] -> ", ilse.target_directories[0] )
+    // const public_filesystem = new FSFilesystem( target + "/public/" )
+    // printf( "2 ilse.target_directories[0] -> ", ilse.target_directories[0] )
+    // printf( "public_filesystem -> ", public_filesystem )
+
+    let fs
+    // if( name === "global" ) {
+
+        // const FSFilesystem          = require("@/classes/FSFilesystem.js").default
+        // let target                  = ilse.target_directories[0]
+        // printf( "1 1111 -> target -> ", target )
+        // let public_filesystem       = new FSFilesystem( target + "/public/" )
+        // printf( "4 1111 -> public_filesystem -> ", public_filesystem )
+        // fs = {
+            // existsSync:    public_filesystem.file.exists.sync,  // .bind(public_filesystem),
+            // exists:        public_filesystem.file.exists.async, //.bind(public_filesystem),
+            // readdir:       public_filesystem.dir.list.async,    // .bind(public_filesystem),
+            // readdirSync:   public_filesystem.dir.list.sync,     // .bind(public_filesystem),
+            // readFile:      public_filesystem.file.read.async,   // .bind(public_filesystem),
+            // readFileSync:  public_filesystem.file.read.async,   // .bind(public_filesystem),
+            // writeFile:     public_filesystem.file.write.async,  // .bind(public_filesystem),
+            // writeFileSync: public_filesystem.file.write.sync,   // .bind(public_filesystem),
+        // }
+
+    // } else {
+
+    // }
+
     const api = {
 
         htmls: ilse.htmls,
+
+        files: ilse.files.list,
 
         store: ilse.store,
 
@@ -238,15 +271,29 @@ export default function get_plugin_api( name, ilse ) {
             write:  has_permission( name, 'clipboard', ilse )  ? ilse.clipboard.write : null,
         },
 
+        // fs: {
+            // existsSync:    has_permission( name, 'read', ilse )  ? ilse.filesystem.file.exists.sync  : null /*public_filesystem.file.exists.sync.bind(public_filesystem)*/,
+            // exists:        has_permission( name, 'read', ilse )  ? ilse.filesystem.file.exists.async : null /*public_filesystem.file.exists.async.bind(public_filesystem)*/,
+            // readdir:       has_permission( name, 'read', ilse )  ? ilse.filesystem.dir.list.async    : null /*public_filesystem.dir.list.async.bind(public_filesystem)*/,
+            // readdirSync:   has_permission( name, 'read', ilse )  ? ilse.filesystem.dir.list.sync     : null /*public_filesystem.dir.list.sync.bind(public_filesystem)*/,
+            // readFile:      has_permission( name, 'read', ilse )  ? ilse.filesystem.file.read.async   : null /*public_filesystem.file.read.async.bind(public_filesystem)*/,
+            // readFileSync:  has_permission( name, 'read', ilse )  ? ilse.filesystem.file.read.sync    : null /*public_filesystem.file.read.async.bind(public_filesystem)*/,
+            // writeFile:     has_permission( name, 'write', ilse ) ? ilse.filesystem.file.read.sync    : null /*public_filesystem.file.write.async.bind(public_filesystem)*/,
+            // writeFileSync: has_permission( name, 'write', ilse ) ? ilse.filesystem.file.read.sync    : null /*public_filesystem.file.write.sync.bind(public_filesystem)*/,
+        // },
+
         fs: {
-            existsSync:    has_permission( name, 'read', ilse )  ? ilse.filesystem.file.exists.sync  : null,
-            exists:        has_permission( name, 'read', ilse )  ? ilse.filesystem.file.exists.async : null,
-            readdir:       has_permission( name, 'read', ilse )  ? ilse.filesystem.dir.list.async    : null,
-            readdirSync:   has_permission( name, 'read', ilse )  ? ilse.filesystem.dir.list.sync     : null,
-            readFile:      has_permission( name, 'read', ilse )  ? ilse.filesystem.file.read.async   : null,
-            readFileSync:  has_permission( name, 'read', ilse )  ? ilse.filesystem.file.read.sync    : null,
-            writeFile:     has_permission( name, 'write', ilse ) ? ilse.filesystem.file.read.sync    : null,
-            writeFileSync: has_permission( name, 'write', ilse ) ? ilse.filesystem.file.read.sync    : null,
+            existsSync:    ilse.filesystem.file.exists.sync,
+            exists:        ilse.filesystem.file.exists.async,
+
+            readdir:       ilse.filesystem.dir.list.async,
+            readdirSync:   ilse.filesystem.dir.list.sync,
+
+            readFile:      ilse.filesystem.file.read.async,
+            readFileSync:  ilse.filesystem.file.read.sync,
+
+            writeFile:     ilse.filesystem.file.read.async,
+            writeFileSync: ilse.filesystem.file.read.sync,
         },
 
         dom: name === "global" ? null : function(HTML) { // We have limited what the plugin can do to the DOM. But here's the function you want to do your DOM transformations
@@ -317,6 +364,7 @@ export default function get_plugin_api( name, ilse ) {
             send_message: send_message,
             get_human_readable_creation_date,
             string_to_html,
+            get_target_directory_url,
 
             set_dom_x_data: function( id, props ) {
 

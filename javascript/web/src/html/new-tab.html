@@ -1,4 +1,4 @@
-<div class="new-tab" style="overflow: auto; height: 80vh;" >
+<div data-component-id="new-tab" class="new-tab" style="overflow: auto; height: 100%;" >
 
     <div style="display: flex; margin: 10px 0; height: 30vh; overflow: hidden; " >
 
@@ -8,16 +8,19 @@
         </div>
 
         <div style=" flex: 1; " >
-            <img :src="ilse.require('settings.svg')" style="width: 30px;" />
-            <p> Configuration </p>
-            <div x-html="window.ilse.components['configuration']" > </div> 
+            <img :src="ilse.require('settings.svg')" style="width: 30px; flex: 1;" />
+            <p style="flex: 1;" > Configuration </p>
+            <!--<div style="flex: 1;" x-html="window.ilse.components['configuration']" > </div>  -->
             <!-- <div x-html="window.ilse.components['daily-notes']" > </div> -->
         </div>
 
         <div style=" flex: 1; " >
-            <img :src="ilse.require('lifebuoy.svg')" style="width: 30px;" />
-            <p> Help </p>
-            <div x-html="window.ilse.components['help']" > </div> 
+
+            <div style="display: flex;" >
+                <img style="display: block; margin: 0 auto;" :src="ilse.require('lifebuoy.svg')" style="width: 30px;" />
+                <h2 style="text-align: center;" > Help </h2>
+            </div>
+            <button class="slick-button" > Open Help </button>
         </div>
 
         <div style=" flex: 1; " >
@@ -28,7 +31,7 @@
 
     </div>
 
-    <div style="display: flex; margin: 10px 0; " >
+    <div style="display: flex; margin: 10px 0; height: 30vh; overflow: hidden; " >
 
         <div style=" flex: 1; " >
             <img :src="ilse.require('calendar.svg')" style="width: 30px;" />
@@ -53,11 +56,16 @@
 
     </div>
 
-    <div style="display: flex; margin: 10px 0; " >
+    <div style="display: flex; margin: 10px 0; height: 30vh; overflow: hidden; " >
 
         <div style=" flex: 1; " >
             <img :src="ilse.require('building-store.svg')" style="width: 30px;" />
             <p> Public </p>
+            <template x-data="{ list: window.ilse.query('#public') }" x-for="(item, index) in list" x-init="ilse.Messager.on( '~ilse', (action, payload) => { if( action === 'loaded' ) { list = window.ilse.query('#public') } })" >
+                <div>
+                    <p x-text="item" > </p>
+                </div>
+            </template>
         </div>
 
         <div style=" flex: 1; " >
@@ -66,14 +74,17 @@
         </div>
 
         <div style=" flex: 1; " >
-            <img :src="ilse.require('plugin.svg')" style="width: 30px;" />
-            <p> Make Plugin </p>
+            <h2> Make a new Plugin! </h2>
+            <div style="display: flex;" >
+                <img :src="ilse.require('plugin.svg')" style="width: 30px; flex: 1;" />
+                <img :src="ilse.require('plus.svg')" style="width: 50px;   flex: 1; cursor: pointer; " />
+            </div> 
         </div>
 
         <div style=" flex: 1; " >
             <img :src="ilse.require('plugin.svg')" style="width: 30px;" />
-            <p> Filesystem  </p>
-            <div x-html="window.ilse.components['filesystem']" > </div> 
+            <button class="slick-button" @click="window.ilse.tabs.add_with_component('filesystem', { title: 'Filesystem', url: 'filesystem', autoselect: true })" > Open Filesystem </button>
+            <!-- <div x-html="window.ilse.components['filesystem']" > </div> -->
         </div>
 
     </div>

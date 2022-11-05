@@ -1,7 +1,5 @@
 import printf                                    from "@/functions/printf.js"
 
-import ilse                                      from "@/ilse.js"
-
 const fs                                         = require('fs')
 const fs_promises                                = fs.promises
 const { promisify  } = require('util')
@@ -20,9 +18,9 @@ export default class FSFilesystem {
 
     constructor( dir ) {
 
-        target_directory = dir // target_directory = dir + "/"
+        target_directory        = dir // target_directory = dir + "/"
 
-        this.file = {
+        this.file               = {
 
             watch: this.watch_file,
 
@@ -247,7 +245,7 @@ export default class FSFilesystem {
         return result
     }
 
-     list_dir_sync( directory_path ) {
+    list_dir_sync( directory_path, ll ) {
 
         if( directory_path.indexOf("..")  !== -1 ) throw new Error( `FSFilesystem.Error: You don't have access to list: ${directory_path}` ) // BUGFIX: antihack
 

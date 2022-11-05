@@ -115,6 +115,7 @@ class KeyboardShortcut  {
             // Special
                 { combo: "ctrl+tab", command: "go-to-next-tab",             category: "Special" },
                 { combo: "ctrl+shift+l", command: "go-to-previous-tab",             category: "Special" },
+                { combo: "f1", command: "examine-component",             category: "Special" },
                 { combo: "ctrl+t", command: "open-new-tab",             category: "Special" },
                 { combo: "ctrl+w", command: "close-active-tab",    category: "Special", prevent_default: true },
 

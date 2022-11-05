@@ -14,6 +14,7 @@ import printf                           from "@/functions/printf.js"
     import get_plugin_api               from "@/functions/get_plugin_api.js"
     import is_inside                    from "@/functions/is_inside.js"
     import if_else                      from "@/functions/if_else.js"
+    import get_parent_with_attr         from "@/functions/find_parent_element_with_attribute.js"
 
 class Commands {
 
@@ -195,6 +196,29 @@ class Commands {
                 },
                 description: "Open New Tab",
                 name: "Open New Tab",
+                props: {},
+            },
+
+            {
+                id: "examine-component",
+                fn: function() {
+
+                    // document.body.style.cursor = "crosshair !important"
+                    document.body.style.cursor      = "crosshair";
+                    ilse.cursor                     = async function on_click( event ) {
+
+                        let dom                     = event.target
+                        let id                      = get_parent_with_attr( dom, "data-component-id" )
+                            if( id ) ilse.htmls.modal( ilse.components[id] )
+
+                        document.body.style.cursor = "auto"
+                        document.body.removeEventListener( "click", ilse.cursor )
+                    }
+
+                    document.body.addEventListener( "click", ilse.cursor )
+                },
+                description: "Examine a DOM Element",
+                name: "Examine Component",
                 props: {},
             },
 
@@ -584,8 +608,6 @@ class Commands {
 
                     // document.body.style.cursor = "crosshair !important"
                     document.body.style.cursor = "crosshair";
-
-
 
                     ilse.cursor = async function on_click( event ) {
 
