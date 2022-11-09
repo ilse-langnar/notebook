@@ -5,20 +5,37 @@
     margin: 0 auto;
 }
 
-</style>
-<div data-component-id="filesystem" id="filesystem" data-component-id="filesystem" x-data="{ list: [], hover: '', x: -1, y: -1 }" x-init="let files = window.ilse.fs.readdirSync( '/' ); files.length = 100; list = files" style="with: 100%; height: 87vh;; overflow: auto; font-size: 2em; display: flex; " x-transition >
+#filesystem .slick-button {
+    float: left;
+    padding: 5px;
+    margin: 2px;
+}
 
-    <div style="flex: 1; flex-basis: 200px; max-width: 200px; overflow: hidden; " >
-        <img   x-show="hover.indexOf('png') !== -1 || hover.indexOf('jpg') !== -1 || hover.indexOf('gif') !== -1 || hover.indexOf('jpeg') !== -1" :src=" ilse.utils.get_target_directory_url() + '/' + hover" />
-        <video x-show="hover.indexOf('mp4') !== -1 || hover.indexOf('webm') !== -1" :src=" ilse.utils.get_target_directory_url() + '/' + hover" controls />
+</style>
+<div data-component-id="filesystem" id="filesystem" data-component-id="filesystem" x-data="{ list: [], hover: '', x: -1, y: -1, chunk_length: 100, pointer: 0 }" x-init="let files = window.ilse.fs.readdirSync( ilse.utils.path.join('/') ); let chunks = ilse.utils.split_array_into_nth_chunks(files, chunk_length); list = chunks" style="with: 100%; height: 88vh;; overflow: auto; font-size: 2em; " x-transition >
+
+    <input placeholder="Search for files" style="width: 100%;" />
+    <div style="width: 100%; border: 1px solid #000;" >
+
+        <img style="width: 30px; float: left; cursor: pointer; " :src="ilse.require('arrow-narrow-left.svg')" @click="let copy = Number(pointer); if( list[--copy] ) { pointer-- }" />
+    
+        <template x-for="( item, index ) in list[pointer]" :key="'l' + index" style="" >
+            <div>
+                <button class="slick-button" :style=" pointer === index ? 'background: red;' : '' " @click="pointer = index" x-text="index" > </button>
+            </div>
+        </template>
+        <img style="width: 30px; float: left; cursor: pointer;" :src="ilse.require('arrow-narrow-right.svg')" @click="let copy = Number(pointer); if( list[++copy] ) { pointer++ }" />
+
     </div>
 
-    <div style="flex: 1; flex-basis: 80%; ">
-        <template x-for="(file, index) in list" >
-            <div style="width: 100px; min-height: 50px; height: auto; float: left; overflow: hidden; border: 1px solid #000; " @mouseover="if( $event.shiftKey ) { x = $event.clientX; y = $event.clientY; hover = file }">
-                <img x-show="file.indexOf('png') !== -1 || file.indexOf('jpg') !== -1 || file.indexOf('gif') !== -1" :src="ilse.require('photo.svg')" /> 
-                <img x-show="file.indexOf('mp4') !== -1 || file.indexOf('webm') !== -1" :src="ilse.require('video.svg')" /> 
-                <img x-show="file.indexOf('pdf') !== -1" :src="ilse.require('notebook.svg')" /> 
+    <br style="clear: both;" >
+
+    <div>
+        <template x-for="(file, index) in list[pointer]" >
+            <div style="width: 100px; height: 100px; float: left; overflow: hidden; border: 1px solid #000; " @mouseover="if( $event.shiftKey ) { x = $event.clientX; y = $event.clientY; hover = file }" >
+                <img x-show="file.indexOf('png') !== -1 || file.indexOf('jpg') !== -1 || file.indexOf('gif') !== -1" :src=" ilse.utils.get_target_directory_url() + '/' + file" /> 
+                <img x-show="file.indexOf('mp4') !== -1 || file.indexOf('webm') !== -1" :src="ilse.require('video.svg')"  /> 
+                <img x-show="file.indexOf('pdf') !== -1" :src="ilse.require('notebook.svg')" style="width: 100%;" /> 
                 <p style="font-size: 10px !important;" x-text="file" > </p>
             </div>
         </template>

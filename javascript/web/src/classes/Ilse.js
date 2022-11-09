@@ -47,22 +47,25 @@ import printf                   from "@/functions/printf.js"
     import SVG_TABLE                    from "@/constants/SVG_TABLE.js"
 
 // html
-    import component_not_found          from "@/html/component-not-found.html"
+    import component_not_found          from "@/html/component_not_found.html"
     import template                     from "@/html/template.html"
-    import top_menu                     from "@/html/top-menu.html"
-    import dialog_info                  from "@/html/dialog-info.html"
+    import top_menu                     from "@/html/top_menu.html"
     import help                         from "@/html/help.html"
+    import setup                        from "@/html/setup.html"
     import search                       from "@/html/search.html"
     import marketplace                  from "@/html/marketplace.html"
     import configuration                from "@/html/configuration.html"
-    import command_pallet               from "@/html/command-pallet.html"
+    import command_pallet               from "@/html/command_pallet.html"
     import references                   from "@/html/references.html"
-    import ghost_note                   from "@/html/ghost-note.html"
     import outline                      from "@/html/outline.html"
-    import daily_notes                  from "@/html/daily-notes.html"
-    import status_line                  from "@/html/status-line.html"
-    import new_tab                      from "@/html/new-tab.html"
+    import daily_notes                  from "@/html/daily_notes.html"
+    import status_line                  from "@/html/status_line.html"
+    import new_tab                      from "@/html/new_tab.html"
     import filesystem                   from "@/html/filesystem.html"
+    import file                         from "@/html/file.html"
+    import study                        from "@/html/study.html"
+    import web                          from "@/html/web.html"
+    import directory_manager            from "@/html/directory_manager.html"
 
 // Frame
 const JSFrame = require("@/assets/jsframe.min.js")
@@ -101,19 +104,23 @@ export default class Ilse {
 
         this.components             = {
             "top-menu":             top_menu,
-            "dialog-info":          dialog_info,
+            "setup":                setup,
             "help":                 help,
             "search":               search,
             "marketplace":          marketplace,
             "configuration":        configuration,
             "command-pallet":       command_pallet,
             "references":           references,
-            "ghost-note":           ghost_note,
             "outline":              outline,
             "daily-notes":          daily_notes,
             "status-line":          status_line,
             "new-tab":              new_tab,
             "filesystem":           filesystem,
+            "file":                 file,
+            "study":                study,
+            "web":                  web,
+            "directory-manager":    directory_manager,
+            "hello-world":          `<p> Hello, World </p>`,
         }
 
         this.tabs                   = new Tabs()
@@ -177,13 +184,23 @@ export default class Ilse {
         let list        = window.localStorage.getItem( "target-directories" )
 
         let bugfix_is_string = typeof list === "string"
-            if( bugfix_is_string ) list = JSON.parse( list )
+        if( bugfix_is_string ) {
+
+            try {
+                list = JSON.parse( list )
+            } catch( e ) {
+                list = []
+            }
+
+        }
 
         let bugfix_list_has_items = list && list.length
+        printf( "bugfix_list_has_items -> ", bugfix_list_has_items )
+        printf( "list -> ", list )
+        printf( "this.target_directories -> ", this.target_directories )
             if( bugfix_list_has_items ) this.target_directories     = list
 
-        // if( this.platform === "quine" ) this.target_directories = [ "/" ] // quine
-        if( this.platform === "quine" ) {
+        if( this.platform === "quine" ) { // Autoselects "/"
 
             let quine_dir = window.location.pathname
 

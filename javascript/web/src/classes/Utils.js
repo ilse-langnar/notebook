@@ -170,26 +170,6 @@ export default class Utils {
         return unique
     }
 
-    has_media_extention( file_name ) {
-
-        let is_mp4  = file_name.indexOf(".mp4")   !== -1
-        let is_webm = file_name.indexOf(".webm") !== -1
-
-        let is_png  = file_name.indexOf(".png") !== -1
-        let is_jpg  = file_name.indexOf(".jpg") !== -1 || file_name.indexOf(".jpeg") !== -1
-        let is_gif  = file_name.indexOf(".gif") !== -1
-
-        let is_mp3  = file_name.indexOf(".mp3")   !== -1
-        let is_ogg  = file_name.indexOf(".ogg")   !== -1
-
-        if( is_mp4 || is_webm || is_png || is_jpg || is_gif || is_mp3 || is_ogg ) {
-            return true
-        } else {
-            return false
-        }
-
-    }
-
     // Febuary 20th, 2020
     get_daily_note_format() {
 
@@ -357,39 +337,6 @@ export default class Utils {
         if( !title ) throw new Error( "Utils.js -> create_note(<title>, <content>)-> <title> is not defined" )
         let result = await ilse.filesystem.file.write.async( title, content )
         return !!result
-    }
-
-    extract_tags( text  ) {
-
-        if( !text ) return []
-        if( !text.indexOf) return []
-        if( text.indexOf("#") === -1 ) return []
-
-        let reg_exp = /#[\w-]*,?[\s]*/
-        // let reg_exp = /#[.*][\s]*/
-
-        // let reg_exp = /#[\w-]*,?[\s]*/
-        // let reg_exp = /#[\w-?\]*,?[\s]*/
-
-        text        = text.replace( /[\n]+/g, " " )
-
-        let words   = text.split(" ")
-        let tags    = []
-        let letters
-
-        // Words
-        for( let word of words ) {
-            if( word.match(reg_exp) ) {
-
-                letters = word.split("#")
-                if( letters[1] !== "" ) {
-                    tags.push( word )
-                }
-            }
-        }
-
-        return tags
-
     }
 
     /*
@@ -753,13 +700,7 @@ export default class Utils {
     }
 
     get_normalized_fs_name( file ) {
-
-        // let exists = ilse.utils._file_on_fs( file )
-
-        if( ilse.graph.graph.getNode(file + ".md") ) {
-            return file + ".md"
-
-        }
+        if( ilse.graph.graph.getNode(file + ".md") ) return file + ".md"
         return file
     }
 

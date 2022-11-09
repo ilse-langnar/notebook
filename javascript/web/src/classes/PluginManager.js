@@ -31,8 +31,11 @@ class PluginManager {
     }
 
     load() {
+
+        if( !this.ilse.target_directories[0] ) return
+
         // let list = ilse.filesystem.dir.list.sync( "plugins" )
-        let list      = ilse.filesystem.dir.list.sync( "/" )
+        let list      = ilse.filesystem.dir.list.sync( ilse.path.join("/") )
         let HTMLs     = list.filter( item => item.indexOf(".html") !== -1 ) // needs to have .html
 
         HTMLs.map( plugin => { this.run( plugin ) })

@@ -6,6 +6,9 @@ import printf                           from "@/functions/printf.js"
 // Messager
     import Messager                     from "@/classes/Messager.js"
 
+// functions
+    import extract_markdown_tags        from "@/functions/extract_markdown_tags.js"
+
 export default class Tags {
 
     constructor() {
@@ -48,7 +51,7 @@ export default class Tags {
                 this.parse( payload )
             } else if( action === 'added' ) {
 
-                let tags        = ilse.utils.extract_tags( payload.note.content )
+                let tags        = extract_markdown_tags( payload.note.content )
                 for( const tag of tags ) {
                     this.parse({ note: payload.note, tag })
                 }

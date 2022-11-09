@@ -177,12 +177,13 @@ class KeyboardShortcut  {
                 { combo: "ctrl+space r r", command: "open-random-note", category: "Random" },
 
             // s
-                { combo: "ctrl+space s s",   command: "open-search-modal",               category: "Search" },
-                { combo: "ctrl+space s g",   command: "open-glyph-search",               category: "Search" },
-                { combo: "ctrl+space s w w", command: "open-website-on-window",          category: "Search" },
-                { combo: "ctrl+space s w e", command: "open-external-website-on-window", category: "Search" },
-                { combo: "ctrl+space s h",   command: "open-html-on-window",             category: "Search" },
-                { combo: "ctrl+space s v",   command: "open-vim",                        category: "Search"},
+                { combo: "ctrl+space s s",       command: "open-notes-search-modal",         category: "Search", prevent_default: true },
+                { combo: "ctrl+space s shift+s", command: "open-files-search-modal",         category: "Search", prevent_default: true },
+                { combo: "ctrl+space s g",       command: "open-glyph-search",               category: "Search" },
+                { combo: "ctrl+space s w w",     command: "open-website-on-window",          category: "Search" },
+                { combo: "ctrl+space s w e",     command: "open-external-website-on-window", category: "Search" },
+                { combo: "ctrl+space s h",       command: "open-html-on-window",             category: "Search" },
+                { combo: "ctrl+space s v",       command: "open-vim",                        category: "Search"},
 
             // t
 

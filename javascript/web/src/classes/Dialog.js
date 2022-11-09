@@ -7,9 +7,9 @@ import printf                           from "@/functions/printf.js"
     import Messager                     from "@/classes/Messager.js"
 
 // HTML
-    import info                         from "@/html/dialog-info.html"
-    import input                        from "@/html/dialog-input.html"
-    import confirm                      from "@/html/dialog-confirm.html"
+    import info                         from "@/html/dialog_info.html"
+    import input                        from "@/html/dialog_input.html"
+    import confirm                      from "@/html/dialog_confirm.html"
 
 export default class Dialog {
 
@@ -76,9 +76,12 @@ export default class Dialog {
 
     async input( title = "Title", description = "Description" ) {
 
+        printf( "before -> ", input )
         let html = input
             .replace( "$title", title )
             .replace( "$description", description )
+
+        printf( "after -> ", html )
 
         let id   = "dialog-input-" + Math.random()
             ilse.htmls.add( id, html )

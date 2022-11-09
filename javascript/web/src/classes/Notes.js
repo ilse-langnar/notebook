@@ -81,13 +81,18 @@ export default class Notes {
 
     async get_notes() {
 
-        let textfile         = await this.filesystem.file.read.async( "notes" )
+        if( !this.ilse.target_directories[0] ) return
 
-            if( !textfile ) {
-                this.list           = []
-                ilse.loaded()
-                return
-            }
+        let textfile
+
+        try {
+            textfile         = await this.filesystem.file.read.async( "notes" )
+        } catch( e ) {
+            this.list           = []
+            await this.filesystem.file.write.async( "notes", "" )
+            ilse.loaded()
+            return
+        }
 
         // Process note
         let notes      = textfile.split("\n")
@@ -173,15 +178,21 @@ export default class Notes {
 
     // give me a content, a reference note and a depth and I'll add it correctly for you.
     add_after( content, depth, note_id ) {
+
         let index   = get_note_index( note_id )
-        return this.add( content, ++index, depth )
+            printf( "index -> ", index )
+
+            printf( ">>> Notes.js -> add_after -> content -> ", content )
+            printf( ">>> Notes.js -> add_after -> depth -> ", depth )
+            printf( ">>> Notes.js -> add_after -> note_id -> ", note_id )
+
+        let o = this.add( content, ++index, depth )
+        printf( ">>>> o -> ", o )
+        return o
     }
 
     add( content, index = null, depth = 0 ) {
 
-        // let id               = get_note_id() // 20220120155758
-        // let spaces           = this.ilse.utils.get_depth_spaces( depth )
-        // let note             = `${spaces}${id}: ${content}` // 20220120155758: Hello, World
         let id      = get_note_id()
         let note             = {
             content: content,

@@ -56,7 +56,7 @@ export default {
             let exists = ilse.filesystem.file.exists.sync( url )
 
             if( exists ) {
-                return `<iframe class="html-embed" src="${get_target_directory_url()}${url}" data-event-click="on_click" data-prop-label="Exampleeee" style="height: ${size ? size : 30}vh; width: 100%; overflow: hidden;" > </iframe>`
+                return `<iframe class="html-embed" src="${get_target_directory_url()}${url}" data-event-click="on_click" data-prop-label="Exampleeee" style="height: ${size ? size : 30}vh; width: 90%; overflow: hidden;" > </iframe>`
 
             } else {
                 let has_html_template = ilse.filesystem.file.exists.sync( "html-template.html" )
@@ -68,7 +68,7 @@ export default {
                     ilse.filesystem.file.write.sync( url, ilse.constants.HTML_TEMPLATE.replace( "@title@", url ).replace( "@body@", `<h1> ${url} </h1> ` ) )
                 }
 
-                return `<iframe class="html-embed" src="${get_target_directory_url()}${url}" data-event-click="on_click" data-prop-label="Exampleeee" style="height: ${size ? size : 30}vh; width: 100%; overflow: hidden;" > </iframe>`
+                return `<iframe class="html-embed" src="${get_target_directory_url()}${url}" data-event-click="on_click" data-prop-label="Exampleeee" style="height: ${size ? size : 30}vh; width: 90%; overflow: hidden;" > </iframe>`
             }
 
         } else if( is_file ) {

@@ -18,12 +18,8 @@
             <br/>
 
             <template x-for="( note, index ) in favorites" :key=" 'note' + index" x-data="{favorites:window.ilse.query('#public')}" x-init="window.ilse.Messager.on('~ilse',(action)=> { if( action === 'loaded' ) { favorites = window.ilse.query_regexp( /#public/ ); } })" >
+                <img style="cursor: pointer;" @click="is_open = !is_open; html = note.content; if( $event.shiftKey ) { is_open = false; ilse.tabs.float({ title: 'Component', pure: true, html: ilse.markdown.render(note.content)}) }; if( $event.ctrlKey ) { is_open = false; ilse.htmls.modal(note.id, ilse.markdown.render(note.content) ) }" :src="window.ilse.utils.get_string_favicon(note.content)" />
 
-                <div >
-
-                    <img class="cursor-pointer" @click="is_open = !is_open; html = note.content; if( $event.shiftKey ) { is_open = false; ilse.components.create_window({ title: 'Component', pure: true, html: ilse.markdown.render(note.content)}) }; if( $event.ctrlKey ) { is_open = false; ilse.htmls.modal(note.id, ilse.markdown.render(note.content) ) }" :src="window.ilse.utils.get_string_favicon(note.content)" />
-
-                </div>
             </template>
         </div> <!-- Hidden -->
 
@@ -41,18 +37,26 @@
                     <img style="width: 30px; cursor: pointer; " :src="ilse.require('lupe.svg')" />
                 </div>
 
-                <template x-for="(note, index) in list" style="border-left: 1px solid #000;" >
+                <template x-for="(note, index) in list" style="border-left: 1px solid #000;" x-init="ilse.Messager.on('~notes', (action,payload) => { if( action === 'added' ) { list.push( ilse.notes.list[payload.note] ) } })" >
 
-                    <!-- Should I have notes.style? -->
-                    <!-- <div :id="note.id" class="flex my-1" :style=" 'margin-left:' + (ilse.notes.list[note.id].depth * 20) + 'px;' " > -->
-                    <!-- <div :id="note.id" :style="ilse.notes.list[note.id].style + 'display: flex; height: auto;' " x-init="ilse.notes.list[note.id].style = ilse.notes.list[note.id].depth * 20 + 'px'; " > -->
                     <div x-data="{ depth: ilse.notes.list[note.id].depth }" :id="note.id" :style=" 'margin-left:' + (depth * 20) + 'px;' " > 
 
+                        <!-- Bullet -->
                         <div class="bullet" style="flex: 1; display: block; float: left; margin-right: 6px;" :title="ilse.utils.get_human_readable_creation_date(note.id)" > &bull; </div>
 
-                        <div x-show="note.is_editing" style="flex: 1; " :id=" note.id + '-edit' " contentEditable
+                        <!-- Editing -->
+                        <div x-show="note.is_editing" style="flex: 1; " :id=" note.id + '-edit' " class="no-outline edit" contentEditable
                              x-text="ilse.notes.list[note.id].content" 
                              @blur="note.is_editing = false; ilse.notes.list[note.id].content = $event.target.innerText; ilse.notes.save()"
+
+                             @keydown.enter.prevent="let new_note = ilse.add_after( '', ilse.notes.list[note.id].depth, note.id );
+                             setTimeout( () =>{
+                                 note.is_editing = false;
+                                 let dom = document.getElementById(new_note) ;
+                                 dom.focus()
+                             }, 1000 ) " 
+
+                             @keydown.esc.prevent="document.activeElement.blur(); note.is_editing = false;"
 
                              @keydown.tab.prevent="let shift = $event.shiftKey
                                 if( shift ) {
@@ -86,13 +90,25 @@
 
                              > </div>
 
-                        <div x-show="!note.is_editing" style="flex: 1; " :id=" note.id + 'render'" :data-note-id="note.id" x-html="ilse.markdown.render(ilse.notes.list[note.id].content)" @link-click="if( $event.detail.id === note.id ) ilse.htmls.modal( ilse.htmls.render( 'references', { file: $event.detail.link } ), { width: '70%', height: '70%' })" @click="note.is_editing = true; setTimeout( () => {let dom = document.getElementById( note.id + '-edit' ); dom.focus() }, 10 ) " > </div>
+                        <!-- Displaying -->
+                        <div x-show="!note.is_editing" style="flex: 1; min-width: 100px; min-height: 30px;" :id=" note.id + 'render'" :data-note-id="note.id" x-html="ilse.markdown.render(ilse.notes.list[note.id].content)" @link-click="if( $event.detail.id === note.id ) ilse.htmls.modal( ilse.htmls.render( 'references', { file: $event.detail.link } ), { width: '70%', height: '70%' })"
+                             @click="if( $event.target.type === 'checkbox' ) {
+                                ilse.notes.list[note.id].content.replace( '- [ ]', '- [x]' )
+                                note.is_editing = false;
+                             } else {
+                                note.is_editing = true;
+                                setTimeout( () => {let dom = document.getElementById( note.id + '-edit' ); dom.focus() }, 10 )
+                             } " > </div>
+
+                        <!-- Ghost Bullet -->
+                        <div id="ghost-bullet" class="no-outline" x-show="index === list.length -1" style="display: flex;" >
+                            <div class="bullet" style="flex: 1; flex-shrink: 2; " > &bull; </div> 
+                            <div class="camp"   style="flex: 1; padding-left: 20px;" contentEditable @blur="let text = $event.target.innerText; if( text ) { ilse.add_note( text ); ilse.save() }" @keydown.enter.prevent="" > </div>
+                        </div>
 
                     </div>
 
-
                 </template>
-
 
                 <button x-show="index === days.length - 1" class="load-more" style="padding: 7px; border-radius: var( --border-radius ); margin: 0 auto; text-align: center; margin-top: 10px; " @click="let DAY = day;
                     let year = DAY.substr( 0, 4 );
@@ -143,18 +159,26 @@
     color:        var( --text-color );
     font-size: 1.5em;
     cursor:       pointer;
-
     margin-right: 7px;
     width: 10px;
     height: 10px;
 }
 
-#daily-notes .edit:focus {
-    outline: none;
-}
-
 #daily-notes .load-more {
     display: block;
+    color: var( --text-color );
+    background: var( --background-color );
+}
+
+#ghost-bullet .camp {
+    flex: 1;
+}
+
+#ghost-bullet .bullet {
+    flex: 1;
+    display: block;
+    float: left;
+    margin-right: 6px;
 }
 
 </style>

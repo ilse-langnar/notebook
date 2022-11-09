@@ -1,0 +1,57 @@
+<div data-component-id="new-tab" class="new-tab" style="overflow: auto; height: 100%;" >
+
+    <div style="display: flex; margin: 10px 0; height: 30vh; overflow: hidden; " >
+
+        <div style=" flex: 1; " >
+            <h2> Make a new Plugin! </h2>
+            <div style="display: flex;" >
+                <img :src="ilse.require('plugin.svg')" style="width: 30px; flex: 1;" />
+                <img :src="ilse.require('plus.svg')" style="width: 50px;   flex: 1; cursor: pointer; " />
+            </div> 
+        </div>
+
+        <div style=" flex: 1; " >
+            <div style="display: flex;" >
+                <img style="display: block; margin: 0 auto; width: 80px;" :src="ilse.require('lifebuoy.svg')" style="" />
+            </div>
+            <button class="slick-button" > Open Help </button>
+        </div>
+
+        <div style=" flex: 1; " >
+            <img :src="ilse.require('folders.svg')" style="width: 30px; display: block; margin: 0 auto; " />
+            <button class="slick-button" @click.ctrl="window.ilse.tabs.add_with_component('filesystem', { title: 'Filesystem', url: 'filesystem', autoselect: true })" > Open Filesystem </button>
+            <!-- <div x-html="window.ilse.components['filesystem']" > </div> -->
+        </div>
+
+        <div style=" flex: 1; " >
+            <img :src="ilse.require('lifebuoy.svg')" style="width: 30px;" />
+            <p> Spaced Repetition </p>
+            <div x-data="{ list: window.ilse.query( ilse.utils.get_unique_date_id().slice( 0, 8 ) ) }", >
+
+                <span x-text="list.length + 'Reviews Today' "> </span>
+                <!-- <template x-for="(item, index) in list" :key="index" >
+                    <div>
+                        <p x-text="item.content" > </p>
+                    </div>
+                </template> -->
+
+            </div>
+        </div>
+
+    </div>
+
+    <div style="display: flex; margin: 10px 0; height: 30vh; overflow: hidden; " >
+
+        <div style=" flex: 1; " >
+            <img :src="ilse.require('world-www.svg')" style="width: 30px; display: block; margin: 0 auto; " />
+            <button class="slick-button" @click.ctrl="window.ilse.tabs.add_with_component('web', { title: 'Web', autoselect: true })" > Open Filesystem </button>
+        </div>
+
+    </div>
+
+    <div x-show="url" x-data="{ url: '' }" >
+        <input placeholder="https://example.com" x-model="url" @keydown.enter="url = $event.target.value" />
+        <iframe x-show="url" :src="url" frameBorder="0" style="width: 100%; height: 100vh;" />
+    </div>
+
+</div>

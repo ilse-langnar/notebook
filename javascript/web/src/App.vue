@@ -1,9 +1,9 @@
 <template lang="pug">
 #app( v-cloak )
-    #setup( v-show="!ilse.target_directories.length || !ilse.has_loaded " v-html="ilse.components.setup" )
 
-    .ilse( v-show="ilse.target_directories.length && ilse.has_loaded" :data-theme="get_data_theme" )
+    #setup( v-if="!ilse.target_directories.length" v-html="ilse.components.setup" )
 
+    .ilse( v-if="ilse.target_directories.length" :data-theme="get_data_theme" )
         .html-render( v-for="( item, index ) in ilse.htmls.list" :key="index" )
             .div( v-html="item.html" :id="item.id" )
 
@@ -11,10 +11,13 @@
             // p( x-text="tab" )
             // .htmll( x-html="tab" style="overflow: auto;" )
 
-        .app( v-show="ilse.has_loaded" :key="ilse.keys.app" )
-
+        // .app( v-show="ilse.has_loaded" :key="ilse.keys.app" )
             .wrapper( v-for="( tab, tab_index ) in ilse.tabs.list" :key="tab_index" )
                 .htmll( v-if="ilse.tabs.selected === tab_index" v-html="tab" style="overflow: auto; " )
+
+        .app( v-show="ilse.has_loaded" :key="ilse.keys.app" )
+            .loop( v-for="( tab, tab_index ) in ilse.tabs.list" :key="tab_index" )
+                .htmll( v-if="tab.is_active" v-html="tab.html" style="overflow: auto; " )
 
 </template>
 <script>
@@ -147,13 +150,64 @@ export default {
 }
 
 /*
+:root, .ilse[data-theme='light'] {
+
+    --background-color: #EFEFEF;
+    --secondary-background-color: #CED8E0;
+    --terciary-background-color: #CED8E0;
+
+    --text-color: #717171;
+    --secondary-text-color: #3c3b3b;
+    --terciary-text-color: #8D9EAC;
+
+    --border: 1px solid #4a4a4a;
+    --border-radius: 6px;
+
+    --padding: 4px;
+
+    --font-family: Mary, Helvetica, Georgia, Times New Roman, serif, -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    --font-size: 1em;
+
+    --link-color: #5ec7b8;
+    --secondary-link-color: #70a7a8;
+}
+
+.ilse[data-theme="dark"] {
+
+    --background-color: #131313ff;
+    --secondary-background-color: #DCEAF8;
+    --terciary-background-color: #5a6269;
+
+    --text-color: #F8F8F8;
+    --secondary-text-color: #000;
+    --terciary-text-color: #8D9EAC;
+
+    --border: 2px solid #777;
+    --border-radius: 6px;
+
+    --padding: 4px;
+
+    --font-family: Mary, Helvetica, Georgia, Times New Roman, serif, -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    --font-size: 1em;
+
+    --box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+    --link-color: #5ec7b8;
+    --secondary-link-color: #99c6c2;
+}
+*/
+
+
+.no-outline:focus {
+    outline: none;
+}
+
 @font-face {
     font-family: Mary;
     font-style: normal;
     font-weight: lighter;
     src: url("assets/mary.ttf");
 }
-*/
 
 ::selection {
     color: var( --background-color );

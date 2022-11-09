@@ -1,0 +1,42 @@
+<div data-component-id="study" x-transition style="overflow: auto; height: 87vh;" >
+
+    <h1> Study </h1>
+
+    <div x-data="{ item: {} }" style="height: 80vh; border: 1px solid #000; " >
+        <button class="slick-button" @click="let list = window.ilse.query('#sr'); let random_item = list[Math.floor( Math.random() * list.length )]; item = random_item;" > Next </button>
+        <div x-show="item.content" x-html="ilse.markdown.render(item.content ? item.content : '')" style="height: 100%; "> </div>
+    </div>
+
+    <div x-data="{ list: window.ilse.query( '#sr/r/' + ilse.utils.get_unique_date_id().slice( 0, 8 ) ), links: {} }" style=" height: 50vh; overflow: auto; flex-basis: 30%; " >
+        <div>
+            <h2 align="center" > Statistics </h2>
+
+            <!-- <details>
+                <template x-for="( item, index ) in list" :key="index" >
+                    <div>
+                        <p x-html="ilse.markdown.render(item.content)" > </p>
+                    </div>
+                </template>
+            </details> -->
+        </div>
+
+        <template x-for="( item, index ) in [ 00, 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 ]" :key="'hour-' + index" ><!-- 24 hours -->
+            <p x-text="item" > </p>
+        </template>
+
+        <!-- <span x-text="JSON.stringify(links)" > </span>
+
+        <button @click="let tags = {};
+
+            list.map( item => {
+                let links = ilse.utils.extract_markdown_links_from_string( item.content )
+
+                links.map( link => {
+                    if( !tags[link] ) tags[link] = []
+                    tags[link].push( link )
+                })
+
+                }); links = tags " > Show Info </button> -->
+    </div>
+
+</div>

@@ -18,7 +18,7 @@ export default class FSFilesystem {
 
     constructor( dir ) {
 
-        target_directory        = dir // target_directory = dir + "/"
+        target_directory        = dir
 
         this.file               = {
 

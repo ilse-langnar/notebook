@@ -1,0 +1,6 @@
+<div data-component-id="file" x-transition x-data="{ file: '' }" >
+
+    <template x-if="file.indexOf('png') !== -1 || file.indexOf('jpg') !== -1 || file.indexOf('gif') !== -1 || file.indexOf('jpeg') !== -1" >
+        <img :src="file" style="width: 100%; height: 100%;" />
+    </template>
+</div>

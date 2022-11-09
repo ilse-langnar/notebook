@@ -176,9 +176,7 @@ class Commands {
             {
                 id: "open-command-pallet-modal",
                 fn: function() {
-                    // ilse.htmls.add( "command-pallet", ilse.components["command-pallet"] )
-                    // ilse.htmls.modal( ilse.components["command-pallet"] )
-                    ilse.htmls.modal( ilse.htmls.render('command-pallet', { search: '' }) )
+                    ilse.htmls.modal( ilse.htmls.render('command_pallet', { search: '' }) )
                 },
                 undo: args => {
                     ilse.htmls.list.shift()
@@ -207,9 +205,21 @@ class Commands {
                     document.body.style.cursor      = "crosshair";
                     ilse.cursor                     = async function on_click( event ) {
 
+                        // BUGFIX:
+                            event.preventDefault()
+
                         let dom                     = event.target
                         let id                      = get_parent_with_attr( dom, "data-component-id" )
-                            if( id ) ilse.htmls.modal( ilse.components[id] )
+
+                        let string                  = ilse.components[id]
+
+                        let html                    = `
+                            <div class="no-outline" contentEditable x-text="ilse.components['${id}']" > </div>
+                            <div x-html="ilse.components['${id}']" > </div>
+                        `
+                        // let html                    = div.outerHTML
+                        printf( ">>> html -> ", html )
+                            if( id ) ilse.htmls.modal( html, { overflow: "auto" })
 
                         document.body.style.cursor = "auto"
                         document.body.removeEventListener( "click", ilse.cursor )
@@ -266,13 +276,35 @@ class Commands {
             },
 
             {
+                id: "open-directory-manager-tab",
+                fn: function() {
+                    window.ilse.tabs.add_with_component('directory_manager', { title: 'Brains', autoselect: true })
+                },
+                description: "Open Directory Manager Tab",
+                name: "Open Directory Manager Tab",
+                props: {},
+            },
+
+            {
+                id: "open-study-tab",
+                fn: function() {
+                    window.ilse.tabs.add_with_component('study', { title: 'Study', autoselect: true })
+                },
+                description: "Will Open a new study tab",
+                name: "Open Study Tab",
+                props: {},
+            },
+
+            {
                 id: "go-to-next-tab",
                 fn: function() {
 
-                    let copy = ilse.selected
-                    if( ilse.tabs.list[--copy] ) {
-                        ilse.select = copy
-                    }
+                    ilse.tabs.select_next_tab()
+
+                    // let copy = ilse.selected
+                    // if( ilse.tabs.list[--copy] ) {
+                        // ilse.select = copy
+                    // }
 
                     /*
                     let tabs       = ilse.tabs
@@ -340,6 +372,7 @@ class Commands {
                 id: "save",
                 icon: "save.svg",
                 fn: function() {
+                    ilse.notes.save()
                     ilse.save()
                 },
                 undo: args =>{}, // TODO
@@ -443,7 +476,17 @@ class Commands {
             },
 
             {
-                id: "open-search-modal",
+                id: "open-files-search-modal",
+                icon: "lupe.svg",
+                fn: async function() {
+                },
+                description: "Open Files Search Modal",
+                name: "Open Files Search Modal",
+                props: {},
+            },
+
+            {
+                id: "open-notes-search-modal",
                 icon: "lupe.svg",
                 fn: async function() {
                     // ilse.is_search_on = !ilse.is_search_on

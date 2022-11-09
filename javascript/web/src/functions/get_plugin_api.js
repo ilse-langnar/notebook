@@ -7,9 +7,12 @@ import printf                           from "@/functions/printf.js"
     // import MessagerFactory                   from "@/classes/MessagerFactory.js"
     import Messager                             from "@/classes/Messager.js"
 
+// Node.js
+    const path                       = require("path")
+    printf( ">>>> get_plugin_api -> path ----> ", path )
+
 // functions
     import string_to_html                         from "@/functions/string_to_html.js"
-    import create_window                          from "@/functions/create_window.js"
     import html_to_string                         from "@/functions/html_to_string.js"
     import add_component                          from "@/functions/add_component.js"
     import get_string_favicon                     from "@/functions/get_string_favicon.js"
@@ -202,9 +205,10 @@ export default function get_plugin_api( name, ilse ) {
         components: ilse.components,
 
         info: {
-            platform: ilse.platform,
-            version:  ilse.env.VUE_APP_VERSION,
-            env:      ilse.env,
+            platform:           ilse.platform,
+            version:            ilse.env.VUE_APP_VERSION,
+            env:                ilse.env,
+            target_directories: ilse.target_directories,
         },
 
         languages: ilse.constants.SUPPORTED_LANGUAGES,
@@ -233,9 +237,11 @@ export default function get_plugin_api( name, ilse ) {
 
         add_component: add_component,
 
-        notes: ilse.notes,
+        notes:        ilse.notes,
+        save:         ilse.notes.save.bind( ilse.notes ),
         // notes: name === "global" ? ilse.notes.list : (has_permission( name, 'notes', ilse )  ? ilse.notes : null),
-        add_note: ilse.notes.add.bind( ilse.notes ),
+        add_note:     ilse.notes.add.bind( ilse.notes ),
+        add_after:    ilse.notes.add_after.bind( ilse.notes ),
         query:        ilse.notes.query.bind( ilse.notes ),
         query_regexp: ilse.notes.query_regexp.bind( ilse.notes ),
 
@@ -300,8 +306,6 @@ export default function get_plugin_api( name, ilse ) {
             // TODO:
         },
 
-        create_window: create_window,
-
         notify: ilse.notification.send.bind( ilse.notification ),
 
         keyboard: {
@@ -330,6 +334,8 @@ export default function get_plugin_api( name, ilse ) {
             close:   ilse.dialog.close.bind( ilse.dialog ),
         },
 
+
+        /*
         load:  name === "global" ? null : function() {
             let file    = ilse.filesystem.file.read.sync( name )
             let HTML    = string_to_html( file )
@@ -351,6 +357,7 @@ export default function get_plugin_api( name, ilse ) {
 
             return json
         },
+        */
 
         utils: {
             get_string_favicon: function( string ) {
@@ -365,6 +372,10 @@ export default function get_plugin_api( name, ilse ) {
             get_human_readable_creation_date,
             string_to_html,
             get_target_directory_url,
+            split_array_into_nth_chunks,
+            extract_markdown_links_from_string,
+            path: path,
+            identity: function(arg) { return arg },
 
             set_dom_x_data: function( id, props ) {
 

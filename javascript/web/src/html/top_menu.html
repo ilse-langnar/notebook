@@ -1,0 +1,87 @@
+<div data-component-id="top-menu" id="top-menu" x-data="{ tabs: window.ilse.tabs.list, selected: '', key: 0 }" x-init="Messager.on('~tabs', payload => {
+
+    if( payload.action === 'set' ) {
+        tabs = payload.tabs
+        selected = payload.selected
+    }
+
+    })" >
+
+    <template x-for=" (tab, index) in tabs" :key="index" >
+
+        <div class="float: left;" >
+            <div class="tab" @click="ilse.tabs.select(tab); key = Math.random()" :style="tab.is_active ? 'background: var( --text-color ); color: var( --background-color );' : '' " :key="key" >
+
+                <img class="tab-icon" :src="ilse.utils.get_string_favicon(tab.html)" :style=" tab.is_active ? 'filter: invert(100%);' : '' " />
+                <img class="delete-tab" :src="ilse.require('x.svg')" :style=" tab.is_active ? 'filter: invert(100%);' : '' " @click="ilse.tabs.remove(tab)" />
+                <span x-text="tab.title" > </span>
+            </div>
+
+            <img x-show="index === window.ilse.tabs.list.length -1" style="flex: 1; margin-top: 6px; width: 20px; cursor: pointer; display: block; " :src="window.ilse.require('plus.svg')" @click="ilse.tabs.add()" />
+
+            <div x-show="index === tabs.length -1" class="options" style="float: right;" >
+                <img :src="window.ilse.require('command.svg')"        @click="ilse.commands.run('open-command-pallet-modal')" >
+                <img :src="window.ilse.require('math-function.svg')"        @click="ilse.commands.run('open-study-tab')" >
+                <img :src="window.ilse.require('folders.svg')"        @click="ilse.commands.run('open-directory-manager-tab')" >
+                <img :src="window.ilse.require('moon-stars.svg')"     @click="window.ilse.commands.run('toggle-dark-mode')" >
+                <img :src="window.ilse.require('menu.svg')"     @click="" >
+            </div>
+
+        </div> <!-- loop root -->
+
+    </template>
+</div>
+
+<style>
+
+#top-menu .margin-large {
+    margin-left: 30px;
+    display: inline;
+}
+
+#top-menu .menu-item {
+    width: 50%;
+    margin: auto;
+    display: inline;
+    margin-left: 10px;
+}
+
+#top-menu .menu-item img {
+    cursor: pointer;
+    width: 20px;
+    display: inline-block;
+}
+
+#top-menu .delete-tab {
+    float: right;
+    width: 10px;
+}
+
+.main-search:focus {
+    outline: none;
+}
+
+#top-menu .tab {
+    width: 140px;
+    float: left;
+    overflow: hidden;
+    cursor: pointer;
+    padding: 3px;
+}
+
+#top-menu .tab:hover {
+    color: var( --background-color );
+    background: var( --text-color );
+}
+
+#top-menu .tab-icon {
+    float: left;
+    width: 20px;
+    margin-top: 2px; 
+}
+
+#top-menu .options img {
+    cursor: pointer;
+}
+
+</style>

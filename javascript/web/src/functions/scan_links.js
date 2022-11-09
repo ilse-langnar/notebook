@@ -1,5 +1,7 @@
 import printf                   from "@/functions/printf.js"
 
+import has_media_extention      from "@/functions/has_media_extention.js"
+
 export default async function scan_links( html ) {
 
     let notes            = this.list
@@ -11,14 +13,13 @@ export default async function scan_links( html ) {
     // [ "20220122113043: Top [[Psycology Papers]]", "20220122113043: I have a new [[Idea]]" ]
     for( const note of notes ) {
 
-        // links              = this.ilse.utils.extract_tokens_by_delimiters( note.content,  /^\[\[.*/, /\]\]$/ ) // "Something to [[Write]]" -> [ "Write" ]
         links              = extract_tokens_by_regexp_delimiters( note.content,  /^\[\[.*/, /\]\]$/ ) // "Something to [[Write]]" -> [ "Write" ]
 
         // [ [ "[[Javascript]]", "[[Psycology Papers]]" ] ]
         for( let link of links ) {
 
             // BUGFIX: Don't process : ![[img.png]] ![[music.mp4]] as a link
-                is_media = this.ilse.utils.has_media_extention( link )
+                is_media = has_media_extention( link )
                 if( is_media ) continue //skip
 
             // Nroamlize [[Psycology Papers]] -> Psycology\ Papers.md
@@ -47,5 +48,4 @@ export default async function scan_links( html ) {
     }
 
     Messager.emit( "~notes", "loaded", this )
-
 }
