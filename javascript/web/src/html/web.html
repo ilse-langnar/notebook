@@ -1,5 +1,6 @@
 <div x-transition data-component-id="web" x-data="{ url: '', is_on: false }" >
-    <h1> Web </h1>
-    <input x-model="url" @keydown.enter="is_on = true" />
-    <iframe x-show="url && is_on" :src="url" frameBorder="0" style="height: 100vh; width: 100vh;" >
+    <input x-model="url" @keydown.enter="is_on = true" style="width: 100%; " placeholder="https://example.com" />
+    <p> 1 </p>
+    <iframe x-show="url && is_on" :src="url" frameBorder="0" style="height: 70vh; width: 100vh; border: 1px solid #000;" >
+    <p> 2 </p>
 </div>

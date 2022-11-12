@@ -9,7 +9,6 @@ import printf                           from "@/functions/printf.js"
 
 // Node.js
     const path                       = require("path")
-    printf( ">>>> get_plugin_api -> path ----> ", path )
 
 // functions
     import string_to_html                         from "@/functions/string_to_html.js"

@@ -16,7 +16,23 @@ export default class Theme {
         this.list     = []
         this.ilse     = ilse
 
-        this.setup()
+        this.apply_default_theme()
+
+        this.listen()
+    }
+
+    listen() {
+
+        Messager.on( "~ilse", ( action, payload ) => {
+
+            printf( "Themes.js -> ~ilse -> action -> ", action )
+            printf( "Themes.js -> ~ilse -> payload -> ", payload )
+
+            if( action === "loaded" ) {
+                this.setup()
+            }
+        })
+
     }
 
     setup() {
@@ -88,6 +104,7 @@ export default class Theme {
     }
 
     apply_default_theme() {
+        printf( "apply_default_theme -> DEFAULT_THEME ", DEFAULT_THEME )
         this.render( DEFAULT_THEME, "default" )
     }
 

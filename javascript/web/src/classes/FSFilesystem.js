@@ -1,16 +1,31 @@
 import printf                                    from "@/functions/printf.js"
 
-const fs                                         = require('fs')
-const fs_promises                                = fs.promises
-const { promisify  } = require('util')
+// const fs                                         = require('fs')
+let fs
 
-let promisified_list_dir   = promisify( fs.readdir )
-let promisified_read_file  = promisify( fs.readFile )
-let promisified_write_file = promisify( fs.writeFile )
-let promisified_create_dir = promisify( fs.mkdir )
-let promisified_stats      = promisify( fs.lstat )
+let promisify
 
-const path                                       = require('path')
+let promisified_list_dir
+let promisified_read_file
+let promisified_write_file
+let promisified_create_dir
+let promisified_stats
+let path
+
+if( process.env.VUE_APP_TARGET === "ELECTRON" ) {
+
+    fs                                         = require('fs')
+    promisify               = require('util').promisify
+
+        promisified_list_dir   = promisify( fs.readdir )
+        promisified_read_file  = promisify( fs.readFile )
+        promisified_write_file = promisify( fs.writeFile )
+        promisified_create_dir = promisify( fs.mkdir )
+        promisified_stats      = promisify( fs.lstat )
+
+    path                                       = require('path')
+
+}
 
 var target_directory
 

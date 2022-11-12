@@ -3,7 +3,8 @@
 
     #setup( v-if="!ilse.target_directories.length" v-html="ilse.components.setup" )
 
-    .ilse( v-if="ilse.target_directories.length" :data-theme="get_data_theme" )
+    .ilse( v-if="ilse.target_directories.length && ilse.has_loaded" :data-theme="get_data_theme" )
+        p {{test()}}
         .html-render( v-for="( item, index ) in ilse.htmls.list" :key="index" )
             .div( v-html="item.html" :id="item.id" )
 
@@ -48,12 +49,21 @@ export default {
     computed: {
 
         get_data_theme() {
+            if( !ilse || !ilse.config ) return "dark"
             return ilse.config.dark ? 'dark' : 'light'
         },
 
     },
 
     methods: {
+
+        test() {
+
+            printf( "ilse -> ", ilse )
+            printf( "ilse.htmls -> ", ilse.htmls )
+            printf( "ilse.htmls.list -> ", ilse.htmls.list )
+
+        },
 
         show_info( component ) {
             printf( "App.vue -> show_info -> component -> ", component )
@@ -97,12 +107,13 @@ export default {
         set_font_face() {
 
             const mary = new FontFace('Mary', `url( ${require("@/assets/mary.ttf")} )`);
+            printf( "mary -> ", mary )
 
             mary.load().then(function(loadedFont) {
                 document.fonts.add( loadedFont )
-                text.style.fontFamily = ' "Mary" '
+                document.body.style.fontFamily = ' "Mary" '
             }).catch(function(error) {
-                printf( 'Failed to load font: ' + error )
+                console.error( 'Failed to load font: ' + error )
             })
 
             /*
@@ -140,7 +151,7 @@ export default {
 .ilse  {
     color: var( --text-color );
     background: var( --background-color ) !important;
-    height: 96vh;
+    height: 97vh;
     width: 100vw;
     overflow: hidden !important;
 }
@@ -198,8 +209,8 @@ export default {
 */
 
 
-.no-outline:focus {
-    outline: none;
+.no-outline:active {
+    outline: none !important;
 }
 
 @font-face {

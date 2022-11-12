@@ -15,6 +15,7 @@ export default class Filesystem {
         this.has_checked_default_files = false
 
         if( process.env.VUE_APP_TARGET === "ELECTRON" ) {
+            printf( "Filesystem.js -> ELECTRON " )
             const FSFilesystem          = require("@/classes/FSFilesystem.js").default
             let new_filesystem          = new FSFilesystem( dir )
                 this.file               = new_filesystem.file
@@ -42,6 +43,7 @@ export default class Filesystem {
         */
 
         if( process.env.VUE_APP_TARGET === "QUINE" ) {
+            printf( "Filesystem.js -> QUINE " )
             const DOMFilesystem         = require("@/classes/DOMFilesystem.js").default
             this.filesystem             = new DOMFilesystem( dir )
                 this.file               = this.filesystem.file

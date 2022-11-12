@@ -9,10 +9,9 @@
 
     <template x-for=" (tab, index) in tabs" :key="index" >
 
-        <div class="float: left;" >
-            <div class="tab" @click="ilse.tabs.select(tab); key = Math.random()" :style="tab.is_active ? 'background: var( --text-color ); color: var( --background-color );' : '' " :key="key" >
-
-                <img class="tab-icon" :src="ilse.utils.get_string_favicon(tab.html)" :style=" tab.is_active ? 'filter: invert(100%);' : '' " />
+        <div class="tab-wrapper" >
+            <div class="tab" @click="ilse.tabs.select(tab); key = Math.random()" :style="tab.is_active ? 'background: var( --terciary-background-color ); color: var( --text-color ); border-bottom: 3px solid #454545; ' : '' " :key="key" >
+                <img class="tab-icon" :src="ilse.utils.get_string_favicon(tab.html)" :style=" tab.is_active ? 'filter: invert(100%);' : '' " /> 
                 <img class="delete-tab" :src="ilse.require('x.svg')" :style=" tab.is_active ? 'filter: invert(100%);' : '' " @click="ilse.tabs.remove(tab)" />
                 <span x-text="tab.title" > </span>
             </div>
@@ -23,6 +22,7 @@
                 <img :src="window.ilse.require('command.svg')"        @click="ilse.commands.run('open-command-pallet-modal')" >
                 <img :src="window.ilse.require('math-function.svg')"        @click="ilse.commands.run('open-study-tab')" >
                 <img :src="window.ilse.require('folders.svg')"        @click="ilse.commands.run('open-directory-manager-tab')" >
+                <img :src="window.ilse.require('lifebuoy.svg')"        @click="ilse.commands.run('open-help-tab')" >
                 <img :src="window.ilse.require('moon-stars.svg')"     @click="window.ilse.commands.run('toggle-dark-mode')" >
                 <img :src="window.ilse.require('menu.svg')"     @click="" >
             </div>
@@ -30,6 +30,7 @@
         </div> <!-- loop root -->
 
     </template>
+    <br>
 </div>
 
 <style>
@@ -52,6 +53,13 @@
     display: inline-block;
 }
 
+#top-menu .tab:hover .delete-tab {
+    background: red;
+    border-radius: 5px;
+    background: var( --text-color );
+    color: var( --background-color );
+}
+
 #top-menu .delete-tab {
     float: right;
     width: 10px;
@@ -67,6 +75,8 @@
     overflow: hidden;
     cursor: pointer;
     padding: 3px;
+    border-radius: 1px;
+    /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;  */
 }
 
 #top-menu .tab:hover {

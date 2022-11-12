@@ -11,7 +11,7 @@ import printf                           from "@/functions/printf.js"
     import create_window                from "@/functions/create_window.js"
     import get_target_directory_url     from "@/functions/get_target_directory_url.js"
     import html_to_string               from "@/functions/html_to_string.js"
-    import get_plugin_api               from "@/functions/get_plugin_api.js"
+    // import get_plugin_api               from "@/functions/get_plugin_api.js"
     import is_inside                    from "@/functions/is_inside.js"
     import if_else                      from "@/functions/if_else.js"
     import get_parent_with_attr         from "@/functions/find_parent_element_with_attribute.js"
@@ -103,7 +103,8 @@ class Commands {
         if( !id ) throw new Error( "Commands.js -> run(<id>) <id> is not defined, it should be a string with the id of the command " )
 
         let command = this.get( id )
-        if( command.props.is_plugin ) window.ilse = get_plugin_api( command.props.source )
+
+        // if( command.props.is_plugin ) window.ilse = get_plugin_api( command.props.source )
 
         if( command && command.fn ) {
             command.fn( args )
@@ -176,7 +177,7 @@ class Commands {
             {
                 id: "open-command-pallet-modal",
                 fn: function() {
-                    ilse.htmls.modal( ilse.htmls.render('command_pallet', { search: '' }) )
+                    ilse.htmls.modal( ilse.htmls.render('command-pallet', { search: '' }) )
                 },
                 undo: args => {
                     ilse.htmls.list.shift()
@@ -278,7 +279,7 @@ class Commands {
             {
                 id: "open-directory-manager-tab",
                 fn: function() {
-                    window.ilse.tabs.add_with_component('directory_manager', { title: 'Brains', autoselect: true })
+                    window.ilse.tabs.add_with_component('directory-manager', { title: 'Brains', autoselect: true })
                 },
                 description: "Open Directory Manager Tab",
                 name: "Open Directory Manager Tab",
@@ -391,6 +392,18 @@ class Commands {
                 undo: args =>{}, // TODO
                 description: "Will re-load all plugins",
                 name: "Reload Plugins",
+                props: {},
+            },
+
+            {
+                id: "open-help-tab",
+                icon: "lifebuoy.svg",
+                fn: function() {
+                    window.ilse.tabs.add_with_component('help', { title: 'Help', autoselect: true })
+                },
+                undo: args => { ilse.htmls.list.shift()},
+                description: "Will open a new tab with Help",
+                name: "Open Help Tab",
                 props: {},
             },
 

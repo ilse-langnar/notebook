@@ -7,7 +7,7 @@
         <div x-show="item.content" x-html="ilse.markdown.render(item.content ? item.content : '')" style="height: 100%; "> </div>
     </div>
 
-    <div x-data="{ list: window.ilse.query( '#sr/r/' + ilse.utils.get_unique_date_id().slice( 0, 8 ) ), links: {} }" style=" height: 50vh; overflow: auto; flex-basis: 30%; " >
+    <div x-data="{ list: window.ilse.query( '#sr/r/' + ilse.utils.get_unique_date_id().slice( 0, 8 ) ), links: {}, flashcards: window.ilse.query('#sr'); }" style=" height: 50vh; overflow: auto; flex-basis: 30%; " >
         <div>
             <h2 align="center" > Statistics </h2>
 
@@ -23,6 +23,8 @@
         <template x-for="( item, index ) in [ 00, 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 ]" :key="'hour-' + index" ><!-- 24 hours -->
             <p x-text="item" > </p>
         </template>
+
+        <span x-data="flashcards.length"> </span>
 
         <!-- <span x-text="JSON.stringify(links)" > </span>
 

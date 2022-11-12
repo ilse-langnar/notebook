@@ -149,20 +149,26 @@ export default class Ilse {
         // platform/env
         this.env                    = process.env
         this.platform               = process.env.VUE_APP_TARGET.toLowerCase()
+        if( this.platform === "quine" ) printf( "1 " )
 
         this.i18n                   = i18n
 
         // utils?
         this.path                   = path
+        if( this.platform === "quine" ) printf( "2 " )
 
         this.frame                  = new Frame()
+        if( this.platform === "quine" ) printf( "3 " )
 
         // BUGFIX: In my quine I need a time to wait for the DOM to load, otherwise I overwrite since it thinks it does not exists.
         this.before_setup()
+        if( this.platform === "quine" ) printf( "4 " )
 
         if( this.platform === "quine" ) {
+            if( this.platform === "quine" ) printf( "5 " )
             setTimeout( () => { this.setup() }, 100 )
         } else {
+            if( this.platform === "quine" ) printf( "6 " )
             this.setup();
         }
     }
@@ -197,17 +203,23 @@ export default class Ilse {
         let bugfix_list_has_items = list && list.length
         printf( "bugfix_list_has_items -> ", bugfix_list_has_items )
         printf( "list -> ", list )
+        printf( "window.localStorage.getItem('target-directories') -> ", window.localStorage.getItem('target-directories') )
         printf( "this.target_directories -> ", this.target_directories )
             if( bugfix_list_has_items ) this.target_directories     = list
 
         if( this.platform === "quine" ) { // Autoselects "/"
 
-            let quine_dir = window.location.pathname
+            this.target_directories = [ "/" ]
+            // let quine_dir = window.location.pathname
+            // printf( "quine_dir -> ", quine_dir )
 
-            let normalized_quine_dir = quine_dir.split("/")
-                normalized_quine_dir.pop()
-                normalized_quine_dir = normalized_quine_dir.join("/")
-            this.target_directories = [ normalized_quine_dir ] // quine
+            // let normalized_quine_dir = quine_dir.split("/").filter( e=>e )
+            // if( !normalized_quine_dir.length ) normalized_quine_dir.push("/")
+            // printf( "normalized_quine_dir -> ", normalized_quine_dir )
+                // normalized_quine_dir.pop()
+                // normalized_quine_dir = normalized_quine_dir.join("/")
+            // this.target_directories = [ normalized_quine_dir ] // quine
+            // printf( "after -> this.target_directories -> ", this.target_directories )
         }
 
     }
@@ -302,7 +314,10 @@ export default class Ilse {
         // window.ilse                     = get_global_api(this) // Set global API
         // setTimeout( () => { printf( "before -> window.ilse -> ", window.ilse ) printf( "after -> window.ilse -> ", window.ilse ) }, 2000 )
 
+        // printf( "Ilse.js ----> 1 -> " )
+        printf( ">>>>> Ilse.js -> get_plugin_api -> ", get_plugin_api )
         window.ilse                     = get_plugin_api( "global", this )
+        // printf( "Ilse.js ----> 2 -> window.ilse -> ", window.ilse )
 
     }
 

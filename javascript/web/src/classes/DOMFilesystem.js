@@ -25,9 +25,6 @@ export default class DOMFilesystem {
         filesystem = {
             "/": {
                 "notes": "20210810100520-1sr7opf3: [[Ilse Ideas]] How can I integrate bullets + spaced repetition better?",
-                "queue": "",
-                "statistics": "",
-                "priorities": "",
                 "config.json": JSON.stringify(CONFIG_TEMPLATE),
                 "flashcards/": { },
             }

@@ -47,6 +47,11 @@
             <button class="slick-button" @click.ctrl="window.ilse.tabs.add_with_component('web', { title: 'Web', autoselect: true })" > Open Filesystem </button>
         </div>
 
+        <div style=" flex: 1; " >
+            <img :src="ilse.require('world-www.svg')" style="width: 30px; display: block; margin: 0 auto; " />
+            <button class="slick-button" @click.ctrl="window.ilse.tabs.add_with_component('daily-notes', { title: 'Notes', autoselect: true })" > Notes </button>
+        </div>
+
     </div>
 
     <div x-show="url" x-data="{ url: '' }" >

@@ -40,6 +40,22 @@ export default class Notes {
         // this.watch_file()
     }
 
+    focus( id, time = 100 ) {
+
+        printf( "> Notes.js -> focus -> id -> ", id )
+        printf( "> Notes.js -> focus -> time -> ", time )
+
+        setTimeout( () => {
+            let dom = document.getElementById( id )
+            printf( "> Notes.js -> focus -> dom -> ", dom )
+            if( dom ) {
+                ilse.notes.list[id].is_editing = true
+                dom.focus()
+            }
+        }, time )
+
+    }
+
     watch_file() {
 
         let _this = this
