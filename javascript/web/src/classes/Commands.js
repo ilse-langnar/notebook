@@ -188,10 +188,40 @@ class Commands {
             },
 
             {
+                id: "open-links-modal",
+                fn: function() {
+                    ilse.htmls.modal( ilse.htmls.render('links', { search: '' }) )
+                },
+                description: "Open Links Modal",
+                name: "Open Links Modal",
+                props: {},
+            },
+
+            {
+                id: "open-native-window",
+                fn: function() {
+                    printf( "ilse.links -> ", ilse.links )
+                },
+                description: "Open Native Window",
+                name: "Open Native Window",
+                props: {},
+            },
+
+            {
+                id: "open-filesystem-tab",
+                fn: function() {
+                    window.ilse.tabs.add_with_component('filesystem', { title: 'Filesystem', url: 'filesystem', autoselect: true })
+                },
+                description: "Open Filesystem Tab",
+                name: "Open Filesystem Tab",
+                props: {},
+            },
+
+            {
                 id: "close-active-tab",
                 fn: function() {
                     let current = ilse.tabs.list.map( tab => { if( tab.is_active ) return tab }).filter( e=>e )[0]
-                    ilse.tabs.remove( current )
+                    if( ilse.tabs.length !== 1 ) ilse.tabs.remove( current )
                 },
                 description: "Open New Tab",
                 name: "Open New Tab",

@@ -66,6 +66,7 @@ import printf                   from "@/functions/printf.js"
     import study                        from "@/html/study.html"
     import web                          from "@/html/web.html"
     import directory_manager            from "@/html/directory_manager.html"
+    import links                        from "@/html/link.html"
 
 // Frame
 const JSFrame = require("@/assets/jsframe.min.js")
@@ -120,6 +121,7 @@ export default class Ilse {
             "study":                study,
             "web":                  web,
             "directory-manager":    directory_manager,
+            "links":                links,
             "hello-world":          `<p> Hello, World </p>`,
         }
 

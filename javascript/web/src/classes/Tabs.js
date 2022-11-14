@@ -64,10 +64,14 @@ export default class Tabs {
 
         let deleted  = this.list.splice( index, 1 )
 
+        printf( "this.list.length -> ", this.list.length )
+
         if( this.list.length === 1 ) { // [ 1, 1 ] = [1](focos on this)
+            printf( "First" )
             setTimeout( () => { this.select( this.list[0] ) }, 1 )
         } else { // [ 1, 1, 1 ]
             let last = this.list[index]
+            printf( "Second" )
             setTimeout( () => { this.select( last ) }, 1 )
         }
 

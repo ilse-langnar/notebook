@@ -11,6 +11,7 @@ export default class Links {
     constructor() {
 
         this.links      = {}
+        this.entires    = []
         this.is_loading = true
 
         this.setup()

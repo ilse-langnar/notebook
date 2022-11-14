@@ -160,6 +160,24 @@ export default {
     filter: invert( 100% );
 }
 
+/* Electron Frameless configuration */
+    body {
+    }
+
+    input[type="submit"],
+    input[type="reset"],
+    input[type="button"],
+    input[type="text"],
+    button,
+    textarea {
+        -webkit-app-region: no-drag;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        /* -webkit-user-select: none; */
+    }
+/* Electron Frameless configuration */
+
 /*
 :root, .ilse[data-theme='light'] {
 
@@ -456,7 +474,7 @@ blockquote {
     color: var( --background-color );*/
 
     border-left: 4px solid var( --text-color );
-    color: var( --secondary-text-color );
+    color: var( --background-color );
     background: var( --secondary-background-color );
     margin-left: auto;
     margin-left: 15px;

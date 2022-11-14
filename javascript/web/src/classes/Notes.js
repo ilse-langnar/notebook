@@ -18,6 +18,7 @@ import printf                               from "@/functions/printf.js"
     import keys                             from "@/functions/keys.js"
     import values                           from "@/functions/values.js"
     import get_note_index                   from "@/functions/get_note_index.js"
+    import extract_markdown_links_from_string     from "@/functions/extract_markdown_links_from_string.js"
 
 export default class Notes {
 
@@ -35,21 +36,44 @@ export default class Notes {
     }
 
     async _setup() {
-        this.get_notes()
+        await this.get_notes()
+        await this.scan_links()
         // this.demo()
         // this.watch_file()
     }
 
-    focus( id, time = 100 ) {
+    async scan_links() {
 
-        printf( "> Notes.js -> focus -> id -> ", id )
-        printf( "> Notes.js -> focus -> time -> ", time )
+        let links
+        let list  = Object.values( this.list )
+
+        list.map( item => {
+
+            if( item.content.indexOf("[[") === -1 ) return
+
+            links = extract_markdown_links_from_string( item.content )
+
+            if( links.length ) {
+
+                links.map( link => {
+                    if( !ilse.links.links[link] ) ilse.links.links[link] = []
+                    ilse.links.links[link].push( item.id )
+                })
+            }
+
+        })
+
+        // set
+        ilse.links.entries = Object.entries(ilse.links.links).sort( (first,second) => {  return second[1].length - first[1].length })
+
+    }
+
+    focus( id, time = 100 ) {
 
         setTimeout( () => {
             let dom = document.getElementById( id )
-            printf( "> Notes.js -> focus -> dom -> ", dom )
             if( dom ) {
-                ilse.notes.list[id].is_editing = true
+                Messager.emit( "~notes", "focus", { target: ilse.notes.list[id] } )
                 dom.focus()
             }
         }, time )
@@ -226,7 +250,7 @@ export default class Notes {
             this.list = Object.fromEntries( entries ) // Set
         }
 
-        Messager.emit( "~notes", "added", { note: id, index: index, })
+        Messager.emit( "~notes", "added", { target: id, index: index, })
 
         return id
     }

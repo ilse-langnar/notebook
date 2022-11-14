@@ -11,6 +11,7 @@ import printf                           from "@/functions/printf.js"
     const path                       = require("path")
 
 // functions
+    import fuzzy_sort                             from "@/assets/fuzzysort.js"
     import string_to_html                         from "@/functions/string_to_html.js"
     import html_to_string                         from "@/functions/html_to_string.js"
     import add_component                          from "@/functions/add_component.js"
@@ -188,6 +189,7 @@ export default function get_plugin_api( name, ilse ) {
         files: ilse.files.list,
 
         store: ilse.store,
+        links: ilse.links,
 
         electron: ilse.electron,
         active: ilse.active,
@@ -373,8 +375,21 @@ export default function get_plugin_api( name, ilse ) {
             get_target_directory_url,
             split_array_into_nth_chunks,
             extract_markdown_links_from_string,
+            fuzzy_sort: fuzzy_sort,
             path: path,
             identity: function(arg) { return arg },
+
+            get_linked_refs: function( file ) {
+                return query(`[[${file.replace(".md", "")}]]`, null, true ).map( e => e.id )
+            },
+
+            get_unlinked_refs: function( file ) {
+                let r          = `[^\\[\\[](${file.replace(".md", "")})[^\\]\\]]` // file, but without the [[]]
+                let reg_exp    = new RegExp( r, "ig" )
+                let result     = ilse.notes.query_regexp( reg_exp )
+                return result
+            },
+
 
             set_dom_x_data: function( id, props ) {
 

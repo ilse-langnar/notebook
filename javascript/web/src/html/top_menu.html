@@ -16,15 +16,17 @@
                 <span x-text="tab.title" > </span>
             </div>
 
-            <img x-show="index === window.ilse.tabs.list.length -1" style="flex: 1; margin-top: 6px; width: 20px; cursor: pointer; display: block; " :src="window.ilse.require('plus.svg')" @click="ilse.tabs.add()" />
+            <img x-show="index === window.ilse.tabs.list.length -1" style="flex: 1; margin-top: 6px; width: 20px; cursor: pointer; display: block; z-index: 100; " :src="window.ilse.require('plus.svg')" @click="ilse.tabs.add()" />
 
             <div x-show="index === tabs.length -1" class="options" style="float: right;" >
-                <img :src="window.ilse.require('command.svg')"        @click="ilse.commands.run('open-command-pallet-modal')" >
-                <img :src="window.ilse.require('math-function.svg')"        @click="ilse.commands.run('open-study-tab')" >
-                <img :src="window.ilse.require('folders.svg')"        @click="ilse.commands.run('open-directory-manager-tab')" >
-                <img :src="window.ilse.require('lifebuoy.svg')"        @click="ilse.commands.run('open-help-tab')" >
-                <img :src="window.ilse.require('moon-stars.svg')"     @click="window.ilse.commands.run('toggle-dark-mode')" >
-                <img :src="window.ilse.require('menu.svg')"     @click="" >
+                <img class="move-window" title="move app window" :src="window.ilse.require('drag-drop.svg')"   >
+                <img :src="window.ilse.require('command.svg')"          @click="ilse.commands.run('open-command-pallet-modal')" >
+                <img :src="window.ilse.require('math-function.svg')"    @click="ilse.commands.run('open-study-tab')" >
+                <img :src="window.ilse.require('brain.svg')"            @click="ilse.commands.run('open-directory-manager-tab')" >
+                <img :src="window.ilse.require('folders.svg')"          @click="ilse.commands.run('open-filesystem-tab')" >
+                <img :src="window.ilse.require('lifebuoy.svg')"         @click="ilse.commands.run('open-help-tab')" >
+                <img :src="window.ilse.require('moon-stars.svg')"       @click="window.ilse.commands.run('toggle-dark-mode')" >
+                <img :src="window.ilse.require('menu.svg')"             @click="" >
             </div>
 
         </div> <!-- loop root -->
@@ -32,8 +34,13 @@
     </template>
     <br>
 </div>
-
 <style>
+
+#top-menu .move-window {
+    -ms-overflow-style: scrollbar;
+    -webkit-app-region: drag;
+    cursor: pointer !important; 
+}
 
 #top-menu .margin-large {
     margin-left: 30px;

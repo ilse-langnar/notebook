@@ -298,6 +298,28 @@ async function createWindow() {
         // frame: true
         width: 800,
         height: 600,
+
+
+        minimizable: true,
+        maximazable: true,
+        closable: true,
+        skipTaskbar: true,
+
+        transparent: true,
+        titleBarStyle: 'hidden', // MacOS( hide title, keep buttons )
+        frame: false,
+
+        // transparent: false,
+        // frame: false,
+
+        backgroundColor: 'transparent',
+        icon: path.join( __dirname, 'assets/logo.png' ),
+
+        // alwaysOnTop: true,
+        // focusable: false, //THIS IS THE KEY
+
+
+
         webPreferences: {
             spellcheck: true,
             webSecutity: false,
@@ -376,16 +398,22 @@ app.on('activate', () => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
 
-    // app.commandLine.appendSwitch('disable-site-isolation-trials')
-  if (isDevelopment && !process.env.IS_TEST) {
-    // Install Vue Devtools
-    try {
-      // await installExtension(VUEJS_DEVTOOLS)
-    } catch (e) {
-      console.error('Vue Devtools failed to install:', e.toString())
+    // BUGFIX: Allow transparent for linux
+    if( process.platform === "linux" ) {
+        app.commandLine.appendSwitch('enable-transparent-visuals');
+        // app.disableHardwareAcceleration();
     }
-  }
-  createWindow()
+
+    // app.commandLine.appendSwitch('disable-site-isolation-trials')
+    if (isDevelopment && !process.env.IS_TEST) {
+        // Install Vue Devtools
+        try {
+            // await installExtension(VUEJS_DEVTOOLS)
+        } catch (e) {
+            console.error('Vue Devtools failed to install:', e.toString())
+        }
+    }
+    createWindow()
 })
 
 // Exit cleanly on request from parent process in development mode.

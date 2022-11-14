@@ -52,7 +52,15 @@
             <button class="slick-button" @click.ctrl="window.ilse.tabs.add_with_component('daily-notes', { title: 'Notes', autoselect: true })" > Notes </button>
         </div>
 
+        <div style=" flex: 1; " >
+            <img :src="ilse.require('world-www.svg')" style="width: 30px; display: block; margin: 0 auto; " />
+            <button class="slick-button" @click.ctrl="window.ilse.tabs.add_with_component('links', { title: 'Links', autoselect: true })" > Open Links </button>
+        </div>
+
+
+
     </div>
+
 
     <div x-show="url" x-data="{ url: '' }" >
         <input placeholder="https://example.com" x-model="url" @keydown.enter="url = $event.target.value" />
