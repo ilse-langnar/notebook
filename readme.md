@@ -37,9 +37,11 @@ This program defines a couple of base "features" that be combined with each othe
 <h2 align="center" > Download: </h2>
 
 <div align="center" >
+    <a href="https://github.com/ilse-langnar/notebook/releases/download/1.3/Ilse.Langnar.s.Notebook.Setup.1.3.0.exe" >
+        <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-windows.svg" />
+    </a>
     <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/367633_linux_tux_icon.svg" />
-    <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-windows.svg" />
-    <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-apple.svg" />
+    <!-- <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-apple.svg" /> -->
 </div>
 
 <h2 align="center" > Command Line: </h2>
