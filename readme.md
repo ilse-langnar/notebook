@@ -17,7 +17,8 @@ Ilse is here to replace your: Browser, Email, Code Editor, IDE, Command Line, Fi
 
 Ilse aims to be the ultimate study and note-taking tool by learning from its predecessors and building something that last by implementing a standard instead of building just software which might [rot overtime]( https://en.wikipedia.org/wiki/Software_rot). And this standard is called [HTML](https://en.wikipedia.org/wiki/HTML).
 
-Try the online [Demo](https://ilse-langnar.github.io/notebook/demo/index.html) or download it form [Linux](https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage) [Windows](https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage) or [OS x]().
+Try the online ~~[Demo](https://ilse-langnar.github.io/notebook/demo/index.html)~~ or download it form ~~[Linux](https://github.com/ilse-langnar/notebook/releases/download/0.8/ilse-langnar-notebook-0.1.8.AppImage)~~ [Windows](https://github.com/ilse-langnar/notebook/releases/download/1.3/Ilse.Langnar.s.Notebook.Setup.1.3.0.exe) or ~~[OS x]()~~.
+
 
 If anything goes wrong, please open a [Issue](https://github.com/ilse-langnar/notebook/issues/new).
 
