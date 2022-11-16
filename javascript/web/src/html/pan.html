@@ -1,0 +1,37 @@
+<div data-component-id="pan" id="pan" class="no-outline" style="overflow: auto; height: 100%; " x-data="" x-transition
+    x-init="ilse.libs.panzoom($el, {
+         beforeWheel: e => { let ignore = !e.altKey; return ignore },
+         beforeMouseDown: e => {
+             let ignore = e.button === 0;
+             return ignore
+         },
+    })" >
+
+    <div x-data="{ list: window.ilse.query_regexp( new RegExp( '^' + ilse.utils.get_unique_date_id().slice(0, 8), 'ig') ) || [] }" x-init="window.ilse.Messager.on('~ilse', (action) => { if( action === 'loaded' ) { list = window.ilse.query_regexp( '^' + day, 'ig' ) } })" style="padding: 40px;" >
+
+        <template x-for="(note, index) in list" :key="index" >
+            <div x-show="note.content.indexOf('#exploration') !== -1" >
+
+                <div class="render" x-html="ilse.markdown.render(note.content)" style="height: 100px; border: 1px solid #000; overflow: hidden;" > </div>
+
+            </div>
+        </template>
+
+    </div>
+
+</div>
+<style>
+
+#pen .render {
+    outline: none;
+}
+
+#pen .render img:hover {
+    position: fixed;
+    left: 50%; 
+    top: 50%;
+    transform: translate( -50%, -50% );
+    width: 100px;
+}
+
+</style>

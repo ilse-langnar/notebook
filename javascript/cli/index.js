@@ -54,7 +54,6 @@ class Ilse {
             this.ask_for_dir()
         } else {
 
-
             let url       = path.join( target_directory, "notes" )
             let has_notes = fs.existsSync( url )
             if( !has_notes ) {

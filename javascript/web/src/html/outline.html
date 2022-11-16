@@ -1,4 +1,4 @@
-<div data-component-id="outline" id='outline' x-data='$json' >
+<div data-component-id="outline" id='outline' x-data='{ notes: [] }' >
 
     <template x-for="note in notes" >
         <div :id="note.id" x-data="{ is_editing: false }" class="flex" :style=" 'margin-left:' + (ilse.notes.list[note].depth * 20) + 'px;' " >

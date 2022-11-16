@@ -44,5 +44,11 @@ module.exports = function() {
             "Alias":     "i l",
             "Alias+":     "l",
         },
+        "Set Brain": {
+            "Long":      "ilse Set",
+            "Short":     "ilse e",
+            "Alias":     "i e",
+            "Alias+":     "e",
+        },
     })
 }

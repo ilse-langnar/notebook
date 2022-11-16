@@ -58,18 +58,20 @@ class KeyboardShortcut  {
         document.addEventListener( "keydown", event => {
 
             let is_ctrl_space = event.ctrlKey && event.key === " "
-                if( is_ctrl_space ) Messager.emit( "~keyboard", { action: "keydown", key: "C-SPC" } )
+                if( is_ctrl_space ) Messager.emit( "~keyboard",  "C-SPC" )
 
             // History
             this.history.push( event.key )
             this.last_key     = event.key
 
             let is_esc        = event.key === "Escape"
-            if( is_esc ) Messager.emit( "~keyboard", {action: "keydown", key: "esc"} )
+                if( is_esc ) Messager.emit( "~keyboard", "esc" )
+
+            Messager.emit( "~keyboard", event.key )
 
             if( is_ctrl_space ) {
                 let dom          = document.activeElement
-                let should_block = dom.tagName === "INPUT" || dom.tagName === "TEXTAREA" || dom.tagName === "DIV" && dom.id.indexOf("-") !== -1
+                let should_block = dom.tagName === "INPUT" || dom.tagName === "TEXTAREA" || dom.tagName === "DIV" && dom.id.indexOf("-") !== -1 // BUGFIX: when inside a textarea/input we should still work but not add any key
                 if( should_block ) {
                     this.turn_writing_off()
                     setTimeout( () => { this.turn_writing_on() }, 2000 ) // BUGFIX: You'll have 2 seconds to write the commands, otherwise, things will go normal again
@@ -120,6 +122,7 @@ class KeyboardShortcut  {
                 { combo: "ctrl+w", command: "close-active-tab",    category: "Special", prevent_default: true },
 
                 { combo: "ctrl+enter", command: "new-note",                 category: "Special" },
+                { combo: "alt+enter", command: "append-new-note",                 category: "Special" },
                 { combo: "ctrl+p", command: "open-command-pallet-modal",    category: "Special", prevent_default: true },
                 { combo: "shift+enter", command: "void:add-new-line",       category: "Special" },
                 { combo: "ctrl+(", command: "void",                         category: "Special" },
@@ -178,6 +181,7 @@ class KeyboardShortcut  {
 
             // s
                 { combo: "ctrl+space s s",       command: "open-notes-search-modal",         category: "Search", prevent_default: true },
+                { combo: "ctrl+space s t",       command: "open-todos-modal",         category: "Search", prevent_default: true },
                 { combo: "ctrl+space s shift+s", command: "open-files-search-modal",         category: "Search", prevent_default: true },
                 { combo: "ctrl+space s g",       command: "open-glyph-search",               category: "Search" },
                 { combo: "ctrl+space s w w",     command: "open-website-on-window",          category: "Search" },

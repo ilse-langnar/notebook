@@ -25,6 +25,8 @@
 // eslint-disable-next-line
 import printf                                       from "@/functions/printf.js"
 
+
+
 // import "@/assets/tailwind.js"
 
 // Ilse
@@ -59,28 +61,18 @@ export default {
 
         test() {
 
-            printf( "ilse -> ", ilse )
-            printf( "ilse.htmls -> ", ilse.htmls )
-            printf( "ilse.htmls.list -> ", ilse.htmls.list )
-
         },
 
         show_info( component ) {
-            printf( "App.vue -> show_info -> component -> ", component )
-            printf( "App.vue -> show_info -> ilse.components[component] -> ", ilse.components[component] )
         },
 
         get_active() {
 
             let to_return
 
-            printf( "ilse.tabs.list -> ", ilse.tabs.list )
-
             ilse.tabs.list.map( tab => {
                 if( tab.id === ilse.active ) to_return = tab.components
             })
-
-            printf( "to_return -> ", to_return )
 
             return to_return
         },
@@ -107,7 +99,6 @@ export default {
         set_font_face() {
 
             const mary = new FontFace('Mary', `url( ${require("@/assets/mary.ttf")} )`);
-            printf( "mary -> ", mary )
 
             mary.load().then(function(loadedFont) {
                 document.fonts.add( loadedFont )
@@ -227,7 +218,7 @@ export default {
 */
 
 
-.no-outline:active {
+.no-outline:focus {
     outline: none !important;
 }
 
@@ -474,8 +465,13 @@ blockquote {
     color: var( --background-color );*/
 
     border-left: 4px solid var( --text-color );
+
     color: var( --background-color );
     background: var( --secondary-background-color );
+
+    color: var( --background-color );
+    background: var( --text-color );
+
     margin-left: auto;
     margin-left: 15px;
 }

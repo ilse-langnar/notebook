@@ -1,6 +1,14 @@
-<div x-transition data-component-id="web" x-data="{ url: '', is_on: false }" >
-    <input x-model="url" @keydown.enter="is_on = true" style="width: 100%; " placeholder="https://example.com" />
-    <p> 1 </p>
-    <iframe x-show="url && is_on" :src="url" frameBorder="0" style="height: 70vh; width: 100vh; border: 1px solid #000;" >
-    <p> 2 </p>
+<div x-transition data-component-id="web" x-data="{ search: '', url: '' }" >
+
+    <input x-model="search" @keydown.enter="url = search" style="width: 100%; " placeholder="https://example.com" />
+
+    <p x-text="url[0]" ></p>
+
+    <template x-if="url.indexOf('http') !== -1" :key="url" >
+        <p> 1 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+        <iframe x-show="url && is_on" :src="url" frameBorder="0" style="height: 70vh; width: 100vh; border: 1px solid #000;" >
+    </template>
+
+    <p x-show="url[0] === '/' " > 2 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+
 </div>

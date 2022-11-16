@@ -11,21 +11,30 @@ export default class HTMLs {
 
     constructor() {
         this.list = []
+        this.setup()
+    }
+
+    setup() {
+
+        /*
+        let list = ilse.components;
+
+        list.map( component => {
+            this[component] = function( ...args ) {
+                return args
+            }
+        })
+        printf( "this['hello-world'] -> ", this['hello-world'] )
+        */
+
         this.listen()
     }
 
     listen() {
 
-        Messager.on( "~keyboard", payload => {
-
-            if( payload.action === "keydown" && payload.key === "esc" ) {
-
-                this.list.map( (item, index) => {
-                    if( item.is_modal ) this.list.splice( index, 1 )
-                })
-
-            }
-
+        Messager.on( "~keyboard", key => {
+            // Remove last item on "esc"
+            if( key === "esc" ) this.list.map( (item, index) => { if( item.is_modal ) this.list.splice( index, 1 ) })
         })
     }
 
@@ -90,7 +99,8 @@ export default class HTMLs {
 
         let id               = Math.random().toString()
         let string_props     = JSON.stringify( props )
-        let normalized_props = string_props.replaceAll( "\"", "'" )
+        let normalized_props = string_props.replaceAll( "\"", "\'" )
+        printf( "normalized_props -> ", normalized_props )
 
         // Idea string to HTML and then I pass  a string as x-data?
         let html             = ilse.components[name]

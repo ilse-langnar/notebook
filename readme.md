@@ -13,7 +13,7 @@
 
 Imagine [Roam Research](https://roamresearch.com/) + [Obsidian](https://obsidian.md/) + [Anki](https://ankiweb.net/) + [Supermemo](https://www.supermemopedia.com/wiki/Main_Page) + [Emacs](https://www.gnu.org/software/emacs/) + [Spacemacs](https://www.spacemacs.org/) + [Chrome](https://www.google.com/chrome/) but without their downsides such as online-only, lock-in, bad algorithm, complexity etc.
 
-Ilse is here to replace your: Browser, Email, Code Editor, IDE, Command Line, Filesystem, Study Tool, Note Taking and more. 
+Ilse is here to replace your: Browser, Email, Code Editor, IDE, Command Line, Filesystem, Study Tool, Note Taking and more. Imagine a Browser + Zettelkasten + IDE + Filesystem
 
 Ilse aims to be the ultimate study and note-taking tool by learning from its predecessors and building something that last by implementing a standard instead of building just software which might [rot overtime]( https://en.wikipedia.org/wiki/Software_rot). And this standard is called [HTML](https://en.wikipedia.org/wiki/HTML).
 
@@ -33,7 +33,7 @@ To augment human cognition with memory, references and tools.
 This software is made with the intent of lasting century, this is because it's based on 2 thing: Plain Text & HTML.
 So as long you have a program that can interpret text and HTML, you data will still be ok.
 
-This program defines a couple of base "features" that be combined with each other to form generative tools for thought, so Ilse is the base, and then you "evolve" the system as you wish to use it.
+This program defines a couple of base "features"(primitives) that be combined with each other to form generative tools for thought, so Ilse is the base, and then you "evolve" the system as you wish to use it.
 
 <h2 align="center" > Download: </h2>
 
@@ -106,6 +106,16 @@ This program defines a couple of base "features" that be combined with each othe
 | Zettelkasten | We don't use directories and you have access to links to link a note to a file or to another note. | |
 | Inline Embeds | You can use {{}} to embed things such as: Queries, todos, tags, word-count, timer and more! | |
 | Drag & Drop | Drag and Drop either notes, media or other. | |-->
+
+<h2 align="center" > Roadmap  </h2>
+| Feature         | Explanation     | Status |
+|--------------|-----------|------------|
+| Chrome Extention Support |  | In Investigation |
+| Plugin Marketplace |  | In Progress |
+| API |  | In Progress |
+| Study Tools |  | In Progress |
+
+
 
 <h2 align="center" > Contribute </h2>
 

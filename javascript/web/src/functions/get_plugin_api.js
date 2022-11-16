@@ -8,7 +8,8 @@ import printf                           from "@/functions/printf.js"
     import Messager                             from "@/classes/Messager.js"
 
 // Node.js
-    const path                       = require("path")
+    const path                       = require( "path" )
+    const panzoom                    = require( "panzoom" )
 
 // functions
     import fuzzy_sort                             from "@/assets/fuzzysort.js"
@@ -215,7 +216,9 @@ export default function get_plugin_api( name, ilse ) {
         languages: ilse.constants.SUPPORTED_LANGUAGES,
 
         keys: {
-            list: ilse.keyboard.keys,
+            list:    ilse.keyboard.keys,
+
+            history: ilse.keyboard.history,
 
             get_command_key: function get_command_key( id ) {
 
@@ -359,6 +362,10 @@ export default function get_plugin_api( name, ilse ) {
             return json
         },
         */
+
+        libs: {
+            panzoom: panzoom,
+        },
 
         utils: {
             get_string_favicon: function( string ) {

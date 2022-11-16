@@ -389,9 +389,7 @@ class Commands {
                 id: "toggle-dark-mode",
                 icon: "moon-stars.svg",
                 fn: function() {
-                    printf( "@before -> ilse.config.dark -> ", ilse.config.dark )
                     ilse.config.dark = !ilse.config.dark
-                    printf( "@after -> ilse.config.dark -> ", ilse.config.dark )
                     ilse.config.save()
                 },
                 description: "Will turn on if it's off, and off if it's on",
@@ -462,6 +460,47 @@ class Commands {
             },
 
             {
+                id: "open-pan",
+                icon: "point.svg",
+                fn: async function() {
+
+                    printf( "pen -> " )
+                    ilse.htmls.modal(
+                        ilse.htmls.render('pan',
+                            {}
+                        ),
+                        { width: '70%', height: '70%' }
+                    )
+
+                },
+                undo: args => {
+                },
+                description: "Open Pan(zoom)",
+                name: "Pan",
+                props: {},
+            },
+
+            {
+                id: "append-new-note",
+                icon: "point.svg",
+                fn: async function() {
+
+                    ilse.htmls.modal(
+                        ilse.htmls.render('search',
+                            { search: '', list: [], pointer: -1, prepend_search: "", append_search: "" }
+                        ),
+                        { width: '70%', height: '70%' }
+                    )
+
+                },
+                undo: args => {
+                },
+                description: "Will open a prompt for a new note",
+                name: "New Note",
+                props: {},
+            },
+
+            {
                 id: "new-note",
                 icon: "point.svg",
                 fn: async function() {
@@ -519,12 +558,42 @@ class Commands {
             },
 
             {
+                id: "screenshot",
+                icon: "lupe.svg",
+                fn: async function() {
+                    printf( "----- 1" )
+                    ilse.electron.screenshot()
+                    printf( "----- 2" )
+                },
+                description: "Screenshot",
+                name: "Screenshot",
+                props: {},
+            },
+
+            {
                 id: "open-files-search-modal",
                 icon: "lupe.svg",
                 fn: async function() {
                 },
                 description: "Open Files Search Modal",
                 name: "Open Files Search Modal",
+                props: {},
+            },
+
+            {
+                id: "open-todos-modal",
+                icon: "lupe.svg",
+                fn: async function() {
+
+                    ilse.htmls.modal(
+                        ilse.htmls.render('search',
+                            { search: '- [ ] ', list: [], pointer: -1, prepend_search: "- [ ] ", append_search: "" }
+                        ),
+                        { width: '70%', height: '70%' }
+                    )
+                },
+                description: "Open Search Modal",
+                name: "Open Search Modal",
                 props: {},
             },
 
@@ -537,7 +606,7 @@ class Commands {
 
                     ilse.htmls.modal(
                         ilse.htmls.render('search',
-                            { search: '', list: [] }
+                            { search: '', list: [], pointer: -1, prepend_search: "", append_search: "" }
                         ),
                         { width: '70%', height: '70%' }
                     )

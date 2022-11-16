@@ -31,6 +31,34 @@ export default class Electron {
         this.setup()
     }
 
+    screenshot( filename = Math.random().toString().replace("0.", "") ) {
+
+        var remote
+
+        printf( "> 1" )
+        try {
+            printf( "> 2" )
+            remote = require('' + 'electron').remote
+            printf( "> 3" )
+        } catch(e) {
+            printf( "> 4" )
+            remote = require('' + 'remote')
+            printf( "> 5" )
+        }
+
+        printf( "> 6" )
+        printf( "remote -> ", remote )
+        printf( "remote.getCurrentWindow() -> ", remote.getCurrentWindow() )
+
+        remote.getCurrentWindow().capturePage(function handleCapture (img) {
+            printf( ' aaaaaaa img -> ', img );
+            printf( "filename -> ", filename )
+            // remote.require('fs').writeFile( opt.filename, img.toPng(), cb)
+
+        })
+
+    }
+
     setup_target_folder() {
 
         this.ipc.send( "open-file-dialog" )

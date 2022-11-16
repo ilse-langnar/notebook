@@ -1,4 +1,52 @@
+<div data-component-id="search" id="search" style="overflow: auto; height: 100%; " x-data="{ pointer: 0, search: '', list: [], pointer: -1, prepend_search: '', append_search: '' }" x-transition x-init="console.log(pointer)" >
+
+    <input id="search-input"
+        x-model="search"
+        @keydown.up.prevent=""
+        @keydown.down.prevent=""
+        @keydown.enter="if( pointer !== -1 ) { console.log('selected'); } else { list = window.ilse.query(prepend_search + search + append_search ) }"
+        placeholder="Search ..."
+        x-init="document.getElementById('search-input') ? document.getElementById('search-input').focus() : null; setTimeout( () => { search = '' }, 100 ) "
+        style="color: var( --text-color ); background: var( --background-color ); border-radius: var( --border-radius ); "/>
+
+    <div style="display: flex;" x-init="ilse.Messager.on('~keyboard', key => { 
+            if( key === 'ArrowDown' ) { pointer > list.length  ? null : pointer++ }
+            if( key === 'ArrowUp' )   { pointer === 0 ? null : pointer-- }
+        })" >
+        <span style="flex: 1;" x-show="list.length" x-text="list.length + 'Result[s]'" > </span>
+        <span style="flex: 1;" > <span style="display: inline;"> <strong> ESC </strong> Exit </span> </span>
+        <span style="flex: 1;" > <img :src="ilse.require('arrow-back.svg')" style="display: inline;" > <span style="display: inline;"> <strong> Open </strong>  </span> </span>
+        <span style="flex: 1;" > <img :src="ilse.require('switch-vertical.svg')" style="display: inline;" > <span style="display: inline;"> <strong> Navigate </strong>  </span> </span>
+        <span style="flex: 1;" > <img :src="ilse.require('arrow-back.svg')" style="display: inline;" > <span style="display: inline;"> <strong> Open </strong> in Window  </span> </span>
+    </div>
+
+    <template x-for="(note, index) in list" :key="index" style="border: 1px solid #000;" >
+        <div class="result" :style="index === pointer ? 'color: var( --background-color ); background: var( --text-color );' : '' " >
+            <span style="flex-basis: 1%;" > &bull; </span>
+
+            <p
+                class="render"
+                x-html="window.ilse.markdown.render(note.content)"
+ 
+                @click="if( $event.target.type === 'checkbox' ) {
+                    ilse.notes.list[note.id].content = ilse.notes.list[note.id].content.replace( '- [ ]', '- [x]' )
+                    ilse.save()
+                 };" > </p>
+
+        </div>
+    </template>
+
+    <div x-show="!list.length" >
+        <br>
+        <h2> Search for something </h2>
+        <img :src="ilse.require('lupe.svg')" style="width: 10vh; " />
+    </div>
+</div>
 <style>
+
+#search .result {
+    display: flex;
+}
 
 #search input:focus {
     /*box-shadow: 0 0 0 3px hsla(var(--input-focus-h), var(--input-focus-s), calc(var(--input-focus-l) + 40%), 0.8);*/
@@ -22,24 +70,17 @@
     transition: all 0.1s ease 0s;
 }
 
+#search .render {
+    cursor: pointer;
+    margin-bottom: 5px;
+    /*flex: 1;*/
+    flex-basis: 98%;
+    text-align: left; 
+}
+
+#search .render:hover {
+    background: var( --text-color );
+    color: var( --background-color );
+}
+
 </style>
-<div data-component-id="search" id="search" style="overflow: auto; height: 100%; " x-data="{ search: '', list: [] }" x-transition >
-
-    <input id="search-input" x-model="search" @keydown.enter="list = window.ilse.query(search)" placeholder="Search ..." x-init="document.getElementById('search-input') ? document.getElementById('search-input').focus() : null; " x-init="setTimeout( () => { alert('ll'); search = '' }, 100 )" style="color: var( --text-color ); background: var( --background-color ); border-radius: var( --border-radius ); "/>
-
-    <div style="display: flex;" >
-        <span style="flex: 1;" x-show="list.length" x-text="list.length + 'Result[s]'" > </span>
-        <span style="flex: 1;" > <span style="display: inline;"> <strong> ESC </strong> Exit </span> </span>
-        <span style="flex: 1;" > <img :src="ilse.require('arrow-back.svg')" style="display: inline;" > <span style="display: inline;"> <strong> Open </strong>  </span> </span>
-        <span style="flex: 1;" > <img :src="ilse.require('switch-vertical.svg')" style="display: inline;" > <span style="display: inline;"> <strong> Navigate </strong>  </span> </span>
-        <span style="flex: 1;" > <img :src="ilse.require('arrow-back.svg')" style="display: inline;" > <span style="display: inline;"> <strong> Open </strong> in Window  </span> </span>
-    </div>
-
-    <template x-for="item in list" style="border: 1px solid #000;" >
-        <div style="display: flex; " >
-            <span style="flex: 1; flex-basis: 1%;" > &bull; </span>
-            <p x-html="window.ilse.markdown.render(item.content)" style="cursor: pointer; margin-bottom: 5px; flex: 1; flex-basis: 98%; text-align: left; " @click="console.log('item -> ', item, item.id ); window.ilse.add_component({ type: 'outline', props: { notes: [item.id] }, width: 12 });" > </p>
-        </div>
-    </template>
-
-</div>

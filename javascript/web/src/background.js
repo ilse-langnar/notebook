@@ -343,6 +343,11 @@ async function createWindow() {
         event.sender.send( "blur" )
     })
 
+    win.webContents.on('did-finish-load',() => {
+        win.setTitle( "Ilse Langnar's Notebook" )
+    });
+
+
 
     /*
     app.on('browser-window-blur', function (event, browserWindow) {

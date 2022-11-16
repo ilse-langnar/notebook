@@ -67,6 +67,7 @@ import printf                   from "@/functions/printf.js"
     import web                          from "@/html/web.html"
     import directory_manager            from "@/html/directory_manager.html"
     import links                        from "@/html/link.html"
+    import pan                          from "@/html/pan.html"
 
 // Frame
 const JSFrame = require("@/assets/jsframe.min.js")
@@ -122,6 +123,7 @@ export default class Ilse {
             "web":                  web,
             "directory-manager":    directory_manager,
             "links":                links,
+            "pan":                  pan,
             "hello-world":          `<p> Hello, World </p>`,
         }
 
