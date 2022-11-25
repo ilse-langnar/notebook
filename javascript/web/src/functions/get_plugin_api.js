@@ -150,7 +150,6 @@ export default function get_plugin_api( name, ilse ) {
         // printf( "get_plugin_api -> payload -> ", payload )
     // })
 
-    // printf( "htmls -> ilse.htmls -> ", ilse.htmls)
     // printf( "ilse.notes -> ", ilse.notes )
     // printf( " name === 'global' -> ", name === 'global' )
 
@@ -185,7 +184,9 @@ export default function get_plugin_api( name, ilse ) {
 
     const api = {
 
-        htmls: ilse.htmls,
+        stacks: ilse.stacks,
+        render: ilse.render,
+        modal: ilse.modal,
 
         files: ilse.files.list,
 
@@ -385,6 +386,23 @@ export default function get_plugin_api( name, ilse ) {
             fuzzy_sort: fuzzy_sort,
             path: path,
             identity: function(arg) { return arg },
+
+            get_related_links( link ) {
+
+                let list   = ilse.notes.query(link);
+                let string = '';
+
+                list.map( item => string += item.content );
+
+                let links  = extract_markdown_links_from_string(string)
+                let unique = [...new Set( links )]
+
+                // BUGFIX: Remove self.
+                    if( unique.indexOf(link) !== -1 ) unique.splice( unique.indexOf(link), 1 )
+
+                return unique
+
+            },
 
             get_linked_refs: function( file ) {
                 return query(`[[${file.replace(".md", "")}]]`, null, true ).map( e => e.id )

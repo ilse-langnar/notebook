@@ -16,17 +16,18 @@ import printf                   from "@/functions/printf.js"
     import Cache                        from "@/classes/Cache.js"
     import Tabs                         from "@/classes/Tabs.js"
     import Clipboard                    from "@/classes/Clipboard.js"
-    import HTMLs                        from "@/classes/HTMLs.js"
     import PluginManager                from "@/classes/PluginManager.js"
 
     // UI Elements
         import Notification                 from "@/classes/Notification.js"
         import Dialog                       from "@/classes/Dialog.js"
 
-    // functions
-        import i18n                         from "@/functions/i18n.js"
-        import get_plugin_api               from "@/functions/get_plugin_api.js"
-        import irequire                     from "@/functions/require.js"
+// functions
+    import i18n                         from "@/functions/i18n.js"
+    import get_plugin_api               from "@/functions/get_plugin_api.js"
+    import irequire                     from "@/functions/require.js"
+    import string_to_html               from "@/functions/string_to_html.js"
+    import html_to_string               from "@/functions/html_to_string.js"
 
     // Node.js
         const path                       = require("path")
@@ -127,6 +128,7 @@ export default class Ilse {
             "hello-world":          `<p> Hello, World </p>`,
         }
 
+        this.stack                  = []
         this.tabs                   = new Tabs()
 
         this.store                  = { ui: {}, status_line: {} }
@@ -177,17 +179,6 @@ export default class Ilse {
         }
     }
 
-    get_html( name ) {
-
-        let to_return = null
-
-        this.htmls.map( item => {
-            if( item.id === id ) to_return
-        })
-
-        return to_return
-    }
-
     before_setup() {
 
         this.target_directories     = []
@@ -205,10 +196,6 @@ export default class Ilse {
         }
 
         let bugfix_list_has_items = list && list.length
-        printf( "bugfix_list_has_items -> ", bugfix_list_has_items )
-        printf( "list -> ", list )
-        printf( "window.localStorage.getItem('target-directories') -> ", window.localStorage.getItem('target-directories') )
-        printf( "this.target_directories -> ", this.target_directories )
             if( bugfix_list_has_items ) this.target_directories     = list
 
         if( this.platform === "quine" ) { // Autoselects "/"
@@ -228,7 +215,16 @@ export default class Ilse {
 
     }
 
+    listen() {
+
+        Messager.on( "~keyboard", key => {
+            if( key === "esc" ) this.stack.map( (item, index) => { if( item.is_modal ) this.stack.splice( index, 1 ) })
+        })
+
+    }
+
     setup() {
+        this.listen()
 
         this.last_save_attempt      = 0
 
@@ -236,9 +232,6 @@ export default class Ilse {
         // Utils
             this.utils                  = new Utils()
             this.cache                  = new Cache(this)
-
-        // Components
-            this.htmls                  = new HTMLs()
 
         // Filesystem
             this.filesystem             = new Filesystem( this, this.target_directories[0] )
@@ -278,35 +271,75 @@ export default class Ilse {
         this.after_setup()
     }
 
-    /*
-    auto_save() {
+    render( name, props = {} ) {
 
-        let _this       = this
-        let one_minute  = 1 * 60 * 1000
-        let should_save
+        let id               = Math.random().toString()
+        let string_props     = JSON.stringify( props )
+        let normalized_props = string_props.replaceAll( "\"", "\'" )
 
-        setInterval( () => {
+        // Idea string to HTML and then I pass  a string as x-data?
+        let html             = ilse.components[name]
+        let HTML             = string_to_html( html )
 
-            should_save = true
+        let dom              = HTML.querySelector('[x-data]')
+            if( dom ) dom.setAttribute( "x-data", normalized_props )
 
-            this.notification.send( "Saving in 3s ", "Press on 'x' to cancel", {
-                on_cancel: function() {
-                    should_save = false
-                    printf( "on_cancel -> should_save -> ", should_save )
-                },
-                on_close: function( notification ) {
-                    printf( "Ilse.js -> on_close -> notification -> ", notification )
-                    if( should_save ) {
-                        _this.save()
-                        _this.notification.send( "Saved", "Modifications were saved" )
-                    }
+        return html_to_string( HTML )
+    }
+
+    async modal( content, options = {} ) {
+
+        let id   = Math.random().toString()
+
+        let item = {
+            is_modal: true,
+            id: id,
+            html: `
+            <div id="${id}" style="z-index: 2; position: fixed; left: ${options.left || "50%" }; top: ${options.top || "50%" }; transform: translate( -50%, -50% ); width: ${options.width || "50%" }; height: ${options.height || "50%" }; overflow: ${options.overflow || "hidden" }; color: var( --text-color ); background: var( --background-color ); padding: 5px; text-align: center; box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; " >
+                <img class="is-pulled-right" style="width: 20px; cursor: pointer;" onclick="ilse.htmls.list.shift(); let id = this.parentNode.parentNode.id; window.ilse.Messager.emit('~dialog.vue', 'rejected', { id: id })" :src="window.ilse.require('x.svg');" />
+                ${content}
+            </div>
+            `
+        }
+
+        printf( "this.stack -> ", this.stack )
+        this.stack.push( item )
+
+        return new Promise((resolve, reject) => {
+
+            Messager.on( "~ilse", ( action, payload ) => {
+
+                if( action === "modal-done" && id === payload.id ) {
+                    // ilse.htmls.remove( id )
+                    ilse.stack.pop()
+                    resolve( payload.input)
+                } else if ( action === "rejected" && id === payload.id){
+                    // ilse.htmls.remove( id )
+                    ilse.stack.pop()
+                    reject( id )
+                } else {
+                    reject( id )
                 }
-            })
 
-        }, 10 * 1000  )
+            })
+        })
 
     }
-    */
+
+    remove( id ) {
+
+        let to_return = null
+        let component
+        this.stack.map( item => { if( item.id === id ) component = item })
+
+        if( component )  {
+            let index  = this.list.indexOf( component )
+            if( index !== -1 ) to_return = this.list.splice( index, 1 )
+        }
+
+        return to_return
+
+    }
 
     after_setup() {
 

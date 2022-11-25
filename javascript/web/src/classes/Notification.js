@@ -37,8 +37,8 @@ class Notification {
             .replace( "$title", title )
             .replace( "$description", text )
 
-        ilse.htmls.add( id, html )
-        setTimeout( () => { ilse.htmls.remove( id ) }, options.time )
+        ilse.stack.push({ id, html })
+        setTimeout( () => { ilse.remove( id ) }, options.time )
         return id
     }
 

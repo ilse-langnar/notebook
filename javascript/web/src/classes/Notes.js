@@ -110,14 +110,11 @@ export default class Notes {
 
     async save() {
 
-        printf( "save ... 1" )
         let text_file = ""
 
-        printf( "save ... 2" )
         map( keys(this.list), key => {
             text_file += `${get_spaces_count(this.list[key].depth)}${this.list[key].id}: ${this.list[key].content}\n` // <spaces><id>: <content>
         })
-        printf( "save ... 3" )
 
         await this.filesystem.file.write.async( "notes", text_file )
     }

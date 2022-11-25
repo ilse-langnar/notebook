@@ -177,10 +177,10 @@ class Commands {
             {
                 id: "open-command-pallet-modal",
                 fn: function() {
-                    ilse.htmls.modal( ilse.htmls.render('command-pallet', { search: '' }) )
+                    ilse.modal( ilse.render('command-pallet', { search: '' }) )
                 },
                 undo: args => {
-                    ilse.htmls.list.shift()
+                    ilse.list.shift()
                 },
                 description: "Open Command Pallet Modal",
                 name: "Open Command Pallet Modal",
@@ -190,7 +190,7 @@ class Commands {
             {
                 id: "open-links-modal",
                 fn: function() {
-                    ilse.htmls.modal( ilse.htmls.render('links', { search: '' }) )
+                    ilse.modal( ilse.render('links', { search: '' }) )
                 },
                 description: "Open Links Modal",
                 name: "Open Links Modal",
@@ -250,7 +250,7 @@ class Commands {
                         `
                         // let html                    = div.outerHTML
                         printf( ">>> html -> ", html )
-                            if( id ) ilse.htmls.modal( html, { overflow: "auto" })
+                            if( id ) ilse.modal( html, { overflow: "auto" })
 
                         document.body.style.cursor = "auto"
                         document.body.removeEventListener( "click", ilse.cursor )
@@ -429,7 +429,7 @@ class Commands {
                 fn: function() {
                     window.ilse.tabs.add_with_component('help', { title: 'Help', autoselect: true })
                 },
-                undo: args => { ilse.htmls.list.shift()},
+                undo: args => { ilse.list.shift()},
                 description: "Will open a new tab with Help",
                 name: "Open Help Tab",
                 props: {},
@@ -439,9 +439,9 @@ class Commands {
                 id: "open-help-modal",
                 icon: "lifebuoy.svg",
                 fn: function() {
-                    ilse.htmls.modal( ilse.components.help, { overflow: 'auto' } )
+                    ilse.modal( ilse.components.help, { overflow: 'auto' } )
                 },
-                undo: args => { ilse.htmls.list.shift()},
+                undo: args => { ilse.list.shift()},
                 description: "Will open the help modal",
                 name: "Open Help Modal",
                 props: {},
@@ -451,9 +451,9 @@ class Commands {
                 id: "open-configuration-modal",
                 icon: "settings.svg",
                 fn: function() {
-                    ilse.htmls.add( "configuration", ilse.components.configuration )
+                    ilse.add( "configuration", ilse.components.configuration )
                 },
-                undo: args => { ilse.htmls.list.shift()},
+                undo: args => { ilse.list.shift()},
                 description: "Will open the configuration modal",
                 name: "Open Configuration Modal",
                 props: {},
@@ -465,12 +465,7 @@ class Commands {
                 fn: async function() {
 
                     printf( "pen -> " )
-                    ilse.htmls.modal(
-                        ilse.htmls.render('pan',
-                            {}
-                        ),
-                        { width: '70%', height: '70%' }
-                    )
+                    ilse.modal( ilse.render('pan', {}), { width: '70%', height: '70%' })
 
                 },
                 undo: args => {
@@ -485,8 +480,8 @@ class Commands {
                 icon: "point.svg",
                 fn: async function() {
 
-                    ilse.htmls.modal(
-                        ilse.htmls.render('search',
+                    ilse.modal(
+                        ilse.render('search',
                             { search: '', list: [], pointer: -1, prepend_search: "", append_search: "" }
                         ),
                         { width: '70%', height: '70%' }
@@ -585,8 +580,8 @@ class Commands {
                 icon: "lupe.svg",
                 fn: async function() {
 
-                    ilse.htmls.modal(
-                        ilse.htmls.render('search',
+                    ilse.modal(
+                        ilse.render('search',
                             { search: '- [ ] ', list: [], pointer: -1, prepend_search: "- [ ] ", append_search: "" }
                         ),
                         { width: '70%', height: '70%' }
@@ -602,10 +597,10 @@ class Commands {
                 icon: "lupe.svg",
                 fn: async function() {
                     // ilse.is_search_on = !ilse.is_search_on
-                    // ilse.htmls.add( "search", ilse.components.search )
+                    // ilse.add( "search", ilse.components.search )
 
-                    ilse.htmls.modal(
-                        ilse.htmls.render('search',
+                    ilse.modal(
+                        ilse.render('search',
                             { search: '', list: [], pointer: -1, prepend_search: "", append_search: "" }
                         ),
                         { width: '70%', height: '70%' }

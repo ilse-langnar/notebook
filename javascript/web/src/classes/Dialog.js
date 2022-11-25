@@ -24,17 +24,17 @@ export default class Dialog {
             .replace( "$title", title )
             .replace( "$description", description )
 
-        ilse.htmls.add( "dialog-info-" + Math.random(), normalized )
+        ilse.stack.push({ id: "dialog-info-" + Math.random(), html: normalized })
 
         return new Promise((resolve, reject) => {
 
             Messager.on( "~dialog.vue", ( action, payload ) => {
 
                 if( action === "done" && id === payload.id ) {
-                    ilse.htmls.remove( id )
+                    ilse.remove( id )
                     resolve( true )
                 } else if ( action === "rejected" && id === payload.id){
-                    ilse.htmls.remove( id )
+                    ilse.remove( id )
                     reject( false )
                 } else {
                     reject( false )
@@ -53,17 +53,17 @@ export default class Dialog {
             .replace( "$description", description )
 
         let id   = "dialog-confirm-" + Math.random()
-            ilse.htmls.add( id, html )
+            ilse.stack.push({ id: id, html: html })
 
         return new Promise((resolve, reject) => {
 
             Messager.on( "~dialog.vue", ( action, payload ) => {
 
                 if( action === "done" && id === payload.id ) {
-                    ilse.htmls.remove( id )
+                    ilse.remove( id )
                     resolve( true )
                 } else if ( action === "rejected" && id === payload.id){
-                    ilse.htmls.remove( id )
+                    ilse.remove( id )
                     reject( false )
                 } else {
                     reject( false )
@@ -76,15 +76,12 @@ export default class Dialog {
 
     async input( title = "Title", description = "Description" ) {
 
-        printf( "before -> ", input )
         let html = input
             .replace( "$title", title )
             .replace( "$description", description )
 
-        printf( "after -> ", html )
-
         let id   = "dialog-input-" + Math.random()
-            ilse.htmls.add( id, html )
+            ilse.stack.push({ id: id, html: html })
 
         return new Promise((resolve, reject) => {
 
@@ -92,10 +89,10 @@ export default class Dialog {
 
 
                 if( action === "done" && id === payload.id ) {
-                    ilse.htmls.remove( id )
+                    ilse.remove( id )
                     resolve( payload.input)
                 } else if ( action === "rejected" && id === payload.id){
-                    ilse.htmls.remove( id )
+                    ilse.remove( id )
                     reject( id )
                 } else {
                     reject( id )

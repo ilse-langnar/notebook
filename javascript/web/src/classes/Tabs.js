@@ -12,6 +12,7 @@ import printf                           from "@/functions/printf.js"
     import status_line                  from "@/html/status_line.html"
     import new_tab                      from "@/html/new_tab.html"
 
+
 export default class Tabs {
 
     constructor( ilse ) {
@@ -62,16 +63,13 @@ export default class Tabs {
         let index    = this.list.indexOf( this.get_tab( tab.id ) )
             if( index === -1 ) return // BUGFIX:
 
-        let deleted  = this.list.splice( index, 1 )
-
-        printf( "this.list.length -> ", this.list.length )
+        // TODO: change THEN delete.
+        this.list.splice( index, 1 )
 
         if( this.list.length === 1 ) { // [ 1, 1 ] = [1](focos on this)
-            printf( "First" )
             setTimeout( () => { this.select( this.list[0] ) }, 1 )
         } else { // [ 1, 1, 1 ]
             let last = this.list[index]
-            printf( "Second" )
             setTimeout( () => { this.select( last ) }, 1 )
         }
 
@@ -200,10 +198,13 @@ export default class Tabs {
 
     listen() {
 
-        Messager.on( "~top-menu", (action, payload) => {
-            // this.selected = payload
+        Messager.on( "~keyboard", key => {
+            if( key === "esc" ) this.list.map( (item, index) => { if( item.is_modal ) this.list.splice( index, 1 ) })
         })
 
+        // Messager.on( "~top-menu", (action, payload) => {
+            // this.selected = payload
+        // })
     }
 
 }

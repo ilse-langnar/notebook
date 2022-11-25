@@ -1,10 +1,10 @@
 <div id="input-dialog" style="z-index: 2; position: fixed; left: 50%; top: 50%; transform: translate( -50%, -50% ); width: 50%; overflow: auto; color: var( --text-color ); background: var( --background-color ); padding: 5px; text-align: center; box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; " x-transition x-data="{ content: '' }" data-component-id="dialog-input" >
 
-    <img class="is-pulled-right" style="width: 20px; cursor: pointer;" @click="ilse.htmls.list.shift(); let id = this.parentNode.parentNode.id; window.ilse.Messager.emit('~dialog.vue', 'rejected', { id: id })" :src="window.ilse.require('x.svg');" />
+    <img class="is-pulled-right" style="width: 20px; cursor: pointer;" @click="ilse.stack.shift(); let id = this.parentNode.parentNode.id; window.ilse.Messager.emit('~dialog.vue', 'rejected', { id: id })" :src="window.ilse.require('x.svg');" />
 
     <h3> $title </h3>
 
-    <input id="input-dialog-textarea" x-model="content" x-init="document.getElementById('input-dialog-textarea') ? document.getElementById('input-dialog-textarea').focus() : null; content = ''; setTimeout( () => { content = '' }, 1 ) " autofocus @keydown.enter.prevent="if( content ) { let id = $event.target.parentNode.parentNode.id; console.log('content'); window.ilse.Messager.emit('~dialog.vue', 'done', { id: id, input: content }) }" class="textarea" style="width: 80%; height: 40%; border-radius: var( --border-radius ); resize: none; color: var( --text-color ); background: var( --background-color ); " @keydown.esc.prevent="ilse.htmls.list.shift();" /> 
+    <input id="input-dialog-textarea" x-model="content" x-init="document.getElementById('input-dialog-textarea') ? document.getElementById('input-dialog-textarea').focus() : null; content = ''; setTimeout( () => { content = '' }, 1 ) " autofocus @keydown.enter.prevent="if( content ) { let id = $event.target.parentNode.parentNode.id; console.log('content'); window.ilse.Messager.emit('~dialog.vue', 'done', { id: id, input: content }) }" class="textarea" style="width: 80%; height: 40%; border-radius: var( --border-radius ); resize: none; color: var( --text-color ); background: var( --background-color ); " @keydown.esc.prevent="ilse.stack.shift();" /> 
     <br/>
 
     <!-- <button class="slick-button" onclick="let id = this.parentNode.parentNode.id; window.ilse.Messager.emit('~dialog.vue', 'done', { id: id, input: document.getElementById('input-dialog-textarea').value })" > Done </button> -->

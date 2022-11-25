@@ -5,7 +5,7 @@
 
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded" :data-theme="get_data_theme" )
         p {{test()}}
-        .html-render( v-for="( item, index ) in ilse.htmls.list" :key="index" )
+        .html-render( v-for="( item, index ) in ilse.stack" :key="index" )
             .div( v-html="item.html" :id="item.id" )
 
         // template( x-data="{ list: window.ilse.tabs.list }" x-for="tab in list" x-init=" list = window.ilse.tabs.list" )
@@ -143,6 +143,7 @@ export default {
     color: var( --text-color );
     background: var( --background-color ) !important;
     height: 97vh;
+    height: 100vh;
     width: 100vw;
     overflow: hidden !important;
 }
@@ -456,7 +457,6 @@ input[type="checkbox"] {
 
 blockquote {
     padding: 5px;
-    margin: 4px;
     border-left: 4px solid #bdbdbd;
     border-radius: 4px;
     background-color: #ededed;
@@ -472,8 +472,9 @@ blockquote {
     color: var( --background-color );
     background: var( --text-color );
 
+    margin-top: 0px;
+    margin-bottom: 0px;
     margin-left: auto;
-    margin-left: 15px;
 }
 
 code {

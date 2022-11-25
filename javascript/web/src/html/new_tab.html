@@ -1,6 +1,26 @@
-<div data-component-id="new-tab" class="new-tab" style="overflow: auto; height: 100%;" >
+<!-- <div data-component-id="new-tab" class="new-tab" style="overflow-y: hidden;  height: 99vh; display: flex; " >
+    
 
-    <div style="display: flex; margin: 10px 0; height: 30vh; overflow: hidden; " >
+    <div style="flex-basis: 30%; height: 88vh; margin: 0px 10px; border-radius: var( border-radius ); box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; " >
+        <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+    </div>
+
+    <div style="flex-basis: 79%; height: 88vh; overflow: auto; margin: 0px 10px; border-radius: var( border-radius ); margin: 0 auto; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; " >
+
+        <div style=" flex: 1; " >
+            <img :src="ilse.require('world-www.svg')" style="width: 30px; display: block; margin: 0 auto; " />
+            <button class="slick-button" @click.ctrl="window.ilse.tabs.add_with_component('web', { title: 'Web', autoselect: true })" > Open Filesystem </button>
+        </div>
+
+        <div style=" flex: 1; " >
+            <img :src="ilse.require('world-www.svg')" style="width: 30px; display: block; margin: 0 auto; " />
+            <button class="slick-button" @click.ctrl="window.ilse.tabs.add_with_component('daily-notes', { title: 'Notes', autoselect: true })" > Notes </button>
+        </div>
+
+        <div style=" flex: 1; " >
+            <img :src="ilse.require('world-www.svg')" style="width: 30px; display: block; margin: 0 auto; " />
+            <button class="slick-button" @click.ctrl="window.ilse.tabs.add_with_component('links', { title: 'Links', autoselect: true })" > Open Links </button>
+        </div>
 
         <div style=" flex: 1; " >
             <h2> Make a new Plugin! </h2>
@@ -20,7 +40,7 @@
         <div style=" flex: 1; " >
             <img :src="ilse.require('folders.svg')" style="width: 30px; display: block; margin: 0 auto; " />
             <button class="slick-button" @click.ctrl="window.ilse.tabs.add_with_component('filesystem', { title: 'Filesystem', url: 'filesystem', autoselect: true })" > Open Filesystem </button>
-            <!-- <div x-html="window.ilse.components['filesystem']" > </div> -->
+
         </div>
 
         <div style=" flex: 1; " >
@@ -29,35 +49,14 @@
             <div x-data="{ list: window.ilse.query( ilse.utils.get_unique_date_id().slice( 0, 8 ) ) }", >
 
                 <span x-text="list.length + 'Reviews Today' "> </span>
-                <!-- <template x-for="(item, index) in list" :key="index" >
-                    <div>
-                        <p x-text="item.content" > </p>
-                    </div>
-                </template> -->
-
             </div>
-        </div>
+        </div> 
+
 
     </div>
 
-    <div style="display: flex; margin: 10px 0; height: 30vh; overflow: hidden; " >
-
-        <div style=" flex: 1; " >
-            <img :src="ilse.require('world-www.svg')" style="width: 30px; display: block; margin: 0 auto; " />
-            <button class="slick-button" @click.ctrl="window.ilse.tabs.add_with_component('web', { title: 'Web', autoselect: true })" > Open Filesystem </button>
-        </div>
-
-        <div style=" flex: 1; " >
-            <img :src="ilse.require('world-www.svg')" style="width: 30px; display: block; margin: 0 auto; " />
-            <button class="slick-button" @click.ctrl="window.ilse.tabs.add_with_component('daily-notes', { title: 'Notes', autoselect: true })" > Notes </button>
-        </div>
-
-        <div style=" flex: 1; " >
-            <img :src="ilse.require('world-www.svg')" style="width: 30px; display: block; margin: 0 auto; " />
-            <button class="slick-button" @click.ctrl="window.ilse.tabs.add_with_component('links', { title: 'Links', autoselect: true })" > Open Links </button>
-        </div>
-
-
+    <div style="flex-basis: 30%; height: 88vh; margin: 0px 10px; border-radius: var( border-radius ); box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; " >
+        <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
 
     </div>
 
@@ -67,4 +66,128 @@
         <iframe x-show="url" :src="url" frameBorder="0" style="width: 100%; height: 100vh;" />
     </div>
 
+</div> -->
+
+<div data-component-id="new-tab" id="new-tab" x-transition x-data="{ days: [], is_leftsidebar_open: true, is_rightsidebar: false, mode: 'linear', pages: [] }" x-init="" class="flex" >
+
+    <div id="notes" style="overflow-y: auto !important; overflow-x: hidden !important; margin-left: 5px; height: 88vh; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; margin-right: 10px; flex: 1; flex-basis: 10%; border-radius: var( --border-radius ); background: var( --background-color ); "  >
+        <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+    </div>
+
+
+    <div id="notes" style="overflow-y: auto !important; overflow-x: hidden !important; margin-left: 5px; height: 88vh; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; margin-right: 10px; flex: 1; flex-basis: 100%; border-radius: var( --border-radius ); background: var( --background-color ); "  >
+        <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+    </div>
+
+    <div id="notes" style="overflow-y: auto !important; overflow-x: hidden !important; margin-left: 5px; height: 88vh; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; margin-right: 10px; flex: 1; flex-basis: 10%; border-radius: var( --border-radius ); background: var( --background-color ); "  >
+        <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+    </div>
+
 </div>
+<style>
+
+#daily-notes {
+    height: 91vh;
+    height: 99vh;
+}
+
+    #daily-notes .note {
+        border-left: 1px solid #000;
+    }
+
+    #daily-notes .left-sidebar {
+        height: 88vh;
+        width: 20px !important;
+        margin: 0px 5px;
+        overflow: hidden;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        border-radius: var( --border-radius );
+        background: var( --background-color ); 
+        border: 0 !important;
+    }
+
+        #daily-notes .left-sidebar .favorite {
+            cursor: pointer;
+        }
+
+    #daily-notes .right-sidebar {
+        height: 88vh;
+        width: 20px !important;
+        margin: 0px 4px;
+        overflow: hidden;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        border-radius: var( --border-radius );
+        background: var( --background-color ); 
+        border: 0 !important;
+    }
+
+    #daily-notes .bullet {
+        margin-top:   -5px;
+        text-align:   center;
+        cursor:       pointer;
+        color:        #a3a3a3;
+        color:        var( --text-color );
+        font-size: 1.5em;
+        cursor:       pointer;
+        margin-right: 7px;
+        width: 10px;
+        height: 10px;
+
+
+        flex: 1;
+        display: block;
+        float: left;
+        margin-right: 6px;
+    }
+
+    #daily-notes .edit {
+        flex: 1; 
+        min-width: 100px;
+        min-height: 30px;
+        padding-left: 15px;
+    }
+
+        #daily-notes .edit:focus {
+            outline: none;
+            border-bottom: 1px solid var( --text-color );
+        }
+
+#daily-notes .render {
+    flex: 1;
+    /*min-width: 100px;*/
+    width: fit-content;
+    border: 1px solid transparent;;
+    min-height: 30px;
+    padding-left: 15px;
+}
+
+#daily-notes .load-more {
+    display: block;
+    color: var( --text-color );
+    background: var( --background-color );
+}
+
+#daily-notes .ghost-bullet {
+    clear: both;
+    min-height: 30px;
+    height: fit-content;
+}
+
+   #daily-notes .ghost-bullet .camp {
+        flex: 1;
+        height: 32px;
+    }
+
+        #daily-notes .ghost-bullet .camp:focus {
+            outline: none !important;
+            border-bottom: 1px solid var( --text-color );
+        }
+
+    #daily-notes .ghost-bullet .bullet {
+        flex: 1;
+        display: block;
+        float: left;
+        margin-right: 6px;
+    }
+
+</style>

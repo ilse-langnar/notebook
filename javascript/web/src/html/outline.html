@@ -1,6 +1,6 @@
 <div data-component-id="outline" id='outline' x-data='{ notes: [] }' >
 
-    <template x-for="note in notes" >
+    <!-- <template x-for="note in notes" >
         <div :id="note.id" x-data="{ is_editing: false }" class="flex" :style=" 'margin-left:' + (ilse.notes.list[note].depth * 20) + 'px;' " >
             <div class="bullet" > <p style="" > &bull; </p> </div>
 
@@ -8,6 +8,81 @@
 
             <div x-show="!is_editing" x-html="ilse.markdown.render(ilse.notes.list[note].content)" @click="is_editing = true; setTimeout( () => {let o = document.getElementById( note + '-edit' ); console.log(' o -> ', o ); o.focus() }, 10 ) " > </div>
         </div>
+    </template> -->
+
+    <template x-for="note in notes" >
+        <div> <!-- Root -->
+            <div x-data="{ depth: ilse.notes.list[note.id].depth, content: ilse.notes.list[note.id].content }" :id="note.id" :style=" 'margin-left:' + (depth * 20) + 'px;' " > 
+
+                <!-- Bullet -->
+                <div class="bullet" @click.shift="ilse.tabs.add( ilse.render('pan', { list: ilse.query(note.id) }), { title: 'Pan', autoselect: true })" :title="ilse.utils.get_human_readable_creation_date(note.id)" > &bull; </div>
+
+                <!-- Editing -->
+                <div x-show="note.is_editing" :id=" note.id + '-edit' " :key="ilse.notes.list[note.id].content" class="no-outline edit" contentEditable
+                     x-text="ilse.notes.list[note.id].content" 
+                     @blur="note.is_editing = false; ilse.notes.list[note.id].content = $event.target.innerText; ilse.notes.save()"
+
+                     @keydown.enter.prevent="let new_note = ilse.add_after( '', ilse.notes.list[note.id].depth, note.id );
+                     setTimeout( () =>{
+                         note.is_editing = false;
+                         let dom = document.getElementById(new_note) ;
+                         dom.focus()
+                     }, 1000 ) " 
+
+                     @keydown.esc.prevent="document.activeElement.blur(); note.is_editing = false;"
+
+                     @keydown.tab.prevent="let shift = $event.shiftKey
+                        if( shift ) {
+                            ilse.notes.list[note.id].depth--
+                            depth--
+                        } else {
+                            depth++
+                            ilse.notes.list[note.id].depth++
+                        }
+                     " 
+
+                     @keydown.ctrl.up="let copy = index; let previous_index = --copy;
+                     if( list[previous_index] ) {
+                         let dom  = document.getElementById( list[previous_index].id );
+                         if( dom ) {
+                             list[previous_index].is_editing = true
+                             document.activeElement.blur()
+                             setTimeout( () => { let dom  = document.getElementById( list[previous_index].id + '-edit' ); if( dom ) dom.focus(); }, 1 )
+                         }
+                     }"
+
+                     @keydown.ctrl.down="let copy = index; let next_index = ++copy;
+                     if( list[next_index] ) {
+                         let dom  = document.getElementById( list[next_index].id );
+                         if( dom ) {
+                             list[next_index].is_editing = true
+                             document.activeElement.blur()
+                             setTimeout( () => { let dom  = document.getElementById( list[next_index].id + '-edit' ); if( dom ) dom.focus(); }, 1 )
+                         }
+                     }"
+
+                     > </div>
+
+                <!-- Displaying -->
+                <div x-show="!note.is_editing" class="render" :key="ilse.notes.list[note.id].content" :id=" note.id + 'render'" :data-note-id="note.id" :title="content" x-html="ilse.markdown.render(ilse.notes.list[note.id].content)" @link-click="if( $event.detail.id === note.id ) ilse.modal( ilse.render( 'references', { file: $event.detail.link } ), { width: '70%', height: '70%' })"
+                     @click="if( $event.target.type === 'checkbox' ) {
+                        ilse.notes.list[note.id].content.replace( '- [ ]', '- [x]' )
+                        note.is_editing = false;
+                     } else {
+                        note.is_editing = true;
+                        setTimeout( () => {let dom = document.getElementById( note.id + '-edit' ); dom.focus() }, 10 )
+                     } " > </div>
+
+
+            </div>
+
+            <!-- Last Bullet -->
+            <div class="ghost-bullet" x-show="index === list.length - 1" style="margin-left: 0px !important;" > 
+                <div class="bullet" style="flex: 1; flex-shrink: 2; " > &bull; </div> 
+                <div class="camp"   style="flex: 1; padding-left: 15px; min-width: 100px; " contentEditable @blur="let new_note = null; let text = $event.target.innerText; if( text ) { new_note = ilse.add_note( text ); ilse.save() };  $event.target.innerText = ''; " @keydown.enter.prevent="document.activeElement.blur(); ilse.notes.focus( list[list.length -1].id )" > </div>
+            </div>
+
+        </div> <!-- Root -->
     </template>
 
 </div>

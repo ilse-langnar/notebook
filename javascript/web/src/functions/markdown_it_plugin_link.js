@@ -24,11 +24,10 @@ export default {
                 title="${link}"
 
             @click="if( $event.shiftKey ) {
-
+                $dispatch('link-click', { link: '[[${link}]]', id: $event.target.parentNode.parentNode.parentNode.id })
             } else if( $event.ctrlKey ) {
 
             } else if( !$event.ctrlKey && !$event.shiftKey ){
-                $dispatch('link-click', { link: '[[${link}]]', id: $event.target.parentNode.parentNode.parentNode.id })
             } " >
                 [[${real}]]
             </a>`
@@ -44,16 +43,14 @@ export default {
                 <a
                     class="link link-${normalized}"
                     title="${link}"
-                @click.shift="console.log('$event -> ', $event); if( $event.shiftKey ) {
-
+                @click.shift="if( $event.shiftKey ) {
+                    $dispatch('link-click', { link: '[[${link}]]', id: $event.target.parentNode.parentNode.parentNode.id })
                 } else if( $event.ctrlKey ) {
 
                 } else if( !$event.ctrlKey && !$event.shiftKey ) {
-                    $dispatch('link-click', { link: '[[${link}]]', id: $event.target.parentNode.parentNode.parentNode.id })
-                }
-                    "
-                >
-                [[${link}]]
+
+                }" >
+                    [[${link}]]
                 </a>`
         }
 

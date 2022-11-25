@@ -1,5 +1,6 @@
-<div data-component-id="daily-notes" id="daily-notes" x-transition x-data="{ days: [], is_leftsidebar_open: true }" x-init="days.push( ilse.utils.get_unique_date_id().slice(0, 8) )" class="flex" >
+<div data-component-id="daily-notes" id="daily-notes" x-transition x-data="{ days: [], is_leftsidebar_open: true, is_rightsidebar: false, mode: 'linear', pages: [] }" x-init="days.push( ilse.utils.get_unique_date_id().slice(0, 8) )" class="flex" >
 
+    <!-- Left Sidebar -->
     <div x-show="is_leftsidebar_open" class="left-sidebar" :style=" is_leftsidebar_open ? 'flex-basis: 20%;' : 'flex-basis: 3%;' " >
 
         <div style="" >
@@ -11,7 +12,7 @@
             <h3 align="center" style="cursor: pointer;" @click="ilse.commands.run('open-study-tab')" > Study </h3>
             <h3 align="center" style="cursor: pointer;" @click="ilse.commands.run('open-todos-modal')" > Todos </h3>
             <h3 align="center" style="cursor: pointer;" class="" > Calendar </h3>
-            <h3 align="center" style="cursor: pointer;" @click="ilse.commands.run('open-pan')" > Exploration </h3>
+            <h3 align="center" style="cursor: pointer;" @click="window.ilse.tabs.add_with_component('pan', { title: 'Pan', autoselect: true }) /*ilse.commands.run('open-pan')*/ " > Exploration </h3>
             <hr>
             <template x-for="( note, index ) in favorites" :key=" 'note' + index" x-data="{ favorites:window.ilse.query( '[[Public/' ) }" >
 
@@ -27,13 +28,17 @@
 
     <div id="notes" style="overflow-y: auto !important; overflow-x: hidden !important; margin-left: 5px; height: 88vh; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; margin-right: 10px; flex: 1; flex-basis: 100%; border-radius: var( --border-radius ); background: var( --background-color ); "  >
 
-        <img :src=" is_leftsidebar_open ? window.ilse.require('arrow-narrow-left.svg') : window.ilse.require('arrow-narrow-right.svg')" style="width: 20px; cursor: pointer;" @click="is_leftsidebar_open = !is_leftsidebar_open; " />
+        <div style="padding: 5px;" >
+            <img :src=" is_leftsidebar_open ? window.ilse.require('arrow-narrow-left.svg') : window.ilse.require('arrow-narrow-right.svg')" style="width: 20px; cursor: pointer;" @click="is_leftsidebar_open = !is_leftsidebar_open; " />
+            <!-- <img :src="mode === 'linear' ? window.ilse.require('template.svg') : window.ilse.require('table.svg')" style="width:20px; cursor: pointer;" @click="mode === 'linear' ? mode = 'stack' : mode = 'linear' " /> -->
+            <img :src=" is_rightsidebar ? window.ilse.require('arrow-narrow-right.svg') : window.ilse.require('arrow-narrow-left.svg')" style="width: 20px; cursor: pointer; float: right; " @click="is_rightsidebar = !is_rightsidebar; " />
+        </div>
 
         <template x-for="( day, index ) in days" :key="index" x-init="if( !days.length ) { days.push( ilse.utils.get_unique_date_id().slice(0, 8) ) }" >
 
             <div x-data="{ list: window.ilse.query_regexp( new RegExp( '^' + day, 'ig') ) || [] }" x-init="window.ilse.Messager.on('~ilse', (action) => { if( action === 'loaded' ) { list = window.ilse.query_regexp( '^' + day, 'ig' ) } })" style="padding: 40px;" >
 
-                <span style="width: 400px; font-size: 30px; text-align: center !important; text-weight: bold; color: var( --text-color );" x-text="window.ilse.utils.yyyymmddhhss_to_pretty(day)" > </span>
+                <h1 style="center !important; color: var( --text-color );" x-text="window.ilse.utils.yyyymmddhhss_to_pretty(day)" > </h1>
                 <br>
 
                 <template x-for="(note, index) in list" x-init="ilse.Messager.on('~notes', (action,payload) => { if(action === 'added'){list.push( ilse.notes.list[payload.target] ) }  })" >
@@ -42,7 +47,7 @@
                         <div x-data="{ depth: ilse.notes.list[note.id].depth, content: ilse.notes.list[note.id].content }" :id="note.id" :style=" 'margin-left:' + (depth * 20) + 'px;' " > 
 
                             <!-- Bullet -->
-                            <div class="bullet" style="flex: 1; display: block; float: left; margin-right: 6px;" :title="ilse.utils.get_human_readable_creation_date(note.id)" > &bull; </div>
+                            <div class="bullet" @click.shift="ilse.tabs.add( ilse.render('pan', { list: ilse.query(note.id) }), { title: 'Pan', autoselect: true })" :title="ilse.utils.get_human_readable_creation_date(note.id)" > &bull; </div>
 
                             <!-- Editing -->
                             <div x-show="note.is_editing" :id=" note.id + '-edit' " :key="ilse.notes.list[note.id].content" class="no-outline edit" contentEditable
@@ -91,13 +96,19 @@
                                  > </div>
 
                             <!-- Displaying -->
-                            <div x-show="!note.is_editing" class="render" :key="ilse.notes.list[note.id].content" :id=" note.id + 'render'" :data-note-id="note.id" :title="content" x-html="ilse.markdown.render(ilse.notes.list[note.id].content)" @link-click="if( $event.detail.id === note.id ) ilse.htmls.modal( ilse.htmls.render( 'references', { file: $event.detail.link } ), { width: '70%', height: '70%' })"
+                            <div x-show="!note.is_editing" class="render" :key="ilse.notes.list[note.id].content" :id=" note.id + 'render'" :data-note-id="note.id" :title="content" x-html="ilse.markdown.render(ilse.notes.list[note.id].content)"
+
+                                 @link-click="if( $event.detail.id === note.id && pages.indexOf($event.detail.link) === -1 ) pages.push( $event.detail.link ) "
+                                 
+
                                  @click="if( $event.target.type === 'checkbox' ) {
                                     ilse.notes.list[note.id].content.replace( '- [ ]', '- [x]' )
                                     note.is_editing = false;
                                  } else {
-                                    note.is_editing = true;
-                                    setTimeout( () => {let dom = document.getElementById( note.id + '-edit' ); dom.focus() }, 10 )
+                                    if( !$event.shiftKey ) {
+                                        note.is_editing = true;
+                                        setTimeout( () => {let dom = document.getElementById( note.id + '-edit' ); dom.focus() }, 10 )
+                                    }
                                  } " > </div>
 
 
@@ -116,7 +127,7 @@
                 <!-- First note of the day -->
                 <div class="ghost-bullet" x-data="{ list: ilse.query( ilse.utils.get_unique_date_id().slice(0, 8) ) }" x-show="!list.length" style="margin-left: 0px; min-height: 30px; height: fit-content; color: var( --text-color ); " >
                     <div class="bullet" style="flex: 1; flex-shrink: 2; " > &bull; </div> 
-                    <div class="camp"   style="flex: 1; padding-left: 15px; min-width: 100px; " contentEditable @blur="let new_note = null; let text = $event.target.innerText; console.log('text -> ', text ); if( text ) { new_note = ilse.add_note( text ); ilse.save() };  $event.target.innerText = ''; " @keydown.enter.prevent="document.activeElement.blur();" @keydown.esc.prevent="$event.target.innerText = ''; document.activeElement.blur()" > First </div>
+                    <div class="camp"   style="flex: 1; padding-left: 15px; min-width: 100px; " contentEditable @blur="let new_note = null; let text = $event.target.innerText; console.log('text -> ', text ); if( text ) { new_note = ilse.add_note( text ); ilse.save() };  $event.target.innerText = ''; " @keydown.enter.prevent="document.activeElement.blur();" @keydown.esc.prevent="$event.target.innerText = ''; document.activeElement.blur()" > </div>
                     <br>
                 </div>
 
@@ -147,60 +158,128 @@
         <br/>
     </div>
 
+    <!-- Right Sidebar -->
+    <div class="right-sidebar" :style=" is_rightsidebar ? 'flex-basis: 100%;' : 'flex-basis: 8%;' " x-data="{ selected: '' }" >
+
+        <template x-for="(page, index) in pages" :key="index" >
+            <div>
+                <p x-text="page" class="page-tab" :style=" (is_rightsidebar ? 'float: left; margin-left: 10px;' : 'margin-bottom: 5px;' ) + (selected === page ? 'background: var( --text-color ); color: var( --background-color ); padding: 3px; border-radius: var( --border-radius );' : '') " @click="selected = page" > </p> 
+            </div>
+        </template>
+
+        <br style="clear: both; margin-top: 20px;" >
+        <br>
+
+        <template x-if="selected && is_rightsidebar" >
+
+            <div> <!-- root -->
+                <img x-show="is_rightsidebar" :src="ilse.require('x.svg')" @click="if( selected ) { pages.splice( pages.indexOf(selected), 1 ); selected = ''; if( !pages.length ) is_rightsidebar = false }; " style="float: right; width: 20px; position: relative; left: 1px; bottom: 7px;" alt="" title="" > 
+                <br>
+
+                <template x-for="(link, link_index) in ilse.utils.get_related_links(selected)" :key=" 'link-' + link_index" >
+                    <div x-html="ilse.markdown.render(link)" @link-click="if( $event.detail.link === link && pages.indexOf($event.detail.link) === -1 ) pages.push( $event.detail.link ) " style="float: left; margin-left: 10px;" > </div>
+                </template> 
+
+                <br style="clear: both; height: 30px;" >
+                <br>
+
+                <template x-for="(item, item_index) in ilse.query(selected)" >
+                    <div>
+                        <div class="bullet" > &bull; </div>
+                        <div x-html="ilse.markdown.render(item.content)" > </div> 
+                    </div>
+                </template>
+
+            </div>
+
+        </template>
+
+        <!-- <template x-for="(item, item_index) in ilse.query(selected)" >
+            <div x-text="item.content" > </div> 
+        </template> -->
+        
+        <!-- <template x-for="(item, item_index) in ilse.query(selected)" >
+            <div x-html="ilse.markdown.render(item.content)" > </div>
+        </template> -->
+
+    </div>
+
 </div>
 <style>
 
 #daily-notes {
     height: 91vh;
+    height: 99vh;
 }
 
-#daily-notes .note {
-    border-left: 1px solid #000;
-}
-
-#daily-notes .left-sidebar {
-    height: 88vh;
-    width: 20px !important;
-    margin: 0px 5px;
-    overflow: hidden;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    border-radius: var( --border-radius );
-    background: var( --background-color ); 
-    border: 0 !important;
-}
-
-    #daily-notes .left-sidebar .favorite {
-        cursor: pointer;
+    #daily-notes .note {
+        border-left: 1px solid #000;
     }
 
-#daily-notes .bullet {
-    margin-top:   -5px;
-    text-align:   center;
-    cursor:       pointer;
-    color:        #a3a3a3;
-    color:        var( --text-color );
-    font-size: 1.5em;
-    cursor:       pointer;
-    margin-right: 7px;
-    width: 10px;
-    height: 10px;
-}
-
-#daily-notes .edit {
-    flex: 1; 
-    min-width: 100px;
-    min-height: 30px;
-    padding-left: 15px;
-}
-
-    #daily-notes .edit:focus {
-        outline: none;
-        border-bottom: 1px solid var( --text-color );
+    #daily-notes .left-sidebar {
+        height: 88vh;
+        width: 20px !important;
+        margin: 0px 5px;
+        overflow: hidden;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        border-radius: var( --border-radius );
+        background: var( --background-color ); 
+        border: 0 !important;
     }
+
+        #daily-notes .left-sidebar .favorite {
+            cursor: pointer;
+        }
+
+    #daily-notes .right-sidebar {
+        height: 88vh;
+        width: 20px !important;
+        margin: 0px 4px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        border-radius: var( --border-radius );
+        background: var( --background-color ); 
+        border: 0 !important;
+        padding: 10px;
+    }
+
+    #daily-notes .bullet {
+        margin-top:   -5px;
+        text-align:   center;
+        cursor:       pointer;
+        color:        #a3a3a3;
+        color:        var( --text-color );
+        font-size: 1.5em;
+        cursor:       pointer;
+        margin-right: 7px;
+        width: 10px;
+        height: 10px;
+
+
+        flex: 1;
+        display: block;
+        float: left;
+        margin-right: 6px;
+    }
+
+    #daily-notes .edit {
+        flex: 1; 
+        min-width: 100px;
+        min-height: 30px;
+        padding-left: 15px;
+    }
+
+        #daily-notes .edit:focus {
+            outline: none;
+            border-bottom: 1px solid var( --text-color );
+        }
 
 #daily-notes .render {
     flex: 1;
-    min-width: 100px;
+    /*min-width: 100px;*/
+    width: fit-content;
+    border: 1px solid transparent;;
     min-height: 30px;
     padding-left: 15px;
 }
@@ -215,7 +294,6 @@
     clear: both;
     min-height: 30px;
     height: fit-content;
-    border: 1px solid #000;
 }
 
    #daily-notes .ghost-bullet .camp {
@@ -234,5 +312,9 @@
         float: left;
         margin-right: 6px;
     }
+
+#daily-notes .page-tab {
+    cursor: pointer;
+}
 
 </style>
