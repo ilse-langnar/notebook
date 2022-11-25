@@ -31,6 +31,11 @@ export default class Electron {
         this.setup()
     }
 
+    show_cookies() {
+        let electron   = require('electron')
+        printf( "electron.session -> ", electron.session )
+    }
+
     screenshot( filename = Math.random().toString().replace("0.", "") ) {
 
         var remote

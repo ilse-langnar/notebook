@@ -473,7 +473,7 @@ blockquote {
     background: var( --text-color );
 
     margin-top: 0px;
-    margin-bottom: 0px;
+    margin-bottom: 5px;
     margin-left: auto;
 }
 

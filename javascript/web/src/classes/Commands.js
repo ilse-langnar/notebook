@@ -175,6 +175,16 @@ class Commands {
             },
 
             {
+                id: "test",
+                fn: function() {
+                    ilse.electron.show_cookies()
+                },
+                description: "Test",
+                name: "Test",
+                props: {},
+            },
+
+            {
                 id: "open-command-pallet-modal",
                 fn: function() {
                     ilse.modal( ilse.render('command-pallet', { search: '' }) )

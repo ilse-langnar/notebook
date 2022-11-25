@@ -184,7 +184,7 @@ export default function get_plugin_api( name, ilse ) {
 
     const api = {
 
-        stacks: ilse.stacks,
+        stacks: ilse.stack,
         render: ilse.render,
         modal: ilse.modal,
 

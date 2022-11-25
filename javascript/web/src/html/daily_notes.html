@@ -170,7 +170,7 @@
         <br style="clear: both; margin-top: 20px;" >
         <br>
 
-        <template x-if="selected && is_rightsidebar" >
+        <template x-show="selected && is_rightsidebar" >
 
             <div> <!-- root -->
                 <img x-show="is_rightsidebar" :src="ilse.require('x.svg')" @click="if( selected ) { pages.splice( pages.indexOf(selected), 1 ); selected = ''; if( !pages.length ) is_rightsidebar = false }; " style="float: right; width: 20px; position: relative; left: 1px; bottom: 7px;" alt="" title="" > 
@@ -184,9 +184,9 @@
                 <br>
 
                 <template x-for="(item, item_index) in ilse.query(selected)" >
-                    <div>
+                    <div :id="item.id" >
                         <div class="bullet" > &bull; </div>
-                        <div x-html="ilse.markdown.render(item.content)" > </div> 
+                        <div x-html="ilse.markdown.render(item.content)" @link-click="console.log('$event.detail -> ', $event.detail.id === item.id); if( $event.detail.id === item.id && pages.indexOf($event.detail.link) === -1 ) pages.push( $event.detail.link ) " > </div> 
                     </div>
                 </template>
 
