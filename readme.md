@@ -22,11 +22,15 @@ Try the online ~~[Demo](https://ilse-langnar.github.io/notebook/demo/index.html)
 
 If anything goes wrong, please open a [Issue](https://github.com/ilse-langnar/notebook/issues/new).
 
-<img style="width: 100%;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/white-normal.png" />
+<!-- <img style="width: 100%;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/white-normal.png" />
 <img style="width: 100%;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/white-commands.png" />
 <img style="width: 100%;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/black-normal.png" />
-<img style="width: 100%;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/black-commands.png" />
+<img style="width: 100%;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/black-commands.png" /> -->
 <img style="width: 100%;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/github-screenshot-1.png" />
+<img style="width: 100%;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/github-screenshot-2.png" />
+<img style="width: 100%;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/github-screenshot-3.png" />
+<img style="width: 100%;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/github-screenshot-4.png" />
+<img style="width: 100%;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/github-screenshot-5.png" />
 
 
 <h2 align="center" > Why  </h2>

@@ -123,6 +123,7 @@ import printf                           from "@/functions/printf.js"
     import update_key                             from "@/functions/update_key.js"
     import values                                 from "@/functions/values.js"
     import yyyymmddhhss_to_pretty                 from "@/functions/yyyymmddhhss_to_pretty.js"
+    import recursively_search_for_dom             from "@/functions/recursively_search_for_dom.js"
 
 // classes
     import FSFilesystem                           from "@/classes/FSFilesystem.js"
@@ -379,6 +380,7 @@ export default function get_plugin_api( name, ilse ) {
             debounce: debounce,
             send_message: send_message,
             get_human_readable_creation_date,
+            recursively_search_for_dom,
             string_to_html,
             get_target_directory_url,
             split_array_into_nth_chunks,
