@@ -3,7 +3,7 @@
 import printf                                       from "@/functions/printf.js"
 
 // import { app, protocol, BrowserWindow, ipcMain, dialog, globalShortcut, remote } from 'electron'
-import { app, protocol, BrowserWindow, ipcMain, dialog, globalShortcut, remote } from 'electron'
+import { app, protocol, BrowserWindow, BrowserView, ipcMain, dialog, globalShortcut, remote } from 'electron'
 
 import electron from "electron"
 
@@ -105,11 +105,32 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
     // ipcMain.send( "ctrl-f" )
 // });
 
-// Oopen native file dialog for selecting file[s] an directorie[s]
+// Open native file dialog for selecting file[s] an directorie[s]
 ipcMain.on("open-file-dialog", async (event, arg) => {
     let is_linux_or_windows = os.platform() === 'linux' || os.platform() === 'win32'
     const result = await dialog.showOpenDialog({ properties: ['openDirectory'] })
     event.sender.send('selected-file', result.filePaths )
+})
+
+
+// Open native file dialog for selecting file[s] an directorie[s]
+ipcMain.on("test", async (event, arg) => {
+
+    printf( "AAAAAAAAAAAAAAAAAAAAAAA" )
+    printf( "app -> ", app )
+    printf( "BrowserView -> ", BrowserVieww )
+    printf( "BrowserWindow", BrowserWindow )
+
+    app.whenReady().then(() => {
+
+        const win  = new BrowserWindow({ width: 800, height: 600 })
+        const view = new BrowserView()
+
+        win.setBrowserView(view)
+        view.setBounds({ x: 0, y: 0, width: 300, height: 300 })
+        view.webContents.loadURL( 'https://example.com' )
+    })
+
 })
 
 /*

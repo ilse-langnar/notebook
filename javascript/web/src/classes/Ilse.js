@@ -282,6 +282,7 @@ export default class Ilse {
         let HTML             = string_to_html( html )
 
         let dom              = HTML.querySelector('[x-data]')
+            // if( dom ) dom.setAttribute( "x-data", normalized_props )
             if( dom ) dom.setAttribute( "x-data", normalized_props )
 
         return html_to_string( HTML )

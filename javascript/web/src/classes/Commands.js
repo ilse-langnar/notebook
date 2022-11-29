@@ -177,7 +177,9 @@ class Commands {
             {
                 id: "test",
                 fn: function() {
-                    ilse.electron.show_cookies()
+                    // ilse.electron.show_cookies()
+                    // ilse.electron.show_cookies()
+                    ilse.electron.browser_view()
                 },
                 description: "Test",
                 name: "Test",

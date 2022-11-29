@@ -5162,6 +5162,13 @@ ejs@^3.1.6:
   dependencies:
     jake "^10.8.5"
 
+electron-as-browser@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/electron-as-browser/-/electron-as-browser-1.0.0.tgz#8c2f5a546703ee16b693244b58b292f71928776b"
+  integrity sha512-TSlCIbn85+2GCFj8t3D7lc0C0CT88xoQSXEfpt87h47sYwu+csgb4BkmbCGNxDpEyBzYdHVewSVNv4QfSb1MEw==
+  dependencies:
+    electron-log "^3.0.7"
+
 electron-builder@^22.2.0:
   version "22.14.13"
   resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-22.14.13.tgz#fd40564685cf5422a8f8d667940af3d3776f4fb8"
@@ -5222,6 +5229,11 @@ electron-is-dev@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/electron-is-dev/-/electron-is-dev-2.0.0.tgz#833487a069b8dad21425c67a19847d9064ab19bd"
   integrity sha512-3X99K852Yoqu9AcW50qz3ibYBWY79/pBhlMCab8ToEWS48R0T9tyxRiQhwylE7zQdXrMnx2JKqUJyMPmt5FBqA==
+
+electron-log@^3.0.7:
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/electron-log/-/electron-log-3.0.9.tgz#53ff1fcdb2f3e4a73ea7096d2f7204121109ec6f"
+  integrity sha512-kfV4riUqW8uooYLAfrlB3EJW66W29ePipJU4/Fm8UxQekVNcR2qHI/0tiJX3oWM79VdAUiiYqL9V49lhnSIO8g==
 
 electron-osx-sign@^0.5.0:
   version "0.5.0"

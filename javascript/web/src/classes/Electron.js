@@ -31,6 +31,11 @@ export default class Electron {
         this.setup()
     }
 
+    browser_view() {
+        printf( "ELectron.js -> browser_view" )
+        this.ipc.send( "test" )
+    }
+
     show_cookies() {
         let electron   = require('electron')
         printf( "electron.session -> ", electron.session )

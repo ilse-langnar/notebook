@@ -114,6 +114,7 @@ This program defines a couple of base "features"(primitives) that be combined wi
 | Drag & Drop | Drag and Drop either notes, media or other. | |-->
 
 <h2 align="center" > Roadmap  </h2>
+
 | Feature         | Explanation     | Status |
 |--------------|-----------|------------|
 | Chrome Extention Support |  | In Investigation |
