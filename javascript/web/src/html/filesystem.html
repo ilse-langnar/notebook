@@ -19,7 +19,7 @@
 }
 
 </style>
-<div data-component-id="filesystem" id="filesystem" data-component-id="filesystem" x-data="{ list: [], hover: '', x: -1, y: -1, chunk_length: 100, pointer: 0 }" x-init="if( ilse.target_directories[0] ) {let files = window.ilse.fs.readdirSync( ilse.utils.path.join('/') ); let chunks = ilse.utils.split_array_into_nth_chunks(files, chunk_length); list = chunks }" x-transition >
+<div data-component-id="filesystem" id="filesystem" data-component-id="filesystem" x-data="{ list: [], hover: '', x: -1, y: -1, chunk_length: 100, pointer: 0 }" x-init="if( ilse.target_directories[0] ) {let files = ilse.fs.readdirSync( ilse.utils.path.join('/') ); let chunks = ilse.utils.split_array_into_nth_chunks(files, chunk_length); list = chunks }" x-transition >
 
     <input placeholder="Search for files" style="width: 100%;" />
     <div style="width: 100%; border: 1px solid #000;" >

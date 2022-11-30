@@ -104,7 +104,7 @@ class Commands {
 
         let command = this.get( id )
 
-        // if( command.props.is_plugin ) window.ilse = get_plugin_api( command.props.source )
+        // if( command.props.is_plugin ) ilse = get_plugin_api( command.props.source )
 
         if( command && command.fn ) {
             command.fn( args )
@@ -112,7 +112,7 @@ class Commands {
 
         if( id !== "repeat-last-command" ) {
             this.last_command = { id, args }
-            window.ilse.commands.last = this.last_command
+            ilse.commands.last = this.last_command
         }
 
         Messager.emit( "~commands", "exec", id )
@@ -222,7 +222,7 @@ class Commands {
             {
                 id: "open-filesystem-tab",
                 fn: function() {
-                    window.ilse.tabs.add_with_component('filesystem', { title: 'Filesystem', url: 'filesystem', autoselect: true })
+                    ilse.tabs.add_with_component('filesystem', { title: 'Filesystem', url: 'filesystem', autoselect: true })
                 },
                 description: "Open Filesystem Tab",
                 name: "Open Filesystem Tab",
@@ -321,7 +321,7 @@ class Commands {
             {
                 id: "open-directory-manager-tab",
                 fn: function() {
-                    window.ilse.tabs.add_with_component('directory-manager', { title: 'Brains', autoselect: true })
+                    ilse.tabs.add_with_component('directory-manager', { title: 'Brains', autoselect: true })
                 },
                 description: "Open Directory Manager Tab",
                 name: "Open Directory Manager Tab",
@@ -331,7 +331,7 @@ class Commands {
             {
                 id: "open-study-tab",
                 fn: function() {
-                    window.ilse.tabs.add_with_component('study', { title: 'Study', autoselect: true })
+                    ilse.tabs.add_with_component('study', { title: 'Study', autoselect: true })
                 },
                 description: "Will Open a new study tab",
                 name: "Open Study Tab",
@@ -439,7 +439,7 @@ class Commands {
                 id: "open-help-tab",
                 icon: "lifebuoy.svg",
                 fn: function() {
-                    window.ilse.tabs.add_with_component('help', { title: 'Help', autoselect: true })
+                    ilse.tabs.add_with_component('help', { title: 'Help', autoselect: true })
                 },
                 undo: args => { ilse.list.shift()},
                 description: "Will open a new tab with Help",

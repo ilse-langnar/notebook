@@ -9,7 +9,7 @@
          },
     })" >
 
-    <div id="container" x-init="window.ilse.Messager.on('~ilse', (action) => { if( action === 'loaded' ) { list = window.ilse.query_regexp( '^' + day, 'ig' ) } })" style="padding: 40px;" >
+    <div id="container" x-init="ilse.Messager.on('~ilse', (action) => { if( action === 'loaded' ) { list = ilse.query_regexp( '^' + day, 'ig' ) } })" style="padding: 40px;" >
 
         <template x-for="(note, index) in list" :key="index" >
             <div style="max-width: 300px; " >

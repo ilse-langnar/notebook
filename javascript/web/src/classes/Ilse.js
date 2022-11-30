@@ -47,6 +47,7 @@ import printf                   from "@/functions/printf.js"
     import SUPPORTED_LANGUAGES          from "@/constants/SUPPORTED_LANGUAGES.js"
     import SVG_TABLE                    from "@/constants/SVG_TABLE.js"
 
+
 // html
     import component_not_found          from "@/html/component_not_found.html"
     import template                     from "@/html/template.html"
@@ -129,7 +130,6 @@ export default class Ilse {
         }
 
         this.stack                  = []
-        this.tabs                   = new Tabs()
 
         this.store                  = { ui: {}, status_line: {} }
 
@@ -264,26 +264,66 @@ export default class Ilse {
         this.commands               = new Commands(this)
         this.keyboard               = new KeyboardShortcut(this)
 
+
         if( this.env.VUE_APP_TARGET === "ELECTRON" ) this.electron               = new Electron( this ) // Electron only
 
+        this.tabs                   = new Tabs(this)
         this.plugin_manager         = new PluginManager( this )
 
         this.after_setup()
     }
 
+
     render( name, props = {} ) {
 
+        let api             = get_plugin_api( "global", this )
+            props.ilse = api
         let id               = Math.random().toString()
-        let string_props     = JSON.stringify( props )
-        let normalized_props = string_props.replaceAll( "\"", "\'" )
 
         // Idea string to HTML and then I pass  a string as x-data?
-        let html             = ilse.components[name]
+        let html             = this.components[name]
         let HTML             = string_to_html( html )
+        let dom              = HTML.body.firstChild
 
-        let dom              = HTML.querySelector('[x-data]')
-            // if( dom ) dom.setAttribute( "x-data", normalized_props )
-            if( dom ) dom.setAttribute( "x-data", normalized_props )
+        dom.api = {
+            require(url) {
+                printf( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" )
+                return url
+            },
+            version: "33",
+        }
+
+        printf( "dom -> ", dom )
+        printf( "HTML -> ", HTML )
+
+        /*
+        let parent           = document.createElement( "div" )
+            parent.setAttribute( "x-data", `
+                {
+                    ilse: {
+                        require( url ) { let table = ${JSON.stringify(SVG_TABLE)}; return "data:image/svg+xml;base64," + table[url] },
+                        tabs: [],
+                    },
+                }` )
+
+        let root              = HTML.body.firstChild
+        parent.append(root)
+        HTML.body.firstChild.remove()
+        HTML.body.append(parent)
+        printf( "HTML -> ", HTML )
+        */
+
+        // let dom              = HTML.querySelector('[x-data]')
+            // if( dom ) dom.setAttribute( "x-data", `{ ilse: ${api} }` )
+            // if( dom ) dom.setAttribute( "x-data", `
+                // {
+                    // ilse: {
+                        // require( url ) { let table = ${JSON.stringify(SVG_TABLE)}; return "data:image/svg+xml;base64," + table[url] },
+                        // tabs: [],
+                    // },
+                // }` )
+
+
 
         return html_to_string( HTML )
     }
@@ -297,7 +337,7 @@ export default class Ilse {
             id: id,
             html: `
             <div id="${id}" style="z-index: 2; position: fixed; left: ${options.left || "50%" }; top: ${options.top || "50%" }; transform: translate( -50%, -50% ); width: ${options.width || "50%" }; height: ${options.height || "50%" }; overflow: ${options.overflow || "hidden" }; color: var( --text-color ); background: var( --background-color ); padding: 5px; text-align: center; box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; " >
-                <img class="is-pulled-right" style="width: 20px; cursor: pointer;" onclick="ilse.htmls.list.shift(); let id = this.parentNode.parentNode.id; window.ilse.Messager.emit('~dialog.vue', 'rejected', { id: id })" :src="window.ilse.require('x.svg');" />
+                <img class="is-pulled-right" style="width: 20px; cursor: pointer;" onclick="ilse.htmls.list.shift(); let id = this.parentNode.parentNode.id; ilse.Messager.emit('~dialog.vue', 'rejected', { id: id })" :src="ilse.require('x.svg');" />
                 ${content}
             </div>
             `
@@ -349,20 +389,21 @@ export default class Ilse {
         this.input                  = this.config.input || "latin"
 
         this.is_zen                 = this.config.is_zen
-        // window.ilse                     = get_global_api(this) // Set global API
-        // setTimeout( () => { printf( "before -> window.ilse -> ", window.ilse ) printf( "after -> window.ilse -> ", window.ilse ) }, 2000 )
+        // ilse                     = get_global_api(this) // Set global API
+        // setTimeout( () => { printf( "before -> ilse -> ", ilse ) printf( "after -> ilse -> ", ilse ) }, 2000 )
 
         // printf( "Ilse.js ----> 1 -> " )
         printf( ">>>>> Ilse.js -> get_plugin_api -> ", get_plugin_api )
-        window.ilse                     = get_plugin_api( "global", this )
-        // printf( "Ilse.js ----> 2 -> window.ilse -> ", window.ilse )
+        // ilse                     = get_plugin_api( "global", this )
+        // printf( "Ilse.js ----> 2 -> ilse -> ", ilse )
 
     }
 
     loaded() {
+        printf( "Ilse.js LOADED" )
         this.has_loaded             = true
         Messager.emit( "~ilse", "loaded" )
-        // window.ilse.Messager.emit( "~ilse", "loaded", this )
+        // ilse.Messager.emit( "~ilse", "loaded", this )
         // setTimeout( () => { this.keys.home              = Math.random() }, 1000 )
     }
 

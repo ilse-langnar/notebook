@@ -2,12 +2,12 @@
 
     <h1 x-text="file" style="font-size: 30px; text-align: center; "> </h1>
 
-    <template x-if="file" x-data="{ show_length: true, list: window.ilse.query( file ) || [] }" x-for="color in list" >
+    <template x-if="file" x-data="{ show_length: true, list: ilse.query( file ) || [] }" x-for="color in list" >
 
         <div :id="color.id" style="display: flex; font-size: 15px !important;" >
             <h2 x-init="show_length = false" x-show="show_length" x-text="list.length" > </h2>
             <span style="flex: 1; flex-basis: 1%;" > &bull; </span>
-            <div x-show="color" x-html="window.ilse.markdown.render(color.content)" style="cursor: pointer; margin-bottom: 5px; flex: 1; flex-basis: 98%; text-align: left; " > </div>
+            <div x-show="color" x-html="ilse.markdown.render(color.content)" style="cursor: pointer; margin-bottom: 5px; flex: 1; flex-basis: 98%; text-align: left; " > </div>
         </div>
     </template>
 

@@ -3,11 +3,11 @@
     <h1> Study </h1>
 
     <div x-data="{ item: {} }" style="height: 80vh; border: 1px solid #000; " >
-        <button class="slick-button" @click="let list = window.ilse.query('#sr'); let random_item = list[Math.floor( Math.random() * list.length )]; item = random_item;" > Next </button>
+        <button class="slick-button" @click="let list = ilse.query('#sr'); let random_item = list[Math.floor( Math.random() * list.length )]; item = random_item;" > Next </button>
         <div x-show="item.content" x-html="ilse.markdown.render(item.content ? item.content : '')" style="height: 100%; "> </div>
     </div>
 
-    <div x-data="{ list: window.ilse.query( '#sr/r/' + ilse.utils.get_unique_date_id().slice( 0, 8 ) ), links: {}, flashcards: window.ilse.query('#sr') }" style=" height: 50vh; overflow: auto; flex-basis: 30%; " >
+    <div x-data="{ list: ilse.query( '#sr/r/' + ilse.utils.get_unique_date_id().slice( 0, 8 ) ), links: {}, flashcards: ilse.query('#sr') }" style=" height: 50vh; overflow: auto; flex-basis: 30%; " >
         <div>
             <h2 align="center" > Statistics </h2>
 

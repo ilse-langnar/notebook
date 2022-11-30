@@ -1,20 +1,12 @@
 <template lang="pug">
 #app( v-cloak )
 
-    #setup( v-if="!ilse.target_directories.length" v-html="ilse.components.setup" )
+    #setup( v-if="!ilse.target_directories.length" v-html="ilse.render('setup')" )
 
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded" :data-theme="get_data_theme" )
-        p {{test()}}
+
         .html-render( v-for="( item, index ) in ilse.stack" :key="index" )
             .div( v-html="item.html" :id="item.id" )
-
-        // template( x-data="{ list: window.ilse.tabs.list }" x-for="tab in list" x-init=" list = window.ilse.tabs.list" )
-            // p( x-text="tab" )
-            // .htmll( x-html="tab" style="overflow: auto;" )
-
-        // .app( v-show="ilse.has_loaded" :key="ilse.keys.app" )
-            .wrapper( v-for="( tab, tab_index ) in ilse.tabs.list" :key="tab_index" )
-                .htmll( v-if="ilse.tabs.selected === tab_index" v-html="tab" style="overflow: auto; " )
 
         .app( v-show="ilse.has_loaded" :key="ilse.keys.app" )
             .loop( v-for="( tab, tab_index ) in ilse.tabs.list" :key="tab_index" )

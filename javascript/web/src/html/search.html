@@ -4,7 +4,7 @@
         x-model="search"
         @keydown.up.prevent=""
         @keydown.down.prevent=""
-        @keydown.enter="if( pointer !== -1 ) { console.log('selected'); } else { list = window.ilse.query(prepend_search + search + append_search ) }"
+        @keydown.enter="if( pointer !== -1 ) { console.log('selected'); } else { list = ilse.query(prepend_search + search + append_search ) }"
         placeholder="Search ..."
         x-init="document.getElementById('search-input') ? document.getElementById('search-input').focus() : null; setTimeout( () => { search = '' }, 100 ) "
         style="color: var( --text-color ); background: var( --background-color ); border-radius: var( --border-radius ); "/>
@@ -26,7 +26,7 @@
 
             <p
                 class="render"
-                x-html="window.ilse.markdown.render(note.content)"
+                x-html="ilse.markdown.render(note.content)"
  
                 @click="if( $event.target.type === 'checkbox' ) {
                     ilse.notes.list[note.id].content = ilse.notes.list[note.id].content.replace( '- [ ]', '- [x]' )

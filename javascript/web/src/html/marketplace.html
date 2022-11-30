@@ -1,11 +1,11 @@
-<div data-component-id="marketplace" x-transition x-data="{ ilse: window.ilse, }" >
+<div data-component-id="marketplace" x-transition x-data="{ ilse: ilse, }" >
 
     <h1> Marketplace </h1>
     <p > lll </p>
 
-    <!-- <div x-data="{ plugins: (await window.ilse.fetch.json('https://raw.githubusercontent.com/ilse-langnar/notebook/dev/marketplace/marketplace.json') ) }"> -->
+    <!-- <div x-data="{ plugins: (await ilse.fetch.json('https://raw.githubusercontent.com/ilse-langnar/notebook/dev/marketplace/marketplace.json') ) }"> -->
     <div>
-        <template x-for="plugin in (await window.ilse.fetch.json('https://raw.githubusercontent.com/ilse-langnar/notebook/dev/marketplace/marketplace.json') )" >
+        <template x-for="plugin in (await ilse.fetch.json('https://raw.githubusercontent.com/ilse-langnar/notebook/dev/marketplace/marketplace.json') )" >
             <p x-text="plugin.name"> </p>
             <p x-text="plugin.description"> </p>
             <p x-text="plugin.url"> </p>

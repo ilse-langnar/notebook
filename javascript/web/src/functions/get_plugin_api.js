@@ -189,7 +189,7 @@ export default function get_plugin_api( name, ilse ) {
         render: ilse.render,
         modal: ilse.modal,
 
-        files: ilse.files.list,
+        files: ilse.files,
 
         store: ilse.store,
         links: ilse.links,
@@ -237,7 +237,8 @@ export default function get_plugin_api( name, ilse ) {
             },
         },
 
-        plugins: ilse.plugin_manager.list,
+        // plugins: ilse.plugin_manager.list,
+        plugins: [],
 
         markdown: ilse.markdown,
 
@@ -272,6 +273,7 @@ export default function get_plugin_api( name, ilse ) {
 
         has_loaded: ilse.has_loaded,
         Messager: Messager,
+        version: "1.3",
 
         // io: {
             // in:   Messager.on.bind( Messager ),

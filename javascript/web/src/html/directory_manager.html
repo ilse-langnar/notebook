@@ -1,4 +1,4 @@
-<div id="directory-manager" data-component-id="directory-manager" x-transition x-data="{ list: window.ilse.info.target_directories, url: '' }" >
+<div id="directory-manager" data-component-id="directory-manager" x-transition x-data="{ list: ilse.info.target_directories, url: '' }" >
 
     <h1 align="center" > Directory Manager </h1>
 
@@ -9,7 +9,7 @@
         <template x-for="(item, index) in list" :key="index" >
             <div class="directory slick-button" >
                 <p class="text" x-text="item" @click="let dir = list.splice(index,1)[0]; list.unshift(dir); window.localStorage.setItem('target-directories', JSON.stringify(list) )" > </p>
-                <img class="remove" :src="window.ilse.require('x.svg')" @click="list.splice( index, 1 ); window.localStorage.setItem('target-directories', JSON.stringify(list) )" />
+                <img class="remove" :src="ilse.require('x.svg')" @click="list.splice( index, 1 ); window.localStorage.setItem('target-directories', JSON.stringify(list) )" />
             </div>
         </template>
     </div>

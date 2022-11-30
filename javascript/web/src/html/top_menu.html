@@ -1,11 +1,4 @@
-<div data-component-id="top-menu" id="top-menu" x-data="{ tabs: window.ilse.tabs.list, selected: '', key: 0 }" x-init="Messager.on('~tabs', payload => {
-
-    if( payload.action === 'set' ) {
-        tabs = payload.tabs
-        selected = payload.selected
-    }
-
-    })" >
+<div data-component-id="top-menu" id="top-menu" x-data="{ tabs: ilse.tabs.list, selected: '', key: 0 }" x-init="Messager.on('~tabs', payload => { if( payload.action === 'set' ) { tabs = payload.tabs selected = payload.selected } })" >
 
     <div class="chrome-tabs" >
         <div class="chrome-tabs-content" style="max-width: 100vw; display: flex;" >
@@ -28,14 +21,14 @@
                         <div class="chrome-tab-close" :style=" index === 0 ? 'margin-left: 141px;' : 'margin-left: 150px;' " @click="ilse.tabs.remove(tab)" ></div>
                     </div>
 
-                    <!-- <img class="add" x-show="index === window.ilse.tabs.list.length -1" :style=" 'margin-left:' + (index+1) * 236 + 'px' " @click="alert('alert')" :src="window.ilse.require('plus.svg')" @click="ilse.tabs.add()" /> -->
+                    <!-- <img class="add" x-show="index === ilse.tabs.list.length -1" :style=" 'margin-left:' + (index+1) * 236 + 'px' " @click="alert('alert')" :src="ilse.require('plus.svg')" @click="ilse.tabs.add()" /> -->
 
                 </div>
             </template>
 
         </div>
     </div>
-    <img class="add" :style=" 'left:' + (tabs.length === 1 ? 288 * tabs.length + 'px;' : 254 * tabs.length + 'px;' ) " :src="window.ilse.require('plus.svg')" @click="ilse.tabs.add()" /> 
+    <img class="add" :style=" 'left:' + (tabs.length === 1 ? 288 * tabs.length + 'px;' : 254 * tabs.length + 'px;' ) " :src="ilse.require('plus.svg')" @click="ilse.tabs.add()" /> 
 
 
     <!-- <template x-for=" (tab, index) in tabs" :key="index" >
@@ -47,17 +40,17 @@
                 <span x-text="tab.title" > </span>
             </div>
 
-            <img x-show="index === window.ilse.tabs.list.length -1" style="flex: 1; margin-top: 6px; width: 20px; cursor: pointer; display: block; z-index: 100; " :src="window.ilse.require('plus.svg')" @click="ilse.tabs.add()" />
+            <img x-show="index === ilse.tabs.list.length -1" style="flex: 1; margin-top: 6px; width: 20px; cursor: pointer; display: block; z-index: 100; " :src="ilse.require('plus.svg')" @click="ilse.tabs.add()" />
 
             <div x-show="index === tabs.length -1" class="options" style="float: right;" >
-                <img class="move-window" title="move app window" :src="window.ilse.require('drag-drop.svg')"   >
-                <img :src="window.ilse.require('command.svg')"          @click="ilse.commands.run('open-command-pallet-modal')" >
-                <img :src="window.ilse.require('math-function.svg')"    @click="ilse.commands.run('open-study-tab')" >
-                <img :src="window.ilse.require('brain.svg')"            @click="ilse.commands.run('open-directory-manager-tab')" >
-                <img :src="window.ilse.require('folders.svg')"          @click="ilse.commands.run('open-filesystem-tab')" >
-                <img :src="window.ilse.require('lifebuoy.svg')"         @click="ilse.commands.run('open-help-tab')" >
-                <img :src="window.ilse.require('moon-stars.svg')"       @click="window.ilse.commands.run('toggle-dark-mode')" >
-                <img :src="window.ilse.require('menu.svg')"             @click="" >
+                <img class="move-window" title="move app window" :src="ilse.require('drag-drop.svg')"   >
+                <img :src="ilse.require('command.svg')"          @click="ilse.commands.run('open-command-pallet-modal')" >
+                <img :src="ilse.require('math-function.svg')"    @click="ilse.commands.run('open-study-tab')" >
+                <img :src="ilse.require('brain.svg')"            @click="ilse.commands.run('open-directory-manager-tab')" >
+                <img :src="ilse.require('folders.svg')"          @click="ilse.commands.run('open-filesystem-tab')" >
+                <img :src="ilse.require('lifebuoy.svg')"         @click="ilse.commands.run('open-help-tab')" >
+                <img :src="ilse.require('moon-stars.svg')"       @click="ilse.commands.run('toggle-dark-mode')" >
+                <img :src="ilse.require('menu.svg')"             @click="" >
             </div>
 
         </div> 

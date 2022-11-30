@@ -6,18 +6,14 @@ import printf                           from "@/functions/printf.js"
 // functions
     import create_window                from "@/functions/create_window.js"
 
-// html
-    import top_menu                     from "@/html/top_menu.html"
-    import daily_notes                  from "@/html/daily_notes.html"
-    import status_line                  from "@/html/status_line.html"
-    import new_tab                      from "@/html/new_tab.html"
-
-
 export default class Tabs {
 
     constructor( ilse ) {
 
         let id = Math.random().toString().replace( "0.", "" )
+
+        printf( "Tabs.js -> ilse -> ", ilse )
+        printf( "Tabs.js -> ilse.render -> ", ilse.render )
 
         this.list =  [
             {
@@ -30,9 +26,9 @@ export default class Tabs {
                         <link rel="icon" type="image/svg" sizes="16x16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIGljb24tdGFibGVyIGljb24tdGFibGVyLXRyZWUiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZT0iIzQ4NTM2MSIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICA8cGF0aCBzdHJva2U9Im5vbmUiIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KICA8cGF0aCBkPSJNMTIgMTNsLTIgLTIiIC8+CiAgPHBhdGggZD0iTTEyIDEybDIgLTIiIC8+CiAgPHBhdGggZD0iTTEyIDIxdi0xMyIgLz4KICA8cGF0aCBkPSJNOS44MjQgMTUuOTk1YTMgMyAwIDAgMSAtMi43NDMgLTMuNjlhMi45OTggMi45OTggMCAwIDEgLjMwNCAtNC44MzNhMyAzIDAgMCAxIDQuNjE1IC0zLjcwN2EzIDMgMCAwIDEgNC42MTQgMy43MDdhMi45OTcgMi45OTcgMCAwIDEgLjMwNSA0LjgzM2EzIDMgMCAwIDEgLTIuOTE5IDMuNjk1aC00eiIgLz4KPC9zdmc+CgoK" >
                     </head>
                     <body>
-                        ${top_menu}
-                        ${daily_notes}
-                        ${status_line}
+                        ${ilse.render('top-menu')}
+                        ${ilse.render('daily-notes')}
+                        ${ilse.render('status-line')}
                     </body>
                 </html> `
             }
@@ -90,9 +86,9 @@ export default class Tabs {
                     <title> ${options.title} </title>
                 </head>
                 <body>
-                    ${top_menu}
-                    ${status_line}
-                    ${component_name}
+                    ${ilse.render('top-menu')}
+                    ${ilse.render('daily-notes')}
+                    ${ilse.render('status-line')}
                 </body>
             </html>
         `, options )
@@ -113,9 +109,9 @@ export default class Tabs {
                 <title> $title </title>
             </head>
             <body>
-                ${top_menu}
-                ${status_line}
-                ${new_tab}
+                ${ilse.render('top-menu')}
+                ${ilse.render('daily-notes')}
+                ${ilse.render('status-line')}
             </body>
         </html>
     `, options = { autoselect: true, title: "New Tab" } ) {

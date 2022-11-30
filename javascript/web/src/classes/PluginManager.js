@@ -53,7 +53,7 @@ class PluginManager {
         let scripts = [...HTML.querySelectorAll( "script#plugin" )]
 
         scripts.map( script => {
-            window.ilse = get_plugin_api( name, this.ilse )
+            ilse = get_plugin_api( name, this.ilse )
             if( script.innerText ) {
                 eval( script.innerText )
                 this.list.push({name: name, code: script.innerText })

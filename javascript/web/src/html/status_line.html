@@ -1,12 +1,12 @@
 <div data-component-id="status-line" id="status-line" :style=" 'height:' + height + 'px;' + ( height === 25 ? 'overflow: hidden;' : 'overflow: auto;' )" x-init="window.Messager.on('~status-line', command => { console.log(' command -> ', command); if( command === 'expand' ) { height = 300 }; if( command === 'shrink' ) { height = 25}; }) " x-data="{ height: 25, key: '' }" >
 
-    <div class="flex" x-data="{ last: '' }" x-init=" window.ilse.Messager.on( '~commands', ( action, payload ) => { if( action === 'exec' ) { last = payload  } } ) ">
+    <div class="flex" x-data="{ last: '' }" x-init=" ilse.Messager.on( '~commands', ( action, payload ) => { if( action === 'exec' ) { last = payload  } } ) ">
         <p class="flexi" x-text="last" > </p>
         <p class="flexi" x-text="ilse.mode" > </p>
         <p class="flexi" x-text="ilse.input" > </p>
     </div>
 
-    <div x-init="window.ilse.Messager.on( '~commands', (action, payload) => {
+    <div x-init="ilse.Messager.on( '~commands', (action, payload) => {
 
         if( action === 'exec' ) {
             ilse.utils.debounce( () => {
@@ -16,7 +16,7 @@
 
         })" > </div>
 
-    <div x-text="window.ilse.Messager.on( '~keyboard', key => {
+    <div x-text="ilse.Messager.on( '~keyboard', key => {
 
         if( key === 'esc' ) {
             ilse.Messager.emit( '~status-line', 'shrink' )
@@ -37,13 +37,13 @@
 
       <div id="which-key" x-show="height === 300" x-init=" " >
 
-          <input placeholder="C-SPC t s g i" x-model="key" @keydown.enter.prevent="let list = window.ilse.keys.list.map( item => { if( item.combo.indexOf(key) !== -1 ) { return item } } ).filter( e=>e ); if( list[0] ) ilse.commands.run(list[0].command); " autofocus x-init="ilse.Messager.on('~keyboard', key => {
+          <input placeholder="C-SPC t s g i" x-model="key" @keydown.enter.prevent="let list = ilse.keys.list.map( item => { if( item.combo.indexOf(key) !== -1 ) { return item } } ).filter( e=>e ); if( list[0] ) ilse.commands.run(list[0].command); " autofocus x-init="ilse.Messager.on('~keyboard', key => {
             if( key === 'C-SPC' ) { setTimeout( () => { key = ''; $el.focus() }, 1000 ) }
             if( key === 'esc' ) { key = '' }
         }) " />
         <br>
 
-        <template x-for="(item, index) in window.ilse.keys.list" @click="console.log('item -> ', item)" >
+        <template x-for="(item, index) in ilse.keys.list" @click="console.log('item -> ', item)" >
             <div x-show="key === ' ' ? true : item.combo.indexOf(key) !== -1" class="key is-pulled-left" style="margin: 5px; " @click="ilse.commands.run(item.command)" >
                 <!-- <span x-text="'(' + item.combo.replace(' ', '') + ')' "> </span>  -->
                 <!-- <span x-text="'(' + key + ')' " > </span> -->
