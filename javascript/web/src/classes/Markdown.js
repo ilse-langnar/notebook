@@ -24,6 +24,7 @@ import printf                           from "@/functions/printf.js"
     import inline_code                  from "@/functions/markdown_it_plugin_inline_code.js" // `console.log("Hello, World")`
     import link                         from "@/functions/markdown_it_plugin_link.js" // [[Hello]]
     import embed                        from "@/functions/markdown_it_plugin_embed.js" // ![[img.png]] ![[UFOs.mp4]] ![[book.pdf]] ![[table.html]] ![[song.ogg]]
+    import blockquote                   from "@/functions/markdown_it_plugin_blockquote.js" // ![[img.png]] ![[UFOs.mp4]] ![[book.pdf]] ![[table.html]] ![[song.ogg]]
 
 export default class Markdown {
 

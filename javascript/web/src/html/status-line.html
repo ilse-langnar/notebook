@@ -1,0 +1,174 @@
+<div data-component-id="status-line" id="status-line" :style=" 'height:' + height + 'px;' + ( height === 25 ? 'overflow: hidden;' : 'overflow: auto;' )" x-init="window.Messager.on('~status-line', command => { console.log(' command -> ', command); if( command === 'expand' ) { height = 300 }; if( command === 'shrink' ) { height = 25}; }) " x-data="{ height: 25, key: '', tab: '' }" >
+
+    <div class="flex view" x-data="{ last: '' }" x-init=" window.ilse.Messager.on( '~commands', ( action, payload ) => { if( action === 'exec' ) { last = payload  } } ) ">
+
+        <template x-for="(item, index) in ilse.query('#/html/status-line')" :key="index" >
+            <div class="flexi img" >
+                  <p x-html="ilse.fs.readFileSync(ilse.utils.extract_markdown_links_from_string(item.content)[0].replace('[[', '').replace(']]', ''))" @click="height === 300 ? height = 25 : height = 300; tab ? tab = 'links' : '' " > </p>
+                <!-- <span x-init="let o = ilse.utils.get_dom_query_from_string(item.content, '.icon'); $el.innerHTML = o.innerHTML " > </span>  -->
+
+                <!-- <p x-text="item.content" > </p>  -->
+                <!-- <p x-text="get_dom_string_from_string(ilse.fs.readFileSync(ilse.utils.extract_markdown_links_from_string(item.content).replace( '[[', '' ).replace( ']]', '' ) ), '.icon')" > </p> -->
+                <!-- <p class="flexi img" x-html="ilse.fs.readFileSync(ilse.utils.extract_markdown_links_from_string(item.content)[0].replace( '[[', '' ).replace( ']]', '' ) )" @click="height === 300 ? height = 25 : height = 300; tab ? tab = 'links' : '' " > </p> -->
+            </div>
+        </template>
+
+    </div>
+
+    <!-- FEATURE: Close after command -->
+    <div x-init="window.ilse.Messager.on( '~commands', (action, payload) => {
+
+        if( action === 'exec' ) {
+            ilse.utils.debounce( () => {
+                ilse.utils.send_message( '~status-line', 'shrink' ) 
+            }, {}, ilse.keys.list, 10)
+        }
+
+    })" > </div>
+    <!-- FEATURE: Close after command -->
+
+    <!-- FEATURE: Open/Close via messages -->
+    <div x-text="window.ilse.Messager.on( '~keyboard', key => {
+
+        if( key === 'esc' ) {
+            ilse.Messager.emit( '~status-line', 'shrink' )
+        } else if( key === 'C-SPC' ) {
+            ilse.utils.debounce( () => {
+                Messager.emit( '~status-line', 'expand' )
+            }, {}, ilse.keys.list, 800 )
+        }
+
+    })" > </div>
+    <!-- FEATURE: Open/Close via messages -->
+
+    <!-- <span style="text-align: center;" align="center" x-init="ilse.Messager.on('~keyboard', (payload) => {
+          if( payload.action === 'keydown' && payload.payload === 'esc' )   key = '';
+          if( payload.action === 'keydown' && payload.payload === 'C-SPC' ) key = '';
+          if( payload.action === 'keydown' && payload.payload !== 'esc' && payload.payload !== 'C-SPC' ) key += payload.payload;
+          })" > </span> -->
+    
+          
+
+      <!-- Tabs Content -->
+      <div>
+
+          <!-- Close -->
+          <img x-show="height === 300" :src="ilse.require('x.svg')" alt="Delete" title="Delete" style="width: 20px; float: right; margin-right: 10px; cursor: pointer;" @click="height = 25; tab = '' " >
+          <!-- Close -->
+
+          <!-- Default, Which Key -->
+          <div id="which-key" x-show="height === 300 && tab === 'keys' " >
+
+              <input placeholder="C-SPC t s g i" x-model="key" @keydown.enter.prevent="let list = window.ilse.keys.list.map( item => { if( item.combo.indexOf(key) !== -1 ) { return item } } ).filter( e=>e ); if( list[0] ) ilse.commands.run(list[0].command); " autofocus x-init="ilse.Messager.on('~keyboard', key => {
+                    if( key === 'C-SPC' ) { setTimeout( () => { key = ''; $el.focus() }, 1000 ) }
+                    if( key === 'esc' ) { key = '' }
+                }) " />
+              <br>
+
+              <template x-for="(item, index) in window.ilse.keys.list" @click="console.log('item -> ', item)" >
+                  <div x-show="key === ' ' ? true : item.combo.indexOf(key) !== -1" class="key is-pulled-left" style="margin: 5px; " @click="ilse.commands.run(item.command)" >
+                      <span class="combo" x-text="item.combo.replace('ctrl+space', '')" > </span>
+                      <span class="arrow" > &rarr; </span>
+                      <span class="command" x-text="item.command" > </span>
+                  </div>
+              </template>
+          </div>
+          <!-- Default, Which Key -->
+
+          <!-- User Defined Tabs -->
+          <div>
+              <!-- <template x-for="(item, index) in ilse.query('#/html/status-line')" :key="index" >
+                  <p class="flexi img" x-html="ilse.fs.readFileSync(ilse.utils.extract_markdown_links_from_string(item.content))" @click="height === 300 ? height = 25 : height = 300; tab ? tab = 'links' : '' " > </p>
+              </template> -->
+          </div>
+          <!-- User Defined Tabs -->
+
+      </div>
+      <!-- Tabs Content -->
+
+</div> 
+<style>
+
+#status-line {
+    position: fixed;
+    bottom: 5px;
+    width: 99%;
+    background: var( --background-color );
+    border-radius: var( --border-radius );
+    left: 50%;
+    transform: translate( -50% );
+    z-index: 0;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    box-shadow: 0 0 2px 0 #555;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    height: 25px;
+    z-index: 2;
+}
+
+    #status-line .view .img {
+        width: 20px;
+        height: 20px;
+        display: block;
+        cursor: pointer;
+    }
+
+
+    #status-line .flexi {
+        margin: auto;
+        display: block;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    #status-line #which-key {
+
+    }
+
+        #status-line #which-key .key {
+            width: 15%;
+            height: 25px;
+            overflow: hidden;
+            margin-left: 5px;
+            margin-bottom: 5px;
+            background: var( --background-color );
+            color: var( --text-color );
+            cursor: pointer;
+        }
+
+        #status-line #which-key .key:hover {
+            background: var( --text-color );
+            color: var( --background-color );
+        }
+
+    #status-line .key {
+
+    }
+
+        #status-line .key .combo  {
+            color: var( --link-color );
+        }
+
+        #status-line .key .arrow  {
+            color: var( --terciary-text-color );
+            margin-left: 2px;
+            margin-right: 2px;
+        }
+
+        #status-line .key .command  {
+            color: var( --tertiary-text-color );
+        }
+
+    #status-line input {
+        border: 0;
+        background: transparent;
+        display: block;
+        margin: 0 auto;
+        color: var( --text-color );
+        background: var( --background-color );
+    }
+
+        #status-line input:focus {
+            outline: none !important;
+        }
+
+</style>

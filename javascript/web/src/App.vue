@@ -19,6 +19,7 @@
         .app( v-show="ilse.has_loaded" :key="ilse.keys.app" )
             .loop( v-for="( tab, tab_index ) in ilse.tabs.list" :key="tab_index" )
                 .htmll( v-if="tab.is_active" v-html="tab.html" style="overflow: auto; " )
+                // .htmll( :style=" tab.is_active ? 'display: inherit; ' : 'display: none;' " v-html="tab.html" style="overflow: auto; " )
 
 </template>
 <script>
@@ -48,11 +49,23 @@ export default {
         }
     },
 
+    watch: {
+
+        "ilse.config.dark"( new_values ) {
+            prnitf( "new_values -> ", new_values )
+        },
+
+    },
+
     computed: {
 
         get_data_theme() {
             if( !ilse || !ilse.config ) return "dark"
-            return ilse.config.dark ? 'dark' : 'light'
+            printf("ilse.config['dark-mode'] -> ",ilse.config['dark-mode'] )
+            let o = ilse.config.dark
+            return ilse.config.dark
+            // if( !ilse || !ilse.config ) return "dark"
+            // return ilse.config.dark ? 'dark' : 'light'
         },
 
     },
@@ -566,7 +579,7 @@ code {
     padding: var( --padding );
 }
 
-hr {
+hr .hr {
     width: 100%;
     border: 1px solid #000;
 }
@@ -1052,6 +1065,7 @@ code {
   padding: 0.25em 0.5em 0.25em;
 }
 
+/*
 hr {
     border: none;
     display: block;
@@ -1062,6 +1076,7 @@ hr {
     margin: 10px auto;
     border-radius: 50%;
 }
+*/
 
 img {
   height: auto;

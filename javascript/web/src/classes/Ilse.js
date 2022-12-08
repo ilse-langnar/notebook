@@ -17,6 +17,7 @@ import printf                   from "@/functions/printf.js"
     import Tabs                         from "@/classes/Tabs.js"
     import Clipboard                    from "@/classes/Clipboard.js"
     import PluginManager                from "@/classes/PluginManager.js"
+    import Parse                        from "@/classes/Parse.js"
 
     // UI Elements
         import Notification                 from "@/classes/Notification.js"
@@ -28,6 +29,7 @@ import printf                   from "@/functions/printf.js"
     import irequire                     from "@/functions/require.js"
     import string_to_html               from "@/functions/string_to_html.js"
     import html_to_string               from "@/functions/html_to_string.js"
+    import extract_markdown_tags        from "@/functions/extract_markdown_tags.js"
 
     // Node.js
         const path                       = require("path")
@@ -48,25 +50,25 @@ import printf                   from "@/functions/printf.js"
     import SVG_TABLE                    from "@/constants/SVG_TABLE.js"
 
 // html
-    import component_not_found          from "@/html/component_not_found.html"
+    import component_not_found          from "@/html/component-not-found.html"
     import template                     from "@/html/template.html"
-    import top_menu                     from "@/html/top_menu.html"
+    import top_menu                     from "@/html/top-menu.html"
     import help                         from "@/html/help.html"
     import setup                        from "@/html/setup.html"
     import search                       from "@/html/search.html"
     import marketplace                  from "@/html/marketplace.html"
     import configuration                from "@/html/configuration.html"
-    import command_pallet               from "@/html/command_pallet.html"
+    import command_pallet               from "@/html/command-pallet.html"
     import references                   from "@/html/references.html"
     import outline                      from "@/html/outline.html"
-    import daily_notes                  from "@/html/daily_notes.html"
-    import status_line                  from "@/html/status_line.html"
-    import new_tab                      from "@/html/new_tab.html"
+    import daily_notes                  from "@/html/daily-notes.html"
+    import status_line                  from "@/html/status-line.html"
+    import new_tab                      from "@/html/new-tab.html"
     import filesystem                   from "@/html/filesystem.html"
     import file                         from "@/html/file.html"
     import study                        from "@/html/study.html"
     import web                          from "@/html/web.html"
-    import directory_manager            from "@/html/directory_manager.html"
+    import directory_manager            from "@/html/directory-manager.html"
     import links                        from "@/html/link.html"
     import pan                          from "@/html/pan.html"
 
@@ -155,26 +157,20 @@ export default class Ilse {
         // platform/env
         this.env                    = process.env
         this.platform               = process.env.VUE_APP_TARGET.toLowerCase()
-        if( this.platform === "quine" ) printf( "1 " )
 
         this.i18n                   = i18n
 
         // utils?
         this.path                   = path
-        if( this.platform === "quine" ) printf( "2 " )
 
         this.frame                  = new Frame()
-        if( this.platform === "quine" ) printf( "3 " )
 
         // BUGFIX: In my quine I need a time to wait for the DOM to load, otherwise I overwrite since it thinks it does not exists.
         this.before_setup()
-        if( this.platform === "quine" ) printf( "4 " )
 
         if( this.platform === "quine" ) {
-            if( this.platform === "quine" ) printf( "5 " )
             setTimeout( () => { this.setup() }, 100 )
         } else {
-            if( this.platform === "quine" ) printf( "6 " )
             this.setup();
         }
     }
@@ -202,15 +198,12 @@ export default class Ilse {
 
             this.target_directories = [ "/" ]
             // let quine_dir = window.location.pathname
-            // printf( "quine_dir -> ", quine_dir )
 
             // let normalized_quine_dir = quine_dir.split("/").filter( e=>e )
             // if( !normalized_quine_dir.length ) normalized_quine_dir.push("/")
-            // printf( "normalized_quine_dir -> ", normalized_quine_dir )
                 // normalized_quine_dir.pop()
                 // normalized_quine_dir = normalized_quine_dir.join("/")
             // this.target_directories = [ normalized_quine_dir ] // quine
-            // printf( "after -> this.target_directories -> ", this.target_directories )
         }
 
     }
@@ -238,8 +231,50 @@ export default class Ilse {
             // this.require                = new IlseRequire(this).require
             this.require                = irequire
 
-        // Config
-            this.config                 = new Config()
+        this.config = { // This object is synched with my shit.
+            get( key ) {
+                printf( "GGGGEEETTTERRR" )
+                return this.config[key]
+            },
+            set( key, value ) {
+                printf( "SEEETTTTEEER" )
+                this.config[key] = value
+                return value
+            },
+        }
+
+        /*
+        this.config = function( name, new_value ) {
+
+            if( arguments.length === 1 ) {
+
+                let config      = ilse.query('#config/' + name )[0].content
+                let item        = config.match( /\S*#(?:\[[^\]]+\]|\S+)/ )[0]
+                let normalized  = item.split(" ")[0]
+                let list        = normalized.split("/")
+                let value       = list[list.length -1]
+
+                if( value === "false" ) return false
+                if( value === "true" ) return true
+
+
+                return config
+
+            } else { // setter
+                let config      = ilse.query('#config/' + name )[0]
+                let content     = config.content
+                let item        = content.match( /\S*#(?:\[[^\]]+\]|\S+)/ )[0]
+                let normalized  = item.split(" ")[0]
+                let list        = normalized.split("/")
+                let value       = list[list.length -1]
+
+                ilse.notes.list[config.id].content = ilse.notes.list[config.id].content.replace( value, new_value )
+
+                return { name, value }
+            }
+
+        }
+        */
 
         // Clipboard
             this.clipboard              = new Clipboard()
@@ -271,7 +306,7 @@ export default class Ilse {
         this.after_setup()
     }
 
-    render( name, props = {} ) {
+    render( name, props = {}, functions = {} ) {
 
         let id               = Math.random().toString()
         let string_props     = JSON.stringify( props )
@@ -283,6 +318,7 @@ export default class Ilse {
 
         let dom              = HTML.querySelector('[x-data]')
             if( dom ) dom.setAttribute( "x-data", normalized_props )
+            if( dom ) dom.setAttribute( "x-init", "Messager.on('behavior', payload => {  })" )
 
         return html_to_string( HTML )
     }
@@ -296,13 +332,12 @@ export default class Ilse {
             id: id,
             html: `
             <div id="${id}" style="z-index: 2; position: fixed; left: ${options.left || "50%" }; top: ${options.top || "50%" }; transform: translate( -50%, -50% ); width: ${options.width || "50%" }; height: ${options.height || "50%" }; overflow: ${options.overflow || "hidden" }; color: var( --text-color ); background: var( --background-color ); padding: 5px; text-align: center; box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; " >
-                <img class="is-pulled-right" style="width: 20px; cursor: pointer;" onclick="ilse.htmls.list.shift(); let id = this.parentNode.parentNode.id; window.ilse.Messager.emit('~dialog.vue', 'rejected', { id: id })" :src="window.ilse.require('x.svg');" />
+                <!-- <img class="is-pulled-right" style="width: 20px; cursor: pointer;" onclick="ilse.htmls.list.shift(); let id = this.parentNode.parentNode.id; window.ilse.Messager.emit('~dialog.vue', 'rejected', { id: id })" :src="window.ilse.require('x.svg');" /> -->
                 ${content}
             </div>
             `
         }
 
-        printf( "this.stack -> ", this.stack )
         this.stack.push( item )
 
         return new Promise((resolve, reject) => {
@@ -341,26 +376,231 @@ export default class Ilse {
 
     }
 
+    make_native_components() {
+
+        let to_inject = [
+
+            {
+                name: "status-line.html",
+                content: require("@/html/status-line.html").default,
+            },
+
+            {
+                name: "command-pallet.html",
+                content: require("@/html/command-pallet.html").default,
+            },
+
+            {
+                name: "component-not-found.html",
+                content: require("@/html/component-not-found.html").default,
+            },
+
+            {
+                name: "configuration.html",
+                content: require("@/html/configuration.html").default,
+            },
+
+            {
+                name: "daily-notes.html",
+                content: require("@/html/daily-notes.html").default,
+            },
+
+            // {
+                // name: "dialog-input",
+                // content: require("@/html/dialog-input.html").default,
+            // },
+
+            // {
+                // name: "dialog-confirm",
+                // content: require("@/html/dialog-confirm.html").default,
+            // },
+
+            // {
+                // content: require("@/html/dialog-info.html").default,
+            // },
+
+            {
+                name: "status-bar-links-icon.html",
+                content: require("@/html/status-line-links-icon.html").default,
+            },
+            {
+                name: "status-bar-links-content.html",
+                content: require("@/html/status-line-links-content.html").default,
+            },
+
+
+
+            // {
+                // name: "status-bar-links-content.html",
+                // content: require("@/html/status-bar-links-content.html").default,
+            // },
+
+            {
+                name: "directory-manager.html",
+                content: require("@/html/directory-manager.html").default,
+            },
+
+            {
+                name: "file.html",
+                content: require("@/html/file.html").default,
+            },
+
+            {
+                name: "filesystem.html",
+                content: require("@/html/filesystem.html").default,
+            },
+
+            {
+                name: "help.html",
+                content: require("@/html/help.html").default,
+            },
+
+            {
+                name: "link.html",
+                content: require("@/html/link.html").default,
+            },
+
+            {
+                name: "marketplace.html",
+                content: require("@/html/marketplace.html").default,
+            },
+
+            {
+                name: "new-tab.html",
+                content: require("@/html/new-tab.html").default,
+            },
+
+            {
+                name: "notification.html",
+                content: require("@/html/notification.html").default,
+            },
+
+            {
+                name: "outline.html",
+                content: require("@/html/outline.html").default,
+            },
+
+            {
+                name: "pan.html",
+                content: require("@/html/pan.html").default,
+            },
+
+            {
+                name: "references.html",
+                content: require("@/html/references.html").default,
+            },
+
+            {
+                name: "search.html",
+                content: require("@/html/search.html").default,
+            },
+
+            {
+                name: "setup.html",
+                content: require("@/html/setup.html").default,
+            },
+
+            {
+                name: "study.html",
+                content: require("@/html/study.html").default,
+            },
+
+            {
+                name: "template.html",
+                content: require("@/html/template.html").default,
+            },
+
+            {
+                name: "top-menu.html",
+                content: require("@/html/top-menu.html").default,
+            },
+
+            {
+                name: "web.html",
+                content: require("@/html/web.html").default,
+            },
+
+        ]
+
+        let file
+        to_inject.map( item => {
+            this.filesystem.file.write.sync( item.name, item.content )
+        })
+
+    }
+
     after_setup() {
 
         //
-        this.mode                   = this.config.modes || "default"
-        this.input                  = this.config.input || "latin"
+        this.mode                   = "default"
+        this.input                  = "latin"
 
-        this.is_zen                 = this.config.is_zen
+        this.is_zen                 = false
         // window.ilse                     = get_global_api(this) // Set global API
-        // setTimeout( () => { printf( "before -> window.ilse -> ", window.ilse ) printf( "after -> window.ilse -> ", window.ilse ) }, 2000 )
 
-        // printf( "Ilse.js ----> 1 -> " )
-        printf( ">>>>> Ilse.js -> get_plugin_api -> ", get_plugin_api )
         window.ilse                     = get_plugin_api( "global", this )
-        // printf( "Ilse.js ----> 2 -> window.ilse -> ", window.ilse )
 
     }
 
     loaded() {
         this.has_loaded             = true
         Messager.emit( "~ilse", "loaded" )
+
+        // Make
+        this.make_native_components()
+
+        // inject config
+        let list = [
+            "#config/dark/false #hidden",
+            "#config/zen-mode/false #hidden",
+            "#config/@done #hidden",
+            "#/html/status-line/links [[status-bar-links-icon.html]]  [[status-bar-links-content.htlm]] #hidden",
+        ]
+
+        let injected = this.notes.query('#config/@done').length
+
+        // let dark = this.config('dark')
+
+        if( !injected ) {
+
+            list.map( item => {
+                this.notes.add( item )
+            })
+
+        }
+
+        function get( name ) {
+            let config      = ilse.query('#config/' + name )[0].content
+            let item        = config.match( /\S*#(?:\[[^\]]+\]|\S+)/ )[0]
+            let normalized  = item.split(" ")[0]
+            let list        = normalized.split("/")
+            let value       = list[list.length -1]
+
+            if( value === "false" ) return false
+            if( value === "true" ) return true
+        }
+
+        function set( name, new_value ) {
+            let config      = ilse.query('#config/' + name )[0]
+            let content     = config.content
+            let item        = content.match( /\S*#(?:\[[^\]]+\]|\S+)/ )[0]
+            let normalized  = item.split(" ")[0]
+            let list        = normalized.split("/")
+            let value       = list[list.length -1]
+
+            ilse.notes.list[config.id].content = ilse.notes.list[config.id].content.replace( value, new_value )
+
+            return { name, value }
+        }
+
+
+
+        // initial
+        printf( "this.config -> ", this.config )
+            this.config["dark"] = get( "dark" )
+            this.config["zen-mode"]  = get( "zen-mode" )
+        printf( "this.config -> ", this.config )
+
         // window.ilse.Messager.emit( "~ilse", "loaded", this )
         // setTimeout( () => { this.keys.home              = Math.random() }, 1000 )
     }
@@ -371,7 +611,7 @@ export default class Ilse {
 
         this.last_attempt           =  Date.now()
 
-         this.config.save()
+         // this.config.save()
     }
 
     reload() {

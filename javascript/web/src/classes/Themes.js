@@ -53,7 +53,8 @@ export default class Theme {
     }
 
     save( name ) {
-        ilse.config.active_theme = name
+        // ilse.config('active-theme', name)
+        ilse.config["active-theme"] = name
     }
 
     apply( note ) {

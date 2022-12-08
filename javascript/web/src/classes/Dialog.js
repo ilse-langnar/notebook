@@ -7,9 +7,9 @@ import printf                           from "@/functions/printf.js"
     import Messager                     from "@/classes/Messager.js"
 
 // HTML
-    import info                         from "@/html/dialog_info.html"
-    import input                        from "@/html/dialog_input.html"
-    import confirm                      from "@/html/dialog_confirm.html"
+    import info                         from "@/html/dialog-info.html"
+    import input                        from "@/html/dialog-input.html"
+    import confirm                      from "@/html/dialog-confirm.html"
 
 export default class Dialog {
 

@@ -1,4 +1,6 @@
-<div data-component-id="search" id="search" style="overflow: auto; height: 100%; " x-data="{ pointer: 0, search: '', list: [], pointer: -1, prepend_search: '', append_search: '' }" x-transition x-init="console.log(pointer)" >
+<div data-component-id="search" id="search" style="overflow: auto; height: 100%; " x-data="{ show_more: false, pointer: 0, search: '', list: [], pointer: -1, prepend_search: '', append_search: '' }" x-transition x-init="console.log(pointer)" >
+
+    <img :src="ilse.require('x.svg')" style="width: 20px; float: right; clear: both; margin-top: 10px; margin-right: 10px; " > 
 
     <input id="search-input"
         x-model="search"
@@ -7,42 +9,77 @@
         @keydown.enter="if( pointer !== -1 ) { console.log('selected'); } else { list = window.ilse.query(prepend_search + search + append_search ) }"
         placeholder="Search ..."
         x-init="document.getElementById('search-input') ? document.getElementById('search-input').focus() : null; setTimeout( () => { search = '' }, 100 ) "
-        style="color: var( --text-color ); background: var( --background-color ); border-radius: var( --border-radius ); "/>
+        style="color: var( --text-color ); background: var( --background-color ); border-radius: var( --border-radius ); width: 90%; margin-top: 10px; margin-bottom: 10px;"/>
 
     <div style="display: flex;" x-init="ilse.Messager.on('~keyboard', key => { 
             if( key === 'ArrowDown' ) { pointer > list.length  ? null : pointer++ }
             if( key === 'ArrowUp' )   { pointer === 0 ? null : pointer-- }
         })" >
+        <span style="flex: 1;" @click="show_more = !show_more" > &bull; More </span>
         <span style="flex: 1;" x-show="list.length" x-text="list.length + 'Result[s]'" > </span>
         <span style="flex: 1;" > <span style="display: inline;"> <strong> ESC </strong> Exit </span> </span>
         <span style="flex: 1;" > <img :src="ilse.require('arrow-back.svg')" style="display: inline;" > <span style="display: inline;"> <strong> Open </strong>  </span> </span>
         <span style="flex: 1;" > <img :src="ilse.require('switch-vertical.svg')" style="display: inline;" > <span style="display: inline;"> <strong> Navigate </strong>  </span> </span>
-        <span style="flex: 1;" > <img :src="ilse.require('arrow-back.svg')" style="display: inline;" > <span style="display: inline;"> <strong> Open </strong> in Window  </span> </span>
     </div>
 
-    <template x-for="(note, index) in list" :key="index" style="border: 1px solid #000;" >
-        <div class="result" :style="index === pointer ? 'color: var( --background-color ); background: var( --text-color );' : '' " >
-            <span style="flex-basis: 1%;" > &bull; </span>
+    <hr style="margin-bottom: 3px;" >
 
-            <p
-                class="render"
-                x-html="window.ilse.markdown.render(note.content)"
- 
-                @click="if( $event.target.type === 'checkbox' ) {
-                    ilse.notes.list[note.id].content = ilse.notes.list[note.id].content.replace( '- [ ]', '- [x]' )
-                    ilse.save()
-                 };" > </p>
+    <!-- grid -->
+    <div style="display: flex; overflow: hidden;" >
 
+        <!-- filters -->
+        <div style="width: 15%;">
+
+            <p x-show="show_more"></p>
+            <div>
+                <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+            </div>
+
+            <label for="is-sr-on" > Show Flashcards </label>
+            <input id="is-sr-on"  type="checkbox" name="" id="" value="" >
         </div>
-    </template>
+        <!-- filters -->
 
-    <div x-show="!list.length" >
-        <br>
-        <h2> Search for something </h2>
-        <img :src="ilse.require('lupe.svg')" style="width: 10vh; " />
+        <!-- content -->
+        <div style="width: 85%;">
+
+            <div x-show="!list.length" >
+                <br>
+                <h2> Search for something </h2>
+                <img :src="ilse.require('lupe.svg')" style="width: 10vh; " />
+            </div>
+
+            <template x-for="(note, index) in list" :key="index" >
+                <div :style="index === pointer ? 'color: var( --background-color ); background: var( --text-color );' : '' " >
+                    <!-- <span style="float: left;" > &bull; </span>  -->
+
+                    <p
+                        x-data="{ show: false }" 
+                        class="item"
+                        :style=" show ? ' min-height: 120px !important; height: 100% !important; border: 0 !important; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; ' : '' "
+
+                        x-html="window.ilse.markdown.render(note.content)"
+         
+                        @click="if( $event.target.type === 'checkbox' ) {
+                            ilse.notes.list[note.id].content = ilse.notes.list[note.id].content.replace( '- [ ]', '- [x]' )
+                            ilse.save()
+                        } else {
+                            show = !show
+                        }" > </p>
+
+                </div>
+            </template>
+        </div>
+        <!-- content -->
+
     </div>
+    <!-- grid -->
+
 </div>
 <style>
+
+.show-on-hover:active {
+}
 
 #search .result {
     display: flex;
@@ -76,11 +113,24 @@
     /*flex: 1;*/
     flex-basis: 98%;
     text-align: left; 
+    width: 20%;
+    float: left;
 }
 
 #search .render:hover {
     background: var( --text-color );
     color: var( --background-color );
+}
+
+#search .item {
+    width: 47%;
+    height: 120px !important;
+    float: left;
+    overflow: hidden;
+    padding: 1px;
+    margin: 2px; 
+    border: 1px solid var( --text-color );
+    border-radius: var( --border-radius );
 }
 
 </style>

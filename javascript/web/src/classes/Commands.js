@@ -400,7 +400,13 @@ class Commands {
                 icon: "moon-stars.svg",
                 fn: function() {
                     ilse.config.dark = !ilse.config.dark
-                    ilse.config.save()
+                    printf( "ilse.config.dark -> ", ilse.config.dark )
+
+                    // printf( "before -> ilse.config('dark') -> ", ilse.config('dark') )
+                    // ilse.config('dark', !ilse.config('dark') )
+                    // printf( "after -> ilse.config('dark') -> ", ilse.config('dark') )
+
+                    ilse.save()
                 },
                 description: "Will turn on if it's off, and off if it's on",
                 name: "Toggle Dark Mode",
@@ -509,9 +515,18 @@ class Commands {
                 id: "new-note",
                 icon: "point.svg",
                 fn: async function() {
-                    let input   = await ilse.dialog.input( "New note", "Content:" )
-                    let index   = ilse.notes.list.length
-                        ilse.notes.add( input )
+
+                    // let input   = await ilse.dialog.input( "New note", "Content:" )
+                    // let index   = ilse.notes.list.length
+                        // ilse.notes.add( input )
+
+                    ilse.modal(
+                        ilse.render('search',
+                            { search: '', list: [], pointer: -1, prepend_search: "", append_search: "" }
+                        ),
+                        { width: '70%', height: '70%' }
+                    )
+
                 },
                 undo: args => {
                     // TODO: Remove last note added
@@ -533,8 +548,8 @@ class Commands {
                         ),
                         yes => {
                             ilse.modes.push( "ilse" )
-                            ilse.config.modes = [ "ilse" ]
-                            ilse.config.save()
+                            // ilse.config('modes', JSON.stringify(['ilse']) )
+                            ilse.save()
                         }
                     )
 
@@ -625,8 +640,9 @@ class Commands {
                 id: "toggle-zen-mode",
                 icon: "yin-yang.svg",
                 fn: async function() {
-                    ilse.is_zen = ilse.config.is_zen = !ilse.config.is_zen
-                    ilse.config.save()
+                    ilse.config.is_zen = !ilse.config.is_zen
+                    // ilse.is_zen = ilse.config('is-zen', !ilse.config('is-zen') )
+                    ilse.save()
                 },
                 description: "Will toggle zen mode",
                 name: "Toggle Zen Mode",

@@ -7,10 +7,10 @@ import printf                           from "@/functions/printf.js"
     import create_window                from "@/functions/create_window.js"
 
 // html
-    import top_menu                     from "@/html/top_menu.html"
-    import daily_notes                  from "@/html/daily_notes.html"
-    import status_line                  from "@/html/status_line.html"
-    import new_tab                      from "@/html/new_tab.html"
+    import top_menu                     from "@/html/top-menu.html"
+    import daily_notes                  from "@/html/daily-notes.html"
+    import status_line                  from "@/html/status-line.html"
+    import new_tab                      from "@/html/new-tab.html"
 
 
 export default class Tabs {

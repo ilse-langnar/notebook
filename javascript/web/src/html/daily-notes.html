@@ -25,13 +25,12 @@
         </div>
 
     </div>
+    <!-- Left Sidebar -->
 
     <div id="notes" style="overflow-y: auto !important; overflow-x: hidden !important; margin-left: 5px; height: 88vh; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; margin-right: 10px; flex: 1; flex-basis: 100%; border-radius: var( --border-radius ); background: var( --background-color ); "  >
 
         <div style="padding: 5px;" >
             <img :src=" is_leftsidebar_open ? window.ilse.require('arrow-narrow-left.svg') : window.ilse.require('arrow-narrow-right.svg')" style="width: 20px; cursor: pointer;" @click="is_leftsidebar_open = !is_leftsidebar_open; " />
-            <!-- <img :src="mode === 'linear' ? window.ilse.require('template.svg') : window.ilse.require('table.svg')" style="width:20px; cursor: pointer;" @click="mode === 'linear' ? mode = 'stack' : mode = 'linear' " /> -->
-            <!-- <img x-show="is_rightsidebar" :src=" is_rightsidebar ? window.ilse.require('arrow-narrow-right.svg') : window.ilse.require('arrow-narrow-left.svg')" style="width: 20px; cursor: pointer; float: right; " @click="is_rightsidebar = !is_rightsidebar; " /> -->
         </div>
 
         <template x-for="( day, index ) in days" :key="index" x-init="if( !days.length ) { days.push( ilse.utils.get_unique_date_id().slice(0, 8) ) }" >
@@ -44,7 +43,7 @@
                 <template x-for="(note, index) in list" x-init="ilse.Messager.on('~notes', (action,payload) => { if(action === 'added'){list.push( ilse.notes.list[payload.target] ) }  })" >
 
                     <div> <!-- Root -->
-                        <div x-data="{ depth: ilse.notes.list[note.id].depth, content: ilse.notes.list[note.id].content }" x-note-id="note.id" :id="note.id" :style=" 'margin-left:' + (depth * 20) + 'px;' " > 
+                        <div x-show="note.content.indexOf('#hidden') === -1" x-data="{ depth: ilse.notes.list[note.id].depth, content: ilse.notes.list[note.id].content }" x-note-id="note.id" :id="note.id" :style=" 'margin-left:' + (depth * 20) + 'px;' " > 
 
                             <!-- Bullet -->
                             <div class="bullet" @click.shift="ilse.tabs.add( ilse.render('pan', { list: ilse.query(note.id) }), { title: 'Pan', autoselect: true })" :title="ilse.utils.get_human_readable_creation_date(note.id)" > &bull; </div>
@@ -94,6 +93,7 @@
                                  }"
 
                                  > </div>
+                                <!-- Editing -->
 
                             <!-- Displaying -->
                             <div x-show="!note.is_editing" class="render" :key="ilse.notes.list[note.id].content" x-note-id="note.id" :id=" note.id + 'render'" :data-note-id="note.id" :title="content" x-html="ilse.markdown.render(ilse.notes.list[note.id].content)"
@@ -110,6 +110,7 @@
                                         setTimeout( () => {let dom = document.getElementById( note.id + '-edit' ); dom.focus() }, 10 )
                                     }
                                  } " > </div>
+                                <!-- Displaying -->
 
 
                         </div>
@@ -157,62 +158,6 @@
         </template>
         <br/>
     </div>
-
-    <!-- Right Sidebar -->
-    <div class="right-sidebar" :style=" is_rightsidebar ? 'flex-basis: 100%;' : 'flex-basis: 4%;' " x-data="{ selected: '', link_type: [ 'linked' ] }" >
-
-        <img :src=" is_rightsidebar ? window.ilse.require('arrow-narrow-right.svg') : window.ilse.require('arrow-narrow-left.svg')" style="width: 20px; cursor: pointer; " @click="is_rightsidebar = !is_rightsidebar; " />
-
-        <template x-for="(page, index) in pages" :key="index" >
-            <div>
-                <p x-text="page" class="page-tab" :style=" (is_rightsidebar ? 'float: left; margin-left: 10px;' : 'margin-bottom: 5px;' ) + (selected === page ? 'background: var( --text-color ); color: var( --background-color ); padding: 3px; border-radius: var( --border-radius );' : '') " @click="selected = page; is_rightsidebar = true;" > </p> 
-            </div>
-        </template>
-
-        <br style="clear: both; margin-top: 20px;" >
-        <br>
-
-        <template x-if="selected && is_rightsidebar" >
-
-            <div> <!-- root -->
-                <img x-show="is_rightsidebar" :src="ilse.require('trash.svg')" @click="if( selected ) { pages.splice( pages.indexOf(selected), 1 ); selected = ''; if( !pages.length ) is_rightsidebar = false }; " style="float: right; width: 20px; position: relative; left: 1px; bottom: 7px; " alt="" title="" > 
-                <img :src="ilse.require('link.svg')" alt="">
-                <span x-text="'length: ' + ilse.query(selected).length" ></span>
-                <br>
-
-                <!-- Relates Link -->
-                <template x-for="(link, link_index) in ilse.utils.get_related_links(selected)" :key=" 'link-' + link_index" >
-                    <div x-html="ilse.markdown.render(link)" @link-click="if( $event.detail.link === link && pages.indexOf($event.detail.link) === -1 ) pages.push( $event.detail.link ) " style="float: left; margin-left: 10px;" > </div>
-                </template> 
-
-                <br style="clear: both; height: 30px;" >
-                <br>
-
-                <!-- Notes -->
-                <br style="clear: both; height: 30px;" >
-                <br>
-
-                <template x-for="(item, item_index) in ilse.query(selected)" >
-                    <div x-note-id="note.id" :id="item.id" >
-                        <div class="bullet" style="margin-right: 5px;" > &bull; </div>
-                        <div x-html="ilse.markdown.render(item.content)" @link-click="console.log('$event.detail -> ', $event.detail.id === item.id); if( $event.detail.id === item.id && pages.indexOf($event.detail.link) === -1 ) pages.push( $event.detail.link ) " > </div> 
-                    </div>
-                </template>
-
-            </div>
-
-        </template>
-
-        <!-- <template x-for="(item, item_index) in ilse.query(selected)" >
-            <div x-text="item.content" > </div> 
-        </template> -->
-        
-        <!-- <template x-for="(item, item_index) in ilse.query(selected)" >
-            <div x-html="ilse.markdown.render(item.content)" > </div>
-        </template> -->
-
-    </div>
-
 </div>
 <style>
 

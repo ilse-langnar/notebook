@@ -192,7 +192,7 @@ export default class Notes {
 
         if( q === "" ) return this.list // FEATURE: O(n)
 
-        if( ilse.cache.get(name) ) return ilse.cache.get(name) // FEATURE: Check name Queries( O(n) )
+        if( this.ilse.cache.get(name) ) return this.ilse.cache.get(name) // FEATURE: Check name Queries( O(n) )
 
         let has_match = false
         let result    = []
@@ -206,7 +206,7 @@ export default class Notes {
             result.push( note )
         })
 
-        ilse.cache.set(name, result) // FEATURE: Setname
+        this.ilse.cache.set(name, result) // FEATURE: Setname
 
         if( typeof(limit) === "number" ) {
             result.length = limit
@@ -218,17 +218,8 @@ export default class Notes {
 
     // give me a content, a reference note and a depth and I'll add it correctly for you.
     add_after( content, depth, note_id ) {
-
         let index   = get_note_index( note_id )
-            printf( "index -> ", index )
-
-            printf( ">>> Notes.js -> add_after -> content -> ", content )
-            printf( ">>> Notes.js -> add_after -> depth -> ", depth )
-            printf( ">>> Notes.js -> add_after -> note_id -> ", note_id )
-
-        let o = this.add( content, ++index, depth )
-        printf( ">>>> o -> ", o )
-        return o
+        return this.add( content, ++index, depth )
     }
 
     add( content, index = null, depth = 0 ) {

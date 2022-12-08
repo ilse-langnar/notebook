@@ -30,6 +30,7 @@ export default class Config {
     }
 
     setup() {
+        printf( "22222222222222222222222222222222222222222222" )
         this.listen()
     }
 

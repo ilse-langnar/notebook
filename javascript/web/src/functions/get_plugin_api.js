@@ -130,18 +130,18 @@ import printf                           from "@/functions/printf.js"
 
     // import has_permission               from "@/classes/has_permission.js"
 
-function has_permission( name, permission, ilse ) {
+// function has_permission( name, permission, ilse ) {
 
-    if( !ilse.config.permissions ) ilse.config.permissions = {} // Make sure it exists
+    // if( !ilse.config('permissions') ) ilse.config('permissions', {})  // Make sure it exists
 
-    let has_name = ilse.config.permissions[name]
-        if( !has_name ) return false // Does not have name
+    // let has_name = ilse.config('permissions')[name]
+        // if( !has_name ) return false // Does not have name
 
-    let has_permission = ilse.config.permissions[name].indexOf( permission ) !== -1
-        if( !has_permission ) return false
+    // let has_permission = ilse.config('permissions')[name].indexOf( permission ) !== -1
+        // if( !has_permission ) return false
 
-    return true
-}
+    // return true
+// }
 
 export default function get_plugin_api( name, ilse ) {
 
@@ -201,10 +201,10 @@ export default function get_plugin_api( name, ilse ) {
         mode: ilse.mode,
         input: ilse.input,
 
-        configutation: {
-            save: ilse.config.save.bind( ilse.config ),
-            load: ilse.config.load.bind( ilse.config ),
-        },
+        // configutation: {
+            // save: ilse.config.save.bind( ilse.config ),
+            // load: ilse.config.load.bind( ilse.config ),
+        // },
 
         components: ilse.components,
 
@@ -279,8 +279,8 @@ export default function get_plugin_api( name, ilse ) {
         // },
 
         clipboard: {
-            read:   has_permission( name, 'clipboard', ilse )  ? ilse.clipboard.read  : null,
-            write:  has_permission( name, 'clipboard', ilse )  ? ilse.clipboard.write : null,
+            // read:   has_permission( name, 'clipboard', ilse )  ? ilse.clipboard.read  : null,
+            // write:  has_permission( name, 'clipboard', ilse )  ? ilse.clipboard.write : null,
         },
 
         // fs: {
@@ -382,9 +382,30 @@ export default function get_plugin_api( name, ilse ) {
             get_human_readable_creation_date,
             recursively_search_for_dom,
             string_to_html,
+            get_dom_query_from_string: function( string, query ) {
+
+                let links             = extract_markdown_links_from_string( string )
+                printf( "links -> ", links )
+                let file              = links[0]
+                printf( "file -> ", file )
+                let normalized_file   = file.replace("[[", "" ).replace( "]]", "" )
+                printf( "normalized_file -> ", normalized_file )
+                let text              = window.ilse.fs.readFileSync( normalized_file )
+                printf( "text -> ", text )
+
+                let DOM               = string_to_html( text )
+                printf( "DOM -> ", DOM )
+                let el                = DOM.querySelector( query )
+                printf( "el -> ", el )
+                // let normalized        = html_to_string( el )
+
+                return el
+                // Idea: Could we ... have a DOM with 2 roots? take the second and return it, ignore the rest
+            },
             get_target_directory_url,
             split_array_into_nth_chunks,
             extract_markdown_links_from_string,
+            extract_tokens_by_regexp_delimiters,
             fuzzy_sort: fuzzy_sort,
             path: path,
             identity: function(arg) { return arg },

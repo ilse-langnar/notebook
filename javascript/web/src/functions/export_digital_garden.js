@@ -33,7 +33,6 @@ export default function export_digital_garden( template, links, removed ) {
             "queue": "",
             "statistics": "",
             "priorities": "",
-            "config.json": JSON.stringify( ilse.config.get_normalized_config() ),
             "second/": { },
             "first/": { },
             ".trash/": {
