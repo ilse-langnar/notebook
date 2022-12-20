@@ -15,7 +15,6 @@ import printf                           from "@/functions/printf.js"
     import fuzzy_sort                             from "@/assets/fuzzysort.js"
     import string_to_html                         from "@/functions/string_to_html.js"
     import html_to_string                         from "@/functions/html_to_string.js"
-    import add_component                          from "@/functions/add_component.js"
     import get_string_favicon                     from "@/functions/get_string_favicon.js"
     import add_array_item                         from "@/functions/add_array_item.js"
     import add_permission                         from "@/functions/add_permission.js"
@@ -31,6 +30,7 @@ import printf                           from "@/functions/printf.js"
     import extract_embeds_from_string             from "@/functions/extract_embeds_from_string.js"
     import extract_html_embeds                    from "@/functions/extract_html_embeds.js"
     import extract_markdown_links_from_string     from "@/functions/extract_markdown_links_from_string.js"
+    import extract_markdown_tags                  from "@/functions/extract_markdown_tags.js"
     import extract_note_content                   from "@/functions/extract_note_content.js"
     import extract_note_id                        from "@/functions/extract_note_id.js"
     import extract_tokens_by_regexp_delimiters    from "@/functions/extract_tokens_by_regexp_delimiters.js"
@@ -186,12 +186,13 @@ export default function get_plugin_api( name, ilse ) {
     const api = {
 
         stacks: ilse.stack,
+        store: ilse.store,
         render: ilse.render,
         modal: ilse.modal,
+        parse: ilse.parse,
 
         files: ilse.files.list,
 
-        store: ilse.store,
         links: ilse.links,
 
         electron: ilse.electron,
@@ -206,13 +207,12 @@ export default function get_plugin_api( name, ilse ) {
             // load: ilse.config.load.bind( ilse.config ),
         // },
 
-        components: ilse.components,
-
         info: {
             platform:           ilse.platform,
             version:            ilse.env.VUE_APP_VERSION,
             env:                ilse.env,
             target_directories: ilse.target_directories,
+            is_online:          ilse.is_online,
         },
 
         languages: ilse.constants.SUPPORTED_LANGUAGES,
@@ -240,8 +240,6 @@ export default function get_plugin_api( name, ilse ) {
         plugins: ilse.plugin_manager.list,
 
         markdown: ilse.markdown,
-
-        add_component: add_component,
 
         notes:        ilse.notes,
         save:         ilse.notes.save.bind( ilse.notes ),
@@ -385,18 +383,12 @@ export default function get_plugin_api( name, ilse ) {
             get_dom_query_from_string: function( string, query ) {
 
                 let links             = extract_markdown_links_from_string( string )
-                printf( "links -> ", links )
                 let file              = links[0]
-                printf( "file -> ", file )
                 let normalized_file   = file.replace("[[", "" ).replace( "]]", "" )
-                printf( "normalized_file -> ", normalized_file )
                 let text              = window.ilse.fs.readFileSync( normalized_file )
-                printf( "text -> ", text )
 
                 let DOM               = string_to_html( text )
-                printf( "DOM -> ", DOM )
                 let el                = DOM.querySelector( query )
-                printf( "el -> ", el )
                 // let normalized        = html_to_string( el )
 
                 return el
@@ -405,10 +397,43 @@ export default function get_plugin_api( name, ilse ) {
             get_target_directory_url,
             split_array_into_nth_chunks,
             extract_markdown_links_from_string,
+            extract_markdown_tags,
+
+            get_first_tag_last_child( note ) {
+                let tag     = extract_markdown_tags(note)[0]; // first
+                let chunks  = tag.split('/');
+                let name    = chunks[chunks.length -1];
+                return name
+            },
+
             extract_tokens_by_regexp_delimiters,
             fuzzy_sort: fuzzy_sort,
             path: path,
             identity: function(arg) { return arg },
+
+            get_note_file_by_link( content = "", link_position = 0 ) {
+
+                let links         = this.extract_markdown_links_from_string( content )
+                let selected_link = links[ link_position ]
+                let text          = this.read_content_from_link( selected_link  )
+                return text
+            },
+
+            read_content_from_link( link ) {
+
+                let normalized = link
+                    .replace( "[[", "" )
+                    .replace( "]]", "" )
+
+                // let content = ilse.fs.readFileSync( normalized )
+                let content = ilse.filesystem.file.read.sync( normalized )
+                    return content
+            },
+
+            get_links_from_note( note ) {
+                let links = extract_markdown_links_from_string( note )
+                return links
+            },
 
             get_related_links( link ) {
 

@@ -15,14 +15,15 @@ export default {
             .replace("[[", "")
             .replace("]]", "")
 
+        // $dispatch('link-click', { link: '[[${link}]]', id: ilse.utils.get_related_links($event.target, 'x-note-id' ) })
         let has_spacer = link.indexOf("|") !== -1
         if( has_spacer ) {
             let real = link.split("|")[1].trim()
 
             return `<a class="link link-${real}" title="${link}"
             @click="if( $event.shiftKey ) {
-                console.log('>>>>>>>> $event.target -> ', $event.target );
-                $dispatch('link-click', { link: '[[${link}]]', id: ilse.utils.get_related_links($event.target, 'x-note-id' ) })
+                let dom = ilse.utils.recursively_search_for_dom($event.target, 'x-note-id' )
+                $dispatch('link-click', { link: '[[${link}]]', id: dom.getAttribute('id') })
             } else if( $event.ctrlKey ) {
 
             } else if( !$event.ctrlKey && !$event.shiftKey ){
@@ -38,7 +39,8 @@ export default {
 
             return ` <a class="link link-${normalized}" title="${link}"
                 @click.shift="if( $event.shiftKey ) {
-                    $dispatch('link-click', { link: '[[${link}]]', id: ilse.utils.get_related_links($event.target, 'x-note-id' ) })
+                    let dom = ilse.utils.recursively_search_for_dom($event.target, 'x-note-id' )
+                    $dispatch('link-click', { link: '[[${link}]]', id: dom.getAttribute('note-id') })
                 } else if( $event.ctrlKey ) {
 
                 } else if( !$event.ctrlKey && !$event.shiftKey ) {

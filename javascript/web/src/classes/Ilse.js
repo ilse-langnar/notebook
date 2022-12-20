@@ -24,15 +24,19 @@ import printf                   from "@/functions/printf.js"
         import Dialog                       from "@/classes/Dialog.js"
 
 // functions
+    import create_native_components_on_filesystem        from "@/functions/create_native_components_on_filesystem.js"
     import i18n                         from "@/functions/i18n.js"
     import get_plugin_api               from "@/functions/get_plugin_api.js"
     import irequire                     from "@/functions/require.js"
     import string_to_html               from "@/functions/string_to_html.js"
     import html_to_string               from "@/functions/html_to_string.js"
     import extract_markdown_tags        from "@/functions/extract_markdown_tags.js"
+    import note_to_config               from "@/functions/note_to_config.js"
+    import config_object_to_note        from "@/functions/config_object_to_note.js"
 
     // Node.js
         const path                       = require("path")
+        import Alpine                   from 'alpinejs'
 
 // Utilities
     import Messager                     from "@/classes/Messager.js"
@@ -54,7 +58,6 @@ import printf                   from "@/functions/printf.js"
     import template                     from "@/html/template.html"
     import top_menu                     from "@/html/top-menu.html"
     import help                         from "@/html/help.html"
-    import setup                        from "@/html/setup.html"
     import search                       from "@/html/search.html"
     import marketplace                  from "@/html/marketplace.html"
     import configuration                from "@/html/configuration.html"
@@ -109,7 +112,6 @@ export default class Ilse {
 
         this.components             = {
             "top-menu":             top_menu,
-            "setup":                setup,
             "help":                 help,
             "search":               search,
             "marketplace":          marketplace,
@@ -132,8 +134,10 @@ export default class Ilse {
 
         this.stack                  = []
         this.tabs                   = new Tabs()
+        this.is_online              = window.navigator.onLine
 
-        this.store                  = { ui: {}, status_line: {} }
+
+
 
         this.name                   = "Ilse Langnar's Notebook"
         this.key                    = "ilse-key"
@@ -197,18 +201,20 @@ export default class Ilse {
         if( this.platform === "quine" ) { // Autoselects "/"
 
             this.target_directories = [ "/" ]
-            // let quine_dir = window.location.pathname
-
-            // let normalized_quine_dir = quine_dir.split("/").filter( e=>e )
-            // if( !normalized_quine_dir.length ) normalized_quine_dir.push("/")
-                // normalized_quine_dir.pop()
-                // normalized_quine_dir = normalized_quine_dir.join("/")
-            // this.target_directories = [ normalized_quine_dir ] // quine
         }
 
     }
 
     listen() {
+
+        window.addEventListener('online', () => {
+            this.is_online = true
+        })
+
+        window.addEventListener('offline', () => {
+            this.is_online = false
+        })
+
 
         Messager.on( "~keyboard", key => {
             if( key === "esc" ) this.stack.map( (item, index) => { if( item.is_modal ) this.stack.splice( index, 1 ) })
@@ -221,60 +227,15 @@ export default class Ilse {
 
         this.last_save_attempt      = 0
 
-
         // Utils
             this.utils                  = new Utils()
             this.cache                  = new Cache(this)
+            this.parse                  = new Parse(this)
 
         // Filesystem
             this.filesystem             = new Filesystem( this, this.target_directories[0] )
             // this.require                = new IlseRequire(this).require
             this.require                = irequire
-
-        this.config = { // This object is synched with my shit.
-            get( key ) {
-                printf( "GGGGEEETTTERRR" )
-                return this.config[key]
-            },
-            set( key, value ) {
-                printf( "SEEETTTTEEER" )
-                this.config[key] = value
-                return value
-            },
-        }
-
-        /*
-        this.config = function( name, new_value ) {
-
-            if( arguments.length === 1 ) {
-
-                let config      = ilse.query('#config/' + name )[0].content
-                let item        = config.match( /\S*#(?:\[[^\]]+\]|\S+)/ )[0]
-                let normalized  = item.split(" ")[0]
-                let list        = normalized.split("/")
-                let value       = list[list.length -1]
-
-                if( value === "false" ) return false
-                if( value === "true" ) return true
-
-
-                return config
-
-            } else { // setter
-                let config      = ilse.query('#config/' + name )[0]
-                let content     = config.content
-                let item        = content.match( /\S*#(?:\[[^\]]+\]|\S+)/ )[0]
-                let normalized  = item.split(" ")[0]
-                let list        = normalized.split("/")
-                let value       = list[list.length -1]
-
-                ilse.notes.list[config.id].content = ilse.notes.list[config.id].content.replace( value, new_value )
-
-                return { name, value }
-            }
-
-        }
-        */
 
         // Clipboard
             this.clipboard              = new Clipboard()
@@ -313,7 +274,7 @@ export default class Ilse {
         let normalized_props = string_props.replaceAll( "\"", "\'" )
 
         // Idea string to HTML and then I pass  a string as x-data?
-        let html             = ilse.components[name]
+        let html             = this.components[name]
         let HTML             = string_to_html( html )
 
         let dom              = HTML.querySelector('[x-data]')
@@ -376,169 +337,197 @@ export default class Ilse {
 
     }
 
-    make_native_components() {
+    // Question: can I have $store.listeners['store'].on(  ) or somthing?
+    store( key, value, reactive ) {
 
-        let to_inject = [
+        let len       = arguments.length
+        let is_getter = len === 1
 
-            {
-                name: "status-line.html",
-                content: require("@/html/status-line.html").default,
-            },
+        if( is_getter ) {
+            let payload = Alpine.store( key )
+            printf( ">>>>>>>>>> Ilse.js -> store() is_getter -> payload -> ", payload )
+            return payload
 
-            {
-                name: "command-pallet.html",
-                content: require("@/html/command-pallet.html").default,
-            },
-
-            {
-                name: "component-not-found.html",
-                content: require("@/html/component-not-found.html").default,
-            },
-
-            {
-                name: "configuration.html",
-                content: require("@/html/configuration.html").default,
-            },
-
-            {
-                name: "daily-notes.html",
-                content: require("@/html/daily-notes.html").default,
-            },
-
-            // {
-                // name: "dialog-input",
-                // content: require("@/html/dialog-input.html").default,
-            // },
-
-            // {
-                // name: "dialog-confirm",
-                // content: require("@/html/dialog-confirm.html").default,
-            // },
-
-            // {
-                // content: require("@/html/dialog-info.html").default,
-            // },
-
-            {
-                name: "status-bar-links-icon.html",
-                content: require("@/html/status-line-links-icon.html").default,
-            },
-            {
-                name: "status-bar-links-content.html",
-                content: require("@/html/status-line-links-content.html").default,
-            },
+        } else {
 
 
+            if( reactive ) {
 
-            // {
-                // name: "status-bar-links-content.html",
-                // content: require("@/html/status-bar-links-content.html").default,
-            // },
+                printf( ">>>>>>>>>> Ilse.js -> store() SETTER -> reactive -> " )
+                return Alpine.store( key, {
+                    value: value,
+                    init() {
+                        Alpine.effect( () => {
+                            let v = this.value
+                            printf( "Ilse.js -> Something changed ilse.store() -> v -> ", v )
+                        })
 
-            {
-                name: "directory-manager.html",
-                content: require("@/html/directory-manager.html").default,
-            },
+                    }
+                })
 
-            {
-                name: "file.html",
-                content: require("@/html/file.html").default,
-            },
+            } else {
+            printf( ">>>>>>>>>> Ilse.js -> store() SETTER -> NOT reactive -> " )
+                return Alpine.store( key, value)
+            }
 
-            {
-                name: "filesystem.html",
-                content: require("@/html/filesystem.html").default,
-            },
-
-            {
-                name: "help.html",
-                content: require("@/html/help.html").default,
-            },
-
-            {
-                name: "link.html",
-                content: require("@/html/link.html").default,
-            },
-
-            {
-                name: "marketplace.html",
-                content: require("@/html/marketplace.html").default,
-            },
-
-            {
-                name: "new-tab.html",
-                content: require("@/html/new-tab.html").default,
-            },
-
-            {
-                name: "notification.html",
-                content: require("@/html/notification.html").default,
-            },
-
-            {
-                name: "outline.html",
-                content: require("@/html/outline.html").default,
-            },
-
-            {
-                name: "pan.html",
-                content: require("@/html/pan.html").default,
-            },
-
-            {
-                name: "references.html",
-                content: require("@/html/references.html").default,
-            },
-
-            {
-                name: "search.html",
-                content: require("@/html/search.html").default,
-            },
-
-            {
-                name: "setup.html",
-                content: require("@/html/setup.html").default,
-            },
-
-            {
-                name: "study.html",
-                content: require("@/html/study.html").default,
-            },
-
-            {
-                name: "template.html",
-                content: require("@/html/template.html").default,
-            },
-
-            {
-                name: "top-menu.html",
-                content: require("@/html/top-menu.html").default,
-            },
-
-            {
-                name: "web.html",
-                content: require("@/html/web.html").default,
-            },
-
-        ]
-
-        let file
-        to_inject.map( item => {
-            this.filesystem.file.write.sync( item.name, item.content )
-        })
+        }
 
     }
 
+    extend_alpine() {
+
+        Alpine.directive('note-id', (el, { expression, modifiers }, { evaluate, evaluateLater, effect  }) => {
+            let value = evaluate( expression )
+            el.setAttribute( "note-id", value )
+        })
+
+        Alpine.directive('watch', (el, { expression, modifiers }, { evaluate, evaluateLater, effect  }) => {
+
+            // let mod           = modifiers[0]
+            let parent = ilse.utils.recursively_search_for_dom( el, "x-data" )
+
+            let getThingToLog = evaluateLater(expression)
+            evaluate(`${expression} = 'random-string haha'`, {
+                scope: { _dom:  parent }
+            })
+
+            effect((msg) => {
+                getThingToLog( obj => {
+                    // $watch( '$store.user', payload => {
+                        // user = payload.value
+                    // })
+                })
+            })
+
+        })
+
+        // Alpine.directive('watch', (el, { value, modifiers, expression }, { Alpine, effect, cleanup } ) => {
+            // let getThingToLog = effect(expression)
+            // effect(() => {
+                // effect( () => {
+                // })
+            // })
+            // printf( "@effect -> ", effect )
+            // printf( "@cleanup -> ", cleanup )
+            // printf( "@Alpine.$watch -> ", Alpine.$watch )
+            // printf( "@Alpine.watch -> ", Alpine.watch )
+            // printf( "@modifiers -> ", modifiers )
+
+            /*
+            Alpine.effect( () => {
+                if( expression ) {
+                    let o = Alpine.store(`${expression}`)
+                    printf( "@ o -> ", o )
+                    printf( "@ Ilse.js -> extend_alpine -> " )
+                    printf( "@el -> ", el )
+                    el.key = Math.random()
+                    el.innerText = "<div> <p> Example </p> <div>"
+                }
+
+            })
+            */
+
+            // el.textContent = Math.random()
+        // })
+
+    }
+
+    set_components() {
+
+        // let top_menu        = this.filesystem.file.read.sync( "top-menu.html" )
+        // let help            = this.filesystem.file.read.sync( "help.html" )
+        // let search          = this.filesystem.file.read.sync( "search.html" )
+        // let marketplace     = this.filesystem.file.read.sync( "marketplace.html" )
+        // let configuration   = this.filesystem.file.read.sync( "configuration.html" )
+        // let command_pallet  = this.filesystem.file.read.sync( "command-pallet.html" )
+        // let references      = this.filesystem.file.read.sync( "references.html" )
+        // let outline         = this.filesystem.file.read.sync( "outline.html" )
+        // let daily_notes     = this.filesystem.file.read.sync( "daily-notes.html" )
+        // let status_line     = this.filesystem.file.read.sync( "status-line.html" )
+        // let new_tab         = this.filesystem.file.read.sync( "new-tab.html" )
+        // let filesystem      = this.filesystem.file.read.sync( "filesystem.html" )
+        // let file            = this.filesystem.file.read.sync( "file.html" )
+        // let study           = this.filesystem.file.read.sync( "study.html" )
+        // let web             = this.filesystem.file.read.sync( "web.html" )
+        // let links           = this.filesystem.file.read.sync( "links.html" )
+        // let pan             = this.filesystem.file.read.sync( "pan.html" )
+        // let hello_world     = this.filesystem.file.read.sync( "hello-world.html" )
+        // let directory_manager  = this.filesystem.file.read.sync( "directory-manager.html" )
+
+        /*
+        this.components = {
+            "top-menu":             top_menu,
+            "help":                 help,
+            "search":               search,
+            "marketplace":          marketplace,
+            "configuration":        configuration,
+            "command-pallet":       command_pallet,
+            "references":           references,
+            "outline":              outline,
+            "daily-notes":          daily_notes,
+            "status-line":          status_line,
+            "new-tab":              new_tab,
+            "filesystem":           filesystem,
+            "file":                 file,
+            "study":                study,
+            "web":                  web,
+            "directory-manager":    directory_manager,
+            "links":                links,
+            "pan":                  pan,
+            "hello-world":          `<p> Hello, World </p>`,
+        }
+        */
+
+    }
+
+    // Setup things that needs "ilse.notes" to be readyu
     after_setup() {
 
-        //
-        this.mode                   = "default"
-        this.input                  = "latin"
-
-        this.is_zen                 = false
-        // window.ilse                     = get_global_api(this) // Set global API
-
         window.ilse                     = get_plugin_api( "global", this )
+        this.store( "links", [], false )
+        printf( ">>>>>>>>>>>>>>>>>>>>>>>>>>> this.store('links') -> ", this.store('links') )
+        // Alpine.store( "links", [] )
+
+        this.extend_alpine()
+        this.set_components()
+
+        // document.addEventListener('alpine:init', () => {
+            // Alpine.store("store", {
+                // api: get_plugin_api( "global", this ),
+                // user: {},
+            // })
+        // })
+
+        let note    = ilse.notes.query( "#config" )[0] ?  ilse.notes.query( "#config" )[0].content : `20201211181905-v62p5f86: #config "{ \\"modes\\": [] }" `
+        let config  = note_to_config( note )
+
+        this.config = { // This object is synched with my shit.
+
+            save() {
+
+                let result = ilse.notes.query( "#config" )[0]
+                    if( !result ) return
+                printf( "before -> result.content -> ", result.content )
+                result.content = `#config ${config_object_to_note( config )}`
+                printf( "after -> result.content -> ", result.content )
+
+            },
+
+            get( key ) {
+                // printf( "GGGGEEETTTERRR" )
+                return this.config[key]
+            },
+            set( key, value ) {
+                printf( "SEEETTTTEEER" )
+                this.config[key] = value
+                return value
+            },
+        }
+
+        setTimeout( () => {
+            this.config.save()
+        }, 4000 )
+
 
     }
 
@@ -546,63 +535,8 @@ export default class Ilse {
         this.has_loaded             = true
         Messager.emit( "~ilse", "loaded" )
 
-        // Make
-        this.make_native_components()
-
-        // inject config
-        let list = [
-            "#config/dark/false #hidden",
-            "#config/zen-mode/false #hidden",
-            "#config/@done #hidden",
-            "#/html/status-line/links [[status-bar-links-icon.html]]  [[status-bar-links-content.htlm]] #hidden",
-        ]
-
-        let injected = this.notes.query('#config/@done').length
-
-        // let dark = this.config('dark')
-
-        if( !injected ) {
-
-            list.map( item => {
-                this.notes.add( item )
-            })
-
-        }
-
-        function get( name ) {
-            let config      = ilse.query('#config/' + name )[0].content
-            let item        = config.match( /\S*#(?:\[[^\]]+\]|\S+)/ )[0]
-            let normalized  = item.split(" ")[0]
-            let list        = normalized.split("/")
-            let value       = list[list.length -1]
-
-            if( value === "false" ) return false
-            if( value === "true" ) return true
-        }
-
-        function set( name, new_value ) {
-            let config      = ilse.query('#config/' + name )[0]
-            let content     = config.content
-            let item        = content.match( /\S*#(?:\[[^\]]+\]|\S+)/ )[0]
-            let normalized  = item.split(" ")[0]
-            let list        = normalized.split("/")
-            let value       = list[list.length -1]
-
-            ilse.notes.list[config.id].content = ilse.notes.list[config.id].content.replace( value, new_value )
-
-            return { name, value }
-        }
-
-
-
-        // initial
-        printf( "this.config -> ", this.config )
-            this.config["dark"] = get( "dark" )
-            this.config["zen-mode"]  = get( "zen-mode" )
-        printf( "this.config -> ", this.config )
-
-        // window.ilse.Messager.emit( "~ilse", "loaded", this )
-        // setTimeout( () => { this.keys.home              = Math.random() }, 1000 )
+        // Create Native Componenets
+        create_native_components_on_filesystem()
     }
 
     async save() {

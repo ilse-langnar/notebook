@@ -1,39 +1,213 @@
-<div data-component-id="top-menu" id="top-menu" x-data="{ tabs: window.ilse.tabs.list, selected: '', key: 0, is_menu_on: false, }" x-init="Messager.on('~tabs', payload => {
+<!-- <div data-component-id="top-menu" id="top-menu" x-data="{ tabs: window.ilse.tabs.list, selected: '', key: 0, is_menu_on: false, mode: ilse.parse.id ? 'logged' : 'login' }" x-init="Messager.on('~tabs', payload => { -->
+<div data-component-id="top-menu" id="top-menu" x-data="{ tabs: window.ilse.tabs.list, selected: '', key: 0, is_menu_on: false, mode: window.navigator.onLine ? (ilse.parse.id ? 'logged' : 'login') : 'offline', user: $store.user, key: ilse.parse.id }" x-init="console.log('@@@mode -> ', mode); Messager.on('~tabs', payload => { 
 
     if( payload.action === 'set' ) {
         tabs = payload.tabs
         selected = payload.selected
     }
 
-    })" >
+    });
 
-    <!-- <img class="add" :style=" 'left:' + (tabs.length === 1 ? 288 * tabs.length + 'px;' : 254 * tabs.length + 'px;' ) " :src="window.ilse.require('plus.svg')" @click="ilse.tabs.add()" />  -->
 
-    <div class="tabs" style="display: flex;" >
-        <img class="add" style="width: 25px; height: 25px; margin-left: 4px; cursor: pointer;" :src="window.ilse.require('menu-2.svg')" @click="is_menu_on = !is_menu_on" />
+    $watch( '$store.user', payload => {
+        user = payload.value
+    })
 
-        <div x-show="is_menu_on" style="position: fixed; left: 10px; top: 30px; width: 300px; height: 90vh; background: #fff; z-index: 100; padding: 3px;" >
-            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+    /* ilse.Messager.on( 'store', payload => { key = Math.random() }); */
+
+    "
+    x-watch="user = $store.user"
+
+    >
+
+    <div class="tabs" style="display: flex;" x-inti="$watch('$store', function (val) { console.log('@@@@>>>', val); })" >
+
+        <div class="configuration" x-show="is_menu_on" :key="ilse.parse.key" >
+
+            <div>
+
+                <!-- Top Icons -->
+                <img style="width: 25px; height: 25px; float: right; cursor: pointer;" :src="window.ilse.require('x.svg')" title="Close" alt="close" @click="is_menu_on = false" />
+                <img x-show="mode === 'logged' " style="width: 25px; height: 25px; margin-right: 10px; float: right; cursor: pointer;" :src="window.ilse.require('logout.svg')" title="Log Out" alt="out" @click="ilse.parse.logout(); mode = 'login' " />
+
+                <img style="width: 25px; height: 25px; margin-left:  4px; cursor: pointer; float: left; " :src="window.ilse.require('moon.svg')" title="Toggle 'Dark' mode" alt="dark" @click="ilse.commands.run('toggle-dark-mode')" />
+                <img style="width: 25px; height: 25px; margin-right: 4px; cursor: pointer; float: left;" :src="window.ilse.require('yin-yang.svg')" title="Toggle 'zen' Mode" alt="zen" @click="ilse.commands.run('toggle-dark-mode')" />
+                <hr style="clear: both;" >
+                <br>
+                <!-- Top Icons -->
+
+
+                <!-- Toggle Login/Register -->
+                <a x-show="mode === 'login' "    class="change-mode" style="margin: 0 auto; text-align: center; display: block !important;" href="javascript: () => {}" @click="mode = 'register' " > Create One </a>
+                <a x-show="mode === 'register' " class="change-mode" style="margin: 0 auto; text-align: center; display: block !important;" href="javascript: () => {}" @click="mode = 'login' " > Login </a>
+                <!-- Toggle Login/Register -->
+
+                <!-- PFP Image -->
+                <img x-show="mode === 'register' || mode === 'login' " class="round shadow centered" style="width: 40%; margin: 0 auto; cursor: pointer;" :src="user && user.pfp ? user.pfp : ilse.require('user-circle.svg')" />
+
+                <img x-show="mode === 'logged' "                       class="round shadow centered" style="width: 40%; margin: 0 auto; cursor: pointer;" :src="user && user.pfp ? user.pfp : ilse.require('user-circle.svg')" />
+
+                <img x-show="mode === 'offline' "                      class="round shadow centered" style="width: 40%; margin: 0 auto; cursor: pointer;" :src="ilse.require('cloud-off.svg')" />
+                <br style="clear: both; height: 20px;" >
+                <!-- PFP Image -->
+
+                <!-- Login Form -->
+                <div x-show="mode === 'login' " x-data="{ username: '', password: '' }" x-init="ilse.Messager.on('configuration', payload => { if( payload.action === 'login' ) { mode = 'logged' } })">
+                    <input style="display: block; margin: 0 auto; margin-bottom: 5px; " x-model="username" type="text" id="" value="" placeholder="Email or Phone Number" >
+                    <input style="display: block; margin: 0 auto; "                     x-model="password" type="password" id=""          placeholder="Password " >
+                    <button class="slick-button" @click="ilse.parse.login(username, password)" > Login </button>
+                </div>
+                <!-- Login Form -->
+
+                <!-- Register Form -->
+                <div x-show=" mode === 'register' " x-data="{ email: '', username: '', password: '', error: '' }" x-init="ilse.Messager.on('configuration', payload => { if( payload.action === 'error' ) error = payload })" >
+
+                    <input style="display: block; margin: 0 auto; margin-bottom: 5px; " x-model="email"     @focus="error=''" type="email"    id="" value="" placeholder="Email or Phone Number" >
+                    <input style="display: block; margin: 0 auto; margin-bottom: 5px; " x-model="username"      @focus="error=''" type="text"     id="" value="" placeholder="Name" >
+                    <input style="display: block; margin: 0 auto; "                     x-model="password"  @focus="error=''" type="password" id=""          placeholder="Password" >
+                    <p style="color: red; text-align: center;" x-text="error" ></p>
+                    <button class="slick-button" @click="ilse.parse.register(email, username, password)" > Register </button>
+                </div>
+                <!-- Register Form -->
+
+                <!-- Offline  -->
+                <div x-show="mode === 'offline' " style="width: 80%; margin: 0 auto; "  >
+                    <p> You're offline, connect to the internet to login, register or continue. </p>
+                </div>
+                <!-- Offline  -->
+
+                <!-- Logged  -->
+                <div x-show="mode === 'logged' " style="width: 80%; margin: 0 auto; "  >
+                    <p x-text="ilse.parse.bio" > </p>
+                </div>
+                <!-- Logged  -->
+
+            </div>
+
+            <hr style="clear: both; margin-top: 10px;">
+
+            <!-- Shared Brains -->
+            <div x-show="mode === 'logged' " >
+
+                <div style="display: flex;" >
+                    <h2> Brains </h2>
+                    <img class="img" style="margin-right: auto; height: 30px; margin: 0 auto; cursor: pointer; border: 1px solid var( --text-color ); border-radius: var( --border-radius );" :src="window.ilse.require('plus.svg')" title="Add new Shared Brain" />
+                </div>
+
+                <template x-for="(tab, index) in ilse.info.target_directories" :key="index" >
+                    <div style="display: flex;" >
+                        <img :src="ilse.require('device-desktop.svg')" alt="" title="" style="width: 20px;" >
+                        <p x-text="tab" > </p>
+                    </div>
+                </template>
+
+                <template x-if="user && user.brains" >
+
+                    <template x-for="(_tab, index) in user.brains" :key="index" >
+                        <div>
+                            <img :src="ilse.require('cloud.svg')" alt="" title="" style="width: 20px; float: left;" @click="console.log('_tab -> ', _tab)" >
+                            <p x-text="_tab.name + '(' + _tab.id + ')'" style="float: left;" > </p> 
+                            <!-- <p x-text="_tab.name + '(' + _tab.id + ')'" style="float: left;" > </p>  -->
+                            <!-- <p x-text="(_tab && _tab.name) ? _tab.name + '(' + _tab.id + ')' : 'nothing' " style="float: left;" > </p> -->
+                        </div>
+                    </template>
+
+                </template>
+
+                <br style="clear: both;" >
+
+                <hr style="clear: both;" >
+                <br>
+            </div>
+
+
+            <div class="item" style="margin-bottom: 10px !important;" >
+                <img style="float: left; width: 25px; height: 25px; margin-left: 4px; cursor: pointer;" :src="window.ilse.require('settings.svg')" @click="ilse.commands.run('toggle-dark-mode')" />
+                <p style="float: left; margin-left: 20px; " > Configuration </p>
+            </div>
+
+            <div class="item" >
+                <img style="float: left; width: 25px; height: 25px; margin-left: 4px; cursor: pointer;" :src="window.ilse.require('brain.svg')" @click="ilse.commands.run('toggle-dark-mode')" />
+                <p style="float: left; margin-left: 20px; " > Collaboration </p>
+            </div>
+
+            <div class="item" >
+                <img style="float: left; width: 25px; height: 25px; margin-left: 4px; cursor: pointer;" :src="window.ilse.require('tools.svg')" @click="ilse.commands.run('toggle-dark-mode')" />
+                <p style="float: left; margin-left: 20px; " > Tools </p>
+            </div>
+
+            <div class="item" >
+                <img style="float: left; width: 25px; height: 25px; margin-left: 4px; cursor: pointer;" :src="window.ilse.require('school.svg')" @click="ilse.commands.run('toggle-dark-mode')" />
+                <p style="float: left; margin-left: 20px; " > Study  </p>
+            </div>
+
+            <div class="item" >
+                <img style="float: left; width: 25px; height: 25px; margin-left: 4px; cursor: pointer;" :src="window.ilse.require('plugin.svg')" @click="ilse.commands.run('toggle-dark-mode')" />
+                <p style="float: left; margin-left: 20px; " > Plugins  </p>
+            </div>
+
+            <div class="item" >
+                <img style="float: left; width: 25px; height: 25px; margin-left: 4px; cursor: pointer;" :src="window.ilse.require('building-store.svg')" @click="ilse.commands.run('toggle-dark-mode')" />
+                <p style="float: left; margin-left: 20px; " > Marketplace  </p>
+            </div>
+
+            <div class="item" >
+                <img style="float: left; width: 25px; height: 25px; margin-left: 4px; cursor: pointer;" :src="window.ilse.require('lifebuoy.svg')" @click="ilse.commands.run('toggle-dark-mode')" />
+                <p style="float: left; margin-left: 20px; " > Help  </p>
+            </div>
+
         </div>
-
-        <img class="add" style="width: 25px; height: 25px; margin-left: 4px; cursor: pointer;" :src="window.ilse.require('user-circle.svg')" @click="" />
 
         <template x-for=" (tab, index) in tabs" :key="index" >
             <div style="height: 20px; width: 100px; " style=";" >
-                <p x-text="tab.title" style="border: 1px solid #000; width: 100px; " @click="ilse.tabs.select(tab)" ></p>
+                <p x-text="tab.title" style="border: 1px solid #000; width: 150px; " @click="ilse.tabs.select(tab)" ></p>
 
-                <!-- <img x-show="index === tabs.length -1" class="add float-left" :style=" 'left:' + (tabs.length === 1 ? 288 * tabs.length + 'px;' : 254 * tabs.length + 'px;' ) " :src="window.ilse.require('plus.svg')" @click="ilse.tabs.add()" /> -->
+                <img style="width: 10px; position: relative; right: 30px; bottom: 20px;" :src="window.ilse.require('x.svg')" /> 
 
             </div>
         </template>
 
         <img class="add float-left" :style=" 'left:' + (tabs.length === 1 ? 288 * tabs.length + 'px;' : 254 * tabs.length + 'px;' ) " :src="window.ilse.require('plus.svg')" @click="ilse.tabs.add()" />
 
+        <img style="float: right; position: absolute; right: 10px; width: 25px; height: 25px; margin-left: 4px; cursor: pointer;" :src="window.ilse.require('menu-2.svg')" @click="is_menu_on = !is_menu_on" />
+
+
     </div>
 
     <br>
 </div> 
 <style>
+
+#top-menu .configuration {
+    position: fixed;
+    right: 10px;
+    top: 30px;
+    width: 300px;
+    height: 90vh;
+    background: #fff;
+    z-index: 100;
+    padding: 3px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: var( --border-radius );
+}
+
+#top-menu .configuration .item {
+    cursor: pointer;
+    display: block;
+    clear: both;
+}
+
+#top-menu .change-mode {
+    display: block;
+
+}
+
+/*#top-menu .configuration .item:hover {
+    background: var( --text-color );
+    cursor: pointer;
+    color: var( --background-color );
+    background: red;
+}*/
 
 .float-left {
     float: left;
@@ -54,7 +228,7 @@
 .tab-content {
     display: none;
 }
-.tabs input {
+/*.tabs input {
     margin: 0;
     position: absolute;
     width: 100%;
@@ -62,7 +236,7 @@
     z-index: 1;
     cursor: pointer;
     opacity: 0;
-}
+}*/
 .tabs label {
     position: absolute;
     left: 0;

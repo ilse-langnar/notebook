@@ -21,7 +21,7 @@ import i18n from './i18n'
 
 // alpine
 import Alpine from 'alpinejs'
-window.Alpine = Alpine
+// window.Alpine = Alpine
 
 // Alpine.data('ref', ()=>{ return {} })
 

@@ -9,8 +9,8 @@ import printf                               from "@/functions/printf.js"
 // functions
     import get_note_id                      from "@/functions/get_note_id.js"
     import get_unique_date_id               from "@/functions/get_unique_date_id.js"
-    import extract_note_id                  from "@/functions/extract_note_id.js"
-    import extract_note_content             from "@/functions/extract_note_content.js"
+    // import extract_note_content             from "@/functions/extract_note_content.js"
+    import note_string_to_object            from "@/functions/note_string_to_object.js"
     import get_note_depth                   from "@/functions/get_note_depth.js"
     import extract_tokens_by_regexp_delimiters   from "@/functions/extract_tokens_by_regexp_delimiters.js"
     import get_spaces_count                 from "@/functions/get_spaces_count.js"
@@ -122,11 +122,20 @@ export default class Notes {
     async get_notes() {
 
         if( !this.ilse.target_directories[0] ) return
-
-        let textfile
+        let dir      = this.ilse.target_directories[0]
+        let is_cloud = dir.indexOf("cloud:") !== -1
 
         try {
-            textfile         = await this.filesystem.file.read.async( "notes" )
+
+            if( is_cloud ) {
+                let obj         = await ilse.parse.pull( "Filesystem", dir.replace("cloud:", "")  )
+                ilse.loaded()
+            } else {
+                let textfile         = await this.filesystem.file.read.async( "notes" )
+                this.list = note_string_to_object( textfile )
+                ilse.loaded()
+            }
+
         } catch( e ) {
             this.list           = []
             await this.filesystem.file.write.async( "notes", "" )
@@ -134,23 +143,6 @@ export default class Notes {
             return
         }
 
-        // Process note
-        let notes      = textfile.split("\n")
-
-        notes.map( (note, index) => {
-
-            if( !note ) return
-
-            // this.list[ note.split(":")[0].trim().replace(":", "") ] = note
-            this.list[extract_note_id(note)] = {
-                content: extract_note_content( note ),
-                id:      extract_note_id( note ),
-                depth:   note.split("    ").length -1,
-            }
-
-        })
-
-        ilse.loaded()
     }
 
     // ilse.notes.query_regexp( /<string>s?/ ) = for plurals, I might also use this in = References / .? <term> .?  / = for more iclusive query

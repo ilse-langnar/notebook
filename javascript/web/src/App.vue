@@ -1,7 +1,7 @@
 <template lang="pug">
 #app( v-cloak )
 
-    #setup( v-if="!ilse.target_directories.length" v-html="ilse.components.setup" )
+    #setup( v-if="!ilse.target_directories.length" v-html="setup_html" )
 
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded" :data-theme="get_data_theme" )
         p {{test()}}
@@ -38,13 +38,17 @@ import printf                                       from "@/functions/printf.js"
     import if_else                                  from "@/functions/if_else.js"
     import is_platform                              from "@/functions/is_platform.js"
 
+// HTML
+    import setup                                    from "@/html/setup.html"
+
 export default {
 
     name: "App",
 
     data() {
         return {
-            ilse: ilse
+            ilse: ilse,
+            setup_html: setup,
 
         }
     },
@@ -151,6 +155,29 @@ export default {
 }
 </script>
 <style>
+
+.block {
+    display: block;
+}
+
+.round {
+    border-radius: var( --border-radius );
+}
+
+.shadow {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.left {
+    float: left;
+    clear: left;
+}
+
+.centered {
+    display: block;
+    margin: 0 auto;
+}
+
 
 .ilse  {
     color: var( --text-color );

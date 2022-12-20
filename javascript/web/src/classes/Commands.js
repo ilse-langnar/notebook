@@ -177,7 +177,9 @@ class Commands {
             {
                 id: "test",
                 fn: function() {
-                    ilse.electron.show_cookies()
+                    // ilse.electron.show_cookies()
+                    const config = ilse.notes.query("#config")[0]
+                    printf( "config -> ", config )
                 },
                 description: "Test",
                 name: "Test",
@@ -241,6 +243,7 @@ class Commands {
             {
                 id: "examine-component",
                 fn: function() {
+                    /*
 
                     // document.body.style.cursor = "crosshair !important"
                     document.body.style.cursor      = "crosshair";
@@ -267,6 +270,7 @@ class Commands {
                     }
 
                     document.body.addEventListener( "click", ilse.cursor )
+                    */
                 },
                 description: "Examine a DOM Element",
                 name: "Examine Component",
@@ -455,7 +459,7 @@ class Commands {
                 id: "open-help-modal",
                 icon: "lifebuoy.svg",
                 fn: function() {
-                    ilse.modal( ilse.components.help, { overflow: 'auto' } )
+                    // ilse.modal( ilse.components.help, { overflow: 'auto' } )
                 },
                 undo: args => { ilse.list.shift()},
                 description: "Will open the help modal",
@@ -467,7 +471,7 @@ class Commands {
                 id: "open-configuration-modal",
                 icon: "settings.svg",
                 fn: function() {
-                    ilse.add( "configuration", ilse.components.configuration )
+                    // ilse.add( "configuration", ilse.components.configuration )
                 },
                 undo: args => { ilse.list.shift()},
                 description: "Will open the configuration modal",

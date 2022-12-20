@@ -1,4 +1,4 @@
-<div data-component-id="daily-notes" id="daily-notes" x-transition x-data="{ days: [], is_leftsidebar_open: true, is_rightsidebar: false, mode: 'linear', pages: [] }" x-init="days.push( ilse.utils.get_unique_date_id().slice(0, 8) )" class="flex" >
+<div data-component-id="daily-notes" id="daily-notes" x-transition x-data="{ days: [], is_leftsidebar_open: true, is_rightsidebar: false, mode: 'linear', }" x-init="days.push( ilse.utils.get_unique_date_id().slice(0, 8) )" class="flex" >
 
     <!-- Left Sidebar -->
     <div x-show="is_leftsidebar_open" class="left-sidebar" :style=" is_leftsidebar_open ? 'flex-basis: 20%;' : 'flex-basis: 3%;' " >
@@ -8,6 +8,7 @@
             <br/>
             <br/>
 
+            <!-- <p x-text="$store.store.notes" :title="JSON.stringify($store)" :key="$store.key" ></p> -->
             <h3 align="center" style="cursor: pointer; background: var( --text-color ); color: var( --background-color );" class="" > Daily Notes </h3>
             <h3 align="center" style="cursor: pointer;" @click="ilse.commands.run('open-study-tab')" > Study </h3>
             <h3 align="center" style="cursor: pointer;" @click="ilse.commands.run('open-todos-modal')" > Todos </h3>
@@ -97,9 +98,7 @@
 
                             <!-- Displaying -->
                             <div x-show="!note.is_editing" class="render" :key="ilse.notes.list[note.id].content" x-note-id="note.id" :id=" note.id + 'render'" :data-note-id="note.id" :title="content" x-html="ilse.markdown.render(ilse.notes.list[note.id].content)"
-
-                                 @link-click="if( $event.detail.id === note.id && pages.indexOf($event.detail.link) === -1 ) pages.push( $event.detail.link ) "
-                                 
+                                                                                                                                                                                                             @link-click="console.log('$event.detail.id -> ', $event.detail.id); console.log('note.id -> ', note.id); console.log('$event.detail.id === note.id', $event.detail.id === note.id); console.log(' $store.links.indexOf($event.detail.link) === -1 -> ', $store.links.indexOf($event.detail.link) === -1); if( $event.detail.id === note.id && $store.links.indexOf($event.detail.link) === -1 ) { let links = ilse.store('links'); console.log('@@@>> links -> ', links); links.push($event.detail.link); ilse.store('links', links); }"
 
                                  @click="if( $event.target.type === 'checkbox' ) {
                                     ilse.notes.list[note.id].content.replace( '- [ ]', '- [x]' )
