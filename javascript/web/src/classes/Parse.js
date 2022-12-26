@@ -8,6 +8,8 @@ import printf                           from "@/functions/printf.js"
 
 // Functions
     import watchf                        from "@/functions/watch.js"
+    import map                           from "@/functions/map.js"
+    import keys                          from "@/functions/keys.js"
 
 // Libs
     import Alpine                   from 'alpinejs'
@@ -51,13 +53,18 @@ export default class ParseServer {
         const query      = new Parse.Query( _class );
         const fresh      = await query.get( id )
         const props      = fresh.attributes
-        const prop_names = Object.keys( props )
+        // const prop_names = Object.keys( props )
 
-        let tmp = {}
-        tmp.id  = id
-        prop_names.map( name => {
+        let tmp          = {}
+            tmp.id           = id
+
+        map( keys(props), name => {
             tmp[name]  = props[name]
         })
+
+        // prop_names.map( name => {
+            // tmp[name]  = props[name]
+        // })
 
         return tmp
     }
@@ -69,45 +76,44 @@ export default class ParseServer {
         }, 100 )
     }
 
-    async setup() {
+    async fetch_user() {
+
+        let fresh_user   = await this.pull( Parse.User, this.id )
+        let brains       = fresh_user.brains
+        let new_brain
+        let normalized_brains = []
+
+        for( var i = 0; i < brains.length; i++ ) {
+            new_brain = await this.pull( "Filesystem", brains[i] )
+            normalized_brains.push( new_brain )
+        }
+
+        // Inject new new_brain
+        fresh_user.brains = normalized_brains
+
+        // now
+        // printf( "Parse.js fetch_user() -> before -> ilse.target_directories -> ", ilse.target_directories )
+        // normalized_brains.map( brain => {
+            // ilse.target_directories.push( "cloud://" + brain.id )
+        // })
+        // printf( "Parse.js fetch_user() -> after -> ilse.target_directories -> ", ilse.target_directories )
+
+        // Key
+        fresh_user.key = Math.random()
+
+        ilse.store( "user", fresh_user )
+
+        printf( ">>@>@>@>@ emitting ... " )
+        Messager.emit( "~parse", { action: "loaded", target: "user", value: fresh_user } )
+
+        this.update_key()
+
+    }
+
+    setup() {
 
         if( this.id && window.navigator.onLine ) {
-
-            let fresh_user   = await this.pull( Parse.User, this.id )
-            let brains       = fresh_user.brains
-            let new_brain
-            let normalized_brains = []
-
-            for( var i = 0; i < brains.length; i++ ) {
-                new_brain = await this.pull( "Filesystem", brains[i] )
-                normalized_brains.push( new_brain )
-            }
-
-            // Inject new new_brain
-                fresh_user.brains = normalized_brains
-
-            // Key
-                fresh_user.key = Math.random()
-                fresh_user.init= function() {
-                    Alpine.effect( () => {
-                        printf( ">>>>>>>>>>>>>>>>>. fresh_user -> ", fresh_user )
-                    })
-                }
-
-
-            // let reactive_user = Alpine.reactive( Alpine.store("user") )
-
-            // Alpine.effect( (one) => {
-                // printf( "reactive_user ->>>> ", reactive_user )
-                // printf( "reactive_user ->>>> ", one )
-                // printf( "reactive_user ->>>> ", this )
-            // })
-
-            ilse.store( "user", fresh_user )
-            // Alpine.store( "user", fresh_user )
-            // Messager.emit( "store", { value: fresh_user, key: "user" })
-
-            this.update_key()
+            this.fetch_user()
         }
 
     }
@@ -175,20 +181,19 @@ export default class ParseServer {
 
             let keys = Object.keys(object.attributes)
 
-            printf( "before -> obj -> ", obj )
+            // printf( "before -> obj -> ", obj )
             keys.map( key => {
                 obj[key] = object.attributes[key]
             })
 
-            obj.key = Math.random()
             Alpine.store('store', obj)
 
-            printf( "after -> obj -> ", obj )
+            // printf( "after -> obj -> ", obj )
 
-            fn = watchf ( obj, (one) => {
-                printf( ">>>A>A>A>A>A>A one -> ", one )
-                printf( "obj -> ", obj )
-            })
+            // fn = watchf ( obj, (one) => {
+                // printf( ">>>A>A>A>A>A>A one -> ", one )
+                // printf( "obj -> ", obj )
+            // })
 
         })
 

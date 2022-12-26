@@ -1,5 +1,50 @@
-<style>
+<div data-component-id="command-pallet" id="command-pallet" x-transition x-data="{ search: '', list: }" style="height: 100%; overflow: auto;" >
 
+    <div class="flex" >
+        <img :src="window.ilse.require('command.svg')"       style="width: 23px; margin-bottom: 6px;" />
+        <input id="command-pallet-id" class="input" placeholder="Search ... " x-model="search" autofocus @keydown.enter.prevent="ilse.commands.run(window.ilse.commands.list.filter( e=> e.id.indexOf(search) !== -1 )[0].id); ilse.stacks.shift()" x-init="document.getElementById('command-pallet-id') ?  document.getElementById('command-pallet-id').focus() : null" > 
+
+        <img :src="window.ilse.require('question-mark.svg')" style="width: 23px; margin-bottom: 6px;" />
+    </div>
+
+    <div class="flex">
+
+        <div class="mitem">
+            <p class="is-size-6" x-text="window.ilse.commands.list.filter( e=> e.id.indexOf(search) !== -1 ).length + '/' + window.ilse.commands.list.length" > </p>
+        </div>
+
+        <div class="mitem">
+            <span style="color: var( --text-color );" > Run </span>
+            <img :src="window.ilse.require('arrow-back.svg')" style="width: 17px; " />
+        </div>
+
+        <div class="mitem" style="" >
+            <span style="color: var( --text-color );  " > Quit </span>
+            <strong style="color: var( --text-color );" > ESC </strong>
+        </div>
+
+    </div>
+
+    <template x-for="( command, index ) in window.ilse.commands.list.filter( e=> e.name.toLowerCase().indexOf(search.toLowerCase()) !== -1 )" >
+        <div class="flex" @click="window.ilse.commands.run(command.id); ilse.stacks.shift(); " >
+
+            <div class="item" >
+
+                <div class="is-pulled-left" >
+                    <img class="inline" :src="window.ilse.require(command.icon)" style="width: 17px; position: relative; top: 5px;  margin-right: 5px; " >
+                    <span class="py-1" x-text="command.name" > </span>
+                    <!-- <span class="is-size-7" x-text=" ' &nbsp; &nbsp; &nbsp;' command.description" > </span> -->
+                </div>
+
+                <div class="shortcut is-pulled-right" >
+                    <span class="is-size-7" x-text="window.ilse.keys.get_command_key(command.id)" > </span>
+                </div>
+
+            </div>
+        </div>
+    </template>
+</div>
+<style>
 .flex .mitem {
     margin: 0 auto;
     font-size: 10px;
@@ -29,50 +74,5 @@ input.input {
 }
 
 </style>
-<div data-component-id="command-pallet" id="command-pallet" x-transition x-data="{ search: '', list: }" style="height: 100%; overflow: auto;" >
 
-    <div class="flex" >
-        <img :src="window.ilse.require('command.svg')"       style="width: 23px; margin-bottom: 6px;" />
-        <input id="command-pallet-id" class="input" placeholder="Search ... " x-model="search" autofocus @keydown.enter.prevent="ilse.commands.run(window.ilse.commands.list.filter( e=> e.id.indexOf(search) !== -1 )[0].id); ilse.stacks.shift()" x-init="document.getElementById('command-pallet-id') ?  document.getElementById('command-pallet-id').focus() : null" > 
 
-        <img :src="window.ilse.require('question-mark.svg')" style="width: 23px; margin-bottom: 6px;" />
-    </div>
-
-    <div class="flex">
-
-        <div class="mitem">
-            <p class="is-size-6" x-text="window.ilse.commands.list.filter( e=> e.id.indexOf(search) !== -1 ).length + '/' + window.ilse.commands.list.length" > </p>
-        </div>
-
-        <div class="mitem">
-            <span style="color: var( --text-color );" > Run </span>
-            <img :src="window.ilse.require('arrow-back.svg')" style="width: 17px; " />
-        </div>
-
-        <div class="mitem" style="" >
-            <span style="color: var( --text-color );  " > Quit </span>
-            <strong style="color: var( --text-color );" > ESC </strong>
-        </div>
-
-    </div>
-
-    <!-- <template x-for="( command, index ) in window.ilse.commands.list.filter( e=> e.name.toLowerCase().indexOf(search.toLowerCase()) !== -1 )"> -->
-    <template x-for="( command, index ) in window.ilse.commands.list.filter( e=> e.name.toLowerCase().indexOf(search.toLowerCase()) !== -1 )" >
-        <div class="flex" @click="window.ilse.commands.run(command.id); ilse.stacks.shift(); " >
-
-            <div class="item" >
-
-                <div class="is-pulled-left" >
-                    <img class="inline" :src="window.ilse.require(command.icon)" style="width: 17px; position: relative; top: 5px;  margin-right: 5px; " >
-                    <span class="py-1" x-text="command.name" > </span>
-                    <!-- <span class="is-size-7" x-text=" ' &nbsp; &nbsp; &nbsp;' command.description" > </span> -->
-                </div>
-
-                <div class="shortcut is-pulled-right" >
-                    <span class="is-size-7" x-text="window.ilse.keys.get_command_key(command.id)" > </span>
-                </div>
-
-            </div>
-        </div>
-    </template>
-</div>

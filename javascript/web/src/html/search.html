@@ -1,4 +1,4 @@
-<div data-component-id="search" id="search" style="overflow: auto; height: 100%; " x-data="{ show_more: false, pointer: 0, search: '', list: [], pointer: -1, prepend_search: '', append_search: '' }" x-transition x-init="console.log(pointer)" >
+<div data-component-id="search" id="search" style="overflow: auto; height: 100%; " x-data="{ get enter: function() { console.log('you clicked entyer!!!!!') }, show_more: false, pointer: 0, search: '', list: [], pointer: -1, prepend_search: '', append_search: '' }" >
 
     <!-- wrapper -->
     <div x-data="{ is_options_on: false }" >
@@ -8,8 +8,9 @@
             x-model="search"
             @keydown.up.prevent=""
             @keydown.down.prevent=""
-            @keydown.enter="if( pointer !== -1 ) { console.log('selected'); } else { list = window.ilse.query(prepend_search + search + append_search ) }"
-            placeholder="Search ..."
+            @keydown.enter="enter()"
+            placeholder="Search for Something ..."
+            title="[[Ilse]] [[Programming]] - [[Ilse]] AND [[Programming]] - [[Ilse]] NOT [[Programming]] - #ilse - #math/topology"
             x-init="document.getElementById('search-input') ? document.getElementById('search-input').focus() : null; setTimeout( () => { search = '' }, 100 ) "
             style="color: var( --text-color ); background: var( --background-color ); border-radius: var( --border-radius ); width: 90%; margin-top: 10px; margin-bottom: 10px;"/>
 

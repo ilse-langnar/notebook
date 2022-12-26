@@ -54,22 +54,24 @@ export default class Theme {
 
     save( name ) {
         // ilse.config('active-theme', name)
-        ilse.config["active-theme"] = name
+        // ilse.config["active-theme"] = name
     }
 
     apply( note ) {
 
         let children = note.children
-        let css      = `:root { `
 
-        children.map( child => {
-            css += ` ${child.content}`
-        })
+        let css
+
+        css      = `:root { `
+            children.map( child => {
+                css += ` ${child.content}`
+            })
         css += `}`
 
-        this.save( note )
+        // this.save( note )
 
-        this.add_style(css, note.id)
+        // this.add_style(css, note.id)
     }
 
     get( id ) {

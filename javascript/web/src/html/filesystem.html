@@ -1,24 +1,3 @@
-<style>
-
-#filesystem {
-    with: 100%;
-    height: 88vh;
-    overflow: auto;
-    font-size: 2em; 
-}
-
-#filesystem img {
-    display: block;
-    margin: 0 auto;
-}
-
-#filesystem .slick-button {
-    float: left;
-    padding: 5px;
-    margin: 2px;
-}
-
-</style>
 <div data-component-id="filesystem" id="filesystem" data-component-id="filesystem" x-data="{ list: [], hover: '', x: -1, y: -1, chunk_length: 100, pointer: 0 }" x-init="if( ilse.target_directories[0] ) {let files = window.ilse.fs.readdirSync( ilse.utils.path.join('/') ); let chunks = ilse.utils.split_array_into_nth_chunks(files, chunk_length); list = chunks }" x-transition >
 
     <input placeholder="Search for files" style="width: 100%;" />
@@ -49,3 +28,26 @@
     </div>
 
 </div>
+<style>
+
+#filesystem {
+    with: 100%;
+    height: 88vh;
+    overflow: auto;
+    font-size: 2em; 
+}
+
+#filesystem img {
+    display: block;
+    margin: 0 auto;
+}
+
+#filesystem .slick-button {
+    float: left;
+    padding: 5px;
+    margin: 2px;
+}
+
+</style>
+
+

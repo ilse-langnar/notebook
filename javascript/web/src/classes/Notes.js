@@ -36,10 +36,33 @@ export default class Notes {
     }
 
     async _setup() {
-        await this.get_notes()
+        await this.get_local_notes()
         await this.scan_links()
+        this.listen()
         // this.demo()
         // this.watch_file()
+    }
+
+    listen() {
+
+        Messager.on( "~parse", payload => {
+
+            let has_loaded_logged_user = payload.action === "loaded" && payload.target === "user"
+
+            if( has_loaded_logged_user ) { // I'll take this value and add all of their notes to mine.
+                let brains             = payload.value.brains
+
+                map( values( brains ), async brain => {
+
+                    let FS           = await ilse.parse.pull( "Filesystem", brain.id )
+                    let remote_notes = note_string_to_object( FS.notes, brain.id )
+                    printf( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA remote_notes -> ", remote_notes )
+
+
+                })
+            }
+        })
+
     }
 
     async scan_links() {
@@ -119,29 +142,38 @@ export default class Notes {
         await this.filesystem.file.write.async( "notes", text_file )
     }
 
-    async get_notes() {
+    async get_local_notes() {
 
-        if( !this.ilse.target_directories[0] ) return
-        let dir      = this.ilse.target_directories[0]
-        let is_cloud = dir.indexOf("cloud:") !== -1
+        if( !this.ilse.target_directories[0] ) {
+            throw new Error( "Error: Notes.js You need to have a valid 'Target Directory' in order to get your notes." )
+        }
 
         try {
-
-            if( is_cloud ) {
-                let obj         = await ilse.parse.pull( "Filesystem", dir.replace("cloud:", "")  )
-                ilse.loaded()
-            } else {
-                let textfile         = await this.filesystem.file.read.async( "notes" )
-                this.list = note_string_to_object( textfile )
-                ilse.loaded()
-            }
-
-        } catch( e ) {
-            this.list           = []
-            await this.filesystem.file.write.async( "notes", "" )
+            let dir         = this.ilse.target_directories[0]
+            let textfile    = await this.filesystem.file.read.async( "notes" )
+            this.list       = note_string_to_object( textfile, dir )
             ilse.loaded()
-            return
+        } catch( e ) {
+            this.list       = []
+            ilse.loaded()
         }
+
+        // let is_cloud = dir.indexOf("cloud:") !== -1
+
+        // try {
+
+            // if( is_cloud ) {
+                // let obj         = await ilse.parse.pull( "Filesystem", dir.replace("cloud:", "")  )
+                // ilse.loaded()
+            // } else {
+            // }
+
+        // } catch( e ) {
+            // this.list           = []
+            // await this.filesystem.file.write.async( "notes", "" )
+            // ilse.loaded()
+            // return
+        // }
 
     }
 
@@ -177,6 +209,7 @@ export default class Notes {
         }
     }
 
+    // Query notes: ilse.query("[[Example]]") or ilse.query("#example") or ilse.query("#biology/genetics") ilse.query("Intelligence/AI")
     query( q = "", limit = null, log ) {
 
         q = q.toLowerCase()
@@ -221,6 +254,7 @@ export default class Notes {
             content: content,
             id:      id,
             depth:   depth,
+            source:   ilse.target_directories[0],
         }
 
 

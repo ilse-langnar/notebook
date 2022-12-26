@@ -10,14 +10,6 @@
     <div x-data="{ list: window.ilse.query( '#sr/r/' + ilse.utils.get_unique_date_id().slice( 0, 8 ) ), links: {}, flashcards: window.ilse.query('#sr') }" style=" height: 50vh; overflow: auto; flex-basis: 30%; " >
         <div>
             <h2 align="center" > Statistics </h2>
-
-            <!-- <details>
-                <template x-for="( item, index ) in list" :key="index" >
-                    <div>
-                        <p x-html="ilse.markdown.render(item.content)" > </p>
-                    </div>
-                </template>
-            </details> -->
         </div>
 
         <template x-for="( item, index ) in [ 00, 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 ]" :key="'hour-' + index" ><!-- 24 hours -->
@@ -25,20 +17,6 @@
         </template>
 
         <span x-data="flashcards.length"> </span>
-
-        <!-- <span x-text="JSON.stringify(links)" > </span>
-
-        <button @click="let tags = {};
-
-            list.map( item => {
-                let links = ilse.utils.extract_markdown_links_from_string( item.content )
-
-                links.map( link => {
-                    if( !tags[link] ) tags[link] = []
-                    tags[link].push( link )
-                })
-
-                }); links = tags " > Show Info </button> -->
     </div>
 
 </div>

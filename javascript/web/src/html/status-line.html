@@ -1,18 +1,28 @@
-<div data-component-id="status-line" id="status-line" :style=" 'height:' + height + 'px;' + ( height === 25 ? '/*overflow: hidden;*/' : 'overflow: auto;' )" x-init="window.Messager.on('~status-line', command => { if( command === 'expand' ) { height = 500 }; if( command === 'shrink' ) { height = 25 }; }) " x-data="{ height: 25, key: '', tab: '' }" >
+<div data-component-id="status-line" id="status-line" :style=" 'height:' + height + 'px;' + ( height === 25 ? '/*overflow: hidden;*/' : 'overflow: auto;' )" x-init="window.Messager.on('~status-line', command => { if( command === 'expand' ) { height = 500; tab = 'keys' }; if( command === 'shrink' ) { height = 25 }; }) " x-data="{ height: 25, key: '', tab: '', modes: [] }" >
 
     <!-- TOP -->
     <div class="flex view" x-data="{ last: '' }" x-init=" window.ilse.Messager.on( '~commands', ( action, payload ) => { if( action === 'exec' ) { last = payload  } } ) ">
 
-        <div class="flexi img" >
+        <!-- <div class="flexi img" >
             <img :src="ilse.require('brain.svg')" style="" alt="" title="" @click="height === 500 ? height = 25 : height = 500; tab = 'brains'" >
+        </div> -->
+
+        <div x-show="modes.length" class="flexi img" x-init="
+            $watch( '$store.config', payload => {
+                modes = payload.value['modes']
+                if( modes.length ) {
+                } else {
+                    $el.innerHTML = ''
+                }
+            });
+            " >
+            <template x-for="( mode, index ) in modes" :key="index" > 
+                <img :src="'data:image/svg+xml;base64,' + mode.split('|')[1]" />
+            </template>
         </div>
 
         <template x-for="(item, index) in ilse.query('#html/status-line')" :key="index" >
-            <div class="flexi img" >
-
-                <p :title="ilse.utils.get_links_from_note(item.content)" x-html="ilse.fs.readFileSync(ilse.utils.extract_markdown_links_from_string(item.content)[0].replace('[[', '').replace(']]', ''))" @click="let child = ilse.utils.get_first_tag_last_child(item.content); height === 500 ? height = 25 : height = 500; tab = child;" > </p>
-
-            </div>
+            <span class="flexi img" :title="ilse.utils.get_links_from_note(item.content)" x-html="ilse.fs.readFileSync(ilse.utils.extract_markdown_links_from_string(item.content)[0].replace('[[', '').replace(']]', ''))" @click="let child = ilse.utils.get_first_tag_last_child(item.content); height === 500 ? height = 25 : height = 500; tab = child;" > </span>
         </template>
     </div>
     <!-- TOP -->
@@ -51,18 +61,20 @@
 
             <!-- Close -->
             <img x-show="height === 500" :src="ilse.require('x.svg')" alt="Delete" title="Delete" style="width: 20px; float: right; margin-right: 10px; cursor: pointer;" @click="height = 25; tab = '' " >
+            <hr style="clear: both; margin-top: 20px; " >
             <!-- Close -->
 
-            <!-- Default, Which Key -->
+            <!-- Default: Which Key -->
             <div id="which-key" x-show="height === 500 && tab === 'keys' " >
 
-                <input placeholder="C-SPC t s g i" x-model="key" @keydown.enter.prevent="let list = window.ilse.keys.list.map( item => { if( item.combo.indexOf(key) !== -1 ) { return item } } ).filter( e=>e ); if( list[0] ) ilse.commands.run(list[0].command); " autofocus x-init="ilse.Messager.on('~keyboard', key => {
+                
+                <input class="input" placeholder="C-SPC t s g i" style="width: 80%; margin: 0 auto; display: block; margin-top: 10px; " x-model="key" @keydown.enter.prevent="let list = window.ilse.keys.list.map( item => { if( item.combo.indexOf(key) !== -1 ) { return item } } ).filter( e=>e ); if( list[0] ) ilse.commands.run(list[0].command); " autofocus x-init="ilse.Messager.on('~keyboard', key => {
                                     if( key === 'C-SPC' ) { setTimeout( () => { key = ''; $el.focus() }, 1000 ) }
                         if( key === 'esc' ) { key = '' }
                     }) " />
                   <br>
 
-                  <template x-for="(item, index) in window.ilse.keys.list" @click="console.log('item -> ', item)" >
+                  <template x-for="(item, index) in window.ilse.keys.list" >
                       <div x-show="key === ' ' ? true : item.combo.indexOf(key) !== -1" class="key is-pulled-left" style="margin: 5px; " @click="ilse.commands.run(item.command)" >
                           <span class="combo" x-text="item.combo.replace('ctrl+space', '')" > </span>
                           <span class="arrow" > &rarr; </span>
@@ -70,28 +82,12 @@
                       </div>
                   </template>
               </div>
-              <!-- Default, Which Key -->
-
-              <!-- Default, Brains -->
-              <div id="brains" x-show="height === 500 && tab === 'brains' " >
-
-                  <template x-for="(item, index) in ilse.info.target_directories" >
-                      <div style="width: 130px; height: 100px; border: 1px solid #000; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; text-overflow: ellipsis;" >
-                          <p x-text="item" > </p>
-                          <img :src="ilse.require('brain.svg')" style="" alt="" title="" >
-                      </div>
-                  </template>
-
-              </div>
-              <!-- Default, Brains -->
+              <!-- Default: Which Key -->
 
               <!-- User Defined Tabs -->
               <div>
                   <template x-for="(item, index) in ilse.query('#html/status-line')" :key="index" >
-                      <div x-show="ilse.utils.get_first_tag_last_child(item.content) === tab" x-init="console.log('>>>>>> item.content -> ', item.content)" >
-                          <p x-html="ilse.utils.get_note_file_by_link(item.content, 1)" >  </p>
-                      </div>
-                      <!-- <p class="flexi img" x-html="ilse.fs.readFileSync(ilse.utils.extract_markdown_links_from_string(item.content))" @click="height === 500 ? height = 25 : height = 500; tab ? tab = 'links' : '' " > </p> -->
+                      <span x-show="ilse.utils.get_first_tag_last_child(item.content) === tab" x-html="ilse.utils.get_note_file_by_link(item.content, 1)" >  </span>
                   </template>
               </div>
               <!-- User Defined Tabs -->
@@ -174,7 +170,7 @@
             color: var( --tertiary-text-color );
         }
 
-    #status-line input {
+    /*#status-line input.input {
         border: 0;
         background: transparent;
         display: block;
@@ -183,8 +179,39 @@
         background: var( --background-color );
     }
 
-        #status-line input:focus {
+        #status-line input.input:focus {
             outline: none !important;
+        }*/
+
+    #status-line input.input:focus {
+        /*box-shadow: 0 0 0 3px hsla(var(--input-focus-h), var(--input-focus-s), calc(var(--input-focus-l) + 40%), 0.8);*/
+        outline: 3px solid transparent;
+        border-color: hsl(var(--input-focus-h), var(--input-focus-s), var(--input-focus-l));
+        border: 2px solid rgb(124, 138, 255);
+    }
+
+        #status-line input.input:not([type="checkbox"]) {
+            transition: 180ms box-shadow ease-in-out;
+            width: 100%;
+            color: rgb(36, 35, 42);
+            font-size: 16px;
+            line-height: 20px;
+            min-height: 28px;
+            border-radius: 4px;
+            padding: 8px 16px;
+            border: 2px solid transparent;
+            box-shadow: rgb(0 0 0 / 12%) 0px 1px 3px, rgb(0 0 0 / 24%) 0px 1px 2px;
+            background: rgb(251, 251, 251);
+            transition: all 0.1s ease 0s;
+
+            margin-left: 5px;
+            color: var( --text-color );
+            background: var( --background-color );
+            border-radius: var( --border-radius );
+            width: 90%;
+            margin-top: 10px;
+            margin-bottom: 10px; 
+            margin: 0 auto;
         }
 
 </style>

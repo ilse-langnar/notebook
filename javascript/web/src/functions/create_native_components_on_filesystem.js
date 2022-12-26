@@ -88,6 +88,11 @@ export default function create_native_components_on_filesystem() {
         },
 
         {
+            name: "modes.html",
+            content: require("@/html/modes.html").default,
+        },
+
+        {
             name: "filesystem.html",
             content: require("@/html/filesystem.html").default,
         },

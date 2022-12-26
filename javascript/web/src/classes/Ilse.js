@@ -2,7 +2,6 @@ import printf                   from "@/functions/printf.js"
 
 // Classes
     import KeyboardShortcut             from "@/classes/KeyboardShortcut.js"
-    import Config                       from "@/classes/Config.js"
     import Utils                        from "@/classes/Utils.js"
     import Commands                     from "@/classes/Commands.js"
     import Tags                         from "@/classes/Tags.js"
@@ -267,19 +266,24 @@ export default class Ilse {
         this.after_setup()
     }
 
-    render( name, props = {}, functions = {} ) {
+    render( name, props = {}, options = { stringify: true } ) {
 
         let id               = Math.random().toString()
-        let string_props     = JSON.stringify( props )
-        let normalized_props = string_props.replaceAll( "\"", "\'" )
+            this.store( id, props )
+
+        if( options.stringify ) {
+            props                = JSON.stringify( props )
+            props                = props.replaceAll( "\"", "\'" )
+        }
 
         // Idea string to HTML and then I pass  a string as x-data?
         let html             = this.components[name]
         let HTML             = string_to_html( html )
 
         let dom              = HTML.querySelector('[x-data]')
-            if( dom ) dom.setAttribute( "x-data", normalized_props )
-            if( dom ) dom.setAttribute( "x-init", "Messager.on('behavior', payload => {  })" )
+            if( dom ) dom.setAttribute( "x-data", `$store[${id}]` )
+            // if( dom ) dom.setAttribute( "x-data", props )
+            // if( dom ) dom.setAttribute( "x-init", "Messager.on('behavior', payload => {  })" )
 
         return html_to_string( HTML )
     }
@@ -345,7 +349,6 @@ export default class Ilse {
 
         if( is_getter ) {
             let payload = Alpine.store( key )
-            printf( ">>>>>>>>>> Ilse.js -> store() is_getter -> payload -> ", payload )
             return payload
 
         } else {
@@ -353,7 +356,6 @@ export default class Ilse {
 
             if( reactive ) {
 
-                printf( ">>>>>>>>>> Ilse.js -> store() SETTER -> reactive -> " )
                 return Alpine.store( key, {
                     value: value,
                     init() {
@@ -366,7 +368,6 @@ export default class Ilse {
                 })
 
             } else {
-            printf( ">>>>>>>>>> Ilse.js -> store() SETTER -> NOT reactive -> " )
                 return Alpine.store( key, value)
             }
 
@@ -434,25 +435,17 @@ export default class Ilse {
 
     set_components() {
 
-        // let top_menu        = this.filesystem.file.read.sync( "top-menu.html" )
-        // let help            = this.filesystem.file.read.sync( "help.html" )
-        // let search          = this.filesystem.file.read.sync( "search.html" )
-        // let marketplace     = this.filesystem.file.read.sync( "marketplace.html" )
-        // let configuration   = this.filesystem.file.read.sync( "configuration.html" )
-        // let command_pallet  = this.filesystem.file.read.sync( "command-pallet.html" )
-        // let references      = this.filesystem.file.read.sync( "references.html" )
-        // let outline         = this.filesystem.file.read.sync( "outline.html" )
-        // let daily_notes     = this.filesystem.file.read.sync( "daily-notes.html" )
-        // let status_line     = this.filesystem.file.read.sync( "status-line.html" )
-        // let new_tab         = this.filesystem.file.read.sync( "new-tab.html" )
-        // let filesystem      = this.filesystem.file.read.sync( "filesystem.html" )
-        // let file            = this.filesystem.file.read.sync( "file.html" )
-        // let study           = this.filesystem.file.read.sync( "study.html" )
-        // let web             = this.filesystem.file.read.sync( "web.html" )
-        // let links           = this.filesystem.file.read.sync( "links.html" )
-        // let pan             = this.filesystem.file.read.sync( "pan.html" )
-        // let hello_world     = this.filesystem.file.read.sync( "hello-world.html" )
-        // let directory_manager  = this.filesystem.file.read.sync( "directory-manager.html" )
+        let component_html = require("@/html/components.html")
+        let DOM            = string_to_html( component_html.default )
+        let components =  [ "command-pallet.html", "component-not-found.html", "configuration.html", "daily-notes.html", "dialog-confirm.html", "dialog-info.html", "dialog-input.html", "directory-manager.html", "file.html", "filesystem.html", "help.html", "link.html", "marketplace.html", "modes.html", "new-tab.html", "notification.html", "outline.html", "pan.html", "references.html", "search.html", "setup.html", "status-line-keys-content.html", "status-line-keys-icon.html", "status-line-links-content.html", "status-line-links-icon.html", "status-line.html", "study.html", "template.html", "top-menu.html", "web.html" ]
+        let string
+
+        printf( "before -> this.components -> ", this.components )
+        components.map( name    => {
+            string = DOM.getElementById(name)
+            if( string ) this.components[name] = string
+        })
+        printf( "after -> this.components -> ", this.components )
 
         /*
         this.components = {
@@ -483,6 +476,8 @@ export default class Ilse {
     // Setup things that needs "ilse.notes" to be readyu
     after_setup() {
 
+        let _this = this
+
         window.ilse                     = get_plugin_api( "global", this )
         this.store( "links", [], false )
         printf( ">>>>>>>>>>>>>>>>>>>>>>>>>>> this.store('links') -> ", this.store('links') )
@@ -500,34 +495,87 @@ export default class Ilse {
 
         let note    = ilse.notes.query( "#config" )[0] ?  ilse.notes.query( "#config" )[0].content : `20201211181905-v62p5f86: #config "{ \\"modes\\": [] }" `
         let config  = note_to_config( note )
+        let modes   = config.modes
+
+        if( modes ) {
+
+            modes.map( mode => {
+                this.mode( mode )
+            })
+
+        }
+
+
+        // apply config's
+        // keys.map( key => {
+            // this[key] = config[key]
+        // })
+
 
         this.config = { // This object is synched with my shit.
 
             save() {
 
-                let result = ilse.notes.query( "#config" )[0]
-                    if( !result ) return
-                printf( "before -> result.content -> ", result.content )
-                result.content = `#config ${config_object_to_note( config )}`
-                printf( "after -> result.content -> ", result.content )
+                let result             = _this.notes.query( "#config " )[0]
+                let has_config_already = !!result
+
+                if( has_config_already ) {
+                    result.content = config_object_to_note( config ) + "#hidden"
+                } else {
+                    _this.notes.add(
+                        config_object_to_note( config ) + "#hidden"
+                    )
+                }
+
+                ilse.notes.save()
 
             },
 
-            get( key ) {
+            modes: config["modes"],
+
+            // get( key ) {
                 // printf( "GGGGEEETTTERRR" )
-                return this.config[key]
-            },
-            set( key, value ) {
-                printf( "SEEETTTTEEER" )
-                this.config[key] = value
-                return value
-            },
+                // return this.config[key]
+            // },
+            // set( key, value ) {
+                // printf( "SEEETTTTEEER" )
+                // this.config[key] = value
+                // return value
+            // },
         }
+        printf( ">>>>>>>>>>>>>>>>>>>>>>>>>> config -> ", config )
 
         setTimeout( () => {
+            printf( "SAVING AAAAAA" )
+            printf( "this.config -> ", this.config )
             this.config.save()
         }, 4000 )
 
+
+    }
+
+    mode( string ) {
+
+        let index       = ilse.config.modes.indexOf( string )
+        let has_already = index !== -1
+
+        let chunks      = string.split("|")
+        let name        = chunks[0]
+        let svg         = chunks[1]
+        let fn          = chunks[2]
+
+        let command     = this.commands.get(fn)
+        printf( ">>> command -> ", command )
+
+        if( has_already ) {
+            command.undo()
+            ilse.config.modes.splice( index, 1 )
+            this.store( "config", ilse.config, true )
+        } else {
+            command.fn()
+            ilse.config.modes.push( string )
+            this.store( "config", ilse.config, true )
+        }
 
     }
 

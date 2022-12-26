@@ -1,5 +1,5 @@
 <!-- <div data-component-id="top-menu" id="top-menu" x-data="{ tabs: window.ilse.tabs.list, selected: '', key: 0, is_menu_on: false, mode: ilse.parse.id ? 'logged' : 'login' }" x-init="Messager.on('~tabs', payload => { -->
-<div data-component-id="top-menu" id="top-menu" x-data="{ tabs: window.ilse.tabs.list, selected: '', key: 0, is_menu_on: false, mode: window.navigator.onLine ? (ilse.parse.id ? 'logged' : 'login') : 'offline', user: $store.user, key: ilse.parse.id }" x-init="console.log('@@@mode -> ', mode); Messager.on('~tabs', payload => { 
+<div data-component-id="top-menu" id="top-menu" x-data="{ tabs: window.ilse.tabs.list, selected: '', key: 0, is_brains_configuration_on: false, is_menu_on: false, mode: window.navigator.onLine ? (ilse.parse.id ? 'logged' : 'login') : 'offline', user: $store.user, key: ilse.parse.id }" x-init="console.log('@@@mode -> ', mode); Messager.on('~tabs', payload => { 
 
     if( payload.action === 'set' ) {
         tabs = payload.tabs
@@ -10,19 +10,26 @@
 
 
     $watch( '$store.user', payload => {
-        user = payload.value
+        // user = payload.value
+        user = payload
     })
 
     /* ilse.Messager.on( 'store', payload => { key = Math.random() }); */
 
     "
-    x-watch="user = $store.user"
 
     >
 
-    <div class="tabs" style="display: flex;" x-inti="$watch('$store', function (val) { console.log('@@@@>>>', val); })" >
+    <div class="tabs" style="display: block; " x-inti="$watch('$store', function (val) { console.log('@@@@>>>', val); })" >
 
-        <div class="configuration" x-show="is_menu_on" :key="ilse.parse.key" >
+        <img style="float: right; width: 25px; height: 25px; margin-right: 5px; cursor: pointer;" :src="window.ilse.require('menu-2.svg')" @click="is_menu_on = !is_menu_on" />
+        <!-- <img style="float: right; width: 25px; height: 25px; cursor: pointer;" :src="window.ilse.require('brain.svg')" /> -->
+
+        <div class="configuration" x-show="is_brains_configuration_on" >
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+
+        <div class="configuration" x-show="is_menu_on" >
 
             <div>
 
@@ -84,42 +91,39 @@
 
             </div>
 
-            <hr style="clear: both; margin-top: 10px;">
-
-            <!-- Shared Brains -->
-            <div x-show="mode === 'logged' " >
-
-                <div style="display: flex;" >
-                    <h2> Brains </h2>
-                    <img class="img" style="margin-right: auto; height: 30px; margin: 0 auto; cursor: pointer; border: 1px solid var( --text-color ); border-radius: var( --border-radius );" :src="window.ilse.require('plus.svg')" title="Add new Shared Brain" />
+            <!-- Brains -->
+            <hr>
+            <div x-data="{ add() { if(!new_path_name) { return }; let string = window.localStorage.getItem('target-directories'); let list = JSON.parse(string); list.push(new_path_name); window.localStorage.setItem('target-directories', JSON.stringify(list)); list = new_path_name = ''; list = JSON.parse(window.localStorage.getItem('target-directories'))}, placeholder: '/home/user/Downloads or C:\\User\Data or https://brain.remote-server.com/', list: window.ilse.info.target_directories, new_path_name: '' }" >
+                <div style="display: flex; margin: 0 auto; width: 97%;" >
+                    <input class="input" :placeholder="placeholder" style="border: 1px solid red; width: 100% !important;" type="text" x-model="new_path_name" @keydown.enter="add(); list = JSON.parse( window.localStorage.getItem('target-directories') )" >
+                    <img :src="window.ilse.require('plus.svg')" style="width: 40px; cursor: pointer; position: relative; bottom: 4px; " @click="add(); list = JSON.parse( window.localStorage.getItem('target-directories') )" title="Add new path" /> 
                 </div>
 
-                <template x-for="(tab, index) in ilse.info.target_directories" :key="index" >
-                    <div style="display: flex;" >
-                        <img :src="ilse.require('device-desktop.svg')" alt="" title="" style="width: 20px;" >
-                        <p x-text="tab" > </p>
+                <div>
+                    <div style="flex: 1; margin: 4px; border: 1px solid var( --text-color ); border-radius: var( --border-radius ); padding: var( --padding ); " >
+                        <template x-for="(item, index) in list" >
+                            <div style="width: 90%; display: flex; overflow: hidden; margin-left: 10px; padding: 3px; text-overflow: ellipsis;" >
+                                <!-- <img :src="ilse.require('folders.svg')" style="cursor: pointer;" alt="select" title="select" > -->
+                                <!-- <img x-show="index !== 0" :src="ilse.require('hand-move.svg')" style="cursor: pointer;" alt="select" title="select" @click="list.push( list.shift() ); window.localStorage.setItem('target-directories', JSON.stringify(list) ); window.location.reload()" > -->
+                                <p class="text" x-text="item" :style="index !== 0 ? 'cursor: pointer;' : '' " :title=" index !== 0 ? 'Click to select' : '' " @click="list.push( list.shift() ); window.localStorage.setItem('target-directories', JSON.stringify(list) ); window.location.reload()" > </p>
+                                <img class="remove" :src="window.ilse.require('x.svg')" @click="list.splice( index, 1 ); window.localStorage.setItem('target-directories', JSON.stringify(list) ); list = JSON.parse( window.localStorage.getItem('target-directories') ); " />
+                            </div>
+                        </template>
+
+                        <hr>
+                        <template x-for="(item, index) in user.brains" x-data="{ user: $store.user || {} }" x-init="$watch( '$store.user', payload => { user = payload })" >
+                            <div style="width: 90%; display: flex; overflow: hidden; margin-left: 10px; padding: 3px; text-overflow: ellipsis;" >
+                                <img :src="ilse.require('cloud.svg')" style="cursor: pointer;" alt="select" title="select" >
+                                <p x-text="item.name" > </p>
+                                <img class="remove" :src="window.ilse.require('x.svg')" @click="list.splice( index, 1 ); window.localStorage.setItem('target-directories', JSON.stringify(list) ); list = JSON.parse( window.localStorage.getItem('target-directories') ); " />
+                            </div>
+                        </template>
+
                     </div>
-                </template>
 
-                <template x-if="user && user.brains" >
-
-                    <template x-for="(_tab, index) in user.brains" :key="index" >
-                        <div>
-                            <img :src="ilse.require('cloud.svg')" alt="" title="" style="width: 20px; float: left;" @click="console.log('_tab -> ', _tab)" >
-                            <p x-text="_tab.name + '(' + _tab.id + ')'" style="float: left;" > </p> 
-                            <!-- <p x-text="_tab.name + '(' + _tab.id + ')'" style="float: left;" > </p>  -->
-                            <!-- <p x-text="(_tab && _tab.name) ? _tab.name + '(' + _tab.id + ')' : 'nothing' " style="float: left;" > </p> -->
-                        </div>
-                    </template>
-
-                </template>
-
-                <br style="clear: both;" >
-
-                <hr style="clear: both;" >
-                <br>
+                </div>
             </div>
-
+            <!-- Brains -->
 
             <div class="item" style="margin-bottom: 10px !important;" >
                 <img style="float: left; width: 25px; height: 25px; margin-left: 4px; cursor: pointer;" :src="window.ilse.require('settings.svg')" @click="ilse.commands.run('toggle-dark-mode')" />
@@ -158,25 +162,29 @@
 
         </div>
 
-        <template x-for=" (tab, index) in tabs" :key="index" >
+        <!-- <template x-for=" (tab, index) in tabs" :key="index" >
             <div style="height: 20px; width: 100px; " style=";" >
-                <p x-text="tab.title" style="border: 1px solid #000; width: 150px; " @click="ilse.tabs.select(tab)" ></p>
+                <p x-text="tab.title" style="border: 1px solid #000; width: 100%; " @click="ilse.tabs.select(tab)" ></p>
 
                 <img style="width: 10px; position: relative; right: 30px; bottom: 20px;" :src="window.ilse.require('x.svg')" /> 
 
             </div>
-        </template>
-
-        <img class="add float-left" :style=" 'left:' + (tabs.length === 1 ? 288 * tabs.length + 'px;' : 254 * tabs.length + 'px;' ) " :src="window.ilse.require('plus.svg')" @click="ilse.tabs.add()" />
-
-        <img style="float: right; position: absolute; right: 10px; width: 25px; height: 25px; margin-left: 4px; cursor: pointer;" :src="window.ilse.require('menu-2.svg')" @click="is_menu_on = !is_menu_on" />
-
+        </template> 
+        <img class="add float-left" :style=" 'left:' + (tabs.length === 1 ? 288 * tabs.length + 'px;' : 254 * tabs.length + 'px;' ) " :src="window.ilse.require('plus.svg')" @click="ilse.tabs.add()" /> -->
 
     </div>
 
     <br>
 </div> 
 <style>
+
+
+#top-menu .text {
+    text-overflow: ellipsis;
+    width: 90%;
+    overflow: hidden;
+    white-space: nowrap;
+}
 
 #top-menu .configuration {
     position: fixed;
@@ -189,6 +197,7 @@
     padding: 3px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: var( --border-radius );
+    background: var( --background-color );
 }
 
 #top-menu .configuration .item {
@@ -202,12 +211,6 @@
 
 }
 
-/*#top-menu .configuration .item:hover {
-    background: var( --text-color );
-    cursor: pointer;
-    color: var( --background-color );
-    background: red;
-}*/
 
 .float-left {
     float: left;

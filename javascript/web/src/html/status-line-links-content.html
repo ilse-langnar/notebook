@@ -1,10 +1,10 @@
 <div id="status-line-links-content" class="content" x-data="{ selected: ($store.links && $store.links.length) ? $store.links[0] : '', linked: true }" >
 
     <div x-show="!$store.links.length" >
-        <h1> There is no links to analize, press <code>shift+click</code> to add one (: </h1>
+        <h1 style="position: absolute; top: 50%; left: 50%; transform: translate( -50%, -50% );"> There is no links to analize, press <code>shift+click</code> to add one (: </h1>
     </div>
 
-    <div style="float: left; margin-left: 10px; " >
+    <div x-show="$store.links.length" style="float: left; margin-left: 10px; " >
         <img :src="linked ? ilse.require('brackets.svg') : ilse.require('brackets-off.svg')" style="width: 20px;" title="Toggle " alt="Toggle" @click="linked = !linked" >
     </div>
 
@@ -14,7 +14,6 @@
         </div>
     </template>
     <br>
-    <hr>
 
 
     <template x-for="(item, index) in $store.links" :key="index" >

@@ -15,12 +15,9 @@
             <h3 align="center" style="cursor: pointer;" class="" > Calendar </h3>
             <h3 align="center" style="cursor: pointer;" @click="window.ilse.tabs.add_with_component('pan', { title: 'Pan', autoselect: true }) /*ilse.commands.run('open-pan')*/ " > Exploration </h3>
             <hr>
-            <template x-for="( note, index ) in favorites" :key=" 'note' + index" x-data="{ favorites:window.ilse.query( '[[Public/' ) }" >
 
-                <template x-for="( link, link_index ) in ilse.utils.extract_markdown_links_from_string(note.content)" :key="'link-' + link_index" >
-                    <p class="favorite" :title=" 'Click to open: ' + link" x-show="link.indexOf('[[Public/') !== -1" style="margin: 5px 5px; background: var( --text-color ); color: var( --background-color ); padding: 5px; border-radius: var( --border-radius );" x-text="link.replace('[[Public/', '').replace(']]', '') " > </p>
-                </template> 
-
+            <template x-for="( note, index ) in favorites" :key=" 'note' + index" x-data="{ favorites:window.ilse.query( '#public' ) }" >
+                <p class="favorite" style="margin: 5px 5px; background: var( --text-color ); color: var( --background-color ); padding: 5px; border-radius: var( --border-radius );" x-html="ilse.markdown.render(note.content.replace('#public', '') )" > </p>
             </template>
 
         </div>
@@ -47,12 +44,12 @@
                         <div x-show="note.content.indexOf('#hidden') === -1" x-data="{ depth: ilse.notes.list[note.id].depth, content: ilse.notes.list[note.id].content }" x-note-id="note.id" :id="note.id" :style=" 'margin-left:' + (depth * 20) + 'px;' " > 
 
                             <!-- Bullet -->
-                            <div class="bullet" @click.shift="ilse.tabs.add( ilse.render('pan', { list: ilse.query(note.id) }), { title: 'Pan', autoselect: true })" :title="ilse.utils.get_human_readable_creation_date(note.id)" > &bull; </div>
+                            <div class="bullet" @click.shift="console.log(note)" :title="ilse.utils.get_bullet_description(note)" x-text="note.is_editing ? '&ast;' : note.source.indexOf(':cloud') !== -1 ? '&tilde;' : '&bull;' " > </div>
 
                             <!-- Editing -->
                             <div x-show="note.is_editing" x-note-id="note.id" :id=" note.id + '-edit' " :key="ilse.notes.list[note.id].content" class="no-outline edit" contentEditable
-                                 x-text="ilse.notes.list[note.id].content" 
-                                 @blur="note.is_editing = false; ilse.notes.list[note.id].content = $event.target.innerText; ilse.notes.save()"
+                                 x-text="content" 
+                                 @blur="note.is_editing = false; ilse.notes.list[note.id].content = $event.target.innerText; content = ilse.notes.list[note.id].content; ilse.notes.save();"
 
                                  @keydown.enter.prevent="let new_note = ilse.add_after( '', ilse.notes.list[note.id].depth, note.id );
                                  setTimeout( () =>{
@@ -97,7 +94,7 @@
                                 <!-- Editing -->
 
                             <!-- Displaying -->
-                            <div x-show="!note.is_editing" class="render" :key="ilse.notes.list[note.id].content" x-note-id="note.id" :id=" note.id + 'render'" :data-note-id="note.id" :title="content" x-html="ilse.markdown.render(ilse.notes.list[note.id].content)"
+                            <div x-show="!note.is_editing" class="render" :key="ilse.notes.list[note.id].content" x-note-id="note.id" :id=" note.id + 'render'" :data-note-id="note.id" :title="content" x-html="ilse.markdown.render(content)"
                                                                                                                                                                                                              @link-click="console.log('$event.detail.id -> ', $event.detail.id); console.log('note.id -> ', note.id); console.log('$event.detail.id === note.id', $event.detail.id === note.id); console.log(' $store.links.indexOf($event.detail.link) === -1 -> ', $store.links.indexOf($event.detail.link) === -1); if( $event.detail.id === note.id && $store.links.indexOf($event.detail.link) === -1 ) { let links = ilse.store('links'); console.log('@@@>> links -> ', links); links.push($event.detail.link); ilse.store('links', links); }"
 
                                  @click="if( $event.target.type === 'checkbox' ) {
@@ -131,25 +128,7 @@
                     <br>
                 </div>
 
-                <button x-show="index === days.length - 1" class="load-more" style="padding: 7px; border-radius: var( --border-radius ); margin: 0 auto; text-align: center; margin-top: 10px; " @click="let DAY = day;
-                    let year = DAY.substr( 0, 4 );
-                    let month = DAY.substr( 4, 2 );
-                    let _day = Number(DAY.substr( 6, 2 ) );
-
-                    let copy = _day;
-                        copy -= 1;
-
-                    if( copy === 0 ) {
-                        days.push( year + --month + '31' )
-                    } else {
-                        if( copy < 10 ) {
-                            days.push( year + month + '0' + --_day )
-                        } else {
-                            days.push( year + month + --_day )
-                        }
-                    }
-
-                    "> Load More </button>
+                <button x-show="index === days.length - 1" class="load-more" style="padding: 7px; border-radius: var( --border-radius ); margin: 0 auto; text-align: center; margin-top: 10px; " @click="days.push( ilse.utils.get_yesterday(day) )" x-text="'Load More(' + ilse.query( ilse.utils.get_yesterday( day ) ).length + ')' " >  Load More </button>
                 <br>
 
             </div>
@@ -225,7 +204,7 @@
 
         #daily-notes .edit:focus {
             outline: none;
-            border-bottom: 1px solid var( --text-color );
+            content: "LLLLLLL";
         }
 
 #daily-notes .render {

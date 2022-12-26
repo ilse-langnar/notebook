@@ -124,6 +124,7 @@ import printf                           from "@/functions/printf.js"
     import values                                 from "@/functions/values.js"
     import yyyymmddhhss_to_pretty                 from "@/functions/yyyymmddhhss_to_pretty.js"
     import recursively_search_for_dom             from "@/functions/recursively_search_for_dom.js"
+    import clean_markdown_tags                    from "@/functions/clean_markdown_tags.js"
 
 // classes
     import FSFilesystem                           from "@/classes/FSFilesystem.js"
@@ -190,6 +191,7 @@ export default function get_plugin_api( name, ilse ) {
         render: ilse.render,
         modal: ilse.modal,
         parse: ilse.parse,
+        config: ilse.config,
 
         files: ilse.files.list,
 
@@ -377,7 +379,13 @@ export default function get_plugin_api( name, ilse ) {
             yyyymmddhhss_to_pretty,
             debounce: debounce,
             send_message: send_message,
-            get_human_readable_creation_date,
+            get_bullet_description: function( note ) {
+
+                let string = get_human_readable_creation_date( note.id )
+                    string += " from(" + note.source + ")"
+
+                return string
+            },
             recursively_search_for_dom,
             string_to_html,
             get_dom_query_from_string: function( string, query ) {
@@ -397,6 +405,7 @@ export default function get_plugin_api( name, ilse ) {
             get_target_directory_url,
             split_array_into_nth_chunks,
             extract_markdown_links_from_string,
+            clean_markdown_tags,
             extract_markdown_tags,
 
             get_first_tag_last_child( note ) {
@@ -410,6 +419,27 @@ export default function get_plugin_api( name, ilse ) {
             fuzzy_sort: fuzzy_sort,
             path: path,
             identity: function(arg) { return arg },
+
+            get_yesterday( day ) {
+                let DAY     = day;
+                let year    = DAY.substr( 0, 4 );
+                let month   = DAY.substr( 4, 2 );
+                let _day    = Number(DAY.substr( 6, 2 ) );
+
+                let copy    = _day;
+                    copy        -= 1;
+
+                if( copy === 0 ) {
+                    return year + --month + '31'
+                } else {
+                    if( copy < 10 ) {
+                        return year + month + '0' + --_day
+                    } else {
+                        return year + month + --_day
+                    }
+                }
+
+            },
 
             get_note_file_by_link( content = "", link_position = 0 ) {
 
