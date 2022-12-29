@@ -2,7 +2,6 @@ import printf                   from "@/functions/printf.js"
 
 // Classes
     import KeyboardShortcut             from "@/classes/KeyboardShortcut.js"
-    import Config                       from "@/classes/Config.js"
     import Utils                        from "@/classes/Utils.js"
     import Commands                     from "@/classes/Commands.js"
     import Tags                         from "@/classes/Tags.js"
@@ -17,10 +16,9 @@ import printf                   from "@/functions/printf.js"
     import Tabs                         from "@/classes/Tabs.js"
     import Clipboard                    from "@/classes/Clipboard.js"
     import PluginManager                from "@/classes/PluginManager.js"
-
-    // UI Elements
-        import Notification                 from "@/classes/Notification.js"
-        import Dialog                       from "@/classes/Dialog.js"
+    import Parse                        from "@/classes/Parse.js"
+    import Notification                 from "@/classes/Notification.js"
+    import Dialog                       from "@/classes/Dialog.js"
 
 // functions
     import i18n                         from "@/functions/i18n.js"
@@ -28,153 +26,63 @@ import printf                   from "@/functions/printf.js"
     import irequire                     from "@/functions/require.js"
     import string_to_html               from "@/functions/string_to_html.js"
     import html_to_string               from "@/functions/html_to_string.js"
+    import extract_markdown_tags        from "@/functions/extract_markdown_tags.js"
+    import note_to_config               from "@/functions/note_to_config.js"
+    import config_object_to_note        from "@/functions/config_object_to_note.js"
 
     // Node.js
         const path                       = require("path")
+        import Alpine                   from 'alpinejs'
 
 // Utilities
     import Messager                     from "@/classes/Messager.js"
 
 // Constants
-    import APP_TEMPLATE                 from "@/constants/APP_TEMPLATE.js"
-    import CONFIG_TEMPLATE              from "@/constants/CONFIG_TEMPLATE.js"
-    import CORE_PLUGINS                 from "@/constants/CORE_PLUGINS.js"
-    import DEFAULT_COMMANDS             from "@/constants/DEFAULT_COMMANDS.js"
-    import DEFAULT_THEME                from "@/constants/DEFAULT_THEME.js"
-    import DEMO_NOTES                   from "@/constants/DEMO_NOTES.js"
-    import PERMISSIONS                  from "@/constants/PERMISSIONS.js"
-    import REGULAR_EXPRESSIONS          from "@/constants/REGULAR_EXPRESSIONS.js"
-    import SUPPORTED_LANGUAGES          from "@/constants/SUPPORTED_LANGUAGES.js"
-    import SVG_TABLE                    from "@/constants/SVG_TABLE.js"
+    import CONSTANTS                    from "@/constants/index.js"
 
 
 // html
-    import component_not_found          from "@/html/component_not_found.html"
-    import template                     from "@/html/template.html"
-    import top_menu                     from "@/html/top_menu.html"
-    import help                         from "@/html/help.html"
-    import setup                        from "@/html/setup.html"
-    import search                       from "@/html/search.html"
-    import marketplace                  from "@/html/marketplace.html"
-    import configuration                from "@/html/configuration.html"
-    import command_pallet               from "@/html/command_pallet.html"
-    import references                   from "@/html/references.html"
-    import outline                      from "@/html/outline.html"
-    import daily_notes                  from "@/html/daily_notes.html"
-    import status_line                  from "@/html/status_line.html"
-    import new_tab                      from "@/html/new_tab.html"
-    import filesystem                   from "@/html/filesystem.html"
-    import file                         from "@/html/file.html"
-    import study                        from "@/html/study.html"
-    import web                          from "@/html/web.html"
-    import directory_manager            from "@/html/directory_manager.html"
-    import links                        from "@/html/link.html"
-    import pan                          from "@/html/pan.html"
+    import component_html          from "@/html/components.html"
 
 // Frame
-const JSFrame = require("@/assets/jsframe.min.js")
-    let Frame     = JSFrame.JSFrame
-
+const Frame = require("@/assets/jsframe.min.js").JSFrame
 
 // Entry point for our app, there is only one ilse in the entire app, this is the glue for everything else + components
 export default class Ilse {
 
     constructor() {
 
-        // consts
-        this.constants    = {
-            APP_TEMPLATE,               // <!DOCTYPE <html> </html> ...
-
-            CONFIG_TEMPLATE,            // { "favorites": [], "dark": false, "active_theme": "", "components": [], "keys": [ <key1>, <key2> ... ]
-
-            CORE_PLUGINS,               // [ "https://raw.githubusercontent.com/ilse-langnar/notebook/dev/marketplace/simple-draw.html" ... ]
-
-            DEFAULT_COMMANDS,           // [ <command1>, <command2> ... ]
-
-            DEFAULT_THEME,              // :root, .ilse[data-theme='light'] { --background-color: ... }
-
-            DEMO_NOTES,                 // [ { content: "# Hello, World", depth: 0, }, { content: "This is ilse Langnar's Notebook", depth: 0, }, ... ]
-
-            template,              // <!DOCTYPE <html> </html> ...
-
-            PERMISSIONS,                // [ "read", "write", "clipboard",  "communication" ]
-
-            REGULAR_EXPRESSIONS,        // { "embed": "/^\!\[\[([^|\]\n]+)(\|([^\]\n]+))?\]\]/", "link": "/\[\[([^|\]\n]+)(\|([^\]\n]+))?\]\]/", ... }
-
-            SUPPORTED_LANGUAGES,        // { "en": "English(English)", "zh": "Chinese Simplified(简体中文)", "pt": "Brazillian Portuguese(Português Brasileiro)", "hb": "Hebrew (עברית)" }
-
-            SVG_TABLE,                  // {"address-book.svg": "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNs ... "
-        }
-
-        this.components             = {
-            "top-menu":             top_menu,
-            "setup":                setup,
-            "help":                 help,
-            "search":               search,
-            "marketplace":          marketplace,
-            "configuration":        configuration,
-            "command-pallet":       command_pallet,
-            "references":           references,
-            "outline":              outline,
-            "daily-notes":          daily_notes,
-            "status-line":          status_line,
-            "new-tab":              new_tab,
-            "filesystem":           filesystem,
-            "file":                 file,
-            "study":                study,
-            "web":                  web,
-            "directory-manager":    directory_manager,
-            "links":                links,
-            "pan":                  pan,
-            "hello-world":          `<p> Hello, World </p>`,
-        }
-
+        this.constants              = CONSTANTS;
+        this.components             = this.get_components( component_html )
         this.stack                  = []
+<<<<<<< HEAD
+=======
+        this.tabs                   = new Tabs(this)
+>>>>>>> experimental-all-in-bullets
 
-        this.store                  = { ui: {}, status_line: {} }
 
         this.name                   = "Ilse Langnar's Notebook"
         this.key                    = "ilse-key"
         this.cursor                 = null
         this.keys                   = { daily_notes: "daily-notes-key", home: 0 }
-        this.languages              = Object.keys(SUPPORTED_LANGUAGES)
-
-        // booleans
-        this.is_zen                 = false
-        this.tried_too_fast         = false
-        this.is_vitruvian_expanded  = false
-        this.is_home_page_on        = false
-        this.is_search_on           = false
-        this.is_left_sidebar_open   = false
-        this.left_sidebar           = ""
-        this.is_right_sidebar_open  = false
+        this.languages              = Object.keys(CONSTANTS.SUPPORTED_LANGUAGES)
         this.has_loaded             = false
-        this.is_left_menu_on        = true
-        this.style                  = ""
-
-        // platform/env
         this.env                    = process.env
         this.platform               = process.env.VUE_APP_TARGET.toLowerCase()
-        if( this.platform === "quine" ) printf( "1 " )
 
         this.i18n                   = i18n
 
         // utils?
         this.path                   = path
-        if( this.platform === "quine" ) printf( "2 " )
 
         this.frame                  = new Frame()
-        if( this.platform === "quine" ) printf( "3 " )
 
         // BUGFIX: In my quine I need a time to wait for the DOM to load, otherwise I overwrite since it thinks it does not exists.
         this.before_setup()
-        if( this.platform === "quine" ) printf( "4 " )
 
         if( this.platform === "quine" ) {
-            if( this.platform === "quine" ) printf( "5 " )
             setTimeout( () => { this.setup() }, 100 )
         } else {
-            if( this.platform === "quine" ) printf( "6 " )
             this.setup();
         }
     }
@@ -201,21 +109,20 @@ export default class Ilse {
         if( this.platform === "quine" ) { // Autoselects "/"
 
             this.target_directories = [ "/" ]
-            // let quine_dir = window.location.pathname
-            // printf( "quine_dir -> ", quine_dir )
-
-            // let normalized_quine_dir = quine_dir.split("/").filter( e=>e )
-            // if( !normalized_quine_dir.length ) normalized_quine_dir.push("/")
-            // printf( "normalized_quine_dir -> ", normalized_quine_dir )
-                // normalized_quine_dir.pop()
-                // normalized_quine_dir = normalized_quine_dir.join("/")
-            // this.target_directories = [ normalized_quine_dir ] // quine
-            // printf( "after -> this.target_directories -> ", this.target_directories )
         }
 
     }
 
     listen() {
+
+        window.addEventListener('online', () => {
+            this.is_online = true
+        })
+
+        window.addEventListener('offline', () => {
+            this.is_online = false
+        })
+
 
         Messager.on( "~keyboard", key => {
             if( key === "esc" ) this.stack.map( (item, index) => { if( item.is_modal ) this.stack.splice( index, 1 ) })
@@ -228,18 +135,15 @@ export default class Ilse {
 
         this.last_save_attempt      = 0
 
-
         // Utils
             this.utils                  = new Utils()
             this.cache                  = new Cache(this)
+            this.parse                  = new Parse(this)
 
         // Filesystem
             this.filesystem             = new Filesystem( this, this.target_directories[0] )
             // this.require                = new IlseRequire(this).require
             this.require                = irequire
-
-        // Config
-            this.config                 = new Config()
 
         // Clipboard
             this.clipboard              = new Clipboard()
@@ -249,8 +153,8 @@ export default class Ilse {
             this.links                  = new Links()
 
         // UI Elements
-            this.notification           = new Notification()
-            this.dialog                 = new Dialog()
+            this.notification           = new Notification(this)
+            this.dialog                 = new Dialog(this)
 
         // Snippets / Themes
             this.themes                 = new Themes( this )
@@ -273,12 +177,25 @@ export default class Ilse {
         this.after_setup()
     }
 
+<<<<<<< HEAD
 
     render( name, props = {} ) {
+=======
+    render( name, props = {}, options = { stringify: true } ) {
+>>>>>>> experimental-all-in-bullets
 
         let api             = get_plugin_api( "global", this )
             props.ilse = api
         let id               = Math.random().toString()
+<<<<<<< HEAD
+=======
+            this.store( id, props )
+
+        if( options.stringify ) {
+            props                = JSON.stringify( props )
+            props                = props.replaceAll( "\"", "\'" )
+        }
+>>>>>>> experimental-all-in-bullets
 
         // Idea string to HTML and then I pass  a string as x-data?
         let html             = this.components[name]
@@ -324,6 +241,13 @@ export default class Ilse {
                 // }` )
 
 
+<<<<<<< HEAD
+=======
+        let dom              = HTML.querySelector('[x-data]')
+            if( dom ) dom.setAttribute( "x-data", `$store[${id}]` )
+            // if( dom ) dom.setAttribute( "x-data", props )
+            // if( dom ) dom.setAttribute( "x-init", "Messager.on('behavior', payload => {  })" )
+>>>>>>> experimental-all-in-bullets
 
         return html_to_string( HTML )
     }
@@ -337,13 +261,16 @@ export default class Ilse {
             id: id,
             html: `
             <div id="${id}" style="z-index: 2; position: fixed; left: ${options.left || "50%" }; top: ${options.top || "50%" }; transform: translate( -50%, -50% ); width: ${options.width || "50%" }; height: ${options.height || "50%" }; overflow: ${options.overflow || "hidden" }; color: var( --text-color ); background: var( --background-color ); padding: 5px; text-align: center; box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; " >
+<<<<<<< HEAD
                 <img class="is-pulled-right" style="width: 20px; cursor: pointer;" onclick="ilse.htmls.list.shift(); let id = this.parentNode.parentNode.id; ilse.Messager.emit('~dialog.vue', 'rejected', { id: id })" :src="ilse.require('x.svg');" />
+=======
+                <!-- <img class="is-pulled-right" style="width: 20px; cursor: pointer;" onclick="ilse.htmls.list.shift(); let id = this.parentNode.parentNode.id; window.ilse.Messager.emit('~dialog.vue', 'rejected', { id: id })" :src="window.ilse.require('x.svg');" /> -->
+>>>>>>> experimental-all-in-bullets
                 ${content}
             </div>
             `
         }
 
-        printf( "this.stack -> ", this.stack )
         this.stack.push( item )
 
         return new Promise((resolve, reject) => {
@@ -382,12 +309,13 @@ export default class Ilse {
 
     }
 
-    after_setup() {
+    // Question: can I have $store.listeners['store'].on(  ) or somthing?
+    store( key, value, reactive ) {
 
-        //
-        this.mode                   = this.config.modes || "default"
-        this.input                  = this.config.input || "latin"
+        let len       = arguments.length
+        let is_getter = len === 1
 
+<<<<<<< HEAD
         this.is_zen                 = this.config.is_zen
         // ilse                     = get_global_api(this) // Set global API
         // setTimeout( () => { printf( "before -> ilse -> ", ilse ) printf( "after -> ilse -> ", ilse ) }, 2000 )
@@ -396,6 +324,207 @@ export default class Ilse {
         printf( ">>>>> Ilse.js -> get_plugin_api -> ", get_plugin_api )
         // ilse                     = get_plugin_api( "global", this )
         // printf( "Ilse.js ----> 2 -> ilse -> ", ilse )
+=======
+        if( is_getter ) {
+            let payload = Alpine.store( key )
+            return payload
+
+        } else {
+
+
+            if( reactive ) {
+
+                return Alpine.store( key, {
+                    value: value,
+                    init() {
+                        Alpine.effect( () => {
+                            let v = this.value
+                            printf( "Ilse.js -> Something changed ilse.store() -> v -> ", v )
+                        })
+
+                    }
+                })
+
+            } else {
+                return Alpine.store( key, value)
+            }
+
+        }
+
+    }
+
+    extend_alpine() {
+
+        Alpine.directive('note-id', (el, { expression, modifiers }, { evaluate, evaluateLater, effect  }) => {
+            let value = evaluate( expression )
+            el.setAttribute( "note-id", value )
+        })
+
+        Alpine.directive('watch', (el, { expression, modifiers }, { evaluate, evaluateLater, effect  }) => {
+
+            // let mod           = modifiers[0]
+            let parent = ilse.utils.recursively_search_for_dom( el, "x-data" )
+
+            let getThingToLog = evaluateLater(expression)
+            evaluate(`${expression} = 'random-string haha'`, {
+                scope: { _dom:  parent }
+            })
+
+            effect((msg) => {
+                getThingToLog( obj => {
+                    // $watch( '$store.user', payload => {
+                        // user = payload.value
+                    // })
+                })
+            })
+
+        })
+
+        // Alpine.directive('watch', (el, { value, modifiers, expression }, { Alpine, effect, cleanup } ) => {
+            // let getThingToLog = effect(expression)
+            // effect(() => {
+                // effect( () => {
+                // })
+            // })
+            // printf( "@effect -> ", effect )
+            // printf( "@cleanup -> ", cleanup )
+            // printf( "@Alpine.$watch -> ", Alpine.$watch )
+            // printf( "@Alpine.watch -> ", Alpine.watch )
+            // printf( "@modifiers -> ", modifiers )
+
+            /*
+            Alpine.effect( () => {
+                if( expression ) {
+                    let o = Alpine.store(`${expression}`)
+                    printf( "@ o -> ", o )
+                    printf( "@ Ilse.js -> extend_alpine -> " )
+                    printf( "@el -> ", el )
+                    el.key = Math.random()
+                    el.innerText = "<div> <p> Example </p> <div>"
+                }
+
+            })
+            */
+
+            // el.textContent = Math.random()
+        // })
+
+    }
+
+    get_components( string ) {
+
+        let DOM            = string_to_html( string )
+        let html_string
+        let list       = CONSTANTS.COMPONENTS
+        let components = {}
+
+        list.map( name    => {
+            html_string = DOM.getElementById(name).innerHTML
+            if( html_string ) components[name] = html_string
+        })
+
+        return components
+    }
+
+    async load_custom_components() {
+
+        printf( "process.env -> ", process.env )
+        printf( "process.env.VUE_APP_TESTING -> ", process.env.VUE_APP_TESTING )
+
+        if( process.env.VUE_APP_TESTING ) return // Don't do anything when testing
+
+        let has_components  = await  this.filesystem.file.exists.async( "components.html" )
+
+        if( has_components ) {
+            let text        = await  this.filesystem.file.read.async( "components.html" )
+            this.components = this.get_components( text )
+        } else {
+            await  this.filesystem.file.write.async( "components.html", component_html )
+            this.load_custom_components()
+        }
+
+    }
+
+    init_alpine_store() {
+        this.store( "links", [] )
+        this.store( "user", {} )
+    }
+
+    init_config() {
+
+        let _this = this
+
+        let note    = ilse.notes.query( "#config" )[0] ?  ilse.notes.query( "#config" )[0].content : `20201211181905-v62p5f86: #config "{ \\"modes\\": [] }" `
+        let config  = note_to_config( note )
+        let modes   = config.modes
+
+        if( modes ) {
+
+            modes.map( mode => {
+                this.mode( mode )
+            })
+
+        }
+
+        this.config = { // This object is synched with my shit.
+
+            save() {
+
+                let result             = _this.notes.query( "#config " )[0]
+                let has_config_already = !!result
+
+                if( has_config_already ) {
+                    result.content = config_object_to_note( config ) + "#hidden"
+                } else {
+                    _this.notes.add(
+                        config_object_to_note( config ) + "#hidden"
+                    )
+                }
+
+                ilse.notes.save()
+
+            },
+
+            modes: config["modes"],
+        }
+
+    }
+
+    init_global_api() {
+        window.ilse                     = get_plugin_api( "global", this )
+    }
+
+    // Setup things that needs "ilse.notes" to be readyu
+    after_setup() {
+        this.init_global_api()
+        this.init_alpine_store()
+        this.extend_alpine()
+        this.load_custom_components()
+        this.init_config()
+    }
+
+    mode( string ) {
+
+        let index       = ilse.config.modes.indexOf( string )
+        let has_already = index !== -1
+
+        let chunks      = string.split("|")
+        let name        = chunks[0]
+        let svg         = chunks[1]
+        let fn          = chunks[2]
+
+        let command     = this.commands.get(fn)
+
+        if( has_already ) {
+            command.undo()
+            ilse.config.modes.splice( index, 1 )
+            this.store( "config", ilse.config, true )
+        } else {
+            command.fn()
+            ilse.config.modes.push( string )
+            this.store( "config", ilse.config, true )
+        }
+>>>>>>> experimental-all-in-bullets
 
     }
 
@@ -403,17 +532,18 @@ export default class Ilse {
         printf( "Ilse.js LOADED" )
         this.has_loaded             = true
         Messager.emit( "~ilse", "loaded" )
+<<<<<<< HEAD
         // ilse.Messager.emit( "~ilse", "loaded", this )
         // setTimeout( () => { this.keys.home              = Math.random() }, 1000 )
+=======
+>>>>>>> experimental-all-in-bullets
     }
 
     async save() {
-        let is_attempting_too_fast  = this.last_attempt >= ( Date.now() - 4000 )
-            if( is_attempting_too_fast ) return
 
+        if( this.last_attempt >= ( Date.now() - 4000 ) ) return // Return if too fast
         this.last_attempt           =  Date.now()
-
-         this.config.save()
+         // this.config.save()
     }
 
     reload() {

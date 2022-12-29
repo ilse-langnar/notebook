@@ -1,6 +1,5 @@
 import printf                   from "@/functions/printf.js"
 
-
 // Ilse
     import ilse                         from "@/ilse.js"
 
@@ -43,6 +42,26 @@ class KeyboardShortcut  {
         this.set_default_keys()
         this.bind_keys()
         this.bind_ctrl_space_to_stop_textbox()
+        this.listen()
+    }
+
+    listen() {
+
+        Messager.on( "~ilse", payload => {
+
+            if( payload === "loaded" ) { // I'll load the new keybindings here:
+
+                let keys = ilse.notes.query( "#i/key" )
+                map( keys, key => {
+                    let shortcut = key.content.split("/")[2].replace("C", "ctrl+space").replaceAll( "-" ," ")
+                    let command  = key.content.split("/")[3].replaceAll( " ", "" )
+                    this.add( shortcut, command, ["Internal"] )
+                })
+
+            }
+
+        })
+
     }
 
     bind_electron_ctrl_f() {
@@ -216,10 +235,6 @@ class KeyboardShortcut  {
         })
 
         return to_return
-        // let l
-        // keys.map( item => {
-            // if( item.combo.replace( "ctrl", "Control" ) === combo )
-        // })
     }
 
     //  [ { combo: "ctrl+space b t a", command: "ll" } ] = [ "ctrlspacev", "ctrlspacevae" ]
@@ -340,33 +355,9 @@ class KeyboardShortcut  {
 
         })
 
-        /*
-        // Uppercase -> shift+<key>
-        let index
-        for( let _key of static_list ) {
-            printf( "static_list -> ", static_list )
-            index++
-
-            let is_latin = this.is_letter(_key)
-            // printf( "is_latin -> ", is_latin )
-            // printf( "_key.indexOf('shift') -> ", _key.indexOf('shift') )
-            // let should_go = is_latin && _key.indexOf("shift") !== -1
-            let should_go = _key.indexOf("shift") !== -1
-            printf( "should_go -> ", should_go )
-            // if( is_latin && _key.toUpperCase() === _key ) {
-            if( should_go ) {
-                printf( "before -> list -> ", list )
-                list.splice( index, 1, "shift+" + _key.toLowerCase() )
-                printf( "after -> list -> ", list )
-            }
-        }
-        */
-
         let normalized_list = list.join(" ")
-        // printf( "normalized_list -> ", normalized_list )
 
         return normalized_list
-
     }
 
     unbind_key( key ) {

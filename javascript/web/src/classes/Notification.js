@@ -7,14 +7,16 @@ import printf                   from "@/functions/printf.js"
     import Messager                     from "@/classes/Messager.js"
 
 // Constants
-    import notification                 from "@/html/notification.html"
+    // import notification                 from "@/html/notification.html"
+let notification
 
 
 class Notification {
 
-    constructor() {
+    constructor( ilse ) {
         this.items = []
         // this.send({ title: "Title", text: "Description" })
+        notification = ilse.components['notification']
     }
 
         // this.items.push( item )

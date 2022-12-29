@@ -18,7 +18,7 @@ export default function get_unique_date_id() {
         if( month === 8 ) month = "09"
         if( month === 9 ) month = "10"
         if( month === 10 ) month = "11"
-        if( month === 11 ) monthgT = "12"
+        if( month === 11 ) month = "12"
 
     let day     = today.getDate()
         if( day === 1 ) day = "01" // BUGFIX: only "1" will give a bug on the id, 01 is not allowed in strict mode,

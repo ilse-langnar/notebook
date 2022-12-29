@@ -1,0 +1,1630 @@
+<div>
+    <div id="command-pallet.html" >
+        <div data-component-id="command-pallet" id="command-pallet" x-transition x-data="{ search: '', list: }" style="height: 100%; overflow: auto;" >
+
+            <div class="flex" >
+                <img :src="window.ilse.require('command.svg')"       style="width: 23px; margin-bottom: 6px;" />
+                <input id="command-pallet-id" class="input" placeholder="Search ... " x-model="search" autofocus @keydown.enter.prevent="ilse.commands.run(window.ilse.commands.list.filter( e=> e.id.indexOf(search) !== -1 )[0].id); ilse.stacks.shift()" x-init="document.getElementById('command-pallet-id') ?  document.getElementById('command-pallet-id').focus() : null" > 
+
+                <img :src="window.ilse.require('question-mark.svg')" style="width: 23px; margin-bottom: 6px;" />
+            </div>
+
+            <div class="flex">
+
+                <div class="mitem">
+                    <p class="is-size-6" x-text="window.ilse.commands.list.filter( e=> e.id.indexOf(search) !== -1 ).length + '/' + window.ilse.commands.list.length" > </p>
+                </div>
+
+                <div class="mitem">
+                    <span style="color: var( --text-color );" > Run </span>
+                    <img :src="window.ilse.require('arrow-back.svg')" style="width: 17px; " />
+                </div>
+
+                <div class="mitem" style="" >
+                    <span style="color: var( --text-color );  " > Quit </span>
+                    <strong style="color: var( --text-color );" > ESC </strong>
+                </div>
+
+            </div>
+
+            <template x-for="( command, index ) in window.ilse.commands.list.filter( e=> e.name.toLowerCase().indexOf(search.toLowerCase()) !== -1 )" >
+                <div class="flex" @click="window.ilse.commands.run(command.id); ilse.stacks.shift(); " >
+
+                    <div class="item" >
+
+                        <div class="is-pulled-left" >
+                            <img class="inline" :src="window.ilse.require(command.icon)" style="width: 17px; position: relative; top: 5px;  margin-right: 5px; " >
+                            <span class="py-1" x-text="command.name" > </span>
+                            <!-- <span class="is-size-7" x-text=" ' &nbsp; &nbsp; &nbsp;' command.description" > </span> -->
+                        </div>
+
+                        <div class="shortcut is-pulled-right" >
+                            <span class="is-size-7" x-text="window.ilse.keys.get_command_key(command.id)" > </span>
+                        </div>
+
+                    </div>
+                </div>
+            </template>
+        </div>
+        <style>
+        .flex .mitem {
+            margin: 0 auto;
+            font-size: 10px;
+        }
+
+        input.input {
+            background: var( --background-color );
+            color: var( --text-color );
+            width: 100%;
+            border: 0 !important;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+        }
+
+        .flex .item {
+            width: 100%;
+            margin-bottom: 5px;
+            border-radius: var( --border-radius );
+            padding: 3px;
+            cursor: pointer;
+            height: 35px;
+        }
+
+        .flex .item:hover {
+            background: var( --text-color );
+            color: var( --background-color );
+            border-radius: var( --border-radius );
+        }
+
+        </style>
+    </div>
+
+    <div id="component-not-found.html" >
+        <div id="not-found" data-component-id="component-not-found" >
+            <p> Component Not Found</p>
+            img( src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" onload="document.querySelector('#not-found p').innerText = ilse.i18n.t('component_not_found')" )
+        </div>
+    </div>
+
+    <div id="configuration.html" >
+        <div x-transition x-data="{ ilse: window.ilse }" data-component-id="configuration" >
+
+            <h1> Configuration </h1>
+
+            <div class="flex" >
+                <h2 class="flexi" style="display: inline; " x-text="window.ilse.info.platform" > </h2>
+                <h2 class="flexi" style="display: inline;"  x-text="'v' + window.ilse.info.version" > </h2>
+
+                <select class="flexi" x-model="window.ilse.lang" >
+                    <template x-for=" lang in window.ilse.languages" >
+                        <option x-text="lang" @change="console.log('select -> ', $event)" > </option>
+                    </template>
+                </select>
+
+            </div>
+
+            <br style="height: 50px; clear: both;"/>
+
+            <h2> Plugins </h2>
+            <div style="width: 95%; margin: 0 auto;" >
+                <template x-for=" plugin in window.ilse.plugins" >
+                    <div style=" float: left; width: 30%; overflow: hidden; " >
+                        <p x-text="plugin.name"> </p>
+                        <details>
+                            <summary> Permissions </summary>
+                            <span style="color: #ED7586;" > Clipboard </spa>
+                            <span style="color: #ED7586;" > Filesystem Read </spa>
+                            <span style="color: #ED7586;" > Filesystem Write </spa>
+                            <span style="color: #ED7586;" > Notes </spa>
+                            <span style="color: #ED7586;" > Communication </spa>
+                        </details>
+                        <br/>
+                    </div>
+                </template>
+            </div>
+
+            <br style="height: 50px; clear: both;"/>
+
+            <ul id="keyboard-shortcut" x-data="{ colors: window.ilse.keys /*[ { color: 'Red', nume: 1 }, { color: 'Orange', number: 2 }, { color: 'Yellow', number: 3 }]*/ }">
+                <template x-for="(color, index) in colors">
+
+                    <li style="display: flex; float: left; margin: 3px; " >
+                        <input style="flex: 1; flex-basis: 40%; " x-model="color.combo" />
+                        <input style="flex: 1; flex-basis: 40%; " x-model="color.command" />
+                        <img   style="" style="width: 10px; cursor: pointer;" :src="window.ilse.require('x.svg')" />
+                    </li>
+
+                </template>
+            </ul>
+
+            <br style="clear: both;"/>
+            <button class="slick-button" > Add </button>
+        </div>
+        <style>
+
+        #configuration #keyboard-shortcut .loop {
+            background: var( --background-color );
+            color: var( --text-color );
+        }
+
+        #configuration #keyboard-shortcut {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        #configuration #keyboard-shortcut input {
+            background: var( --background-color );
+            color: var( --text-color );
+            border: 0 !important;
+        }
+        </style>
+
+
+    </div>
+
+    <div id="daily-notes.html" >
+        <div data-component-id="daily-notes" id="daily-notes" x-transition x-data="{ days: [], is_leftsidebar_open: true, is_rightsidebar: false, mode: 'linear', }" x-init="days.push( ilse.utils.get_unique_date_id().slice(0, 8) )" class="flex" >
+
+            <!-- Left Sidebar -->
+            <div x-show="is_leftsidebar_open" class="left-sidebar" :style=" is_leftsidebar_open ? 'flex-basis: 20%;' : 'flex-basis: 3%;' " >
+
+                <div style="" >
+
+                    <br/>
+                    <br/>
+
+                    <h3 align="center" style="cursor: pointer; background: var( --text-color ); color: var( --background-color );" class="" > Daily Notes </h3>
+                    <h3 align="center" style="cursor: pointer;" @click="ilse.commands.run('open-study-tab')" > Study </h3>
+                    <h3 align="center" style="cursor: pointer;" @click="ilse.commands.run('open-todos-modal')" > Todos </h3>
+                    <h3 align="center" style="cursor: pointer;" class="" > Calendar </h3>
+                    <h3 align="center" style="cursor: pointer;" @click="window.ilse.tabs.add_with_component('pan', { title: 'Pan', autoselect: true }) /*ilse.commands.run('open-pan')*/ " > Exploration </h3>
+                    <hr>
+
+                    <template x-for="( note, index ) in favorites" :key=" 'note' + index" x-data="{ favorites:window.ilse.query( '#public' ) }" >
+                        <p class="favorite" style="margin: 5px 5px; background: var( --text-color ); color: var( --background-color ); padding: 5px; border-radius: var( --border-radius );" x-html="ilse.markdown.render(note.content.replace('#public', '') )" > </p>
+                    </template>
+
+                </div>
+
+            </div>
+            <!-- Left Sidebar -->
+
+            <div id="notes" style="overflow-y: auto !important; overflow-x: hidden !important; margin-left: 5px; height: 90vh; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; margin-right: 10px; flex: 1; flex-basis: 100%; border-radius: var( --border-radius ); background: var( --background-color ); "  >
+
+                <div style="padding: 5px;" >
+                    <img :src=" is_leftsidebar_open ? window.ilse.require('arrow-narrow-left.svg') : window.ilse.require('arrow-narrow-right.svg')" style="width: 20px; cursor: pointer;" @click="is_leftsidebar_open = !is_leftsidebar_open; " />
+                </div>
+
+                <template x-for="( day, index ) in days" :key="index" x-init="if( !days.length ) { days.push( ilse.utils.get_unique_date_id().slice(0, 8) ) }" >
+
+                    <div x-data="{ list: window.ilse.query_regexp( new RegExp( '^' + day, 'ig') ) || [] }" x-init="window.ilse.Messager.on('~ilse', (action) => { if( action === 'loaded' ) { list = window.ilse.query_regexp( '^' + day, 'ig' ) } })" style="padding: 40px;" >
+
+                        <h1 style="center !important; color: var( --text-color );" x-text="window.ilse.utils.yyyymmddhhss_to_pretty(day)" > </h1>
+                        <br>
+
+                        <template x-for="(note, index) in list" x-init="ilse.Messager.on('~notes', (action,payload) => { if(action === 'added'){list.push( ilse.notes.list[payload.target] ) }  })" >
+
+                            <div> <!-- Root -->
+                                <div x-show="note.content.indexOf('#hidden') === -1" x-data="{ depth: ilse.notes.list[note.id].depth, content: ilse.notes.list[note.id].content }" x-note-id="note.id" :id="note.id" :style=" 'margin-left:' + (depth * 20) + 'px;' " > 
+
+                                    <!-- Bullet -->
+                                    <div class="bullet" @click.shift="console.log(note)" :title="ilse.utils.get_bullet_description(note)" x-text="note.is_editing ? '&ast;' : note.source.indexOf(':cloud') !== -1 ? '&tilde;' : '&bull;' " > </div>
+
+                                    <!-- Editing -->
+                                    <div x-show="note.is_editing" x-note-id="note.id" :id=" note.id + '-edit' " :key="ilse.notes.list[note.id].content" class="no-outline edit" contentEditable
+                                         x-text="content" 
+                                         @blur="note.is_editing = false; ilse.notes.list[note.id].content = $event.target.innerText; content = ilse.notes.list[note.id].content; ilse.notes.save();"
+
+                                         @keydown.enter.prevent="let new_note = ilse.add_after( '', ilse.notes.list[note.id].depth, note.id );
+                                         setTimeout( () =>{
+                                             note.is_editing = false;
+                                             let dom = document.getElementById(new_note) ;
+                                             dom.focus()
+                                         }, 1000 ) " 
+
+                                         @keydown.esc.prevent="document.activeElement.blur(); note.is_editing = false;"
+
+                                         @keydown.tab.prevent="let shift = $event.shiftKey
+                                            if( shift ) {
+                                                ilse.notes.list[note.id].depth--
+                                                depth--
+                                            } else {
+                                                depth++
+                                                ilse.notes.list[note.id].depth++
+                                            }
+                                         " 
+
+                                         @keydown.ctrl.up="let copy = index; let previous_index = --copy;
+                                         if( list[previous_index] ) {
+                                             let dom  = document.getElementById( list[previous_index].id );
+                                             if( dom ) {
+                                                 list[previous_index].is_editing = true
+                                                 document.activeElement.blur()
+                                                 setTimeout( () => { let dom  = document.getElementById( list[previous_index].id + '-edit' ); if( dom ) dom.focus(); }, 1 )
+                                             }
+                                         }"
+
+                                         @keydown.ctrl.down="let copy = index; let next_index = ++copy;
+                                         if( list[next_index] ) {
+                                             let dom  = document.getElementById( list[next_index].id );
+                                             if( dom ) {
+                                                 list[next_index].is_editing = true
+                                                 document.activeElement.blur()
+                                                 setTimeout( () => { let dom  = document.getElementById( list[next_index].id + '-edit' ); if( dom ) dom.focus(); }, 1 )
+                                             }
+                                         }"
+
+                                         > </div>
+                                        <!-- Editing -->
+
+                                    <!-- Displaying -->
+                                    <div x-show="!note.is_editing" class="render" :key="ilse.notes.list[note.id].content" x-note-id="note.id" :id=" note.id + 'render'" :data-note-id="note.id" :title="content" x-html="ilse.markdown.render(content)"
+                                                                                                                                                                                                                     @link-click="console.log('$event.detail.id -> ', $event.detail.id); console.log('note.id -> ', note.id); console.log('$event.detail.id === note.id', $event.detail.id === note.id); console.log(' $store.links.indexOf($event.detail.link) === -1 -> ', $store.links.indexOf($event.detail.link) === -1); if( $event.detail.id === note.id && $store.links.indexOf($event.detail.link) === -1 ) { let links = ilse.store('links'); console.log('@@@>> links -> ', links); links.push($event.detail.link); ilse.store('links', links); }"
+
+                                         @click="if( $event.target.type === 'checkbox' ) {
+                                            ilse.notes.list[note.id].content.replace( '- [ ]', '- [x]' )
+                                            note.is_editing = false;
+                                         } else {
+                                            if( !$event.shiftKey ) {
+                                                note.is_editing = true;
+                                                setTimeout( () => {let dom = document.getElementById( note.id + '-edit' ); dom.focus() }, 10 )
+                                            }
+                                         } " > </div>
+                                        <!-- Displaying -->
+
+
+                                </div>
+
+                                <!-- Last Bullet -->
+                                <div class="ghost-bullet" x-show="index === list.length - 1" style="margin-left: 0px !important;" > 
+                                    <div class="bullet" style="flex: 1; flex-shrink: 2; " > &bull; </div> 
+                                    <div class="camp"   style="flex: 1; padding-left: 15px; min-width: 100px; " contentEditable @blur="let new_note = null; let text = $event.target.innerText; if( text ) { new_note = ilse.add_note( text ); ilse.save() };  $event.target.innerText = ''; " @keydown.enter.prevent="document.activeElement.blur(); ilse.notes.focus( list[list.length -1].id )" > </div>
+                                </div>
+
+                            </div> <!-- Root -->
+
+                        </template>
+
+                        <!-- First note of the day -->
+                        <div class="ghost-bullet" x-data="{ list: ilse.query( ilse.utils.get_unique_date_id().slice(0, 8) ) }" x-show="!list.length" style="margin-left: 0px; min-height: 30px; height: fit-content; color: var( --text-color ); " >
+                            <div class="bullet" style="flex: 1; flex-shrink: 2; " > &bull; </div> 
+                            <div class="camp"   style="flex: 1; padding-left: 15px; min-width: 100px; " contentEditable @blur="let new_note = null; let text = $event.target.innerText; console.log('text -> ', text ); if( text ) { new_note = ilse.add_note( text ); ilse.save() };  $event.target.innerText = ''; " @keydown.enter.prevent="document.activeElement.blur();" @keydown.esc.prevent="$event.target.innerText = ''; document.activeElement.blur()" > </div>
+                            <br>
+                        </div>
+
+                        <button x-show="index === days.length - 1" class="load-more" style="padding: 7px; border-radius: var( --border-radius ); margin: 0 auto; text-align: center; margin-top: 10px; " @click="days.push( ilse.utils.get_yesterday(day) )" x-text="'Load More(' + ilse.query( ilse.utils.get_yesterday( day ) ).length + ')' " >  Load More </button>
+                        <br>
+
+                    </div>
+
+                </template>
+                <br/>
+            </div>
+        </div>
+        <style>
+
+        #daily-notes {
+            height: 91vh;
+            height: 99vh;
+        }
+
+            #daily-notes .note {
+                border-left: 1px solid #000;
+            }
+
+            #daily-notes .left-sidebar {
+                height: 90vh;
+                width: 20px !important;
+                margin: 0px 5px;
+                overflow: hidden;
+                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                border-radius: var( --border-radius );
+                background: var( --background-color ); 
+                border: 0 !important;
+            }
+
+                #daily-notes .left-sidebar .favorite {
+                    cursor: pointer;
+                }
+
+            #daily-notes .right-sidebar {
+                height: 90vh;
+                width: 20px !important;
+                margin: 0px 4px;
+                overflow-y: auto;
+                overflow-x: hidden;
+                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                border-radius: var( --border-radius );
+                background: var( --background-color ); 
+                border: 0 !important;
+                padding: 10px;
+            }
+
+            #daily-notes .bullet {
+                margin-top:   -5px;
+                text-align:   center;
+                cursor:       pointer;
+                color:        #a3a3a3;
+                color:        var( --text-color );
+                font-size: 1.5em;
+                cursor:       pointer;
+                margin-right: 7px;
+                width: 10px;
+                height: 10px;
+
+
+                flex: 1;
+                display: block;
+                float: left;
+                margin-right: 6px;
+            }
+
+            #daily-notes .edit {
+                flex: 1; 
+                min-width: 100px;
+                min-height: 30px;
+                padding-left: 15px;
+            }
+
+                #daily-notes .edit:focus {
+                    outline: none;
+                    content: "LLLLLLL";
+                }
+
+        #daily-notes .render {
+            flex: 1;
+            /*min-width: 100px;*/
+            width: fit-content;
+            border: 1px solid transparent;;
+            min-height: 30px;
+            padding-left: 15px;
+        }
+
+        #daily-notes .load-more {
+            display: block;
+            color: var( --text-color );
+            background: var( --background-color );
+        }
+
+        #daily-notes .ghost-bullet {
+            clear: both;
+            min-height: 30px;
+            height: fit-content;
+        }
+
+               #daily-notes .ghost-bullet .camp {
+                    flex: 1;
+                    height: 32px;
+                }
+
+                    #daily-notes .ghost-bullet .camp:focus {
+                        outline: none !important;
+                        border-bottom: 1px solid var( --text-color );
+                    }
+
+                #daily-notes .ghost-bullet .bullet {
+                    flex: 1;
+                    display: block;
+                    float: left;
+                    margin-right: 6px;
+                }
+
+        #daily-notes .page-tab {
+            cursor: pointer;
+        }
+        </style>
+
+    </div>
+
+    <div id="dialog-confirm.html" >
+        <div id="dialog-confirm" x-transition style="z-index: 2; position: fixed; left: 50%; top: 50%; transform: translate( -50%, -50% ); width: 60%; height: 50%; overflow: auto; color: var( --text-color ); background: var( --background-color ); padding: 5px; text-align: center; box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;" data-component-id="dialog-confirm" >
+
+            <img class="is-pulled-right" style="width: 20px; cursor: pointer;" onclick="ilse.stack.shift(); let id = this.parentNode.parentNode.id; window.ilse.Messager.emit('~dialog.vue', 'rejected', { id: id })" :src="window.ilse.require('x.svg');" />
+
+            <h1> $title </h1>
+            <h3> $description </h3>
+
+            <div style="width: 80%; margin: 0 auto; ">
+                <button class="slick-button is-pulled-left" @click="let id = this.parentNode.parentNode.parentNode.id; window.ilse.Messager.emit('~dialog.vue', 'done', { id: id })" > Confirm </button>
+                <button class="slick-button is-pulled-right" @click="let id = this.parentNode.parentNode.parentNode.id; window.ilse.Messager.emit('~dialog.vue', 'rejected', { id: id })"> Cancel </button>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="dialog-info.html" >
+        <div x-transition style="z-index: 2; position: fixed; left: 50%; top: 50%; transform: translate( -50%, -50% ); width: 60%; height: 50%; overflow: auto; color: var( --text-color ); background: var( --background-color ); padding: 5px; text-align: center; box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;" data-component-id="dialog-info" >
+            <img class="is-pulled-right" style="width: 20px; cursor: pointer;" onclick="ilse.stack.shift(); let id = this.parentNode.parentNode.id; window.ilse.Messager.emit('~dialog.vue', 'rejected', { id: id })" :src="window.ilse.require('x.svg');" />
+            <h1> $title </h1>
+            <h3> $description </h3>
+        </div>
+    </div>
+
+    <div id="dialog-input.html" >
+        <div id="input-dialog" style="z-index: 2; position: fixed; left: 50%; top: 50%; transform: translate( -50%, -50% ); width: 50%; overflow: auto; color: var( --text-color ); background: var( --background-color ); padding: 5px; text-align: center; box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; " x-transition x-data="{ content: '' }" data-component-id="dialog-input" x-data="{ clipboard: '' }" >
+
+            <img class="is-pulled-right" style="width: 20px; cursor: pointer;" @click="ilse.stacks.shift(); let id = this.parentNode.parentNode.id; window.ilse.Messager.emit('~dialog.vue', 'rejected', { id: id })" :src="window.ilse.require('x.svg');" />
+            <h3 style="padding: 5px;" class="is-pulled-left" > $title </h3>
+
+            <img class="is-pulled-left" style="display: none; width: 20px; cursor: pointer; margin-top: 10px; margin-left: 10px;" x-init="data = (await navigator.clipboard.readText()); console.log('data -> ', data); if( data.indexOf(':') !== -1 ) { console.log('$el.style -> ', $el.style); $el.style.display = 'inline' }" :src="window.ilse.require('download.svg');" />
+
+            <hr style="clear: both;" >
+            <textarea id="input-dialog-textarea" x-model="content" x-init="document.getElementById('input-dialog-textarea') ? document.getElementById('input-dialog-textarea').focus() : null; content = ''; setTimeout( () => { content = '' }, 1 ) " autofocus @keydown.enter.prevent="if( content ) { let id = $event.target.parentNode.parentNode.id; console.log('content'); window.ilse.Messager.emit('~dialog.vue', 'done', { id: id, input: content }) }" class="textarea" style="width: 100%; box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px; height: 40vh; border-radius: var( --border-radius ); resize: none; color: var( --text-color ); background: var( --background-color ); " @keydown.esc.prevent="ilse.stacks.shift();" > </textarea>
+
+            <br/>
+
+        </div>
+        <style>
+
+        #input-dialog textarea:active {
+            border: 0! important;
+        }
+
+        </style>
+    </div>
+
+    <div id="directory-manager.html" >
+        <div id="directory-manager" data-component-id="directory-manager" x-transition x-data="{ list: window.ilse.info.target_directories, url: '' }" >
+
+            <h1 align="center" > Directory Manager </h1>
+
+            <input class="input" style="display: block; width: 70%; margin: 0 auto;" placeholder="/home/user/Downloads or C:\\User\Data" x-model="url" @keydown.enter="list.push(url); url = '';" />
+
+
+            <div style="width: 70%; margin: 0 auto;" >
+                <template x-for="(item, index) in list" :key="index" >
+                    <div class="directory slick-button" >
+                        <p class="text" x-text="item" @click="let dir = list.splice(index,1)[0]; list.unshift(dir); window.localStorage.setItem('target-directories', JSON.stringify(list) )" > </p>
+                        <img class="remove" :src="window.ilse.require('x.svg')" @click="list.splice( index, 1 ); window.localStorage.setItem('target-directories', JSON.stringify(list) )" />
+                    </div>
+                </template>
+            </div>
+
+        </div>
+        <style>
+
+        #directory-manager .directory {
+            width: fit-content;
+            margin-left: 10px;
+            padding: 5px;
+            height: 30px;
+            border: 1px solid var( --text-color );
+            border-radius: var( --border-radius );
+            margin-bottom: 10px;
+            float: left;
+        }
+
+        #directory-manager .text {
+            float: left;
+        }
+
+        #directory-manager .remove {
+            width: 20px;
+            float: right;
+            cursor: pointer; 
+        }
+
+        </style>
+    </div>
+
+    <div id="file.html" >
+        <div data-component-id="file" x-transition x-data="{ file: '' }" >
+
+            <template x-if="file.indexOf('png') !== -1 || file.indexOf('jpg') !== -1 || file.indexOf('gif') !== -1 || file.indexOf('jpeg') !== -1" >
+                <img :src="file" style="width: 100%; height: 100%;" />
+            </template>
+        </div>
+    </div>
+
+    <div id="filesystem.html" >
+        <div data-component-id="filesystem" id="filesystem" data-component-id="filesystem" x-data="{ list: [], hover: '', x: -1, y: -1, chunk_length: 100, pointer: 0 }" x-init="if( ilse.target_directories[0] ) {let files = window.ilse.fs.readdirSync( ilse.utils.path.join('/') ); let chunks = ilse.utils.split_array_into_nth_chunks(files, chunk_length); list = chunks }" x-transition >
+
+            <input placeholder="Search for files" style="width: 100%;" />
+            <div style="width: 100%; border: 1px solid #000;" >
+
+                <img style="width: 30px; float: left; cursor: pointer; " :src="ilse.require('arrow-narrow-left.svg')" @click="let copy = Number(pointer); if( list[--copy] ) { pointer-- }" />
+            
+                <template x-for="( item, index ) in list[pointer]" :key="'l' + index" style="" >
+                    <div>
+                        <button class="slick-button" :style=" pointer === index ? 'background: red;' : '' " @click="pointer = index" x-text="index" > </button>
+                    </div>
+                </template>
+                <img style="width: 30px; float: left; cursor: pointer;" :src="ilse.require('arrow-narrow-right.svg')" @click="let copy = Number(pointer); if( list[++copy] ) { pointer++ }" />
+
+            </div>
+
+            <br style="clear: both;" >
+
+            <div>
+                <template x-for="(file, index) in list[pointer]" >
+                    <div style="width: 100px; height: 100px; float: left; overflow: hidden; border: 1px solid #000; " @mouseover="if( $event.shiftKey ) { x = $event.clientX; y = $event.clientY; hover = file }" >
+                        <img x-show="file.indexOf('png') !== -1 || file.indexOf('jpg') !== -1 || file.indexOf('gif') !== -1" :src=" ilse.utils.get_target_directory_url() + '/' + file" /> 
+                        <img x-show="file.indexOf('mp4') !== -1 || file.indexOf('webm') !== -1" :src="ilse.require('video.svg')"  /> 
+                        <img x-show="file.indexOf('pdf') !== -1" :src="ilse.require('notebook.svg')" style="width: 100%;" /> 
+                        <p style="font-size: 10px !important;" x-text="file" > </p>
+                    </div>
+                </template>
+            </div>
+
+        </div>
+        <style>
+
+        #filesystem {
+            with: 100%;
+            height: 90vh;
+            overflow: auto;
+            font-size: 2em; 
+        }
+
+        #filesystem img {
+            display: block;
+            margin: 0 auto;
+        }
+
+        #filesystem .slick-button {
+            float: left;
+            padding: 5px;
+            margin: 2px;
+        }
+
+        </style>
+    </div>
+
+    <div id="help.html" >
+        <div data-component-id="help" id="help" x-data="{ selected: '' }" x-transition style="overflow: auto; height: 100vh; " >
+
+            <h1> Ilse Help </h1>
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  </p>
+
+            <a href="#introduction"> Introduction </a>
+            <a href="#plugins"> Plugins </a>
+            <a href="#components"> Components </a>
+            <a href="#themes"> Themes </a>
+            <a href="#keyboard"> Keyboard </a>
+            <a href="#lore"> Lore </a>
+            <a href="#others"> Others </a>
+
+            <p> Markdown </p>
+            <br>
+
+            <p> **Bold** </p>
+            <p x-html="ilse.markdown.render('This is a **Bold** Text')" ></p>
+            <br>
+
+            <p> __italic__ or _italic_</p>
+            <p x-html="ilse.markdown.render('This is __italic__ Text ')" ></p>
+            <br>
+
+            <p> ~~striketrought~~ </p>
+            <p x-html="ilse.markdown.render('This is ~~Italic~~ Text ')" ></p>
+            <br>
+
+            <p> ==Highlight== </p>
+            <p x-html="ilse.markdown.render('This is ==Highlight== Text ')" ></p>
+            <br>
+
+            <p> `Code` </p>
+            <p x-html="ilse.markdown.render('This is `Code` Text ')" ></p>
+            <br>
+
+            <p> ```javascript Code Block Here```</p>
+            <p x-html="ilse.markdown.render('This is ```javascript console.log('hi')``` Text ')" ></p>
+            <br>
+
+            <p> [[Link]] </p>
+            <p x-html="ilse.markdown.render('This is [[Link]] Text ')" ></p>
+            <br>
+
+            <p> [[This/Is/A/Nested/Link]] </p>
+            <p x-html="ilse.markdown.render('This is [[This/Is/A/Nested/Link]] Text ')" ></p>
+            <br>
+
+            <p> #tag </p>
+            <p x-html="ilse.markdown.render('This is #tag Text ')" ></p>
+            <br>
+
+            <p> #this/is/a/nested/tag </p>
+            <p x-html="ilse.markdown.render('This is #this/is/a/nested/tag Text ')" ></p>
+            <br>
+
+            <p> ![[Image.png]] </p>
+            <p x-html="ilse.markdown.render('This is ![[Image.png]] Text ')" ></p>
+            <br>
+
+            <p> ![[Video.mp4]] </p>
+            <p> ![[Audio.mp3]] </p>
+            <p> ((Query)) </p>
+            <p> ![[NoteID]] </p>
+
+
+            <div id="introduction">
+                <p> Introduction </p>
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  </p>
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  </p>
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  </p>
+            </div>
+
+            <div id="plugins">
+                <p> Plugins </p>
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  </p>
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  </p>
+            </div>
+
+            <div id="components">
+                <p> Components </p>
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  </p>
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  </p>
+            </div>
+
+            <div id="themes">
+                <p> Themes </p>
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  </p>
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  </p>
+            </div>
+
+            <div id="keyboard">
+                <p> Keyboard </p>
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  </p>
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  </p>
+            </div>
+
+            <div id="lore">
+                <p> Lore </p>
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  </p>
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  </p>
+            </div>
+
+            <div id="others">
+                <p> Others </p>
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  </p>
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  </p>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="link.html" >
+        <div data-component-id="links" id="links" x-transition x-data="{  show_unlinked: '', search: '' }" style="overflow: auto; overflow-x: hidden; height: 87vh; max-width: 100vw; " >
+
+            <h1 @click="console.log(ilse.links.links); console.log(Object.entries(ilse.links.links))" align="center" > Links </h1>
+
+            <input class="input" style="display: block !important; width: 40%; margin: 0 auto; background: var( --background-color ); color: var( --text-color ); width: 100%; border: 0 !important; box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;" placeholder="Search" @keydown.enter.prevent="search = $event.target.value" x-init="let dom = document.querySelector('#links input'); if( dom ) dom.focus() " />
+
+            <table style="" >
+                <tr>
+                    <th> Link </th>
+                    <th> References </th>
+                    <th> Unlinked </th>
+                    <th> Graph  </th>
+                    <th> Outline  </th>
+                </tr>
+
+                <template x-for="(item, index) in Object.keys(ilse.links.links)" :key="index" >
+
+                    <tr x-show="item.indexOf(search) !== -1" >
+                        <td x-text="item" > </td>
+                        <td @click="$event.target.innerText = ilse.utils.get_unlinked_refs(item.replace('[[', '').replace(']]', '') ).length " > Show </td> 
+                        <td @click="$event.target.innerText = ilse.utils.get_linked_refs(item.replace('[[', '').replace(']]', '') ).length " > Show </td> 
+                        <!-- <td x-text="item[1].length" > </td> -->
+                        <td> <img :src="ilse.require('network.svg')" style="width: 20px; " /> </td>
+                        <td> <img :src="ilse.require('outline.svg')" style="width: 20px; " /> </td>
+
+                    </tr>
+
+                </template>
+            </table>
+        </div>
+        <style>
+
+        #links .link {
+            width: fit-content;
+            margin-left: 10px;
+            padding: 5px;
+            height: 30px;
+            border: 1px solid var( --text-color );
+            border-radius: var( --border-radius );
+            margin-bottom: 10px;
+            color: var( --terciary-text-color );
+            float: left;
+        }
+        </style>
+    </div>
+
+    <div id="marketplace.html" >
+        <div data-component-id="marketplace" x-transition x-data="{ ilse: window.ilse, }" >
+
+            <h1> Marketplace </h1>
+            <p > lll </p>
+
+            <!-- <div x-data="{ plugins: (await window.ilse.fetch.json('https://raw.githubusercontent.com/ilse-langnar/notebook/dev/marketplace/marketplace.json') ) }"> -->
+            <div>
+                <template x-for="plugin in (await window.ilse.fetch.json('https://raw.githubusercontent.com/ilse-langnar/notebook/dev/marketplace/marketplace.json') )" >
+                    <p x-text="plugin.name"> </p>
+                    <p x-text="plugin.description"> </p>
+                    <p x-text="plugin.url"> </p>
+                </template>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="modes.html" >
+        <div data-component-id="modes" id="modes" x-transition >
+            <p> Mode List Here </p>
+        </div>
+    </div>
+
+    <div id="new-tab.html" >
+        <div data-component-id="new-tab" id="new-tab" x-transition x-data="{ days: [], is_leftsidebar_open: true, is_rightsidebar: false, mode: 'linear', pages: [] }" x-init="" class="flex" >
+
+            <div id="notes" style="overflow-y: auto !important; overflow-x: hidden !important; margin-left: 5px; height: 88vh; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; margin-right: 10px; flex: 1; flex-basis: 10%; border-radius: var( --border-radius ); background: var( --background-color ); "  >
+                <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+            </div>
+
+
+            <div id="notes" style="overflow-y: auto !important; overflow-x: hidden !important; margin-left: 5px; height: 88vh; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; margin-right: 10px; flex: 1; flex-basis: 100%; border-radius: var( --border-radius ); background: var( --background-color ); "  >
+                <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+            </div>
+
+            <div id="notes" style="overflow-y: auto !important; overflow-x: hidden !important; margin-left: 5px; height: 90vh; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; margin-right: 10px; flex: 1; flex-basis: 10%; border-radius: var( --border-radius ); background: var( --background-color ); "  >
+                <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+            </div>
+
+        </div>
+        <style>
+        </style>
+    </div>
+
+    <div id="notification.html" >
+        <div data-component-id="notification" style=" border-radius: var( --border-radius ); display: inline; position: absolute; right: 10px; bottom: 40px; padding: 1rem; background: var( --background-color ); color: var( --text-color ); box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; max-width: 70vw; " >
+
+            <img class="is-pulled-right" style="width: 20px; cursor: pointer;" onclick="ilse.stack.shift()" :src="window.ilse.require('x.svg')" />
+            <br/>
+            <h2 class="centered" > $title </h2>
+            <p class="centered" > $description </p>
+
+        </div>
+    </div>
+
+    <div id="outline.html" >
+        <div data-component-id="outline" id='outline' x-data='{ notes: [] }' >
+
+            <template x-for="note in notes" >
+                <div> <!-- Root -->
+                    <div x-data="{ depth: ilse.notes.list[note.id].depth, content: ilse.notes.list[note.id].content }" :id="note.id" :style=" 'margin-left:' + (depth * 20) + 'px;' " > 
+
+                        <!-- Bullet -->
+                        <div class="bullet" @click.shift="ilse.tabs.add( ilse.render('pan.html', { list: ilse.query(note.id) }), { title: 'Pan', autoselect: true })" :title="ilse.utils.get_human_readable_creation_date(note.id)" > &bull; </div>
+
+                        <!-- Editing -->
+                        <div x-show="note.is_editing" :id=" note.id + '-edit' " :key="ilse.notes.list[note.id].content" class="no-outline edit" contentEditable
+                             x-text="ilse.notes.list[note.id].content" 
+                             @blur="note.is_editing = false; ilse.notes.list[note.id].content = $event.target.innerText; ilse.notes.save()"
+
+                             @keydown.enter.prevent="let new_note = ilse.add_after( '', ilse.notes.list[note.id].depth, note.id );
+                             setTimeout( () =>{
+                                 note.is_editing = false;
+                                 let dom = document.getElementById(new_note) ;
+                                 dom.focus()
+                             }, 1000 ) " 
+
+                             @keydown.esc.prevent="document.activeElement.blur(); note.is_editing = false;"
+
+                             @keydown.tab.prevent="let shift = $event.shiftKey
+                                if( shift ) {
+                                    ilse.notes.list[note.id].depth--
+                                    depth--
+                                } else {
+                                    depth++
+                                    ilse.notes.list[note.id].depth++
+                                }
+                             " 
+
+                             @keydown.ctrl.up="let copy = index; let previous_index = --copy;
+                             if( list[previous_index] ) {
+                                 let dom  = document.getElementById( list[previous_index].id );
+                                 if( dom ) {
+                                     list[previous_index].is_editing = true
+                                     document.activeElement.blur()
+                                     setTimeout( () => { let dom  = document.getElementById( list[previous_index].id + '-edit' ); if( dom ) dom.focus(); }, 1 )
+                                 }
+                             }"
+
+                             @keydown.ctrl.down="let copy = index; let next_index = ++copy;
+                             if( list[next_index] ) {
+                                 let dom  = document.getElementById( list[next_index].id );
+                                 if( dom ) {
+                                     list[next_index].is_editing = true
+                                     document.activeElement.blur()
+                                     setTimeout( () => { let dom  = document.getElementById( list[next_index].id + '-edit' ); if( dom ) dom.focus(); }, 1 )
+                                 }
+                             }"
+
+                             > </div>
+
+                        <!-- Displaying -->
+                        <div x-show="!note.is_editing" class="render" :key="ilse.notes.list[note.id].content" :id=" note.id + 'render'" :data-note-id="note.id" :title="content" x-html="ilse.markdown.render(ilse.notes.list[note.id].content)" @link-click="if( $event.detail.id === note.id ) ilse.modal( ilse.render( 'references.html', { file: $event.detail.link } ), { width: '70%', height: '70%' })"
+                             @click="if( $event.target.type === 'checkbox' ) {
+                                ilse.notes.list[note.id].content.replace( '- [ ]', '- [x]' )
+                                note.is_editing = false;
+                             } else {
+                                note.is_editing = true;
+                                setTimeout( () => {let dom = document.getElementById( note.id + '-edit' ); dom.focus() }, 10 )
+                             } " > </div>
+
+
+                    </div>
+
+                    <!-- Last Bullet -->
+                    <div class="ghost-bullet" x-show="index === list.length - 1" style="margin-left: 0px !important;" > 
+                        <div class="bullet" style="flex: 1; flex-shrink: 2; " > &bull; </div> 
+                        <div class="camp"   style="flex: 1; padding-left: 15px; min-width: 100px; " contentEditable @blur="let new_note = null; let text = $event.target.innerText; if( text ) { new_note = ilse.add_note( text ); ilse.save() };  $event.target.innerText = ''; " @keydown.enter.prevent="document.activeElement.blur(); ilse.notes.focus( list[list.length -1].id )" > </div>
+                    </div>
+
+                </div> <!-- Root -->
+            </template>
+
+        </div>
+
+        <style>
+        .noote::before {
+            content: "•";
+            font-size: 20px;
+        }
+
+        .bullet p {
+            margin-top:   -5px;
+            text-align:   center;
+            cursor:       pointer;
+            color:        #a3a3a3;
+            color:        var( --text-color );
+            font-size: 1.5em;
+            cursor:       pointer;
+
+            margin-right: 7px;
+            width: 10px;
+            height: 10px;
+        }
+
+        .edit:focus {
+            outline: none;
+        }
+        </style>
+    </div>
+
+    <div id="pan.html" >
+        <div data-component-id="pan" id="pan" class="no-outline" style="overflow: auto;  height: fit-content; border: 1px solid #000; width: 100vw; " x-data="{ list: []  }" x-transition
+            x-init="ilse.libs.panzoom(document.querySelector('#pan #container'), {
+                 pinchSpeed: 1,
+                 /*beforeWheel: e => { return true; let ignore = !e.altKey; return ignore },*/
+                 filterKey: function(/* e, dx, dy, dz */) { return true; },
+                 beforeMouseDown: e => {
+                     let ignore = !e.button === 1;
+                     return ignore
+                 },
+            })" >
+
+            <div id="container" x-init="window.ilse.Messager.on('~ilse', (action) => { if( action === 'loaded' ) { list = window.ilse.query_regexp( '^' + day, 'ig' ) } })" style="padding: 40px;" >
+
+                <template x-for="(note, index) in list" :key="index" >
+                    <div style="max-width: 300px; " >
+
+
+                        <div x-show="!note.is_editing" class="render" @click="if( $event.target.type === 'checkbox' ) {
+                            ilse.notes.list[note.id].content.replace( '- [ ]', '- [x]' )
+                            note.is_editing = false;
+                         } else {
+                            note.is_editing = true;
+                            setTimeout( () => {let dom = document.getElementById( note.id + '-edit' ); dom.focus() }, 10 )
+                         } " x-html="ilse.markdown.render(note.content)" style="height: fit-content; overflow: hidden;" @blur="note.is_editing = false; ilse.notes.list[note.id].content = $event.target.innerText; ilse.notes.save()" > </div>
+
+                        <div x-show="note.is_editing" :id="note.id + '-edit' " class="edit" x-text="note.content" contentEditable @blur="console.log('blur'); note.is_editing = false; ilse.notes.list[note.id].content = $event.target.innerText; ilse.notes.save()" style="height: fit-content; overflow: hidden;" > </div>
+
+                    </div>
+                </template>
+
+            </div>
+
+        </div>
+        <style>
+
+        #pen .render {
+            outline: none;
+        }
+
+        #pen .render img:hover {
+            position: fixed;
+            left: 50%; 
+            top: 50%;
+            transform: translate( -50%, -50% );
+            width: 100px;
+        }
+
+        </style>
+    </div>
+
+    <div id="references.html" >
+        <div data-component-id="references" style="with: 100%; height: 100%; overflow: auto; font-size: 2em; " x-transition x-data="{ file: '' }" >
+
+            <h1 x-text="file" style="font-size: 30px; text-align: center; "> </h1>
+
+            <template x-if="file" x-data="{ show_length: true, list: window.ilse.query( file ) || [] }" x-for="color in list" >
+
+                <div :id="color.id" style="display: flex; font-size: 15px !important;" >
+                    <h2 x-init="show_length = false" x-show="show_length" x-text="list.length" > </h2>
+                    <span style="flex: 1; flex-basis: 1%;" > &bull; </span>
+                    <div x-show="color" x-html="window.ilse.markdown.render(color.content)" style="cursor: pointer; margin-bottom: 5px; flex: 1; flex-basis: 98%; text-align: left; " > </div>
+                </div>
+            </template>
+
+        </div>
+    </div>
+
+    <div id="search.html" >
+        <div data-component-id="search" id="search" style="overflow: auto; height: 100%; " x-data="{ get enter: function() { console.log('you clicked entyer!!!!!') }, show_more: false, pointer: 0, search: '', list: [], pointer: -1, prepend_search: '', append_search: '' }" >
+
+            <!-- wrapper -->
+            <div x-data="{ is_options_on: false }" >
+                <img :src="ilse.require('x.svg')" style="width: 20px; float: right; clear: both; margin-top: 10px; margin-right: 10px; " > 
+
+                <input id="search-input"
+                    x-model="search"
+                    @keydown.up.prevent=""
+                    @keydown.down.prevent=""
+                    @keydown.enter="enter()"
+                    placeholder="Search for Something ..."
+                    title="[[Ilse]] [[Programming]] - [[Ilse]] AND [[Programming]] - [[Ilse]] NOT [[Programming]] - #ilse - #math/topology"
+                    x-init="document.getElementById('search-input') ? document.getElementById('search-input').focus() : null; setTimeout( () => { search = '' }, 100 ) "
+                    style="color: var( --text-color ); background: var( --background-color ); border-radius: var( --border-radius ); width: 90%; margin-top: 10px; margin-bottom: 10px;"/>
+
+                <div style="display: flex;" x-init="ilse.Messager.on('~keyboard', key => { 
+                        if( key === 'ArrowDown' ) { pointer > list.length  ? null : pointer++ }
+                        if( key === 'ArrowUp' )   { pointer === 0 ? null : pointer-- }
+                    })" >
+                    <img style="flex: 1; flex-basis: 1%; height: 30px; " :src=" is_options_on ? ilse.require('filter.svg') : ilse.require('no-filter.svg')" alt="Toggle Filter[s]" title="Toggle Filter[s]" @click="is_options_on  = !is_options_on" >
+                    <span style="flex: 1;" x-show="list.length" x-text="list.length + 'Result[s]'" > </span>
+                    <span style="flex: 1;" > <span style="display: inline;"> <strong> ESC </strong> Exit </span> </span>
+                    <span style="flex: 1;" > <img :src="ilse.require('arrow-back.svg')" style="display: inline;" > <span style="display: inline;"> <strong> Open </strong>  </span> </span>
+                    <span style="flex: 1;" > <img :src="ilse.require('switch-vertical.svg')" style="display: inline;" > <span style="display: inline;"> <strong> Navigate </strong>  </span> </span>
+                </div>
+
+                <hr style="margin-bottom: 3px;" >
+
+                <!-- grid -->
+                <div style="display: flex; overflow: hidden;" >
+
+                    <!-- filters -->
+                    <div x-show="is_options_on" style="width: 15%;" >
+                        <label for="is-sr-on" > Show Flashcards </label>
+                        <input id="is-sr-on"  type="checkbox" name="" id="" value="" >
+                    </div>
+                    <!-- filters -->
+
+                    <!-- content -->
+                    <div :style=" is_options_on ? 'width: 85%;' : 'width: 100%; ' " >
+
+                        <div x-show="!list.length" >
+                            <br>
+                            <h2> Search for something </h2>
+                            <img :src="ilse.require('lupe.svg')" style="width: 10vh; " />
+                        </div>
+
+                        <!-- render -->
+                        <template x-for="(note, index) in list" :key="index" >
+                            <div :style="index === pointer ? 'color: var( --background-color ); background: var( --text-color );' : '' " >
+                                <!-- <span style="float: left;" > &bull; </span>  -->
+
+                                <p
+                                    x-data="{ show: false }" 
+                                    class="item"
+                                    :style=" show ? ' min-height: 120px !important; height: 100% !important; border: 0 !important; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; ' : '' "
+
+                                    x-html="window.ilse.markdown.render(note.content)"
+                     
+                                    @click="if( $event.target.type === 'checkbox' ) {
+                                        ilse.notes.list[note.id].content = ilse.notes.list[note.id].content.replace( '- [ ]', '- [x]' )
+                                        ilse.save()
+                                    } else {
+                                        show = !show
+                                    }" > </p>
+
+                            </div>
+                        </template>
+                        <!-- render -->
+                    </div>
+                    <!-- content -->
+
+                </div>
+                <!-- grid -->
+            </div>
+            <!-- wrapper -->
+
+        </div>
+        <style>
+        .show-on-hover:active {
+        }
+
+        #search .result {
+            display: flex;
+        }
+
+        #search input:focus {
+            /*box-shadow: 0 0 0 3px hsla(var(--input-focus-h), var(--input-focus-s), calc(var(--input-focus-l) + 40%), 0.8);*/
+            outline: 3px solid transparent;
+            border-color: hsl(var(--input-focus-h), var(--input-focus-s), var(--input-focus-l));
+            border: 2px solid rgb(124, 138, 255);
+        }
+
+        #search input:not([type="checkbox"]) {
+            transition: 180ms box-shadow ease-in-out;
+            width: 100%;
+            color: rgb(36, 35, 42);
+            font-size: 16px;
+            line-height: 20px;
+            min-height: 28px;
+            border-radius: 4px;
+            padding: 8px 16px;
+            border: 2px solid transparent;
+            box-shadow: rgb(0 0 0 / 12%) 0px 1px 3px, rgb(0 0 0 / 24%) 0px 1px 2px;
+            background: rgb(251, 251, 251);
+            transition: all 0.1s ease 0s;
+        }
+
+        #search .render {
+            cursor: pointer;
+            margin-bottom: 5px;
+            /*flex: 1;*/
+            flex-basis: 98%;
+            text-align: left; 
+            width: 20%;
+            float: left;
+        }
+
+        #search .render:hover {
+            background: var( --text-color );
+            color: var( --background-color );
+        }
+
+        #search .item {
+            width: 32%;
+            height: 200px !important;
+            float: left;
+            overflow: hidden;
+            padding: 1px;
+            margin: 2px; 
+            border: 1px solid var( --text-color );
+            /* border-radius: var( --border-radius ); */
+
+            background: var( --text-color );
+            color: var( --background-color );
+
+            background: #ffff88;
+            color: var( --text-color );
+        }
+
+        </style>
+    </div>
+
+    <div id="setup.html" >
+        <div data-component-id="setup" id="setup" style="font-family: Helvetica, sans, Inter; width: 70%; margin: 0 auto; "
+            x-transition:enter-start="opacity-0 transform scale-90"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-90" >
+
+            <br />
+            <h1 class="centered" > Setup </h1>
+            <h2 class="centered" > Select the folder for your notes. </h2>
+
+            <br style="height: 100px;" />
+
+            <img x-bind:src="window.ilse.require('folders.svg')" class="select-folder centered" style=" width: 40%; display: block; margin: 0 auto; border: 1px dashed #000; border-radius: 5px; cursor: pointer; " @click="window.ilse.electron.setup_target_folder()" />
+         
+            <p align="center" style="text-decoration: italic; text-align: center; margin: 0 auto;" > You can change it later!  </p>
+
+        </div> 
+    </div>
+
+    <div id="status-line-keys-content.html" >
+        <div class="content" >
+            <p> Keyboard Content </p>
+        </div>
+    </div>
+
+    <div id="status-line-keys-icon.html" >
+        <img class="flexi img" title="Links" :src="ilse.require('keyboard.svg')" >
+    </div>
+
+    <div id="status-line-links-content.html" >
+        <div id="status-line-links-content" class="content" x-data="{ selected: ($store.links && $store.links.length) ? $store.links[0] : '', linked: true }" >
+
+            <div x-show="!$store.links.length" >
+                <h1 style="position: absolute; top: 50%; left: 50%; transform: translate( -50%, -50% );"> There is no links to analize, press <code>shift+click</code> to add one (: </h1>
+            </div>
+
+            <div x-show="$store.links.length" style="float: left; margin-left: 10px; " >
+                <img :src="linked ? ilse.require('brackets.svg') : ilse.require('brackets-off.svg')" style="width: 20px;" title="Toggle " alt="Toggle" @click="linked = !linked" >
+            </div>
+
+            <template x-for="(item, index) in $store.links" :key="index" >
+                <div style="float: left; margin-left: 10px; " >
+                    <span x-text="item" @click="selected = item" :style="selected === item ? 'cursor: pointer; padding: 2px; border-radius: var( --border-radius ); color: var( --background-color ); background: var( --text-color );' : 'cursor: pointer;' " ></span>
+                </div>
+            </template>
+            <br>
+
+
+            <template x-for="(item, index) in $store.links" :key="index" >
+                <div x-show="selected === item" x-data="{ list: linked ? ilse.query(item) : ilse.query_regexp( new RegExp( '^' + item, 'ig') ) }" >
+
+                    <template x-for="( _item, _index ) in list" :key=" '_' + _index" >
+                        <div style="display: flex;" >
+                            <span style="flex: 1; margin-left:10px; flex-shrink: 2; flex-basis: 1%; " > &bull; </span>
+                            <p    style="flex: 1; padding-left: 15px; flex-basis: 99%; min-width: 100px;" x-html="ilse.markdown.render(_item.content)" ></p>
+                        </div>
+                    </template>
+                </div>
+            </template>
+
+        </div>
+    </div>
+
+    <div id="status-line-links-icon.html" >
+        <span :title="$store.links" >
+            <img class="flexi img" title="Links" :src="ilse.require('line.svg')" >
+            <p style="position: relative; left: 10px; bottom: 20px;" x-text="$store ? $store.links.length : null" ></p>
+        </span>
+    </div>
+
+    <div id="status-line.html" >
+        <div data-component-id="status-line" id="status-line" :style=" 'height:' + height + 'px;' + ( height === 25 ? '/*overflow: hidden;*/' : 'overflow: auto;' )" x-init="window.Messager.on('~status-line', command => { if( command === 'expand' ) { height = 500; tab = 'keys' }; if( command === 'shrink' ) { height = 25 }; }) " x-data="{ height: 25, key: '', tab: '', modes: [] }" >
+
+            <!-- TOP -->
+            <div class="flex view" x-data="{ last: '' }" x-init=" window.ilse.Messager.on( '~commands', ( action, payload ) => { if( action === 'exec' ) { last = payload  } } ) ">
+
+                <div x-show="modes.length" class="flexi img" x-init="
+                    $watch( '$store.config', payload => {
+                        modes = payload.value['modes']
+                        if( modes.length ) {
+                        } else {
+                            $el.innerHTML = ''
+                        }
+                    });
+                    " >
+                    <template x-for="( mode, index ) in modes" :key="index" > 
+                        <img :src="'data:image/svg+xml;base64,' + mode.split('|')[1]" />
+                    </template>
+                </div>
+
+                <template x-for="(item, index) in ilse.query('#html/status-line')" :key="index" >
+                    <span class="flexi img" :title="ilse.utils.get_links_from_note(item.content)" x-html="ilse.fs.readFileSync(ilse.utils.extract_markdown_links_from_string(item.content)[0].replace('[[', '').replace(']]', ''))" @click="let child = ilse.utils.get_first_tag_last_child(item.content); height === 500 ? height = 25 : height = 500; tab = child;" > </span>
+                </template>
+            </div>
+            <!-- TOP -->
+
+            <!-- Content -->
+            <div x-show="height === 500" >
+                <!-- FEATURE: Close after command -->
+                <div x-init="window.ilse.Messager.on( '~commands', (action, payload) => {
+
+                    if( action === 'exec' ) {
+                        ilse.utils.debounce( () => {
+                            ilse.utils.send_message( '~status-line', 'shrink' ) 
+                        }, {}, ilse.keys.list, 10)
+                    }
+
+                })" > </div>
+                <!-- FEATURE: Close after command -->
+
+                <!-- FEATURE: Open/Close via messages -->
+                <div x-text="window.ilse.Messager.on( '~keyboard', key => {
+
+                    if( key === 'esc' ) {
+                        ilse.Messager.emit( '~status-line', 'shrink' )
+                    } else if( key === 'C-SPC' ) {
+                        ilse.utils.debounce( () => {
+                            Messager.emit( '~status-line', 'expand' )
+                        }, {}, ilse.keys.list, 800 )
+                    }
+
+                })" > </div>
+                <!-- FEATURE: Open/Close via messages -->
+
+                <!-- Tabs Content -->
+
+                <div >
+
+                    <!-- Close -->
+                    <img x-show="height === 500" :src="ilse.require('x.svg')" alt="Delete" title="Delete" style="width: 20px; float: right; margin-right: 10px; cursor: pointer;" @click="height = 25; tab = '' " >
+                    <hr style="clear: both; margin-top: 20px; " >
+                    <!-- Close -->
+
+                    <!-- Default: Which Key -->
+                    <div id="which-key" x-show="height === 500 && tab === 'keys' " >
+
+                        
+                        <input class="input" placeholder="C-SPC t s g i" style="width: 80%; margin: 0 auto; display: block; margin-top: 10px; " x-model="key" @keydown.enter.prevent="let list = window.ilse.keys.list.map( item => { if( item.combo.indexOf(key) !== -1 ) { return item } } ).filter( e=>e ); if( list[0] ) ilse.commands.run(list[0].command); " autofocus x-init="ilse.Messager.on('~keyboard', key => {
+                                            if( key === 'C-SPC' ) { setTimeout( () => { key = ''; $el.focus() }, 1000 ) }
+                                if( key === 'esc' ) { key = '' }
+                            }) " />
+                          <br>
+
+                          <template x-for="(item, index) in window.ilse.keys.list" >
+                              <div x-show="key === ' ' ? true : item.combo.indexOf(key) !== -1" class="key is-pulled-left" style="margin: 5px; " @click="ilse.commands.run(item.command)" >
+                                  <span class="combo" x-text="item.combo.replace('ctrl+space', '')" > </span>
+                                  <span class="arrow" > &rarr; </span>
+                                  <span class="command" x-text="item.command" > </span>
+                              </div>
+                          </template>
+                      </div>
+                      <!-- Default: Which Key -->
+
+                      <!-- User Defined Tabs -->
+                      <div>
+                          <template x-for="(item, index) in ilse.query('#html/status-line')" :key="index" >
+                              <span x-show="ilse.utils.get_first_tag_last_child(item.content) === tab" x-html="ilse.utils.get_note_file_by_link(item.content, 1)" >  </span>
+                          </template>
+                      </div>
+                      <!-- User Defined Tabs -->
+
+                </div>
+                <!-- Tabs Content -->
+            </div>
+            <!-- Content -->
+
+        </div> 
+        <style>
+
+            #status-line {
+                position: fixed;
+                bottom: 5px;
+                width: 99%;
+                background: var( --background-color );
+                border-radius: var( --border-radius );
+                left: 50%;
+                transform: translate( -50% );
+                z-index: 0;
+                box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+                box-shadow: 0 0 2px 0 #555;
+                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                height: 25px;
+                z-index: 2;
+                padding: 1px;
+            }
+
+                #status-line .view .img {
+                    width: 20px;
+                    height: 20px;
+                    display: block;
+                    cursor: pointer;
+                }
+
+
+                #status-line .flexi {
+                    margin: auto;
+                    display: block;
+                    margin: 0 auto;
+                    text-align: center;
+                }
+
+                #status-line #which-key {
+
+                }
+
+                    #status-line #which-key .key {
+                        width: 15%;
+                        height: 25px;
+                        overflow: hidden;
+                        margin-left: 5px;
+                        margin-bottom: 5px;
+                        background: var( --background-color );
+                        color: var( --text-color );
+                        cursor: pointer;
+                    }
+
+                    #status-line #which-key .key:hover {
+                        background: var( --text-color );
+                        color: var( --background-color );
+                    }
+
+            #status-line .key {
+
+            }
+
+                #status-line .key .combo  {
+                    color: var( --link-color );
+                }
+
+                #status-line .key .arrow  {
+                    color: var( --terciary-text-color );
+                    margin-left: 2px;
+                    margin-right: 2px;
+                }
+
+                #status-line .key .command  {
+                    color: var( --tertiary-text-color );
+                }
+
+            #status-line input.input:focus {
+                /*box-shadow: 0 0 0 3px hsla(var(--input-focus-h), var(--input-focus-s), calc(var(--input-focus-l) + 40%), 0.8);*/
+                outline: 3px solid transparent;
+                border-color: hsl(var(--input-focus-h), var(--input-focus-s), var(--input-focus-l));
+                border: 2px solid rgb(124, 138, 255);
+            }
+
+                #status-line input.input:not([type="checkbox"]) {
+                    transition: 180ms box-shadow ease-in-out;
+                    width: 100%;
+                    color: rgb(36, 35, 42);
+                    font-size: 16px;
+                    line-height: 20px;
+                    min-height: 28px;
+                    border-radius: 4px;
+                    padding: 8px 16px;
+                    border: 2px solid transparent;
+                    box-shadow: rgb(0 0 0 / 12%) 0px 1px 3px, rgb(0 0 0 / 24%) 0px 1px 2px;
+                    background: rgb(251, 251, 251);
+                    transition: all 0.1s ease 0s;
+
+                    margin-left: 5px;
+                    color: var( --text-color );
+                    background: var( --background-color );
+                    border-radius: var( --border-radius );
+                    width: 90%;
+                    margin-top: 10px;
+                    margin-bottom: 10px; 
+                    margin: 0 auto;
+                }
+
+        </style>
+    </div>
+
+    <div id="study.html" >
+        <div data-component-id="study" x-transition style="overflow: auto; height: 87vh;" >
+
+            <h1> Study </h1>
+
+            <div x-data="{ item: {} }" style="height: 80vh; border: 1px solid #000; " >
+                <button class="slick-button" @click="let list = window.ilse.query('#sr'); let random_item = list[Math.floor( Math.random() * list.length )]; item = random_item;" > Next </button>
+                <div x-show="item.content" x-html="ilse.markdown.render(item.content ? item.content : '')" style="height: 100%; "> </div>
+            </div>
+
+            <div x-data="{ list: window.ilse.query( '#sr/r/' + ilse.utils.get_unique_date_id().slice( 0, 8 ) ), links: {}, flashcards: window.ilse.query('#sr') }" style=" height: 50vh; overflow: auto; flex-basis: 30%; " >
+                <div>
+                    <h2 align="center" > Statistics </h2>
+                </div>
+
+                <template x-for="( item, index ) in [ 00, 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 ]" :key="'hour-' + index" ><!-- 24 hours -->
+                    <p x-text="item" > </p>
+                </template>
+
+                <span x-data="flashcards.length"> </span>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="template.html" >
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+                <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+                <meta name="viewport" content="width=device-width,initial-scale=1" >
+
+                <link rel="icon" type="image/svg" sizes="16x16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIGljb24tdGFibGVyIGljb24tdGFibGVyLXBob3RvIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2U9IiM0ODUzNjEiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CiAgPHBhdGggc3Ryb2tlPSJub25lIiBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+CiAgPGxpbmUgeDE9IjE1IiB5MT0iOCIgeDI9IjE1LjAxIiB5Mj0iOCIgLz4KICA8cmVjdCB4PSI0IiB5PSI0IiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHJ4PSIzIiAvPgogIDxwYXRoIGQ9Ik00IDE1bDQgLTRhMyA1IDAgMCAxIDMgMGw1IDUiIC8+CiAgPHBhdGggZD0iTTE0IDE0bDEgLTFhMyA1IDAgMCAxIDMgMGwyIDIiIC8+Cjwvc3ZnPgoKCg==" >
+
+                <title> $title </title>
+            </head>
+            <body>
+                <main>
+                    <h1> $title </h1>
+                </main>
+            </body>
+        </html>
+    </div>
+
+    <div id="top-menu.html" >
+        <div data-component-id="top-menu" id="top-menu" style="height: 30px;" x-data="{ tabs: window.ilse.tabs.list, selected: '', key: 0, is_brains_configuration_on: false, is_menu_on: false, mode: window.navigator.onLine ? (ilse.parse.id ? 'logged' : 'login') : 'offline', user: $store.user, key: ilse.parse.id }" x-init="Messager.on('~tabs', payload => {
+            $watch( '$store.user', payload => { user = payload })
+        })" >
+
+            <img style="width: 25px; height: 25px; margin-right: 5px; cursor: pointer;" :src="window.ilse.require('menu-2.svg')" @click="is_menu_on = !is_menu_on" />
+
+            <div class="tabs" style="display: block; " x-inti="$watch('$store', function (val) { console.log('@@@@>>>', val); })" >
+
+                <div class="configuration" x-show="is_brains_configuration_on" >
+                    <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+
+                <div class="configuration" x-show="is_menu_on" >
+
+                    <div>
+
+                        <!-- Top Icons -->
+                        <img style="width: 25px; height: 25px; float: right; cursor: pointer;" :src="window.ilse.require('x.svg')" title="Close" alt="close" @click="is_menu_on = false" />
+                        <img x-show="mode === 'logged' " style="width: 25px; height: 25px; margin-right: 10px; float: right; cursor: pointer;" :src="window.ilse.require('logout.svg')" title="Log Out" alt="out" @click="ilse.parse.logout(); mode = 'login' " />
+
+                        <img style="width: 25px; height: 25px; margin-left:  4px; cursor: pointer; float: left; " :src="window.ilse.require('moon.svg')" title="Toggle 'Dark' mode" alt="dark" @click="ilse.commands.run('toggle-dark-mode')" />
+                        <img style="width: 25px; height: 25px; margin-right: 4px; cursor: pointer; float: left;" :src="window.ilse.require('yin-yang.svg')" title="Toggle 'zen' Mode" alt="zen" @click="ilse.commands.run('toggle-dark-mode')" />
+                        <hr style="clear: both;" >
+                        <!-- Top Icons -->
+
+
+                        <!-- Toggle Login/Register -->
+                        <a x-show="mode === 'login' "    class="change-mode" style="margin: 0 auto; text-align: center; display: block !important;" href="javascript: () => {}" @click="mode = 'register' " > Create One </a>
+                        <a x-show="mode === 'register' " class="change-mode" style="margin: 0 auto; text-align: center; display: block !important;" href="javascript: () => {}" @click="mode = 'login' " > Login </a>
+                        <!-- Toggle Login/Register -->
+
+                        <!-- PFP Image -->
+                        <img x-show="mode === 'register' || mode === 'login' " class="round shadow centered" style="width: 40%; margin: 0 auto; cursor: pointer;" :src="user && user.pfp ? user.pfp : ilse.require('user-circle.svg')" />
+
+                        <img x-show="mode === 'logged' "                       class="round shadow centered" style="width: 40%; margin: 0 auto; cursor: pointer;" :src="user && user.pfp ? user.pfp : ilse.require('user-circle.svg')" />
+
+                        <img x-show="mode === 'offline' "                      class="round shadow centered" style="width: 40%; margin: 0 auto; cursor: pointer;" :src="ilse.require('cloud-off.svg')" />
+                        <br style="clear: both; height: 20px;" >
+                        <!-- PFP Image -->
+
+                        <!-- Login Form -->
+                        <div x-show="mode === 'login' " x-data="{ username: '', password: '' }" x-init="ilse.Messager.on('configuration', payload => { if( payload.action === 'login' ) { mode = 'logged' } })">
+                            <input style="display: block; margin: 0 auto; margin-bottom: 5px; " x-model="username" type="text" id="" value="" placeholder="Email or Phone Number" >
+                            <input style="display: block; margin: 0 auto; "                     x-model="password" type="password" id=""          placeholder="Password " >
+                            <button class="slick-button" @click="ilse.parse.login(username, password)" > Login </button>
+                        </div>
+                        <!-- Login Form -->
+
+                        <!-- Register Form -->
+                        <div x-show=" mode === 'register' " x-data="{ email: '', username: '', password: '', error: '' }" x-init="ilse.Messager.on('configuration', payload => { if( payload.action === 'error' ) error = payload })" >
+
+                            <input style="display: block; margin: 0 auto; margin-bottom: 5px; " x-model="email"     @focus="error=''" type="email"    id="" value="" placeholder="Email or Phone Number" >
+                            <input style="display: block; margin: 0 auto; margin-bottom: 5px; " x-model="username"      @focus="error=''" type="text"     id="" value="" placeholder="Name" >
+                            <input style="display: block; margin: 0 auto; "                     x-model="password"  @focus="error=''" type="password" id=""          placeholder="Password" >
+                            <p style="color: red; text-align: center;" x-text="error" ></p>
+                            <button class="slick-button" @click="ilse.parse.register(email, username, password)" > Register </button>
+                        </div>
+                        <!-- Register Form -->
+
+                        <!-- Offline  -->
+                        <div x-show="mode === 'offline' " style="width: 80%; margin: 0 auto; "  >
+                            <p> You're offline, connect to the internet to login, register or continue. </p>
+                        </div>
+                        <!-- Offline  -->
+
+                        <!-- Logged  -->
+                        <div x-show="mode === 'logged' " style="width: 80%; margin: 0 auto; "  >
+                            <p x-text="ilse.parse.bio" > </p>
+                        </div>
+                        <!-- Logged  -->
+
+                    </div>
+
+                    <!-- Brains -->
+                    <hr>
+                    <div x-data="{ add() { if(!new_path_name) { return }; let string = window.localStorage.getItem('target-directories'); let list = JSON.parse(string); list.push(new_path_name); window.localStorage.setItem('target-directories', JSON.stringify(list)); list = new_path_name = ''; list = JSON.parse(window.localStorage.getItem('target-directories'))}, placeholder: '/home/user/Downloads or C:\\User\Data or https://brain.remote-server.com/', list: window.ilse.info.target_directories, new_path_name: '' }" >
+                        <div style="display: flex; margin: 0 auto; width: 97%;" >
+                            <input class="input" :placeholder="placeholder" style="border: 1px solid red; width: 100% !important;" type="text" x-model="new_path_name" @keydown.enter="add(); list = JSON.parse( window.localStorage.getItem('target-directories') )" >
+                            <img :src="window.ilse.require('plus.svg')" style="width: 40px; cursor: pointer; position: relative; bottom: 4px; " @click="add(); list = JSON.parse( window.localStorage.getItem('target-directories') )" title="Add new path" /> 
+                        </div>
+
+                        <div>
+                            <div style="flex: 1; margin: 4px; border: 1px solid var( --text-color ); border-radius: var( --border-radius ); padding: var( --padding ); " >
+                                <template x-for="(item, index) in list" >
+                                    <div style="width: 90%; display: flex; overflow: hidden; margin-left: 10px; padding: 3px; text-overflow: ellipsis;" >
+                                        <!-- <img :src="ilse.require('folders.svg')" style="cursor: pointer;" alt="select" title="select" > -->
+                                        <!-- <img x-show="index !== 0" :src="ilse.require('hand-move.svg')" style="cursor: pointer;" alt="select" title="select" @click="list.push( list.shift() ); window.localStorage.setItem('target-directories', JSON.stringify(list) ); window.location.reload()" > -->
+                                        <p class="text" x-text="item" :style="index !== 0 ? 'cursor: pointer;' : '' " :title=" index !== 0 ? 'Click to select' : '' " @click="list.push( list.shift() ); window.localStorage.setItem('target-directories', JSON.stringify(list) ); window.location.reload()" > </p>
+                                        <img class="remove" :src="window.ilse.require('x.svg')" @click="list.splice( index, 1 ); window.localStorage.setItem('target-directories', JSON.stringify(list) ); list = JSON.parse( window.localStorage.getItem('target-directories') ); " />
+                                    </div>
+                                </template>
+
+                                <hr>
+                                <template x-for="(item, index) in user.brains" x-data="{ user: $store.user || {} }" x-init="$watch( '$store.user', payload => { user = payload })" >
+                                    <div style="width: 90%; display: flex; overflow: hidden; margin-left: 10px; padding: 3px; text-overflow: ellipsis;" >
+                                        <img :src="ilse.require('cloud.svg')" style="cursor: pointer;" alt="select" title="select" >
+                                        <p x-text="item.name" > </p>
+                                        <img class="remove" :src="window.ilse.require('x.svg')" @click="list.splice( index, 1 ); window.localStorage.setItem('target-directories', JSON.stringify(list) ); list = JSON.parse( window.localStorage.getItem('target-directories') ); " />
+                                    </div>
+                                </template>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Brains -->
+
+                    <div class="item" style="margin-bottom: 10px !important;" >
+                        <img style="float: left; width: 25px; height: 25px; margin-left: 4px; cursor: pointer;" :src="window.ilse.require('settings.svg')" @click="ilse.commands.run('toggle-dark-mode')" />
+                        <p style="float: left; margin-left: 20px; " > Configuration </p>
+                    </div>
+
+                    <div class="item" >
+                        <img style="float: left; width: 25px; height: 25px; margin-left: 4px; cursor: pointer;" :src="window.ilse.require('brain.svg')" @click="ilse.commands.run('toggle-dark-mode')" />
+                        <p style="float: left; margin-left: 20px; " > Collaboration </p>
+                    </div>
+
+                    <div class="item" >
+                        <img style="float: left; width: 25px; height: 25px; margin-left: 4px; cursor: pointer;" :src="window.ilse.require('tools.svg')" @click="ilse.commands.run('toggle-dark-mode')" />
+                        <p style="float: left; margin-left: 20px; " > Tools </p>
+                    </div>
+
+                    <div class="item" >
+                        <img style="float: left; width: 25px; height: 25px; margin-left: 4px; cursor: pointer;" :src="window.ilse.require('school.svg')" @click="ilse.commands.run('toggle-dark-mode')" />
+                        <p style="float: left; margin-left: 20px; " > Study  </p>
+                    </div>
+
+                    <div class="item" >
+                        <img style="float: left; width: 25px; height: 25px; margin-left: 4px; cursor: pointer;" :src="window.ilse.require('plugin.svg')" @click="ilse.commands.run('toggle-dark-mode')" />
+                        <p style="float: left; margin-left: 20px; " > Plugins  </p>
+                    </div>
+
+                    <div class="item" >
+                        <img style="float: left; width: 25px; height: 25px; margin-left: 4px; cursor: pointer;" :src="window.ilse.require('building-store.svg')" @click="ilse.commands.run('toggle-dark-mode')" />
+                        <p style="float: left; margin-left: 20px; " > Marketplace  </p>
+                    </div>
+
+                    <div class="item" >
+                        <img style="float: left; width: 25px; height: 25px; margin-left: 4px; cursor: pointer;" :src="window.ilse.require('lifebuoy.svg')" @click="ilse.commands.run('toggle-dark-mode')" />
+                        <p style="float: left; margin-left: 20px; " > Help  </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <br>
+        </div> 
+        <style>
+            #top-menu .text {
+                text-overflow: ellipsis;
+                width: 90%;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+
+            #top-menu .configuration {
+                position: fixed;
+                right: 10px;
+                top: 30px;
+                width: 300px;
+                height: 90vh;
+                background: #fff;
+                z-index: 100;
+                padding: 3px;
+                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                border-radius: var( --border-radius );
+                background: var( --background-color );
+            }
+
+            #top-menu .configuration .item {
+                cursor: pointer;
+                display: block;
+                clear: both;
+            }
+
+            #top-menu .change-mode {
+                display: block;
+            }
+        </style> 
+    </div>
+
+    <div id="web.html" >
+        <div x-transition data-component-id="web" x-data="{ search: '', url: '' }" >
+
+            <input x-model="search" @keydown.enter="url = search" style="width: 100%; " placeholder="https://example.com" />
+
+            <p x-text="url[0]" ></p>
+
+            <template x-if="url.indexOf('http') !== -1" :key="url" >
+                <p> 1 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+                <iframe x-show="url && is_on" :src="url" frameBorder="0" style="height: 70vh; width: 100vh; border: 1px solid #000;" >
+            </template>
+
+            <p x-show="url[0] === '/' " > 2 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+
+        </div>
+    </div>
+
+    <div id="hello-world.html" >
+        <p> Hello, World </p>
+    </div>
+</div>

@@ -7,14 +7,20 @@ import printf                           from "@/functions/printf.js"
     import Messager                     from "@/classes/Messager.js"
 
 // HTML
-    import info                         from "@/html/dialog_info.html"
-    import input                        from "@/html/dialog_input.html"
-    import confirm                      from "@/html/dialog_confirm.html"
+    // import info                         from "@/html/dialog-info.html"
+    // import input                        from "@/html/dialog-input.html"
+    // import confirm                      from "@/html/dialog-confirm.html"
+
+let info, input, confirm
 
 export default class Dialog {
 
-    constructor() {
+    constructor( ilse ) {
         this.list = []
+
+        info    = ilse.components['info']
+        input   = ilse.components['input']
+        confirm = ilse.components['confirm']
     }
 
     // Show the "info" dialog. returns a promised that is resolved when the user cliks on "cancel", "ok" or "cancel"(background-click)

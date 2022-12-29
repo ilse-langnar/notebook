@@ -15,7 +15,6 @@ import printf                           from "@/functions/printf.js"
     import fuzzy_sort                             from "@/assets/fuzzysort.js"
     import string_to_html                         from "@/functions/string_to_html.js"
     import html_to_string                         from "@/functions/html_to_string.js"
-    import add_component                          from "@/functions/add_component.js"
     import get_string_favicon                     from "@/functions/get_string_favicon.js"
     import add_array_item                         from "@/functions/add_array_item.js"
     import add_permission                         from "@/functions/add_permission.js"
@@ -31,6 +30,7 @@ import printf                           from "@/functions/printf.js"
     import extract_embeds_from_string             from "@/functions/extract_embeds_from_string.js"
     import extract_html_embeds                    from "@/functions/extract_html_embeds.js"
     import extract_markdown_links_from_string     from "@/functions/extract_markdown_links_from_string.js"
+    import extract_markdown_tags                  from "@/functions/extract_markdown_tags.js"
     import extract_note_content                   from "@/functions/extract_note_content.js"
     import extract_note_id                        from "@/functions/extract_note_id.js"
     import extract_tokens_by_regexp_delimiters    from "@/functions/extract_tokens_by_regexp_delimiters.js"
@@ -124,24 +124,25 @@ import printf                           from "@/functions/printf.js"
     import values                                 from "@/functions/values.js"
     import yyyymmddhhss_to_pretty                 from "@/functions/yyyymmddhhss_to_pretty.js"
     import recursively_search_for_dom             from "@/functions/recursively_search_for_dom.js"
+    import clean_markdown_tags                    from "@/functions/clean_markdown_tags.js"
 
 // classes
     import FSFilesystem                           from "@/classes/FSFilesystem.js"
 
     // import has_permission               from "@/classes/has_permission.js"
 
-function has_permission( name, permission, ilse ) {
+// function has_permission( name, permission, ilse ) {
 
-    if( !ilse.config.permissions ) ilse.config.permissions = {} // Make sure it exists
+    // if( !ilse.config('permissions') ) ilse.config('permissions', {})  // Make sure it exists
 
-    let has_name = ilse.config.permissions[name]
-        if( !has_name ) return false // Does not have name
+    // let has_name = ilse.config('permissions')[name]
+        // if( !has_name ) return false // Does not have name
 
-    let has_permission = ilse.config.permissions[name].indexOf( permission ) !== -1
-        if( !has_permission ) return false
+    // let has_permission = ilse.config('permissions')[name].indexOf( permission ) !== -1
+        // if( !has_permission ) return false
 
-    return true
-}
+    // return true
+// }
 
 export default function get_plugin_api( name, ilse ) {
 
@@ -186,12 +187,14 @@ export default function get_plugin_api( name, ilse ) {
     const api = {
 
         stacks: ilse.stack,
+        store: ilse.store,
         render: ilse.render,
         modal: ilse.modal,
+        parse: ilse.parse,
+        config: ilse.config,
 
         files: ilse.files,
 
-        store: ilse.store,
         links: ilse.links,
 
         electron: ilse.electron,
@@ -201,12 +204,10 @@ export default function get_plugin_api( name, ilse ) {
         mode: ilse.mode,
         input: ilse.input,
 
-        configutation: {
-            save: ilse.config.save.bind( ilse.config ),
-            load: ilse.config.load.bind( ilse.config ),
-        },
-
-        components: ilse.components,
+        // configutation: {
+            // save: ilse.config.save.bind( ilse.config ),
+            // load: ilse.config.load.bind( ilse.config ),
+        // },
 
         info: {
             platform:           ilse.platform,
@@ -241,8 +242,6 @@ export default function get_plugin_api( name, ilse ) {
         plugins: [],
 
         markdown: ilse.markdown,
-
-        add_component: add_component,
 
         notes:        ilse.notes,
         save:         ilse.notes.save.bind( ilse.notes ),
@@ -281,8 +280,8 @@ export default function get_plugin_api( name, ilse ) {
         // },
 
         clipboard: {
-            read:   has_permission( name, 'clipboard', ilse )  ? ilse.clipboard.read  : null,
-            write:  has_permission( name, 'clipboard', ilse )  ? ilse.clipboard.write : null,
+            // read:   has_permission( name, 'clipboard', ilse )  ? ilse.clipboard.read  : null,
+            // write:  has_permission( name, 'clipboard', ilse )  ? ilse.clipboard.write : null,
         },
 
         // fs: {
@@ -381,15 +380,91 @@ export default function get_plugin_api( name, ilse ) {
             yyyymmddhhss_to_pretty,
             debounce: debounce,
             send_message: send_message,
-            get_human_readable_creation_date,
+            get_bullet_description: function( note ) {
+
+                let string = get_human_readable_creation_date( note.id )
+                    string += " from(" + note.source + ")"
+
+                return string
+            },
             recursively_search_for_dom,
             string_to_html,
+            get_dom_query_from_string: function( string, query ) {
+
+                let links             = extract_markdown_links_from_string( string )
+                let file              = links[0]
+                let normalized_file   = file.replace("[[", "" ).replace( "]]", "" )
+                let text              = window.ilse.fs.readFileSync( normalized_file )
+
+                let DOM               = string_to_html( text )
+                let el                = DOM.querySelector( query )
+                // let normalized        = html_to_string( el )
+
+                return el
+                // Idea: Could we ... have a DOM with 2 roots? take the second and return it, ignore the rest
+            },
             get_target_directory_url,
             split_array_into_nth_chunks,
             extract_markdown_links_from_string,
+            clean_markdown_tags,
+            extract_markdown_tags,
+
+            get_first_tag_last_child( note ) {
+                let tag     = extract_markdown_tags(note)[0]; // first
+                let chunks  = tag.split('/');
+                let name    = chunks[chunks.length -1];
+                return name
+            },
+
+            extract_tokens_by_regexp_delimiters,
             fuzzy_sort: fuzzy_sort,
             path: path,
             identity: function(arg) { return arg },
+
+            get_yesterday( day ) {
+                let DAY     = day;
+                let year    = DAY.substr( 0, 4 );
+                let month   = DAY.substr( 4, 2 );
+                let _day    = Number(DAY.substr( 6, 2 ) );
+
+                let copy    = _day;
+                    copy        -= 1;
+
+                if( copy === 0 ) {
+                    return year + --month + '31'
+                } else {
+                    if( copy < 10 ) {
+                        return year + month + '0' + --_day
+                    } else {
+                        return year + month + --_day
+                    }
+                }
+
+            },
+
+            get_note_file_by_link( content = "", link_position = 0 ) {
+
+                let links         = this.extract_markdown_links_from_string( content )
+                let selected_link = links[ link_position ]
+                let text          = this.read_content_from_link( selected_link  )
+                return text
+            },
+
+            read_content_from_link( link ) {
+
+                let normalized = link
+                    .replace( "[[", "" )
+                    .replace( "]]", "" )
+
+                // let content = ilse.fs.readFileSync( normalized )
+                let content = ilse.filesystem.file.read.sync( normalized )
+                    return content
+            },
+
+            get_links_from_note( note ) {
+                let links = extract_markdown_links_from_string( note )
+                return links
+            },
 
             get_related_links( link ) {
 

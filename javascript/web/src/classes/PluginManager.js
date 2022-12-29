@@ -13,6 +13,7 @@ import printf                           from "@/functions/printf.js"
     import has_permission               from "@/functions/has_permission.js"
     import get_plugin_api               from "@/functions/get_plugin_api.js"
     import delay                        from "@/functions/delay.js"
+const path                       = require("path")
 
 class PluginManager {
 
@@ -35,7 +36,7 @@ class PluginManager {
         if( !this.ilse.target_directories[0] ) return
 
         // let list = ilse.filesystem.dir.list.sync( "plugins" )
-        let list      = ilse.filesystem.dir.list.sync( ilse.path.join("/") )
+        let list      = ilse.filesystem.dir.list.sync( path.join("/") )
         let HTMLs     = list.filter( item => item.indexOf(".html") !== -1 ) // needs to have .html
 
         HTMLs.map( plugin => { this.run( plugin ) })

@@ -48,6 +48,7 @@ export default class Tags {
         Messager.on( "~notes", ( action, payload ) => {
 
             if( action === "tag" ) { // TODO: call this "tag" event a "scan"
+                printf( "action -> tab -> payload -> ", payload )
                 this.parse( payload )
             } else if( action === 'added' ) {
 

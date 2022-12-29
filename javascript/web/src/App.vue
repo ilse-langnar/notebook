@@ -1,16 +1,24 @@
 <template lang="pug">
 #app( v-cloak )
 
+<<<<<<< HEAD
     #setup( v-if="!ilse.target_directories.length" v-html="ilse.render('setup')" )
 
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded" :data-theme="get_data_theme" )
 
+=======
+    #setup( v-if="!ilse.target_directories.length" v-html="ilse.components['setup']" )
+
+    .ilse( v-if="ilse.target_directories.length && ilse.has_loaded" )
+        p {{test()}}
+>>>>>>> experimental-all-in-bullets
         .html-render( v-for="( item, index ) in ilse.stack" :key="index" )
             .div( v-html="item.html" :id="item.id" )
 
         .app( v-show="ilse.has_loaded" :key="ilse.keys.app" )
             .loop( v-for="( tab, tab_index ) in ilse.tabs.list" :key="tab_index" )
                 .htmll( v-if="tab.is_active" v-html="tab.html" style="overflow: auto; " )
+                // .htmll( :style=" tab.is_active ? 'display: inherit; ' : 'display: none;' " v-html="tab.html" style="overflow: auto; " )
 
 </template>
 <script>
@@ -29,33 +37,39 @@ import printf                                       from "@/functions/printf.js"
     import if_else                                  from "@/functions/if_else.js"
     import is_platform                              from "@/functions/is_platform.js"
 
+// HTML
+    // import setup                                    from "@/html/setup.html"
+
 export default {
 
     name: "App",
 
     data() {
         return {
-            ilse: ilse
+            ilse: ilse,
+            // setup_html: setup,
 
         }
     },
 
+    /*
     computed: {
 
         get_data_theme() {
             if( !ilse || !ilse.config ) return "dark"
-            return ilse.config.dark ? 'dark' : 'light'
+            let o = ilse.config.dark
+            return ilse.config.dark
+            // if( !ilse || !ilse.config ) return "dark"
+            // return ilse.config.dark ? 'dark' : 'light'
         },
 
     },
+    */
 
     methods: {
 
         test() {
 
-        },
-
-        show_info( component ) {
         },
 
         get_active() {
@@ -130,6 +144,29 @@ export default {
 }
 </script>
 <style>
+
+.block {
+    display: block;
+}
+
+.round {
+    border-radius: var( --border-radius );
+}
+
+.shadow {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.left {
+    float: left;
+    clear: left;
+}
+
+.centered {
+    display: block;
+    margin: 0 auto;
+}
+
 
 .ilse  {
     color: var( --text-color );
@@ -209,6 +246,106 @@ export default {
     --secondary-link-color: #99c6c2;
 }
 */
+
+table a:link {
+    color: #666;
+    font-weight: bold;
+    text-decoration:none;
+}
+table a:visited {
+    color: #999999;
+    font-weight:bold;
+    text-decoration:none;
+}
+table a:active,
+table a:hover {
+    color: #bd5a35;
+    text-decoration:underline;
+}
+table {
+    font-family:Arial, Helvetica, sans-serif;
+    color:#666;
+    font-size:12px;
+    text-shadow: 1px 1px 0px #fff;
+    background:#eaebec;
+    margin:20px;
+    border:#ccc 1px solid;
+
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    border-radius:3px;
+
+    -moz-box-shadow: 0 1px 2px #d1d1d1;
+    -webkit-box-shadow: 0 1px 2px #d1d1d1;
+    box-shadow: 0 1px 2px #d1d1d1;
+}
+table th {
+    padding:21px 25px 22px 25px;
+    border-top:1px solid #fafafa;
+    border-bottom:1px solid #e0e0e0;
+
+    background: #ededed;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#ebebeb));
+    background: -moz-linear-gradient(top,  #ededed,  #ebebeb);
+}
+table th:first-child {
+    text-align: left;
+    padding-left:20px;
+}
+table tr:first-child th:first-child {
+    -moz-border-radius-topleft:3px;
+    -webkit-border-top-left-radius:3px;
+    border-top-left-radius:3px;
+}
+table tr:first-child th:last-child {
+    -moz-border-radius-topright:3px;
+    -webkit-border-top-right-radius:3px;
+    border-top-right-radius:3px;
+}
+table tr {
+    text-align: center;
+    padding-left:20px;
+}
+table td:first-child {
+    text-align: left;
+    padding-left:20px;
+    border-left: 0;
+}
+table td {
+    padding:18px;
+    border-top: 1px solid #ffffff;
+    border-bottom:1px solid #e0e0e0;
+    border-left: 1px solid #e0e0e0;
+
+    background: #fafafa;
+    background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));
+    background: -moz-linear-gradient(top,  #fbfbfb,  #fafafa);
+}
+table tr.even td {
+    background: #f6f6f6;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#f6f6f6));
+    background: -moz-linear-gradient(top,  #f8f8f8,  #f6f6f6);
+}
+table tr:last-child td {
+    border-bottom:0;
+}
+table tr:last-child td:first-child {
+    -moz-border-radius-bottomleft:3px;
+    -webkit-border-bottom-left-radius:3px;
+    border-bottom-left-radius:3px;
+}
+table tr:last-child td:last-child {
+    -moz-border-radius-bottomright:3px;
+    -webkit-border-bottom-right-radius:3px;
+    border-bottom-right-radius:3px;
+}
+table tr:hover td {
+    background: #f2f2f2;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#f0f0f0));
+    background: -moz-linear-gradient(top,  #f2f2f2,  #f0f0f0);	
+}
+
+
 
 
 .no-outline:focus {
@@ -558,7 +695,7 @@ code {
     padding: var( --padding );
 }
 
-hr {
+hr .hr {
     width: 100%;
     border: 1px solid #000;
 }
@@ -1044,6 +1181,7 @@ code {
   padding: 0.25em 0.5em 0.25em;
 }
 
+/*
 hr {
     border: none;
     display: block;
@@ -1054,6 +1192,7 @@ hr {
     margin: 10px auto;
     border-radius: 50%;
 }
+*/
 
 img {
   height: auto;

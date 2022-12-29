@@ -6,16 +6,31 @@ import printf                           from "@/functions/printf.js"
 // functions
     import create_window                from "@/functions/create_window.js"
 
+<<<<<<< HEAD
+=======
+let top_menu, daily_notes, status_line, new_tab
+
+>>>>>>> experimental-all-in-bullets
 export default class Tabs {
 
     constructor( ilse ) {
 
-        let id = Math.random().toString().replace( "0.", "" )
+        let id       = Math.random().toString().replace( "0.", "" )
 
+<<<<<<< HEAD
         printf( "Tabs.js -> ilse -> ", ilse )
         printf( "Tabs.js -> ilse.render -> ", ilse.render )
 
         this.list =  [
+=======
+        printf( ">>>>> ilse -> ", ilse )
+        top_menu     = ilse.components['top-menu.html']
+        daily_notes  = ilse.components['daily-notes.html']
+        status_line  = ilse.components['status-line.html']
+        new_tab      = ilse.components['new-tab.html']
+
+        this.list    =  [
+>>>>>>> experimental-all-in-bullets
             {
                 id: id,
                 is_active: true,
@@ -33,8 +48,6 @@ export default class Tabs {
                 </html> `
             }
         ]
-
-        // this.selected = id
 
         this.listen()
     }

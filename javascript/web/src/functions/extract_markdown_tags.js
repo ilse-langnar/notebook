@@ -1,6 +1,6 @@
 import printf                   from "@/functions/printf.js"
 
-export default function extract_markdown_tags( etext ) {
+export default function extract_markdown_tags( text ) {
 
     if( !text ) return []
     if( !text.indexOf) return []

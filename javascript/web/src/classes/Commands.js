@@ -15,6 +15,7 @@ import printf                           from "@/functions/printf.js"
     import is_inside                    from "@/functions/is_inside.js"
     import if_else                      from "@/functions/if_else.js"
     import get_parent_with_attr         from "@/functions/find_parent_element_with_attribute.js"
+    import toggle                       from "@/functions/toggle.js"
 
 class Commands {
 
@@ -32,14 +33,14 @@ class Commands {
         this.set_default_commands()
     }
 
-    add_for_plugin({  id, name, icon, source, description, fn, props = {} }) {
+    add_for_plugin({  id, name, icon, source, description, fn, undo, props = {} }) {
         props.is_plugin = true
         props.source    = source
-        this.add({ id, name, icon, description, fn, props })
+        this.add({ id, name, icon, description, fn, undo, props })
     }
 
 
-    add({ id, name, icon, description, fn, props = {} }) {
+    add({ id, name, icon, description, fn, undo, props = {} }) {
 
         props.is_plugin = !!props.is_plugin
 
@@ -52,7 +53,10 @@ class Commands {
         let command = {
             id: id,
             icon: icon,
+
             fn: fn,
+            undo: undo,
+
             description: description,
             name: name,
             props: props,
@@ -178,8 +182,13 @@ class Commands {
                 id: "test",
                 fn: function() {
                     // ilse.electron.show_cookies()
+<<<<<<< HEAD
                     // ilse.electron.show_cookies()
                     ilse.electron.browser_view()
+=======
+                    const config = ilse.notes.query("#config")[0]
+                    printf( "config -> ", config )
+>>>>>>> experimental-all-in-bullets
                 },
                 description: "Test",
                 name: "Test",
@@ -189,7 +198,7 @@ class Commands {
             {
                 id: "open-command-pallet-modal",
                 fn: function() {
-                    ilse.modal( ilse.render('command-pallet', { search: '' }) )
+                    ilse.modal( ilse.render('command-pallet.html', { search: '' }) )
                 },
                 undo: args => {
                     ilse.list.shift()
@@ -202,7 +211,7 @@ class Commands {
             {
                 id: "open-links-modal",
                 fn: function() {
-                    ilse.modal( ilse.render('links', { search: '' }) )
+                    ilse.modal( ilse.render("links.html", { search: '' }) )
                 },
                 description: "Open Links Modal",
                 name: "Open Links Modal",
@@ -243,6 +252,7 @@ class Commands {
             {
                 id: "examine-component",
                 fn: function() {
+                    /*
 
                     // document.body.style.cursor = "crosshair !important"
                     document.body.style.cursor      = "crosshair";
@@ -269,6 +279,7 @@ class Commands {
                     }
 
                     document.body.addEventListener( "click", ilse.cursor )
+                    */
                 },
                 description: "Examine a DOM Element",
                 name: "Examine Component",
@@ -398,11 +409,71 @@ class Commands {
             },
 
             {
+                id: "dark-mode",
+                fn: function() {
+
+                    ilse.themes.render( `
+                        .ilse {
+
+                            --background-color: #131313ff;
+                            --secondary-background-color: #DCEAF8;
+                            --terciary-background-color: #5a6269;
+
+                            --text-color: #F8F8F8;
+                            --secondary-text-color: #000;
+                            --terciary-text-color: #8D9EAC;
+
+                            --border: 2px solid #777;
+                            --border-radius: 6px;
+
+                            --padding: 4px;
+
+                            --font-family: Mary, Helvetica, Georgia, Times New Roman, serif, -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+                            --font-size: 1em;
+
+                            --box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+                            --link-color: #5ec7b8;
+                            --secondary-link-color: #99c6c2;
+                        } `, "dark-mode" )
+
+                },
+                description: "Activate Dark MOde",
+                undo: args => {
+                    ilse.themes.unrender( "dark-mode" )
+                },
+                name: "Dark Mode",
+                props: {},
+            },
+
+            {
                 id: "toggle-dark-mode",
                 icon: "moon-stars.svg",
                 fn: function() {
-                    ilse.config.dark = !ilse.config.dark
-                    ilse.config.save()
+
+                    // printf( "@before -> ilse.config.modes -> ", ilse.config.modes )
+                    let dark_mode_string = "dark-mode|PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIGljb24tdGFibGVyIGljb24tdGFibGVyLW1vb24iIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZT0iIzQ4NTM2MSIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICA8cGF0aCBzdHJva2U9Im5vbmUiIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KICA8cGF0aCBkPSJNMTIgM2MuMTMyIDAgLjI2MyAwIC4zOTMgMGE3LjUgNy41IDAgMCAwIDcuOTIgMTIuNDQ2YTkgOSAwIDEgMSAtOC4zMTMgLTEyLjQ1NHoiIC8+Cjwvc3ZnPgoKCg==|dark-mode"
+                    ilse.mode( dark_mode_string )
+
+                    // let index = ilse.config.modes.indexOf(dark_mode_string)
+                    // printf( "index -> ", index )
+
+                    // if( index !== -1 ) {
+                        // ilse.config.modes.splice( index, 1 )
+                    // } else {
+                        // ilse.config.modes.push( dark_mode_string )
+                    // }
+                    // toggle( "", ilse.config.modes )
+                    // printf( "@after -> ilse.config.modes -> ", ilse.config.modes )
+
+                    // ilse.config.dark = !ilse.config.dark
+                    // printf( "ilse.config.dark -> ", ilse.config.dark )
+
+                    // printf( "before -> ilse.config('dark') -> ", ilse.config('dark') )
+                    // ilse.config('dark', !ilse.config('dark') )
+                    // printf( "after -> ilse.config('dark') -> ", ilse.config('dark') )
+
+                    ilse.save()
                 },
                 description: "Will turn on if it's off, and off if it's on",
                 name: "Toggle Dark Mode",
@@ -451,7 +522,7 @@ class Commands {
                 id: "open-help-modal",
                 icon: "lifebuoy.svg",
                 fn: function() {
-                    ilse.modal( ilse.components.help, { overflow: 'auto' } )
+                    // ilse.modal( ilse.components.help, { overflow: 'auto' } )
                 },
                 undo: args => { ilse.list.shift()},
                 description: "Will open the help modal",
@@ -463,7 +534,7 @@ class Commands {
                 id: "open-configuration-modal",
                 icon: "settings.svg",
                 fn: function() {
-                    ilse.add( "configuration", ilse.components.configuration )
+                    // ilse.add( "configuration", ilse.components.configuration )
                 },
                 undo: args => { ilse.list.shift()},
                 description: "Will open the configuration modal",
@@ -477,7 +548,7 @@ class Commands {
                 fn: async function() {
 
                     printf( "pen -> " )
-                    ilse.modal( ilse.render('pan', {}), { width: '70%', height: '70%' })
+                    ilse.modal( ilse.render("pan.html", {}), { width: '70%', height: '70%' })
 
                 },
                 undo: args => {
@@ -493,8 +564,23 @@ class Commands {
                 fn: async function() {
 
                     ilse.modal(
-                        ilse.render('search',
-                            { search: '', list: [], pointer: -1, prepend_search: "", append_search: "" }
+                        ilse.render("search.html",
+                            {
+                                search: '',
+                                list: [],
+                                pointer: -1,
+                                prepend_search: "",
+                                append_search: "",
+                                enter() {
+                                    this.list = window.ilse.query( this.prepend_search + this.search + this.append_search )
+                                    if( !this.list.length ) {
+
+                                    }
+                                }
+                            },
+                            {
+                                stringify: false,
+                            }
                         ),
                         { width: '70%', height: '70%' }
                     )
@@ -511,9 +597,53 @@ class Commands {
                 id: "new-note",
                 icon: "point.svg",
                 fn: async function() {
-                    let input   = await ilse.dialog.input( "New note", "Content:" )
-                    let index   = ilse.notes.list.length
-                        ilse.notes.add( input )
+
+                    // let input   = await ilse.dialog.input( "New note", "Content:" )
+                    // let index   = ilse.notes.list.length
+                        // ilse.notes.add( input )
+
+                    ilse.modal(
+                        ilse.render("search.html",
+                            {
+                                search: '',
+                                list: [],
+                                pointer: -1,
+                                prepend_search: "",
+                                append_search: "",
+                                enter() {
+                                    this.list = window.ilse.query( this.prepend_search + this.search + this.append_search )
+                                    if( !this.list.length ) {
+                                        ilse.notes.add( this.search )
+                                        ilse.notes.save()
+                                        ilse.stack.pop()
+                                    }
+                                }
+                            },
+                            {
+                                stringify: false
+                            }
+                        ),
+                        { width: '70%', height: '70%' }
+                    )
+
+                    /*
+                    let search = ilse.render( "search.html",
+                        {
+                            search: '',
+                            list: [],
+                            pointer: -1,
+                            prepend_search: "",
+                            append_search: "",
+                            enter: function() {
+                                printf( ">>>>>>>>>>>>>>>>>>>>>>>>" )
+                            }
+                        },
+                        "border: 1px solid #000; width: 300px; height: 300px; position: fixed; left: 50%; top: 50%; transform: translate( -50%, -50% );"
+                    )
+                    printf( "search -> ", search )
+                    ilse.modal( search )
+                    */
+
                 },
                 undo: args => {
                     // TODO: Remove last note added
@@ -528,17 +658,17 @@ class Commands {
                 icon: "logo.svg",
                 fn: async function() {
 
-                    if_else(
-                        not(
+                    // if_else(
+                        // not(
                             // is_inside( ilse.modes, "ilse" )
-                            is_inside( "ilse", ilse.modes )
-                        ),
-                        yes => {
-                            ilse.modes.push( "ilse" )
-                            ilse.config.modes = [ "ilse" ]
-                            ilse.config.save()
-                        }
-                    )
+                            // is_inside( "ilse", ilse.modes )
+                        // ),
+                        // yes => {
+                            // ilse.modes.push( "ilse" )
+                            // ilse.config('modes', JSON.stringify(['ilse']) )
+                            // ilse.save()
+                        // }
+                    // )
 
                 },
                 undo: args => {
@@ -593,7 +723,7 @@ class Commands {
                 fn: async function() {
 
                     ilse.modal(
-                        ilse.render('search',
+                        ilse.render("search.html",
                             { search: '- [ ] ', list: [], pointer: -1, prepend_search: "- [ ] ", append_search: "" }
                         ),
                         { width: '70%', height: '70%' }
@@ -608,12 +738,23 @@ class Commands {
                 id: "open-notes-search-modal",
                 icon: "lupe.svg",
                 fn: async function() {
-                    // ilse.is_search_on = !ilse.is_search_on
-                    // ilse.add( "search", ilse.components.search )
+                    let _this = this
 
                     ilse.modal(
-                        ilse.render('search',
-                            { search: '', list: [], pointer: -1, prepend_search: "", append_search: "" }
+                        ilse.render("search.html",
+                            {
+                                search: '',
+                                list: [],
+                                pointer: -1,
+                                prepend_search: "",
+                                append_search: "",
+                                enter() {
+                                    this.list = window.ilse.query(this.prepend_search + this.search + this.append_search )
+                                }
+                            },
+                            {
+                                stringify: false
+                            },
                         ),
                         { width: '70%', height: '70%' }
                     )
@@ -627,8 +768,8 @@ class Commands {
                 id: "toggle-zen-mode",
                 icon: "yin-yang.svg",
                 fn: async function() {
-                    ilse.is_zen = ilse.config.is_zen = !ilse.config.is_zen
-                    ilse.config.save()
+                    ilse.config.is_zen = !ilse.config.is_zen
+                    ilse.save()
                 },
                 description: "Will toggle zen mode",
                 name: "Toggle Zen Mode",
@@ -674,7 +815,6 @@ class Commands {
                 fn: async function() {
                     const dom       = document.activeElement
                     dom.innerText  += `<button onclick="alert('Hello, World')" > Hello, World </button>`
-                    // dom.onkeypress = function(){ return false }
                 },
                 undo: args => {},
                 description: "Printf Keys",
@@ -805,6 +945,7 @@ class Commands {
                 icon: command.icon,
                 description: command.description,
                 fn: command.fn,
+                undo: command.undo,
                 props: command.props
             })
         })
