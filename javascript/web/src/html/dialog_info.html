@@ -1,5 +1,0 @@
-<div x-transition style="z-index: 2; position: fixed; left: 50%; top: 50%; transform: translate( -50%, -50% ); width: 60%; height: 50%; overflow: auto; color: var( --text-color ); background: var( --background-color ); padding: 5px; text-align: center; box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;" data-component-id="dialog-info" >
-    <img class="is-pulled-right" style="width: 20px; cursor: pointer;" onclick="ilse.stack.shift(); let id = this.parentNode.parentNode.id; ilse.Messager.emit('~dialog.vue', 'rejected', { id: id })" :src="ilse.require('x.svg');" />
-    <h1> $title </h1>
-    <h3> $description </h3>
-</div>
