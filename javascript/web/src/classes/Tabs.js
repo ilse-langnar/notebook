@@ -6,20 +6,21 @@ import printf                           from "@/functions/printf.js"
 // functions
     import create_window                from "@/functions/create_window.js"
 
-// html
-    import top_menu                     from "@/html/top-menu.html"
-    import daily_notes                  from "@/html/daily-notes.html"
-    import status_line                  from "@/html/status-line.html"
-    import new_tab                      from "@/html/new-tab.html"
-
+let top_menu, daily_notes, status_line, new_tab
 
 export default class Tabs {
 
     constructor( ilse ) {
 
-        let id = Math.random().toString().replace( "0.", "" )
+        let id       = Math.random().toString().replace( "0.", "" )
 
-        this.list =  [
+        printf( ">>>>> ilse -> ", ilse )
+        top_menu     = ilse.components['top-menu.html']
+        daily_notes  = ilse.components['daily-notes.html']
+        status_line  = ilse.components['status-line.html']
+        new_tab      = ilse.components['new-tab.html']
+
+        this.list    =  [
             {
                 id: id,
                 is_active: true,
@@ -37,8 +38,6 @@ export default class Tabs {
                 </html> `
             }
         ]
-
-        // this.selected = id
 
         this.listen()
     }

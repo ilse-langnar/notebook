@@ -1,7 +1,7 @@
 <template lang="pug">
 #app( v-cloak )
 
-    #setup( v-if="!ilse.target_directories.length" v-html="setup_html" )
+    #setup( v-if="!ilse.target_directories.length" v-html="ilse.components['setup']" )
 
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded" )
         p {{test()}}
@@ -39,7 +39,7 @@ import printf                                       from "@/functions/printf.js"
     import is_platform                              from "@/functions/is_platform.js"
 
 // HTML
-    import setup                                    from "@/html/setup.html"
+    // import setup                                    from "@/html/setup.html"
 
 export default {
 
@@ -48,7 +48,7 @@ export default {
     data() {
         return {
             ilse: ilse,
-            setup_html: setup,
+            // setup_html: setup,
 
         }
     },

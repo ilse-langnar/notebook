@@ -172,7 +172,6 @@
                     <br/>
                     <br/>
 
-                    <!-- <p x-text="$store.store.notes" :title="JSON.stringify($store)" :key="$store.key" ></p> -->
                     <h3 align="center" style="cursor: pointer; background: var( --text-color ); color: var( --background-color );" class="" > Daily Notes </h3>
                     <h3 align="center" style="cursor: pointer;" @click="ilse.commands.run('open-study-tab')" > Study </h3>
                     <h3 align="center" style="cursor: pointer;" @click="ilse.commands.run('open-todos-modal')" > Todos </h3>
@@ -189,7 +188,7 @@
             </div>
             <!-- Left Sidebar -->
 
-            <div id="notes" style="overflow-y: auto !important; overflow-x: hidden !important; margin-left: 5px; height: 88vh; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; margin-right: 10px; flex: 1; flex-basis: 100%; border-radius: var( --border-radius ); background: var( --background-color ); "  >
+            <div id="notes" style="overflow-y: auto !important; overflow-x: hidden !important; margin-left: 5px; height: 90vh; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; margin-right: 10px; flex: 1; flex-basis: 100%; border-radius: var( --border-radius ); background: var( --background-color ); "  >
 
                 <div style="padding: 5px;" >
                     <img :src=" is_leftsidebar_open ? window.ilse.require('arrow-narrow-left.svg') : window.ilse.require('arrow-narrow-right.svg')" style="width: 20px; cursor: pointer;" @click="is_leftsidebar_open = !is_leftsidebar_open; " />
@@ -313,7 +312,7 @@
             }
 
             #daily-notes .left-sidebar {
-                height: 88vh;
+                height: 90vh;
                 width: 20px !important;
                 margin: 0px 5px;
                 overflow: hidden;
@@ -328,7 +327,7 @@
                 }
 
             #daily-notes .right-sidebar {
-                height: 88vh;
+                height: 90vh;
                 width: 20px !important;
                 margin: 0px 4px;
                 overflow-y: auto;
@@ -551,7 +550,7 @@
 
         #filesystem {
             with: 100%;
-            height: 88vh;
+            height: 90vh;
             overflow: auto;
             font-size: 2em; 
         }
@@ -766,7 +765,7 @@
                 <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
             </div>
 
-            <div id="notes" style="overflow-y: auto !important; overflow-x: hidden !important; margin-left: 5px; height: 88vh; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; margin-right: 10px; flex: 1; flex-basis: 10%; border-radius: var( --border-radius ); background: var( --background-color ); "  >
+            <div id="notes" style="overflow-y: auto !important; overflow-x: hidden !important; margin-left: 5px; height: 90vh; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; margin-right: 10px; flex: 1; flex-basis: 10%; border-radius: var( --border-radius ); background: var( --background-color ); "  >
                 <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
             </div>
 
@@ -794,7 +793,7 @@
                     <div x-data="{ depth: ilse.notes.list[note.id].depth, content: ilse.notes.list[note.id].content }" :id="note.id" :style=" 'margin-left:' + (depth * 20) + 'px;' " > 
 
                         <!-- Bullet -->
-                        <div class="bullet" @click.shift="ilse.tabs.add( ilse.render('pan', { list: ilse.query(note.id) }), { title: 'Pan', autoselect: true })" :title="ilse.utils.get_human_readable_creation_date(note.id)" > &bull; </div>
+                        <div class="bullet" @click.shift="ilse.tabs.add( ilse.render('pan.html', { list: ilse.query(note.id) }), { title: 'Pan', autoselect: true })" :title="ilse.utils.get_human_readable_creation_date(note.id)" > &bull; </div>
 
                         <!-- Editing -->
                         <div x-show="note.is_editing" :id=" note.id + '-edit' " :key="ilse.notes.list[note.id].content" class="no-outline edit" contentEditable
@@ -843,7 +842,7 @@
                              > </div>
 
                         <!-- Displaying -->
-                        <div x-show="!note.is_editing" class="render" :key="ilse.notes.list[note.id].content" :id=" note.id + 'render'" :data-note-id="note.id" :title="content" x-html="ilse.markdown.render(ilse.notes.list[note.id].content)" @link-click="if( $event.detail.id === note.id ) ilse.modal( ilse.render( 'references', { file: $event.detail.link } ), { width: '70%', height: '70%' })"
+                        <div x-show="!note.is_editing" class="render" :key="ilse.notes.list[note.id].content" :id=" note.id + 'render'" :data-note-id="note.id" :title="content" x-html="ilse.markdown.render(ilse.notes.list[note.id].content)" @link-click="if( $event.detail.id === note.id ) ilse.modal( ilse.render( 'references.html', { file: $event.detail.link } ), { width: '70%', height: '70%' })"
                              @click="if( $event.target.type === 'checkbox' ) {
                                 ilse.notes.list[note.id].content.replace( '- [ ]', '- [x]' )
                                 note.is_editing = false;
@@ -1426,11 +1425,13 @@
     </div>
 
     <div id="top-menu.html" >
-        <div data-component-id="top-menu" id="top-menu" x-data="{ tabs: window.ilse.tabs.list, selected: '', key: 0, is_brains_configuration_on: false, is_menu_on: false, mode: window.navigator.onLine ? (ilse.parse.id ? 'logged' : 'login') : 'offline', user: $store.user, key: ilse.parse.id }" x-init="Messager.on('~tabs', payload => { $watch( '$store.user', payload => { user = payload })" >
+        <div data-component-id="top-menu" id="top-menu" style="height: 30px;" x-data="{ tabs: window.ilse.tabs.list, selected: '', key: 0, is_brains_configuration_on: false, is_menu_on: false, mode: window.navigator.onLine ? (ilse.parse.id ? 'logged' : 'login') : 'offline', user: $store.user, key: ilse.parse.id }" x-init="Messager.on('~tabs', payload => {
+            $watch( '$store.user', payload => { user = payload })
+        })" >
+
+            <img style="width: 25px; height: 25px; margin-right: 5px; cursor: pointer;" :src="window.ilse.require('menu-2.svg')" @click="is_menu_on = !is_menu_on" />
 
             <div class="tabs" style="display: block; " x-inti="$watch('$store', function (val) { console.log('@@@@>>>', val); })" >
-
-                <img style="float: right; width: 25px; height: 25px; margin-right: 5px; cursor: pointer;" :src="window.ilse.require('menu-2.svg')" @click="is_menu_on = !is_menu_on" />
 
                 <div class="configuration" x-show="is_brains_configuration_on" >
                     <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
@@ -1447,7 +1448,6 @@
                         <img style="width: 25px; height: 25px; margin-left:  4px; cursor: pointer; float: left; " :src="window.ilse.require('moon.svg')" title="Toggle 'Dark' mode" alt="dark" @click="ilse.commands.run('toggle-dark-mode')" />
                         <img style="width: 25px; height: 25px; margin-right: 4px; cursor: pointer; float: left;" :src="window.ilse.require('yin-yang.svg')" title="Toggle 'zen' Mode" alt="zen" @click="ilse.commands.run('toggle-dark-mode')" />
                         <hr style="clear: both;" >
-                        <br>
                         <!-- Top Icons -->
 
 

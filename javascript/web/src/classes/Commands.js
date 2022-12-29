@@ -193,7 +193,7 @@ class Commands {
             {
                 id: "open-command-pallet-modal",
                 fn: function() {
-                    ilse.modal( ilse.render('command-pallet', { search: '' }) )
+                    ilse.modal( ilse.render('command-pallet.html', { search: '' }) )
                 },
                 undo: args => {
                     ilse.list.shift()
@@ -206,7 +206,7 @@ class Commands {
             {
                 id: "open-links-modal",
                 fn: function() {
-                    ilse.modal( ilse.render('links', { search: '' }) )
+                    ilse.modal( ilse.render("links.html", { search: '' }) )
                 },
                 description: "Open Links Modal",
                 name: "Open Links Modal",
@@ -543,7 +543,7 @@ class Commands {
                 fn: async function() {
 
                     printf( "pen -> " )
-                    ilse.modal( ilse.render('pan', {}), { width: '70%', height: '70%' })
+                    ilse.modal( ilse.render("pan.html", {}), { width: '70%', height: '70%' })
 
                 },
                 undo: args => {
@@ -559,7 +559,7 @@ class Commands {
                 fn: async function() {
 
                     ilse.modal(
-                        ilse.render('search',
+                        ilse.render("search.html",
                             {
                                 search: '',
                                 list: [],
@@ -598,7 +598,7 @@ class Commands {
                         // ilse.notes.add( input )
 
                     ilse.modal(
-                        ilse.render('search',
+                        ilse.render("search.html",
                             {
                                 search: '',
                                 list: [],
@@ -622,7 +622,7 @@ class Commands {
                     )
 
                     /*
-                    let search = ilse.render( "search",
+                    let search = ilse.render( "search.html",
                         {
                             search: '',
                             list: [],
@@ -718,7 +718,7 @@ class Commands {
                 fn: async function() {
 
                     ilse.modal(
-                        ilse.render('search',
+                        ilse.render("search.html",
                             { search: '- [ ] ', list: [], pointer: -1, prepend_search: "- [ ] ", append_search: "" }
                         ),
                         { width: '70%', height: '70%' }
@@ -734,11 +734,9 @@ class Commands {
                 icon: "lupe.svg",
                 fn: async function() {
                     let _this = this
-                    // ilse.is_search_on = !ilse.is_search_on
-                    // ilse.add( "search", ilse.components.search )
 
                     ilse.modal(
-                        ilse.render('search',
+                        ilse.render("search.html",
                             {
                                 search: '',
                                 list: [],
@@ -747,9 +745,6 @@ class Commands {
                                 append_search: "",
                                 enter() {
                                     this.list = window.ilse.query(this.prepend_search + this.search + this.append_search )
-                                    // if( this.pointer === -1 ) {
-                                        // list = ilse.query(this.prepend_search + this.search + this.append_search )
-                                    // }
                                 }
                             },
                             {
@@ -769,7 +764,6 @@ class Commands {
                 icon: "yin-yang.svg",
                 fn: async function() {
                     ilse.config.is_zen = !ilse.config.is_zen
-                    // ilse.is_zen = ilse.config('is-zen', !ilse.config('is-zen') )
                     ilse.save()
                 },
                 description: "Will toggle zen mode",
@@ -816,7 +810,6 @@ class Commands {
                 fn: async function() {
                     const dom       = document.activeElement
                     dom.innerText  += `<button onclick="alert('Hello, World')" > Hello, World </button>`
-                    // dom.onkeypress = function(){ return false }
                 },
                 undo: args => {},
                 description: "Printf Keys",

@@ -17,13 +17,10 @@ import printf                   from "@/functions/printf.js"
     import Clipboard                    from "@/classes/Clipboard.js"
     import PluginManager                from "@/classes/PluginManager.js"
     import Parse                        from "@/classes/Parse.js"
-
-    // UI Elements
-        import Notification                 from "@/classes/Notification.js"
-        import Dialog                       from "@/classes/Dialog.js"
+    import Notification                 from "@/classes/Notification.js"
+    import Dialog                       from "@/classes/Dialog.js"
 
 // functions
-    import create_native_components_on_filesystem        from "@/functions/create_native_components_on_filesystem.js"
     import i18n                         from "@/functions/i18n.js"
     import get_plugin_api               from "@/functions/get_plugin_api.js"
     import irequire                     from "@/functions/require.js"
@@ -41,123 +38,31 @@ import printf                   from "@/functions/printf.js"
     import Messager                     from "@/classes/Messager.js"
 
 // Constants
-    import APP_TEMPLATE                 from "@/constants/APP_TEMPLATE.js"
-    import CONFIG_TEMPLATE              from "@/constants/CONFIG_TEMPLATE.js"
-    import CORE_PLUGINS                 from "@/constants/CORE_PLUGINS.js"
-    import DEFAULT_COMMANDS             from "@/constants/DEFAULT_COMMANDS.js"
-    import DEFAULT_THEME                from "@/constants/DEFAULT_THEME.js"
-    import DEMO_NOTES                   from "@/constants/DEMO_NOTES.js"
-    import PERMISSIONS                  from "@/constants/PERMISSIONS.js"
-    import REGULAR_EXPRESSIONS          from "@/constants/REGULAR_EXPRESSIONS.js"
-    import SUPPORTED_LANGUAGES          from "@/constants/SUPPORTED_LANGUAGES.js"
-    import SVG_TABLE                    from "@/constants/SVG_TABLE.js"
+    import CONSTANTS                    from "@/constants/index.js"
 
 // html
-    import component_not_found          from "@/html/component-not-found.html"
-    import template                     from "@/html/template.html"
-    import top_menu                     from "@/html/top-menu.html"
-    import help                         from "@/html/help.html"
-    import search                       from "@/html/search.html"
-    import marketplace                  from "@/html/marketplace.html"
-    import configuration                from "@/html/configuration.html"
-    import command_pallet               from "@/html/command-pallet.html"
-    import references                   from "@/html/references.html"
-    import outline                      from "@/html/outline.html"
-    import daily_notes                  from "@/html/daily-notes.html"
-    import status_line                  from "@/html/status-line.html"
-    import new_tab                      from "@/html/new-tab.html"
-    import filesystem                   from "@/html/filesystem.html"
-    import file                         from "@/html/file.html"
-    import study                        from "@/html/study.html"
-    import web                          from "@/html/web.html"
-    import directory_manager            from "@/html/directory-manager.html"
-    import links                        from "@/html/link.html"
-    import pan                          from "@/html/pan.html"
+    import component_html          from "@/html/components.html"
 
 // Frame
-const JSFrame = require("@/assets/jsframe.min.js")
-    let Frame     = JSFrame.JSFrame
-
+const Frame = require("@/assets/jsframe.min.js").JSFrame
 
 // Entry point for our app, there is only one ilse in the entire app, this is the glue for everything else + components
 export default class Ilse {
 
     constructor() {
 
-        // consts
-        this.constants    = {
-            APP_TEMPLATE,               // <!DOCTYPE <html> </html> ...
-
-            CONFIG_TEMPLATE,            // { "favorites": [], "dark": false, "active_theme": "", "components": [], "keys": [ <key1>, <key2> ... ]
-
-            CORE_PLUGINS,               // [ "https://raw.githubusercontent.com/ilse-langnar/notebook/dev/marketplace/simple-draw.html" ... ]
-
-            DEFAULT_COMMANDS,           // [ <command1>, <command2> ... ]
-
-            DEFAULT_THEME,              // :root, .ilse[data-theme='light'] { --background-color: ... }
-
-            DEMO_NOTES,                 // [ { content: "# Hello, World", depth: 0, }, { content: "This is ilse Langnar's Notebook", depth: 0, }, ... ]
-
-            template,              // <!DOCTYPE <html> </html> ...
-
-            PERMISSIONS,                // [ "read", "write", "clipboard",  "communication" ]
-
-            REGULAR_EXPRESSIONS,        // { "embed": "/^\!\[\[([^|\]\n]+)(\|([^\]\n]+))?\]\]/", "link": "/\[\[([^|\]\n]+)(\|([^\]\n]+))?\]\]/", ... }
-
-            SUPPORTED_LANGUAGES,        // { "en": "English(English)", "zh": "Chinese Simplified(简体中文)", "pt": "Brazillian Portuguese(Português Brasileiro)", "hb": "Hebrew (עברית)" }
-
-            SVG_TABLE,                  // {"address-book.svg": "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNs ... "
-        }
-
-        this.components             = {
-            "top-menu":             top_menu,
-            "help":                 help,
-            "search":               search,
-            "marketplace":          marketplace,
-            "configuration":        configuration,
-            "command-pallet":       command_pallet,
-            "references":           references,
-            "outline":              outline,
-            "daily-notes":          daily_notes,
-            "status-line":          status_line,
-            "new-tab":              new_tab,
-            "filesystem":           filesystem,
-            "file":                 file,
-            "study":                study,
-            "web":                  web,
-            "directory-manager":    directory_manager,
-            "links":                links,
-            "pan":                  pan,
-            "hello-world":          `<p> Hello, World </p>`,
-        }
-
+        this.constants              = CONSTANTS;
+        this.components             = this.get_components( component_html )
         this.stack                  = []
-        this.tabs                   = new Tabs()
-        this.is_online              = window.navigator.onLine
-
-
+        this.tabs                   = new Tabs(this)
 
 
         this.name                   = "Ilse Langnar's Notebook"
         this.key                    = "ilse-key"
         this.cursor                 = null
         this.keys                   = { daily_notes: "daily-notes-key", home: 0 }
-        this.languages              = Object.keys(SUPPORTED_LANGUAGES)
-
-        // booleans
-        this.is_zen                 = false
-        this.tried_too_fast         = false
-        this.is_vitruvian_expanded  = false
-        this.is_home_page_on        = false
-        this.is_search_on           = false
-        this.is_left_sidebar_open   = false
-        this.left_sidebar           = ""
-        this.is_right_sidebar_open  = false
+        this.languages              = Object.keys(CONSTANTS.SUPPORTED_LANGUAGES)
         this.has_loaded             = false
-        this.is_left_menu_on        = true
-        this.style                  = ""
-
-        // platform/env
         this.env                    = process.env
         this.platform               = process.env.VUE_APP_TARGET.toLowerCase()
 
@@ -244,8 +149,8 @@ export default class Ilse {
             this.links                  = new Links()
 
         // UI Elements
-            this.notification           = new Notification()
-            this.dialog                 = new Dialog()
+            this.notification           = new Notification(this)
+            this.dialog                 = new Dialog(this)
 
         // Snippets / Themes
             this.themes                 = new Themes( this )
@@ -433,65 +338,48 @@ export default class Ilse {
 
     }
 
-    set_components() {
+    get_components( string ) {
 
-        let component_html = require("@/html/components.html")
-        let DOM            = string_to_html( component_html.default )
-        let components =  [ "command-pallet.html", "component-not-found.html", "configuration.html", "daily-notes.html", "dialog-confirm.html", "dialog-info.html", "dialog-input.html", "directory-manager.html", "file.html", "filesystem.html", "help.html", "link.html", "marketplace.html", "modes.html", "new-tab.html", "notification.html", "outline.html", "pan.html", "references.html", "search.html", "setup.html", "status-line-keys-content.html", "status-line-keys-icon.html", "status-line-links-content.html", "status-line-links-icon.html", "status-line.html", "study.html", "template.html", "top-menu.html", "web.html" ]
-        let string
+        let DOM            = string_to_html( string )
+        let html_string
+        let list       = CONSTANTS.COMPONENTS
+        let components = {}
 
-        printf( "before -> this.components -> ", this.components )
-        components.map( name    => {
-            string = DOM.getElementById(name)
-            if( string ) this.components[name] = string
+        list.map( name    => {
+            html_string = DOM.getElementById(name).innerHTML
+            if( html_string ) components[name] = html_string
         })
-        printf( "after -> this.components -> ", this.components )
 
-        /*
-        this.components = {
-            "top-menu":             top_menu,
-            "help":                 help,
-            "search":               search,
-            "marketplace":          marketplace,
-            "configuration":        configuration,
-            "command-pallet":       command_pallet,
-            "references":           references,
-            "outline":              outline,
-            "daily-notes":          daily_notes,
-            "status-line":          status_line,
-            "new-tab":              new_tab,
-            "filesystem":           filesystem,
-            "file":                 file,
-            "study":                study,
-            "web":                  web,
-            "directory-manager":    directory_manager,
-            "links":                links,
-            "pan":                  pan,
-            "hello-world":          `<p> Hello, World </p>`,
+        return components
+    }
+
+    async load_custom_components() {
+
+        printf( "process.env -> ", process.env )
+        printf( "process.env.VUE_APP_TESTING -> ", process.env.VUE_APP_TESTING )
+
+        if( process.env.VUE_APP_TESTING ) return // Don't do anything when testing
+
+        let has_components  = await  this.filesystem.file.exists.async( "components.html" )
+
+        if( has_components ) {
+            let text        = await  this.filesystem.file.read.async( "components.html" )
+            this.components = this.get_components( text )
+        } else {
+            await  this.filesystem.file.write.async( "components.html", component_html )
+            this.load_custom_components()
         }
-        */
 
     }
 
-    // Setup things that needs "ilse.notes" to be readyu
-    after_setup() {
+    init_alpine_store() {
+        this.store( "links", [] )
+        this.store( "user", {} )
+    }
+
+    init_config() {
 
         let _this = this
-
-        window.ilse                     = get_plugin_api( "global", this )
-        this.store( "links", [], false )
-        printf( ">>>>>>>>>>>>>>>>>>>>>>>>>>> this.store('links') -> ", this.store('links') )
-        // Alpine.store( "links", [] )
-
-        this.extend_alpine()
-        this.set_components()
-
-        // document.addEventListener('alpine:init', () => {
-            // Alpine.store("store", {
-                // api: get_plugin_api( "global", this ),
-                // user: {},
-            // })
-        // })
 
         let note    = ilse.notes.query( "#config" )[0] ?  ilse.notes.query( "#config" )[0].content : `20201211181905-v62p5f86: #config "{ \\"modes\\": [] }" `
         let config  = note_to_config( note )
@@ -504,13 +392,6 @@ export default class Ilse {
             })
 
         }
-
-
-        // apply config's
-        // keys.map( key => {
-            // this[key] = config[key]
-        // })
-
 
         this.config = { // This object is synched with my shit.
 
@@ -532,26 +413,21 @@ export default class Ilse {
             },
 
             modes: config["modes"],
-
-            // get( key ) {
-                // printf( "GGGGEEETTTERRR" )
-                // return this.config[key]
-            // },
-            // set( key, value ) {
-                // printf( "SEEETTTTEEER" )
-                // this.config[key] = value
-                // return value
-            // },
         }
-        printf( ">>>>>>>>>>>>>>>>>>>>>>>>>> config -> ", config )
 
-        setTimeout( () => {
-            printf( "SAVING AAAAAA" )
-            printf( "this.config -> ", this.config )
-            this.config.save()
-        }, 4000 )
+    }
 
+    init_global_api() {
+        window.ilse                     = get_plugin_api( "global", this )
+    }
 
+    // Setup things that needs "ilse.notes" to be readyu
+    after_setup() {
+        this.init_global_api()
+        this.init_alpine_store()
+        this.extend_alpine()
+        this.load_custom_components()
+        this.init_config()
     }
 
     mode( string ) {
@@ -565,7 +441,6 @@ export default class Ilse {
         let fn          = chunks[2]
 
         let command     = this.commands.get(fn)
-        printf( ">>> command -> ", command )
 
         if( has_already ) {
             command.undo()
@@ -582,17 +457,12 @@ export default class Ilse {
     loaded() {
         this.has_loaded             = true
         Messager.emit( "~ilse", "loaded" )
-
-        // Create Native Componenets
-        create_native_components_on_filesystem()
     }
 
     async save() {
-        let is_attempting_too_fast  = this.last_attempt >= ( Date.now() - 4000 )
-            if( is_attempting_too_fast ) return
 
+        if( this.last_attempt >= ( Date.now() - 4000 ) ) return // Return if too fast
         this.last_attempt           =  Date.now()
-
          // this.config.save()
     }
 

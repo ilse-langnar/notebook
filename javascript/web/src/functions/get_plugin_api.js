@@ -214,7 +214,6 @@ export default function get_plugin_api( name, ilse ) {
             version:            ilse.env.VUE_APP_VERSION,
             env:                ilse.env,
             target_directories: ilse.target_directories,
-            is_online:          ilse.is_online,
         },
 
         languages: ilse.constants.SUPPORTED_LANGUAGES,

@@ -112,7 +112,7 @@ export default class ParseServer {
 
     setup() {
 
-        if( this.id && window.navigator.onLine ) {
+        if( this.id && window.navigator.onLine && !process.env.VUE_APP_TESTING /* :serve2 ok, :serve no*/) {
             this.fetch_user()
         }
 
