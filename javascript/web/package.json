@@ -22,7 +22,6 @@
   "dependencies": {
     "alpinejs": "^3.10.4",
     "dom-filesystem": "^1.0.8",
-    "electron-as-browser": "^1.0.0",
     "electron-context-menu": "^3.4.0",
     "electron-find": "^1.0.7",
     "electron-in-page-search": "^1.3.2",

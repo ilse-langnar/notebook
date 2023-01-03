@@ -44,3 +44,4 @@ dist_electron
 dist.tar.gz
 ParseFilesystem.js
 src/
+sass/
