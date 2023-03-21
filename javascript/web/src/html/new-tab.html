@@ -2,10 +2,6 @@
     <div id="new-tab" x-transition x-data="{ text: '', url: '' }" class="flex" >
         <div x-init="let input = $el.querySelector('input'); if( input ) { setTimeout( () => { console.log('focusing ...'); input.focus() }, 1000 ) }" x-data="{ id: Math.random().toString().replace('0.', '') }" >
 
-            <div x-data="{ url: '' }">
-                <input class="flexi no-outline" type="text" name="" id="" value="" x-data="{ search: '' }" x-model="search" placeholder="ilse.design or [[Design]] or #todo or !component-name" style="height: 30px; margin: 3px; border-radius: var( --border-radius ); border: 1px solid var( --text-color ); border: 1px solid transparent; padding: 3px; color: var( --text-color ); background: var( --background-color ); " @keydown.enter="$store.tabs.add_component('web.html', 'Browser', { url: search })" >
-            </div>
-
         </div>
     </div>
 </template>

@@ -344,8 +344,8 @@ export default class Ilse {
             // printf( "tmp -> ", tmp )
             // tmp.setAttribute( "data-ilse-id", item )
             // this.components[item] = tmp.innerHTML
-            printf( "item -> ", item )
-            this.components[item] = { html: plugins[item] }
+            // printf( "item -> ", item )
+            this.components[item] = plugins[item]
         })
 
         Messager.emit( "~ilse", "loaded" )

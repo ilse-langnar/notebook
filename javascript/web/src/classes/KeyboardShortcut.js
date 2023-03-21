@@ -154,7 +154,6 @@ class KeyboardShortcut  {
 
             // Special
                 { combo: "ctrl+tab",            command: "go-to-next-tab",              category: "Special", prevent_default: true },
-                { combo: "ctrl+shift+l",        command: "go-to-previous-tab",          category: "Special", prevent_default: true },
                 { combo: "ctrl+shift+t",        command: "create-new-tab",              category: "Special", prevent_default: true },
                 { combo: "ctrl+t",              command: "create-new-tab",              category: "Special", prevent_default: true },
                 { combo: "ctrl+n",              command: "create-new-component",        category: "Special", prevent_default: true },

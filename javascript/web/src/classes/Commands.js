@@ -572,9 +572,18 @@ class Commands {
 
             {
                 id: "create-new-component",
-                fn: function() {
-                    let tabs = store("tabs")
-                    tabs.add_component( "new-tab.html", "New Tab" )
+                fn: function( arg ) {
+                    let { combo, event, key } = arg
+
+                    if( event.shiftKey ) {
+                        printf( "with shift" )
+                        let tabs = store("tabs")
+                        tabs.add_component( "new-tab.html", "New Tab" )
+                    } else {
+                        let tabs = store("tabs")
+                        tabs.add_component( "new-tab.html", "New Tab" )
+                    }
+
                 },
                 description: "Will create a new component",
                 name: "Create New Component",
@@ -593,26 +602,23 @@ class Commands {
             },
 
             {
-                id: "go-to-previous-tab",
-                fn: function() {
+                id: "go-to-next-tab",
+                fn: function( arg ) {
 
-                    let copy = ilse.selected
-                    if( ilse.tabs.list[--copy] ) {
-                        ilse.select = copy
+                    let { combo, event, key } = arg
+                    let is_shift              = event.shiftKey
+                    printf( "event -> ", event )
+                    printf( "is_shift -> ", is_shift )
+                    let tabs                  = store("tabs")
+
+                    if( is_shift ) {
+                        printf( "previous" )
+                        tabs.previous_tab()
+                    } else {
+                        printf( "next" )
+                        tabs.next_tab()
                     }
 
-                },
-                description: "Go To Previous Tab",
-                name: "Previous Tab",
-                props: {},
-            },
-
-            {
-                id: "go-to-next-tab",
-                fn: function() {
-
-                    let tabs = store("tabs")
-                    tabs.next_tab()
 
                 },
                 description: "Go To Next Tab",

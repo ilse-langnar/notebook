@@ -25,16 +25,10 @@ export default function render( name, props = {}, source ) {
 
     // Idea string to HTML and then I pass  a string as x-data?
 
-    printf( "name -> ", name )
-    printf( "ilse.components -> ", ilse.components )
     let component_string = ilse.components[name]
-    printf( "component_string -> ", component_string )
-    // printf( "component_string -> ", component_string )
     let HTML             = string_to_html( component_string )
-    printf( "HTML -> ", HTML )
 
     let root             = HTML.body.childNodes[0]
-    printf( "root -> ", root, name, props, HTML )
         if( root ) root.setAttribute( "data-ilse-component-uuid", name )
 
     let dom              = HTML.querySelector('[x-data]')

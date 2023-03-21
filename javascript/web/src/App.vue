@@ -11,24 +11,15 @@
         // .app( v-html="render('ilse.html', {})" style="overflow: auto; " )
         // .app( v-html="ilse.components['ilse.html'].html" style="overflow: auto; " )
 
-        .app( v-html="ilse.components['ilse.html']" style="overflow: auto; " ) // I only use "ilse.components['ilse.html']" instead of ilse.component('ilse.html', {}) because it's a .vue file. IN ALL OTHER USES use "api.component(id)" and NOT "api.components['id']"
+        // .app( v-html="ilse.components['ilse.html']" style="overflow: auto; " ) // I only use "ilse.components['ilse.html']" instead of ilse.component('ilse.html', {}) because it's a .vue file. IN ALL OTHER USES use "api.component(id)" and NOT "api.components['id']"
+        // .app( v-html="ilse.components['ilse.html']" style="overflow: auto; " ) 
 
-        // .app( v-html="ilse.components['theme.html'] + ilse.components['url-bar.html'] + ilse.components['main.html'] + ilse.components['contextmenu.html']" style="overflow: auto; " )
+        .app( v-html="ilse.components['theme.html'] + ilse.components['url-bar.html'] + ilse.components['main.html'] + ilse.components['contextmenu.html']" style="overflow: auto; " )
+
 </template>
 <script>
 // eslint-disable-next-line
 import printf                                       from "@/functions/printf.js"
-
-// .app( v-html="render('ilse.html', {}, 'App.vue')" style="overflow: auto; " )
-// .app( v-html="ilse.components['theme.html'] + ilse.components['url-bar.html'] + ilse.components['main.html'] + ilse.components['contextmenu.html']" style="overflow: auto; " )
-// .app( v-html="render('theme.html', {}, 'App.vue') + render('url-bar.html', {}, 'App.vue') + render('main.html', {}, 'App.vue') + render('contextmenu.html', {}, 'App.vue')" style="overflow: auto; " )
-
-// .htmll( v-html="render('ilse.html', {}, 'App.vue')" style="overflow: auto; " )
-// .app( v-show="ilse.has_loaded" :key="ilse.keys.app" )
-    // .htmll( v-html="ilse.components['url-bar.html'] + ilse.components['main.html'] + ilse.components['contextmenu.html']" style="overflow: auto; " )
-    // .htmll( v-html="ilse.components['theme.html'] + ilse.components['url-bar.html'] + ilse.components['main.html'] + ilse.components['contextmenu.html']" style="overflow: auto; " )
-    // .htmll( v-html="render('ilse.html', {}, 'App.vue')" style="overflow: auto; " )
-
 
 // import "@/assets/tailwind.js"
 
@@ -39,9 +30,6 @@ import printf                                       from "@/functions/printf.js"
     import set                                      from "@/functions/set.js"
     import if_else                                  from "@/functions/if_else.js"
     import is_platform                              from "@/functions/is_platform.js"
-    import render                                   from "@/functions/render.js"
-
-import view                         from "@/view.html"
 
 // HTML
     // import setup                                    from "@/html/setup.html"
@@ -55,8 +43,6 @@ export default {
             mouse_x: -1,
             mouse_y: -1,
             ilse: ilse,
-            view,
-            render,
         }
     },
 
@@ -1323,6 +1309,7 @@ pre {
   -moz-osx-font-smoothing: auto;
   -webkit-font-smoothing: auto;
   font-family: monospace;
+  font-family: var( --font-family3 );
 }
 
 body {

@@ -53,8 +53,8 @@
                 <!-- CHANGED -->
                 <template x-for="(item, index) in $store.tabs.list" :key="index" x-data="{ list: api.get('plugins') }" x-init="setTimeout( () => { list = api.get('plugins'); }, 3000 ); " >
                     <div class="plugin-icon" >
-                        <span x-text="item.components.length" style="position: relative; left: 1px; top: 43px; color: var( --terciary-text-color ); font-family: monospace, serif, sans-serif; font-size: 0.9em; " ></span>
-                        <img class="img" :src="item.icon" alt="" @click="$store.tabs.select(item)" >
+                        <span x-text="item.components.length" style="position: relative; left: 1px; top: 43px; color: var( --terciary-text-color ); font-family: var(--font-family3), serif, sans-serif; font-size: 0.9em; " ></span>
+                        <img class="img" :src="item.icon" :style=" item.is_selected ? 'border: var( --border ); ' : '' " alt="" @click="$store.tabs.select(item)" >
                         <!-- <div class="plugin-icon" x-html="item.string"  > </div> -->
                     </div>
                 </template>
@@ -113,12 +113,13 @@
                         }
                     </style>
 
-                    <div class="items-wrapper" style="height: 25px; " >
+                    <div class="items-wrapper" style="height: 19px; " >
 
                         <div class="snap" style="margin-left: 1px;" >
                             <!-- <img class="svg snap" :src="api.require('grid-dots.svg')" title="Close Window" alt="close" style="width: 0px; " > -->
                             <img class="svg" :src="api.require('x.svg')" title="Close Window" alt="close" style="width: 0px; " @click="$store.tabs.remove_component(item)" >
                             <img class="svg" :src="api.require('app-window.svg')" title="Make Window Float" alt="float" style="width: 0px; " @click="console.time('one'); api.utils.make_dom_draggable( $el.parentNode.parentNode.parentNode, _item, { width: '50%', height: '50%' } ); console.timeEnd('one'); " >
+                            <span class="svg" align="center" style="font-family: var( --font-family3 ); vertical-align: super; " x-text="_item.name" > </span>
                             <!-- <img class="svg" :src="api.require('replace.svg')" title="Put it Another Container" alt="move" style="width: 0px; " > -->
                         </div>
 
@@ -127,7 +128,10 @@
 
                     <div class="flex" >
 
-                        <div x-html="api.render(_item.id, _item.props, 'main.html('  + _item.id + ')' )" style="width: 98%; margin: 0 auto;" @mouseenter="item.components.map( i => i.is_selected = false ); _item.is_selected = true" @click="console.log('@@@@ -> ', _item); " > </div>
+                        <div x-html="api.component(_item.id)" style="width: 98%; margin: 0 auto;" @click="console.log('(main.js)(render-components) _item, _item.id-> ', _item, _item.id)" > </div>
+                        <!-- <div x-html="api.component(_item.id, _item.props)" style="width: 98%; margin: 0 auto;" @click="console.log('(main.js)(render-components) _item, _item.id-> ', _item, _item.id)" > </div>  -->
+                        <!-- <div x-html="api.component(_item.id, _item.props, 'main.html('  + _item.id + ')' )" style="width: 98%; margin: 0 auto;" @mouseenter="item.components.map( i => i.is_selected = false ); _item.is_selected = true" @click="console.log('@@@@ -> ', _item); " > </div>  -->
+                        <!-- <div x-html="api.render(_item.id, _item.props, 'main.html('  + _item.id + ')' )" style="width: 98%; margin: 0 auto;" @mouseenter="item.components.map( i => i.is_selected = false ); _item.is_selected = true" @click="console.log('@@@@ -> ', _item); " > </div> -->
 
                         <!-- <div x-html="api.render(_item.id, _item.props)" style="width: 98%; margin: 0 auto;" @mouseenter="item.components.map( i => i.is_selected = false ); _item.is_selected = true" @click="console.log('@@@@ -> _item -> ', _item)" > </div> -->
                     </div>

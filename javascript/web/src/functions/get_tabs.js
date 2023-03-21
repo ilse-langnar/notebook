@@ -43,6 +43,30 @@ export default function get_tabs( tabs ) {
         // close_active_component() {
         // },
 
+        previous_tab() {
+
+            let selected        = this.get_active()
+                printf( "(get_tabs.js) -> selected -> ", selected )
+            let index           = this.list.indexOf( selected )
+                printf( "(get_tabs.js) -> index -> ", index )
+            let next_index      = Number(index) + 1
+                printf( "(get_tabs.js) -> next_index -> ", next_index )
+            let previous_index  = Number(index) - 1
+                printf( "(get_tabs.js) -> previous_index -> ", previous_index )
+
+            if( index === 0 ) { // from 0, goto last
+                printf( "(get_tabs.js) -> index === 0 -> " )
+                this.select(this.list[this.list.length -1] )
+                return
+            }
+
+            if( previous_index ) { // has next
+                printf( "(get_tabs.js) -> if(previous_index) -> this.list[previous_index] -> ", this.list[previous_index] )
+                this.select( this.list[previous_index] )
+            }
+
+        },
+
         next_tab() {
 
             let selected        = this.get_active()
@@ -122,6 +146,7 @@ export default function get_tabs( tabs ) {
 
         },
 
+        /*
         add_component( id = "new-tab.html", name = "New Tab", props = {} ) {
 
             let selected    = this.list.filter( item => item.is_selected )[0]
@@ -132,6 +157,27 @@ export default function get_tabs( tabs ) {
                 is_selected: false,
                 is_on: true,
                 props ,
+            }
+
+            return selected.components.push( component )
+        },
+        */
+
+        add_component( id = "new-tab.html", name = "New Tab", props = {} ) {
+
+            let selected    = this.list.filter( item => item.is_selected )[0]
+
+            printf( "(get_tabs.js)(add_component) id -> ", id )
+            printf( "(get_tabs.js)(add_component) name -> ", name )
+            printf( "(get_tabs.js)(add_component) prosp -> ", props )
+            printf( "(get_tabs.js)(add_component) selected -> ", selected )
+
+            let component   = {
+                id,
+                name,
+                is_selected: false,
+                is_on: true,
+                props,
             }
 
             return selected.components.push( component )

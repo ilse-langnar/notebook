@@ -142,7 +142,7 @@
 
             <img style="width: 25px; margin: 10px; cursor: pointer;" :src="api.require('brackets.svg')" :class=" open === 'refs' ? 'border-bottom' : '' " @click="open = 'refs'" />
 
-            <p x-text="$store.links.length" style="position: relative; left: -15px; font-family: monospace, serif; " ></p>
+            <p x-text="$store.links.length" style="position: relative; left: -15px; font-family: var(--font-family3), serif; " ></p>
 
             <style>
                 #references-panel {
@@ -267,8 +267,6 @@
             <!-- Keyboard Shortcuts -->
 
             <input class="flexi" type="text" name="" id="" value="" x-data="{ search: '' }" x-model="search" placeholder="ilse.design or [[Design]] or #todo or !component-name" style="height: 30px; margin: 3px; border-radius: var( --border-radius ); border: 1px solid var( --text-color ); border: 1px solid transparent; padding: 3px; color: var( --text-color ); background: var( --background-color ); " @keydown.enter="if( search.indexOf('http') !== -1 ) {
-                console.log('api.component -> ', api.components)
-                console.log('api.component[web.html] -> ', api.components['web.html'] )
                 $store.tabs.add_component('web.html', 'Browser', { url: search })
                } else {
                    $store.tabs.add_component('references.html', 'References', { file: search })
@@ -295,7 +293,9 @@
             <!-- <div x-data="{ list: [] }" x-init="api.on('~ilse', payload => { if( payload === 'loaded' ) { list = api.plugins; console.log('list -> ', list)} })"> -->
 
                 <template x-for="(item,index) in list" :key="index" x-data="{ list: [] }" x-init="api.on('~ilse', payload => { if( payload === 'loaded' ) { list = api.get('plugins'); } })">
-                    <span x-html="api.component(item, {})" @click="console.log('item -> ', item); " style="display: inline; float: left; "></span>
+                    <template x-if="api.component(item).indexOf('data-ilse-invisible') === -1" >
+                        <span x-html="api.component(item)" @click="console.log('item -> ', item); " style="display: inline; float: left; "></span>
+                    </template>
                     <!-- <template x-if="!item.configuration.is_headless" >
                         <span x-html="api.components[item]" @click="console.log('item -> ', item); " style="display: inline; float: left; "></span>
                     </template> -->
