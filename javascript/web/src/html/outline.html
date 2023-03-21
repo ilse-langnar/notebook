@@ -1,0 +1,208 @@
+<div data-ilse-id="outline.html" data-ilse-icon="point.svg" >
+    <div id='outline' :style="props.style" x-data @click="console.log('props.style -> ', props.style)" x-init="api.on('~notes', payload => { if( payload.action === 'added' && payload.index === null ) { props.list.push( payload.id ) } })">
+
+        <template x-for="(note_id, index) in list" x-data="{ list: props.list }" :key="note_id" >
+        <!-- <template x-for="(note_id, index) in list" x-data="{ list: [] }" x-init="api.notes.progressive( '[[Tools for Thought]]', id => { list.push(id) } )" :key="note_id" >  -->
+            <div x-data="{ is_editing: false, note: api.notes.list[note_id], content: api.notes.list[note_id].content, depth: api.notes.list[note_id].depth }" >
+
+                <div x-show="is_on" :id="note_id" :style=" 'margin-left:' + (note.depth * 20) + 'px;' " x-data="{ is_on: note.content.indexOf('#hide') === -1 }" >
+
+                    <!-- Bullet -->
+                    <span
+                        class="bullet" :title="api.utils.get_bullet_description(note_id, api.notes.list[note_id] )"
+                        @click="navigator.clipboard.writeText(note_id); api.notify('Coped', 'Copied!', 'Copied: ' + note_id + ' To your clipboard' ); "
+
+
+
+                        x-text="api.notes.list[api.utils.get_note_root(note_id)].content.indexOf('#hidden/collapsed') !== -1? '&ast;' : '&bull;' " > </span>
+
+                    <!-- is_editing needs to be turned on-->
+                    <!-- Editing -->
+                    <div x-show="is_editing"
+                         :id=" note_id + '-edit' "
+                         style=""
+                         :key="api.notes.list[note_id].content"
+
+                         x-init="api.on('~focus', id => {
+
+                             if( note_id === id ) {
+                                 is_editing = true;
+                                 setTimeout( () => { $el.focus() }, 10 )
+                             }
+                         })"
+
+                         class="no-outline edit"
+                         contentEditable
+                         x-text="content"
+                         @blur="is_editing = false; api.notes.list[note_id].content = $event.target.innerText; note.content = api.notes.list[note_id].content; api.store('autosave', 60000)"
+                         @keydown.enter.prevent="let id = api.utils.get_note_id(); api.notes.list[id] = { content: '', depth: api.notes.list[note_id].depth, id: id, source: 'll' , after: note_id }; props.list.push(id); props.list = api.utils.move_array_item( props.list, props.list.length -1, ++index); is_editing = false; let move_notes = api.store('move_notes'); move_notes.push({ parent: note_id, child: id }); api.store('move_notes', move_notes); setTimeout( () => { api.emit('~focus', id)}, 10 ); "
+    store( "move_notes", [] )
+
+                         @keydown.esc.prevent="document.activeElement.blur(); is_editing = false;"
+
+                         @keydown.tab.prevent="let shift = $event.shiftKey
+                            if( shift ) {
+                                if( note.depth === 0 ) return
+                                api.notes.list[note_id].depth--
+                            } else {
+
+                                let copy          = Number(index)
+                                    copy = copy - 1
+
+                                let previous_depth = api.notes.list[list[copy]].depth
+                                if( note.depth > previous_depth ) return
+
+                                api.notes.list[note_id].depth++
+                            }
+                         "
+
+                         @keydown.ctrl.up="let copy = _index; let previous_index = --copy;
+                         if( props.list[previous_index] ) {
+                             let dom  = document.getElementById( props.list[previous_index].id );
+                             if( dom ) {
+                                 props.list[previous_index].is_editing = true
+                                 document.activeElement.blur()
+                                 setTimeout( () => { let dom  = document.getElementById( props.list[previous_index].id + '-edit' ); if( dom ) dom.focus(); }, 1 )
+                             }
+                         }"
+
+                         @keydown.ctrl.down="let copy = _index; let next_index = ++copy;
+                         if( props.list[next_index] ) {
+                             let dom  = document.getElementById( props.list[next_index].id );
+                             if( dom ) {
+                                 props.list[next_index].is_editing = true
+                                 document.activeElement.blur()
+                                 setTimeout( () => { let dom  = document.getElementById( props.list[next_index].id + '-edit' ); if( dom ) dom.focus(); }, 1 )
+                             }
+                         }"
+
+                         > </div>
+                        <!-- Editing -->
+
+                        <!-- Displaying -->
+                        <div x-show="!is_editing"
+                             class="render"
+                             :id=" note_id + 'render'"
+                             :key="api.notes.list[note_id].content"
+                             :title="api.notes.list[note_id].content"
+                             x-html="api.markdown(api.notes.list[note_id].content)"
+
+                             @link-click="console.log('$event.detail -> ', $event.detail); if( $event.detail.id === note_id && $store.links.indexOf($event.detail.link) === -1 ) { console.log('$event.detail -> ', $event.detail); $store.tabs.add_component('references.html', 'References', { file: $event.detail.link }) }"
+
+                             @dblclick="is_editing = true; setTimeout( () => {let dom = document.getElementById( note_id + '-edit' ); dom.focus() }, 10 )"
+
+                             @click="if( $event.target.type === 'checkbox' ) {
+
+                                let normalized  = api.notes.list[note_id].content.replace( '[ ]', '[x]' )
+                                api.notes.list[note_id].content = normalized
+
+                                is_editing = false;
+                                api.store('autosave', 60000);
+                             }
+
+                             if( $event.ctrlKey ) {
+
+                                 let fn = async function() {
+                                     // TODO: Make add child
+                                 }
+                                 fn()
+
+                             }
+                             if( $event.shiftKey ) navigator.clipboard.writeText( note_id ) // Copy Note Id
+                             " > </div>
+                            <!-- Displaying -->
+
+                    <!-- First Bullet -->
+                </div>
+
+            </div>
+        </template>
+
+    </div>
+
+    <style>
+    #outline {
+        height: 91vh;
+        height: 99vh;
+        height: auto;
+        /*padding: 10px;
+        overflow: auto;
+        height: 90vh; */
+    }
+
+        #outline .note {
+            border-left: 1px solid #000;
+        }
+
+        #outline .render:hover {
+            text-decoration: underline;
+        }
+
+        #outline .bullet {
+            margin-top:   -5px;
+                margin-top:   0px;
+            text-align:   center;
+            cursor:       pointer;
+            color:        #a3a3a3;
+            color:        var( --text-color );
+            /* font-size: 1.5em; */
+            width: 20px;
+            cursor:       pointer;
+            margin-right: 7px;
+            margin-right: 0px;
+            width: 10px;
+            height: 10px;
+
+            flex: 1;
+            display: block;
+            float: left;
+            margin-right: 6px;
+        }
+
+        #outline .edit {
+            flex: 1;
+            min-width: 100px;
+            min-height: 30px;
+            padding-left: 15px;
+        }
+
+            #outline .edit:focus {
+                outline: none;
+                content: "LLLLLLL";
+            }
+
+    #outline .render {
+        flex: 1;
+        /*min-width: 100px;*/
+        width: fit-content;
+        border: 1px solid transparent;;
+        min-height: 30px;
+        min-width: 100px;
+        padding-left: 15px;
+    }
+
+    #outline .ghost-bullet {
+        clear: both;
+        min-height: 30px;
+        height: fit-content;
+    }
+
+           #outline .ghost-bullet .camp {
+                flex: 1;
+                height: 32px;
+            }
+
+                #outline .ghost-bullet .camp:focus {
+                    outline: none !important;
+                    border-bottom: 1px solid var( --text-color );
+                }
+
+            #outline .ghost-bullet .bullet {
+                flex: 1;
+                display: block;
+                float: left;
+                margin-right: 6px;
+            }
+
+    </style>
+</div>

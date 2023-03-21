@@ -3,7 +3,8 @@
   "productName": "Ilse Langnar's Notebook",
   "version": "1.3.0",
   "private": true,
-  "author": "ilse",
+  "author": "ilse <superapollo56@protonmail.com> ",
+  "homepage": "https://github.com/ilse-langnar/notebook",
   "scripts": {
     "build": "VUE_APP_TARGET=WEB vue-cli-service build",
     "all": "VUE_APP_TARGET=ELECTRON electron-builder -wl",

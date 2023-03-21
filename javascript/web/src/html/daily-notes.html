@@ -1,0 +1,57 @@
+<div data-ilse-id="daily-notes.html" data-ilse-icon="calendar.svg" >
+    <div id="daily-notes" x-transition x-data="{}" style="height: auto; margin: 10px; width: 99%; overflow: auto; height: 87vh; " >
+
+        <img class="component-icon" :src="api.require('notes.svg')" alt="Notes" title="Notes" x-data="{}" >
+        <!-- Days -->
+        <div x-data="{ list: [ api.utils.get_unique_date_id().slice(0, 8)  ], today: api.utils.get_unique_date_id().slice(0, 8) }" >
+            <template x-for="(item, index) in list" :key="index" >
+
+                <!-- day, Root -->
+                <div style="padding: 10px; " x-data="{ list: api.notes.query_regexp( new RegExp( '^' + item ) ) }" >
+                    <!-- Date + Delete -->
+                    <div style="display: flex;">
+                        <h1 style="center !important; color: var( --text-color );" x-text=" '&bull; &nbsp; ' + api.utils.yyyymmddhhss_to_pretty(item)" > </h1>
+                        <img x-show="index !== 0" :src="api.require('x.svg')" style="width: 20px;margin-left:20px;cursor:pointer;" alt="" title="Delete" @click="list.splice( index, 1 )" >
+                    </div>
+                    <br>
+
+                    <p x-html="api.render('outline.html', { list: list }, 'daily-notes' )" ></p>
+
+                    <button x-show="!list.length" class="load-more" @click="let fn = async function() {
+                         let text    = await api.commands.run( 'html-list', { placeholder: 'Write your first note' })
+                         api.notes.add( text )
+                         api.store('autosave', 60000) = true
+                         // $store.store('autosave') = true
+                     }
+                     fn()
+                    " > Write your first idea </button>
+
+                </div>
+
+            </template>
+        <button class="load-more" @click="let yesterday = api.utils.get_yesterday(today); list.push( yesterday ); today = yesterday" x-text=" 'Load: ' + api.utils.yyyymmddhhss_to_pretty(api.utils.get_yesterday(today) )" > </button>
+        <br>
+
+        </div>
+    </div>
+
+    <style>
+    #daily-notes {
+        height: 91vh;
+        height: 99vh;
+    }
+
+    #daily-notes .load-more {
+        display: block;
+        color: var( --text-color );
+        background: var( --background-color );
+        padding: 7px;
+        border-radius: var( --border-radius );
+        margin: 0 auto;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    </style>
+
+</div>

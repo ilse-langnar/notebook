@@ -1,0 +1,76 @@
+<div data-ilse-id="make-plugin.html" data-ilse-icon="plugin.svg" id="make-plugin" x-data="{ props: {} }">
+    <style>
+        #make-plugin img.option {
+            width: 20px !important;
+            flex-basis: 10% !important;
+            cursor: pointer;
+        }
+
+        #make-plugin .container {
+            flex-basis: 90%;
+        }
+    </style>
+
+    <div class="flex" x-data="{ selected: 'dev' }" >
+
+        <div>
+            <img class="img option" :src="api.require('building-store.svg')" :style=" selected === 'marketplace' ? 'border-bottom: 1px solid #000;' : '' " @click="selected = 'marketplace' " >
+            <br>
+            <img class="img option" :src="api.require('prompt.svg')"  :style=" selected === 'dev' ? 'border-bottom: 1px solid #000;' : '' "         @click="selected = 'dev' " >
+            <br>
+            <img class="img option" :src="api.require('address-book.svg')" :style=" selected === 'docs' ? 'border-bottom: 1px solid #000;' : '' "   @click="selected = 'docs' " >
+            <br>
+            <img class="img option" :src="api.require('palette.svg')" :style=" selected === 'theme' ? 'border-bottom: 1px solid #000;' : '' "   @click="selected = 'theme' " >
+        </div>
+
+        <!-- Theme -->
+        <div x-show="selected === 'theme' " class="container" >
+            <h2> Theme </h2>
+        </div>
+
+        <!-- Marketplace -->
+        <div x-show="selected === 'marketplace' " class="container" >
+            <h2> Marketplace </h2>
+        </div>
+
+        <!-- Make Plugin -->
+        <div x-show="selected === 'dev' " class="container" x-data="{ code: api.get('constants').DEFAULT_PLUGIN_CODE }" >
+            <div style="flex: 1;" >
+                <style>
+
+                #make-plugin textarea {
+                    resize: none;
+                    width: 100%;
+                    height: 50vh;
+                    padding: 10px;
+                }
+
+                #make-plugin textarea:focus {
+                    outline: none !important;
+                }
+
+                #make-plugin .flex p.tag  {
+                    cursor: pointer;
+                }
+                </style>
+                <div class="flex" >
+                    <p class="tag" > #API </p>
+                    <p class="tag" > #tutorial </p>
+                    <p class="tag" > #documentation </p>
+                    <p class="tag" > #hello </p>
+                    <p class="tag" > #querying </p>
+                </div>
+                <textarea name="" x-model="code" > </textarea>
+            </div>
+            <div style="flex: 1;" >
+                <span x-html="code" ></span>
+            </div>
+        </div>
+
+        <!-- Documentation -->
+        <div x-show="selected === 'docs' " class="container" >
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+        </div>
+
+    </div>
+</div>

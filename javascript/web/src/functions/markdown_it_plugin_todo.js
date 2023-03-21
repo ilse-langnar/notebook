@@ -1,0 +1,16 @@
+import printf                               from "@/functions/printf.js"
+
+// - [ ]
+export default {
+    regexp: /^ *\[([\sx])] /i,
+    fn: function( match, utils ) {
+
+        let content = match[0]
+        let id      = Math.random().toString().replace( "0.", "" )
+        let checked = content.indexOf( "[x]" ) !== -1
+
+        let html    =  `<input class="checkbox" type="checkbox" id="${id}" title="Click to Toggle" onclick="document.getElementById('${id}').checked ? document.getElementById('${id}').checked = true : document.getElementById(${id}).checked = false " ${checked ? "checked" : ""}/>`
+
+        return html
+    }
+}
