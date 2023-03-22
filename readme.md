@@ -9,7 +9,7 @@
 
 <br/>
 
-[![NPM version](https://badge.fury.io/js/npm.svg)](http://badge.fury.io/js/ilse)
+![Discord](https://img.shields.io/discord/884235510300704768?label=Discord&style=plastic)
 
 <h4 align="center" > Ilse Langnar's Notebook is a free, knowledge management platform. </h4>
 <br/>
