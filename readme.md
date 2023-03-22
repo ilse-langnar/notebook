@@ -2,6 +2,11 @@
 <h1 align="center" > Ilse Langnar's Notebook </h1>
 <h2 align="center" > Memoirs of a Recon Corps Member </h2>
 
+[![NPM version](https://badge.fury.io/js/npm.svg)](http://badge.fury.io/js/ilse)
+
+
+
+
 <p align="center">
   <!-- <img src="https://github.com/ilse-langnar/notebook/blob/dev/docs/ilse.jpeg" alt="Ilse"/> -->
   <img src="https://github.com/ilse-langnar/notebook/blob/dev/docs/moth.jpg" alt="Ilse"/>
