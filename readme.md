@@ -45,7 +45,7 @@ This program defines a couple of base "features"(primitives) that be combined wi
     <a href="https://github.com/ilse-langnar/notebook/releases/download/1.3/Ilse.Langnar.s.Notebook.Setup.1.3.0.exe" >
         <img style="flex: 1; width: 50px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-windows.svg" />
     </a>
-    <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-ubuntu.svg" />
+    <img style="flex: 1; width: 50px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-ubuntu.svg" />
     <!-- <img style="flex: 1; width: 100px;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/brand-apple.svg" /> -->
 </div>
 
@@ -56,7 +56,7 @@ This program defines a couple of base "features"(primitives) that be combined wi
     
 </div>
 
-<details>
+<!-- <details>
     <summary align="center" >
         <a href="https://ilse-langnar.github.io/notebook#more-download-options" > More </a> 
     </summary>
@@ -82,7 +82,7 @@ This program defines a couple of base "features"(primitives) that be combined wi
 | Headless Ilse(Docker)             | Comming Soon| 
 | Telegram Bot                      | Comming Soon| 
 
-</details>
+</details> -->
 
 <!-- | Feature         | Explanation     | Visual |
 |--------------|-----------|------------|
