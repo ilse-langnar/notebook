@@ -46,6 +46,7 @@ export default class Ilse {
         this.constants              = CONSTANTS;
         // this.components             = this.get_components( view )
         this.components             = get_default_components() // { "daily-notes.html": "<div> ...", "main.html": "<div> ..." }
+        this.components_props       = {}
         this.stack                  = []
 
         this.name                   = "Ilse Langnar's Notebook"
@@ -196,6 +197,10 @@ export default class Ilse {
 
             let configuration   = el.getAttribute( "data-ilse-configuration" )
                 configuration   = JSON.parse( configuration )
+
+            this.components_props[id] = {
+                icon,
+            }
 
             this.components[id] = el.innerHTML
 

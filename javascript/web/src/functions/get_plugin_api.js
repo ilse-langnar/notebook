@@ -57,6 +57,7 @@ export default function get_plugin_api( name, ilse ) {
         get( name ) {
 
             let obj = {
+                "components.props": ilse.components_props,
                 components:         ilse.components,
                 plugins:            ilse.plugins,
                 constants:          ilse.constants,

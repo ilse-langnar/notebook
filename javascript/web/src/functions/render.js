@@ -9,7 +9,7 @@ import html_to_string           from "@/functions/html_to_string.js"
 
 export default function render( name, props = {}, source ) {
 
-    printf( `(render.js) name: ${name} props: ${JSON.stringify(props)} source: ${source}` )
+    // printf( `(render.js) name: ${name} props: ${JSON.stringify(props)} source: ${source}` )
 
     let has_props        = !!keys(props).length
     // let id               = "id-" + get_uuid()

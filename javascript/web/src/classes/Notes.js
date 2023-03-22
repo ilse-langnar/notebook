@@ -268,7 +268,7 @@ export default class Notes {
 
         if( !q ) return []
 
-        q = q.toLowerCase()
+        // q = q.toLowerCase()
         let name = "query-" + q
 
         if( q === "" ) return this.list // FEATURE: O(n)
@@ -281,7 +281,8 @@ export default class Notes {
 
         for( let id in this.list ) {
             note = this.list[id]
-            n    = `${note.id}: ${note.content.toLowerCase()}`
+            // n    = `${note.id}: ${note.content.toLowerCase()}`
+            n    = `${note.id}: ${note.content}`
             has_match = n.indexOf( q ) !== -1
                 if( !has_match ) continue
             result.push( note.id )

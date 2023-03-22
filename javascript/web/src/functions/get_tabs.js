@@ -167,10 +167,10 @@ export default function get_tabs( tabs ) {
 
             let selected    = this.list.filter( item => item.is_selected )[0]
 
-            printf( "(get_tabs.js)(add_component) id -> ", id )
-            printf( "(get_tabs.js)(add_component) name -> ", name )
-            printf( "(get_tabs.js)(add_component) prosp -> ", props )
-            printf( "(get_tabs.js)(add_component) selected -> ", selected )
+            // printf( "(get_tabs.js)(add_component) id -> ", id )
+            // printf( "(get_tabs.js)(add_component) name -> ", name )
+            // printf( "(get_tabs.js)(add_component) prosp -> ", props )
+            // printf( "(get_tabs.js)(add_component) selected -> ", selected )
 
             let component   = {
                 id,
@@ -180,7 +180,11 @@ export default function get_tabs( tabs ) {
                 props,
             }
 
-            return selected.components.push( component )
+            printf( "before -> selected.components[index] -> ", selected.components )
+            let index = selected.components.push( component )
+            printf( "after -> selected.components[index] -> ", selected.components )
+
+            return
         },
 
         get_selected_component() {

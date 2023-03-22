@@ -171,6 +171,17 @@ class Commands {
             },
 
             {
+                id: "hello-world",
+                fn: async function() {
+                    let tabs        = store("tabs")
+                    tabs.add_component( "hello-world.html", "Hello World" )
+                },
+                description: "Hello World(dev)",
+                name: "Hello World",
+                props: {},
+            },
+
+            {
                 id: "test",
                 fn: async function() {
                     // printf( "api.notes.list -> ", api.notes.list )
@@ -886,13 +897,16 @@ class Commands {
                         on_input( arg ) {},
                         on_enter() {
 
-                            console.time("one")
+                            printf( "1" )
                             if( !this.search ) return
 
+                            printf( "2" )
                             let result = ilse.notes.query( this.prepend_search + this.search + this.append_search )
                                 if( !result.length ) return
 
+                            printf( "3" )
                             let children = []
+                            printf( "4" )
                             let list
                             result.map( item => {
                                 list = get_note_children( item )
@@ -907,6 +921,7 @@ class Commands {
 
                             let tabs = store( "tabs" )
                             tabs.add_component( "outline.html", "Outline", { list: result, style: "height: 90vh !important; overflow: auto;"})
+
                             ilse.stack.pop()
                             console.timeEnd("one")
                         }

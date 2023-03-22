@@ -177,6 +177,10 @@ export default {
     cursor: pointer;
 }
 
+.border {
+    border: var( --border );
+}
+
 .border-bottom {
     border-bottom: 1px solid var( --text-color );
 }

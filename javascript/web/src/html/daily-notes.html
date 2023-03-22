@@ -8,6 +8,7 @@
 
                 <!-- day, Root -->
                 <div style="padding: 10px; " x-data="{ list: api.notes.query_regexp( new RegExp( '^' + item ) ) }" >
+                <!-- <div style="padding: 10px; " x-data="{ list: api.notes.query( item ) }" >  -->
                     <!-- Date + Delete -->
                     <div style="display: flex;">
                         <h1 style="center !important; color: var( --text-color );" x-text=" '&bull; &nbsp; ' + api.utils.yyyymmddhhss_to_pretty(item)" > </h1>
@@ -15,7 +16,11 @@
                     </div>
                     <br>
 
-                    <p x-html="api.render('outline.html', { list: list }, 'daily-notes' )" ></p>
+                    <!-- <span x-html="api.component('outline.html', { list: list })" ></span> -->
+
+                    <template x-if="list.length" >
+                        <span x-html="api.component('outline.html', { list: list } )"p ></span>
+                    </template> 
 
                     <button x-show="!list.length" class="load-more" @click="let fn = async function() {
                          let text    = await api.commands.run( 'html-list', { placeholder: 'Write your first note' })
