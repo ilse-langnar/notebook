@@ -9,9 +9,14 @@
 
 <br/>
 
-[![NPM version](https://badge.fury.io/js/npm.svg)](http://badge.fury.io/js/ilse)
-[![Discord](https://img.shields.io/discord/884235510300704768?label=Discord&style=plastic)](https://discord.gg/4MC26m87Dp)
+[![Discord](https://badgen.net/discord/members/4MC26m87Dp)](https://discord.gg/4MC26m87Dp)
 [![Discord](https://badgen.net/discord/online-members/4MC26m87Dp)](https://discord.gg/4MC26m87Dp)
+[![Reddit](https://badgen.net/reddit/subscribers/r/ilse-notebook)](https://reddit.com/r/ilse-notebook)
+[![NPM](https://badgen.net/npm/v/ilse)](https://www.npmjs.com/package/ilse)
+
+
+
+
 
 <h4 align="center" > Ilse Langnar's Notebook is a free, knowledge management platform. </h4>
 <br/>
