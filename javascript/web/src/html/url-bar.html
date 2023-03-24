@@ -134,15 +134,18 @@
 
             <img class="cursor-pointer" style="width: 25px; margin: 10px;" :src="$store.config.is_leftsidebar_on ? api.require('eye.svg') : api.require('eye-off.svg')" @click="let config = $store.config; config.is_leftsidebar_on = !config.is_leftsidebar_on; api.store('config', config)" /> -->
 
-            <img class="cursor-pointer" style="width: 25px; margin: 10px;" :src="$store.config.is_leftsidebar_on ? api.require('eye.svg') : api.require('eye-off.svg')" @click="let config = $store.config; config.is_leftsidebar_on = !config.is_leftsidebar_on; /*Make main.html box adaptable to isu_url_bar_on so it growns and contracts accordingly. */ config.is_url_bar_on = !config.is_url_bar_on; api.store('config', config)" />
+            <!-- <img class="cursor-pointer" style="width: 25px; margin: 10px;" :src="$store.config.is_leftsidebar_on ? api.require('eye.svg') : api.require('eye-off.svg')" @click="let config = $store.config; config.is_leftsidebar_on = !config.is_leftsidebar_on; /*Make main.html box adaptable to isu_url_bar_on so it growns and contracts accordingly. */ config.is_url_bar_on = !config.is_url_bar_on; api.store('config', config)" /> -->
+            <img class="cursor-pointer" style="width: 25px; margin: 10px;" :src="api.require('calendar.svg') " @click="" />
 
             <!-- Close all boxes on 'esc' -->
             <div x-text="api.on( '~keyboard', key => { if( key === 'esc' ) open = ''; })" > </div>
             <!-- /Close all boxes on 'esc' -->
 
-            <img style="width: 25px; margin: 10px; cursor: pointer;" :src="api.require('brackets.svg')" :class=" open === 'refs' ? 'border-bottom' : '' " @click="open = 'refs'" />
+            <img style="width: 25px; margin: 10px; cursor: pointer;" :src="api.require('clipboard-typography.svg')" @click="open = 'refs'" />
 
-            <p x-text="$store.links.length" style="position: relative; left: -15px; font-family: var(--font-family3), serif; " ></p>
+            <!-- <img style="width: 25px; margin: 10px; cursor: pointer;" :src="api.require('brackets.svg')" :class=" open === 'refs' ? 'border-bottom' : '' " @click="open = 'refs'" />
+
+            <p x-text="$store.links.length" style="position: relative; left: -15px; font-family: var(font-family3), serif; " ></p>
 
             <style>
                 #references-panel {
@@ -154,9 +157,9 @@
                     max-height: 70vh;
                     overflow: auto;
                     z-index: 4;
-                    background: var( --background-color );
-                    color: var( --text-color );
-                    border-radius: var( --border-radius );
+                    background: var( background-color );
+                    color: var( text-color );
+                    border-radius: var( border-radius );
                     padding: 4px;
                     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
                 }
@@ -167,15 +170,14 @@
 
                     <style>
                        #references-panel input.input {
-                            color: var( --text-color );
-                            background: var( --background-color );
-                            border-radius: var( --border-radius );
+                            color: var( text-color );
+                            background: var( background-color );
+                            border-radius: var( border-radius );
                             width: 90%;
                             margin-top: 10px;
                             margin-bottom: 10px;
                         }
                     </style>
-                    <!-- <input placeholder="Search and Filter ..." class="input box-shadow" style=""/> -->
                     <br>
                     <template x-for="( item, index ) in list" >
                         <a :href=" '#' + item " x-text=" '#' + item" style="margin-left: 10px;" ></a>
@@ -192,7 +194,7 @@
                     </div>
                 </template>
 
-            </div>
+            </div> -->
 
             <img style="width: 25px; margin: 10px; cursor: pointer;" :src="api.require('keyboard.svg')" :class=" open === 'keyboard' ? 'border-bottom' : '' " @click="open = 'keyboard' " @click.away="if( open === 'keyboard' ) open = '' " />
             <!-- Keyboard Shortcuts -->
@@ -266,8 +268,13 @@
             </div>
             <!-- Keyboard Shortcuts -->
 
-            <input class="flexi" type="text" name="" id="" value="" x-data="{ search: '' }" x-model="search" placeholder="ilse.design or [[Design]] or #todo or !component-name" style="height: 30px; margin: 3px; border-radius: var( --border-radius ); border: 1px solid var( --text-color ); border: 1px solid transparent; padding: 3px; color: var( --text-color ); background: var( --background-color ); " @keydown.enter="if( search.indexOf('http') !== -1 ) {
+            <input class="flexi" type="text" name="" id="" value="" x-data="{ search: '' }" x-model="search" placeholder="ilse.design or [[Design]] or #todo or !component-name" style="height: 30px; margin: 3px; border-radius: var( --border-radius ); border: 1px solid var( --text-color ); border: 1px solid transparent; padding: 3px; color: var( --text-color ); background: var( --background-color ); " @keydown.enter="console.log(search); if( search.indexOf('://')) {
                 $store.tabs.add_component('web.html', 'Browser', { url: search })
+               } else if( search[0] === '!' ) {
+                   let clean_string = search.replace('!', '')
+                   console.log('search -> ', search )
+                   console.log('clean_string -> ', clean_string )
+                   $store.tabs.add_component(clean_string, 'Component', {  })
                } else {
                    $store.tabs.add_component('references.html', 'References', { file: search })
                }

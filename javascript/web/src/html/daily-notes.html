@@ -34,7 +34,33 @@
                 </div>
 
             </template>
-        <button class="load-more" @click="let yesterday = api.utils.get_yesterday(today); list.push( yesterday ); today = yesterday" x-text=" 'Load: ' + api.utils.yyyymmddhhss_to_pretty(api.utils.get_yesterday(today) )" > </button>
+
+            <style>
+                .load-more {
+
+                    background-color: #000;
+                    background-color: var( --text-color );
+
+                    color: #fff;
+                    color: var( --background-color );
+
+                    padding: 10px;
+
+                    border: 1px solid #000;
+
+                    border-radius: 5px;
+                    font-size: 12px;
+                    font-weight: 400;
+                    text-transform: uppercase;
+                    text-decoration: none;
+                    display: inline-block;
+                    cursor: pointer;
+                    display: block;
+                    margin: 0 auto;
+                }
+            </style>
+
+            <button class="load-more" @click="let yesterday = api.utils.get_yesterday(today); list.push( yesterday ); today = yesterday" x-text=" 'Load: ' + api.utils.yyyymmddhhss_to_pretty(api.utils.get_yesterday(today) )" > </button>
         <br>
 
         </div>
@@ -46,6 +72,7 @@
         height: 99vh;
     }
 
+    /*
     #daily-notes .load-more {
         display: block;
         color: var( --text-color );
@@ -56,6 +83,7 @@
         text-align: center;
         margin-top: 10px;
     }
+    */
 
     </style>
 

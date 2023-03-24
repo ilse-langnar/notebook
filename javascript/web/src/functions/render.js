@@ -29,6 +29,8 @@ export default function render( name, props = {}, source ) {
     let HTML             = string_to_html( component_string )
 
     let root             = HTML.body.childNodes[0]
+        printf( "root -> ", root )
+        printf( "root.setAttribute -> ", root.setAttribute )
         if( root ) root.setAttribute( "data-ilse-component-uuid", name )
 
     let dom              = HTML.querySelector('[x-data]')

@@ -283,6 +283,13 @@ export default class Ilse {
 
         printf( "##before -> this.config -> ", this.config )
         this.config = config( this )
+        let tabs
+        try {
+            tabs    = this.config.tabs.list
+        } catch( e ) {
+            // TODO: Make default thing work
+        }
+
         printf( "##after -> this.config -> ", this.config )
 
         store( "selection", [])
@@ -319,22 +326,26 @@ export default class Ilse {
 
             let seconds = store("autosave")
 
+            // Expensive: Do rarely
             if( seconds === 0 )  {
             } else {
                 this.notes.save()
-                this.save() // config
                 store( "autosave", 0 )
             }
 
+            // Automatically Save(config, tabs)
+            this.save()
+
         }, one_minute )
+
 
     }
 
     async loaded() {
-        this.has_loaded             = true
 
         // Load Plugins
         let plugins = await async_ilse_get_plugins()
+        printf( "plugins -> ", plugins )
         let list    = Object.keys(plugins)
         this.plugins= list
 
@@ -354,6 +365,7 @@ export default class Ilse {
         })
 
         Messager.emit( "~ilse", "loaded" )
+        this.has_loaded           = true
     }
 
 }

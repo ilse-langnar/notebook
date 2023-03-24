@@ -8,10 +8,14 @@ import printf                           from "@/functions/printf.js"
 export default function config( ilse, file ) {
 
     if( file ) { // set
-        let string = JSON.stringify( file )
+        let string = JSON.stringify( file, null, 4)
         printf( "set -> string -> ", string )
         ilse.filesystem.file.write.sync( "config.json", string )
     } else { // get
+
+        let exists = ilse.filesystem.file.exists.sync( "config.json" )
+            if( !exists ) return {}
+
         let string = ilse.filesystem.file.read.sync( "config.json" )
         let json
 

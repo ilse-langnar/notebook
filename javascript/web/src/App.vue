@@ -3,6 +3,8 @@
 
     #setup( v-if="!ilse.target_directories.length" v-html="ilse.components['setup.html']" )
 
+    .loading( v-if="ilse.target_directories.length && !ilse.has_loaded" v-html="ilse.components['loading.html']" )
+
     .ilse( v-if="ilse.target_directories.length && ilse.has_loaded" data-theme="light" )
 
         .html-render( v-for="( item, index ) in ilse.stack" :key="index" )
@@ -468,6 +470,12 @@ outline: 3px solid transparent;
     font-style: normal;
     font-weight: lighter;
     src: url("assets/mary.ttf");
+}
+
+blockquote::selection {
+    background: white;
+    color: red;
+
 }
 
 ::selection {
@@ -1136,6 +1144,7 @@ fieldset[disabled] .pagination-ellipsis {
   width: 32px;
 }
 
+/*
 .button.is-loading::after, .loader, .select.is-loading::after, .control.is-loading::after {
   -webkit-animation: spinAround 500ms infinite linear;
           animation: spinAround 500ms infinite linear;
@@ -1149,6 +1158,7 @@ fieldset[disabled] .pagination-ellipsis {
   position: relative;
   width: 1em;
 }
+*/
 
 .image.is-square img,
 .image.is-square .has-ratio, .image.is-1by1 img,

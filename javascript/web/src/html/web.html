@@ -1,7 +1,9 @@
 <div data-ilse-id="web.html" data-ilse-icon="world-www.svg" >
     <div x-transition x-data="{ url: '' }" >
         <!-- <div> -->
-        <div x-data="{ api: {} }" >
+        <div x-data="{ api: {}, $store: {} }" >
+
+            <p @click="console.log($store); console.log('Alpine -> ', Alpine); console.log('api -> ', api); " > Click </p>
 
             <template x-if="props.url && props.url.indexOf('http') !== -1 " >
                 <!-- <iframe id="iframe" :src=" props.url.indexOf('http') !== -1 ? props.url : 'http://' + props.url" x-init="$el.width = $el.parentNode.parentNode.scrollWidth; $el.height = $el.parentNode.parentNode.scrollHeight + 100; console.log('$el.width -> ', $el.width); console.log('$el.height -> ', $el.height);" frameborder="0" ></iframe> -->

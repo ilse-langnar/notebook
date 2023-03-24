@@ -19,6 +19,7 @@ import setup          from "@/html/setup.html"
 import theme          from "@/html/theme.html"
 import url_bar        from "@/html/url-bar.html"
 import web            from "@/html/web.html"
+import loading        from "@/html/loading.html"
 
 export default function get_default_components() {
     return {
@@ -40,6 +41,7 @@ export default function get_default_components() {
         "setup.html":         setup,
         "theme.html":         theme,
         "url-bar.html":       url_bar,
+        "loading.html":       loading,
         "web.html":           web,
     }
 }

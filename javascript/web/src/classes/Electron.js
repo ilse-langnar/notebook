@@ -13,9 +13,9 @@ import printf                           from "@/functions/printf.js"
 // functions
     import debounce                     from "@/functions/debounce.js"
     import send_message                 from "@/functions/send_message.js"
+    // import electron                     from "electron"
 
 let electron
-
 export default class Electron {
 
     constructor() {
@@ -48,16 +48,16 @@ export default class Electron {
 
     async screenshot( filename = Math.random().toString().replace("0.", "") ) {
 
-        var remote
+        // var remote = electron.remote
 
-        printf( "> 1" )
-        try {
-            printf( "> 2" )
-            remote = require('' + 'electron').remote
-        } catch(e) {
-            printf( "> 3" )
-            remote = require('' + 'remote')
-        }
+        // printf( "> 1" )
+        // try {
+            // printf( "> 2" )
+            // remote = require('' + 'electron').remote
+        // } catch(e) {
+            // printf( "> 3" )
+            // remote = require('' + 'remote')
+        // }
 
         printf( "> 4" )
         // printf( "remote.getCurrentWindow() -> ", remote.getCurrentWindow() )
