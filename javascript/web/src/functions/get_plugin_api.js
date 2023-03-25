@@ -101,8 +101,8 @@ export default function get_plugin_api( name, ilse ) {
             readFile:      ilse.filesystem.file.read.async,
             readFileSync:  ilse.filesystem.file.read.sync,
 
-            writeFile:     ilse.filesystem.file.read.async,
-            writeFileSync: ilse.filesystem.file.read.sync,
+            writeFile:     ilse.filesystem.file.write.async,
+            writeFileSync: ilse.filesystem.file.write.sync,
         },
 
 

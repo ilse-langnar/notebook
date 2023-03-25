@@ -1,5 +1,5 @@
 <div data-ilse-id="outline.html" data-ilse-icon="point.svg" >
-    <div id='outline' :style="props.style" x-data @click="console.log('props.style -> ', props.style)" x-init="api.on('~notes', payload => { if( payload.action === 'added' && payload.index === null ) { props.list.push( payload.id ) } })">
+    <div id='outline' :style="props.style" x-data x-init="api.on('~notes', payload => { if( payload.action === 'added' && payload.index === null ) { props.list.push( payload.id ) } })">
 
         <template x-for="(note_id, index) in list" x-data="{ list: props.list }" :key="note_id" >
         <!-- <template x-for="(note_id, index) in list" x-data="{ list: [] }" x-init="api.notes.progressive( '[[Tools for Thought]]', id => { list.push(id) } )" :key="note_id" >  -->

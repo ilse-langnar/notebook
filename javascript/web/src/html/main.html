@@ -174,9 +174,9 @@
                     </div>
                     <!-- <hr> -->
 
-                    <div class="flex" >
+                    <div class="flex" x-init="console.log('flex')" >
 
-                        <div x-html="api.component(_item.id, _item.props)" style="width: 98%; margin: 0 auto;" @click="console.log('(main.js)(render-components) _item, _item.id-> ', _item, _item.id)" > </div>
+                        <div x-html="api.component(_item.id, _item.props)" x-init="console.log('main.html api.component()');" style="width: 98%; margin: 0 auto;" @click="console.log('(main.js)(render-components) _item, _item.id-> ', _item, _item.id)" > </div>
                         <!-- <div x-html="api.component(_item.id)" style="width: 98%; margin: 0 auto;" @click="console.log('(main.js)(render-components) _item, _item.id-> ', _item, _item.id)" > </div> -->
                         <!-- <div x-html="api.component(_item.id, _item.props)" style="width: 98%; margin: 0 auto;" @click="console.log('(main.js)(render-components) _item, _item.id-> ', _item, _item.id)" > </div>  -->
                         <!-- <div x-html="api.component(_item.id, _item.props, 'main.html('  + _item.id + ')' )" style="width: 98%; margin: 0 auto;" @mouseenter="item.components.map( i => i.is_selected = false ); _item.is_selected = true" @click="console.log('@@@@ -> ', _item); " > </div>  -->

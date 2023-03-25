@@ -142,6 +142,7 @@
             <!-- /Close all boxes on 'esc' -->
 
             <img style="width: 25px; margin: 10px; cursor: pointer;" :src="api.require('clipboard-typography.svg')" @click="open = 'refs'" />
+            <p style="position: relative; left: -15px; font-family: var(font-family3), serif; " > 0 </p>
 
             <!-- <img style="width: 25px; margin: 10px; cursor: pointer;" :src="api.require('brackets.svg')" :class=" open === 'refs' ? 'border-bottom' : '' " @click="open = 'refs'" />
 
@@ -268,13 +269,19 @@
             </div>
             <!-- Keyboard Shortcuts -->
 
-            <input class="flexi" type="text" name="" id="" value="" x-data="{ search: '' }" x-model="search" placeholder="ilse.design or [[Design]] or #todo or !component-name" style="height: 30px; margin: 3px; border-radius: var( --border-radius ); border: 1px solid var( --text-color ); border: 1px solid transparent; padding: 3px; color: var( --text-color ); background: var( --background-color ); " @keydown.enter="console.log(search); if( search.indexOf('://')) {
+            <input class="flexi" type="text" name="" id="" value="" x-data="{ search: '' }" x-model="search" placeholder="ilse.design or [[Design]] or #todo or !component-name" style="height: 30px; margin: 3px; border-radius: var( --border-radius ); border: 1px solid var( --text-color ); border: 1px solid transparent; padding: 3px; color: var( --text-color ); background: var( --background-color ); " @keydown.enter="console.log(search); if( search.indexOf('://') !== -1 ) {
                 $store.tabs.add_component('web.html', 'Browser', { url: search })
                } else if( search[0] === '!' ) {
                    let clean_string = search.replace('!', '')
                    console.log('search -> ', search )
                    console.log('clean_string -> ', clean_string )
                    $store.tabs.add_component(clean_string, 'Component', {  })
+               } else if( search.slice(-3) === '.md' ) { // has a .md
+
+                   let exists  = api.fs.existsSync( search )
+
+                   $store.tabs.add_component('file.html', search , { file: exists ? search : null })
+
                } else {
                    $store.tabs.add_component('references.html', 'References', { file: search })
                }
