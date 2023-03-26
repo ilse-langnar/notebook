@@ -342,6 +342,7 @@ export default class Ilse {
     }
 
     async loaded() {
+        this.has_loaded           = true
 
         // Load Plugins
         let plugins = await async_ilse_get_plugins()
@@ -365,7 +366,7 @@ export default class Ilse {
         })
 
         Messager.emit( "~ilse", "loaded" )
-        this.has_loaded           = true
+        // this.has_loaded           = true
     }
 
 }
