@@ -14,7 +14,7 @@ export default function modal( content, styles = {} ) {
         html: `
             <div style="width: 100vw; height: 100vh; background: rgba( 255, 255, 255, 0.3 ); z-index: 3; width: 100%; height: 100%; position: fixed; transform: translate( -50%, -50% ); left: 50%; top: 50%; "  >
 
-                <div id="${id}" style="z-index: 5; opacity: 1; position: fixed; left: 50%; top: 50%; transform: translate( -50%, -50% ); width: ${ styles.width || '90%' }; height: ${ styles.height || 'fit-content' }; max-height: 80%; overflow: auto; border-radius: var( --border-radius ); color: var( --text-color ); background: var( --background-color ); padding: 5px; text-align: center; box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; " >
+                <div id="${id}" style="z-index: 5; opacity: 1; position: fixed; left: 50%; top: 50%; transform: translate( -50%, -50% ); width: ${ styles.width || '90%' }; height: ${ styles.height || 'fit-content' }; max-height: 80%; overflow: auto; border-radius: var( --border-radius ); color: var( --secondary ); background: var( --primary ); padding: 5px; text-align: center; box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; " >
                     ${content}
                 </div>
 

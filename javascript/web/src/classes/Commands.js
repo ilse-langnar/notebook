@@ -340,7 +340,7 @@ class Commands {
                         return `<div class="flex" >
                             <img src="${ilse.require(command.icon)}" style="width: 20px;" />
                             <p data-command-id="${command.id}" > ${command.name} </p>
-                            <p style="position: absolute; right: 0px; color: var( --background-color ); background: var( --text-color ); padding: 3px; border-radius: 4px; min-width: 30px; min-height: 30px; "> ${get_command_by_keyboard_shortcut(command.id)} </p>
+                            <p style="position: absolute; right: 0px; color: var( --primary ); background: var( --secondary ); padding: 3px; border-radius: 4px; min-width: 30px; min-height: 30px; "> ${get_command_by_keyboard_shortcut(command.id)} </p>
                         </div>`
                     }
 
@@ -713,13 +713,32 @@ class Commands {
                 icon: "dice-3.svg",
                 fn: async function() {
 
-                    let list                   = ilse.notes.query_regexp( /(\.png|\.jpg|\.gif)/ )
-                    let random_list            = get_random_array_elements( list, 10 )
-                    let normalized_list        = random_list.map( item => { return `<div @click="navigator.clipboard.writeText('${item}'); api.notify('Copied!', 'Copied: ' + '${item}' + ' To your clipboard' ); " >
+                    // let list                   = ilse.notes.query_regexp( /(\.png|\.jpg|\.gif)/ ) // query imgs
+                    // let random_list            = get_random_array_elements( list, 5 ) // get random set of them
+
+                    /* let normalized_list        = random_list.map( item => { return `<div @click="navigator.clipboard.writeText('${item}'); api.notify('Copied!', 'Copied: ' + '${item}' + ' To your clipboard' ); " >
                         <span x-html="api.markdown(api.notes.list['${item}'].content)" > </span>
                     </div>`
+                    }) */
+
+                    let html  = `<div x-data="{ pointer: 0 }" style="width: 80vw !important; height: 80vh !important; overflow: hidden; " >
+
+                        <div style="display: flex;" style="width: 100px; margin: 0 auto;" >
+                            <img :src="api.require('arrow-narrow-left.svg')" style="width: 40px;" @click="pointer -= 1" />
+                            <img :src="api.require('arrow-narrow-right.svg')" style="width: 40px;" @click="pointer += 1" />
+                        </div>
+
+                        <template x-for="(item, index) in api.utils.get_random_array_elements(api.notes.query_regexp(  /(\.png|\.jpg|\.gif)/  ), 10 )" :key="index" >
+                            <span x-show="pointer === index" x-html="api.markdown(api.notes.list[item].content)" > </span>
+                        </template>
+
+                    </div>`
+
+                    await ilse.commands.run("box", {
+                        html: html,
                     })
 
+                    /*
                     await ilse.commands.run( "html-list", {
                         search: "",
                         list: normalized_list,
@@ -739,6 +758,7 @@ class Commands {
 
                         },
                     })
+                    */
 
 
                 },

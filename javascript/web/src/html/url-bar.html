@@ -45,7 +45,7 @@
                 top: 40px;
                 width: 80%;
                 z-index: 4;
-                border: 1px solid var( --text-color );
+                border: 1px solid var( --secondary );
                 background: #fff;
                 color: #000;
                 border-radius: var( --border-radius );
@@ -58,14 +58,14 @@
                 overflow: hidden;
                 margin-left: 5px;
                 margin-bottom: 5px;
-                background: var( --background-color );
-                color: var( --text-color );
+                background: var( --primary );
+                color: var( --secondary );
                 cursor: pointer;
             }
 
             #url-bar #which-key .key:hover {
-                background: var( --text-color );
-                color: var( --background-color );
+                background: var( --secondary );
+                color: var( --primary );
                 }
 
         #url-bar input:focus {
@@ -77,17 +77,17 @@
         }
 
             #url-bar .key .combo  {
-                color: var( --link-color );
+                color: var( --accent );
             }
 
             #url-bar .key .arrow  {
-                color: var( --terciary-text-color );
+                color: var( --terciary );
                 margin-left: 2px;
                 margin-right: 2px;
             }
 
             #url-bar .key .command  {
-                color: var( --tertiary-text-color );
+                color: var( --terciary );
             }
 
     </style>
@@ -207,7 +207,7 @@
                     width: 80%;
                     left: 1%;
                     z-index: 4;
-                    border: 1px solid var( --text-color );
+                    border: 1px solid var( --secondary );
                     background: #fff;
                     color: #000;
                     border-radius: var( --border-radius );
@@ -269,7 +269,7 @@
             </div>
             <!-- Keyboard Shortcuts -->
 
-            <input class="flexi" type="text" name="" id="" value="" x-data="{ search: '' }" x-model="search" placeholder="ilse.design or [[Design]] or #todo or !component-name" style="height: 30px; margin: 3px; border-radius: var( --border-radius ); border: 1px solid var( --text-color ); border: 1px solid transparent; padding: 3px; color: var( --text-color ); background: var( --background-color ); " @keydown.enter="console.log(search); if( search.indexOf('://') !== -1 ) {
+            <input class="flexi" type="text" name="" id="" value="" x-data="{ search: '' }" x-model="search" placeholder="ilse.design or [[Design]] or #todo or !component-name" style="height: 30px; margin: 3px; border-radius: var( --border-radius ); border: 1px solid var( --secondary ); border: 1px solid transparent; padding: 3px; color: var( --secondary ); background: var( --primary ); " @keydown.enter="console.log(search); if( search.indexOf('://') !== -1 ) {
                 $store.tabs.add_component('web.html', 'Browser', { url: search })
                } else if( search[0] === '!' ) {
                    let clean_string = search.replace('!', '')

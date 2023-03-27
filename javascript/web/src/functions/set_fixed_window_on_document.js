@@ -75,7 +75,7 @@ export default function modal( content, x, y, options = { width: "400px", height
                 <img class="is-pulled-right" style="width: 20px; cursor: pointer;" @click="api.stack.pop(); console.log('api.stack -> ', api.stack);" :src="api.require('x.svg')" />
                 <hr/>
 
-                <div id="${id}" style="z-index: 5; opacity: 1; position: fixed; left: 50%; top: 50%; transform: translate( -50%, -50% ); width: ${ options.width || '90%' }; height: ${ options.height || 'fit-content' }; max-height: 80%; overflow: auto; border-radius: var( --border-radius ); color: var( --text-color ); background: var( --background-color ); padding: 5px; text-align: center; box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; " >
+                <div id="${id}" style="z-index: 5; opacity: 1; position: fixed; left: 50%; top: 50%; transform: translate( -50%, -50% ); width: ${ options.width || '90%' }; height: ${ options.height || 'fit-content' }; max-height: 80%; overflow: auto; border-radius: var( --border-radius ); color: var( --secondary ); background: var( --primary ); padding: 5px; text-align: center; box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important; " >
                     ${content}
                 </div>
 

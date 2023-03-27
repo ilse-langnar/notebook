@@ -32,7 +32,7 @@ export default {
             } else if( $event.ctrlKey ) {
 
             } else if( !$event.ctrlKey && !$event.shiftKey ){
-            } " > [[${alias}]] </a>`
+            } " > <!-- [[${alias}]] -->  ${alias} </a>`
 
         } else {
 
@@ -48,7 +48,7 @@ export default {
 
                 } else if( !$event.ctrlKey && !$event.shiftKey ) {
 
-                }" > [[${link}]] </a>`
+                }" > <!-- [[${link}]] --> ${link} </a>`
 
         }
 

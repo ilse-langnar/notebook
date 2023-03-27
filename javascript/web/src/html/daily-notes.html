@@ -11,7 +11,7 @@
                 <!-- <div style="padding: 10px; " x-data="{ list: api.notes.query( item ) }" >  -->
                     <!-- Date + Delete -->
                     <div style="display: flex;">
-                        <h1 style="center !important; color: var( --text-color );" x-text=" '&bull; &nbsp; ' + api.utils.yyyymmddhhss_to_pretty(item)" > </h1>
+                        <h1 style="center !important; color: var( --secondary );" x-text=" '&bull; &nbsp; ' + api.utils.yyyymmddhhss_to_pretty(item)" > </h1>
                         <img x-show="index !== 0" :src="api.require('x.svg')" style="width: 20px;margin-left:20px;cursor:pointer;" alt="" title="Delete" @click="list.splice( index, 1 )" >
                     </div>
                     <br>
@@ -39,10 +39,10 @@
                 .load-more {
 
                     background-color: #000;
-                    background-color: var( --text-color );
+                    background-color: var( --secondary );
 
                     color: #fff;
-                    color: var( --background-color );
+                    color: var( --primary );
 
                     padding: 10px;
 
@@ -75,8 +75,8 @@
     /*
     #daily-notes .load-more {
         display: block;
-        color: var( --text-color );
-        background: var( --background-color );
+        color: var( --secondary );
+        background: var( --primary );
         padding: 7px;
         border-radius: var( --border-radius );
         margin: 0 auto;

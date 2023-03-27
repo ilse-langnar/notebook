@@ -3,7 +3,6 @@ import APP_TEMPLATE         from "@/constants/APP_TEMPLATE.js"
 import CONFIG_TEMPLATE      from "@/constants/CONFIG_TEMPLATE.js"
 import CORE_PLUGINS         from "@/constants/CORE_PLUGINS.js"
 import DEFAULT_COMMANDS     from "@/constants/DEFAULT_COMMANDS.js"
-import DEFAULT_THEME        from "@/constants/DEFAULT_THEME.js"
 import DEMO_NOTES           from "@/constants/DEMO_NOTES.js"
 import LOGIC_TAGS           from "@/constants/LOGIC_TAGS.js"
 import PERMISSIONS          from "@/constants/PERMISSIONS.js"
@@ -19,7 +18,6 @@ export default {
     CONFIG_TEMPLATE,
     CORE_PLUGINS,
     DEFAULT_COMMANDS,
-    DEFAULT_THEME,
     DEMO_NOTES,
     LOGIC_TAGS,
     PERMISSIONS,

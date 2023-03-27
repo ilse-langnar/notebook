@@ -8,6 +8,6 @@ export default {
     regexp: /(^> ?.+?)((\r?\n\r?\n\w)|\Z)/,
     fn: function( match, utils ) {
         let content = match[0]
-        return markdown.render(content)
+        return markdown.render( "&nbsp;" + content )
     }
 }

@@ -19,7 +19,7 @@
                     :placeholder="props.placeholder ? props.placeholder : 'Search for Something ...' "
                     title="[[Ilse]] [[Programming]] - [[Ilse]] AND [[Programming]] - [[Ilse]] NOT [[Programming]] - #ilse - #math/topology"
                     x-init="document.getElementById('search-input') ? document.getElementById('search-input').focus() : null; setTimeout( () => { search = '' }, 100 ) "
-                    style="color: var( --text-color ); background: var( --background-color ); border-radius: var( --border-radius ); width: 90%; margin-top: 10px; margin-bottom: 10px;"/>
+                    style="color: var( --secondary ); background: var( --primary ); border-radius: var( --border-radius ); width: 90%; margin-top: 10px; margin-bottom: 10px;"/>
 
                 <img :src="api.require('x.svg')" style="width: 20px; margin-right: 10px; cursor: pointer; " @click="api.get('stack').pop()" >
 
@@ -58,7 +58,7 @@
         text-align:   center;
         cursor:       pointer;
         color:        #a3a3a3;
-        color:        var( --text-color );
+        color:        var( --secondary );
         /* font-size: 1.5em; */
         width: 20px;
         cursor:       pointer;
@@ -80,7 +80,6 @@
     }
 
     #search input:focus {
-        /*box-shadow: 0 0 0 3px hsla(var(--input-focus-h), var(--input-focus-s), calc(var(--input-focus-l) + 40%), 0.8);*/
         outline: 3px solid transparent;
         border-color: hsl(var(--input-focus-h), var(--input-focus-s), var(--input-focus-l));
         border: 2px solid rgb(124, 138, 255);
@@ -104,8 +103,8 @@
     #search .render {
         cursor: pointer;
         margin-bottom: 5px;
-        color: var( --text-color );
-        background: var( --background-color );
+        color: var( --secondary );
+        background: var( --primary );
         text-align: left;
         padding: 3px;
     }

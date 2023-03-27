@@ -18,8 +18,8 @@
                 flex: 1;
                 flex-basis: 100%;
                 border-radius: var( --border-radius );
-                background: var( --background-color ); */
-                background: var( --background-color );
+                background: var( --primary ); */
+                background: var( --primary );
                 overflow-x: hidden !important;
                 height: 85vh;
                 height: 92vh;
@@ -46,7 +46,7 @@
                 overflow: hidden;
                 box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
                 border-radius: var( --border-radius );
-                background: var( --background-color );
+                background: var( --primary );
                 border: 0 !important;
                 float: left;
             }
@@ -56,8 +56,8 @@
                 }
 
             #main .divider {
-                border-left: 1px dashed var( --text-color );
-                border-right: 1px dashed var( --text-color );
+                border-left: 1px dashed var( --secondary );
+                border-right: 1px dashed var( --secondary );
                 width: 50px;
                 cursor: pointer;
             }
@@ -117,7 +117,7 @@
                 <!-- CHANGED -->
                 <template x-for="(item, index) in $store.tabs.list" :key="index" x-data="{ list: api.get('plugins') }" x-init="setTimeout( () => { list = api.get('plugins'); }, 3000 ); " >
                     <div class="plugin-icon" @click="is_left_sidebar_expanded = !is_left_sidebar_expanded; console.log('is_left_sidebar_expanded -> ', is_left_sidebar_expanded)" >
-                        <span x-text="item.components.length" style="position: relative; left: 1px; top: 43px; color: var( --terciary-text-color ); font-family: var(--font-family3), serif, sans-serif; font-size: 0.9em; " ></span>
+                        <span x-text="item.components.length" style="position: relative; left: 1px; top: 43px; color: var( --terciary ); font-family: var(--font-family3), serif, sans-serif; font-size: 0.9em; " ></span>
                         <img class="img" :src="item.icon" :style=" item.is_selected ? 'border: var( --border ); ' : '' " alt="" @click="$store.tabs.select(item)" >
                         <!-- <div class="plugin-icon" x-html="item.string"  > </div> -->
                     </div>
@@ -131,7 +131,7 @@
 
         </div>
 
-        <div x-show="is_left_sidebar_expanded" x-transition.opacity class="left-sidebar plugin-icon" style="float: none !important; min-width: 60px !important; max-width: 60px !important; height: 93vh !important; background: var( --background-color ); " >
+        <div x-show="is_left_sidebar_expanded" x-transition.opacity class="left-sidebar plugin-icon" style="float: none !important; min-width: 60px !important; max-width: 60px !important; height: 93vh !important; background: var( --primary ); " >
             <template x-for="( item, index ) in $store.tabs.list" :key="index" >
                 <template x-for="( _item, _index ) in item.components" :key=" 'index' + _index" >
                     <img :src="api.require('news.svg')" :class=" item.is_selected ? 'border' : '' " style="width: 50px; margin-left: 5px; margin-top: 6px !important;" alt="" @click="$store.tabs.select(item)" >
