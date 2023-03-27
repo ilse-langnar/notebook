@@ -39,6 +39,8 @@ If anything goes wrong, please open a [Issue](https://github.com/ilse-langnar/no
 <img style="width: 100%;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/screenshot-1.png" />
 <img style="width: 100%;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/screenshot-2.png" />
 <img style="width: 100%;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/screenshot-3.png" />
+<img style="width: 100%;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/screenshot-4.png" />
+<img style="width: 100%;" src="https://raw.githubusercontent.com/ilse-langnar/notebook/dev/docs/screenshot-5.png" />
 
 
 <h2 align="center" > Why  </h2>
