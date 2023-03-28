@@ -15,7 +15,7 @@
 
          x-show="is_on && x !== -1"
          @click="document.removeEventListener( 'mousemove', mousemove ); is_on = false; x = -1; y = -1; /*after closing context menu, clean it*/ api.store('contextmenu', []); "
-         x-init="document.addEventListener('contextmenu', event => {
+         x-init="contextmenu('##contextmenu'); document.addEventListener('contextmenu', event => {
 
             is_on = !is_on
             api.store('selection', window.getSelection().toString() )

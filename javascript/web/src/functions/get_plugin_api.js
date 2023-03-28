@@ -41,6 +41,7 @@ import printf                           from "@/functions/printf.js"
     import get_note_id                            from "@/functions/get_note_id.js"
     import random_number                          from "@/functions/random_number.js"
     import component                              from "@/functions/component.js"
+    import cache                                  from "@/functions/cache.js"
 
 export default function get_plugin_api( name, ilse ) {
 
@@ -48,11 +49,10 @@ export default function get_plugin_api( name, ilse ) {
 
         notify: notify,
         store: store,
-        render: render,
         config: ilse.config,
-        components:ilse.components,
-
+        // components:ilse.components,
         component: component,
+        cache: cache,
 
         get( name ) {
 

@@ -31,6 +31,8 @@ import printf                                   from "@/functions/printf.js"
     import get_random_array_elements            from "@/functions/get_random_array_elements.js"
     import get_note_id                          from "@/functions/get_note_id.js"
     import get_note_children                    from "@/functions/get_note_children.js"
+    import component                            from "@/functions/component.js"
+    import cache                                from "@/functions/cache.js"
 
 class Commands {
 
@@ -248,10 +250,8 @@ class Commands {
                 fn: async function() {
 
                     modal(
-                        render("make-plugin.html",
-                            {
-                            }
-                        ),
+                        component("make-plugin.html"),
+                        /*render("make-plugin.html", { }), */
                         // { width: '80%', height: 'fit-content' }
                         { width: '80%', height: '80%' }
                     )
@@ -477,11 +477,8 @@ class Commands {
                 fn: function() {
 
                     modal(
-                        render( "calendar.html", { },
-                            {
-                                stringify: false,
-                            }
-                        ),
+                        component("calendar.html", {}),
+                        /*render( "calendar.html", { }, { stringify: false, }),*/
                         { width: '70%', height: '70%', overflow: 'auto' }
                     )
 
@@ -497,7 +494,8 @@ class Commands {
                     let url = await ilse.commands.run( "html-list", { placeholder: "Type URL" })
                     printf( "url -> ", url )
                     modal(
-                        render( "web.html", { url: url } ),
+                        component("web.html", { url: url }),
+                        /*render( "web.html", { url: url } ),*/
                         { width: '70%', height: '70%' }
                     )
 
@@ -514,7 +512,8 @@ class Commands {
                     return new Promise((resolve, reject) => {
 
                         modal(
-                            render("outline-search.html",
+                            /*render("outline-search.html",*/
+                            component("outline-search.html",
                                 {
                                     search:        options.search         || '',
                                     list:          options.list           || [],
@@ -550,14 +549,8 @@ class Commands {
                     return new Promise((resolve, reject) => {
 
                         modal(
-                            render("box.html",
-                                {
-                                    html:         options.html         || '',
-                                },
-                                {
-                                    stringify: false,
-                                }
-                            ),
+                            /* render("box.html", { html:         options.html         || '', }, { stringify: false, }), */
+                            component( "box.html", { html: options.html || "" } ),
                             { width: '80%', height: 'fit-content' }
                         )
 
@@ -653,7 +646,8 @@ class Commands {
                     store( "work", random_todos )
 
                     ilse.commands.run("box", {
-                        html: `<span x-html="api.render('outline.html', { list: $store.work })" > </span>`,
+                        // html: `<span x-html="api.render('outline.html', { list: $store.work })" > </span>`,
+                        html: `<span x-html="api.component('outline.html', { list: $store.work })" > </span>`,
                     })
 
                     /*
@@ -721,15 +715,25 @@ class Commands {
                     </div>`
                     }) */
 
-                    let html  = `<div x-data="{ pointer: 0 }" style="width: 80vw !important; height: 80vh !important; overflow: hidden; " >
+                    let api          = store("api")
+                    let random_image = cache( api, "random-images" )
+                    printf( "Commands.js -> open-random-notes-images -> random_image -> ", random_image )
+                        if( !random_image ) {
+                            let all_images    = api.notes.query_regexp(  /(\.png|\.jpg|\.gif)/ )
+                            let random_images = api.utils.get_random_array_elements( all_images, all_images.length )
+                            cache( api, "random-images",  random_images )
+                        }
 
-                        <div style="display: flex;" style="width: 100px; margin: 0 auto;" >
+
+                    let html  = `<div x-data="{ pointer: 0 }" style="width: 80vw !important; height: 80vh !important; " >
+
+                        <div style="display: flex;" style="width: 100px; margin: 0 auto; margin: 0 auto; width: 100px; " >
                             <img :src="api.require('arrow-narrow-left.svg')" style="width: 40px;" @click="pointer -= 1" />
                             <img :src="api.require('arrow-narrow-right.svg')" style="width: 40px;" @click="pointer += 1" />
                         </div>
 
-                        <template x-for="(item, index) in api.utils.get_random_array_elements(api.notes.query_regexp(  /(\.png|\.jpg|\.gif)/  ), 10 )" :key="index" >
-                            <span x-show="pointer === index" x-html="api.markdown(api.notes.list[item].content)" > </span>
+                        <template x-for="(item, index) in api.cache(api, 'random-images')" :key="index" >
+                            <template x-if="pointer === index" x-html="api.markdown(api.notes.list[item].content)" > </template>
                         </template>
 
                     </div>`
@@ -1088,7 +1092,8 @@ class Commands {
                     return new Promise((resolve, reject) => {
 
                         modal(
-                            render("html-list.html",
+                            /*render("html-list.html",*/
+                            component( "html-list.html",
                                 {
                                     search:        options.search         || '',
                                     list:          options.list           || [],

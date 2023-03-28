@@ -74,7 +74,7 @@
         </div> -->
 
         <!-- Left Sidebar -->
-        <div x-show="$store.config.is_leftsidebar_on" x-transition.opacity class="left-sidebar flex" style="min-width: 60px; flex-basis: 3%; /*margin-top: -48px; */" >
+        <div x-ignore x-show="$store.config.is_leftsidebar_on" x-transition.opacity class="left-sidebar flex" style="min-width: 60px; flex-basis: 3%; /*margin-top: -48px; */" >
 
             <!-- config.is_url_bar_on;  -->
             <!-- <img :src="api.require('x.svg')" alt="" style="width: 20px;" >
@@ -180,9 +180,9 @@
                         <!-- <div x-html="api.component(_item.id)" style="width: 98%; margin: 0 auto;" @click="console.log('(main.js)(render-components) _item, _item.id-> ', _item, _item.id)" > </div> -->
                         <!-- <div x-html="api.component(_item.id, _item.props)" style="width: 98%; margin: 0 auto;" @click="console.log('(main.js)(render-components) _item, _item.id-> ', _item, _item.id)" > </div>  -->
                         <!-- <div x-html="api.component(_item.id, _item.props, 'main.html('  + _item.id + ')' )" style="width: 98%; margin: 0 auto;" @mouseenter="item.components.map( i => i.is_selected = false ); _item.is_selected = true" @click="console.log('@@@@ -> ', _item); " > </div>  -->
-                        <!-- <div x-html="api.render(_item.id, _item.props, 'main.html('  + _item.id + ')' )" style="width: 98%; margin: 0 auto;" @mouseenter="item.components.map( i => i.is_selected = false ); _item.is_selected = true" @click="console.log('@@@@ -> ', _item); " > </div> -->
+                        <!-- <div x-html="api.component(_item.id, _item.props, 'main.html('  + _item.id + ')' )" style="width: 98%; margin: 0 auto;" @mouseenter="item.components.map( i => i.is_selected = false ); _item.is_selected = true" @click="console.log('@@@@ -> ', _item); " > </div> -->
 
-                        <!-- <div x-html="api.render(_item.id, _item.props)" style="width: 98%; margin: 0 auto;" @mouseenter="item.components.map( i => i.is_selected = false ); _item.is_selected = true" @click="console.log('@@@@ -> _item -> ', _item)" > </div> -->
+                        <!-- <div x-html="api.component(_item.id, _item.props)" style="width: 98%; margin: 0 auto;" @mouseenter="item.components.map( i => i.is_selected = false ); _item.is_selected = true" @click="console.log('@@@@ -> _item -> ', _item)" > </div> -->
                     </div>
 
                 </div>

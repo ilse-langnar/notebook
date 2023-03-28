@@ -90,7 +90,7 @@ export default {
                 .replaceAll(")", "")
 
             return `<div class="note-embed" >
-                <span x-html="api.render('outline.html', { list: [ '${id}' ] })" > </span>
+                <span x-html="api.component('outline.html', { list: [ '${id}' ] })" > </span>
             </div>`
 
 

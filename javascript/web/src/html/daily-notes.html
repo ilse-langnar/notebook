@@ -1,6 +1,11 @@
 <div data-ilse-id="daily-notes.html" data-ilse-icon="calendar.svg" >
     <div id="daily-notes" x-transition x-data="{}" style="height: auto; margin: 10px; width: 99%; overflow: auto; height: 87vh; " >
 
+        <!-- Scheduled to today -->
+        <div style="border: 1px solid var( --secondary ); box-shadow: var( --box-shadow ); border-radius: var( --border-radius );" >
+            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+        </div>
+
         <img class="component-icon" :src="api.require('notes.svg')" alt="Notes" title="Notes" x-data="{}" >
         <!-- Days -->
         <div x-data="{ list: [ api.utils.get_unique_date_id().slice(0, 8)  ], today: api.utils.get_unique_date_id().slice(0, 8) }" >

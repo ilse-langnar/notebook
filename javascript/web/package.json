@@ -64,6 +64,7 @@
     "pug": "^3.0.2",
     "pug-loader": "^2.4.0",
     "pug-plain-loader": "^1.1.0",
+    "vitepress": "^1.0.0-alpha.63",
     "vue-cli-plugin-electron-builder": "^2.1.1",
     "vue-cli-plugin-i18n": "~2.3.1",
     "vue-template-compiler": "2.6.14",

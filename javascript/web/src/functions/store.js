@@ -2,7 +2,7 @@ import printf                   from "@/functions/printf.js"
 
 import Alpine                   from 'alpinejs'
 
-export default function render( key, value, reactive ) {
+export default function store( key, value, reactive ) {
 
     let len       = arguments.length
     let is_getter = len === 1

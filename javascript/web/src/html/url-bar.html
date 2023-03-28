@@ -190,7 +190,7 @@
                         <hr>
                         <img :src="api.require('x.svg')" alt="Close" title="Close" style="width: 20px; float: right; margin-right: 10px; cursor: pointer;" @click="list.splice( index, 1 )" >
                         <h2 align="center" x-text="item" ></h2>
-                        <span x-html="api.render('outline.html', { list: api.notes.query(item), 'url-bar.html' })" ></span>
+                        <span x-html="api.component('outline.html', { list: api.notes.query(item), 'url-bar.html' })" ></span>
                         <hr>
                     </div>
                 </template>

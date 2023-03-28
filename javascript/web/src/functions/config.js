@@ -9,7 +9,6 @@ export default function config( ilse, file ) {
 
     if( file ) { // set
         let string = JSON.stringify( file, null, 4)
-        printf( "set -> string -> ", string )
         ilse.filesystem.file.write.sync( "config.json", string )
     } else { // get
 

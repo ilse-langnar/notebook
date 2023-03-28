@@ -1,9 +1,5 @@
 <div data-ilse-id="hello-world.html" data-ilse-icon="news.svg" x-data"{}" >
-    <div x-transition x-data="{ list: [] }" x-init="api.notes.progressive( '[[Tools for Thought]]', id => {
-       setInterval( list.push(id), api.utils.random_number(1, 4000) ); 
-     })" >
-        <template x-for="(item, index) in list" :key="index" >
-            <p x-text="item" ></p>
-        </template>
+    <div>
+        <p> Hello, World </p>
     </div>
 </div>

@@ -13,7 +13,7 @@
 
             <template x-if="props.url && props.url.indexOf('http') === -1 " >
                 <!-- <button class="button" @click="console.log('api -> ', api); console.log('api.render -> ', api.render)" > Util</button> -->
-                <!-- <span x-html="api.render('references.html', { file: props.url }, 'web.html' )"></span> -->
+                <!-- <span x-html="api.component('references.html', { file: props.url }, 'web.html' )"></span> -->
                 <p> References: </p>
                 <span x-html="api.component('references.html', { file: props.url })"></span> 
             </template>

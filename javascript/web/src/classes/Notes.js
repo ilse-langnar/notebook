@@ -199,12 +199,38 @@ export default class Notes {
         // let list      = values( this.list ) // TODO: make us of values
         let note, n
 
-        for( let id in this.list ) {
-            note = this.list[id]
-            n = `${note.id}: ${note.content}`
-            has_match = n.match( q )
-                if( !has_match ) continue
-            result.push( note.id )
+        if( limit === null ) {
+
+            for( let id in this.list ) {
+                note = this.list[id]
+                n = `${note.id}: ${note.content}`
+                has_match = n.match( q )
+                    if( !has_match ) continue
+                result.push( note.id )
+            }
+
+        }
+
+        if( typeof limit === 'number' ) {
+
+            let index
+            for( let id in this.list ) {
+
+                index++
+                if( index >= limit ) {
+                    cache(global_ilse, name, result) // FEATURE: Set Cache
+                    return result
+                }
+
+                note = this.list[id]
+                n = `${note.id}: ${note.content}`
+                has_match = n.match( q )
+                    if( !has_match ) continue
+                result.push( note.id )
+            }
+
+
+
         }
 
         /*

@@ -75,6 +75,10 @@
             /* Secondary(Advanced) */
             --highlight: yellow;
 
+            --danger: red;
+            --success: green;
+            --warning: yellow;
+
             --border: 1px solid var( --primary );
             --border-radius: 6px;
 
@@ -457,6 +461,11 @@
         ::selection {
             color: var( --primary );
             background: var( --secondary );
+        }
+
+        ::selection:hover {
+            color: var( -secondary );
+            background: var( --primary );
         }
 
         /* Works on Firefox */

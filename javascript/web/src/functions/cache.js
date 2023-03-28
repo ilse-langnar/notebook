@@ -1,6 +1,6 @@
 import printf                       from "@/functions/printf.js"
 
-export default function cache( obj, name, value ) {
+export default function cache( obj, name, value, half_life = 1000 * 60 ) {
 
     if( !obj ) throw new Error( "cache() cannot work without arguments!" )
     if( !name ) throw new Error( "cache() cannot work with only the name" )
@@ -16,7 +16,7 @@ export default function cache( obj, name, value ) {
 
     if( is_write ) {
         obj.cache[name] = value
-        setTimeout( () => { delete obj.cache[name] }, 1000 * 60 )
+        setTimeout( () => { delete obj.cache[name] }, half_life )
         return obj.cache[name]
     }
 

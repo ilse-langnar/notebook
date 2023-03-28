@@ -1,10 +1,6 @@
 <template lang="pug">
 #app( v-cloak )
 
-    // div.test
-        p( v-html="ilse.markdown.render(' [[Tools for Thought]] ==Hello, World== **This is a bolded** *this is italic* ')" )
-        p( v-html="ilse.markdown.render('> [[Tools for Thought]] ==Hello, World== **This is a bolded** *this is italic* ')" )
-
     #setup( v-if="!ilse.target_directories.length" v-html="ilse.components['setup.html']" )
 
     .loading( v-if="ilse.target_directories.length && !ilse.has_loaded" v-html="ilse.components['loading.html']" )
@@ -14,13 +10,16 @@
         .html-render( v-for="( item, index ) in ilse.stack" :key="index" )
             .div( v-html="item.html" :id="item.id" )
 
-        // .app( v-html="render('ilse.html', {})" style="overflow: auto; " )
+        // .app( v-html="component('ilse.html', {})" style="overflow: auto; " )
+
         // .app( v-html="ilse.components['ilse.html'].html" style="overflow: auto; " )
 
         // .app( v-html="ilse.components['ilse.html']" style="overflow: auto; " ) // I only use "ilse.components['ilse.html']" instead of ilse.component('ilse.html', {}) because it's a .vue file. IN ALL OTHER USES use "api.component(id)" and NOT "api.components['id']"
         // .app( v-html="ilse.components['ilse.html']" style="overflow: auto; " ) 
 
         .app( v-html="ilse.components['theme.html'] + ilse.components['url-bar.html'] + ilse.components['main.html'] + ilse.components['contextmenu.html']" style="overflow: auto; " )
+
+        // .app( v-html="ilse.components['ilse.html']" style="overflow: auto; " ) 
 
 </template>
 <script>

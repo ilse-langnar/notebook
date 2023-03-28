@@ -12,6 +12,7 @@ import make_plugin    from "@/html/make-plugin.html"
 import marketplace    from "@/html/marketplace.html"
 import new_tab        from "@/html/new-tab.html"
 import notification   from "@/html/notification.html"
+import outline_search from "@/html/outline-search.html"
 import outline        from "@/html/outline.html"
 import references     from "@/html/references.html"
 import setup          from "@/html/setup.html"
@@ -34,6 +35,7 @@ export default function get_default_components() {
         "marketplace.html":   marketplace,
         "new-tab.html":       new_tab,
         "notification.html":  notification,
+        "outline-search.html":outline_search,
         "outline.html":       outline,
         "references.html":    references,
         "setup.html":         setup,

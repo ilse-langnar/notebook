@@ -9,8 +9,9 @@ import html_to_string           from "@/functions/html_to_string.js"
 
 export default function render( name, props = {}, source ) {
 
-    // printf( `(render.js) name: ${name} props: ${JSON.stringify(props)} source: ${source}` )
+    printf( `(render.js) name: ${name} props: ${JSON.stringify(props)} source: ${source}` )
 
+    console.time( "one" )
     let has_props        = !!keys(props).length
     // let id               = "id-" + get_uuid()
     let id               = "id-" + get_uuid()
@@ -22,18 +23,22 @@ export default function render( name, props = {}, source ) {
         props                = JSON.stringify( props )
         props                = props.replaceAll( "\"", "\'" )
     }
+    console.timeEnd( "one" )
 
     // Idea string to HTML and then I pass  a string as x-data?
 
+    console.time( "two" )
     let component_string = ilse.components[name]
     let HTML             = string_to_html( component_string )
 
     let root             = HTML.body.childNodes[0]
-        printf( "root -> ", root )
-        printf( "root.setAttribute -> ", root.setAttribute )
-        if( root ) root.setAttribute( "data-ilse-component-uuid", name )
+        // printf( "root -> ", root )
+        // printf( "root.setAttribute -> ", root.setAttribute )
+        // if( root ) root.setAttribute( "data-ilse-component-uuid", name )
+    console.timeEnd( "two" )
 
-    let dom              = HTML.querySelector('[x-data]')
+    console.time( "three" )
+    let dom              = HTML.querySelector('[x-data]') // ISSUE: This will automatically init the DOm, this is bad. I need a differentt data-ilse-props or somehting
     // printf( "dom -> ", dom )
     /* makes: api not $store.api */
         // let wrapper          = document.createElement("div")
@@ -45,6 +50,8 @@ export default function render( name, props = {}, source ) {
         }
 
     let string           = html_to_string( HTML )
+    console.timeEnd( "three" )
+    printf( "\n\n\n" )
     return string
     // return second_string
 }
