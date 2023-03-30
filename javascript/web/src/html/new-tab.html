@@ -1,6 +1,6 @@
 <div data-ilse-id="new-tab.html" data-ilse-icon="square.svg" >
-    <div id="new-tab" x-transition x-data="{ text: '', url: '' }" class="flex" >
-        <div x-init="let input = $el.querySelector('input'); if( input ) { setTimeout( () => { console.log('focusing ...'); input.focus() }, 1000 ) }" x-data="{ id: Math.random().toString().replace('0.', '') }" >
+    <div id="new-tab" x-transition class="flex" >
+        <div x-init="let input = $el.querySelector('input'); if( input ) { setTimeout( () => { console.log('focusing ...'); input.focus() }, 1000 ) }" >
 
         </div>
     </div>

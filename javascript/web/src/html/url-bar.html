@@ -135,6 +135,13 @@
             <img class="cursor-pointer" style="width: 25px; margin: 10px;" :src="$store.config.is_leftsidebar_on ? api.require('eye.svg') : api.require('eye-off.svg')" @click="let config = $store.config; config.is_leftsidebar_on = !config.is_leftsidebar_on; api.store('config', config)" /> -->
 
             <!-- <img class="cursor-pointer" style="width: 25px; margin: 10px;" :src="$store.config.is_leftsidebar_on ? api.require('eye.svg') : api.require('eye-off.svg')" @click="let config = $store.config; config.is_leftsidebar_on = !config.is_leftsidebar_on; /*Make main.html box adaptable to isu_url_bar_on so it growns and contracts accordingly. */ config.is_url_bar_on = !config.is_url_bar_on; api.store('config', config)" /> -->
+
+            <!-- <img class="cursor-pointer" style="width: 25px; margin: 10px;" :src=" $store.config.is_leftsidebar_on ? api.require('toggle-left.svg') : api.require('toggle-right.svg')" @click="let config = $store.config; config.is_leftsidebar_on = !config.is_leftsidebar_on; api.store('config', config);" /> -->
+
+            <img class="cursor-pointer" style="width: 25px; margin: 10px;" :src=" $store.config.is_menu_on ? api.require('toggle-left.svg') : api.require('toggle-right.svg')" @click="let config = $store.config; config.is_menu_on = !config.is_menu_on; api.store('config', config);" />
+
+            <!-- <img class="cursor-pointer" style="width: 25px; margin: 10px;" :src=" $store.config.is_leftsidebar_on ? api.require('toggle-left.svg') : api.require('toggle-right.svg')" @click="let config = $store.config; config.test = !config.test; api.store('config', config);" /> -->
+
             <img class="cursor-pointer" style="width: 25px; margin: 10px;" :src="api.require('calendar.svg') " @click="" />
 
             <!-- Close all boxes on 'esc' -->

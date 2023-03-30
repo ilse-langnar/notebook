@@ -84,16 +84,22 @@ export default class Electron {
 
             // BUGFIX: We should not do anything if it's already defined
             let has_directory     = !!ilse.target_directories.length
-                if( has_directory ) return
+                // printf( "has_directory -> ", has_directory )
+                // if( has_directory ) return
 
             // BUGFIX: something wrong with the files
             let path              = payload[0]
+            printf( "path -> ", path )
                 if( !path ) return
 
-            let list              = []
-                list.push( path )
+            // let list              = []
+            let list              = ilse.target_directories ? ilse.target_directories : []
+            printf( "list -> ", list )
+                list.unshift( path )
+                // list.push( path )
 
             let stringified_list  = JSON.stringify( list )
+            printf( "stringified_list -> ", stringified_list )
 
             window.localStorage.setItem( "target-directories", stringified_list )
 

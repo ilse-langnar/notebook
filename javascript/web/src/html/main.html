@@ -49,41 +49,29 @@
                 background: var( --primary );
                 border: 0 !important;
                 float: left;
+
+
+                min-width: 60px;
+                /*margin-top: -48px; */
+                flex-basis: 3%;
+                max-width: 65px;
             }
 
                 #main .left-sidebar .favorite {
                     cursor: pointer;
                 }
 
-            #main .divider {
-                border-left: 1px dashed var( --secondary );
-                border-right: 1px dashed var( --secondary );
-                width: 50px;
-                cursor: pointer;
+            #main div {
+                flex: 1;
+                margin: 0px 3px !important;
             }
 
     </style>
 
-
-    <div id="main" x-transition x-data="{ components: $store.tabs.list.filter( item => item.is_selected )[0].components, is_select_component_on: false, is_left_sidebar_expanded: false, tab: 'ilse' }" class="flex" >
-
-        <!-- <div x-data="{ list: api.stack }" x-init="$watch('$store.api.stack', change => { console.log('change -> ', change); list = change })" >
-            <template x-for="( item, index ) in list" :key="index" >
-                <div x-html="item.html" > </div>
-            </template>
-        </div> -->
+    <div id="main" x-transition class="flex" style="justify-content: space-between;" >
 
         <!-- Left Sidebar -->
-        <div x-ignore x-show="$store.config.is_leftsidebar_on" x-transition.opacity class="left-sidebar flex" style="min-width: 60px; flex-basis: 3%; /*margin-top: -48px; */" >
-
-            <!-- config.is_url_bar_on;  -->
-            <!-- <img :src="api.require('x.svg')" alt="" style="width: 20px;" >
-            <br> -->
-            <!-- <div style="width: 30px; margin: 0 auto;" >
-                <img :src="$store.config.is_url_bar_on ? api.require('eye.svg') : api.require('eye-off.svg')" style="cursor: pointer; margin-bottom: 5px; width: 25px; " title="" alt="" @click="let config = api.store('config'); config.is_url_bar_on = !config.is_url_bar_on; api.store('config', config)" />
-            </div>  -->
-
-            <!-- <img :src="$store.config.is_url_bar_on ? api.require('eye.svg') : api.require('eye-off.svg')" style="cursor: pointer; margin-bottom: 5px; width: 25px; " title="" alt="" @click="let config = api.store('config'); config.is_url_bar_on = !config.is_url_bar_on; api.store('config', config)" /> -->
+        <div x-show="$store.config.is_menu_on" x-transition.opacity class="left-sidebar" :style="$store.config.is_menu_on ? 'margin-left: 10px;' : '' " >
 
             <!-- Tabs -->
             <div style="width: 60px;" >
@@ -108,17 +96,11 @@
                     }
                 </style>
 
-
-                <!-- <div class="plugin-icon" >
-                    <img class="img" :src="api.require('icon.svg')" style="display: block; margin: 0 auto; cursor: pointer; margin-bottom: 5px; width: 35px; " title="Add new Plugin" alt="New" @click="" />
-                </div> -->
-
                 <!-- Containers -->
-                <!-- CHANGED -->
                 <template x-for="(item, index) in $store.tabs.list" :key="index" x-data="{ list: api.get('plugins') }" x-init="setTimeout( () => { list = api.get('plugins'); }, 3000 ); " >
-                    <div class="plugin-icon" @click="is_left_sidebar_expanded = !is_left_sidebar_expanded; console.log('is_left_sidebar_expanded -> ', is_left_sidebar_expanded)" >
+                    <div class="plugin-icon" >
                         <span x-text="item.components.length" style="position: relative; left: 1px; top: 43px; color: var( --terciary ); font-family: var(--font-family3), serif, sans-serif; font-size: 0.9em; " ></span>
-                        <img class="img" :src="item.icon" :style=" item.is_selected ? 'border: var( --border ); ' : '' " alt="" @click="$store.tabs.select(item)" >
+                        <img class="img" :src="item.icon" :style="item.is_selected ? 'border: 1px solid var(--secondary); ' : '' " alt="" @click="$store.tabs.select(item)" >
                         <!-- <div class="plugin-icon" x-html="item.string"  > </div> -->
                     </div>
                 </template>
@@ -130,64 +112,51 @@
             <!-- Tabs -->
 
         </div>
+        <!-- Left Sidebar-->
 
-        <div x-show="is_left_sidebar_expanded" x-transition.opacity class="left-sidebar plugin-icon" style="float: none !important; min-width: 60px !important; max-width: 60px !important; height: 93vh !important; background: var( --primary ); " >
-            <template x-for="( item, index ) in $store.tabs.list" :key="index" >
-                <template x-for="( _item, _index ) in item.components" :key=" 'index' + _index" >
-                    <img :src="api.require('news.svg')" :class=" item.is_selected ? 'border' : '' " style="width: 50px; margin-left: 5px; margin-top: 6px !important;" alt="" @click="$store.tabs.select(item)" >
-                </template>
-            </template>
-        </div>
-        <!-- Left Sidebar -->
+        <!-- Render Actual Component -->
+        <!-- <template x-for="( item, index ) in $store.tabs.get_all_components()" :key="index" style="display: flex; justify-content: space-between; " > -->
+        <template x-for="( item, index ) in $store.tabs.get_all_components()" :key="index" >
 
-        <!-- Component[s] -->
-        <template x-for="( item, index ) in $store.tabs.list" :key="index" style="display: flex;" >
+            <div x-show="item.is_tab_selected && item.is_on" class="menu" x-transition.opacity style="flex: 1; display: block;" >
 
-            <template x-for="( _item, _index ) in item.components" :key=" 'index' + _index" style="display: flex;" >
+                <style>
+                    .menu {
+                        width: 99%;
+                        overflow: hidden;
+                    }
+                </style>
 
-                <div x-show="item.is_selected && _item.is_on" class="menu" x-transition.opacity x-data="{ is_resizing: false, x_position: 0, width: 0 }" :style="$store.config.is_leftsidebar_on ? 'margin-right: 10px; width: 99%; overflow: hidden;' : 'width: 99%; overflow: hidden;' " >
+                <style>
+                    .items-wrapper:hover img {
+                        cursor: pointer;
+                        flex: 1;
+                        width: 20px !important;
+                    }
 
-                    <style>
-                        .items-wrapper:hover img {
-                            cursor: pointer;
-                            flex: 1;
-                            width: 20px !important;
-                        }
+                    .items-wrapper:hover .svg {
+                        cursor: pointer;
+                        flex: 1;
+                        width: 20px !important;
+                    }
+                </style>
 
-                        .items-wrapper:hover .svg {
-                            cursor: pointer;
-                            flex: 1;
-                            width: 20px !important;
-                        }
-                    </style>
+                <div class="items-wrapper" style="height: 19px;" >
 
-                    <div class="items-wrapper" style="height: 19px; " >
-
-                        <div class="snap" style="margin-left: 1px;" @click="console.log('_item -> ', _item); console.log('_item.props -> ', _item.props) " >
-                            <!-- <img class="svg snap" :src="api.require('grid-dots.svg')" title="Close Window" alt="close" style="width: 0px; " > -->
-                            <img class="svg" :src="api.require('x.svg')" title="Close Window" alt="close" style="width: 0px; " @click="$store.tabs.remove_component(item)" >
-                            <img class="svg" :src="api.require('app-window.svg')" title="Make Window Float" alt="float" style="width: 0px; " @click="console.time('one'); api.utils.make_dom_draggable( $el.parentNode.parentNode.parentNode, _item, { width: '50%', height: '50%' } ); console.timeEnd('one'); " >
-                            <span class="svg" align="center" style="font-family: var( --font-family3 ); vertical-align: super; " x-text="_item.name" > </span>
-                            <!-- <img class="svg" :src="api.require('replace.svg')" title="Put it Another Container" alt="move" style="width: 0px; " > -->
-                        </div>
-
-                    </div>
-                    <!-- <hr> -->
-
-                    <div class="flex" x-init="console.log('flex')" >
-
-                        <div x-html="api.component(_item.id, _item.props)" x-init="console.log('main.html api.component()');" style="width: 98%; margin: 0 auto;" @click="console.log('(main.js)(render-components) _item, _item.id-> ', _item, _item.id)" > </div>
-                        <!-- <div x-html="api.component(_item.id)" style="width: 98%; margin: 0 auto;" @click="console.log('(main.js)(render-components) _item, _item.id-> ', _item, _item.id)" > </div> -->
-                        <!-- <div x-html="api.component(_item.id, _item.props)" style="width: 98%; margin: 0 auto;" @click="console.log('(main.js)(render-components) _item, _item.id-> ', _item, _item.id)" > </div>  -->
-                        <!-- <div x-html="api.component(_item.id, _item.props, 'main.html('  + _item.id + ')' )" style="width: 98%; margin: 0 auto;" @mouseenter="item.components.map( i => i.is_selected = false ); _item.is_selected = true" @click="console.log('@@@@ -> ', _item); " > </div>  -->
-                        <!-- <div x-html="api.component(_item.id, _item.props, 'main.html('  + _item.id + ')' )" style="width: 98%; margin: 0 auto;" @mouseenter="item.components.map( i => i.is_selected = false ); _item.is_selected = true" @click="console.log('@@@@ -> ', _item); " > </div> -->
-
-                        <!-- <div x-html="api.component(_item.id, _item.props)" style="width: 98%; margin: 0 auto;" @mouseenter="item.components.map( i => i.is_selected = false ); _item.is_selected = true" @click="console.log('@@@@ -> _item -> ', _item)" > </div> -->
+                    <div class="snap" style="margin-left: 1px;" >
+                        <img class="svg" :src="api.require('x.svg')" title="Close Window" alt="close" style="width: 0px; " @click="$store.tabs.remove_component({}) " >
+                        <img class="svg" :src="api.require('app-window.svg')" title="Make Window Float" alt="float" style="width: 0px; "
+                        @click="api.utils.make_dom_draggable( $el.parentNode.parentNode.parentNode, item, { width: '50%', height: '50%' } ); " >
+                        <span class="svg" align="center" style="font-family: var( --font-family3 ); vertical-align: super; " x-text="item.name" > </span>
                     </div>
 
                 </div>
-            </template>
 
+                <div class="flex" style="justify-content: space-around; " >
+                    <div x-html="api.component(item.id, item.props)" style="width: 98%; margin: 0 auto;" > </div>
+                </div>
+
+            </div>
         </template>
 
         <!-- Component[s] -->

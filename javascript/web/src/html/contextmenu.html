@@ -15,7 +15,7 @@
 
          x-show="is_on && x !== -1"
          @click="document.removeEventListener( 'mousemove', mousemove ); is_on = false; x = -1; y = -1; /*after closing context menu, clean it*/ api.store('contextmenu', []); "
-         x-init="contextmenu('##contextmenu'); document.addEventListener('contextmenu', event => {
+         x-init="console.log('##contextmenu'); document.addEventListener('contextmenu', event => {
 
             is_on = !is_on
             api.store('selection', window.getSelection().toString() )
@@ -66,7 +66,7 @@
 
             <hr x-show"$store.contextmenu.length" >
 
-            <template x-for="(item, index) in $store.contextmenu" x-data="{ list: $store.contextmenu }" :key="index" >
+            <template x-for="(item, index) in $store.contextmenu" :key="index" >
                 <div style="display: flex;" class="space-around cursor-pointer" :title="item.description" >
                     <p x-text="item.name" style="font-size: 1em; flex: 1; flex-basis: 90%; " ></p>
                     <img :src="api.require(item.icon)" alt="" style="width: 20px; flex: 1; flex-basis: 20%; " >

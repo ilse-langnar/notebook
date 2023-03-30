@@ -639,14 +639,12 @@ class Commands {
 
                     // let html = ""
                     // random_todos.map( item => {
-                        // html += `<span x-html="api.render('outline.html', { list: [ '${item}' ] })" > </span>`
                         // html += `<div x-html="api.markdown(api.notes.list['${item}'].content)" > </div>`
                     // })
 
                     store( "work", random_todos )
 
                     ilse.commands.run("box", {
-                        // html: `<span x-html="api.render('outline.html', { list: $store.work })" > </span>`,
                         html: `<span x-html="api.component('outline.html', { list: $store.work })" > </span>`,
                     })
 

@@ -9,7 +9,7 @@ export default function component( id, props ) { // get: component("id") get wit
     // printf( "(component.js) -> props -> ", props )
 
     let len = arguments.length
-    printf( `(component.js) -> id -> ${id} props: ${JSON.stringify(props)} len: ${len} ` )
+    // printf( `(component.js) -> id -> ${id} props: ${JSON.stringify(props)} len: ${len} ` )
     // printf( ">>>> len -> ", len )
     // printf( "typeof(props) -> ", typeof(props) )
 
@@ -18,14 +18,14 @@ export default function component( id, props ) { // get: component("id") get wit
     if( len === 1 ) {
         // printf( "(component.js)(getting) len === 1" )
         let result = render( id, props );
-        printf( "result -> ", result )
+        // printf( "result -> ", result )
         return result
     }
 
     if( /* allow more arguments like source*/ len > 1 && typeof(props) === "object" ) {
         // printf( "(component.js)(getting with param) len === 2" )
         let result = render( id, props )
-        printf( "result -> ", result )
+        // printf( "result -> ", result )
         return result
     }
 

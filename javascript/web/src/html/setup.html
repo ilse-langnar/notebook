@@ -12,7 +12,7 @@
 
         <br style="height: 100px;" />
 
-        <img x-bind:src="api.require('folders.svg')" class="select-folder centered" style=" width: 40%; display: block; margin: 0 auto; border: 1px dashed #000; border-radius: 5px; cursor: pointer; " @click="api.commands.run('setup-select-target-directory')" />
+        <img :src="api.require('folders.svg')" class="select-folder centered" style=" width: 40%; display: block; margin: 0 auto; border: 1px dashed #000; border-radius: 5px; cursor: pointer; " @click="api.commands.run('setup-select-target-directory')" />
 
         <p align="center" style="text-decoration: italic; text-align: center; margin: 0 auto;" > You can change it later!  </p>
 

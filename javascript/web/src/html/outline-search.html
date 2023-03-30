@@ -1,5 +1,6 @@
 <div data-ilse-id="outline-search.html" data-ilse-icon="list.svg" >
-    <div id="search" style="overflow: auto; height: 100%; border; 2px solid #000; " x-data="{ props: { on_enter() {}, on_click(){}, show_more: false, search: '', list: [], pointer: -1, prepend_search: '', append_search: '', placeholder: '', on_input: function(){} } }" >
+    <!-- x-data="{ props: { on_enter() {}, on_click(){}, show_more: false, search: '', list: [], pointer: -1, prepend_search: '', append_search: '', placeholder: '', on_input: function(){} } }"  -->
+    <div id="search" style="overflow: auto; height: 100%; border; 2px solid #000; " data-ilse-props >
 
         <!-- wrapper -->
         <div x-data="{ is_options_on: false }" x-init="props.init()" >
@@ -31,7 +32,7 @@
             <!-- grid -->
             <div x-show="props.list.length" style="display: flex; overflow: hidden;" >
 
-                <p x-html="api.render('outline.html', { list: props.list }, 'outline-search.html')" > </p>
+                <p x-html="api.component('outline.html', { list: props.list }, 'outline-search.html')" > </p>
 
             </div>
             <!-- grid -->

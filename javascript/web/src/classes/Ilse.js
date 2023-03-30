@@ -294,7 +294,7 @@ export default class Ilse {
 
         store( "selection", [])
         store( "contextmenu", [])
-        store( "config", { is_leftsidebar_on: true, is_url_bar_on: true })
+        store( "config", { is_menu_on: true, is_leftsidebar_on: true, is_url_bar_on: true })
         store( "links", [] )
         store( "user", {} )
         store( "api", get_api("global", this) )

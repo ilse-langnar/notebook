@@ -114,6 +114,23 @@ export default function get_tabs( tabs ) {
 
         },
 
+        get_all_components( id, props, raw_html = false ) {
+
+            let list            = []
+            let selected        = this.list.filter( item => {
+
+                item.components.map( _item => {
+                    _item.is_tab_selected = item.is_selected
+                    list.push( _item )
+                })
+
+            })
+
+            return list
+
+        },
+
+
         replace_all_components( id, props, raw_html = false ) {
 
             printf( "get_tabs -> replace_all_components -> id -> ", id )

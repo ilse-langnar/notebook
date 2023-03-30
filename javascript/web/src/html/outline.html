@@ -1,8 +1,10 @@
 <div data-ilse-id="outline.html" data-ilse-icon="point.svg" >
-    <div id='outline' :style="props.style" x-data x-init="api.on('~notes', payload => { if( payload.action === 'added' && payload.index === null ) { props.list.push( payload.id ) } })">
 
-        <template x-for="(note_id, index) in list" x-data="{ list: props.list }" :key="note_id" >
-        <!-- <template x-for="(note_id, index) in list" x-data="{ list: [] }" x-init="api.notes.progressive( '[[Tools for Thought]]', id => { list.push(id) } )" :key="note_id" >  -->
+    <!-- x-init="api.on('~notes', payload => { if( payload.action === 'added' && payload.index === null ) { props.list.push( payload.id ) } })" -->
+    <div id='outline' :style="props.style" data-ilse-props >
+
+        <template x-for="(note_id, index) in props.list" :key="note_id" >
+            <!-- Remove this x-data, x-data should only exists globally and not locally(expensive) -->
             <div x-data="{ is_editing: false, note: api.notes.list[note_id], content: api.notes.list[note_id].content, depth: api.notes.list[note_id].depth }" >
 
                 <div x-show="is_on" :id="note_id" :style=" 'margin-left:' + (note.depth * 20) + 'px;' " x-data="{ is_on: note.content.indexOf('#hide') === -1 }" >
