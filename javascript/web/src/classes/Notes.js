@@ -17,7 +17,6 @@ import printf                               from "@/functions/printf.js"
     import map                              from "@/functions/map.js"
     import to_keys                          from "@/functions/keys.js"
     import has_string                       from "@/functions/has_string.js"
-    import is_directory_cloud               from "@/functions/is_directory_cloud.js"
     // import get_note_children                from "@/functions/get_note_children.js"
 
     import values                           from "@/functions/values.js"
@@ -25,16 +24,15 @@ import printf                               from "@/functions/printf.js"
     import extract_markdown_links_from_string     from "@/functions/extract_markdown_links_from_string.js"
     import cache                            from "@/functions/cache.js"
     import store                            from "@/functions/store.js"
+    import fs                               from "@/functions/fs.js"
 
 let global_ilse
 
 // notes() notes("id") = get. notes("id", {}) = set. notes( "query" ). notes(/regexp_query/). to save: notes( notes() )
 export default class Notes {
-    constructor( filesystem, _ilse ) {
+    constructor( _ilse ) {
 
         global_ilse         = _ilse
-
-        this.filesystem     = filesystem
 
         this.list           = {}
         // this.cache          = {}
@@ -93,12 +91,13 @@ export default class Notes {
 
         let _this = this
 
-        let has_note = ilse.filesystem.file.exists.sync( "notes" )
+        // let has_note = ilse.fs.existsSync( "notes" )
+        let has_note = ilse.fs.existsSync( "notes" )
             if( !has_note ) return
 
-        ilse.filesystem.file.watch( "notes", async (file, one, two) => {
+        ilse.fs.watch( "notes", async (file, one, two) => {
 
-            let text    = await this.filesystem.file.read.async( "notes" )
+            let text    = await this.fs.readFileAsync( "notes" )
             let lines   = text.split("\n")
             let n_lines = lines.length
             let len     = to_keys( this.list ).length + 1
@@ -152,16 +151,17 @@ export default class Notes {
         let text_file = ""
 
         map( keys, key => {
-            if( is_directory_cloud( this.list[key].source ) ) return
             text_file += `${get_spaces_count(this.list[key].depth)}${this.list[key].id}: ${this.list[key].content}\n` // <spaces><id>: <content>
         })
 
-        this.filesystem.file.write.async( "notes", text_file )
+        fs("/").writeFileSync( "notes", text_file )
+        // this.fs.writeFileSync( "notes", text_file )
     }
 
     async load_local_notes() {
 
-        if( !global_ilse.target_directories[0] ) {
+        printf( "global_ilse.target_directories[0] -> ",  global_ilse.target_directories[0] )
+        if( !global_ilse.target_directories[0] && process.env.VUE_APP_TARGET === "ELECTRON" ) {
             this.list = []
             return
             // throw new Error( "Error: Notes.js You need to have a valid 'Target Directory' in order to get your notes." )
@@ -169,17 +169,18 @@ export default class Notes {
 
         try {
             let dir         = global_ilse.target_directories[0]
-            let textfile    = await this.filesystem.file.read.async( "notes" )
+            let textfile    =  fs("/").readFileSync( "notes", "utf-8" )
+            printf( "### textfile -> ", textfile )
             this.list       = get_note_2_object( textfile, dir )
-            ilse.loaded()
+            printf( "### this.list -> ", this.list )
+            global_ilse.loaded()
         } catch( e ) {
+            printf( "EEEERRRORORR -> ", e )
             this.list       = []
-            let exists    = await this.filesystem.file.exists.async( "notes" )
-            printf( "### exists -> ", exists )
-            ilse.loaded()
+            // let exists      = await this.fs.exists( "notes" )
+            let exists      = await fs("/").exists( "notes" )
+            global_ilse.loaded()
         }
-
-        printf( ">> ilse.notes.children -> ", ilse.notes.children )
     }
 
     // ilse.notes.query_regexp( /<string>s?/ ) = for plurals, I might also use this in = References / .? <term> .?  / = for more iclusive query

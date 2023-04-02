@@ -29,7 +29,7 @@ export default async function scan_links( html ) {
 
             // if not exists, create
                 try {
-                    exists         = await this.filesystem.file.exists.async( link )// link - > "Psycology Papers.md"
+                    exists         = await this.fs.exists( link )// link - > "Psycology Papers.md"
                 } catch( e ) {
                     exists = false
                 }
@@ -40,7 +40,7 @@ export default async function scan_links( html ) {
 
             // Is an actual file, then create
                 // if( !exists ) {
-                    // await this.filesystem.file.write.async( link, link )
+                    // await this.fs.writeFileSync( link, link )
                 // }
 
             Messager.emit( "~notes", "link", { link, note } )

@@ -1,25 +1,35 @@
 <template lang="pug">
-#app( v-cloak )
+#app( v-cloak style="font-family: 'Inter Light', Roboto, serif, sans; " )
 
-    #setup( v-if="!ilse.target_directories.length" v-html="ilse.components['setup.html']" )
+    // Layers( for modals etc. )
+    .layers( v-for="( item, index ) in ilse.stack" :key="index" )
+        .layer( v-html="item.html" :id="item.id" )
 
-    .loading( v-if="ilse.target_directories.length && !ilse.has_loaded" v-html="ilse.components['loading.html']" )
+    #sass( v-if="ilse.platform === 'sass' " style="max-height: 100vh; overflow: hidden;" )
+        // .ll( v-html="component('url-bar.html')" style="overflow: auto; " x-init="console.log('$store -> ', $store)" )
+        // .ll( v-html="component('contextmenu.html')" style="overflow: auto; " x-init="console.log('$store -> ', $store)" )
+        // .ll( v-html="component('theme.html')" style="overflow: auto; " x-init="console.log('$store -> ', $store)" )
+        // .ll( v-html="component('main.html')" style="overflow: auto; " x-init="console.log('$store -> ', $store)" )
+        .app( v-html="component('ilse.html', {})" style="overflow: auto; " ) 
 
-    .ilse( v-if="ilse.target_directories.length && ilse.has_loaded" data-theme="light" )
+    #electron( v-if="ilse.platform === 'electron' " )
 
-        .html-render( v-for="( item, index ) in ilse.stack" :key="index" )
-            .div( v-html="item.html" :id="item.id" )
+        #setup( v-if="!ilse.target_directories.length" v-html="ilse.components['setup.html']" )
 
-        // .app( v-html="component('ilse.html', {})" style="overflow: auto; " )
+        .loading( v-if="ilse.target_directories.length && !ilse.has_loaded" v-html="ilse.components['loading.html']" )
 
-        // .app( v-html="ilse.components['ilse.html'].html" style="overflow: auto; " )
+        .ilse( v-if="ilse.target_directories.length && ilse.has_loaded" data-theme="light" )
 
-        // .app( v-html="ilse.components['ilse.html']" style="overflow: auto; " ) // I only use "ilse.components['ilse.html']" instead of ilse.component('ilse.html', {}) because it's a .vue file. IN ALL OTHER USES use "api.component(id)" and NOT "api.components['id']"
-        // .app( v-html="ilse.components['ilse.html']" style="overflow: auto; " ) 
+            // .app( v-html="component('ilse.html', {})" style="overflow: auto; " )
 
-        .app( v-html="ilse.components['theme.html'] + ilse.components['url-bar.html'] + ilse.components['main.html'] + ilse.components['contextmenu.html']" style="overflow: auto; " )
+            // .app( v-html="ilse.components['ilse.html'].html" style="overflow: auto; " )
 
-        // .app( v-html="ilse.components['ilse.html']" style="overflow: auto; " ) 
+            // .app( v-html="ilse.components['ilse.html']" style="overflow: auto; " ) // I only use "ilse.components['ilse.html']" instead of ilse.component('ilse.html', {}) because it's a .vue file. IN ALL OTHER USES use "api.component(id)" and NOT "api.components['id']"
+            // .app( v-html="ilse.components['ilse.html']" style="overflow: auto; " ) 
+
+            // .app( v-html="ilse.components['theme.html'] + ilse.components['url-bar.html'] + ilse.components['main.html'] + ilse.components['contextmenu.html']" style="overflow: auto; " )
+
+            .app( v-html="ilse.components['ilse.html']" style="overflow: auto; " ) 
 
 </template>
 <script>
@@ -34,7 +44,7 @@ import printf                                       from "@/functions/printf.js"
 // functions
     import set                                      from "@/functions/set.js"
     import if_else                                  from "@/functions/if_else.js"
-    import is_platform                              from "@/functions/is_platform.js"
+    import component                                from "@/functions/component.js"
 
 // HTML
     // import setup                                    from "@/html/setup.html"
@@ -45,16 +55,19 @@ export default {
 
     data() {
         return {
-            mouse_x: -1,
-            mouse_y: -1,
             ilse: ilse,
         }
     },
 
     methods: {
 
-        get_context_menu_style() {
-            return `left: ${this.mouse_x}px; top: ${this.mouse_y}px;`
+        component( one, two, tree ) {
+            return component( one, two, tree )
+
+        },
+
+        test() {
+            console.log('ilse.components -> ', ilse.components)
         },
 
         get_active() {
@@ -135,7 +148,9 @@ export default {
             })
             */
 
-            if_else( is_platform( 'electron' ),
+            this.set_font_face(),
+
+            if_else( ilse.platform === 'electron',
                 yes => this.set_font_face(),
                 no => null
             )
@@ -152,6 +167,13 @@ export default {
 </script>
 <style>
 
+@font-face {
+    font-family: 'Inter';
+    src: url('assets/Inter-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
 
 /*
 .test > * {

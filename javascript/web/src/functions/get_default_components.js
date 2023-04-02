@@ -21,6 +21,10 @@ import url_bar        from "@/html/url-bar.html"
 import web            from "@/html/web.html"
 import loading        from "@/html/loading.html"
 
+if( process.argv.VUE_APP_TARGET === "sass" ) {
+    // I could replace it to the sass model.
+}
+
 export default function get_default_components() {
     return {
         "box.html":           box,

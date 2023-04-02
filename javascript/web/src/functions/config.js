@@ -9,16 +9,21 @@ export default function config( ilse, file ) {
 
     if( file ) { // set
         let string = JSON.stringify( file, null, 4)
-        ilse.filesystem.file.write.sync( "config.json", string )
+        // ilse.filesystem.file.write.sync( "config.json", string )
+        ilse.fs.writeFileSync( "config.json", string )
     } else { // get
 
-        let exists = ilse.filesystem.file.exists.sync( "config.json" )
+        // let exists = ilse.filesystem.file.exists.sync( "config.json" )
+        printf( "ilse.fs -> ", ilse.fs )
+        printf( "ilse.fs.existsSync -> ", ilse.fs.existsSync )
+        let exists = ilse.fs.existsSync( "config.json" )
             if( !exists ) return {}
 
-        let string = ilse.filesystem.file.read.sync( "config.json" )
+        // let string = ilse.filesystem.file.read.sync( "config.json" )
+        let string = ilse.fs.readFileSync( "config.json" )
         let json
 
-        if( string === "{}" ) {
+        if( string === "{}" ) { // BUGFIX: Don't allow 'empty' config
 
             json = { // BUGFIX: Don't allow 'empty' config
                 tabs: {
@@ -37,7 +42,7 @@ export default function config( ilse, file ) {
                                 }
                             ],
                             is_selected: true,
-                        }
+                        } // object
                     ] // list
                 } // tabs
             }

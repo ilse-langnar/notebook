@@ -117,7 +117,7 @@ class Commands {
     }
 
     // USE: let payload = args[0]
-    run( id, args ) {
+    async run( id, args ) {
 
         if( !id ) throw new Error( "Commands.js -> run(<id>) <id> is not defined, it should be a string with the id of the command " )
 
@@ -130,16 +130,25 @@ class Commands {
 
         Messager.emit( "~commands", "exec", id )
         printf( "Runnign command" )
+        printf( "1" )
 
         /* BUGFIX: Prevent keyboard from opening */
+        printf( "2" )
         let api = store( "api" )
+        printf( "3" )
             api.last_called_command_time = ( new Date().getTime() )
 
+        printf( "4" )
         store( "api", api )
         /* BUGFIX: Prevent keyboard from opening */
 
 
+        printf( "5" )
+        printf( "command -> ", command )
+        printf( "command.fn -> ", command.fn )
+
         if( command && command.fn ) {
+            printf( "inside" )
             return command.fn( args )
         }
     }
@@ -194,6 +203,9 @@ class Commands {
 
                     console.log("window.getSelection().toString() -> ", window.getSelection().toString() )
                     console.log("window.getSelection() -> ", window.getSelection() )
+                    console.log('ilse.notes.query() -> ', ilse.notes.query("o"))
+                    console.log("ilse.notes.list -> ", ilse.notes.list)
+
                     // ilse.electron.send( "test", { url: "http://localhost", x: 0, y: 0, width: 300, height: 300} )
                     // ilse.electron.send( "test", "http://localhost", { url: "http://localhost", x: 0, y: 0, width: 300, height: 300} )
                     // notify( "Title", "Description" )
@@ -447,7 +459,8 @@ class Commands {
                 id: "open-search-fs-files-modal",
                 fn: async function() {
 
-                    let list = await ilse.filesystem.file.get_all.async()
+                    // let list = await ilse.filesystem.file.get_all.async()
+                    let list = await ilse.fs.readdirSync( "/" )
 
                     let content           = await ilse.commands.run( "html-list", {
                         list: [],
@@ -577,15 +590,13 @@ class Commands {
             {
                 id: "create-new-component",
                 fn: function( arg ) {
-                    let { combo, event, key } = arg
 
-                    if( event.shiftKey ) {
-                        printf( "with shift" )
-                        let tabs = store("tabs")
+                    let tabs = store("tabs")
+
+                    if( !arg ) {
                         tabs.add_component( "new-tab.html", "New Tab" )
                     } else {
-                        let tabs = store("tabs")
-                        tabs.add_component( "new-tab.html", "New Tab" )
+                        let { combo, event, key } = arg
                     }
 
                 },

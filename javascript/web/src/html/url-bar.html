@@ -92,8 +92,7 @@
 
     </style>
 
-
-    <div x-show="$store.config.is_url_bar_on" id="url-bar" >
+    <div id="url-bar" >
 
         <style>
             #url-bar-container {
@@ -130,17 +129,7 @@
                     seconds = payload;
                 })" x-transition.opacity />
 
-            <!-- <img class="cursor-pointer" style="width: 25px; margin: 10px;" :src="api.require('settings.svg')" />
-
-            <img class="cursor-pointer" style="width: 25px; margin: 10px;" :src="$store.config.is_leftsidebar_on ? api.require('eye.svg') : api.require('eye-off.svg')" @click="let config = $store.config; config.is_leftsidebar_on = !config.is_leftsidebar_on; api.store('config', config)" /> -->
-
-            <!-- <img class="cursor-pointer" style="width: 25px; margin: 10px;" :src="$store.config.is_leftsidebar_on ? api.require('eye.svg') : api.require('eye-off.svg')" @click="let config = $store.config; config.is_leftsidebar_on = !config.is_leftsidebar_on; /*Make main.html box adaptable to isu_url_bar_on so it growns and contracts accordingly. */ config.is_url_bar_on = !config.is_url_bar_on; api.store('config', config)" /> -->
-
-            <!-- <img class="cursor-pointer" style="width: 25px; margin: 10px;" :src=" $store.config.is_leftsidebar_on ? api.require('toggle-left.svg') : api.require('toggle-right.svg')" @click="let config = $store.config; config.is_leftsidebar_on = !config.is_leftsidebar_on; api.store('config', config);" /> -->
-
             <img class="cursor-pointer" style="width: 25px; margin: 10px;" :src=" $store.config.is_menu_on ? api.require('toggle-left.svg') : api.require('toggle-right.svg')" @click="let config = $store.config; config.is_menu_on = !config.is_menu_on; api.store('config', config);" />
-
-            <!-- <img class="cursor-pointer" style="width: 25px; margin: 10px;" :src=" $store.config.is_leftsidebar_on ? api.require('toggle-left.svg') : api.require('toggle-right.svg')" @click="let config = $store.config; config.test = !config.test; api.store('config', config);" /> -->
 
             <img class="cursor-pointer" style="width: 25px; margin: 10px;" :src="api.require('calendar.svg') " @click="" />
 
@@ -149,11 +138,7 @@
             <!-- /Close all boxes on 'esc' -->
 
             <img style="width: 25px; margin: 10px; cursor: pointer;" :src="api.require('clipboard-typography.svg')" @click="open = 'refs'" />
-            <p style="position: relative; left: -15px; font-family: var(font-family3), serif; " > 0 </p>
-
-            <!-- <img style="width: 25px; margin: 10px; cursor: pointer;" :src="api.require('brackets.svg')" :class=" open === 'refs' ? 'border-bottom' : '' " @click="open = 'refs'" />
-
-            <p x-text="$store.links.length" style="position: relative; left: -15px; font-family: var(font-family3), serif; " ></p>
+            <p style="position: relative; left: -15px; font-family: var(--font-family3), serif; } " @click="" > 0 </p>
 
             <style>
                 #references-panel {
@@ -172,7 +157,7 @@
                     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
                 }
             </style>
-            <div x-show="open === 'refs' " id="references-panel" x-init="$watch( '$store.links', change => { list = change }) " @click="open = 'refs' "x-data="{ list: $store.links }" >
+            <!-- <div x-show="open === 'refs' " id="references-panel" x-init="$watch( '$store.links', change => { list = change }) " @click="open = 'refs' "x-data="{ list: $store.links }" >
 
                 <div align="center" >
 
@@ -203,6 +188,10 @@
                 </template>
 
             </div> -->
+
+
+            <img style="width: 25px; margin: 10px; cursor: pointer;" :src="api.require('language.svg')" @click="" />
+
 
             <img style="width: 25px; margin: 10px; cursor: pointer;" :src="api.require('keyboard.svg')" :class=" open === 'keyboard' ? 'border-bottom' : '' " @click="open = 'keyboard' " @click.away="if( open === 'keyboard' ) open = '' " />
             <!-- Keyboard Shortcuts -->
@@ -276,7 +265,90 @@
             </div>
             <!-- Keyboard Shortcuts -->
 
-            <input class="flexi" type="text" name="" id="" value="" x-data="{ search: '' }" x-model="search" placeholder="ilse.design or [[Design]] or #todo or !component-name" style="height: 30px; margin: 3px; border-radius: var( --border-radius ); border: 1px solid var( --secondary ); border: 1px solid transparent; padding: 3px; color: var( --secondary ); background: var( --primary ); " @keydown.enter="console.log(search); if( search.indexOf('://') !== -1 ) {
+            <style>
+                input#search[type="text"] {
+                    width: 40%;
+                    height: 30px;
+                    margin-top: 3px;
+                    padding: 10px;
+                    border: none;
+                    border-radius: var( --border-radius );
+                    /*box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);*/
+                    border: 1px solid #454545;
+                    background-color: var(--primary);
+                    color: var(--secondary);
+                    font-size: 16px;
+                }
+
+                input#search[type="text"]:focus {
+                    outline: none;
+                    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+                }
+
+                input#search[type="text"]::placeholder {
+                    color: var(--secondary);
+                    font-style: italic;
+                    opacity: 0.7;
+                    font-size: 14px;
+                    text-align: center;
+                    line-height: 1.5;
+                    letter-spacing: 1px;
+                }
+
+                input#search[type="text"]:not(:focus) {
+                    border: 1px solid var(--primary);
+                }
+            </style>
+
+
+            <style>
+                /*
+                :root {
+                    --primary: #333; 
+                    --secondary: #666; 
+                    --tertiary: #999; 
+
+                } */
+
+                /* Style the input field */
+                input[type="text"] {
+                    font-size: 1.2rem;
+                    padding: 0.5rem;
+                    border: 1px solid var(--primary);
+                    border-radius: 5px;
+                    background-color: var(--primary);
+                    color: white;
+                    height: 30px;
+                    margin-top: 2px;
+                    width: 300px;
+                }
+
+                /* Style the input field when focused */
+                input[type="text"]:focus {
+                    outline: none;
+                    /*border: 2px solid var(--secondary);*/
+                    background-color: var(--tertiary);
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+                }
+
+                /* Style the magnifying glass icon */
+                input[type="text"]::before {
+                    content: "\f002"; /* Unicode character for a magnifying glass */
+                    font-family: FontAwesome;
+                    font-size: 1.2rem;
+                    color: var(--secondary);
+                    display: inline-block;
+                    margin-right: 0.5rem;
+                }
+
+                /* Hide the magnifying glass icon when input is focused */
+                input[type="text"]:focus::before {
+                    display: none;
+                }
+            </style>
+
+            <input class="flexi" type="text" x-data="{ search: '' }" x-model="search" placeholder="[C-SPC f f] ilse.ink or [[Design]] or #todo or !component-name" style="flex-basis: 10%; max-width 20%; " @keydown.enter="console.log(search); if( search.indexOf('://') !== -1 ) {
                 $store.tabs.add_component('web.html', 'Browser', { url: search })
                } else if( search[0] === '!' ) {
                    let clean_string = search.replace('!', '')
@@ -295,20 +367,7 @@
 
               " >
 
-
-            <!-- <img class="flexi" style="width: 25px; cursor: pointer; margin-left: 15px;" :src="api.require('plus.svg')" title="New Plugin" alt="Make" @click="$store.tabs.add()" />  -->
-            <!-- <template x-for="(item, index) in $store.tabs.list" :key="index" class="flexi" >
-                <span >
-                    <div x-text="item.components.length" style="font-size: 1.2em;" > </div>
-                    <img style="width: 25px; cursor: pointer; margin: 2px; " :src="api.require('icon.svg')" title="New Plugin" alt="Make" @click="$store.tabs.select(item)" />
-                    <p x-text="item.name" @click="console.log('item -> ', item);" > </p>
-                    <img class="remove" style="width: 20px !important; cursor: pointer;" :src="api.require('x.svg')" title="Delete" alt="Make" @click="$store.tabs.remove_component(item)" />
-                </span>
-            </template> -->
-
-            <!-- User Defined Plugins -->
-
-            <!-- <img style="width: 25px; margin: 10px; cursor: pointer;" :src="api.require('settings.svg')" :class=" open === 'refs' ? 'border-bottom' : '' " @click="open = 'refs'" /> -->
+              <span style="flex: 1;" ></span>
 
             <!--Top Menu Plugins -->
             <!-- <div x-data="{ list: [] }" x-init="api.on('~ilse', payload => { if( payload === 'loaded' ) { list = api.plugins; console.log('list -> ', list)} })"> -->

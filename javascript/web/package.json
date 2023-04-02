@@ -9,8 +9,8 @@
     "build": "VUE_APP_TARGET=WEB vue-cli-service build",
     "all": "VUE_APP_TARGET=ELECTRON electron-builder -wl",
     "build-electron": "VUE_APP_TARGET=ELECTRON bash scripts/build.sh",
-    "build:quine": "VUE_APP_TARGET=QUINE vue-cli-service build",
-    "serve:quine": "VUE_APP_TARGET=QUINE vue-cli-service serve",
+    "sass:build": "VUE_APP_TARGET=SASS vue-cli-service build",
+    "sass:serve": "VUE_APP_TARGET=SASS vue-cli-service serve",
     "electron:all": "VUE_APP_TARGET=ELECTRON npm run electron:build -- --win nsis",
     "electron:build": "VUE_APP_TARGET=ELECTRON vue-cli-service electron:build",
     "electron:serve": "VUE_APP_TESTING=TRUE VUE_APP_TARGET=ELECTRON vue-cli-service electron:serve",
@@ -22,6 +22,7 @@
   "main": "background.js",
   "dependencies": {
     "alpinejs": "^3.10.4",
+    "browserfs": "^1.4.3",
     "dom-filesystem": "^1.0.8",
     "electron-context-menu": "^3.4.0",
     "electron-find": "^1.0.7",

@@ -468,13 +468,12 @@
             background: var( --primary );
         }
 
-        /* Works on Firefox */
+        /*
         * {
             scrollbar-width: thin;
             scrollbar-color: blue orange;
         }
 
-        /* Works on Chrome, Edge, and Safari */
         *::-webkit-scrollbar {
             width: 15px;
         }
@@ -486,10 +485,42 @@
         *::-webkit-scrollbar-thumb {
             background-color: blue;
             border-radius: 20px;
-            /*border: 3px solid orange;*/
             background-color: var( --secondary );
             border: 3px solid var( --primary );
         }
+        */
+
+        /* width of the scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        /* color of the scrollbar */
+        ::-webkit-scrollbar-thumb {
+            background-color: #c9c9c9;
+        }
+
+        /* color of the scrollbar on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #a9a9a9;
+        }
+
+        /* background color of the track */
+        ::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+
+        /* border-radius of the scrollbar */
+        ::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+        }
+
+        /* make the scrollbar track visible */
+        ::-webkit-scrollbar-track-piece {
+            background-color: #f1f1f1;
+            border-radius: 4px;
+        }
+
 
         .shortcut {
             display: inline-flex;

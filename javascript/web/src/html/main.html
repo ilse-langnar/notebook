@@ -6,6 +6,8 @@
             height: 97vh;
             margin-top: 10px;
             margin-top: 0px;
+            width: 99%;
+            margin: 0 auto;
         }
 
             #main .menu {
@@ -51,8 +53,9 @@
                 float: left;
 
 
-                min-width: 60px;
                 /*margin-top: -48px; */
+
+                min-width: 60px;
                 flex-basis: 3%;
                 max-width: 65px;
             }
@@ -71,10 +74,23 @@
     <div id="main" x-transition class="flex" style="justify-content: space-between;" >
 
         <!-- Left Sidebar -->
-        <div x-show="$store.config.is_menu_on" x-transition.opacity class="left-sidebar" :style="$store.config.is_menu_on ? 'margin-left: 10px;' : '' " >
+        <div
+            x-show="$store.config.is_menu_on"
+            x-transition.opacity
+            class="left-sidebar" 
+            :style="
+                is_on ? 'max-width: 20%; ' : ' max-width: 65px; ' +
+                $store.config.is_menu_on ? 'margin-left: 10px;' : ''
+                "
+
+            x-data="{ is_on: false }" >
+
+            <div>
+                <img :src="is_on ? api.require('layout-sidebar-right-expand.svg') : api.require('layout-sidebar-left-expand.svg')" style="width: 20px; display: block; margin: 0 auto; cursor: pointer; " @click="is_on = !is_on" >
+            </div>
 
             <!-- Tabs -->
-            <div style="width: 60px;" >
+            <div x-show="!is_on" style="width: 60px;" >
 
                 <br>
 
@@ -99,7 +115,7 @@
                 <!-- Containers -->
                 <template x-for="(item, index) in $store.tabs.list" :key="index" x-data="{ list: api.get('plugins') }" x-init="setTimeout( () => { list = api.get('plugins'); }, 3000 ); " >
                     <div class="plugin-icon" >
-                        <span x-text="item.components.length" style="position: relative; left: 1px; top: 43px; color: var( --terciary ); font-family: var(--font-family3), serif, sans-serif; font-size: 0.9em; " ></span>
+                        <span x-text="item.components.length" style="position: relative; left: 1px; top: 43px; color: var( --terciary ); font-family: var(--font-family3), serif, sans-serif; font-size: 0.9em; background: var(--primary); padding: 1px ; border: 1px solid var(--secondary); border-radius: 3px ; " ></span>
                         <img class="img" :src="item.icon" :style="item.is_selected ? 'border: 1px solid var(--secondary); ' : '' " alt="" @click="$store.tabs.select(item)" >
                         <!-- <div class="plugin-icon" x-html="item.string"  > </div> -->
                     </div>
@@ -111,6 +127,69 @@
             </div>
             <!-- Tabs -->
 
+            <!-- ?? -->
+            <div x-show="is_on" >
+
+
+                <ul>
+                    <li>
+
+                        <a href="#" style="align-items: center; color: var( --secondary );" >
+                            <img :src="api.require('home.svg')" style="cursor: pointer; width: 20px; " title="Add new Plugin" alt="New" @click="" />
+                            <span> Home </span>
+                        </a>
+                        <br>
+
+                        <a href="#" style="align-items: center; color: var( --secondary );" >
+                            <img :src="api.require('brain.svg')" style="cursor: pointer; width: 20px; " title="Add new Plugin" alt="New" @click="" />
+                            <span> Cognitive Exploration  </span>
+                        </a>
+                        <br>
+
+                        <a href="#" style="align-items: center; color: var( --secondary );" >
+                            <img :src="api.require('template.svg')" style="cursor: pointer; width: 20px; " title="Add new Plugin" alt="New" @click="" />
+                            <span> Templates </span>
+                        </a>
+                        <br>
+
+                        <a href="#" style="align-items: center; color: var( --secondary );" >
+                            <img :src="api.require('plugin.svg')" style="cursor: pointer; width: 20px; " title="Add new Plugin" alt="New" @click="" />
+                            <span> Explore Plugins </span>
+                        </a>
+                        <br>
+
+                        <a href="#" style="align-items: center; color: var( --secondary );" >
+                            <img :src="api.require('palette.svg')" style="cursor: pointer; width: 20px; " title="Add new Plugin" alt="New" @click="" />
+                            <span> Explore Themes </span>
+                        </a>
+                        <br>
+
+                        <a href="#" style="align-items: center; color: var( --secondary );" >
+                            <img :src="api.require('plant.svg')" style="cursor: pointer; 5px; width: 20px; " title="Add new Plugin" alt="New" @click="" />
+                            <span> Gardens  </span>
+                        </a>
+                        <br>
+
+                    </li>
+                </ul>
+
+                <!-- 
+                logout.svg
+                tools.svg
+                test-pipe.svg
+                terminal.svg
+                sitemap.svg
+                settings.svg
+                paint.svg
+                moon-stars.svg
+                lifebuoy.svg
+                folders.svg
+                building-store.svg
+                brand-discord.svg
+                brackets.svg -->
+
+            </div>
+
         </div>
         <!-- Left Sidebar-->
 
@@ -118,7 +197,7 @@
         <!-- <template x-for="( item, index ) in $store.tabs.get_all_components()" :key="index" style="display: flex; justify-content: space-between; " > -->
         <template x-for="( item, index ) in $store.tabs.get_all_components()" :key="index" >
 
-            <div x-show="item.is_tab_selected && item.is_on" class="menu" x-transition.opacity style="flex: 1; display: block;" >
+            <div x-show="item.is_tab_selected && item.is_on" class="menu" x-transition.opacity style="flex: 1; display: block; margin-left: 5px;" >
 
                 <style>
                     .menu {
@@ -152,9 +231,11 @@
 
                 </div>
 
-                <div class="flex" style="justify-content: space-around; " >
+                <!-- <div class="flex" style="justify-content: space-around; " >
                     <div x-html="api.component(item.id, item.props)" style="width: 98%; margin: 0 auto;" > </div>
-                </div>
+                </div> -->
+
+                <div class="flex" style="justify-content: space-around; " x-html="api.component(item.id, item.props)" style="width: 98%; margin: 0 auto;" > </div>
 
             </div>
         </template>

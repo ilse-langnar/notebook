@@ -51,7 +51,7 @@ export default {
             return `<audio class="audio" title="${url}" controls title="${url}" src="${get_target_directory_url()}${url}"/>`
         } else if( is_link ) {
 
-            return ` <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIGljb24tdGFibGVyIGljb24tdGFibGVyLWxpbmsiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZT0iIzQ4NTM2MSIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICA8cGF0aCBzdHJva2U9Im5vbmUiIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KICA8cGF0aCBkPSJNMTAgMTRhMy41IDMuNSAwIDAgMCA1IDBsNCAtNGEzLjUgMy41IDAgMCAwIC01IC01bC0uNSAuNSIgLz4KICA8cGF0aCBkPSJNMTQgMTBhMy41IDMuNSAwIDAgMCAtNSAwbC00IDRhMy41IDMuNSAwIDAgMCA1IDVsLjUgLS41IiAvPgo8L3N2Zz4KCgo="/> <iframe class="url" src="${url}" frameBorder="0" style="width: 100%;" > </iframe> `
+            return ` <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIGljb24tdGFibGVyIGljb24tdGFibGVyLWxpbmsiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZT0iIzQ4NTM2MSIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICA8cGF0aCBzdHJva2U9Im5vbmUiIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KICA8cGF0aCBkPSJNMTAgMTRhMy41IDMuNSAwIDAgMCA1IDBsNCAtNGEzLjUgMy41IDAgMCAwIC01IC01bC0uNSAuNSIgLz4KICA8cGF0aCBkPSJNMTQgMTBhMy41IDMuNSAwIDAgMCAtNSAwbC00IDRhMy41IDMuNSAwIDAgMCA1IDVsLjUgLS41IiAvPgo8L3N2Zz4KCgo="/> <div style="resize: both;" > <iframe class="url" src="${url}" frameBorder="0" style="width: 100%;" > </iframe> </div> `
 
         } else if( is_pdf ) {
 
@@ -65,19 +65,24 @@ export default {
 
         } else if( is_html ) {
 
-            let exists = ilse.filesystem.file.exists.sync( url )
+            // let exists = ilse.filesystem.file.exists.sync( url )
+            let exists = ilse.fs.existsSync( url )
 
             if( exists ) {
                 return `<iframe class="html-embed" src="${get_target_directory_url()}${url}" data-event-click="on_click" data-prop-label="Exampleeee" style="height: ${size ? size : 30}vh; width: 90%; overflow: hidden;" > </iframe>`
 
             } else {
-                let has_html_template = ilse.filesystem.file.exists.sync( "html-template.html" )
+                // let has_html_template = ilse.filesystem.file.exists.sync( "html-template.html" )
+                let has_html_template = ilse.fs.existsSync( "html-template.html" )
 
                 if( has_html_template ) {
-                    let html_template = ilse.filesystem.file.read.sync( "html-template.html" )
-                    ilse.filesystem.file.write.sync( url, html_template.replace( /\$title/gi, url ) )
+                    // let html_template = ilse.filesystem.file.read.sync( "html-template.html" )
+                    let html_template = ilse.fs.readFileSync( "html-template.html" )
+                    ilse.fs.writeFilesync( url, html_template.replace( /\$title/gi, url ) )
+                    // ilse.filesystem.file.write.sync( url, html_template.replace( /\$title/gi, url ) )
                 } else {
-                    ilse.filesystem.file.write.sync( url, ilse.constants.HTML_TEMPLATE.replace( "@title@", url ).replace( "@body@", `<h1> ${url} </h1> ` ) )
+                    // ilse.filesystem.file.write.sync( url, ilse.constants.HTML_TEMPLATE.replace( "@title@", url ).replace( "@body@", `<h1> ${url} </h1> ` ) )
+                    ilse.fs.writeFilesync( url, ilse.constants.HTML_TEMPLATE.replace( "@title@", url ).replace( "@body@", `<h1> ${url} </h1> ` ) )
                 }
 
                 return `<iframe class="html-embed" src="${get_target_directory_url()}${url}" data-event-click="on_click" data-prop-label="Exampleeee" style="height: ${size ? size : 30}vh; width: 90%; overflow: hidden;" > </iframe>`

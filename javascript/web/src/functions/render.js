@@ -9,52 +9,19 @@ import html_to_string           from "@/functions/html_to_string.js"
 
 export default function render( name, props = {}, source ) {
 
-    printf( `(render.js) name: ${name} props: ${JSON.stringify(props)} source: ${source}` )
-    console.time( "one" )
     let has_props        = !!keys(props).length
-    // let id               = "id-" + get_uuid()
     let id               = "id-" + get_uuid()
-        // if( has_props ) store( id, props )
-        // if( has_props ) store( id, { props })
         if( has_props ) store( id, { props: props })
 
     if( /*options.stringify && */ has_props ) {
         props                = JSON.stringify( props )
         props                = props.replaceAll( "\"", "\'" )
     }
-    console.timeEnd( "one" )
 
-    // Idea string to HTML and then I pass  a string as x-data?
-
-    console.time( "two" )
     let component_string = ilse.components[name]
         component_string = component_string.replace( `data-ilse-props`, `x-data="$store['${id}']"` )
-        // component_string = component_string.replace( `data-ilse-props`, `{ props: $store['${id}'] }` )
-    // let HTML             = string_to_html( component_string )
 
-    // let root             = HTML.body.childNodes[0]
-        // printf( "root -> ", root )
-        // printf( "root.setAttribute -> ", root.setAttribute )
-        // if( root ) root.setAttribute( "data-ilse-component-uuid", name )
-    console.timeEnd( "two" )
+    if( !component_string ) return `<span> Could not find component named ${name}. ): </span>`
 
-    console.time( "three" )
-    // let dom              = HTML.querySelector('[data-ilse-props]') // ISSUE: This will automatically init the DOm, this is bad. I need a differentt data-ilse-props or somehting
-    // printf( "dom -> ", dom )
-    /* makes: api not $store.api */
-        // let wrapper          = document.createElement("div")
-        // wrapper.setAttribute( "x-data", "{ api: $store.api }" )
-        // wrapper.addChildNode( dom )
-
-        // if( dom && has_props ) {
-            // dom.setAttribute( "x-data", `$store['${id}']` ) // Pass Props
-        // }
-
-    // let string           = html_to_string( HTML )
-    console.timeEnd( "three" )
-    printf( `(render.js) name: ${name} props: ${JSON.stringify(props)} source: ${source}` )
-    printf( "\n\n\n" )
-    // return string
-    // return second_string
     return component_string
 }

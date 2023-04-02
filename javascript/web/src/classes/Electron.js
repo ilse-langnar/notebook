@@ -66,7 +66,8 @@ export default class Electron {
         let img = await remote.getCurrentWindow().capturePage()
         // printf( "img -> img -> ", img.toDataURL() )
         let png = img.toPNG().toString()
-        await ilse.filesystem.file.write.async( "immmm.png", img.toPNG() )
+        // await ilse.filesystem.file.write.async( "immmm.png", img.toPNG() )
+        await ilse.fs.writeFileSync( "immmm.png", img.toPNG() )
         printf( "png -> ", png )
 
         remote.getCurrentWindow().capturePage(function handleCapture (img) {

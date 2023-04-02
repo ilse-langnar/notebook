@@ -12,6 +12,7 @@
 
                 <input id="search-input"
                     x-model="props.search"
+                    autocomplete="off"
                     @keydown.up.prevent=""
                     @keydown.down.prevent=""
                     @input="props.on_input($el)"
